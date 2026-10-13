@@ -61,10 +61,28 @@ public static class BrandMarks
         return sb.ToString();
     }
 
-    // new URL(value) restricted to http(s). ponytail: System.Uri, not a WHATWG URL parser. Absolute http(s) URLs agree on
-    // scheme, host and href; exotic inputs ("https:host" without slashes, IDN hrefs, percent-encoding variants) may not.
-    internal static Uri? AsUrl(string? value) =>
-        Uri.TryCreate(value, UriKind.Absolute, out var url) && url.Scheme is "https" or "http" ? url : null;
+    // new URL(value) restricted to http(s): a WHATWG pre-pass (strip C0/space at both ends, drop TAB/CR/LF, any run of
+    // slashes or backslashes after the special scheme, `\` as `/` before the query, whitespace in the host is a failure),
+    // then System.Uri. ponytail: WHATWG URL subset — full parser if a golden ever needs it. Outcomes match; the href in the
+    // unpinned-url message can differ on percent-encoding (System.Uri escapes `\` in query/fragment as %5C) and IDN hosts.
+    internal static Uri? AsUrl(string? value)
+    {
+        if (value is null) return null;
+        int start = 0, end = value.Length;
+        while (start < end && value[start] <= 0x20) start++;
+        while (end > start && value[end - 1] <= 0x20) end--;
+        var s = value[start..end].Replace("\t", "").Replace("\r", "").Replace("\n", "");
+        var colon = s.IndexOf(':');
+        var scheme = colon < 0 ? "" : s[..colon].ToLowerInvariant();
+        if (scheme is not ("http" or "https")) return null;
+        var rest = s[(colon + 1)..].TrimStart('/', '\\');
+        var queryAt = rest.IndexOfAny(['?', '#']);
+        if (queryAt < 0) queryAt = rest.Length;
+        rest = rest[..queryAt].Replace('\\', '/') + rest[queryAt..];
+        var hostEnd = rest.IndexOfAny(['/', '?', '#']);
+        if (rest[..(hostEnd < 0 ? rest.Length : hostEnd)].Any(c => Js.IsSpace(c))) return null;
+        return Uri.TryCreate($"{scheme}://{rest}", UriKind.Absolute, out var url) ? url : null;
+    }
 
     static BrandMark? DomainMark(string hostname)
     {

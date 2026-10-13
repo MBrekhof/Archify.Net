@@ -38,6 +38,36 @@ public class BrandMarkTests
     [InlineData("HTTPS://GITHUB.COM.", "github")] [InlineData("https://example.com", null)] [InlineData("ftp://github.com", null)]
     public void Lookup_forms_and_domain_suffix_match_upstream(string value, string? id) => Assert.Equal(id, BrandMarks.FindBrandMark(value)?.Id);
 
+    // WHATWG URL edge cases, outcome per upstream prepareDiagramBrandMarks on components[1]: a mark id, or code + message.
+    [Theory]
+    [InlineData("https:github.com", "github", null, null)]
+    [InlineData("https:/github.com", "github", null, null)]
+    [InlineData("https://github.com\\foo", "github", null, null)]
+    [InlineData("HTTPS:\\\\github.com", "github", null, null)]
+    [InlineData(" \thttps://git\thub.com/a\\b?q\\r ", "github", null, null)]
+    [InlineData("https://exa\nmple.com/", null, "brand/unpinned-url", "/components/1/brand \"https://exa\\nmple.com/\" is an unpinned URL; capture it first with `archify brands capture https://example.com/ --json`")]
+    [InlineData("https:///example.com", null, "brand/unpinned-url", "/components/1/brand \"https:///example.com\" is an unpinned URL; capture it first with `archify brands capture https://example.com/ --json`")]
+    // Upstream's message here ends `capture https://example.com/a/b?q\r#f\g --json`; System.Uri's href escapes the query and
+    // fragment backslash as %5C, so only the code is pinned (known href ceiling, see AsUrl).
+    [InlineData("https://example.com/a\\b?q\\r#f\\g", null, "brand/unpinned-url", null)]
+    [InlineData("https://github.com ", null, "brand/unknown", "/components/1/brand \"https://github.com \" is not a built-in brand; closest IDs: github, airtable, alibaba-cloud, angular, ansible")]
+    public void Url_brands_follow_whatwg_parsing(string brand, string? markId, string? code, string? message)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/brand-aware-delivery.architecture.json")));
+        d["components"]![1]!["brand"] = brand;
+        var ctx = new RenderContext(DiagramType.Architecture, d, new RenderOptions());
+        if (markId is not null)
+        {
+            ctx.Brands.PrepareDiagramBrandMarks(DiagramType.Architecture, d, ctx.Diagnostics);
+            Assert.Equal(markId, ctx.Brands.BrandMarkFor(d["components"]![1]!.AsObject())!.Mark.Id);
+            return;
+        }
+        var ex = Assert.Throws<ArchifyDiagnosticException>(() => ctx.Brands.PrepareDiagramBrandMarks(DiagramType.Architecture, d, ctx.Diagnostics));
+        var actual = Assert.Single(ex.Diagnostics);
+        Assert.Equal(code, actual.Code);
+        if (message is not null) Assert.Equal(message, actual.Message);
+    }
+
     [Fact] public void Problem_messages_and_shapes_match_upstream()
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/brand-aware-delivery.architecture.json")));
