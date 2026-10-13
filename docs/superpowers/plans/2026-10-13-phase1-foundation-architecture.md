@@ -6,7 +6,7 @@
 
 **Architecture:** One C# file per upstream `.mjs`, same base name, same function names PascalCased, same order of operations. Upstream's module-global state (diagnostic recorder, registered locale catalogs, brand cache) becomes one `RenderContext` per call. All JavaScript semantics (number formatting, sorting, JSON escaping, trimming, Map/Set order) live in a single `Js` static class + `JsMap`/`JsSet`; renderers never call `ToString()`, `List.Sort`, `Dictionary` enumeration or `string.Trim()` directly. Correctness = the parity suite: rendered HTML equals Node's bytes.
 
-**Tech Stack:** .NET 10 (SDK 10.0.401), C# 14, `System.Text.Json.Nodes`, `JsonSchema.Net 9.4.0`, xUnit 2.9.3 + `xunit.runner.visualstudio 3.1.5` + `Microsoft.NET.Test.Sdk 17.14.1`. Node 24 only as a dev-time tool to mint goldens and fixtures from upstream (`C:\projects\archify`).
+**Tech Stack:** .NET 10 (SDK 10.0.401), C# 14, `System.Text.Json` (reader + `Nodes`), no runtime NuGet packages; tests: xUnit 2.9.3 + `xunit.runner.visualstudio 3.1.5` + `Microsoft.NET.Test.Sdk 17.14.1`. Node 24 only as a dev-time tool to mint goldens and fixtures from upstream (`C:\projects\archify`).
 
 **Spec:** `docs/superpowers/specs/2026-10-13-archify-csharp-port-design.md` (+ review `2026-10-13-spec-review-opus.md`). Upstream checkout: `C:\projects\archify` at commit `c21c31ff`; skill package root `C:\projects\archify\archify\` — referred to below as `UP/`.
 
@@ -14,12 +14,14 @@
 
 - Target `net10.0`; `Nullable` + `ImplicitUsings` enabled; `TreatWarningsAsErrors` true; `InvariantGlobalization` **false** (ICU needed for `localeCompare` and IANA time zones).
 - **Strict byte parity** of `RenderResult.Html` with upstream for valid inputs. Only exemption: CJK word wrapping (phase 2+).
-- Never format a number with `ToString()`/interpolation in renderer code — `Js.Num`. Never `List.Sort` — `Js.Sort`/`Js.SortDefault`. Never enumerate `Dictionary`/`HashSet` — `JsMap`/`JsSet`. Never `string.Trim()` on authored text — `Js.Trim`. Never `WebUtility.HtmlEncode` — `Js.EscapeHtml`.
+- Never format a number with `ToString()`/interpolation in renderer code — `Js.Num`. Never `List.Sort` — `Js.Sort` (comparator returns `double`, as JS comparators return fractional deltas) / `Js.SortDefault`. JS string `<`/`>` in a comparator is `string.CompareOrdinal`. Never enumerate `Dictionary`/`HashSet` — `JsMap`/`JsSet`. Never `string.Trim()` on authored text — `Js.Trim`. Never `WebUtility.HtmlEncode` — `Js.EscapeHtml`. `Number(x)`/`parseFloat(x)` on strings — `Js.ToNumber`/`Js.ParseFloat`.
+- JS `||` is truthiness (`0`, `''`, `NaN`, `null`, `undefined` fall through); JS `??` is null/undefined only. Port each literally (`item.labelSegment ?? 1` keeps `0`; `item.labelDx || 0` does not). `Math.max()`/`Math.min()` of an empty list are ∓Infinity — never LINQ `Max()`/`Min()` on a possibly empty sequence. `Number.isInteger(d)` = `double.IsFinite(d) && d == Math.Floor(d)`.
+- Ported regexes use `RegexOptions.ECMAScript | RegexOptions.CultureInvariant` where the pattern allows it, ASCII classes otherwise; a JS `$` without the `m` flag becomes `\z` (.NET `$` also matches before a trailing `\n`); a JS `^` without `m` matches only at position 0.
 - SVG/HTML built with `StringBuilder`/interpolated strings in upstream attribute order. No `XDocument`, `XmlWriter`, `HtmlAgilityPack`.
 - Output text is UTF-8 **without BOM** (`new UTF8Encoding(false)`), LF line endings as upstream emits them.
 - `upstream/` and `tests/goldens/` are byte-exact copies: `.gitattributes` marks them `-text`. Never hand-edit.
-- Diagnostics are returned, never thrown, from the public `Archify.*` API; codes are upstream's (`schema/<keyword>`, `input/…`, `layout/…`, `brand/…`, `relationship/…`, `engineering/…`, `composition/…`, `legend/…`, `architecture/…`, `output/…`, `internal/…`). Message text is not parity-checked.
-- No new NuGet dependency beyond `JsonSchema.Net` in `Archify.Net.Core`.
+- Diagnostics are returned, never thrown, from the public `Archify.*` API; codes are upstream's (`schema/<keyword>`, `input/…`, `output/…`, `i18n/…`, `layout/…`, `brand/…`, `relationship/…`, `engineering/…`, `composition/…`, `legend/…`, `artifact/…`, `architecture/…`, `internal/…`). Message text is not parity-checked; the **set** of `(code, instancePath)` pairs is.
+- `Archify.Net.Core` has **no NuGet dependencies** (upstream has none at runtime either). Schema validation is a small in-house 2020-12 evaluator (Task 6).
 - Every `Js` member carries `// ponytail: V8 parity` and a fixture-backed test.
 - Commits: message in a temp file + `git commit -F`; stage exact files (never `-a`, `-A`, `.`); trailer `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
 - Task state on ContextBoard project `Archify.Net` (id 46); no `TODO.md`.
@@ -32,7 +34,7 @@ Spec-implied inputs no task's parity golden exercises; each has a pinned test in
 2. **Duplicate JSON keys** in authored input → last value wins (as `JSON.parse`), no exception. Test in Task 4.
 3. **`meta.quality_profile` absent and no explicit option** → `data-quality-profile="standard" data-quality-gates="advisory"`, no gating. Test in Task 9 (no-profile fixture golden).
 4. **Label containing `$&`, `<`, `&`, `'` and a U+FEFF/U+0085 edge** → escaped as upstream (`esc` only `&<>"'`; `$&` literal; JS `trim` semantics). Tests in Task 3 (`Js.Trim`, `Js.ReplaceFirst`) and Task 5 (`TemplateWriter` with `$&` in title).
-5. **Remote brand `{url, sha256}`** → `brand/capture-unavailable` diagnostic, no network call, render still succeeds for built-in marks. Test in Task 8.
+5. **Remote brand `{url, sha256}`** → the render **fails** with `brand/capture-unavailable` (as upstream does when capture cannot reproduce the digest), no network call is made. Test in Task 8.
 
 ---
 
@@ -109,32 +111,34 @@ upstream/generated-brand-marks.json
 **Interfaces:**
 - Produces: `Archify.Resources.Text(string path)` → `string` (UTF-8, path like `"assets/template.html"`, `"schemas/common.schema.json"`, `"locales/en.json"`, `"generated-brand-marks.json"`); `Archify.Resources.Exists(string path)`; `Archify.DiagramType` enum with `.Name()` extension (`"architecture"`…) and `DiagramTypes.Parse(string)`; test helper `Fixtures.RepoRoot`, `Fixtures.Upstream(string rel)`, `Fixtures.Golden(string name)`, `Fixtures.Fixture(string rel)`.
 
-- [ ] **Step 1: `.gitattributes` first** (before any upstream byte lands)
+- [ ] **Step 0: Preconditions.** The repo folder must already be `C:\projects\Archify.Net` (Martin renames `C:\projects\arc#hify` outside any session: `Rename-Item -Path "C:\projects\arc#hify" -NewName "Archify.Net"`). Stop if the path still contains `#`. Work happens on `master`, as in Martin's other repos.
+
+- [ ] **Step 1: `.gitattributes` first** (before any upstream byte lands). gitattributes is last-match-wins and `core.autocrlf=true` is set system-wide on this machine, so the `-text` lines go **last**:
 
 ```
-# Byte-exact oracles and upstream data: never normalise line endings.
-upstream/**        -text
-tests/goldens/**   -text
-tests/fixtures/**  -text
 *.cs               text eol=crlf
 *.csproj           text eol=crlf
 *.md               text
+# Byte-exact oracles and upstream data: never normalise line endings. Must stay after the generic rules above.
+upstream/**        -text
+tests/goldens/**   -text
+tests/fixtures/**  -text
 ```
 
-- [ ] **Step 2: Copy upstream** (Bash; `UP=/c/projects/archify/archify`, `R=/c/projects/Archify.Net`)
+- [ ] **Step 2: Copy upstream** (Bash; Node does **not** understand Git Bash `/c/...` paths — every path handed to `node` is `C:/...`)
 
 ```bash
-cd "/c/projects/Archify.Net" && mkdir -p upstream/assets
+cd /c/projects/Archify.Net && mkdir -p upstream/assets
 cp -r /c/projects/archify/archify/schemas /c/projects/archify/archify/examples /c/projects/archify/archify/locales /c/projects/archify/archify/brand-marks /c/projects/archify/archify/references upstream/
 cp /c/projects/archify/archify/assets/template.html upstream/assets/
 cp -r /c/projects/archify/viewer upstream/viewer
 cp /c/projects/archify/archify/LICENSE upstream/LICENSE
-# Lift the brand array to pure JSON (array literal between the first '[' after 'BRAND_MARKS' and the closing ']);')
-node -e "const s=require('fs').readFileSync('/c/projects/archify/archify/renderers/shared/generated-brand-marks.mjs','utf8');const a=s.indexOf('Object.freeze(')+'Object.freeze('.length;const b=s.lastIndexOf(']);')+1;require('fs').writeFileSync('upstream/generated-brand-marks.json',s.slice(a,b));"
-node -e "const a=JSON.parse(require('fs').readFileSync('upstream/generated-brand-marks.json','utf8'));if(a.length!==107)throw new Error('expected 107 marks, got '+a.length);console.log('ok',a.length)"
+# Lift the brand array to pure JSON (array literal inside Object.freeze([...]))
+node -e "const s=require('fs').readFileSync('C:/projects/archify/archify/renderers/shared/generated-brand-marks.mjs','utf8');const a=s.indexOf('Object.freeze(')+'Object.freeze('.length;const b=s.lastIndexOf(']);')+1;require('fs').writeFileSync('C:/projects/Archify.Net/upstream/generated-brand-marks.json',s.slice(a,b));"
+node -e "const a=JSON.parse(require('fs').readFileSync('C:/projects/Archify.Net/upstream/generated-brand-marks.json','utf8'));if(a.length!==107)throw new Error('expected 107 marks, got '+a.length);console.log('ok',a.length,Object.keys(a[0]).join(','))"
 sha256sum /c/projects/archify/archify/assets/template.html upstream/assets/template.html
 ```
-Expected: `ok 107`; the two sha256 lines are identical.
+Expected: `ok 107 id,title,category,aliases,domains,viewBox,hex,path,provenance`; the two sha256 lines are identical.
 
 - [ ] **Step 3: `upstream/UPSTREAM.md`**
 
@@ -170,9 +174,6 @@ Never edit by hand. To update: re-copy per the plan Task 1 Step 2, re-run the pa
     <RootNamespace>Archify.Net</RootNamespace>
     <AssemblyName>Archify.Net.Core</AssemblyName>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="JsonSchema.Net" Version="9.4.0" />
-  </ItemGroup>
   <ItemGroup>
     <!-- Embedded with forward-slash logical names: "schemas/common.schema.json", "assets/template.html", ... -->
     <EmbeddedResource Include="..\..\upstream\schemas\*.json" LogicalName="schemas/%(Filename)%(Extension)" />
@@ -231,7 +232,7 @@ public static class DiagramTypes
     {
         DiagramType.Architecture => "components", DiagramType.Workflow => "nodes", DiagramType.Sequence => "participants",
         DiagramType.Dataflow => "nodes", DiagramType.Lifecycle => "states", DiagramType.Erd => "entities", DiagramType.Tree => "nodes",
-        DiagramType.Class => "types", DiagramType.Timeline => "events", DiagramType.Waterfall => "spans", _ => throw new UnreachableException(),
+        DiagramType.Class => "types", DiagramType.Timeline => "events", DiagramType.Waterfall => "spans", _ => throw new ArgumentOutOfRangeException(nameof(t)),
     };
     public static string? RelationshipCollection(this DiagramType t) => t switch
     {
@@ -307,8 +308,8 @@ public class ResourcesTests
 - [ ] **Step 9: Solution, build, test**
 
 ```powershell
-dotnet new sln -n Archify
-dotnet sln add src/Archify.Net.Core/Archify.Net.Core.csproj tests/Archify.Net.Core.Tests/Archify.Net.Core.Tests.csproj
+dotnet new sln -n Archify.Net --format sln      # SDK 10 defaults to .slnx; the docs name Archify.Net.sln
+dotnet sln Archify.Net.sln add src/Archify.Net.Core/Archify.Net.Core.csproj tests/Archify.Net.Core.Tests/Archify.Net.Core.Tests.csproj
 dotnet test
 ```
 Expected: `Passed! - Failed: 0, Passed: 7`. Check the unpiped exit code is 0.
@@ -322,7 +323,7 @@ Expected: `Passed! - Failed: 0, Passed: 7`. Check the unpiped exit code is 0.
 ### Task 2: Node fixture capture (dev-time oracle minting)
 
 **Files:**
-- Create: `tools/capture-fixtures.mjs`, `tests/fixtures/js/numbers.json`, `tests/fixtures/js/sort.json`, `tests/fixtures/js/stringify.json`, `tests/fixtures/js/text-units.json`, `tests/fixtures/js/geometry.json`, `tests/fixtures/js/strings.json`, `tests/fixtures/diagrams/web-app.no-profile.architecture.json`, `tests/fixtures/diagrams/remote-brand.architecture.json`, `tests/goldens/*.html` (architecture: `production-deployment`, `brand-aware-delivery`, `checkout-platform.base`, `checkout-platform.head`, `web-app.no-profile`), `tests/goldens/checker/*.json`
+- Create: `tools/capture-fixtures.mjs`, `tests/fixtures/js/numbers.json`, `tests/fixtures/js/sort.json`, `tests/fixtures/js/stringify.json`, `tests/fixtures/js/strings.json`, `tests/fixtures/js/text-units.json`, `tests/fixtures/js/sigils.json`, `tests/fixtures/js/geometry.json`, `tests/fixtures/js/schema-errors.json`, `tests/fixtures/diagrams/web-app.no-profile.architecture.json`, `tests/fixtures/diagrams/remote-brand.architecture.json`, `tests/fixtures/diagrams/remote-brand.expected.json`, `tests/goldens/*.html` (architecture: `production-deployment`, `brand-aware-delivery`, `checkout-platform.base`, `checkout-platform.head`, `web-app.no-profile`), `tests/goldens/checker/*.json`
 
 **Interfaces:**
 - Produces: JSON fixture files consumed by Tasks 3, 7, 9, 10. Format per file documented in the script header. Re-runnable: `node tools/capture-fixtures.mjs` (needs `C:\projects\archify` checkout; CI never runs it).
@@ -343,36 +344,74 @@ const ROOT = path.resolve(fileURLToPath(import.meta.url), '..', '..');
 const out = (rel) => path.join(ROOT, 'tests', rel);
 const write = (rel, value) => { fs.mkdirSync(path.dirname(out(rel)), { recursive: true }); fs.writeFileSync(out(rel), JSON.stringify(value, null, 2) + '\n'); };
 const imp = (rel) => import(pathToFileURL(path.join(UP, rel)).href);
+// Upstream's CLI builds the renderer environment explicitly (bin/archify.mjs rendererEnv); a stray ARCHIFY_* in the
+// developer's shell would change a golden. Strip them for every spawn below.
+const cleanEnv = { ...process.env };
+for (const k of Object.keys(cleanEnv)) if (k.startsWith('ARCHIFY_')) delete cleanEnv[k];
 
-// --- numbers: Number→string, Math.round, toFixed, toPrecision, en-US toLocaleString ---
-const nums = [0, -0, 1, -1, 0.1, 0.5, 1.5, 2.5, -2.5, 0.49999999999999994, 1.005, 123.456, 1e21, 1e20, 999999999999999999999,
-  1e-7, 0.000001, 0.0000001, 123456789.123, 5e-324, 1.7976931348623157e308, 100, 33.333333333333336, 0.30000000000000004,
-  3.3, 7.1, 12.75, 0.1 + 0.2, 1 / 3, 2 / 3, 1234.5678, 0.00012345, 98765.4321, 1234567.891];
+// --- numbers: Number→string, Math.round, toFixed, toPrecision, en-US toLocaleString, hypot ---
+const nums = [0, -0, 1, -1, 0.1, 0.5, 1.5, 2.5, -2.5, -0.001, -0.5, -0.004, 0.125, 2.345, 2.355, 999.95, 0.49999999999999994, 1.005,
+  123.456, 1e21, 1e20, 2 ** 60, 999999999999999999999, 1e-7, 0.000001, 0.0000001, 0.000001234, 123456789.123, 5e-324,
+  1.7976931348623157e308, 100, 999.5, 123456, 99.95, 33.333333333333336, 0.30000000000000004, 3.3, 7.1, 12.75, 0.1 + 0.2,
+  1 / 3, 2 / 3, 1234.5678, 0.00012345, 98765.4321, 1234567.891, 1e6];
 write('fixtures/js/numbers.json', nums.map((n) => ({
   value: Object.is(n, -0) ? '-0' : n,           // -0 cannot survive JSON; C# test reconstructs it
   str: String(n), round: Math.round(n), fixed2: n.toFixed(2), fixed6: n.toFixed(6), prec3: n.toPrecision(3),
   loc3sig: n.toLocaleString('en-US', { maximumSignificantDigits: 3 }),
   loc2frac: n.toLocaleString('en-US', { maximumFractionDigits: 2 }),
 })));
+const hypotPairs = [[3, 4], [168.75, 880.93], [0.1, 0.2], [1e-200, 1e-200], [1e200, 1e200], [0, 0], [5, 0], [12.345, 67.891], [1, 1], [100.5, 0.25]];
+write('fixtures/js/hypot.json', hypotPairs.map(([a, b]) => ({ a, b, hypot: Math.hypot(a, b), str: String(Math.hypot(a, b)) })));
+// JS Number(string) and Number.parseFloat(string) (check-render-output.mjs uses both)
+const numStrings = ['12px', '', ' 42 ', '0x1f', 'Infinity', '-Infinity', '1e3', '.5', '5.', 'abc', '1_000', '\u00a012', '12\u2028', '+3', '-0', '1e', '0b101', '  -7.25e-1foo'];
+write('fixtures/js/to-number.json', numStrings.map((s) => ({ s, number: String(Number(s)), parseFloat: String(Number.parseFloat(s)) })));
 
-// --- sort: default (string) sort and stability ---
+// --- sort: default (string) sort, stability, fractional comparators ---
 const words = ['b', 'a', 'B', 'A', 'ä', 'z', '10', '9', '1', 'node-10', 'node-9', 'Zebra', 'apple', '', ' ', 'é', 'e'];
 write('fixtures/js/sort.json', {
+  words,
   defaultSorted: [...words].sort(),
-  entriesSorted: Object.entries({ b: 2, a: 10, 'a,1': 0, c: '1', 10: 'x', 9: 'y' }).sort(),   // "key,value" string form
   localeCompare: words.map((a) => words.map((b) => a.localeCompare(b))),
   stable: [{ k: 1, v: 'a' }, { k: 0, v: 'b' }, { k: 1, v: 'c' }, { k: 0, v: 'd' }, { k: 1, v: 'e' }].sort((x, y) => x.k - y.k).map((o) => o.v),
+  // routing.mjs comparators return fractional deltas (e.g. 0.5); truncating them to int would make elements compare equal.
+  fractional: [{ k: 1.25, v: 'a' }, { k: 0.75, v: 'b' }, { k: 1.0, v: 'c' }, { k: 0.5, v: 'd' }, { k: NaN, v: 'e' }].sort((x, y) => x.k - y.k).map((o) => o.v),
 });
 
-// --- stringify: escaping of control chars, <>&, non-ASCII, lone surrogates, nesting, indent ---
-const samples = ['plain', 'a"b\\c', '\u0000\u001f\u007f', '<script>&\'', 'é漢字😀', '\ud800 lone', 'line\nbreak\ttab\r\b\f',
-  { b: 1, a: [1.0, 1e2, -0, 0.1, null, true], 10: 'x', 2: 'y', nested: { z: 'ok', y: [] } }];
+// --- stringify: escaping of control chars, <>&, non-ASCII, U+2028, nesting, indent. (Lone surrogates: C#-side literal test, JSON cannot carry them.) ---
+const samples = ['plain', 'a"b\\c', '\u0000\u001f\u007f', '<script>&\'', 'é漢字😀', 'line\nbreak\ttab\r\b\f', 'ls\u2028ps\u2029',
+  { b: 1, a: [0.1, null, true, false], nested: { z: 'ok', y: [], w: {} } }];
 write('fixtures/js/stringify.json', samples.map((s) => ({ input: s, compact: JSON.stringify(s), indented: JSON.stringify(s, null, 2) })));
 
 // --- strings: trim, \s, replace-first with $& ---
 const ws = ['\ufeffx\ufeff', '\u0085x\u0085', ' x ', '\u00a0x\u00a0', '\u2028x', '\tx\n', '\u3000x'];
 write('fixtures/js/strings.json', { trim: ws.map((s) => [s, s.trim()]), isSpaceRegex: ws.map((s) => [s, /^\s/.test(s)]),
   replaceFirst: ['a-b-c'.replace('-', () => '$&'), 'a-b-c'.replace('-', '$&$&')] });
+
+// --- schema errors: ajv oracle (keyword, instancePath) sets for a battery of mutations, via upstream's generated validators ---
+const validators = await imp('renderers/shared/generated-validators.mjs');
+const EXD = path.join(UP, 'examples');
+const load = (f) => JSON.parse(fs.readFileSync(path.join(EXD, f), 'utf8'));
+const mutations = [
+  ['workflow', 'agent-tool-call.workflow.json', 'extra-property', (d) => { d.nodes[0].colour = 'red'; }],
+  ['sequence', 'cache-miss-request.sequence.json', 'missing-schema-version', (d) => { delete d.schema_version; }],
+  ['workflow', 'agent-tool-call.workflow.json', 'id-digit', (d) => { d.nodes[0].id = '1user'; }],
+  ['workflow', 'agent-tool-call.workflow.json', 'id-trailing-newline', (d) => { d.nodes[0].id = 'abc\n'; }],
+  ['architecture', 'web-app.architecture.json', 'size-zero', (d) => { d.components[0].size = [0, 60]; }],
+  ['architecture', 'web-app.architecture.json', 'size-three-items', (d) => { d.components[0].size = [10, 20, 30]; }],
+  ['workflow', 'agent-tool-call.workflow.json', 'card-dot-enum', (d) => { d.cards[0].dot = 'purple'; }],
+  ['architecture', 'web-app.architecture.json', 'brand-85-codepoints', (d) => { d.components[0].brand = '👨‍👩‍👧'.repeat(17); }],
+  ['architecture', 'web-app.architecture.json', 'brand-object-bad', (d) => { d.components[0].brand = { url: 'not a url', sha256: 'xyz' }; }],
+  ['architecture', 'web-app.architecture.json', 'translations-bad-key', (d) => { d.meta.locale = 'es'; d.meta.translations = { 'Bad.key': 'x' }; }],
+  ['architecture', 'web-app.architecture.json', 'output-emoji', (d) => { d.meta.output = 'out/😀.html'; }],
+  ['architecture', 'web-app.architecture.json', 'output-dotdot', (d) => { d.meta.output = '../x.html'; }],
+  ['architecture', 'web-app.architecture.json', 'components-empty', (d) => { d.components = []; }],
+  ['architecture', 'web-app.architecture.json', 'valid', () => {}],
+];
+write('fixtures/js/schema-errors.json', mutations.map(([type, file, name, mutate]) => {
+  const d = load(file); mutate(d);
+  const ok = validators[type](d);
+  return { type, name, input: d, valid: ok, errors: ok ? [] : validators[type].errors.map((e) => [e.keyword, e.instancePath]).sort() };
+}));
 
 // --- text units ---
 const { textUnits, renderSemanticSigil, renderDefinitions } = await imp('renderers/shared/utils.mjs');
@@ -386,7 +425,8 @@ write('fixtures/js/sigils.json', { defs: renderDefinitions(), defsExtra: renderD
 const g = await imp('renderers/shared/geometry.mjs');
 const tf = await imp('renderers/shared/text-fit.mjs');
 const rects = [{ x: 0, y: 0, width: 100, height: 50 }, { x: 50, y: 25, width: 100, height: 50 }, { x: 200, y: 0, width: 10, height: 10 }];
-const segs = [[[0, 0], [300, 60]], [[10, 10], [10, 40]], [[-5, 25], [150, 25]], [[0, 0], [0, 0]], [[100, 0], [100, 50]]];
+// segment helpers take { start, end } objects (geometry.mjs:45-66), never [p1, p2] arrays
+const segs = [[[0, 0], [300, 60]], [[10, 10], [10, 40]], [[-5, 25], [150, 25]], [[0, 0], [0, 0]], [[100, 0], [100, 50]]].map(([start, end]) => ({ start, end }));
 const polylines = [[[0, 0], [100, 0], [100, 100]], [[10, 10], [10, 10], [50, 10], [50, 90.5]], [[0, 0], [33.3333, 66.6667], [100, 0]],
   [[0, 0], [40, 0], [40, 40], [80, 40], [80, 80]], [[12.345678, 0.1], [12.345678, 99.9]]];
 write('fixtures/js/geometry.json', {
@@ -402,7 +442,7 @@ write('fixtures/js/geometry.json', {
 // shortestOrthogonalGridRoute / labelPoint / createRouter take large option objects; architecture goldens exercise them end to end.
 
 // --- goldens for examples without one + synthetic fixtures (architecture only in phase 1) ---
-const render = (type, input, output) => execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), input, output], { stdio: 'inherit' });
+const render = (type, input, output) => execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), input, output], { stdio: 'inherit', env: cleanEnv });
 const EX = path.join(UP, 'examples');
 fs.mkdirSync(out('goldens/checker'), { recursive: true });
 const noProfile = JSON.parse(fs.readFileSync(path.join(EX, 'web-app.architecture.json'), 'utf8'));
@@ -423,21 +463,22 @@ for (const [type, input, golden] of targets) render(type, input, out(`goldens/${
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
 const upstreamGoldens = fs.readdirSync(EX).filter((f) => f.endsWith('.html')).map((f) => path.join(EX, f));
 for (const html of [...upstreamGoldens, ...targets.map(([, , g]) => out(`goldens/${g}`))]) {
-  const res = JSON.parse(execFileSync(process.execPath, [path.join(UP, 'scripts/check-render-output.mjs'), html], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }));
+  const res = JSON.parse(execFileSync(process.execPath, [path.join(UP, 'scripts/check-render-output.mjs'), html],
+    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: cleanEnv, maxBuffer: 64 * 1024 * 1024 }));   // upstream's checker buffer
   delete res.file;
   write(`goldens/checker/${path.basename(html, '.html')}.json`, res);
 }
-// Remote brand: upstream has no "offline" switch; `example.invalid` never resolves, so upstream reports
-// brand/capture-unavailable ("could not reproduce the pinned capture"). Capture that receipt as the C# oracle.
+// Remote brand: upstream has no "offline" switch; `example.invalid` never resolves (fast ENOTFOUND), so upstream reports
+// brand/capture-unavailable ("could not reproduce the pinned capture") and the render FAILS. Capture that receipt as the C# oracle.
 try {
   execFileSync(process.execPath, [path.join(UP, 'renderers/architecture/render-architecture.mjs'), out('fixtures/diagrams/remote-brand.architecture.json'), out('goldens/remote-brand.html')],
-    { env: { ...process.env, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
   throw new Error('remote brand unexpectedly rendered — the fixture URL must not resolve');
 } catch (e) { if (!e.stderr) throw e; write('fixtures/diagrams/remote-brand.expected.json', JSON.parse(String(e.stderr))); }
 console.log('fixtures captured');
 ```
 
-- [ ] **Step 2: Run it**: `node tools/capture-fixtures.mjs` → `fixtures captured`. Then `ls tests/goldens tests/goldens/checker tests/fixtures/js` — 5 HTML goldens, 20 checker JSONs, 7 js fixture files. `tests/fixtures/diagrams/remote-brand.expected.json` must contain a diagnostic with `"code": "brand/capture-unavailable"` (brand-marks.mjs `prepareDiagramBrandMarks`, the "could not reproduce the pinned capture" branch). If it contains `brand/unknown` instead, the fixture mutated the wrong field — `components[0]` must carry `brand: { url, sha256 }`.
+- [ ] **Step 2: Run it**: `node tools/capture-fixtures.mjs` → `fixtures captured`. Then `ls tests/goldens tests/goldens/checker tests/fixtures/js` — 5 HTML goldens, 20 checker JSONs, 10 js fixture files (`numbers hypot to-number sort stringify strings text-units sigils geometry schema-errors`). In `schema-errors.json` the `valid` entry must have `"valid": true` and `id-trailing-newline` must list `["pattern","/nodes/0/id"]` (that is the `$`-before-`\n` case .NET regex gets wrong). `tests/fixtures/diagrams/remote-brand.expected.json` must contain a diagnostic with `"code": "brand/capture-unavailable"` (brand-marks.mjs `prepareDiagramBrandMarks`, the "could not reproduce the pinned capture" branch). If it contains `brand/unknown` instead, the fixture mutated the wrong field — `components[0]` must carry `brand: { url, sha256 }`.
 
 - [ ] **Step 3: Sanity**: `node -e "const a=require('./tests/fixtures/js/numbers.json');console.log(a.find(x=>x.value===1e21).str, a.find(x=>x.value===2.5).round, a.find(x=>x.value===1.005).fixed2)"` → `1e+21 3 1.00`.
 
@@ -457,14 +498,15 @@ console.log('fixtures captured');
   - `string ToFixed(double v, int digits)`, `string ToPrecision(double v, int precision)`
   - `string ToLocaleStringEnUs(double v, int? maximumSignificantDigits = null, int? maximumFractionDigits = null)`
   - `double Hypot(double a, double b)`
-  - `void Sort<T>(List<T> list, Comparison<T> cmp)` (stable), `void SortDefault(List<string> list)` (UTF-16 ordinal)
+  - `void Sort<T>(List<T> list, Func<T, T, double> cmp)` (stable; V8 comparator contract: `NaN` → 0, else the sign of the double — never truncate to `int`), `void SortDefault(List<string> list)` (UTF-16 ordinal)
   - `int LocaleCompare(string a, string b)` (`CompareInfo` for `en`, `CompareOptions.None`; fixture decides sign only)
-  - `string Stringify(JsonNode? v, int indent = 0)`
+  - `string Stringify(JsonNode? v, int indent = 0)`, `string Quote(string s)`
   - `string Trim(string s)`, `bool IsSpace(int codePoint)`
   - `string ReplaceFirst(string s, string search, Func<string, string> replacement)`
   - `string EscapeHtml(string? s)` (`& < > " '`)
-  - `IEnumerable<string> Graphemes(string s)` (`StringInfo`), `IEnumerable<string> WordBreaks(string s)` (space/punct; CJK exempt)
-  - `sealed class JsMap<TKey,TValue>` : `Set/Get/Has/Delete/Keys/Values/Entries/Count` insertion-ordered incl. delete+re-add; `sealed class JsSet<T>` : `Add/Has/Delete/Count`, enumerable in insertion order.
+  - `double ToNumber(string s)` (JS `Number(string)`: JS-trim, `""`→0, `0x`/`0b`/`0o`, `Infinity`, else StrDecimalLiteral or NaN), `double ParseFloat(string s)` (JS `parseFloat`: longest valid decimal prefix after JS-trim, `Infinity`, else NaN)
+  - `sealed class JsMap<TKey,TValue>` : `Set/Get/Has/Delete/Keys/Values/Entries/Count` insertion-ordered incl. delete+re-add; `Set` on an existing key updates in place without moving it (Map semantics); `sealed class JsSet<T>` : `Add/Has/Delete/Count`, enumerable in insertion order.
+  - (`Graphemes`/`WordBreaks` are phase 2 — no phase-1 caller, no phase-1 fixture.)
 
 - [ ] **Step 1: Write failing fixture tests** (`JsTests.cs`)
 
@@ -487,23 +529,35 @@ public class JsTests
         Assert.Equal(e["loc3sig"]!.GetValue<string>(), Js.ToLocaleStringEnUs(v, maximumSignificantDigits: 3));
         Assert.Equal(e["loc2frac"]!.GetValue<string>(), Js.ToLocaleStringEnUs(v, maximumFractionDigits: 2)); } }
 
+    [Fact] public void Hypot_matches_V8()
+    {
+        foreach (var e in Load("hypot.json")) { var h = Js.Hypot(e!["a"]!.GetValue<double>(), e["b"]!.GetValue<double>()); Assert.Equal(e["hypot"]!.GetValue<double>(), h); Assert.Equal(e["str"]!.GetValue<string>(), Js.Num(h)); }
+    }
+    [Fact] public void ToNumber_and_ParseFloat_match_V8()
+    {
+        foreach (var e in Load("to-number.json")) { var s = e!["s"]!.GetValue<string>(); Assert.Equal(e["number"]!.GetValue<string>(), Js.Num(Js.ToNumber(s))); Assert.Equal(e["parseFloat"]!.GetValue<string>(), Js.Num(Js.ParseFloat(s))); }
+    }
     [Fact] public void SortDefault_is_utf16_ordinal()
     {
         var fx = JsonNode.Parse(File.ReadAllText(Fixtures.Fixture("js/sort.json")))!;
-        var words = new List<string> { "b", "a", "B", "A", "ä", "z", "10", "9", "1", "node-10", "node-9", "Zebra", "apple", "", " ", "é", "e" };
+        var words = fx["words"]!.AsArray().Select(x => x!.GetValue<string>()).ToList();
         Js.SortDefault(words);
         Assert.Equal(fx["defaultSorted"]!.AsArray().Select(x => x!.GetValue<string>()), words);
     }
-    [Fact] public void Sort_is_stable()
+    [Fact] public void Sort_is_stable_and_honours_fractional_comparators()
     {
-        var items = new List<(int k, string v)> { (1, "a"), (0, "b"), (1, "c"), (0, "d"), (1, "e") };
+        var items = new List<(double k, string v)> { (1, "a"), (0, "b"), (1, "c"), (0, "d"), (1, "e") };
         Js.Sort(items, (x, y) => x.k - y.k);
         Assert.Equal(new[] { "b", "d", "a", "c", "e" }, items.Select(i => i.v));
+        var fx = JsonNode.Parse(File.ReadAllText(Fixtures.Fixture("js/sort.json")))!;
+        var frac = new List<(double k, string v)> { (1.25, "a"), (0.75, "b"), (1.0, "c"), (0.5, "d"), (double.NaN, "e") };
+        Js.Sort(frac, (x, y) => x.k - y.k);
+        Assert.Equal(fx["fractional"]!.AsArray().Select(x => x!.GetValue<string>()), frac.Select(i => i.v));
     }
     [Fact] public void LocaleCompare_sign_matches_V8()
     {
         var fx = JsonNode.Parse(File.ReadAllText(Fixtures.Fixture("js/sort.json")))!;
-        var words = new[] { "b", "a", "B", "A", "ä", "z", "10", "9", "1", "node-10", "node-9", "Zebra", "apple", "", " ", "é", "e" };
+        var words = fx["words"]!.AsArray().Select(x => x!.GetValue<string>()).ToArray();
         var m = fx["localeCompare"]!.AsArray();
         for (var i = 0; i < words.Length; i++) for (var j = 0; j < words.Length; j++)
             Assert.Equal(Math.Sign(m[i]![j]!.GetValue<int>()), Math.Sign(Js.LocaleCompare(words[i], words[j])));
@@ -516,6 +570,13 @@ public class JsTests
             Assert.Equal(e["compact"]!.GetValue<string>(), Js.Stringify(input));
             Assert.Equal(e["indented"]!.GetValue<string>(), Js.Stringify(input, 2));
         }
+    }
+    [Fact] public void Quote_escapes_lone_surrogates_lowercase_and_keeps_pairs()
+    {   // JSON files cannot carry a lone surrogate, so this one is a C# literal (verified against V8: JSON.stringify("\ud800 x") === '"\\ud800 x"')
+        Assert.Equal("\"\\ud800 x\"", Js.Quote("\ud800 x"));
+        Assert.Equal("\"\\udc00\"", Js.Quote("\udc00"));
+        Assert.Equal("\"😀\"", Js.Quote("😀"));
+        Assert.Equal("\"\u2028\u2029\u007f\"", Js.Quote("\u2028\u2029\u007f"));   // literal, not escaped
     }
     [Fact] public void Trim_and_IsSpace_match_V8()
     {
@@ -618,14 +679,13 @@ public static class Js
         return rem * 2 >= den ? q + 1 : q;
     }
     public static string ToFixed(double v, int f)
-    {   // ES2023 §21.1.3.3
+    {   // ES2023 §21.1.3.3. V8: (-0.001).toFixed(2) === "-0.00" (sign kept whenever v < 0); (-0).toFixed(2) === "0.00".
         if (double.IsNaN(v)) return "NaN";
         if (Math.Abs(v) >= 1e21 || double.IsInfinity(v)) return Num(v);
-        var neg = v < 0 || (v == 0 && double.IsNegative(v) && false);  // (-0).toFixed(2) === "0.00": no sign
         var n = ScaledHalfUp(v, f);
         var s = n.ToString(CultureInfo.InvariantCulture);
         if (f > 0) { s = s.PadLeft(f + 1, '0'); s = s[..^f] + "." + s[^f..]; }
-        return v < 0 && n != 0 ? "-" + s : s;                 // (-0.001).toFixed(2) === "-0.00" in V8: sign kept when v < 0
+        return v < 0 ? "-" + s : s;
     }
     public static string ToPrecision(double v, int p)
     {   // ES2023 §21.1.3.5
@@ -645,26 +705,33 @@ public static class Js
         return neg ? "-" + s : s;
     }
     public static string ToLocaleStringEnUs(double v, int? maximumSignificantDigits = null, int? maximumFractionDigits = null)
-    {   // Intl.NumberFormat('en-US', …): default roundingMode "halfExpand" (= half away from zero), minimumFractionDigits 0,
-        // grouping ",", trailing fraction zeros stripped. Only the two option shapes upstream uses are supported.
+    {   // Intl.NumberFormat('en-US', …). The digit source is the SHORTEST round-trip decimal (ICU formats the JS Number's
+        // decimal representation), NOT the exact binary value: 1.005 → "1.01", 2**60 → "1,152,921,504,606,847,000".
+        // Rounding mode "halfExpand" on that decimal string; minimumFractionDigits 0; grouping ","; sign whenever
+        // double.IsNegative (so -0 → "-0", -0.004 frac2 → "-0"). Only the two option shapes upstream uses are supported.
         if (double.IsNaN(v)) return "NaN"; if (double.IsInfinity(v)) return v > 0 ? "∞" : "-∞";
-        var neg = v < 0; var a = Math.Abs(v);
-        int f;                                                    // number of fraction digits to round to
-        if (maximumSignificantDigits is int sig)
+        var sign = double.IsNegative(v) ? "-" : "";
+        if (v == 0) return sign + "0";
+        var (digits, n) = ShortestDigits(Math.Abs(v));            // value = 0.digits × 10^n
+        // keep = number of digits of `digits` to keep
+        var keep = maximumSignificantDigits is int sig ? sig : n + (maximumFractionDigits ?? 3);
+        if (keep < digits.Length)
         {
-            if (a == 0) return "0";
-            var e = (int)Math.Floor(Math.Log10(a));
-            var probe = ScaledHalfUp(a, sig - 1 - e);
-            if (probe >= BigInteger.Pow(10, sig)) e++;
-            f = Math.Max(0, sig - 1 - e);
-            if (sig - 1 - e < 0) { var n0 = ScaledHalfUp(a, sig - 1 - e) * BigInteger.Pow(10, e + 1 - sig); return (neg ? "-" : "") + Group(n0.ToString(CultureInfo.InvariantCulture)); }
+            var head = BigInteger.Parse(digits[..Math.Max(keep, 0)].PadLeft(1, '0'), CultureInfo.InvariantCulture);
+            var roundUp = keep >= 0 && digits[keep] >= '5';      // halfExpand on the decimal string
+            if (keep < 0) { head = 0; roundUp = false; }
+            if (roundUp) head += 1;
+            digits = head.ToString(CultureInfo.InvariantCulture);
+            if (digits.Length > Math.Max(keep, 0)) n += 1;        // carry: 999.95 sig3 → 1000
+            if (digits == "0") return sign + "0";
+            digits = digits.TrimEnd('0'); if (digits.Length == 0) digits = "0";
         }
-        else f = maximumFractionDigits ?? 3;                     // Intl default maximumFractionDigits = 3
-        var n = ScaledHalfUp(a, f);
-        var s = n.ToString(CultureInfo.InvariantCulture).PadLeft(f + 1, '0');
-        var intPart = s[..^f]; var frac = f == 0 ? "" : s[^f..].TrimEnd('0');
-        var result = Group(intPart) + (frac.Length > 0 ? "." + frac : "");
-        return neg && n != 0 ? "-" + result : result;
+        string intPart, frac;
+        if (n <= 0) { intPart = "0"; frac = new string('0', -n) + digits; }
+        else if (n >= digits.Length) { intPart = digits + new string('0', n - digits.Length); frac = ""; }
+        else { intPart = digits[..n]; frac = digits[n..]; }
+        frac = frac.TrimEnd('0');
+        return sign + Group(intPart) + (frac.Length > 0 ? "." + frac : "");
     }
     static string Group(string intDigits)
     {
@@ -674,23 +741,58 @@ public static class Js
     }
 
     public static double Hypot(double a, double b)
-    {   // V8 (ieee754::hypot): scale by max, compensated sum, sqrt.
+    {   // V8 MathHypot: Infinity wins over NaN; scale by max; Kahan loop. For two arguments the loop reduces exactly to
+        // sqrt(x*x + y*y) * max (verified 0/200 000 mismatches by the plan reviewer); the "sum - comp" variant does NOT.
         a = Math.Abs(a); b = Math.Abs(b);
         if (double.IsInfinity(a) || double.IsInfinity(b)) return double.PositiveInfinity;
         if (double.IsNaN(a) || double.IsNaN(b)) return double.NaN;
         var max = Math.Max(a, b); if (max == 0) return 0;
         var x = a / max; var y = b / max;
-        double sum = 0, comp = 0;
-        foreach (var t in new[] { x * x, y * y }) { var pre = sum; sum += t; comp += (sum - pre) - t; }   // Kahan as in V8 MathHypot
-        return Math.Sqrt(sum - comp) * max;
+        return Math.Sqrt(x * x + y * y) * max;
     }
 
-    public static void Sort<T>(List<T> list, Comparison<T> cmp)
+    public static void Sort<T>(List<T> list, Func<T, T, double> cmp)
     {   // stable: LINQ OrderBy is stable; comparators are key-based so any stable sort matches V8 TimSort.
-        var sorted = list.OrderBy(x => x, Comparer<T>.Create(cmp)).ToList();
+        // V8 comparator contract: the SIGN of the returned double decides; NaN counts as 0. Never truncate to int.
+        var sorted = list.OrderBy(x => x, Comparer<T>.Create((p, q) => { var r = cmp(p, q); return double.IsNaN(r) ? 0 : Math.Sign(r); })).ToList();
         list.Clear(); list.AddRange(sorted);
     }
-    public static void SortDefault(List<string> list) => Sort(list, string.CompareOrdinal);   // UTF-16 code units
+    public static void SortDefault(List<string> list) => Sort(list, (p, q) => string.CompareOrdinal(p, q));   // UTF-16 code units
+    // JS Number(string): ES §7.1.4.1.1 StringToNumber. JS parseFloat: §19.2.4 — longest StrDecimalLiteral prefix.
+    public static double ToNumber(string s)
+    {
+        var t = Trim(s);
+        if (t.Length == 0) return 0;
+        if (t.Length > 2 && t[0] == '0' && (t[1] | 0x20) is 'x' or 'b' or 'o')
+        {
+            var radix = (t[1] | 0x20) switch { 'x' => 16, 'b' => 2, _ => 8 };
+            double acc = 0;
+            foreach (var c in t[2..]) { var d = c is >= '0' and <= '9' ? c - '0' : c is >= 'a' and <= 'z' ? c - 'a' + 10 : c is >= 'A' and <= 'Z' ? c - 'A' + 10 : 99; if (d >= radix) return double.NaN; acc = acc * radix + d; }
+            return acc;
+        }
+        var (value, length) = DecimalPrefix(t);
+        return length == t.Length ? value : double.NaN;         // whole string must be a StrDecimalLiteral
+    }
+    public static double ParseFloat(string s)
+    {
+        var t = Trim(s);
+        var (value, length) = DecimalPrefix(t);
+        return length == 0 ? double.NaN : value;
+    }
+    // Longest prefix matching [+-]? (Infinity | digits [. digits?] | . digits) ([eE] [+-]? digits)? — returns (value, consumed chars).
+    static (double value, int length) DecimalPrefix(string t)
+    {
+        var i = 0; var neg = false;
+        if (i < t.Length && (t[i] == '+' || t[i] == '-')) { neg = t[i] == '-'; i++; }
+        if (string.CompareOrdinal(t, i, "Infinity", 0, 8) == 0) return (neg ? double.NegativeInfinity : double.PositiveInfinity, i + 8);
+        var start = i; var digits = 0;
+        while (i < t.Length && t[i] is >= '0' and <= '9') { i++; digits++; }
+        if (i < t.Length && t[i] == '.') { var j = i + 1; var frac = 0; while (j < t.Length && t[j] is >= '0' and <= '9') { j++; frac++; } if (digits + frac > 0) { i = j; digits += frac; } }
+        if (digits == 0) return (double.NaN, 0);
+        if (i < t.Length && (t[i] | 0x20) == 'e') { var j = i + 1; if (j < t.Length && (t[j] == '+' || t[j] == '-')) j++; var k = j; while (k < t.Length && t[k] is >= '0' and <= '9') k++; if (k > j) i = k; }
+        var v = double.Parse(t[start..i], NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
+        return (neg ? -v : v, i);
+    }
     static readonly CompareInfo En = CultureInfo.GetCultureInfo("en").CompareInfo;
     public static int LocaleCompare(string a, string b) => En.Compare(a, b, CompareOptions.None);
 
@@ -762,27 +864,12 @@ public static class Js
     public static string ReplaceFirst(string s, string search, Func<string, string> replacement)
     { var at = s.IndexOf(search, StringComparison.Ordinal); return at < 0 ? s : string.Concat(s.AsSpan(0, at), replacement(search), s.AsSpan(at + search.Length)); }
     public static string EscapeHtml(string? s) => (s ?? "").Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&#39;");
-    public static IEnumerable<string> Graphemes(string s) { var e = StringInfo.GetTextElementEnumerator(s); while (e.MoveNext()) yield return e.GetTextElement(); }
-    // Intl.Segmenter(word) stand-in: a segment is a maximal run of one class — letters/digits/connectors, whitespace, or a single other
-    // code point. ICU additionally splits CJK runs by dictionary; this does not (spec: CJK wrapping is parity-exempt). Phase 2 fixtures pin Latin behaviour.
-    public static IEnumerable<string> WordBreaks(string s)
-    {
-        static int Class(Rune r) => Rune.IsLetterOrDigit(r) || r.Value == '_' || r.Value == '\'' ? 0 : IsSpace(r.Value) ? 1 : 2;
-        var start = 0; var runes = s.EnumerateRunes().ToList(); var pos = 0;
-        for (var i = 0; i < runes.Count; i++)
-        {
-            var len = runes[i].Utf16SequenceLength;
-            var breakHere = i > 0 && (Class(runes[i]) != Class(runes[i - 1]) || Class(runes[i]) == 2);
-            if (breakHere) { yield return s[start..pos]; start = pos; }
-            pos += len;
-        }
-        if (start < s.Length) yield return s[start..];
-    }
+    // Graphemes / WordBreaks (Intl.Segmenter stand-ins) arrive in phase 2 with their fixtures (sequence notes, dataflow labels).
 }
 ```
-`JsMap<TKey,TValue>`: `Dictionary<TKey, LinkedListNode<KeyValuePair<TKey,TValue>>>` + `LinkedList` — delete removes the node, re-add appends. `JsSet<T>` wraps `JsMap<T, byte>`. Keys compared with `EqualityComparer<TKey>.Default`; callers key by `string` or by reference objects — never by value-tuples/records (upstream keys Maps by object identity).
+`JsMap<TKey,TValue>`: `Dictionary<TKey, LinkedListNode<KeyValuePair<TKey,TValue>>>` + `LinkedList` — delete removes the node, re-add appends, `Set` on an existing key replaces the node's value in place. `JsSet<T>` wraps `JsMap<T, byte>`. Keys compared with `EqualityComparer<TKey>.Default`; callers key by `string` or by reference objects — never by value-tuples/records (upstream keys Maps by object identity).
 
-- [ ] **Step 4: Run** `dotnet test --filter JsTests` → all pass. If `ToLocaleString_enUS_matches_V8` fails on a half case, the fixture is the truth: adjust rounding mode (Intl default `halfExpand`), not the fixture.
+- [ ] **Step 4: Run** `dotnet test --filter JsTests` → all pass. If `ToLocaleString_enUS_matches_V8` fails, the fixture is the truth and the usual cause is the digit source: Intl rounds the shortest round-trip decimal (`ShortestDigits`), never the exact binary value (`ScaledHalfUp` is for `toFixed`/`toPrecision` only).
 
 - [ ] **Step 5: Commit** — `git add src/Archify.Net.Core/Js tests/Archify.Net.Core.Tests/JsTests.cs` → `feat(core): Js parity layer (V8 number formatting, stable sort, stringify, trim, JsMap/JsSet)`.
 
@@ -798,11 +885,11 @@ public static class Js
   - `record Diagnostic(string Code, Severity Severity, string Message, JsonObject Subject, JsonObject Evidence, IReadOnlyList<string> SupportedFixes, IReadOnlyList<string>? Suppresses)`; `enum Severity { Error, Warning }`
   - `sealed class ArchifyDiagnosticException(string message, IReadOnlyList<Diagnostic> diagnostics) : Exception` — the internal `error.archifyDiagnostics` carrier; never escapes `Archify.*` facade.
   - `sealed class DiagnosticSink` (← diagnostics.mjs): `Record(Diagnostic)`, `T WithRecordingSuppressed<T>(Func<T>)`, `T WithIsolatedRecording<T>(Func<T>)`, `Exception ThrowDiagnosticError(string message, IEnumerable<Diagnostic>)` (returns the exception for `throw`), `Exception ThrowDiagnosticProblems(string prefix, IEnumerable<string> problems, string code = "layout/constraint", JsonObject? subject = null, IEnumerable<Diagnostic>? details = null)`, `IReadOnlyList<Diagnostic> Recorded`, `RendererFailure(Exception) → (string error, IReadOnlyList<Diagnostic> diagnostics)` (= `rendererFailure` without `schemaVersion/ok/source` envelope; facade adds). Recording is always on (upstream json mode — the path receipts come from).
-  - `sealed class RenderContext(DiagramType type, JsonObject diagram, RenderOptions options)` with `Type`, `Diagram`, `Meta` (`Diagram["meta"]`), `Diagnostics` (sink), `Locale` (`LocaleCatalog`, Task 5), `Options`, `TextUnitsCache` (`Dictionary<string,int>`, bounded 4096 like utils.mjs), `Brands` (`BrandMarkResolver`, Task 8), `SourceEvidence` (`JsonNode?`, always `null` until phase 4's repository evidence).
-  - `record RenderOptions(QualityProfile? Quality = null, string? RepoRoot = null, DiagnosticFormat DiagnosticFormat = DiagnosticFormat.Json)`; `enum QualityProfile { Standard, Showcase }`; `enum DiagnosticFormat { Text, Json }`.
-  - `record RenderResult(string Html, string Svg, string Cards, IReadOnlyList<Diagnostic> Diagnostics, LayoutReport? Layout)`; `record CheckResult(bool Ok, JsonObject Report)`; `sealed class LayoutReport` (Task 7).
-  - `static class J` (`JsonNodeExt.cs`): `string? Str(this JsonNode? n, string key)`, `double? Num(this JsonNode? n, string key)`, `JsonArray? Arr(this JsonNode? n, string key)`, `JsonObject? Obj(this JsonNode? n, string key)`, `bool? Bool(this JsonNode? n, string key)`, `IEnumerable<JsonNode?> AsArrayOrEmpty(this JsonNode? n)` (= `asArray`), `double D(this JsonNode n)` (any numeric JsonValue → double).
-  - `static class DiagramLoader`: `JsonObject Parse(string json)` (duplicate keys → last wins; numbers → double), `JsonObject Normalize(JsonObject)`.
+  - `sealed class RenderContext(DiagramType type, JsonObject diagram, RenderOptions options)` with `Type`, `Diagram`, `Meta` (`Diagram["meta"]`), `Diagnostics` (sink), `Options`, `SourceEvidence` (`JsonNode?`, always `null` until phase 4's repository evidence). **Task 5 adds `Locale`, Task 8 adds `Brands`** (this task must compile on its own). No `TextUnitsCache` (upstream's memo has no observable effect — YAGNI) and no `DiagnosticFormat` (recording is always on; text-vs-json is a CLI concern, phase 5).
+  - `record RenderOptions(QualityProfile? Quality = null, string? RepoRoot = null)`; `enum QualityProfile { Standard, Showcase }`.
+  - `record RenderResult(string Html, string Svg, string Cards, IReadOnlyList<Diagnostic> Diagnostics, LayoutReport? Layout)`; `record CheckResult(bool Ok, JsonObject Report)`; `public sealed class LayoutReport { }` — an empty stub here, filled in Task 7.
+  - `static class J` (`JsonNodeExt.cs`): `string? Str(this JsonNode? n, string key)`, `double? Num(this JsonNode? n, string key)`, `JsonArray? Arr(this JsonNode? n, string key)`, `JsonObject? Obj(this JsonNode? n, string key)`, `bool? Bool(this JsonNode? n, string key)`, `IEnumerable<JsonNode?> AsArrayOrEmpty(this JsonNode? n)` (= `asArray`), `double D(this JsonNode n)` — **switches on the boxed CLR type** (`JsonElement`, `double`, `float`, `decimal`, `int`, `long`, `short`, `byte`, …): `JsonValue.Create(3).GetValue<double>()` throws, and C#-built nodes (`new JsonArray(0, 60)`, `["labelDx"] = 3`) are `int`-backed.
+  - `static class DiagramLoader`: `JsonObject Parse(string json)` and `JsonObject Normalize(JsonObject)` — see Step 3 for the mandatory hand-rolled reader.
 
 - [ ] **Step 1: Failing tests** (`DiagramLoaderTests.cs`)
 
@@ -830,6 +917,22 @@ public class DiagramLoaderTests
         var o = DiagramLoader.Parse("{\"b\":1,\"a\":2,\"c\":{\"z\":1,\"y\":2}}");
         Assert.Equal("{\"b\":1,\"a\":2,\"c\":{\"z\":1,\"y\":2}}", Js.Stringify(o));
     }
+    [Fact] public void Lone_surrogate_escapes_survive_parsing()
+    {   // JSON.parse keeps \ud800 as the raw code unit; System.Text.Json replaces it with U+FFFD. Upstream rejects it in meta.output (Task 6).
+        var o = DiagramLoader.Parse("{\"s\":\"\\ud800x\",\"t\":\"\\udc00\",\"u\":\"\\ud83d\\ude00\"}");
+        Assert.Equal('\ud800', o["s"]!.GetValue<string>()[0]);
+        Assert.Equal("\udc00", o["t"]!.GetValue<string>());
+        Assert.Equal("😀", o["u"]!.GetValue<string>());
+        Assert.Equal("{\"s\":\"\\ud800x\",\"t\":\"\\udc00\",\"u\":\"😀\"}", Js.Stringify(o));
+    }
+    [Fact] public void D_reads_every_numeric_backing_type()
+    {
+        Assert.Equal(3.0, JsonValue.Create(3).D());
+        Assert.Equal(3.0, JsonValue.Create(3L).D());
+        Assert.Equal(0.5, JsonValue.Create(0.5m).D());
+        Assert.Equal(60.0, new JsonArray(0, 60)[1]!.D());
+        Assert.Equal(100.0, DiagramLoader.Parse("[1e2]")[0]!.D());
+    }
     [Fact] public void Sink_dedupes_exact_repeats_and_keeps_first_by_message()
     {
         var sink = new DiagnosticSink();
@@ -848,10 +951,11 @@ public class DiagramLoaderTests
     }
 }
 ```
+`Diagnostic` also exposes `string? Path => Subject["path"]?.GetValue<string>()` so tests and the facade can read the instance path without digging into `Subject`.
 
 - [ ] **Step 2: Run** → compile failure. Expected.
 
-- [ ] **Step 3: Implement.** `DiagramLoader.Parse`: `JsonNode.Parse(json, documentOptions: new JsonDocumentOptions { AllowDuplicateProperties = true })` — if `.NET 10`'s `JsonObject` still throws on duplicate materialisation (the test tells you), fall back to `JsonDocument.Parse` + recursive rebuild that overwrites on duplicate. `Normalize`: walk; every numeric `JsonValue` → `JsonValue.Create(node.GetValue<double>())` (then `Js.Num` prints `1.0` as `1`). `Diagnostics.cs` is a line-for-line port of `UP/renderers/shared/diagnostics.mjs:1-120` (`normalizedDiagnostic` → `Diagnostic.Normalize(...)` with defaults `internal/unclassified`, severity error, message fallback `"Archify could not classify this failure."`, dedupe key `$"{code} {message} {Js.Stringify(subject)}"`); `installRendererDiagnosticBoundary` is **not** ported (process-level; the facade catches `ArchifyDiagnosticException` instead). `RendererFailure`: attached diagnostics non-empty → `Recorded.Count > 0 ? Recorded : attached`; else one `internal/unclassified` with `evidence.errorName = ex.GetType().Name`.
+- [ ] **Step 3: Implement.** `DiagramLoader.Parse` is a **hand-rolled walk over `Utf8JsonReader`** (verified on .NET 10.0.12: `JsonNode.Parse` throws `ArgumentException: An item with the same key has already been added` on duplicate keys even with `AllowDuplicateProperties`, and both `JsonNode.Parse` and `JsonDocument` replace lone surrogate escapes with U+FFFD). Rules: `JsonReaderOptions { CommentHandling = Disallow, AllowTrailingCommas = false }`; objects → `JsonObject`, assigning `obj[key] = value` so a duplicate key keeps the last value in the first key's position (JS semantics); arrays → `JsonArray`; numbers → `JsonValue.Create(reader.GetDouble())` (no `Normalize` pass needed for parsed input; `Normalize` stays for C#-built nodes and converts every numeric backing type via `J.D`); strings: when `reader.ValueIsEscaped` decode `reader.ValueSpan` yourself — standard escapes, `\uXXXX` appended as the raw `char` **without** pairing/validation so `\ud800` survives; when not escaped, `reader.GetString()`. `true/false/null` as usual. Wrap `JsonException` into an `ArchifyDiagnosticException` with code `input/json-parse` (cli.mjs:67-75). `Diagnostics.cs` is a line-for-line port of `UP/renderers/shared/diagnostics.mjs:1-120` (`normalizedDiagnostic` → `Diagnostic.Normalize(...)` with defaults `internal/unclassified`, severity error, message fallback `"Archify could not classify this failure."`, dedupe key `$"{code} {message} {Js.Stringify(subject)}"`); `installRendererDiagnosticBoundary` is **not** ported (process-level; the facade catches `ArchifyDiagnosticException` instead). `RendererFailure`: attached diagnostics non-empty → `Recorded.Count > 0 ? Recorded : attached`; else one `internal/unclassified` with `evidence.errorName = ex.GetType().Name`.
 
 - [ ] **Step 4: Run** `dotnet test --filter DiagramLoaderTests` → pass.
 
@@ -863,13 +967,14 @@ public class DiagramLoaderTests
 
 **Files:**
 - Create: `src/Archify.Net.Core/Shared/I18n.cs`, `src/Archify.Net.Core/Shared/Utils.cs`, `src/Archify.Net.Core/Shared/TemplateWriter.cs`, `src/Archify.Net.Core/Shared/SvgAttrs.cs`, `tests/Archify.Net.Core.Tests/I18nTests.cs`, `tests/Archify.Net.Core.Tests/TemplateWriterTests.cs`
+- Modify: `src/Archify.Net.Core/RenderContext.cs` — add `public LocaleCatalog Locale { get; } = new();`
 
 **Interfaces:**
 - Produces:
-  - `sealed class LocaleCatalog` (← i18n.mjs; per-context instance replacing `DOCUMENT_CATALOGS`): `static string DefaultLocale = "en"`; `static IReadOnlyList<string> SupportedLocales`; `LocaleReport Register(string? locale, JsonObject? translations)` (= `registerLocale`; `record LocaleReport(string? Locale, string ResolvedLocale, string? BundledLocale, bool Fallback, int TotalKeys, int TranslatedKeys, double Coverage, IReadOnlyList<string> FallbackKeys, OverrideReport Override)` with `record OverrideReport(int SuppliedKeys, int AppliedKeys, IReadOnlyList<string> UnknownKeys, IReadOnlyList<string> PlaceholderMismatches)` — field names from i18n.mjs:181-197); `IReadOnlyList<Diagnostic> LocaleDiagnostics(DiagramType type, JsonObject meta)`; `string ResolveLocale(string? locale)`; `string Translate(string? locale, string key, IReadOnlyDictionary<string,string>? values = null)` (throws `InvalidOperationException` "Missing Archify i18n message …" as upstream); `string TranslateCount(string? locale, string key, int count, ...)`; `JsonObject ViewerCatalog(string? locale)` (keys starting `viewer.`); `string LocalizeTemplate(string template, string? locale)`; static `string FormatMessage(string template, IReadOnlyDictionary<string,string>? values)`; static `ResolveCatalog(...)` pure.
+  - `sealed class LocaleCatalog` (← i18n.mjs; per-context instance replacing `DOCUMENT_CATALOGS`): `static string DefaultLocale = "en"`; `static IReadOnlyList<string> SupportedLocales`; `LocaleReport Register(string? locale, JsonObject? translations)` (= `registerLocale`; `record LocaleReport(string? Locale, string ResolvedLocale, string? BundledLocale, bool Fallback, int TotalKeys, int TranslatedKeys, double Coverage, IReadOnlyList<string> FallbackKeys, OverrideReport Override)` with `record OverrideReport(int SuppliedKeys, int AppliedKeys, IReadOnlyList<string> UnknownKeys, IReadOnlyList<PlaceholderMismatch> PlaceholderMismatches)` and `record PlaceholderMismatch(string Key, IReadOnlyList<string> Expected, IReadOnlyList<string>? Actual)` (`expected` default-sorted with `Js.SortDefault`; i18n.mjs:98-105) — field names from i18n.mjs:181-197); `LocaleDiagnostics` codes are `i18n/invalid-translation`, `i18n/locale-fallback`, `i18n/translation-coverage` (i18n.mjs:241, 257, 271); `IReadOnlyList<Diagnostic> LocaleDiagnostics(DiagramType type, JsonObject meta)`; `string ResolveLocale(string? locale)`; `string Translate(string? locale, string key, IReadOnlyDictionary<string,string>? values = null)` (throws `InvalidOperationException` "Missing Archify i18n message …" as upstream); `string TranslateCount(string? locale, string key, int count, ...)`; `JsonObject ViewerCatalog(string? locale)` (keys starting `viewer.`); `string LocalizeTemplate(string template, string? locale)`; static `string FormatMessage(string template, IReadOnlyDictionary<string,string>? values)`; static `ResolveCatalog(...)` pure.
   - `static class Utils`: `string Esc(string?)` (= `Js.EscapeHtml`), `string RenderDefinitions(string extra = "")`, `string RenderSemanticSigil(string kind, double x, double y, double size = 11, string? icon = null)`, `int TextUnits(string? text, RenderContext? ctx = null)` (cache lives on ctx when given), consts `SemanticSigilInset = 6, SemanticSigilSize = 11, SemanticSigilFootprint = 17, SourceBadgeFootprint = 38`, `string RenderCards(JsonArray? cards)`.
   - `static class TemplateWriter`: `string Apply(string template, string title, string? subtitle, string svg, string cards, string? locale, string visualPreset, JsonNode? sourceEvidence, LocaleCatalog catalog)` — exact port of `applyTemplate` (utils.mjs:150-200) incl. `serializeScriptJson` (`Js.Stringify` + `\u003c \u003e \u0026` replacements) and the five placeholder checks (throw `InvalidOperationException` with upstream messages).
-  - `static class SvgAttrs` (← cli.mjs:360-429): `string SvgRootAttrs(RenderContext ctx)` (`data-quality-profile`, advisory flag — precedence `ctx.Options.Quality` > `meta.quality_profile`), `string SvgAccessibleText(RenderContext ctx, string kind)`, `string AnimateAttr(JsonObject meta, string kind, int step)`, `string FocusNodeAttrs(string id, string label, JsonObject? metadata, string? locale, RenderContext ctx)`, `string FocusNodeTitle(string label, JsonObject? metadata)`, `string FocusEdgeAttrs(string from, string to, string? label, string key, string? id)`.
+  - `static class SvgAttrs` (← cli.mjs:360-429): `string SvgRootAttrs(RenderContext ctx)` (`data-quality-profile`, advisory flag — here, and only here plus the arrowhead gate in Task 9, the option wins over `meta.quality_profile`: `requestedProfile = ctx.Options.Quality?.Name() ?? meta.quality_profile`), `string SvgAccessibleText(RenderContext ctx, string kind)` (`meta.subtitle || translate(...)` is JS truthiness: empty subtitle falls through), `string AnimateAttr(JsonObject meta, string kind, double? step)` (`step` may be missing → treated as 0; `Number.isFinite`, `Math.floor`, `Math.min(12, …)` as cli.mjs:381-391), `string FocusNodeAttrs(string id, string label, JsonObject? metadata, string? locale, RenderContext ctx)` (attribute values are dropped when `Js.Trim` leaves them empty — cli.mjs:402, 417), `string FocusNodeTitle(string label, JsonObject? metadata)`, `string FocusEdgeAttrs(string from, string to, string? label, string key, string? id)` — callers pass the numeric connection index as `key`, formatted with `Js.Num` (render-architecture.mjs:1067, 1077).
 
 - [ ] **Step 1: Failing tests**
 
@@ -892,14 +997,22 @@ public class I18nTests
     [Fact] public void Translations_override_then_bundled_then_en()
     {
         var c = new LocaleCatalog();
-        var enLegend = c.Translate("en", "legend.architecture.frontend");
         var es = JsonNode.Parse(Resources.Text("locales/es.json"))!.AsObject();
         c.Register("es", new JsonObject { ["page.title"] = "Mapa {title}" });
         Assert.Equal("Mapa X", c.Translate("es", "page.title", new Dictionary<string, string> { ["title"] = "X" }));   // override wins
-        Assert.Equal(es["legend.architecture.frontend"]!.GetValue<string>(), c.Translate("es", "legend.architecture.frontend")); // bundled
-        Assert.NotEqual(enLegend, c.Translate("es", "legend.architecture.frontend"));
+        Assert.Equal(es["legend.architecture.database"]!.GetValue<string>(), c.Translate("es", "legend.architecture.database")); // bundled ("Base de datos")
+        Assert.NotEqual(c.Translate("en", "legend.architecture.database"), c.Translate("es", "legend.architecture.database"));  // es "Frontend" equals en, database does not
         var r = c.Register("es", new JsonObject { ["page.title"] = "no placeholder" });                               // {title} missing
-        Assert.Equal(1, r.Override.PlaceholderMismatches.Count);
+        var mismatch = Assert.Single(r.Override.PlaceholderMismatches);
+        Assert.Equal("page.title", mismatch.Key);
+        Assert.Equal(["title"], mismatch.Expected);
+    }
+    [Fact] public void Locale_diagnostics_use_i18n_codes()
+    {
+        var c = new LocaleCatalog();
+        var meta = new JsonObject { ["locale"] = "xx-YY" };
+        c.Register("xx-YY", null);
+        Assert.Contains(c.LocaleDiagnostics(DiagramType.Architecture, meta), d => d.Code == "i18n/locale-fallback");
     }
     [Fact] public void Missing_key_throws_like_upstream() { var c = new LocaleCatalog(); var ex = Assert.Throws<InvalidOperationException>(() => c.Translate("en", "no.such.key")); Assert.StartsWith("Missing Archify i18n message", ex.Message); }
     [Fact] public void Sigils_and_definitions_match_fixture()
@@ -923,33 +1036,42 @@ public class I18nTests
 }
 ```
 
-`TemplateWriterTests.cs` — the oracle: cut the SVG and cards slots out of the upstream golden, re-apply, expect identical bytes:
+`TemplateWriterTests.cs` — the oracle. The rendered goldens contain **no** slot markers (`applyTemplate` replaces the whole marker block, utils.mjs:196-197), so the SVG is located by applying the template once with sentinels and splitting the golden around the resulting prefix/mid/suffix; the cards HTML is rebuilt from the input's `cards`:
 ```csharp
 using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
 using Xunit;
 namespace Archify.Net.Tests;
 
 public class TemplateWriterTests
 {
-    static readonly Regex SvgSlot = new("      <!-- ARCHIFY:SVG_SLOT_START -->[\\s\\S]*?      <!-- ARCHIFY:SVG_SLOT_END -->");
-    static readonly Regex CardsSlot = new("    <!-- ARCHIFY:CARDS_SLOT_START -->[\\s\\S]*?    <!-- ARCHIFY:CARDS_SLOT_END -->");
+    const string SvgSentinel = "\u0001SVG\u0001", CardsSentinel = "\u0001CARDS\u0001";
 
     [Theory]
     [InlineData("web-app.architecture.json", "web-app-rendered.html")]
     [InlineData("cache-miss-request.sequence.json", "sequence-cache-miss-request.html")]
     [InlineData("orders.erd.json", "erd-orders-rendered.html")]
-    public void Reassembling_golden_slots_reproduces_golden(string input, string golden)
+    public void Reassembling_golden_reproduces_golden(string input, string golden)
     {
         var html = Fixtures.Lf(Fixtures.Upstream($"examples/{golden}"));
         var diagram = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream($"examples/{input}")));
         var meta = diagram["meta"]!.AsObject();
-        var svg = SvgSlot.Match(html).Value; var cards = CardsSlot.Match(html).Value;
-        Assert.False(string.IsNullOrEmpty(svg)); Assert.False(string.IsNullOrEmpty(cards));
-        var catalog = new LocaleCatalog(); catalog.Register(meta.Str("locale"), meta.Obj("translations"));
-        var result = TemplateWriter.Apply(Resources.Text("assets/template.html"), meta.Str("title")!, meta.Str("subtitle"),
-            svg, cards, meta.Str("locale"), meta.Str("visual_preset") ?? "classic", null, catalog);
-        Assert.Equal(html, result);
+        var catalog = new LocaleCatalog(); if (meta.Str("locale") is not null) catalog.Register(meta.Str("locale"), meta.Obj("translations"));
+        var template = Resources.Text("assets/template.html");
+        var cards = Utils.RenderCards(diagram.Arr("cards"));
+        string Apply(string svg, string cardsHtml) => TemplateWriter.Apply(template, meta.Str("title")!, meta.Str("subtitle"),
+            svg, cardsHtml, meta.Str("locale"), meta.Str("visual_preset") ?? "classic", null, catalog);
+
+        var skeleton = Apply(SvgSentinel, CardsSentinel);
+        var i = skeleton.IndexOf(SvgSentinel, StringComparison.Ordinal); var j = skeleton.IndexOf(CardsSentinel, StringComparison.Ordinal);
+        var prefix = skeleton[..i]; var mid = skeleton[(i + SvgSentinel.Length)..j]; var suffix = skeleton[(j + CardsSentinel.Length)..];
+        Assert.StartsWith(prefix, html); Assert.EndsWith(suffix, html);
+        var svgEnd = html.IndexOf(mid + cards + suffix, prefix.Length, StringComparison.Ordinal);
+        Assert.True(svgEnd > prefix.Length, "golden does not contain mid + cards + suffix after the prefix");
+        var svg = html[prefix.Length..svgEnd];
+        Assert.StartsWith("      <svg viewBox=", svg);
+
+        var result = Apply(svg, cards);
+        if (result != html) Assert.Fail(ParityTests.FirstDifference(html, result));
     }
 
     [Fact] public void Dollar_patterns_in_title_are_literal()
@@ -969,7 +1091,7 @@ public class TemplateWriterTests
 
 - [ ] **Step 2: Run** → compile failure.
 
-- [ ] **Step 3: Port** `UP/renderers/shared/i18n.mjs` (328 lines) → `I18n.cs`: manifest/catalog loading from `Resources` (validate `LOCALE_TAG` `^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$`, `CATALOG_FILE`), `CANONICAL_KEYS` from `en.json` in file order, `classifyTranslations` (placeholder-mismatch detection), `resolveCatalog`, `bundledLocaleFor` (case-insensitive), `localeDiagnostics` (codes `locale/…` — copy exactly from lines 231-292), `formatMessage` regex `\{([a-zA-Z0-9_]+)\}`. `Utils.cs` ← utils.mjs lines 1-149 + 201-260 verbatim strings (the `renderDefinitions` block and `SIGIL_SHAPE` map are copy-paste; keep the exact whitespace inside template literals including the 12-space indents). `TextUnits`: `FULLWIDTH_RE` becomes a sorted range table over code points (ranges copied from utils.mjs:206); iterate by code point (`Rune`), apply VS rules. `TemplateWriter.Apply` ← utils.mjs:150-200 using `Regex` with the three exact patterns (`SUBTITLE_SLOT_RE` is multiline `^([ \t]*)<p class="subtitle">\[Subtitle description\]</p>[ \t]*(\r?\n)?`) and `Js.ReplaceFirst` for the string placeholders. `SvgAttrs.cs` ← cli.mjs:360-429.
+- [ ] **Step 3: Port** `UP/renderers/shared/i18n.mjs` (328 lines) → `I18n.cs`: manifest/catalog loading from `Resources` (validate `LOCALE_TAG` `^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$`, `CATALOG_FILE`), `CANONICAL_KEYS` from `en.json` in file order (486 keys), `classifyTranslations` (placeholder-mismatch objects), `resolveCatalog`, `bundledLocaleFor` (case-insensitive), `localeDiagnostics` (codes `i18n/…`, lines 231-292), `formatMessage` regex `\{([a-zA-Z0-9_]+)\}`. `ParityTests.FirstDifference` is referenced by the test above — create `tests/Archify.Net.Core.Tests/ParityTests.cs` in this task with only that `internal static` helper (Task 9 adds the theories). `Utils.cs` ← utils.mjs lines 1-149 + 201-260 verbatim strings (the `renderDefinitions` block and `SIGIL_SHAPE` map are copy-paste; keep the exact whitespace inside template literals including the 12-space indents). `TextUnits`: `FULLWIDTH_RE` becomes a sorted range table over code points (ranges copied from utils.mjs:206); iterate by code point (`Rune`), apply VS rules; no cache. `TemplateWriter.Apply` ← utils.mjs:150-200 using `Regex` with the three exact patterns (`SUBTITLE_SLOT_RE` is multiline `^([ \t]*)<p class="subtitle">\[Subtitle description\]</p>[ \t]*(\r?\n)?` — the `m` flag is wanted here, so `RegexOptions.Multiline`) and `Js.ReplaceFirst` for the string placeholders (`.replace(string, fn)` replaces the first occurrence only). `SvgAttrs.cs` ← cli.mjs:360-429.
 
 - [ ] **Step 4: Run** `dotnet test --filter "I18nTests|TemplateWriterTests"` → pass. The reassembly test failing means a byte differs in template handling — diff the first differing line (print index) before touching anything.
 
@@ -980,16 +1102,17 @@ public class TemplateWriterTests
 ### Task 6: Validation gates (schema, portable path, output path, engineering profile, cross-collection ids)
 
 **Files:**
-- Create: `src/Archify.Net.Core/Shared/PortablePath.cs`, `src/Archify.Net.Core/Shared/OutputPath.cs`, `src/Archify.Net.Core/Shared/SchemaValidator.cs`, `src/Archify.Net.Core/Shared/EngineeringProfiles.cs`, `tests/Archify.Net.Core.Tests/ValidationTests.cs`
+- Create: `src/Archify.Net.Core/Shared/PortablePath.cs`, `src/Archify.Net.Core/Shared/OutputPath.cs`, `src/Archify.Net.Core/Shared/JsRegex.cs`, `src/Archify.Net.Core/Shared/SchemaValidator.cs`, `src/Archify.Net.Core/Shared/EngineeringProfiles.cs`, `tests/Archify.Net.Core.Tests/ValidationTests.cs`
 - Modify: `src/Archify.Net.Core/Shared/DiagramLoader.cs` (add `Load(DiagramType, JsonObject, RenderContext)` running the gates in cli.mjs:79-85 order)
 
 **Interfaces:**
 - Produces:
-  - `static class PortablePath`: `void Validate(string value, string profile = "output")` throws `PortablePathException(reason)` (← portable-path.mjs:72); `ValidateSet(...)`.
-  - `static class OutputPath`: `void ValidateAuthoredOutputPath(string raw, string cwd)`; `string Resolve(OutputRequest)` (CLI use; phase 5 — port now, since `validateAuthoredOutputPath` shares helpers).
-  - `static class SchemaValidator`: `void Validate(DiagramType type, JsonObject data, DiagnosticSink sink)` — JsonSchema.Net `EvaluationOptions { OutputFormat = List, RequireFormatValidation = false }`, `SchemaRegistry` preloaded with all 11 embedded schemas by `$id`; maps each error to `Diagnostic("schema/<keyword>", …)` as validator.mjs:38-83 (`annotatedPath`, `supportedFixes` table); then the `portablePath` wrapper on `meta.output` (code `schema/portablePath`). Pre-checks with JS regex semantics for `common.schema.json` patterns at lines 38 and 41 and `timeline.schema.json:128`; `minLength/maxLength` counted in code points (override JsonSchema.Net's grapheme count by evaluating those two keywords ourselves on string instances — simplest: post-filter JsonSchema.Net length errors and recompute).
+  - `static class PortablePath`: `void Validate(string value, string profile = "output")` throws `PortablePathException(string Reason)` (← portable-path.mjs:72, reason codes preserved); `ValidateSet(...)` (← :300).
+  - `static class OutputPath`: `void ValidateAuthoredOutputPath(string raw, DiagnosticSink sink)` — the **lexical** subset of output-path.mjs:323-365 (decision S6/Option 1): portable-path validation, the `.html` extension rule, and lexical containment (no `..` segments, not absolute). No `cwd`, no filesystem, no `path-semantics`. Codes exactly as upstream: `output/meta-path-syntax` for portable-path failures, and whichever `output/…` codes lines 323-365 raise for the extension/containment cases (copy them). `resolveOutputPath`, `path-semantics` and `sidecar-path` move to **phase 5** (CLI), which is where a real cwd exists.
+  - `static class SchemaValidator`: `void Validate(DiagramType type, JsonObject data, DiagnosticSink sink)` — an **in-house JSON Schema 2020-12 evaluator** over `JsonNode` (no NuGet; decision S11), covering exactly the keyword set the 11 schemas use: `$ref` (to `common.schema.json#/$defs/…` and `#/$defs/…`), `type`, `const`, `enum`, `required`, `properties`, `additionalProperties`, `propertyNames`, `prefixItems`, `items` (incl. `false`), `minItems`, `maxItems`, `contains`, `minLength`, `maxLength` (**code points**, ajv `ucs2length`), `pattern` (JS semantics: `$` = end of input, `[\uD800-\uDFFF]` = lone surrogate check on code units, `\d` ASCII — translate each pattern once at load via `JsRegex.Translate(string jsSource) → Regex`), `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`, `multipleOf`, `allOf`, `anyOf`, `oneOf`, `not`, `if`/`then`/`else`. Error reporting mirrors **ajv `allErrors: true`**: every failing leaf keyword yields `(keyword, instancePath)`; combinators add their own entry (`anyOf`, `oneOf`, `not`) at the instance they apply to when they fail; `items:false` reports keyword `items` at the parent array; `propertyNames` reports `propertyNames` at the object plus the inner `pattern` at the object (ajv reports both at `/meta/translations`); `additionalProperties` reports at the object with `params.additionalProperty`; nothing is reported for passing `not`/`anyOf` branches. Then the synthetic `portablePath` keyword on `meta.output` (code `schema/portablePath`, generate-validators.mjs:62-80). Each error → `Diagnostic("schema/<keyword>", …)` with `subject.path`, `subject.identity` (`annotatedPath`), `evidence.keyword/expected/params`, `supportedFixes` table — validator.mjs:38-83. The Task 2 ajv fixture (`schema-errors.json`) is the acceptance test; "parity by code" = set equality of `(keyword, instancePath)`.
+  - `static class JsRegex`: `Regex Translate(string jsSource)` — `RegexOptions.ECMAScript | CultureInvariant` when the source has no `\u{…}`/`\p{…}` (none of the schemas do); rewrite `$` outside a character class to `\z` (JS `$` without `m`); rewrite `[\uD800-\uDFFF]` to a lone-surrogate alternation `(?:[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF])`; `{n}` quantifiers on `[^/]` count UTF-16 units in both engines (fine — ajv/V8 also count code units here, the "256 code points" note in the spec was wrong, see portable-path.mjs:196 which is the gate that actually fires).
   - `static class EngineeringProfiles`: `void Validate(DiagramType, JsonObject, DiagnosticSink)` (← engineering-profiles.mjs:147).
-  - `DiagramLoader.Load(DiagramType type, JsonObject diagram, RenderContext ctx)`: `validateAuthoredOutputPath` (if `meta.output` present) → `SchemaValidator.Validate` → `ctx.Locale.Register` + record `LocaleDiagnostics` → `ValidateCrossCollectionContracts` (= `validateRelationshipIds`, cli.mjs:331-359, code `relationship/duplicate-id`… copy exactly) → `EngineeringProfiles.Validate`. Returns nothing; throws `ArchifyDiagnosticException`.
+  - `DiagramLoader.Load(DiagramType type, JsonObject diagram, RenderContext ctx)` in cli.mjs:79-85 order: `OutputPath.ValidateAuthoredOutputPath` (only if `meta.output` is present) → `SchemaValidator.Validate` → **only if `meta.locale` is truthy** `ctx.Locale.Register(locale, meta.translations)` and record each `LocaleDiagnostics` entry (cli.mjs:33-44) → `ValidateCrossCollectionContracts` (= `validateRelationshipIds`, cli.mjs:331-359, code `relationship/duplicate-id`) → `EngineeringProfiles.Validate`. Returns nothing; throws `ArchifyDiagnosticException`.
 
 - [ ] **Step 1: Failing tests**
 
@@ -1027,33 +1150,64 @@ public class ValidationTests
     {
         var d = Example("web-app.architecture.json"); var conns = d["connections"]!.AsArray();
         conns[0]!["id"] = "dup"; conns[1]!["id"] = "dup";
-        Assert.Contains(Fails(DiagramType.Architecture, d).Diagnostics, x => x.Code.StartsWith("relationship/"));
+        Assert.Contains(Fails(DiagramType.Architecture, d).Diagnostics, x => x.Code == "relationship/duplicate-id");
     }
-    [Fact] public void MinLength_counts_code_points_not_graphemes()
-    {
-        var d = Example("web-app.architecture.json"); d["meta"]!["title"] = "👨‍👩‍👧";   // 5 code points, 1 grapheme; minLength 1 must pass either way
-        DiagramLoader.Load(DiagramType.Architecture, d, new RenderContext(DiagramType.Architecture, d, new RenderOptions()));
-        d["meta"]!["output"] = "x/" + new string('a', 256) + ".html";                  // [^/]{256} segment limit in code points
-        Assert.Contains(Fails(DiagramType.Architecture, d).Diagnostics, x => x.Code.StartsWith("schema/"));
+    [Fact] public void Length_keywords_count_code_points_not_graphemes()
+    {   // 17 × family emoji = 85 code points / 17 graphemes; brand maxLength is 80 → upstream rejects (ajv ucs2length), a grapheme counter would accept
+        var d = Example("web-app.architecture.json"); d["components"]![0]!["brand"] = string.Concat(Enumerable.Repeat("👨‍👩‍👧", 17));
+        var codes = Fails(DiagramType.Architecture, d).Diagnostics.Where(x => x.Path == "/components/0/brand").Select(x => x.Code).ToHashSet();
+        Assert.Contains("schema/maxLength", codes);
     }
-    [Fact] public void Emoji_in_output_path_is_not_a_lone_surrogate()
-    {
+    [Fact] public void Long_output_segment_is_rejected_by_portable_path_before_schema()
+    {   // cli.mjs:79-81 runs validateAuthoredOutputPath first; portable-path.mjs:196 rejects segments > 255 UTF-16 units
+        var d = Example("web-app.architecture.json"); d["meta"]!["output"] = "x/" + new string('a', 256) + ".html";
+        Assert.Contains("output/meta-path-syntax", Fails(DiagramType.Architecture, d).Diagnostics.Select(x => x.Code));
+        d["meta"]!["output"] = "out/\ud800.html";                                   // lone surrogate: same gate, same code
+        Assert.Contains("output/meta-path-syntax", Fails(DiagramType.Architecture, d).Diagnostics.Select(x => x.Code));
+    }
+    [Fact] public void Emoji_in_output_path_is_accepted()
+    {   // common.schema.json:38 rejects LONE surrogates; a valid pair must pass. .NET's [\uD800-\uDFFF] would match each half — the evaluator must check code points.
         var d = Example("web-app.architecture.json"); d["meta"]!["output"] = "out/😀.html";
-        // common.schema.json:38 rejects lone surrogates only; a valid pair must pass the regex pre-check (portablePath may still object — accept either no error or a schema/portablePath code, never schema/pattern).
-        try { DiagramLoader.Load(DiagramType.Architecture, d, new RenderContext(DiagramType.Architecture, d, new RenderOptions())); }
-        catch (ArchifyDiagnosticException ex) { Assert.DoesNotContain("schema/pattern", ex.Diagnostics.Select(x => x.Code)); }
+        var ctx = new RenderContext(DiagramType.Architecture, d, new RenderOptions());
+        DiagramLoader.Load(DiagramType.Architecture, d, ctx);
+        Assert.DoesNotContain(ctx.Diagnostics.Recorded, x => x.Severity == Severity.Error);
+    }
+    [Fact] public void Id_with_trailing_newline_fails_pattern()
+    {   // JS `$` without the m flag matches only at end of input; .NET `$` also matches before a trailing "\n"
+        var d = Example("web-app.architecture.json"); d["components"]![0]!["id"] = "abc\n";
+        Assert.Contains(Fails(DiagramType.Architecture, d).Diagnostics, x => x.Code == "schema/pattern" && x.Path == "/components/0/id");
+    }
+
+    // The ajv oracle: for every mutation captured in Task 2, the (keyword, instancePath) SET must match exactly.
+    public static IEnumerable<object[]> SchemaErrorCases() =>
+        JsonNode.Parse(File.ReadAllText(Fixtures.Fixture("js/schema-errors.json")))!.AsArray().Select(c => new object[] { c!["name"]!.GetValue<string>() });
+
+    [Theory, MemberData(nameof(SchemaErrorCases))]
+    public void Schema_error_set_equals_ajv(string name)
+    {
+        var c = JsonNode.Parse(File.ReadAllText(Fixtures.Fixture("js/schema-errors.json")))!.AsArray().Single(x => x!["name"]!.GetValue<string>() == name)!;
+        var type = DiagramTypes.Parse(c["type"]!.GetValue<string>());
+        var input = DiagramLoader.Normalize(c["input"]!.DeepClone().AsObject());
+        var expected = c["errors"]!.AsArray().Select(e => (e![0]!.GetValue<string>(), e[1]!.GetValue<string>())).ToHashSet();
+        var sink = new DiagnosticSink();
+        var actual = new HashSet<(string, string)>();
+        try { SchemaValidator.Validate(type, input, sink); }
+        catch (ArchifyDiagnosticException ex) { foreach (var d in ex.Diagnostics) actual.Add((d.Code["schema/".Length..], d.Path ?? "")); }
+        Assert.Equal(c["valid"]!.GetValue<bool>(), actual.Count == 0);
+        Assert.Equal(expected, actual);
     }
 }
 ```
-Before implementing, confirm each expected keyword by reading the matching schema snippet (`exclusiveMinimum` for size — `grep -n "size" UP/schemas/architecture.schema.json`); if upstream uses `minimum` with `exclusiveMinimum: 0` the code is still `schema/exclusiveMinimum` (ajv reports the failing keyword). Fix the test expectation from the schema, not the other way round.
+The expected keywords come from the schemas (probed by the plan reviewer against ajv): `schema/exclusiveMinimum@/components/0/size/0`, `schema/pattern@/nodes/0/id` (`^[a-zA-Z][a-zA-Z0-9_-]*$`), `schema/enum@/cards/0/dot` (`cyan emerald violet amber rose orange slate`), `schema/required@/`, `schema/additionalProperties@/`, `schema/minItems@/components`. The ajv fixture is the final word.
 
 - [ ] **Step 2: Run** → compile failure.
 
-- [ ] **Step 3: Implement.** Schema registry: for each embedded `schemas/*.json`, `JsonSchema.FromText` then `SchemaRegistry.Global.Register(new Uri(schema.GetId()), schema)` — use an **instance** registry on `EvaluationOptions.SchemaRegistry`, not `Global` (thread safety, test isolation). Error → diagnostic mapping: `instancePath` = JSON Pointer from `EvaluationResults.InstanceLocation` (`/components/0/size/0`), keyword = `EvaluationResults.EvaluationPath` last segment, `error.params` approximated from the keyword + schema value (`Evidence.keyword`, `Evidence.expected`); `supportedFixes` table copied. Length keywords: after evaluation, drop `minLength/maxLength` errors and re-run a code-point count against the schema's limit (walk the schema at `EvaluationPath` for the limit). Regex pre-check: three patterns evaluated with hand-written checks (lone surrogate scan; ASCII `\d`; segment code-point count) **before** JsonSchema.Net; emit `schema/pattern` with the same `instancePath`. `PortablePath.cs` ← portable-path.mjs line-for-line (reason codes preserved). `OutputPath.cs` ← output-path.mjs:1-440 (uses `path-semantics` only for `resolvePhysicalLocation` in the CLI path — port `resolve` only as far as `validateAuthoredOutputPath` needs; leave a `// phase 5: resolveOutputPath` note on the rest **and port it there**, not now).
+- [ ] **Step 3: Implement.** Order: `PortablePath.cs` (portable-path.mjs line-for-line) → `OutputPath.cs` (lexical subset; see Interfaces) → `JsRegex.cs` → `SchemaValidator.cs` → `EngineeringProfiles.cs` → `DiagramLoader.Load`.
+  `SchemaValidator` structure: load the 11 schemas from `Resources` once into a `Dictionary<string /*$id*/, JsonObject>`; `Resolve(ref)` splits `common.schema.json#/$defs/id` into the sibling `$id` + JSON Pointer; `Evaluate(JsonNode schema, JsonNode? instance, string instancePath, List<(string keyword, string path, JsonObject params)> errors)` returns `bool` and appends errors **only when the caller is collecting** (an `anyOf` branch evaluates into a scratch list and merges only if every branch failed; `not` evaluates into a discarded list and reports `not` itself when the inner passes). Keyword order inside an object schema follows ajv's: `$ref`, `type`, `const`, `enum`, numeric, string, array, object, combinators, `if` — order affects nothing in the set comparison but keeps diagnostics readable. `type` accepts a string or array; integers are `double`s with `d == Math.Floor(d)`. The `supportedFixes` table and `annotatedPath` come from validator.mjs:5-25, 55-68 verbatim. Then `Schema_error_set_equals_ajv` decides; when it disagrees with you, ajv is right.
 
-- [ ] **Step 4: Run** `dotnet test --filter ValidationTests` → 24 example theories + 8 facts pass.
+- [ ] **Step 4: Run** `dotnet test --filter ValidationTests` → 25 example theories + 14 ajv-oracle theories + 10 facts pass.
 
-- [ ] **Step 5: Commit** → `feat(core): validation gates — schema (JsonSchema.Net 2020-12 + JS regex/length semantics), portable path, cross-collection ids, engineering profiles`.
+- [ ] **Step 5: Commit** → `feat(core): validation gates — in-house 2020-12 schema evaluator with ajv error parity, portable path, cross-collection ids, engineering profiles`.
 
 ---
 
@@ -1063,7 +1217,12 @@ Before implementing, confirm each expected keyword by reading the matching schem
 - Create: `Shared/Geometry.cs`, `Shared/SpatialGrid.cs`, `Shared/RouteQuality.cs`, `Shared/AutomaticLabels.cs`, `Shared/TextFit.cs`, `Shared/Legend.cs`, `Shared/NodeCardStyle.cs`, `Shared/LayoutReport.cs`, `Shared/DesktopReadability.cs` (all under `src/Archify.Net.Core/`), `tests/Archify.Net.Core.Tests/GeometryTests.cs`
 
 **Interfaces:**
-- Produces (names = upstream exports, PascalCased; types: points are `double[2]` as `Pt` readonly record struct `(double X, double Y)`, rects `Rect(double X, double Y, double Width, double Height)`):
+- Produces (names = upstream exports, PascalCased). Shared value types, all in `Shared/Geometry.cs`:
+  - `readonly record struct Pt(double X, double Y)` — upstream `[x, y]`;
+  - `readonly record struct Segment(Pt Start, Pt End)` — upstream `{ start, end }` (geometry.mjs:45-66; **never** `[p1, p2]`);
+  - `sealed class Box { string Id; double X, Y, Width, Height; double Cx => X + Width / 2; double Cy => Y + Height / 2; JsonObject Source; ResolvedBrand? Brand; JsonObject? Relation; }` — the measured node/boundary/label rect upstream builds with `{ ...c, x, y, width, height, cx, cy }`; `Source` is the authored node, `Brand` is filled from `ctx.Brands.BrandMarkFor(Source)` at measure time (upstream carries the mark through the object spread as a symbol property — a reference-keyed lookup on the copy would miss, so the port carries it explicitly), `Relation` is the payload label rects carry;
+  - `Rect(double X, double Y, double Width, double Height)` stays for pure geometry inputs (`rectsOverlap`, clearance) with an implicit conversion from `Box`.
+  - `ResolvedBrand` is defined in Task 8; until then declare `public sealed record ResolvedBrand;` as a stub in `Shared/BrandMarks.cs` so Task 7 compiles, and Task 8 replaces it.
   - `Geometry`: every export listed in `geometry.mjs` (`AsArray`, `IsFinitePoint`, `RectsOverlap`, `SegmentIntersectsRect`, `SegmentRectClearance`, `SegmentRectClearanceWithin`, `SegmentRectIntersectionLength`, `CollectLabelRouteClearance`, `MinimumLabelRouteClearance`, `RouteHonorsEndpointSides`, `CleanEndpointSideProblems`, `CleanFlowProblems`, `ForwardCollinearAnalysisSegments`, `SourceSegmentIndexAtPoint`, `PolylineBendContacts`, `CleanCrossingProblems`, `CollectAmbiguousCorridors`, `CollectArrowheadCollisions`, `CleanAmbiguousCorridorProblems`, `CollectBorderRuns`, `CleanBorderRunProblems`, `RouteBudgetMetrics`, `CollectRouteRhythmIssues`, `CleanRouteRhythmProblems`, `CleanLabelRouteClearanceProblems`, `CollectLabelCanvasOverflow`, `DescribeLabelCanvasOverflow`, `CleanLabelCanvasContainmentProblems`, `JoinRoutePoints`, `NormalizeRoutePoints`, `FrameBorderSegments`, `ProperSegmentIntersection`, `Anchor`, `PortHasCornerClearance`, `AlignAutomaticFacingPorts`, `AutomaticPortRhythmBridge`, `AutomaticPortSpread`, `DefaultFromSide`, `DefaultToSide`, `LegacyDefaultFromSide`, `LegacyDefaultToSide`, `ChosenSide`, `PolylinePath`, `RoutePointsValue`, `AuthoredStraightRouteAttrs`, `RoundedPath`, `LabelPoint`, `ComponentFill`, `ComponentText`, `ArrowClassMap`, `VariantAccent`, `EdgeLabelAccent`, `FormatRect`, `SuggestLabelObstacleFix`, `SuggestLabelPairFix`, `ComponentSeparationOptions`, `SuggestComponentSeparation`). Functions that call `recordDiagnostic` take a `DiagnosticSink` parameter.
   - `RouteQuality.ShortestOrthogonalGridRoute(...)`, `RouteQuality.CleanRouteDetourProblems(...)`.
   - `SpatialGrid.Create(...)`; `AutomaticLabels.PlaceAutomaticLabels(...)`, `AutomaticLabels.ReservedLabelRect(...)`.
@@ -1085,7 +1244,7 @@ public class GeometryTests
     static Pt P(JsonNode n) => new(n[0]!.D(), n[1]!.D());
     static List<Pt> Poly(JsonNode n) => n.AsArray().Select(p => P(p!)).ToList();
 
-    static (Pt a, Pt b) Seg(JsonNode n) => (P(n[0]!), P(n[1]!));
+    static Segment Seg(JsonNode n) => new(P(n["start"]!), P(n["end"]!));
 
     [Fact] public void RectsOverlap() { foreach (var c in Fx["rectsOverlap"]!.AsArray()) Assert.Equal(c![3]!.GetValue<bool>(), Geometry.RectsOverlap(R(c[0]!), R(c[1]!), c[2]!.D())); }
     [Fact] public void SegmentIntersectsRect() { foreach (var c in Fx["segmentIntersectsRect"]!.AsArray()) Assert.Equal(c![3]!.GetValue<bool>(), Geometry.SegmentIntersectsRect(Seg(c[0]!), R(c[1]!), c[2]!.D())); }
@@ -1116,7 +1275,7 @@ public class GeometryTests
     }
 }
 ```
-`ToJson()` is a tiny test-side extension turning `List<Pt>` into a `JsonArray` of `[x, y]` arrays (the shape upstream returns). Signatures are upstream's: `rectsOverlap(a, b, gap = 0)`, `segmentIntersectsRect(segment, rect, gap = 0)` with `segment = [p1, p2]`, `segmentRectClearance(segment, rect)`, `roundedPath(points, radius)`, `labelPoint(item, points)`.
+`ToJson()` is a tiny test-side extension turning `List<Pt>` into a `JsonArray` of `[x, y]` arrays (the shape upstream returns). Signatures are upstream's: `rectsOverlap(a, b, gap = 0)`, `segmentIntersectsRect(segment, rect, gap = 0)` with `segment = { start, end }`, `segmentRectClearance(segment, rect)` (returns `null` for non-point input — C# returns `double?`), `roundedPath(points, radius)`, `labelPoint(item, points)`.
 
 - [ ] **Step 2: Run** → compile failure.
 
@@ -1136,8 +1295,8 @@ public class GeometryTests
 
 **Interfaces:**
 - Produces:
-  - `static class BrandMarks` (catalog + SVG): `IReadOnlyList<BrandMark> ListBrandMarks()`, `BrandMark? FindBrandMark(string idOrAlias)` (id, then aliases, case-insensitive as upstream `findBrandMark`), `IReadOnlyList<string> Suggestions(string input)`, `JsonObject? BrandMetadataFor(ResolvedBrand? mark)`, `double BrandLabelFitWidth(...)`, `string? BrandTopRailProblem(...)`, `string RenderBrandMark(ResolvedBrand mark, ...)` — exact ports of brand-marks.mjs:640-706 and the lookup helpers. `record BrandMark(string Id, string Title, string Category, string[] Aliases, string[] Domains, double ViewBox, string Hex, string Path, JsonObject Provenance)` from `Resources.Text("generated-brand-marks.json")`; `record ResolvedBrand(BrandMark Mark, string Kind = "preset", string Status = "preset", string SourceUrl)` (= `{ ...preset, kind: 'preset', status: 'preset', sourceUrl: preset.provenance.source }`).
-  - `sealed class BrandMarkResolver` (per `RenderContext`; replaces `RESOLVED_BY_NODE` + the `RESOLVED_MARK` symbol): `void PrepareDiagramBrandMarks(DiagramType type, JsonObject diagram, DiagnosticSink sink)` — synchronous port of `prepareDiagramBrandMarks` (brand-marks.mjs, quoted above in this task) with one substitution: the `typeof node.brand === 'object'` branch never calls `remoteBrand`; it pushes `` `/${collection}/${index}/brand could not reproduce the pinned capture: remote capture is not available in Archify.Net.Core` `` so the existing code mapping yields **`brand/capture-unavailable`**. The other three outcomes keep upstream's messages and codes: `brand/unpinned-url`, `brand/unknown` (with `Suggestions`), and preset resolution. `ResolvedBrand? BrandMarkFor(JsonObject node)` keyed by node reference (`JsMap<JsonObject, ResolvedBrand>`; `JsonNode` has reference equality). Collections: `architecture→components, workflow→nodes, sequence→participants, dataflow→nodes, lifecycle→states` (brand-marks.mjs:10-16).
+  - `static class BrandMarks` (catalog + SVG): `IReadOnlyList<BrandMark> ListBrandMarks()`; `BrandMark? FindBrandMark(string value)` — brand-marks.mjs:27-41, 63-79: lookup keys are built from each mark's **id, title and aliases**, each in three forms (`toLocaleLowerCase('en-US')` raw; JS-whitespace/`_` runs → `-`; JS-whitespace/`_`/`.`/`-` runs removed — use `Js.IsSpace`, not .NET `\s`), first mark in catalog order wins; an `http(s)` value resolves by **domain** with the longest matching suffix winning; `IReadOnlyList<string> Suggestions(string input)`; `JsonObject? BrandMetadataFor(ResolvedBrand? mark)`, `double BrandLabelFitWidth(ResolvedBrand? mark, ...)`, `string? BrandTopRailProblem(ResolvedBrand? mark, ...)`, `string RenderBrandMark(ResolvedBrand mark, ...)` — these take the **resolved mark**, never a node (see Task 7 `Box.Brand`). `record BrandMark(string Id, string Title, string Category, string[] Aliases, string[] Domains, double ViewBox, string Hex, string Path, JsonObject Provenance)` from `Resources.Text("generated-brand-marks.json")`; `record ResolvedBrand(BrandMark Mark, string SourceUrl, string Kind = "preset", string Status = "preset")` (= `{ ...preset, kind: 'preset', status: 'preset', sourceUrl: preset.provenance.source }`; required parameters first).
+  - `sealed class BrandMarkResolver` (per `RenderContext`; replaces `RESOLVED_BY_NODE` + the `RESOLVED_MARK` symbol): `void PrepareDiagramBrandMarks(DiagramType type, JsonObject diagram, DiagnosticSink sink)` — synchronous port of `prepareDiagramBrandMarks` (brand-marks.mjs, quoted above in this task) with one substitution: the `typeof node.brand === 'object'` branch never calls `remoteBrand`; it pushes `` `/${collection}/${index}/brand could not reproduce the pinned capture: remote capture is not available in Archify.Net.Core` `` so the existing code mapping yields **`brand/capture-unavailable`**. The other three outcomes keep upstream's messages and codes: `brand/unpinned-url`, `brand/unknown` (with `Suggestions`), and preset resolution. `ResolvedBrand? BrandMarkFor(JsonObject authoredNode)` keyed by the **authored** node's reference (`JsMap<JsonObject, ResolvedBrand>`; `JsonNode` has reference equality) — renderers call it once while measuring and store the result on `Box.Brand`; they never look up a measured copy. Collections: `architecture→components, workflow→nodes, sequence→participants, dataflow→nodes, lifecycle→states` (brand-marks.mjs:10-16).
 
 - [ ] **Step 1: Failing tests**
 
@@ -1188,7 +1347,9 @@ public class BrandMarkTests
 
 **Interfaces:**
 - Consumes: everything above.
-- Produces: `public static RenderResult Archify.Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)`; internal `interface IDiagramRenderer { (string Svg, JsonArray? Cards, LayoutReport? Layout) Render(RenderContext ctx); }`; internal `static class Renderers { static IDiagramRenderer For(DiagramType type) }` (phase 1: `Architecture` → `new ArchitectureRenderer()`, every other type → `throw new NotSupportedException($"{type.Name()} renderer lands in phase 2–4")`); `ArchitectureRenderer : IDiagramRenderer`; `Grid.GridLayout(JsonObject arch)`, `Grid.ResolveComponentPos(JsonObject component, GridLayout grid)`, `Grid.ValidateGridPlacement(...)`, `Grid.DefaultGrid`; `Routing.CreateRouter(IReadOnlyList<Component> components, IReadOnlyList<JsonObject> connections, RouterOptions options)` returning `sealed class Router` whose public methods are the closure's returned functions (routing.mjs:75-…); `RouterOptions` is a record with the destructured defaults at routing.mjs:76-90 (`Frames`, `InteriorSegmentPx = 16`, `MicroSegmentPx = 8`, `LabelRectFor`, `DistinctAutomaticPorts = false`, `PreferReadableRoutes = false`, `SideFor`, `MaxPortSpacing`, `PreferredCandidates`, `CompositionFloors = true`, `CrossingFreeGridFirst = false`, `ComponentGapPx = 0`, … copy the full list).
+- Produces: `public static RenderResult Archify.Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)`; internal `interface IDiagramRenderer { (string Svg, JsonArray? Cards, LayoutReport? Layout) Render(RenderContext ctx); }`; internal `static class Renderers { static IDiagramRenderer For(DiagramType type) }` (phase 1: `Architecture` → `new ArchitectureRenderer()`, every other type → `throw new NotSupportedException($"{type.Name()} renderer lands in phase 2–4")`); `ArchitectureRenderer : IDiagramRenderer`; `Grid.GridLayout(JsonObject arch) → GridSpec` (type named `GridSpec` to avoid colliding with the method), `Grid.ResolveComponentPos(JsonObject component, GridSpec grid) → Pt`, `Grid.ValidateGridPlacement(...)`, `Grid.DefaultGrid` (`Number.isInteger` checks at grid.mjs:24, 42 → `double.IsFinite(d) && d == Math.Floor(d)`); `Routing.CreateRouter(JsMap<string, Box> components, IReadOnlyList<JsonObject> connections, RouterOptions options)` — upstream takes a `Map<id, measured component>` (routing.mjs:75, `components.get(id)`) — returning `sealed class Router` whose public methods are the closure's returned functions; `RouterOptions` is a record with the destructured defaults at routing.mjs:76-90 (`Frames`, `InteriorSegmentPx = 16`, `MicroSegmentPx = 8`, `LabelRectFor`, `DistinctAutomaticPorts = false`, `PreferReadableRoutes = false`, `SideFor`, `MaxPortSpacing`, `PreferredCandidates`, `CompositionFloors = true`, `CrossingFreeGridFirst = false`, `ComponentGapPx = 0`, `MinimumTerminalSegmentPx`, `ReadabilityBottomMargin`, … copy the full list). `ArchitectureRenderer.MeasureComponent(JsonObject c)` builds a `Box` with `Brand = ctx.Brands.BrandMarkFor(c)`; `components = new JsMap<string, Box>` keyed by id (duplicate ids: first position, last value — Map semantics).
+  **Quality profile, two different rules (S5):** the option/env wins over `meta.quality_profile` **only** in `SvgAttrs.SvgRootAttrs` (cli.mjs:367) and the arrowhead-collision gate (render-architecture.mjs:904); every `clean*Problems({ profile: arch.meta?.quality_profile })` call (lines 884, 898, 929, 938, 949) and `enforcesBoundaryTitleComposition = Boolean(arch.meta?.quality_profile)` (line 99) read **meta only**. Port each site literally.
+  On a failed render `Layout` is `null` (upstream's `--layout-json` emits a partial report on failure, render-architecture.mjs:1178-1192; the port does not — stated deviation, no consumer in phase 1).
 
 - [ ] **Step 1: Parity test**
 
@@ -1230,6 +1391,10 @@ public class ParityTests
         var showcase = Archify.Render(DiagramType.Architecture, d, new RenderOptions(Quality: QualityProfile.Showcase));
         Assert.Contains("data-quality-profile=\"showcase\"", showcase.Svg);
         Assert.DoesNotContain("advisory", showcase.Svg);
+        // Option-level showcase must NOT turn on the meta-only layout gates: the no-profile diagram still renders (upstream with
+        // ARCHIFY_QUALITY_PROFILE=showcase renders it too — verify once with node before trusting this assertion, and if upstream
+        // fails there, capture that receipt as a fixture and assert the same codes instead).
+        Assert.Empty(showcase.Diagnostics.Where(x => x.Severity == Severity.Error));
     }
 
     [Fact] public void Bad_input_returns_diagnostics_not_exceptions()
@@ -1307,7 +1472,7 @@ public static class Archify
 - Modify: `src/Archify.Net.Core/Archify.cs` (add `Check`)
 
 **Interfaces:**
-- Produces: `public static CheckResult Archify.Check(string html, CheckOptions? options = null)`; `record CheckOptions(bool RequireProvenance = false)` (provenance sidecar part is phase 5 — in phase 1 `RequireProvenance` must be `false` or `Check` throws `NotSupportedException`); `CheckResult(bool Ok, JsonObject Report)` where `Report` has upstream's keys minus `file`: `ok, artifact {sha256, bytes}, checks [...], composition {...}` + whatever `check-render-output.mjs:441-444` prints. `SvgPathAnalysis.AnalyzeSvgPath(string d)`.
+- Produces: `public static CheckResult Archify.Check(string html, CheckOptions? options = null)`; `record CheckOptions(bool RequireProvenance = false)` (provenance sidecar part is phase 5 — in phase 1 `RequireProvenance` must be `false` or `Check` throws `NotSupportedException`); `CheckResult(bool Ok, JsonObject Report)` where `Report` has upstream's keys minus `file`, in upstream order: `ok`, `artifact { sha256, bytes }`, `checks[]` (9 entries for every golden, each `{ name, ok, details[] }`), `composition { schemaVersion, profile, status, summary, metrics, issues … }`, plus `diagnostics[]` only when present (check-render-output.mjs:441-444). `SvgPathAnalysis.AnalyzeSvgPath(string d)`. The checker uses `Number(...)` (lines 595-596, 844, 1050, 1064) and `Number.parseFloat(...)` (1172, 1214, 1246) → `Js.ToNumber`/`Js.ParseFloat`; its `/gi` regexes with `\b` (108, 666-669, 902-1220) are ported with `RegexOptions.ECMAScript | IgnoreCase | CultureInvariant` (ASCII `\b`), per the Global Constraints regex rule.
 
 - [ ] **Step 1: Failing test**
 
@@ -1347,7 +1512,7 @@ public class ArtifactCheckerTests
 - Create: `README.md`, `SESSION_HANDOFF.md`
 
 **Interfaces:**
-- Produces: `public static IReadOnlyList<Diagnostic> Archify.Validate(DiagramType type, JsonNode diagram, RenderOptions? options = null)` — upstream `validate` semantics: run `Render` (which runs the load gates); if it produced HTML, run `Check` and, when `!Ok`, map the report with a port of `checkerDiagnostics` (`bin/archify.mjs`, function `checkerDiagnostics`): every `composition.issues[]` entry with `severity: 'error'` → its own `code` (subject `{relationship}` or `{check: 'composition', nodeId?}`, evidence = remaining issue fields, fixes from `compositionFixes`); every failed `checks[]` entry not in `COMPOSITION_CHECKS` → `artifact/<name with _ → ->` (message = first truthy `details[]` entry or `Final artifact failed <name>.`), except `svg_path_data`, which forwards the checker's own `artifact/svg-path-malformed` / `artifact/svg-path-unsupported` diagnostics; nothing classified → single `artifact/check-failed`. Copy `COMPOSITION_CHECKS`, `CHECK_FIXES` and `compositionFixes` from the same file. Returns render diagnostics ∪ checker diagnostics.
+- Produces: `public static IReadOnlyList<Diagnostic> Archify.Validate(DiagramType type, JsonNode diagram, RenderOptions? options = null)` — upstream `validate` semantics: run `Render` (which runs the load gates); if it produced HTML, run `Check` and, when `!Ok`, map the report with a port of `checkerDiagnostics` (`bin/archify.mjs`, function `checkerDiagnostics`): every `composition.issues[]` entry with `severity: 'error'` → its own `code` (subject `{relationship}` or `{check: 'composition', nodeId?}`, evidence = remaining issue fields, fixes from `compositionFixes`); every failed `checks[]` entry not in `COMPOSITION_CHECKS` → `artifact/<name with _ → ->` (message = first truthy `details[]` entry or `Final artifact failed <name>.`), except `svg_path_data`, which forwards the checker's own `artifact/svg-path-malformed` / `artifact/svg-path-unsupported` diagnostics; nothing classified → single `artifact/check-failed`. Copy `COMPOSITION_CHECKS`, `CHECK_FIXES`, `COMPOSITION_FIXES` (bin/archify.mjs:2727-2730) and `compositionFixes` from the same file. Returns render diagnostics ∪ checker diagnostics.
 
 - [ ] **Step 1: Test** (append to `ParityTests.cs`)
 ```csharp

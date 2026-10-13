@@ -44,7 +44,7 @@ Decisions taken (Martin, 2026-10-13):
 | `viewer/` JS + CSS → `assets/template.html` (785 KB) | 12 500 | copy verbatim |
 | `test/` | 80 837 | parity suite replaces most; diagnostic-code cases and `golden.mjs` `expectFailure` cases ported |
 | `schemas/*.json` | 11 files, JSON Schema 2020-12 | embedded resource |
-| `examples/*.json` | 24 diagram JSONs, 15 with goldens | parity oracle (see Testing) |
+| `examples/*.json` | 25 diagram JSONs, 15 with goldens | parity oracle (see Testing) |
 
 Upstream has **no runtime dependencies**; `ajv` and `simple-icons` are dev-time only
 (validators and the brand catalog are generated into `.mjs` files).
@@ -103,7 +103,8 @@ public static class Archify
 
 public sealed record RenderResult(string Html, string Svg, string Cards,
     IReadOnlyList<Diagnostic> Diagnostics, LayoutReport? Layout);   // Layout: architecture, class, erd, timeline, tree, waterfall, workflow only
-public sealed record Diagnostic(string Code, string Message, string? Path, Severity Severity);
+public sealed record Diagnostic(string Code, Severity Severity, string Message, JsonObject Subject, JsonObject Evidence,
+    IReadOnlyList<string> SupportedFixes, IReadOnlyList<string>? Suppresses) { public string? Path => Subject["path"]?.GetValue<string>(); }  // = diagnostics.mjs normalizedDiagnostic
 public sealed record RenderOptions(
     QualityProfile? Quality = null,          // precedence: explicit > meta.quality_profile > standard+advisory
     string? RepoRoot = null,                 // ARCHIFY_REPO_ROOT
@@ -176,9 +177,10 @@ top level become a `Render(RenderContext)` method per type. This keeps an Opus r
 deltas portable.
 
 ```
-JsonNode → load (normalise numbers; register locale into RenderContext)
-        → Validator: JsonSchema.Net 2020-12 + portablePath keyword + authored output path
-                     + cross-collection ids + engineering profile
+JsonNode → load (hand-rolled Utf8JsonReader walk: duplicate keys last-wins, lone surrogates kept,
+                 numbers as double; register locale into RenderContext when meta.locale is set)
+        → Validator: authored output path (lexical) → in-house 2020-12 evaluator + portablePath keyword
+                     → cross-collection ids → engineering profile
         → BrandMarks.Resolve (embedded 107-entry array; architecture, workflow, sequence,
                               dataflow, lifecycle; remote {url, sha256} → brand/capture-unavailable)
         → <Type>Renderer.Render(ctx) → Svg + Cards + LayoutReport?   (renderers call i18n
@@ -192,14 +194,24 @@ JsonNode → load (normalise numbers; register locale into RenderContext)
 SVG is built with `StringBuilder` in upstream's attribute order. No `XDocument`/`XmlWriter`
 — they reorder attributes and re-escape text, which breaks byte parity.
 
-**Validation details.** `generated-validators.mjs` (ajv standalone) is not ported; the
-embedded schemas run through JsonSchema.Net with these overrides: `minLength`/`maxLength`
-count **code points** (ajv `ucs2length`; JsonSchema.Net counts graphemes); the three
-patterns where .NET `Regex` diverges are pre-checked in code with JS semantics
-(`[\uD800-\uDFFF]` lone surrogates, `\d` ASCII-only, `[^/]{256}` in code points); the
-synthetic `portablePath` keyword is a ported `PortablePath.Validate`. Codes are
-`schema/<keyword>`. "Parity by code" = the **set** of `(code, instancePath)` pairs per
-input matches upstream; order and count under `anyOf`/`not` are not compared.
+**Validation details (revised after the plan review, 2026-10-13).** `generated-validators.mjs`
+(ajv standalone) is not ported and **no schema library is used**: JsonSchema.Net 9.4.0 ships
+under the OSMF maintenance-fee EULA (binary use by revenue-generating organisations), and its
+semantics diverge from ajv in four places that would each need a custom keyword handler
+(grapheme vs code-point lengths, `$` matching before a trailing `\n`, `[\uD800-\uDFFF]`
+matching halves of a valid pair, applicator noise in List output). A small in-house 2020-12
+evaluator over `JsonNode` covers exactly the keyword set the eleven schemas use (listed in the
+plan, Task 6) with ajv `allErrors` reporting semantics, JS regex translation (`$` → `\z`, lone
+surrogate class), and code-point lengths. Its acceptance test is a Node-captured ajv oracle:
+for a battery of mutated inputs the **set** of `(keyword, instancePath)` pairs must equal
+ajv's. The synthetic `portablePath` keyword is a ported `PortablePath.Validate`. Codes are
+`schema/<keyword>`. Note: `validateAuthoredOutputPath` runs before the schema, so `meta.output`
+syntax failures surface as `output/meta-path-syntax`, not `schema/…`.
+
+**Output path in the library (decision S6, Option 1).** `Archify.Validate`/`Render` check
+`meta.output` lexically only (portable path, `.html` extension, no `..`/absolute) — no
+`cwd`, no filesystem resolution. `path-semantics.mjs`, `resolveOutputPath` and `sidecar-path`
+belong to the CLI and move to phase 5.
 
 **Source evidence** (`--repo-root`): `repository-evidence.mjs` spawns `git`; the port does
 the same via `Process`. Needs its own fixture repo under `tests/fixtures/`.
@@ -245,7 +257,7 @@ router, authoring references and output rules; `node bin/archify.mjs …` become
    table (`scripts/render-examples.mjs:12-28`) — golden names do not follow JSON stems
    (`web-app.architecture.json` → `web-app-rendered.html`, `payments.class.json` →
    `class-payments-rendered.html`; three goldens lack the `-rendered` suffix). For each
-   target: `Render(json).Html` equals the golden **byte-for-byte**. The 9 JSONs without an
+   target: `Render(json).Html` equals the golden **byte-for-byte**. The 10 JSONs without an
    upstream golden (incl. `production-deployment.architecture.json`) get goldens minted
    once with the upstream renderer into `tests/goldens/` (committed; Node is dev-time
    only). Synthetic fixtures, Node-minted the same way: brand mark, zh-CN locale, DST
@@ -264,14 +276,17 @@ router, authoring references and output rules; `node bin/archify.mjs …` become
 ## Porting order (one board card each; each ends green on its parity slice)
 
 1. **Foundation + architecture.** Scaffold, `.gitattributes`, `upstream/` copy, `Js` +
-   `JsMap`/`JsSet`, `RenderContext`, i18n, validator (+ `portable-path`), brand marks
-   (embedded array), `TemplateWriter`, artifact checker (`check-render-output` +
-   `svg-path-analysis` + `desktop-readability`), shared: `geometry`, `route-quality`,
-   `path-semantics`, `legend`, `text-fit`, `utils`, `automatic-labels`, `spatial-grid`,
-   `node-card-style`, `layout-report`, `diagnostics`, `engineering-profiles`,
-   `output-path`, `sidecar-path`; architecture: `routing`, `labels`, `grid`,
-   `render-architecture`. Exit: `web-app`, `production-deployment` (minted) and
-   `brand-aware-delivery` (minted) byte-identical; Node-captured `Js` tests green.
+   `JsMap`/`JsSet`, `RenderContext`, i18n, validator (in-house evaluator + `portable-path`
+   + lexical `output-path`), brand marks (embedded array), `TemplateWriter`, artifact
+   checker (`check-render-output` + `svg-path-analysis` + `desktop-readability`), shared:
+   `geometry`, `route-quality`, `legend`, `text-fit`, `utils`, `automatic-labels`,
+   `spatial-grid`, `node-card-style`, `layout-report`, `diagnostics`,
+   `engineering-profiles`; architecture: `routing`, `labels`, `grid`,
+   `render-architecture`. (`path-semantics`, `sidecar-path`, `resolveOutputPath` → phase 5.)
+   Exit: `web-app`, `production-deployment`, `brand-aware-delivery`, both
+   `checkout-platform` variants and a no-profile fixture byte-identical; ajv-oracle and
+   checker-oracle tests green; Node-captured `Js` tests green. Plan:
+   `docs/superpowers/plans/2026-10-13-phase1-foundation-architecture.md`.
 2. **erd/grid, sequence, lifecycle, class, tree, timeline, waterfall.** `erd/grid.mjs`
    first (class imports it; class and erd also import `architecture/routing`). Exit:
    their 8 goldens + DST and zh-CN fixtures.
