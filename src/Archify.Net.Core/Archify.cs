@@ -47,4 +47,12 @@ public static class Archify
             return new RenderResult("", "", "", diagnostics, null);
         }
     }
+
+    // scripts/check-render-output.mjs on an artifact's HTML: the report minus `file`.
+    public static CheckResult Check(string html, CheckOptions? options = null)
+    {
+        if (options?.RequireProvenance == true) throw new NotSupportedException("provenance sidecar checks land in phase 5");
+        var report = ArtifactChecker.Check(html);
+        return new CheckResult(report["ok"]!.GetValue<bool>(), report);
+    }
 }

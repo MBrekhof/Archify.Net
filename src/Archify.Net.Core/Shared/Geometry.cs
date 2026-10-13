@@ -62,8 +62,9 @@ public readonly record struct BorderSegment(string Side, Pt Start, Pt End);
 
 // A routed relationship as the collectors receive it: `{ relation, relationIndex?, points, sourceEndpoint?, targetEndpoint? }`.
 // routing.mjs passes `{ points }` alone, so everything but the points is optional.
+// `Segments` is the pre-built `routed.segments` list collectBorderRuns prefers over the points (the check script passes one).
 public sealed record RoutedRelation(List<Pt>? Points, JsonObject? Relation = null, int? RelationIndex = null,
-    bool SourceEndpoint = true, bool TargetEndpoint = true);
+    bool SourceEndpoint = true, bool TargetEndpoint = true, List<Segment>? Segments = null);
 
 // The same once a collector has resolved the relation and index.
 public sealed record Routed(JsonObject Relation, int RelationIndex, List<Pt> Points, bool SourceEndpoint = true, bool TargetEndpoint = true);
@@ -978,7 +979,6 @@ public static class Geometry
     // border run. Any positive straight overlap beyond the numeric epsilon is a
     // hard failure in every quality profile; 16px belongs only to the separate,
     // neutral short-segment metric and is not a corridor exemption.
-    // ponytail: upstream also accepts a pre-built `routed.segments` list; only the unported check script passes one.
     public static List<BorderRunHit> CollectBorderRuns(IEnumerable<RoutedRelation>? routedRelations, IEnumerable<Frame>? frames)
     {
         var hits = new List<BorderRunHit>();
@@ -986,8 +986,12 @@ public static class Geometry
         foreach (var routed in routedRelations ?? [])
         {
             var points = routed.Points ?? [];
-            var routeSegments = new List<Segment>();
-            for (var index = 0; index < points.Count - 1; index++) routeSegments.Add(new(points[index], points[index + 1]));
+            var routeSegments = routed.Segments;
+            if (routeSegments is null)
+            {
+                routeSegments = [];
+                for (var index = 0; index < points.Count - 1; index++) routeSegments.Add(new(points[index], points[index + 1]));
+            }
             if (routeSegments.Count == 0) continue;
             if (!routeSegments.All(segment => IsFinitePoint(segment.Start) && IsFinitePoint(segment.End))) continue;
             for (var frameIndex = 0; frameIndex < frameList.Count; frameIndex++)
