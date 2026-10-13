@@ -10,6 +10,7 @@ public class TemplateWriterTests
     [InlineData("web-app.architecture.json", "web-app-rendered.html")]
     [InlineData("cache-miss-request.sequence.json", "sequence-cache-miss-request.html")]
     [InlineData("orders.erd.json", "erd-orders-rendered.html")]
+    [InlineData("payments.class.json", "class-payments-rendered.html")]
     public void Reassembling_golden_reproduces_golden(string input, string golden)
     {
         var html = Fixtures.Lf(Fixtures.Upstream($"examples/{golden}"));
