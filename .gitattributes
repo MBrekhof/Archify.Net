@@ -1,0 +1,7 @@
+*.cs               text eol=crlf
+*.csproj           text eol=crlf
+*.md               text
+# Byte-exact oracles and upstream data: never normalise line endings. Must stay after the generic rules above.
+upstream/**        -text
+tests/goldens/**   -text
+tests/fixtures/**  -text

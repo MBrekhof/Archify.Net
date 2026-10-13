@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Archify.Net</RootNamespace>
+    <AssemblyName>Archify.Net.Core</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Embedded with forward-slash logical names: "schemas/common.schema.json", "assets/template.html", ... -->
+    <EmbeddedResource Include="..\..\upstream\schemas\*.json" LogicalName="schemas/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\..\upstream\locales\*.json" LogicalName="locales/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\..\upstream\assets\template.html" LogicalName="assets/template.html" />
+    <EmbeddedResource Include="..\..\upstream\generated-brand-marks.json" LogicalName="generated-brand-marks.json" />
+    <EmbeddedResource Include="..\..\upstream\brand-marks\catalog.json" LogicalName="brand-marks/catalog.json" />
+  </ItemGroup>
+</Project>
