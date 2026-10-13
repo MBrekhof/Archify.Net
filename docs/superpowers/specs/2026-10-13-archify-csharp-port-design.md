@@ -13,7 +13,7 @@ stays JavaScript and is embedded verbatim.
 
 Decisions taken (Martin, 2026-10-13):
 
-- Deliverable: library first (`Archify.Core`), then CLI, then MCP server. Rationale: the
+- Deliverable: library first (`Archify.Net.Core`), then CLI, then MCP server. Rationale: the
   library is the unit the renderers already form; it lets .NET apps (XAF, duetGPT,
   ContextBoard) render diagrams in-process, which Node archify cannot offer.
 - Viewer stays JS: `viewer/*.js`, `viewer.css` and the generated `assets/template.html`
@@ -64,14 +64,14 @@ Verified facts that make byte parity realistic:
 
 ```
 C:\projects\arc#hify\
-  Archify.sln
+  Archify.Net.sln
   Directory.Build.props              net10.0, nullable, implicit usings, TreatWarningsAsErrors,
                                      InvariantGlobalization=false (ICU needed: localeCompare, time zones)
   .gitattributes                     upstream/** -text ; tests/goldens/** -text  (LF bytes preserved)
-  src/Archify.Core/                  the port (library)
-  src/Archify.Cli/                   dotnet tool `archify`
-  src/Archify.Mcp/                   C# MCP server (phase 6)
-  tests/Archify.Core.Tests/          xUnit: parity suite + diagnostic-code cases + Js unit tests
+  src/Archify.Net.Core/                  the port (library)
+  src/Archify.Net.Cli/                   dotnet tool `archify`
+  src/Archify.Net.Mcp/                   C# MCP server (phase 6)
+  tests/Archify.Net.Core.Tests/          xUnit: parity suite + diagnostic-code cases + Js unit tests
   tests/goldens/                     Node-minted HTML for examples/fixtures lacking an upstream golden
   tests/fixtures/                    synthetic inputs: brand mark, zh-CN locale, DST timeline,
                                      no quality profile, source evidence (git repo fixture)
@@ -85,14 +85,14 @@ C:\projects\arc#hify\
 ```
 
 `upstream/` is data, never edited by hand. Everything under it needed at runtime is an
-`EmbeddedResource` of `Archify.Core`. Updating to a newer archify = re-copy `upstream/`,
+`EmbeddedResource` of `Archify.Net.Core`. Updating to a newer archify = re-copy `upstream/`,
 re-run the parity suite, port the deltas.
 
 The `#` in the repo path becomes `%23` in every `file://` URL (Playwright gates).
 
-Task state is board-only (ContextBoard project `arc#hify`, id 46; no `TODO.md`).
+Task state is board-only (ContextBoard project `Archify.Net`, id 46; no `TODO.md`).
 
-## Core API (`Archify.Core`)
+## Core API (`Archify.Net.Core`)
 
 ```csharp
 public static class Archify
@@ -206,7 +206,7 @@ input matches upstream; order and count under `anyOf`/`not` are not compared.
 **Source evidence** (`--repo-root`): `repository-evidence.mjs` spawns `git`; the port does
 the same via `Process`. Needs its own fixture repo under `tests/fixtures/`.
 
-## CLI (`Archify.Cli`, phase 5)
+## CLI (`Archify.Net.Cli`, phase 5)
 
 `dotnet tool` named `archify`. Upstream has 16 commands:
 
@@ -236,7 +236,7 @@ for .NET (Chromium): page loads, zero console errors, viewer boots, SVG slot pre
 
 ## MCP server + skill (phase 6)
 
-`Archify.Mcp` on the C# MCP SDK (see `csharp-mcp-server-generator` skill) exposing
+`Archify.Net.Mcp` on the C# MCP SDK (see `csharp-mcp-server-generator` skill) exposing
 `validate`, `render`, `finalize`, `guide`. `SKILL.md` adapted from upstream: same type
 router, authoring references and output rules; `node bin/archify.mjs …` becomes
 `archify …` / MCP tools; update-awareness and brand-capture sections removed.
