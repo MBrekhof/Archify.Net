@@ -1,0 +1,55 @@
+[
+  {
+    "input": "plain",
+    "compact": "\"plain\"",
+    "indented": "\"plain\""
+  },
+  {
+    "input": "a\"b\\c",
+    "compact": "\"a\\\"b\\\\c\"",
+    "indented": "\"a\\\"b\\\\c\""
+  },
+  {
+    "input": "\u0000\u001f",
+    "compact": "\"\\u0000\\u001f\"",
+    "indented": "\"\\u0000\\u001f\""
+  },
+  {
+    "input": "<script>&'",
+    "compact": "\"<script>&'\"",
+    "indented": "\"<script>&'\""
+  },
+  {
+    "input": "é漢字😀",
+    "compact": "\"é漢字😀\"",
+    "indented": "\"é漢字😀\""
+  },
+  {
+    "input": "line\nbreak\ttab\r\b\f",
+    "compact": "\"line\\nbreak\\ttab\\r\\b\\f\"",
+    "indented": "\"line\\nbreak\\ttab\\r\\b\\f\""
+  },
+  {
+    "input": "ls ps ",
+    "compact": "\"ls ps \"",
+    "indented": "\"ls ps \""
+  },
+  {
+    "input": {
+      "b": 1,
+      "a": [
+        0.1,
+        null,
+        true,
+        false
+      ],
+      "nested": {
+        "z": "ok",
+        "y": [],
+        "w": {}
+      }
+    },
+    "compact": "{\"b\":1,\"a\":[0.1,null,true,false],\"nested\":{\"z\":\"ok\",\"y\":[],\"w\":{}}}",
+    "indented": "{\n  \"b\": 1,\n  \"a\": [\n    0.1,\n    null,\n    true,\n    false\n  ],\n  \"nested\": {\n    \"z\": \"ok\",\n    \"y\": [],\n    \"w\": {}\n  }\n}"
+  }
+]

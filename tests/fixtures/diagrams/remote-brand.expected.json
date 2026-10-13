@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Brand mark validation failed:\n- /components/0/brand could not reproduce the pinned capture: getaddrinfo ENOTFOUND example.invalid",
+  "diagnostics": [
+    {
+      "code": "brand/capture-unavailable",
+      "severity": "error",
+      "message": "/components/0/brand could not reproduce the pinned capture: getaddrinfo ENOTFOUND example.invalid",
+      "subject": {
+        "diagramType": "architecture",
+        "collection": "components"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "choose an ID from `archify brands`",
+        "run `archify brands capture <url> --json` for an unknown official site"
+      ]
+    }
+  ]
+}

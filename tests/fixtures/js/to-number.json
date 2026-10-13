@@ -1,0 +1,92 @@
+[
+  {
+    "s": "12px",
+    "number": "NaN",
+    "parseFloat": "12"
+  },
+  {
+    "s": "",
+    "number": "0",
+    "parseFloat": "NaN"
+  },
+  {
+    "s": " 42 ",
+    "number": "42",
+    "parseFloat": "42"
+  },
+  {
+    "s": "0x1f",
+    "number": "31",
+    "parseFloat": "0"
+  },
+  {
+    "s": "Infinity",
+    "number": "Infinity",
+    "parseFloat": "Infinity"
+  },
+  {
+    "s": "-Infinity",
+    "number": "-Infinity",
+    "parseFloat": "-Infinity"
+  },
+  {
+    "s": "1e3",
+    "number": "1000",
+    "parseFloat": "1000"
+  },
+  {
+    "s": ".5",
+    "number": "0.5",
+    "parseFloat": "0.5"
+  },
+  {
+    "s": "5.",
+    "number": "5",
+    "parseFloat": "5"
+  },
+  {
+    "s": "abc",
+    "number": "NaN",
+    "parseFloat": "NaN"
+  },
+  {
+    "s": "1_000",
+    "number": "NaN",
+    "parseFloat": "1"
+  },
+  {
+    "s": " 12",
+    "number": "12",
+    "parseFloat": "12"
+  },
+  {
+    "s": "12 ",
+    "number": "12",
+    "parseFloat": "12"
+  },
+  {
+    "s": "+3",
+    "number": "3",
+    "parseFloat": "3"
+  },
+  {
+    "s": "-0",
+    "number": "0",
+    "parseFloat": "0"
+  },
+  {
+    "s": "1e",
+    "number": "NaN",
+    "parseFloat": "1"
+  },
+  {
+    "s": "0b101",
+    "number": "5",
+    "parseFloat": "0"
+  },
+  {
+    "s": "  -7.25e-1foo",
+    "number": "NaN",
+    "parseFloat": "-0.725"
+  }
+]
