@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Archify.Net;
@@ -144,7 +145,9 @@ public static class Js
     }
 
     public static void Sort<T>(List<T> list, Func<T, T, double> cmp)
-    {   // stable: LINQ OrderBy is stable; comparators are key-based so any stable sort matches V8 TimSort.
+    {   // ponytail: stable sort via OrderBy; equals V8 TimSort for every consistent comparator. Differs only when the
+        // comparator returns NaN (inconsistent order) — schema-validated input gives finite keys. Port V8 TimSort
+        // (binary insertion + galloping merge) if a parity golden ever shows it.
         // V8 comparator contract: the SIGN of the returned double decides; NaN counts as 0. Never truncate to int.
         var sorted = list.OrderBy(x => x, Comparer<T>.Create((p, q) => { var r = cmp(p, q); return double.IsNaN(r) ? 0 : Math.Sign(r); })).ToList();
         list.Clear(); list.AddRange(sorted);
@@ -221,10 +224,17 @@ public static class Js
             case JsonValue val:
                 if (val.TryGetValue<string>(out var s)) { sb.Append(Quote(s)); return; }
                 if (val.TryGetValue<bool>(out var b)) { sb.Append(b ? "true" : "false"); return; }
-                var d = val.GetValue<double>();                 // DiagramLoader normalised every number to double
+                var d = ToDouble(val);
                 sb.Append(double.IsFinite(d) ? Num(d) : "null"); return;
         }
     }
+    // ponytail: V8 parity — a JS number is a double, whatever CLR type backs the JsonValue (parsed JsonElement or a C# literal).
+    internal static double ToDouble(JsonValue v) => v.TryGetValue<JsonElement>(out var el) ? el.GetDouble() : v.GetValue<object>() switch
+    {
+        double x => x, float x => x, decimal x => (double)x,
+        int x => x, uint x => x, long x => x, ulong x => x, short x => x, ushort x => x, byte x => x, sbyte x => x,
+        var o => throw new InvalidOperationException($"JsonValue of type {o.GetType()} is not a number."),
+    };
     // ES2019 well-formed JSON.stringify: " \ and control chars escaped (short forms for \b \f \n \r \t), lone surrogates as \udxxx,
     // everything else — including < > & and non-ASCII — literal.
     public static string Quote(string s)

@@ -58,6 +58,10 @@ public class JsTests
             Assert.Equal(e["indented"]!.GetValue<string>(), Js.Stringify(input, 2));
         }
     }
+    [Fact] public void Stringify_accepts_clr_backed_numbers()
+    {   // node: JSON.stringify({x:5,y:[1,2.5],z:9007199254740993}) === '{"x":5,"y":[1,2.5],"z":9007199254740992}'
+        Assert.Equal("{\"x\":5,\"y\":[1,2.5],\"z\":9007199254740992}", Js.Stringify(new JsonObject { ["x"] = 5, ["y"] = new JsonArray(1, 2.5), ["z"] = 9007199254740993L }));
+    }
     [Fact] public void Quote_escapes_lone_surrogates_lowercase_and_keeps_pairs()
     {   // JSON files cannot carry a lone surrogate, so this one is a C# literal (verified against V8: JSON.stringify("\ud800 x") === '"\\ud800 x"')
         Assert.Equal("\"\\ud800 x\"", Js.Quote("\ud800 x"));
