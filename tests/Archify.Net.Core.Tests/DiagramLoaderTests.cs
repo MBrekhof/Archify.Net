@@ -53,4 +53,30 @@ public class DiagramLoaderTests
         sink.WithIsolatedRecording(() => { sink.Record(new Diagnostic("x/y", Severity.Error, "inner", new(), new(), [], null)); return 0; });
         Assert.Empty(sink.Recorded);
     }
+    [Fact] public void Syntax_errors_carry_input_json_parse()
+    {   // cli.mjs:67-78; the reason is .NET's JsonException text, not V8's SyntaxError text
+        var ex = Assert.Throws<ArchifyDiagnosticException>(() => DiagramLoader.Parse("{\"a\":1,}"));
+        var d = Assert.Single(ex.Diagnostics);
+        Assert.Equal("input/json-parse", d.Code);
+        Assert.StartsWith("Input JSON could not be parsed: ", ex.Message);
+        Assert.Equal(ex.Message, d.Message);
+        Assert.False(string.IsNullOrEmpty(d.Evidence["reason"]!.GetValue<string>()));
+        Assert.Equal(["repair the JSON syntax and run validation again"], d.SupportedFixes);
+    }
+    [Fact] public void Non_object_root_is_input_json_parse()
+    {   // upstream parses it and fails schema/type at "/"; Parse returns the diagram object, so it rejects here
+        var ex = Assert.Throws<ArchifyDiagnosticException>(() => DiagramLoader.Parse("[1e2]"));
+        Assert.Equal("input/json-parse", Assert.Single(ex.Diagnostics).Code);
+    }
+    [Fact] public void Out_of_range_number_is_infinity()
+    {   // JSON.parse("1e400") === Infinity; JSON.stringify(Infinity) === "null"
+        var o = DiagramLoader.Parse("{\"inf\":1e400}");
+        Assert.True(double.IsPositiveInfinity(o["inf"]!.D()));
+        Assert.Equal("{\"inf\":null}", Js.Stringify(o));
+    }
+    [Fact] public void Short_escapes_decode()
+    {
+        var o = DiagramLoader.Parse("{\"e\":\"a\\\"b\\\\c\\/d\\b\\f\\n\\r\\t\\u0041\"}");
+        Assert.Equal("a\"b\\c/d\b\f\n\r\tA", o["e"]!.GetValue<string>());
+    }
 }
