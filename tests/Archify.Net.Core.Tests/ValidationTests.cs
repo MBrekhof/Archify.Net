@@ -73,7 +73,7 @@ public class ValidationTests
         var sink = new DiagnosticSink();
         var actual = new HashSet<(string, string)>();
         try { SchemaValidator.Validate(type, input, sink); }
-        // subject.path is validator.mjs annotatedPath: "/" for a root error, where the fixture records ajv's raw instancePath "".
+        // subject.path is validator.mjs:7 annotatedPath: "/" for a root error, where the fixture records ajv's raw instancePath "".
         catch (ArchifyDiagnosticException ex) { foreach (var d in ex.Diagnostics) actual.Add((d.Code["schema/".Length..], d.Path is "/" ? "" : d.Path ?? "")); }
         Assert.Equal(c["valid"]!.GetValue<bool>(), actual.Count == 0);
         Assert.Equal(expected, actual);
