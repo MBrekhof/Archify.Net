@@ -5,3 +5,6 @@ obj/
 excalidraw.log
 .archify/
 TestResults/
+
+# ContextBoard knowledge-sync config (per machine)
+.contextboard.json
