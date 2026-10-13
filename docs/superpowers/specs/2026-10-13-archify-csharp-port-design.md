@@ -63,7 +63,7 @@ Verified facts that make byte parity realistic:
 ## Repository layout
 
 ```
-C:\projects\arc#hify\
+C:\projects\Archify.Net\
   Archify.Net.sln
   Directory.Build.props              net10.0, nullable, implicit usings, TreatWarningsAsErrors,
                                      InvariantGlobalization=false (ICU needed: localeCompare, time zones)
@@ -87,8 +87,6 @@ C:\projects\arc#hify\
 `upstream/` is data, never edited by hand. Everything under it needed at runtime is an
 `EmbeddedResource` of `Archify.Net.Core`. Updating to a newer archify = re-copy `upstream/`,
 re-run the parity suite, port the deltas.
-
-The `#` in the repo path becomes `%23` in every `file://` URL (Playwright gates).
 
 Task state is board-only (ContextBoard project `Archify.Net`, id 46; no `TODO.md`).
 
