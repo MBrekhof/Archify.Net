@@ -19,4 +19,15 @@ public static class J
 
     // A JS number is a double whatever CLR type backs the node: JsonValue.Create(3).GetValue<double>() throws.
     public static double D(this JsonNode n) => Js.ToDouble((JsonValue)n);
+
+    // JS truthiness of a property value (`relation.via`, `conn.labelAt`): missing/null, false, 0/NaN and "" are falsy;
+    // every array and object — even an empty one — is truthy.
+    public static bool Truthy(this JsonNode? n) => n switch
+    {
+        null => false,
+        JsonValue v when v.TryGetValue<bool>(out var b) => b,
+        JsonValue v when v.TryGetValue<string>(out var s) => s.Length > 0,
+        JsonValue v => Js.ToDouble(v) is var d && d != 0 && !double.IsNaN(d),
+        _ => true,
+    };
 }
