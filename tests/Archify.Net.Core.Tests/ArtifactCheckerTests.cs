@@ -18,6 +18,22 @@ public class ArtifactCheckerTests
         if (e != a) Assert.Fail(ParityTests.FirstDifference(e, a));
     }
 
+    // Hand-written probes (tests/fixtures/checker/*.html) with upstream's report captured by tools/capture-fixtures.mjs:
+    // the goldens are all clean, so these are what reach the issue, diagnostic, route-review and sequence-note paths.
+    public static IEnumerable<object[]> Probes() =>
+        Directory.GetFiles(Fixtures.Fixture("checker"), "*.html").Select(f => new object[] { Path.GetFileName(f) });
+
+    [Theory, MemberData(nameof(Probes))]
+    public void Check_report_equals_node_checker_on_probe(string name)
+    {
+        var html = Fixtures.Fixture($"checker/{name}");
+        var expected = JsonNode.Parse(Fixtures.Lf(Path.ChangeExtension(html, ".expected.json")))!;
+        var result = Archify.Check(Fixtures.Lf(html));
+        Assert.Equal(expected["ok"]!.GetValue<bool>(), result.Ok);
+        var e = Js.Stringify(expected, 2); var a = Js.Stringify(result.Report, 2);
+        if (e != a) Assert.Fail(ParityTests.FirstDifference(e, a));
+    }
+
     [Fact]
     public void Provenance_sidecars_are_phase_5()
     {

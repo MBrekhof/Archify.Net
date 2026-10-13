@@ -1,0 +1,53 @@
+{
+  "ok": false,
+  "artifact": {
+    "sha256": "fe1a48a154fb734a939141eba4c22df375ce03c0e77485b8f7253fdc613fb4a0",
+    "bytes": 108
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": false,
+      "details": [
+        "found 2 <svg> block(s)"
+      ]
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "pass",
+    "summary": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "metrics": {
+      "properCrossings": 0,
+      "resolvedCrossovers": 0,
+      "ambiguousCorridors": 0,
+      "containerBorderRuns": 0,
+      "labelRouteClearanceIssues": 0,
+      "minLabelRouteClearance": null,
+      "labelCanvasOverflowIssues": 0,
+      "maxBends": 0,
+      "routesOverSuggestedBends": 0,
+      "maxStretch": null,
+      "routesOverSuggestedStretch": 0,
+      "minSegmentPx": null,
+      "minInteriorSegmentPx": null,
+      "shortSegmentCount": 0,
+      "shortEndpointSegmentCount": 0,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 0,
+      "desktopReadabilityIssues": 0,
+      "minProjectedNodeTextPx": null
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "issues": []
+  }
+}

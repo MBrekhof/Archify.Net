@@ -1,0 +1,675 @@
+{
+  "ok": false,
+  "artifact": {
+    "sha256": "2d07fae6013539f7cf595d9c9c88dbf441b589d01b55c4d4f962ec677378a5c0",
+    "bytes": 2702
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": false,
+      "details": [
+        "[composition/label-route-clearance] showcase label \"back\" on relationship \"u\" -> \"t\" is 0px from relationship \"s\" -> \"t\" segment 0 [240, 200] -> [400, 200] with 30px hidden by the mask (minimum 4px) — use renderer-supported label controls (message y for sequence; otherwise labelAt, labelDx, labelDy, or labelSegment), or adjust the other relationship route/via/channel.",
+        "[composition/label-route-clearance] showcase label \"\" on relationship \"s\" -> \"u\" is 0px from relationship \"s\" -> \"u\" segment 2 [300, 210] -> [300, 300] with 10px hidden by the mask (minimum 4px) — use renderer-supported label controls (message y for sequence; otherwise labelAt, labelDx, labelDy, or labelSegment), or adjust the other relationship route/via/channel.",
+        "[composition/label-route-clearance] showcase label \"back\" on relationship \"u\" -> \"t\" is 0px from relationship \"t\" -> \"u\" segment 2 [500, 210] -> [296, 210] with 30px hidden by the mask (minimum 4px) — use renderer-supported label controls (message y for sequence; otherwise labelAt, labelDx, labelDy, or labelSegment), or adjust the other relationship route/via/channel.",
+        "[composition/label-route-clearance] showcase label \"\" on relationship \"s\" -> \"u\" is 0px from relationship \"t\" -> \"u\" segment 3 [296, 210] -> [296, 300] with 10px hidden by the mask (minimum 4px) — use renderer-supported label controls (message y for sequence; otherwise labelAt, labelDx, labelDy, or labelSegment), or adjust the other relationship route/via/channel.",
+        "[composition/label-route-clearance] showcase label \"back\" on relationship \"u\" -> \"t\" is 0px from relationship \"u\" -> \"t\" segment 1 [362, 330] -> [362, 122] with 12px hidden by the mask (minimum 4px) — use renderer-supported label controls (message y for sequence; otherwise labelAt, labelDx, labelDy, or labelSegment), or adjust the other relationship route/via/channel."
+      ]
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": false,
+      "details": [
+        "[composition/proper-crossing] showcase relationship \"s\" -> \"u\" crosses relationship \"s\" -> \"u\" at [290, 210]",
+        "[composition/proper-crossing] showcase relationship \"s\" -> \"t\" crosses relationship \"u\" -> \"t\" at [360, 200]",
+        "[composition/proper-crossing] showcase relationship \"s\" -> \"t\" crosses relationship \"u\" -> \"t\" at [362, 200]",
+        "[composition/proper-crossing] showcase relationship \"t\" -> \"u\" crosses relationship \"u\" -> \"t\" at [360, 210]",
+        "[composition/proper-crossing] showcase relationship \"t\" -> \"u\" crosses relationship \"u\" -> \"t\" at [362, 210]"
+      ]
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": false,
+      "details": [
+        "[composition/arrowhead-collision] showcase relationship \"s\" -> \"u\" and relationship \"s\" -> \"u\" have incoming arrowheads 10px apart (minimum 11.55px) — enlarge or reposition the destination, or choose separate toSide ports.",
+        "[composition/arrowhead-collision] showcase relationship \"s\" -> \"u\" and relationship \"t\" -> \"u\" have incoming arrowheads 6px apart (minimum 12.25px) — enlarge or reposition the destination, or choose separate toSide ports.",
+        "[composition/arrowhead-collision] showcase relationship \"s\" -> \"u\" and relationship \"t\" -> \"u\" have incoming arrowheads 4px apart (minimum 13.3px) — enlarge or reposition the destination, or choose separate toSide ports."
+      ]
+    },
+    {
+      "name": "container_border_runs",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "route_rhythm",
+      "ok": false,
+      "details": [
+        "[composition/micro-segment] showcase relationship \"u\" -> \"t\" has a 5px source-stub segment 3 [400, 125] -> [405, 125]",
+        "[composition/micro-segment] showcase relationship \"u\" -> \"t\" has a 3px target-stub segment 4 [405, 125] -> [405, 128]"
+      ]
+    },
+    {
+      "name": "legend_clearance",
+      "ok": true,
+      "details": [
+        "no legend marker found"
+      ]
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "showcase",
+    "status": "fail",
+    "summary": {
+      "errors": 17,
+      "warnings": 0
+    },
+    "metrics": {
+      "properCrossings": 5,
+      "resolvedCrossovers": 1,
+      "ambiguousCorridors": 0,
+      "arrowheadCollisions": 3,
+      "containerBorderRuns": 0,
+      "labelRouteClearanceIssues": 5,
+      "labelCanvasOverflowIssues": 1,
+      "minLabelRouteClearance": 0,
+      "desktopReadabilityIssues": 1,
+      "viewportHeightIssues": 0,
+      "minProjectedNodeTextPx": 3.7856250000000005,
+      "maxBends": 3,
+      "routesOverSuggestedBends": 2,
+      "maxStretch": 1.11,
+      "routesOverSuggestedStretch": 0,
+      "minSegmentPx": 3,
+      "minInteriorSegmentPx": 90,
+      "shortSegmentCount": 2,
+      "shortEndpointSegmentCount": 2,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 2
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [
+        {
+          "left": {
+            "from": "s",
+            "to": "u",
+            "label": "",
+            "collectionIndex": 0,
+            "artifactIndex": 1
+          },
+          "right": {
+            "from": "s",
+            "to": "t",
+            "label": "",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "point": [
+            290,
+            200
+          ],
+          "sharedNode": "s"
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "from": "t",
+            "to": "u",
+            "label": "",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "bends": 3,
+          "stretch": 1.11
+        },
+        {
+          "relationship": {
+            "from": "u",
+            "to": "t",
+            "label": "back",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ]
+    },
+    "leadingSpace": {
+      "measured": false,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "recognized-declared-wide",
+      "readerContract": "declared-wide-v1",
+      "availableDiagramWidth": 1346,
+      "actualBudgetPx": 1346,
+      "actualReaderWidth": 1376,
+      "desiredReaderWidth": 1630,
+      "viewportCap": 1376,
+      "limit": "viewport-cap",
+      "requestedTargetPx": 9,
+      "requestedTargetMet": false,
+      "hardFloorPx": 6,
+      "hardFloorMet": false,
+      "minimumOwner": {
+        "kind": "node",
+        "id": "u"
+      },
+      "minimumSourceTextPx": 4.5,
+      "minimumProjectedTextPx": 3.7856250000000005,
+      "semanticTextCount": 4
+    },
+    "issues": [
+      {
+        "severity": "error",
+        "code": "composition/label-route-clearance",
+        "label": "back",
+        "labelRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "otherRelationship": {
+          "from": "s",
+          "to": "t",
+          "label": "one",
+          "collectionIndex": 1,
+          "artifactIndex": 2
+        },
+        "segmentIndex": 0,
+        "labelRect": {
+          "x": 355,
+          "y": 200,
+          "width": 30,
+          "height": 12
+        },
+        "clearance": 0,
+        "intersectionLength": 30,
+        "threshold": 4,
+        "from": [
+          240,
+          200
+        ],
+        "to": [
+          400,
+          200
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/label-route-clearance",
+        "label": "",
+        "labelRelationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 2,
+          "artifactIndex": 3
+        },
+        "segmentIndex": 2,
+        "labelRect": {
+          "x": 285,
+          "y": 250,
+          "width": 20,
+          "height": 10
+        },
+        "clearance": 0,
+        "intersectionLength": 10,
+        "threshold": 4,
+        "from": [
+          300,
+          210
+        ],
+        "to": [
+          300,
+          300
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/label-route-clearance",
+        "label": "back",
+        "labelRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "otherRelationship": {
+          "from": "t",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "segmentIndex": 2,
+        "labelRect": {
+          "x": 355,
+          "y": 200,
+          "width": 30,
+          "height": 12
+        },
+        "clearance": 0,
+        "intersectionLength": 30,
+        "threshold": 4,
+        "from": [
+          500,
+          210
+        ],
+        "to": [
+          296,
+          210
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/label-route-clearance",
+        "label": "",
+        "labelRelationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "t",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "segmentIndex": 3,
+        "labelRect": {
+          "x": 285,
+          "y": 250,
+          "width": 20,
+          "height": 10
+        },
+        "clearance": 0,
+        "intersectionLength": 10,
+        "threshold": 4,
+        "from": [
+          296,
+          210
+        ],
+        "to": [
+          296,
+          300
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/label-route-clearance",
+        "label": "back",
+        "labelRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "otherRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "",
+          "collectionIndex": 5,
+          "artifactIndex": 6
+        },
+        "segmentIndex": 1,
+        "labelRect": {
+          "x": 355,
+          "y": 200,
+          "width": 30,
+          "height": 12
+        },
+        "clearance": 0,
+        "intersectionLength": 12,
+        "threshold": 4,
+        "from": [
+          362,
+          330
+        ],
+        "to": [
+          362,
+          122
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/label-canvas-containment",
+        "label": "one",
+        "relationship": {
+          "from": "s",
+          "to": "t",
+          "label": "one",
+          "collectionIndex": 1,
+          "artifactIndex": 2
+        },
+        "labelRect": {
+          "x": -20,
+          "y": 0,
+          "width": 30,
+          "height": 10
+        },
+        "viewBox": [
+          1600,
+          500
+        ],
+        "viewBoxOrigin": [
+          5,
+          7
+        ],
+        "overflowPx": {
+          "left": 25,
+          "top": 7
+        },
+        "detail": "[composition/label-canvas-containment] showcase label \"one\" on relationship \"s\" -> \"t\" extends past the left edge by 25px and top edge by 7px (label rect [-20, 0, 30, 10]; viewBox 1600x500 at 5,7) — use renderer-supported label controls (shorten the label or reorder participants for sequence; otherwise labelAt, labelDx, labelDy, or labelSegment), or enlarge meta.viewBox."
+      },
+      {
+        "severity": "error",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 2,
+          "artifactIndex": 3
+        },
+        "point": [
+          290,
+          210
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "from": "s",
+          "to": "t",
+          "label": "",
+          "collectionIndex": 1,
+          "artifactIndex": 2
+        },
+        "otherRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "point": [
+          360,
+          200
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "from": "s",
+          "to": "t",
+          "label": "",
+          "collectionIndex": 1,
+          "artifactIndex": 2
+        },
+        "otherRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "",
+          "collectionIndex": 5,
+          "artifactIndex": 6
+        },
+        "point": [
+          362,
+          200
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "from": "t",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "otherRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "point": [
+          360,
+          210
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "from": "t",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "otherRelationship": {
+          "from": "u",
+          "to": "t",
+          "label": "",
+          "collectionIndex": 5,
+          "artifactIndex": 6
+        },
+        "point": [
+          362,
+          210
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/arrowhead-collision",
+        "relationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 2,
+          "artifactIndex": 3
+        },
+        "distancePx": 10,
+        "minimumPx": 11.55,
+        "endpoints": [
+          [
+            290,
+            300
+          ],
+          [
+            300,
+            300
+          ]
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/arrowhead-collision",
+        "relationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "t",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "distancePx": 6,
+        "minimumPx": 12.25,
+        "endpoints": [
+          [
+            290,
+            300
+          ],
+          [
+            296,
+            300
+          ]
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/arrowhead-collision",
+        "relationship": {
+          "from": "s",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 2,
+          "artifactIndex": 3
+        },
+        "otherRelationship": {
+          "from": "t",
+          "to": "u",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "distancePx": 4,
+        "minimumPx": 13.3,
+        "endpoints": [
+          [
+            300,
+            300
+          ],
+          [
+            296,
+            300
+          ]
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/micro-segment",
+        "relationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "segmentIndex": 3,
+        "position": "source-stub",
+        "length": 5,
+        "from": [
+          400,
+          125
+        ],
+        "to": [
+          405,
+          125
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/micro-segment",
+        "relationship": {
+          "from": "u",
+          "to": "t",
+          "label": "back",
+          "collectionIndex": 4,
+          "artifactIndex": 5
+        },
+        "segmentIndex": 4,
+        "position": "target-stub",
+        "length": 3,
+        "from": [
+          405,
+          125
+        ],
+        "to": [
+          405,
+          128
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/desktop-readability",
+        "nodeId": "u",
+        "owner": {
+          "kind": "node",
+          "id": "u"
+        },
+        "viewportWidth": 1440,
+        "viewportHeight": 900,
+        "availableDiagramWidth": 1346,
+        "budgetBasis": "recognized-declared-wide",
+        "readerContract": "declared-wide-v1",
+        "requestedTargetPx": 9,
+        "requestedTargetMet": false,
+        "budgetLimit": "viewport-cap",
+        "viewBoxWidth": 1600,
+        "scale": 0.84125,
+        "text": "U tiny",
+        "detail": "primary",
+        "sourceFontPx": 4.5,
+        "projectedFontPx": 3.7856250000000005,
+        "minimumProjectedFontPx": 6
+      }
+    ]
+  }
+}

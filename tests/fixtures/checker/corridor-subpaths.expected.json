@@ -1,0 +1,260 @@
+{
+  "ok": false,
+  "artifact": {
+    "sha256": "565f8b48cd0ca323a08eb23f36572191bfd0ccb1b493072686c0a90b0eac4e98",
+    "bytes": 1616
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": true,
+      "details": [
+        "[composition/ambiguous-corridor] standard relationship id \"detour\" (\"n1\" -> \"n2\") shares a 120px corridor with relationship \"n3\" -> \"n4\" at [60, 360] -> [180, 360]"
+      ]
+    },
+    {
+      "name": "container_border_runs",
+      "ok": false,
+      "details": [
+        "[composition/container-border-run] relationship \"n2\" -> \"n3\" follows boundary \"0\" left border for 180px on segment 0 [0, 420] -> [0, 600]"
+      ]
+    },
+    {
+      "name": "route_rhythm",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "legend_clearance",
+      "ok": true,
+      "details": [
+        "no legend marker found"
+      ]
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 1
+    },
+    "metrics": {
+      "properCrossings": 0,
+      "resolvedCrossovers": 0,
+      "ambiguousCorridors": 1,
+      "arrowheadCollisions": 0,
+      "containerBorderRuns": 1,
+      "labelRouteClearanceIssues": 0,
+      "labelCanvasOverflowIssues": 0,
+      "minLabelRouteClearance": 80,
+      "desktopReadabilityIssues": 0,
+      "viewportHeightIssues": 0,
+      "minProjectedNodeTextPx": 11,
+      "maxBends": 4,
+      "routesOverSuggestedBends": 2,
+      "maxStretch": 1.625,
+      "routesOverSuggestedStretch": 1,
+      "minSegmentPx": 20,
+      "minInteriorSegmentPx": 50,
+      "shortSegmentCount": 0,
+      "shortEndpointSegmentCount": 0,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 0
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [],
+      "crowdedSides": [
+        {
+          "node": "n1",
+          "label": "One",
+          "side": "right",
+          "relationships": 2,
+          "sidePx": 20,
+          "neededPx": 46
+        },
+        {
+          "node": "n2",
+          "label": "n2",
+          "side": "left",
+          "relationships": 2,
+          "sidePx": 20,
+          "neededPx": 46
+        },
+        {
+          "node": "n3",
+          "label": "Three",
+          "side": "right",
+          "relationships": 2,
+          "sidePx": 20,
+          "neededPx": 46
+        },
+        {
+          "node": "n4",
+          "label": "n4",
+          "side": "left",
+          "relationships": 2,
+          "sidePx": 20,
+          "neededPx": 46
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "detour",
+            "from": "n1",
+            "to": "n2",
+            "label": "",
+            "collectionIndex": 0,
+            "artifactIndex": 1
+          },
+          "bends": 4,
+          "stretch": 1.625,
+          "directCorridorBlockers": [
+            {
+              "id": "n3",
+              "label": "Three",
+              "box": [
+                100,
+                300,
+                40,
+                20
+              ]
+            }
+          ]
+        },
+        {
+          "relationship": {
+            "from": "n4",
+            "to": "n1",
+            "label": "split",
+            "collectionIndex": 2,
+            "artifactIndex": 3
+          },
+          "bends": 3,
+          "stretch": 1.32
+        }
+      ]
+    },
+    "leadingSpace": {
+      "measured": true,
+      "emptyTopPx": 100,
+      "emptyTopRatio": 0.143,
+      "occupiedTop": 100,
+      "viewBoxTop": 0,
+      "canvasHeight": 700,
+      "typicalNodeHeight": 20,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "legacy-930",
+      "readerContract": null,
+      "availableDiagramWidth": 930,
+      "actualBudgetPx": 930,
+      "limit": "legacy",
+      "requestedTargetPx": null,
+      "requestedTargetMet": null,
+      "hardFloorPx": 6,
+      "hardFloorMet": true,
+      "minimumOwner": {
+        "kind": "boundary",
+        "id": null
+      },
+      "minimumSourceTextPx": 11,
+      "minimumProjectedTextPx": 11,
+      "semanticTextCount": 2
+    },
+    "issues": [
+      {
+        "severity": "error",
+        "code": "composition/container-border-run",
+        "relationship": {
+          "from": "n2",
+          "to": "n3",
+          "label": "",
+          "collectionIndex": 3,
+          "artifactIndex": 4
+        },
+        "frame": {
+          "kind": "boundary",
+          "id": 0
+        },
+        "side": "left",
+        "segmentIndex": 0,
+        "overlapLength": 180,
+        "from": [
+          0,
+          420
+        ],
+        "to": [
+          0,
+          600
+        ]
+      },
+      {
+        "severity": "warning",
+        "code": "composition/ambiguous-corridor",
+        "relationship": {
+          "id": "detour",
+          "from": "n1",
+          "to": "n2",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "n3",
+          "to": "n4",
+          "label": "",
+          "collectionIndex": 1,
+          "artifactIndex": 2
+        },
+        "segmentIndex": 2,
+        "otherSegmentIndex": 0,
+        "overlapLength": 120,
+        "from": [
+          60,
+          360
+        ],
+        "to": [
+          180,
+          360
+        ]
+      }
+    ]
+  }
+}

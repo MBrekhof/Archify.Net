@@ -19,30 +19,73 @@ public sealed class ArtifactChecker
 
     // ---- regex plumbing -----------------------------------------------------------------------------------------------
     // JS \s: WhiteSpace + LineTerminator (TAB VT FF SP NBSP ZWNBSP, Zs, LF CR LS PS). .NET ECMAScript \s is ASCII only.
-    const string JsSpace = @"\t\n\v\f\r    -     　﻿";
+    // Built from code points so the source stays ASCII; declared before every Rx() field (static initializers run in order).
+    static readonly string JsSpace = @"\t\n\v\f\r " + new string([(char)0xA0, (char)0x1680, (char)0x2000, '-', (char)0x200A,
+        (char)0x2028, (char)0x2029, (char)0x202F, (char)0x205F, (char)0x3000, (char)0xFEFF]);
 
+    // `ignoreCase` is JS /i without the u flag: it folds by toUpperCase and never maps a non-ASCII character onto ASCII.
+    // .NET IgnoreCase folds U+212A KELVIN SIGN onto k (and U+0130/U+0131 onto i), so it is never used: every ASCII letter
+    // is spelled in both cases instead, [kK] outside a class and each letter/range's other case appended inside one.
     static Regex Rx(string js, bool ignoreCase = false)
     {
-        var sb = new StringBuilder(js.Length + 64);
-        var inClass = false;
+        var sb = new StringBuilder(js.Length * 2);
         for (var i = 0; i < js.Length; i++)
         {
             var c = js[i];
             if (c == '\\')
             {
                 var n = js[i + 1];
-                if (n == 's') sb.Append(inClass ? JsSpace : "[" + JsSpace + "]");
-                else if (n == 'S' && !inClass) sb.Append("[^" + JsSpace + "]");
-                else sb.Append(c).Append(n);
+                sb.Append(n switch { 's' => "[" + JsSpace + "]", 'S' => "[^" + JsSpace + "]", _ => new string([c, n]) });
                 i++;
                 continue;
             }
-            if (inClass) { if (c == ']') inClass = false; sb.Append(c); continue; }
-            if (c == '[') inClass = true;
+            if (c == '[')
+            {
+                var end = i + 1;
+                while (js[end] != ']') end += js[end] == '\\' ? 2 : 1;
+                sb.Append(TranslateClass(js[(i + 1)..end], ignoreCase));
+                i = end;
+                continue;
+            }
             if (c == '$') sb.Append(@"\z");
+            else if (ignoreCase && char.IsAsciiLetter(c)) sb.Append('[').Append(char.ToUpperInvariant(c)).Append(char.ToLowerInvariant(c)).Append(']');
             else sb.Append(c);
         }
-        return new Regex(sb.ToString(), RegexOptions.ECMAScript | RegexOptions.CultureInvariant | (ignoreCase ? RegexOptions.IgnoreCase : 0));
+        return new Regex(sb.ToString(), RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+    }
+
+    // One JS character class body (between the brackets). A lone '-' is escaped so the folded ranges appended at the end
+    // can never join a preceding literal into a range.
+    static string TranslateClass(string body, bool ignoreCase)
+    {
+        var sb = new StringBuilder("[");
+        var folded = new StringBuilder();
+        var i = 0;
+        if (body.StartsWith('^')) { sb.Append('^'); i = 1; }
+        while (i < body.Length)
+        {
+            if (body[i] == '\\')
+            {
+                sb.Append(body[i + 1] == 's' ? JsSpace : body.Substring(i, 2));
+                i += 2;
+                continue;
+            }
+            var lo = body[i];
+            var hi = lo;
+            if (i + 2 < body.Length && body[i + 1] == '-' && body[i + 2] != '\\') { hi = body[i + 2]; sb.Append(lo).Append('-').Append(hi); i += 3; }
+            else { sb.Append(lo == '-' ? @"\-" : new string(lo, 1)); i++; }
+            if (!ignoreCase) continue;
+            Fold('a', 'z', 'A' - 'a');
+            Fold('A', 'Z', 'a' - 'A');
+
+            void Fold(char from, char to, int shift)
+            {
+                var a = Math.Max(lo, from);
+                var b = Math.Min(hi, to);
+                if (a <= b) folded.Append((char)(a + shift)).Append('-').Append((char)(b + shift));
+            }
+        }
+        return sb.Append(folded).Append(']').ToString();
     }
 
     static readonly Regex NonFiniteToken = Rx(@"\b(?:NaN|undefined|Infinity)\b");
@@ -1604,6 +1647,8 @@ public sealed class ArtifactChecker
         return details;
     }
 
+    static readonly string Replacement = new((char)0xFFFD, 1);
+
     static string DecodeNumericReferences(string value) =>
         // Numeric references can encode every letter of NaN/Infinity/undefined. Decode once, locally: other checks and
         // diagnostic evidence keep raw values.
@@ -1614,7 +1659,7 @@ public sealed class ArtifactChecker
             var radix = hex.Success ? 16 : 10;
             double point = 0;   // Number.parseInt: comparisons below only need the magnitude
             foreach (var c in digits) point = point * radix + (c <= '9' ? c - '0' : (c | 0x20) - 'a' + 10);
-            return point > 0 && point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? char.ConvertFromUtf32((int)point) : "�";
+            return point > 0 && point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? char.ConvertFromUtf32((int)point) : Replacement;
         });
 
     static bool IsNumericAttr(string elementName, string attrName)

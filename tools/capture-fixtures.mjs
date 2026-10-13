@@ -142,4 +142,20 @@ try {
     { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
   throw new Error('remote brand unexpectedly rendered — the fixture URL must not resolve');
 } catch (e) { if (!e.stderr) throw e; write('fixtures/diagrams/remote-brand.expected.json', JSON.parse(String(e.stderr))); }
+// Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
+// sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
+const checkerDir = out('fixtures/checker');
+for (const f of fs.readdirSync(checkerDir).filter((f) => f.endsWith('.html')).sort()) {
+  let stdout;
+  try {
+    stdout = execFileSync(process.execPath, [path.join(UP, 'scripts/check-render-output.mjs'), path.join(checkerDir, f)],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: cleanEnv, maxBuffer: 64 * 1024 * 1024 });
+  } catch (e) {
+    if (e.status !== 1 || !e.stdout) throw e;
+    stdout = e.stdout;
+  }
+  const res = JSON.parse(stdout);
+  delete res.file;
+  write(`fixtures/checker/${path.basename(f, '.html')}.expected.json`, res);
+}
 console.log('fixtures captured');

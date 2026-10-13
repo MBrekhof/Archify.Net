@@ -1,0 +1,360 @@
+{
+  "ok": false,
+  "artifact": {
+    "sha256": "a528b80dfb1b419a25420ef1ae66895eae7aead592360e0a53c7eef1be0bdf61",
+    "bytes": 4212
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": false,
+      "details": [
+        "rect width=\"NaN\"",
+        "rect height=\"&#73;nfinity\"",
+        "foreignObject width=\"Infinity\""
+      ]
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": false,
+      "details": [
+        "path 4 segment 1: expected an orthogonal segment or an explicitly authored direct straight route; <path class=\"a-default\" marker-end=\"url(#m)\" d=\"M 0 0 L 50 70\" data-edge-from=\"p\" data-edge-to=\"q\"/>"
+      ]
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": false,
+      "details": [
+        "[composition/proper-crossing] showcase relationship id \"ab\" (\"a\" -> \"b\") crosses relationship \"c\" -> \"d\" at [140, 50]"
+      ]
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "container_border_runs",
+      "ok": false,
+      "details": [
+        "[composition/container-border-run] relationship \"x\" -> \"y\" follows boundary \"zone\" left border for 120px on segment 0 [10, 30] -> [10, 150]",
+        "[composition/container-border-run] relationship \"u\" -> \"v\" follows divider \"1\" line border for 300px on segment 0 [0, 250] -> [300, 250]"
+      ]
+    },
+    {
+      "name": "route_rhythm",
+      "ok": false,
+      "details": [
+        "[composition/micro-segment] showcase relationship \"m\" -> \"n\" has a 4px interior segment 2 [100, 400] -> [104, 400]",
+        "[composition/short-interior-segment] showcase relationship \"h\" -> \"i\" has a 10px interior segment 1 [25, 800] -> [25, 810]"
+      ]
+    },
+    {
+      "name": "legend_clearance",
+      "ok": false,
+      "details": [
+        "path 2 crosses legend rect@130,80",
+        "path 2 crosses legend Legend 字"
+      ]
+    },
+    {
+      "name": "svg_path_data",
+      "ok": false,
+      "details": [
+        "relationship path 6 (bad): path command is not supported by artifact analysis at d offset 6.",
+        "relationship path 7: unexpected comma at d offset 10."
+      ]
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "showcase",
+    "status": "fail",
+    "summary": {
+      "errors": 6,
+      "warnings": 0
+    },
+    "metrics": {
+      "properCrossings": 1,
+      "resolvedCrossovers": 0,
+      "ambiguousCorridors": 0,
+      "arrowheadCollisions": 0,
+      "containerBorderRuns": 2,
+      "labelRouteClearanceIssues": 0,
+      "labelCanvasOverflowIssues": 0,
+      "minLabelRouteClearance": 77.5,
+      "desktopReadabilityIssues": 1,
+      "viewportHeightIssues": 0,
+      "minProjectedNodeTextPx": 2.52375,
+      "maxBends": 2,
+      "routesOverSuggestedBends": 0,
+      "maxStretch": 1.471,
+      "routesOverSuggestedStretch": 1,
+      "minSegmentPx": 4,
+      "minInteriorSegmentPx": 4,
+      "shortSegmentCount": 3,
+      "shortEndpointSegmentCount": 1,
+      "shortInteriorSegmentCount": 2,
+      "microSegmentCount": 1
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [],
+      "crowdedSides": [
+        {
+          "node": "e",
+          "label": "Eee",
+          "side": "right",
+          "relationships": 2,
+          "sidePx": 10,
+          "neededPx": 46
+        },
+        {
+          "node": "g",
+          "label": "g",
+          "side": "left",
+          "relationships": 3,
+          "sidePx": 10,
+          "neededPx": 60
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "eg2",
+            "from": "e",
+            "to": "g",
+            "label": "",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "bends": 2,
+          "stretch": 1.471
+        }
+      ]
+    },
+    "leadingSpace": {
+      "measured": false,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "recognized-declared-wide",
+      "readerContract": "declared-wide-v1",
+      "availableDiagramWidth": 1346,
+      "actualBudgetPx": 1346,
+      "actualReaderWidth": 1376,
+      "desiredReaderWidth": 1630,
+      "viewportCap": 1376,
+      "limit": "viewport-cap",
+      "requestedTargetPx": 7,
+      "requestedTargetMet": false,
+      "hardFloorPx": 6,
+      "hardFloorMet": false,
+      "minimumOwner": {
+        "kind": "node",
+        "id": "a"
+      },
+      "minimumSourceTextPx": 3,
+      "minimumProjectedTextPx": 2.52375,
+      "semanticTextCount": 5
+    },
+    "issues": [
+      {
+        "severity": "error",
+        "code": "composition/container-border-run",
+        "relationship": {
+          "from": "x",
+          "to": "y",
+          "label": "overflow",
+          "collectionIndex": 3,
+          "artifactIndex": 3
+        },
+        "frame": {
+          "kind": "boundary",
+          "id": "zone"
+        },
+        "side": "left",
+        "segmentIndex": 0,
+        "overlapLength": 120,
+        "from": [
+          10,
+          30
+        ],
+        "to": [
+          10,
+          150
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/container-border-run",
+        "relationship": {
+          "from": "u",
+          "to": "v",
+          "label": "",
+          "collectionIndex": 11,
+          "artifactIndex": 12
+        },
+        "frame": {
+          "kind": "divider",
+          "id": 1
+        },
+        "side": "line",
+        "segmentIndex": 0,
+        "overlapLength": 300,
+        "from": [
+          0,
+          250
+        ],
+        "to": [
+          300,
+          250
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "id": "ab",
+          "from": "a",
+          "to": "b",
+          "label": "",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "otherRelationship": {
+          "from": "c",
+          "to": "d",
+          "label": "",
+          "collectionIndex": 1,
+          "artifactIndex": 2
+        },
+        "point": [
+          140,
+          50
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/micro-segment",
+        "relationship": {
+          "from": "m",
+          "to": "n",
+          "label": "near",
+          "collectionIndex": 7,
+          "artifactIndex": 7
+        },
+        "segmentIndex": 2,
+        "position": "interior",
+        "length": 4,
+        "from": [
+          100,
+          400
+        ],
+        "to": [
+          104,
+          400
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/short-interior-segment",
+        "relationship": {
+          "from": "h",
+          "to": "i",
+          "label": "",
+          "collectionIndex": 13,
+          "artifactIndex": 14
+        },
+        "segmentIndex": 1,
+        "position": "interior",
+        "length": 10,
+        "from": [
+          25,
+          800
+        ],
+        "to": [
+          25,
+          810
+        ]
+      },
+      {
+        "severity": "error",
+        "code": "composition/desktop-readability",
+        "nodeId": "a",
+        "owner": {
+          "kind": "node",
+          "id": "a"
+        },
+        "viewportWidth": 1440,
+        "viewportHeight": 900,
+        "availableDiagramWidth": 1346,
+        "budgetBasis": "recognized-declared-wide",
+        "readerContract": "declared-wide-v1",
+        "requestedTargetPx": 7,
+        "requestedTargetMet": false,
+        "budgetLimit": "viewport-cap",
+        "viewBoxWidth": 1600,
+        "scale": 0.84125,
+        "text": "A",
+        "detail": "primary",
+        "sourceFontPx": 3,
+        "projectedFontPx": 2.52375,
+        "minimumProjectedFontPx": 6
+      }
+    ]
+  },
+  "diagnostics": [
+    {
+      "code": "artifact/svg-path-unsupported",
+      "severity": "error",
+      "message": "relationship path 6 (bad): path command is not supported by artifact analysis at d offset 6.",
+      "subject": {
+        "role": "relationship",
+        "pathIndex": 6,
+        "id": "bad"
+      },
+      "evidence": {
+        "tokenOffset": 6,
+        "reason": "path command is not supported by artifact analysis",
+        "command": "C"
+      },
+      "supportedFixes": [
+        "regenerate the inspected relationship or frame using M/L/H/V/Q/Z commands"
+      ]
+    },
+    {
+      "code": "artifact/svg-path-malformed",
+      "severity": "error",
+      "message": "relationship path 7: unexpected comma at d offset 10.",
+      "subject": {
+        "role": "relationship",
+        "pathIndex": 7
+      },
+      "evidence": {
+        "tokenOffset": 10,
+        "reason": "unexpected comma"
+      },
+      "supportedFixes": [
+        "correct the path data at the reported offset or regenerate it from the original diagram"
+      ]
+    }
+  ]
+}
