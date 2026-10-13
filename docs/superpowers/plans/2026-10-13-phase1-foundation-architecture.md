@@ -47,7 +47,7 @@ Directory.Build.props
 src/Archify.Net.Core/Archify.Net.Core.csproj              embeds upstream/** as resources (LogicalName = path with '/')
 src/Archify.Net.Core/Archify.cs                        public facade: Validate / Render / Check
 src/Archify.Net.Core/DiagramType.cs                    enum + Name() ("architecture"…) + collections map
-src/Archify.Net.Core/RenderOptions.cs                  RenderOptions, QualityProfile, DiagnosticFormat
+src/Archify.Net.Core/RenderOptions.cs                  RenderOptions, QualityProfile
 src/Archify.Net.Core/RenderResult.cs                   RenderResult, CheckResult, Diagnostic, Severity, LayoutReport
 src/Archify.Net.Core/RenderContext.cs                  per-call state: DiagnosticSink, LocaleCatalog, options, caches
 src/Archify.Net.Core/Resources.cs                      embedded resource reader (Text(path), Json(path))

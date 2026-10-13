@@ -108,7 +108,7 @@ public sealed record Diagnostic(string Code, Severity Severity, string Message, 
 public sealed record RenderOptions(
     QualityProfile? Quality = null,          // precedence: explicit > meta.quality_profile > standard+advisory
     string? RepoRoot = null,                 // ARCHIFY_REPO_ROOT
-    DiagnosticFormat Diagnostics = DiagnosticFormat.Json);   // ARCHIFY_DIAGNOSTIC_FORMAT
+    );                                       // ARCHIFY_DIAGNOSTIC_FORMAT is a CLI concern (text vs json receipts); the library always records
 public enum DiagramType { Architecture, Workflow, Sequence, Dataflow, Lifecycle, Erd, Class, Tree, Timeline, Waterfall }
 ```
 
@@ -142,7 +142,7 @@ member carries `// ponytail: V8 parity` and a unit test with values captured fro
 
 | Member | Mirrors | Why .NET differs |
 |---|---|---|
-| `Js.Sort<T>(list, Comparison<T>)` | `Array.prototype.sort(cmp)` | `List.Sort` is unstable; must be stable (comparators are key-based, so any stable sort matches) |
+| `Js.Sort<T>(list, Func<T,T,double>)` | `Array.prototype.sort(cmp)` | `List.Sort` is unstable; must be stable (comparators are key-based, so any stable sort matches). Comparator returns `double`: upstream returns fractional deltas, truncating to `int` would make elements compare equal; `NaN` → 0 |
 | `Js.SortDefault(list)` | `Array.prototype.sort()` | string sort by UTF-16 code units; .NET default is culture-aware. Note `Object.entries(o).sort()` sorts by `"key,value"` string form |
 | `Js.Num(double)` | `Number→string` | `-0`→`"0"`; `1e21`/`1e-7` exponent thresholds; shortest round-trip |
 | `Js.Round(double)` | `Math.round` | half toward +∞, not banker's |
