@@ -109,4 +109,48 @@ public static class DiagramLoader
     }
 
     static bool IsNumber(JsonNode? node) => node is JsonValue v && v.GetValueKind() == JsonValueKind.Number;
+
+    // cli.mjs:79-84, the validation gates of loadDiagram in upstream's order. Throws ArchifyDiagnosticException.
+    public static void Load(DiagramType type, JsonObject diagram, RenderContext ctx)
+    {
+        var sink = ctx.Diagnostics;
+        if (diagram["meta"] is JsonObject meta && meta.TryGetPropertyValue("output", out var authoredOutput))
+            OutputPath.ValidateAuthoredOutputPath(authoredOutput, sink);
+        SchemaValidator.Validate(type, diagram, sink);
+        ApplyLocaleTranslations(type, diagram, ctx);
+        ValidateCrossCollectionContracts(type, diagram, sink);
+        EngineeringProfiles.Validate(type, diagram, sink);
+    }
+
+    // cli.mjs:32-42. Upstream also prints each warning on stderr outside JSON mode; a library only records them.
+    static void ApplyLocaleTranslations(DiagramType type, JsonObject diagram, RenderContext ctx)
+    {
+        if (diagram["meta"] is not JsonObject meta || string.IsNullOrEmpty(meta.Str("locale"))) return;   // schema: locale is a string
+        ctx.Locale.Register(meta.Str("locale"), meta.Obj("translations"));
+        foreach (var diagnostic in ctx.Locale.LocaleDiagnostics(type, meta)) ctx.Diagnostics.Record(diagnostic);
+    }
+
+    // cli.mjs:331-357 validateRelationshipIds via validateCrossCollectionContracts. Relationship ids are optional, but once
+    // supplied they are the durable identity viewer links use, so duplicates fail.
+    public static void ValidateCrossCollectionContracts(DiagramType type, JsonObject diagram, DiagnosticSink sink)
+    {
+        var collection = type.RelationshipCollection();
+        var relationships = collection is null ? [] : diagram[collection].AsArrayOrEmpty();
+        var seen = new HashSet<string>(StringComparer.Ordinal);   // keyed by JSON text: ids are schema-validated strings
+        var problems = new List<string>();
+        var index = 0;
+        foreach (var relationship in relationships)
+        {
+            var id = relationship is JsonObject r && r.TryGetPropertyValue("id", out var value) ? value : null;
+            if (id is not null && !(id is JsonValue v && v.TryGetValue<string>(out var s) && s.Length == 0))
+            {
+                var key = Js.Stringify(id);
+                if (!seen.Add(key)) problems.Add($"/{collection}/{Js.Num(index)}/id duplicates relationship id {key}");
+            }
+            index++;
+        }
+        if (problems.Count > 0)
+            throw sink.ThrowDiagnosticProblems("Relationship identity validation failed", problems, "relationship/duplicate-id",
+                new JsonObject { ["diagramType"] = type.Name(), ["collection"] = collection });
+    }
 }
