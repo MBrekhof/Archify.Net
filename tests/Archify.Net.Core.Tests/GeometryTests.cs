@@ -33,10 +33,11 @@ public class GeometryTests
         foreach (var c in Fx["fittedNodeFontSize"]!.AsArray())
         {
             var t = c![0]!.GetValue<string>();
-            // Namespace-qualified: this test method's name shadows the class inside GeometryTests.
-            Assert.Equal(c[1]!.D(), Archify.Net.TextFit.FittedNodeFontSize(t, 120, 9, 6));
-            Assert.Equal(c[2]!.D(), Archify.Net.TextFit.MinimumNodeTextWidth(t, 6));
-            Assert.Equal(c[3]!.D(), Archify.Net.TextFit.AvailableNodeTextWidth(120));
+            // Namespace-qualified: this test method's name shadows the class inside GeometryTests; global:: because the
+            // facade class Archify.Net.Archify shadows the root namespace from inside Archify.Net.Tests.
+            Assert.Equal(c[1]!.D(), global::Archify.Net.TextFit.FittedNodeFontSize(t, 120, 9, 6));
+            Assert.Equal(c[2]!.D(), global::Archify.Net.TextFit.MinimumNodeTextWidth(t, 6));
+            Assert.Equal(c[3]!.D(), global::Archify.Net.TextFit.AvailableNodeTextWidth(120));
         }
     }
 }

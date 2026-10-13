@@ -125,15 +125,16 @@ public static class BrandMarks
 
     public static double BrandLabelFitWidth(ResolvedBrand? mark, double width) => mark is not null ? Math.Max(1, width - 48) : width;
 
-    // Upstream reads node.id and node.label; the caller passes them beside the resolved mark.
-    public static string? BrandTopRailProblem(ResolvedBrand? mark, string id, string label, double width, double minimumFontSize, string subject = "Node")
+    // Upstream reads node.id and node.label; the caller passes them beside the resolved mark. A missing label measures as
+    // '' (textUnits(undefined)) and prints as `undefined`, exactly as the template literal does (brand-marks.mjs:671-674).
+    public static string? BrandTopRailProblem(ResolvedBrand? mark, string id, string? label, double width, double minimumFontSize, string subject = "Node")
     {
         if (mark is null) return null;
         var available = width - 48;
         var required = Utils.TextUnits(label) * minimumFontSize * 0.6;
         if (available >= required) return null;
         return $"{subject} \"{id}\" brand top rail leaves {Js.Num(Math.Max(0, available))}px for its label, but "
-            + $"\"{label}\" needs ~{Js.Num(Math.Ceiling(required))}px at the {Js.Num(minimumFontSize)}px legible minimum — widen the node or shorten the label.";
+            + $"\"{label ?? "undefined"}\" needs ~{Js.Num(Math.Ceiling(required))}px at the {Js.Num(minimumFontSize)}px legible minimum — widen the node or shorten the label.";
     }
 
     static string MarkAttrs(ResolvedBrand mark) => string.Join(" ", ((string[])[

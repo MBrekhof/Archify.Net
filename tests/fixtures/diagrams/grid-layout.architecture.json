@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Grid Layout",
+    "subtitle": "Row/col placement without pos",
+    "output": "grid-layout-rendered.html"
+  },
+  "layout": { "mode": "grid", "cols": 3 },
+  "components": [
+    { "id": "web", "type": "frontend", "label": "Web", "row": 0, "col": 0 },
+    { "id": "api", "type": "backend", "label": "API", "sublabel": "REST", "row": 0, "col": 1 },
+    { "id": "db", "type": "database", "label": "Postgres", "row": 0, "col": 2 },
+    { "id": "bus", "type": "messagebus", "label": "Bus", "row": 1, "col": 1 },
+    { "id": "worker", "type": "backend", "label": "Worker", "tag": "cron", "row": 1, "col": 2 },
+    { "id": "idp", "type": "security", "label": "IdP", "pos": [40, 184], "size": [120, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Backend", "wraps": ["api", "db", "bus", "worker"] }
+  ],
+  "connections": [
+    { "from": "web", "to": "api", "label": "HTTPS" },
+    { "from": "api", "to": "db", "label": "SQL" },
+    { "from": "api", "to": "bus", "label": "publish", "variant": "dashed", "labelDy": 24 },
+    { "from": "bus", "to": "worker" },
+    { "from": "web", "to": "idp", "label": "login", "variant": "security", "labelDy": 24 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Layout", "items": ["Grid cells 130x64 with 30/40 gaps", "One component keeps an explicit pos"] }
+  ]
+}

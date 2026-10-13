@@ -315,7 +315,7 @@ public sealed class LocaleCatalog
         TemplateKeyPattern.Replace(template, m => Js.EscapeHtml(Translate(locale, m.Groups[1].Value)));
 }
 
-file static class JsonStr
+internal static class JsonStr
 {
     // typeof value === 'string' ? value : null
     public static string? Str0(this JsonNode? n) => n is JsonValue v && v.TryGetValue<string>(out var s) ? s : null;

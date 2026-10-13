@@ -15,7 +15,7 @@ public static class SvgAttrs
         var engineeringProfile = Truthy(meta.Str("engineering_profile")) is { } profile ? $" data-engineering-profile=\"{Js.EscapeHtml(profile)}\"" : "";
         // `explicitQualityProfile || process.env.ARCHIFY_QUALITY_PROFILE || meta.quality_profile`: RenderOptions.Quality
         // replaces both the explicit argument and the environment variable.
-        var requestedProfile = ctx.Options.Quality?.ToString().ToLowerInvariant() ?? Truthy(meta.Str("quality_profile"));
+        var requestedProfile = ctx.Options.Quality?.Name() ?? Truthy(meta.Str("quality_profile"));
         var qualityProfile = requestedProfile == "showcase" ? "showcase" : "standard";
         var advisory = requestedProfile is not null ? "" : " data-quality-gates=\"advisory\"";
         return $"role=\"img\" lang=\"{Js.EscapeHtml(ctx.Locale.ResolveLocale(meta.Str("locale")))}\" aria-labelledby=\"archify-diagram-title archify-diagram-description\"{animation}{preset}{engineeringProfile} data-quality-profile=\"{Js.EscapeHtml(qualityProfile)}\"{advisory}";

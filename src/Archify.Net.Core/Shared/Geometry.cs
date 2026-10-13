@@ -1677,6 +1677,11 @@ public static class Geometry
     // distinct without changing authored route controls. The returned map only
     // contains endpoints that belong to a shared automatic midpoint anchor.
     public static JsMap<JsonObject, SpreadPorts> AutomaticPortSpread(JsonNode? relations, JsMap<string, Box> boxes, double gutter = 16, double maxSpacing = 14,
+        Func<JsonObject, string, string?>? sideFor = null, Func<JsonObject, JsonObject, double>? spacingFor = null) =>
+        AutomaticPortSpread(AsArray(relations), boxes, gutter, maxSpacing, sideFor, spacingFor);
+
+    // The router holds its connections as a list of already-parented JsonObjects, which cannot be re-wrapped in a JsonArray.
+    public static JsMap<JsonObject, SpreadPorts> AutomaticPortSpread(IEnumerable<JsonNode?> relations, JsMap<string, Box> boxes, double gutter = 16, double maxSpacing = 14,
         Func<JsonObject, string, string?>? sideFor = null, Func<JsonObject, JsonObject, double>? spacingFor = null)
     {
         var groups = new JsMap<string, List<PortItem>>();
@@ -1690,7 +1695,7 @@ public static class Geometry
             groups.Set(key, items);
         }
 
-        foreach (var node in AsArray(relations))
+        foreach (var node in relations)
         {
             if (node is not JsonObject relation || (Truthy(relation.Str("route")) && relation.Str("route") != "auto")) continue;
             if (relation["via"].Truthy() || relation.ContainsKey("channelX") || relation.ContainsKey("channelY") || relation["labelAt"].Truthy()) continue;

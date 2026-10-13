@@ -28,7 +28,7 @@ public static class DiagramLoader
         return root as JsonObject ?? throw ParseFailure("the diagram root must be an object");
     }
 
-    static ArchifyDiagnosticException ParseFailure(string reason)
+    internal static ArchifyDiagnosticException ParseFailure(string reason)
     {
         var message = $"Input JSON could not be parsed: {reason}";
         return new ArchifyDiagnosticException(message, [Diagnostic.Normalize(new(
