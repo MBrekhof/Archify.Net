@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Relationship 2 id \"card_implements\" \"card_gateway\" realizes \"payment_gateway\", but realization runs from a non-interface type to an interface (here class -> class). Use inheritance for class-to-class or interface-to-interface extension.\n- Relationship 3 id \"wallet_implements\" \"wallet_gateway\" realizes \"payment_gateway\", but realization runs from a non-interface type to an interface (here class -> class). Use inheritance for class-to-class or interface-to-interface extension.",
+  "diagnostics": [
+    {
+      "code": "class/realization-target",
+      "severity": "error",
+      "message": "Relationship 2 id \"card_implements\" \"card_gateway\" realizes \"payment_gateway\", but realization runs from a non-interface type to an interface (here class -> class). Use inheritance for class-to-class or interface-to-interface extension.",
+      "subject": {
+        "diagramType": "class",
+        "path": "/relationships/2",
+        "relationshipIndex": 2
+      },
+      "evidence": {
+        "from": "card_gateway",
+        "fromKind": "class",
+        "to": "payment_gateway",
+        "toKind": "class"
+      },
+      "supportedFixes": [
+        "Use kind \"inheritance\" for extension between two classes or two interfaces.",
+        "Point the realization at the interface it implements."
+      ]
+    },
+    {
+      "code": "class/realization-target",
+      "severity": "error",
+      "message": "Relationship 3 id \"wallet_implements\" \"wallet_gateway\" realizes \"payment_gateway\", but realization runs from a non-interface type to an interface (here class -> class). Use inheritance for class-to-class or interface-to-interface extension.",
+      "subject": {
+        "diagramType": "class",
+        "path": "/relationships/3",
+        "relationshipIndex": 3
+      },
+      "evidence": {
+        "from": "wallet_gateway",
+        "fromKind": "class",
+        "to": "payment_gateway",
+        "toKind": "class"
+      },
+      "supportedFixes": [
+        "Use kind \"inheritance\" for extension between two classes or two interfaces.",
+        "Point the realization at the interface it implements."
+      ]
+    }
+  ]
+}

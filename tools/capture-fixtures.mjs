@@ -383,6 +383,37 @@ for (const [name, fault] of lifecycleFaults) {
     fs.rmSync(out(`goldens/${name}.html`), { force: true });
   } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.lifecycle.expected.json`, JSON.parse(String(e.stderr))); }
 }
+// Class failure receipts: one injected fault per diagnostic code validateClassDiagram (and the module-load placement
+// gate) can emit, from the payments example. `unplaced-type` reaches the "Class diagram placement failed" throw at
+// render-class.mjs:248; the rest reach the validation throw at :813 with their typed detail.
+const classFaults = [
+  ['realization-target', (d) => { d.types[1].kind = 'class'; }],                                         // both realizations now target a class
+  ['inheritance-kind', (d) => { d.relationships[2].kind = 'inheritance'; }],                             // class -> interface as inheritance
+  ['inheritance-cycle', (d) => { d.relationships.push({ from: 'card_gateway', to: 'wallet_gateway', kind: 'inheritance' }, { from: 'wallet_gateway', to: 'card_gateway', kind: 'inheritance' }); }],
+  ['title-text-capacity', (d) => { d.types[2].label = 'OrderAggregateRootEntity'; d.types[2].width = 120; }],
+  ['marker-capacity', (d) => { for (let i = 0; i < 4; i += 1) d.relationships.push({ from: 'order', to: 'card_gateway', kind: 'dependency' }); }],
+  ['unknown-type', (d) => { d.relationships[0].to = 'ghost'; }],
+  ['unplaced-type', (d) => { delete d.types[0].row; }],
+];
+for (const [name, fault] of classFaults) {
+  const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'payments.class.json'), 'utf8'));
+  fault(diagram);
+  diagram.meta.output = `${name}.html`;
+  write(`fixtures/diagrams/${name}.class.json`, diagram);
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/class/render-class.mjs'), out(`fixtures/diagrams/${name}.class.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    console.warn(`class fault ${name} unexpectedly rendered — no receipt written`);
+    fs.rmSync(out(`goldens/${name}.html`), { force: true });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.class.expected.json`, JSON.parse(String(e.stderr))); }
+}
+// Class layout reports (`--layout-json` stdout) for the two upstream class goldens: the C# LayoutReport must stringify
+// to these bytes (same keys, same order, same numbers).
+for (const [name, input] of [['class-payments', 'payments.class.json'], ['class-payment-processors', 'payment-processors.class.json']]) {
+  const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/class/render-class.mjs'), path.join(EX, input), out(`goldens/${name}.layout.html`), '--layout-json'],
+    { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
+  fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

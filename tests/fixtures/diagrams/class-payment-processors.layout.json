@@ -1,0 +1,343 @@
+{
+  "diagram_type": "class",
+  "viewBox": [
+    1640,
+    918
+  ],
+  "types": [
+    {
+      "id": "checkout_orchestrator",
+      "label": "CheckoutOrchestrator",
+      "kind": "class",
+      "x": 32,
+      "y": 60,
+      "width": 300,
+      "height": 214,
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "processor_registry",
+      "label": "ProcessorRegistry",
+      "kind": "class",
+      "x": 460,
+      "y": 90,
+      "width": 300,
+      "height": 154,
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "payment_processor",
+      "label": "PaymentProcessor",
+      "kind": "interface",
+      "x": 1102,
+      "y": 40,
+      "width": 300,
+      "height": 254,
+      "row": 0
+    },
+    {
+      "id": "order",
+      "label": "Order",
+      "kind": "class",
+      "x": 32,
+      "y": 378,
+      "width": 300,
+      "height": 234,
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "payment_status",
+      "label": "PaymentStatus",
+      "kind": "enum",
+      "x": 517,
+      "y": 418,
+      "width": 186,
+      "height": 154,
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "retrying_processor",
+      "label": "RetryingProcessorBase",
+      "kind": "abstract",
+      "x": 888,
+      "y": 383,
+      "width": 300,
+      "height": 224,
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "bank_transfer",
+      "label": "BankTransferProcessor",
+      "kind": "class",
+      "x": 1316,
+      "y": 413,
+      "width": 300,
+      "height": 164,
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "line_item",
+      "label": "LineItem",
+      "kind": "record",
+      "x": 92,
+      "y": 721,
+      "width": 180,
+      "height": 114,
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "stripe_card",
+      "label": "StripeCardProcessor",
+      "kind": "class",
+      "x": 460,
+      "y": 726,
+      "width": 300,
+      "height": 104,
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "adyen_card",
+      "label": "AdyenCardProcessor",
+      "kind": "class",
+      "x": 888,
+      "y": 726,
+      "width": 300,
+      "height": 104,
+      "row": 2,
+      "col": 2
+    },
+    {
+      "id": "paypal_wallet",
+      "label": "PayPalWalletProcessor",
+      "kind": "class",
+      "x": 1316,
+      "y": 696,
+      "width": 300,
+      "height": 164,
+      "row": 2,
+      "col": 3
+    }
+  ],
+  "relationships": [
+    {
+      "from": "checkout_orchestrator",
+      "to": "processor_registry",
+      "label": "selects via",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          332,
+          167
+        ],
+        [
+          460,
+          167
+        ]
+      ],
+      "kind": "association"
+    },
+    {
+      "from": "processor_registry",
+      "to": "payment_processor",
+      "label": "holds",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          760,
+          167
+        ],
+        [
+          1102,
+          167
+        ]
+      ],
+      "kind": "aggregation"
+    },
+    {
+      "from": "checkout_orchestrator",
+      "to": "order",
+      "label": "updates",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          182,
+          274
+        ],
+        [
+          182,
+          378
+        ]
+      ],
+      "kind": "dependency"
+    },
+    {
+      "from": "order",
+      "to": "line_item",
+      "label": "owns lines",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          182,
+          612
+        ],
+        [
+          182,
+          721
+        ]
+      ],
+      "kind": "composition"
+    },
+    {
+      "from": "order",
+      "to": "payment_status",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          332,
+          495
+        ],
+        [
+          517,
+          495
+        ]
+      ],
+      "kind": "association"
+    },
+    {
+      "from": "retrying_processor",
+      "to": "payment_processor",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          1038,
+          383
+        ],
+        [
+          1038,
+          339
+        ],
+        [
+          1252,
+          339
+        ],
+        [
+          1252,
+          294
+        ]
+      ],
+      "kind": "realization"
+    },
+    {
+      "from": "bank_transfer",
+      "to": "payment_processor",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          1466,
+          413
+        ],
+        [
+          1466,
+          339
+        ],
+        [
+          1252,
+          339
+        ],
+        [
+          1252,
+          294
+        ]
+      ],
+      "kind": "realization"
+    },
+    {
+      "from": "stripe_card",
+      "to": "retrying_processor",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          610,
+          726
+        ],
+        [
+          610,
+          652
+        ],
+        [
+          1038,
+          652
+        ],
+        [
+          1038,
+          607
+        ]
+      ],
+      "kind": "inheritance"
+    },
+    {
+      "from": "adyen_card",
+      "to": "retrying_processor",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          1038,
+          726
+        ],
+        [
+          1038,
+          607
+        ]
+      ],
+      "kind": "inheritance"
+    },
+    {
+      "from": "paypal_wallet",
+      "to": "retrying_processor",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          1466,
+          696
+        ],
+        [
+          1466,
+          652
+        ],
+        [
+          1038,
+          652
+        ],
+        [
+          1038,
+          607
+        ]
+      ],
+      "kind": "inheritance"
+    }
+  ]
+}

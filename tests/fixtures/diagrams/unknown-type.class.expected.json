@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Relationship 0 id \"uses_gateway\" references unknown type \"ghost\".",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Relationship 0 id \"uses_gateway\" references unknown type \"ghost\".",
+      "subject": {
+        "diagramType": "class"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

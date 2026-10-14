@@ -1,0 +1,153 @@
+{
+  "diagram_type": "class",
+  "viewBox": [
+    993,
+    430
+  ],
+  "types": [
+    {
+      "id": "order_service",
+      "label": "OrderService",
+      "kind": "class",
+      "x": 32,
+      "y": 40,
+      "width": 249,
+      "height": 114,
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "payment_gateway",
+      "label": "PaymentGateway",
+      "kind": "interface",
+      "x": 581,
+      "y": 60,
+      "width": 216,
+      "height": 74,
+      "row": 0
+    },
+    {
+      "id": "order",
+      "label": "Order",
+      "kind": "class",
+      "x": 67,
+      "y": 238,
+      "width": 180,
+      "height": 134,
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "card_gateway",
+      "label": "CardGateway",
+      "kind": "class",
+      "x": 409,
+      "y": 273,
+      "width": 216,
+      "height": 64,
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "wallet_gateway",
+      "label": "WalletGateway",
+      "kind": "class",
+      "x": 753,
+      "y": 273,
+      "width": 216,
+      "height": 64,
+      "row": 1,
+      "col": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "order_service",
+      "to": "payment_gateway",
+      "label": "pays through",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          281,
+          97
+        ],
+        [
+          581,
+          97
+        ]
+      ],
+      "kind": "dependency"
+    },
+    {
+      "from": "order_service",
+      "to": "order",
+      "label": "creates",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          156.5,
+          154
+        ],
+        [
+          156.5,
+          238
+        ]
+      ],
+      "kind": "dependency"
+    },
+    {
+      "from": "card_gateway",
+      "to": "payment_gateway",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          517,
+          273
+        ],
+        [
+          517,
+          204
+        ],
+        [
+          689,
+          204
+        ],
+        [
+          689,
+          134
+        ]
+      ],
+      "kind": "realization"
+    },
+    {
+      "from": "wallet_gateway",
+      "to": "payment_gateway",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          861,
+          273
+        ],
+        [
+          861,
+          204
+        ],
+        [
+          689,
+          204
+        ],
+        [
+          689,
+          134
+        ]
+      ],
+      "kind": "realization"
+    }
+  ]
+}

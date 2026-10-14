@@ -21,7 +21,21 @@ public class ParityTests
         ["lifecycle", Fixtures.Upstream("examples/agent-run.lifecycle.json"), Fixtures.Upstream("examples/lifecycle-agent-run.html")],
         ["lifecycle", Fixtures.Upstream("examples/deployment-release.lifecycle.json"), Fixtures.Golden("deployment-release-rendered.html")],
         ["lifecycle", Fixtures.Fixture("diagrams/deployment-release.notes.lifecycle.json"), Fixtures.Golden("deployment-release.notes-rendered.html")],
+        ["class", Fixtures.Upstream("examples/payments.class.json"), Fixtures.Upstream("examples/class-payments-rendered.html")],
+        ["class", Fixtures.Upstream("examples/payment-processors.class.json"), Fixtures.Upstream("examples/class-payment-processors-rendered.html")],
     ];
+
+    // render-class.mjs:623-650 generalizationCycle walks `inheritance` edges only, after the per-relationship kind checks;
+    // a reversed class-to-class inheritance stays on one side of the interface boundary, so the cycle is the code reported.
+    [Fact] public void Class_inheritance_cycle_reports_upstream_code()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-processors.class.json")));
+        var rel = d["relationships"]!.AsArray().First(x => x!.Str("kind") == "inheritance")!.AsObject();
+        d["relationships"]!.AsArray().Add(new JsonObject { ["from"] = rel["to"]!.DeepClone(), ["to"] = rel["from"]!.DeepClone(), ["kind"] = "inheritance" });
+        var r = ArchifyNet.Render(DiagramType.Class, DiagramLoader.Normalize(d));
+        Assert.Equal("", r.Html);
+        Assert.Contains(r.Diagnostics, x => x.Code == "class/inheritance-cycle");
+    }
 
     [Fact] public void Lifecycle_main_path_gap_reports_upstream_code()
     {
@@ -170,6 +184,47 @@ public class ParityTests
             Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
             Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
         }
+    }
+
+    // Class failure receipts (same capture, from the payments example with one fault each): validateClassDiagram's typed
+    // codes, the placement gate's layout/constraint, and the untyped validation problems — messages, subjects, evidence,
+    // fixes, order.
+    [Theory]
+    [InlineData("realization-target")]
+    [InlineData("inheritance-kind")]
+    [InlineData("inheritance-cycle")]
+    [InlineData("title-text-capacity")]
+    [InlineData("marker-capacity")]
+    [InlineData("unknown-type")]
+    [InlineData("unplaced-type")]
+    public void Class_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.class.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.class.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Class, d);
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
+    }
+
+    // `node render-class.mjs <in> <out> --layout-json` stdout for both class goldens (captured by tools/capture-fixtures.mjs):
+    // the LayoutReport stringifies to the same bytes — same keys in the same order, same numbers.
+    [Theory]
+    [InlineData("payments.class.json", "class-payments")]
+    [InlineData("payment-processors.class.json", "class-payment-processors")]
+    public void Class_layout_report_equals_upstream_layout_json(string input, string name)
+    {
+        var r = ArchifyNet.Render(DiagramType.Class, DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream($"examples/{input}"))));
+        Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
     }
 
     [Fact] public void Non_object_root_returns_json_parse_diagnostic()

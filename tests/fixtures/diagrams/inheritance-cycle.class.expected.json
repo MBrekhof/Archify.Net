@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Inheritance forms a cycle: \"card_gateway\" -> \"wallet_gateway\" -> \"card_gateway\". A type cannot be its own supertype.",
+  "diagnostics": [
+    {
+      "code": "class/inheritance-cycle",
+      "severity": "error",
+      "message": "Inheritance forms a cycle: \"card_gateway\" -> \"wallet_gateway\" -> \"card_gateway\". A type cannot be its own supertype.",
+      "subject": {
+        "diagramType": "class",
+        "path": "/relationships",
+        "typeId": "card_gateway"
+      },
+      "evidence": {
+        "cycle": [
+          "card_gateway",
+          "wallet_gateway",
+          "card_gateway"
+        ]
+      },
+      "supportedFixes": [
+        "Remove or reverse one inheritance relationship in the cycle."
+      ]
+    }
+  ]
+}

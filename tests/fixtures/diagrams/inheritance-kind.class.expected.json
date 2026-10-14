@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Relationship 2 id \"card_implements\" \"card_gateway\" inherits from \"payment_gateway\" across an interface boundary (class -> interface). A class implementing an interface is a realization.",
+  "diagnostics": [
+    {
+      "code": "class/inheritance-kind",
+      "severity": "error",
+      "message": "Relationship 2 id \"card_implements\" \"card_gateway\" inherits from \"payment_gateway\" across an interface boundary (class -> interface). A class implementing an interface is a realization.",
+      "subject": {
+        "diagramType": "class",
+        "path": "/relationships/2",
+        "relationshipIndex": 2
+      },
+      "evidence": {
+        "from": "card_gateway",
+        "fromKind": "class",
+        "to": "payment_gateway",
+        "toKind": "interface"
+      },
+      "supportedFixes": [
+        "Use kind \"realization\" for a class implementing an interface."
+      ]
+    }
+  ]
+}

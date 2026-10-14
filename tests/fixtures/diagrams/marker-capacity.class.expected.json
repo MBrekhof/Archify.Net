@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Type \"card_gateway\" shares its left side with 4 relationship ends 11px apart, under the 16px a relationship marker needs, so the markers overlap. Spread the relationships across sides or place the related types so they arrive from different directions.",
+  "diagnostics": [
+    {
+      "code": "layout/marker-capacity",
+      "severity": "error",
+      "message": "Type \"card_gateway\" shares its left side with 4 relationship ends 11px apart, under the 16px a relationship marker needs, so the markers overlap. Spread the relationships across sides or place the related types so they arrive from different directions.",
+      "subject": {
+        "diagramType": "class",
+        "path": "/types/card_gateway"
+      },
+      "evidence": {
+        "type": "card_gateway",
+        "side": "left",
+        "relationshipEnds": 4,
+        "spacingPx": 11,
+        "markerHeightPx": 16,
+        "sideExtentPx": 64
+      },
+      "supportedFixes": [
+        "Spread the relationships across sides with room.",
+        "Move related types so they approach from different sides."
+      ]
+    }
+  ]
+}

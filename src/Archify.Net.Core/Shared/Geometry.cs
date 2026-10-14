@@ -489,11 +489,21 @@ public static class Geometry
         Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection,
         Func<JsonObject, string?>? fromSideFor = null, Func<JsonObject, string?>? toSideFor = null,
         Func<JsonObject, int, bool>? shouldCheckRelation = null,
+        string routeHint = "align the first/final via segment with fromSide/toSide, change the side, or remove explicit routing so auto can choose a perpendicular approach") =>
+        CleanEndpointSideProblems(sink, AsArray(relations), endpointIds, pathFor, diagramType, relationCollection, fromSideFor, toSideFor, shouldCheckRelation, routeHint);
+
+    // The list overloads: render-class.mjs:772 passes `routable`, a filtered JS array of the authored relationship objects,
+    // where the other renderers pass the diagram's own array. A JsonObject cannot join a second JsonArray, so the gates
+    // also take the objects as a sequence; `relationIndex` counts that sequence, as upstream's does.
+    public static List<string> CleanEndpointSideProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, JsSet<string>? endpointIds,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection,
+        Func<JsonObject, string?>? fromSideFor = null, Func<JsonObject, string?>? toSideFor = null,
+        Func<JsonObject, int, bool>? shouldCheckRelation = null,
         string routeHint = "align the first/final via segment with fromSide/toSide, change the side, or remove explicit routing so auto can choose a perpendicular approach")
     {
         var problems = new List<string>();
         var relationIndex = -1;
-        foreach (var node in AsArray(relations))
+        foreach (var node in relations ?? [])
         {
             relationIndex++;
             if (node is not JsonObject relation || endpointIds is null || !Has(endpointIds, relation.Str("from")) || !Has(endpointIds, relation.Str("to"))) continue;
@@ -549,6 +559,11 @@ public static class Geometry
     // simply not be supplied as obstacles.
     public static List<string> CleanFlowProblems(DiagnosticSink sink, JsonNode? relations, IEnumerable<Box> obstacles,
         Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string obstacleKind, double clearance = 2,
+        string routeHint = "adjust fromSide/toSide, set route/via or channel coordinates, or move the obstacle") =>
+        CleanFlowProblems(sink, AsArray(relations), obstacles, pathFor, diagramType, relationCollection, obstacleKind, clearance, routeHint);
+
+    public static List<string> CleanFlowProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, IEnumerable<Box> obstacles,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string obstacleKind, double clearance = 2,
         string routeHint = "adjust fromSide/toSide, set route/via or channel coordinates, or move the obstacle")
     {
         // A relationship hidden behind an unrelated opaque node changes the
@@ -559,7 +574,7 @@ public static class Geometry
         var obstacleList = obstacles.ToList();
         var obstacleIds = new HashSet<string>(obstacleList.Select(obstacle => obstacle.Id), StringComparer.Ordinal);   // lookup only
         var relationIndex = -1;
-        foreach (var node in AsArray(relations))
+        foreach (var node in relations ?? [])
         {
             relationIndex++;
             if (node is not JsonObject relation || relation.Str("from") is not { } from || relation.Str("to") is not { } to) continue;
@@ -715,6 +730,16 @@ public static class Geometry
         Func<JsonObject, JsonObject, bool>? includeSharedEndpoints = null,
         Func<JsonObject, JsonObject, CrossingHit, bool>? crossingResolved = null,
         bool warnInStandard = false, Action<Diagnostic>? onDiagnostic = null,
+        string routeHint = "adjust route/via or channel coordinates so the relationships use separate corridors") =>
+        CleanCrossingProblems(sink, AsArray(relations), endpointIds, pathFor, diagramType, relationCollection, profile, profileIsAuthoritative,
+            mergeForwardCollinearWaypoints, includeSharedEndpoints, crossingResolved, warnInStandard, onDiagnostic, routeHint);
+
+    public static List<string> CleanCrossingProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, JsSet<string> endpointIds,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection,
+        string? profile = null, bool profileIsAuthoritative = false, bool mergeForwardCollinearWaypoints = false,
+        Func<JsonObject, JsonObject, bool>? includeSharedEndpoints = null,
+        Func<JsonObject, JsonObject, CrossingHit, bool>? crossingResolved = null,
+        bool warnInStandard = false, Action<Diagnostic>? onDiagnostic = null,
         string routeHint = "adjust route/via or channel coordinates so the relationships use separate corridors")
     {
         onDiagnostic ??= sink.Record;
@@ -722,7 +747,7 @@ public static class Geometry
         if (severity == Severity.Warning && !warnInStandard) return [];
         var routed = new List<(JsonObject Relation, int Index, List<Pt> Points, List<AnalysisSegment> AnalysisSegments)>();
         var index = -1;
-        foreach (var node in AsArray(relations))
+        foreach (var node in relations ?? [])
         {
             index++;
             if (node is not JsonObject relation || !Has(endpointIds, relation.Str("from")) || !Has(endpointIds, relation.Str("to"))) continue;
@@ -941,6 +966,16 @@ public static class Geometry
         string routeHint = "adjust route/via or channel coordinates so the relationships use separate corridors",
         double minOverlapPx = 8, Func<JsonObject, JsonObject, bool>? includeSharedEndpoints = null,
         Func<JsonObject, JsonObject, bool>? includeSharedEndpointCounterflow = null, bool allowShortWorkflowTrunks = false,
+        Action<Diagnostic>? onDiagnostic = null) =>
+        CleanAmbiguousCorridorProblems(sink, AsArray(relations), endpointIds, pathFor, diagramType, relationCollection, profile, profileIsAuthoritative,
+            routeHint, minOverlapPx, includeSharedEndpoints, includeSharedEndpointCounterflow, allowShortWorkflowTrunks, onDiagnostic);
+
+    public static List<string> CleanAmbiguousCorridorProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, JsSet<string>? endpointIds,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection,
+        string? profile = null, bool profileIsAuthoritative = false,
+        string routeHint = "adjust route/via or channel coordinates so the relationships use separate corridors",
+        double minOverlapPx = 8, Func<JsonObject, JsonObject, bool>? includeSharedEndpoints = null,
+        Func<JsonObject, JsonObject, bool>? includeSharedEndpointCounterflow = null, bool allowShortWorkflowTrunks = false,
         Action<Diagnostic>? onDiagnostic = null)
     {
         onDiagnostic ??= sink.Record;
@@ -1030,7 +1065,7 @@ public static class Geometry
         string routeHint = "adjust route/via or channel coordinates so the relationship crosses the frame perpendicularly through a clear opening")
     {
         if (!Truthy(QualityProfileForGate(profile, profileIsAuthoritative))) return [];
-        var routedRelations = CollectEligibleRoutedRelations(relations, endpointIds, pathFor);
+        var routedRelations = CollectEligibleRoutedRelations(AsArray(relations), endpointIds, pathFor);
         var problems = new List<string>();
         foreach (var hit in CollectBorderRuns(routedRelations, frames))
         {
@@ -1143,6 +1178,13 @@ public static class Geometry
     public static List<string> CleanRouteRhythmProblems(DiagnosticSink sink, JsonNode? relations, JsSet<string>? endpointIds,
         Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string? profile, bool profileIsAuthoritative = false,
         string routeHint = "move the channel/via point to remove the cramped turn or give the route more corridor space",
+        double interiorSegmentPx = 16, double microSegmentPx = 8) =>
+        CleanRouteRhythmProblems(sink, AsArray(relations), endpointIds, pathFor, diagramType, relationCollection, profile, profileIsAuthoritative,
+            routeHint, interiorSegmentPx, microSegmentPx);
+
+    public static List<string> CleanRouteRhythmProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, JsSet<string>? endpointIds,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string? profile, bool profileIsAuthoritative = false,
+        string routeHint = "move the channel/via point to remove the cramped turn or give the route more corridor space",
         double interiorSegmentPx = 16, double microSegmentPx = 8)
     {
         if (QualityProfileForGate(profile, profileIsAuthoritative) != "showcase") return [];
@@ -1178,6 +1220,13 @@ public static class Geometry
     }
 
     public static List<string> CleanLabelRouteClearanceProblems(DiagnosticSink sink, JsonNode? relations, IEnumerable<LabelRect>? labels, JsSet<string>? endpointIds,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string? profile, bool profileIsAuthoritative = false,
+        double threshold = 4,
+        string routeHint = "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel") =>
+        CleanLabelRouteClearanceProblems(sink, AsArray(relations), labels, endpointIds, pathFor, diagramType, relationCollection, profile, profileIsAuthoritative,
+            threshold, routeHint);
+
+    public static List<string> CleanLabelRouteClearanceProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, IEnumerable<LabelRect>? labels, JsSet<string>? endpointIds,
         Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string? profile, bool profileIsAuthoritative = false,
         double threshold = 4,
         string routeHint = "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other relationship route/via/channel")
@@ -1334,11 +1383,11 @@ public static class Geometry
     // environment reads; the layout gates read the authored profile only (Task 9 brief, S5), so both branches are `profile`.
     static string? QualityProfileForGate(string? profile, bool profileIsAuthoritative) => profile;
 
-    static List<RoutedRelation> CollectEligibleRoutedRelations(JsonNode? relations, JsSet<string>? endpointIds, Func<JsonObject, List<Pt>?> pathFor)
+    static List<RoutedRelation> CollectEligibleRoutedRelations(IEnumerable<JsonNode?>? relations, JsSet<string>? endpointIds, Func<JsonObject, List<Pt>?> pathFor)
     {
         var routed = new List<RoutedRelation>();
         var relationIndex = -1;
-        foreach (var node in AsArray(relations))
+        foreach (var node in relations ?? [])
         {
             relationIndex++;
             if (node is not JsonObject relation || relation.Str("from") is not { } from || relation.Str("to") is not { } to) continue;

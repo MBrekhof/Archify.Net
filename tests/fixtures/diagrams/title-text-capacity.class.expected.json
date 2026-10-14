@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Type \"order\" title \"OrderAggregateRootEntity\" needs 282px but the type is 120px wide — remove or raise the authored width, or shorten the title.",
+  "diagnostics": [
+    {
+      "code": "class/title-text-capacity",
+      "severity": "error",
+      "message": "Type \"order\" title \"OrderAggregateRootEntity\" needs 282px but the type is 120px wide — remove or raise the authored width, or shorten the title.",
+      "subject": {
+        "diagramType": "class",
+        "path": "/types/2/width",
+        "typeId": "order"
+      },
+      "evidence": {
+        "label": "OrderAggregateRootEntity",
+        "width": 120,
+        "requiredWidth": 282
+      },
+      "supportedFixes": [
+        "Remove the authored width so the type sizes itself.",
+        "Set width to at least 282.",
+        "Shorten the type title."
+      ]
+    }
+  ]
+}

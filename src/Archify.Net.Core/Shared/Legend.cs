@@ -28,11 +28,15 @@ public static class Legend
     const double InteractiveBadgeAllowance = 21;
 
     public static List<LegendObstacle> RelationshipLegendObstacles(JsonNode? relations, Func<JsonObject, int, IReadOnlyList<Pt>?>? pointsFor = null,
+        Func<JsonObject, int, Rect?>? labelRectFor = null) => RelationshipLegendObstacles(relations.AsArrayOrEmpty(), pointsFor, labelRectFor);
+
+    // The class renderer passes its filtered `routable` list (render-class.mjs:1015); see Geometry's list overloads.
+    public static List<LegendObstacle> RelationshipLegendObstacles(IEnumerable<JsonNode?> relations, Func<JsonObject, int, IReadOnlyList<Pt>?>? pointsFor = null,
         Func<JsonObject, int, Rect?>? labelRectFor = null)
     {
         var obstacles = new List<LegendObstacle>();
         var index = -1;
-        foreach (var node in relations.AsArrayOrEmpty())
+        foreach (var node in relations)
         {
             index++;
             if (node is not JsonObject relation) continue;

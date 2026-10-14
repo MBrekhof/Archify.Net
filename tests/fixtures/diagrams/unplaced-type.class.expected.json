@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram placement failed:\n- Type \"order_service\" needs grid row/col or an absolute pos [x,y].",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Type \"order_service\" needs grid row/col or an absolute pos [x,y].",
+      "subject": {
+        "diagramType": "class"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}
