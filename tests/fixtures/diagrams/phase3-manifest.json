@@ -1,0 +1,618 @@
+{
+  "coverageNote": "coverage = workflow-compiler branches reached by an instrumented in-process compile (controlled, preset, sizing decide ownership; endpoint-repairs, internal-detour, free-space are information for reviewers). Fix-discovery recompiles also reach them, so a tag is a superset of the final layout's branches. Never an expected value.",
+  "rows": [
+    {
+      "name": "agent-tool-call",
+      "type": "workflow",
+      "input": "upstream/examples/agent-tool-call.workflow.json",
+      "golden": "upstream/examples/workflow-agent-tool-call-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": true,
+      "coverage": [
+        "controlled",
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 10
+    },
+    {
+      "name": "product-analytics",
+      "type": "dataflow",
+      "input": "upstream/examples/product-analytics.dataflow.json",
+      "golden": "upstream/examples/dataflow-product-analytics.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 4
+    },
+    {
+      "name": "holiday-planning",
+      "type": "workflow",
+      "input": "upstream/examples/holiday-planning.workflow.json",
+      "golden": "tests/goldens/holiday-planning-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "incident-response",
+      "type": "workflow",
+      "input": "upstream/examples/incident-response.workflow.json",
+      "golden": "tests/goldens/incident-response-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 7
+    },
+    {
+      "name": "release-delivery",
+      "type": "workflow",
+      "input": "upstream/examples/release-delivery.workflow.json",
+      "golden": "tests/goldens/release-delivery-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 7
+    },
+    {
+      "name": "event-stream",
+      "type": "dataflow",
+      "input": "upstream/examples/event-stream.dataflow.json",
+      "golden": "tests/goldens/event-stream-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 4
+    },
+    {
+      "name": "border-clearance",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/border-clearance.workflow.json",
+      "golden": "tests/goldens/border-clearance-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 7
+    },
+    {
+      "name": "v1-700x400",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/v1-700x400.workflow.json",
+      "golden": "tests/goldens/v1-700x400-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 7
+    },
+    {
+      "name": "v1-explicit-coordinates",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/v1-explicit-coordinates.workflow.json",
+      "golden": "tests/goldens/v1-explicit-coordinates-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 7
+    },
+    {
+      "name": "dense-automatic",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/dense-automatic.workflow.json",
+      "golden": "tests/goldens/dense-automatic-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "fanin-label-recovery",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/fanin-label-recovery.workflow.json",
+      "golden": "tests/goldens/fanin-label-recovery-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "free-space",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/free-space.workflow.json",
+      "golden": "tests/goldens/free-space-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "return-arrival",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/return-arrival.workflow.json",
+      "golden": "tests/goldens/return-arrival-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "route-text-recovery",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/route-text-recovery.workflow.json",
+      "golden": "tests/goldens/route-text-recovery-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": true,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour",
+        "sizing"
+      ],
+      "task": 10
+    },
+    {
+      "name": "routing-clarity",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/routing-clarity.workflow.json",
+      "golden": "tests/goldens/routing-clarity-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "shared-trunks",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/shared-trunks.workflow.json",
+      "golden": "tests/goldens/shared-trunks-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": null,
+      "locale": "zh-CN",
+      "pins": true,
+      "coverage": [
+        "controlled",
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 10
+    },
+    {
+      "name": "v1-baseline.agent-tool-call",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/v1-baseline.agent-tool-call.workflow.json",
+      "golden": "tests/goldens/v1-baseline.agent-tool-call-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 7
+    },
+    {
+      "name": "first-draft.agent-tool-call",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/first-draft.agent-tool-call.workflow.json",
+      "golden": "tests/goldens/first-draft.agent-tool-call-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "en",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "first-draft.automatic-fanout",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/first-draft.automatic-fanout.workflow.json",
+      "golden": "tests/goldens/first-draft.automatic-fanout-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "standard",
+      "locale": null,
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "first-draft.automatic-port-slot",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/first-draft.automatic-port-slot.workflow.json",
+      "golden": "tests/goldens/first-draft.automatic-port-slot-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "first-draft.customer-refund",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/first-draft.customer-refund.workflow.json",
+      "golden": "tests/goldens/first-draft.customer-refund-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "en",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "first-draft.incident-response",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/first-draft.incident-response.workflow.json",
+      "golden": "tests/goldens/first-draft.incident-response-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "en",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "viewport.order-overflow",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/viewport.order-overflow.workflow.json",
+      "golden": "tests/goldens/viewport.order-overflow-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "viewport.order-reflow",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/viewport.order-reflow.workflow.json",
+      "golden": "tests/goldens/viewport.order-reflow-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "viewport.three-lane-remainder",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/viewport.three-lane-remainder.workflow.json",
+      "golden": "tests/goldens/viewport.three-lane-remainder-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "bidirectional-labels",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/bidirectional-labels.dataflow.json",
+      "golden": "tests/goldens/bidirectional-labels-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "en",
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "label-visibility",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/label-visibility.dataflow.json",
+      "golden": "tests/goldens/label-visibility-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": null,
+      "locale": "en",
+      "pins": false,
+      "coverage": [],
+      "task": 4
+    },
+    {
+      "name": "v1-baseline.product-analytics",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/v1-baseline.product-analytics.dataflow.json",
+      "golden": "tests/goldens/v1-baseline.product-analytics-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 4
+    },
+    {
+      "name": "first-draft.joint-label-routing",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/first-draft.joint-label-routing.dataflow.json",
+      "golden": "tests/goldens/first-draft.joint-label-routing-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "first-draft.mixed-port-recovery",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/first-draft.mixed-port-recovery.dataflow.json",
+      "golden": "tests/goldens/first-draft.mixed-port-recovery-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "first-draft.ml-features",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/first-draft.ml-features.dataflow.json",
+      "golden": "tests/goldens/first-draft.ml-features-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "en",
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "first-draft.rejected-grid-recovery",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/first-draft.rejected-grid-recovery.dataflow.json",
+      "golden": "tests/goldens/first-draft.rejected-grid-recovery-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "first-draft.vertical-label-corridor",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/first-draft.vertical-label-corridor.dataflow.json",
+      "golden": "tests/goldens/first-draft.vertical-label-corridor-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "first-draft.vertical-label-neighbour",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/first-draft.vertical-label-neighbour.dataflow.json",
+      "golden": "tests/goldens/first-draft.vertical-label-neighbour-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "five-stage",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/five-stage.dataflow.json",
+      "golden": "tests/goldens/five-stage-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "standard",
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "pipeline",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/pipeline.dataflow.json",
+      "golden": "tests/goldens/pipeline-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "legacy-narrow",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/legacy-narrow.dataflow.json",
+      "golden": "tests/goldens/legacy-narrow-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 4
+    },
+    {
+      "name": "product-analytics.brand",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/product-analytics.brand.dataflow.json",
+      "golden": "tests/goldens/product-analytics.brand-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": true,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": true,
+      "coverage": [],
+      "task": 4
+    },
+    {
+      "name": "holiday-planning.brand",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/holiday-planning.brand.workflow.json",
+      "golden": "tests/goldens/holiday-planning.brand-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": "zh-CN",
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 11
+    },
+    {
+      "name": "five-stage.option-showcase",
+      "type": "dataflow",
+      "input": "tests/fixtures/diagrams/five-stage.dataflow.json",
+      "golden": "tests/goldens/five-stage.option-showcase-rendered.html",
+      "schemaVersion": 1,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [],
+      "task": 5
+    },
+    {
+      "name": "agent-tool-call.option-standard",
+      "type": "workflow",
+      "input": "upstream/examples/agent-tool-call.workflow.json",
+      "golden": "tests/goldens/agent-tool-call.option-standard-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "standard",
+      "locale": null,
+      "pins": true,
+      "coverage": [
+        "controlled",
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 11
+    }
+  ]
+}

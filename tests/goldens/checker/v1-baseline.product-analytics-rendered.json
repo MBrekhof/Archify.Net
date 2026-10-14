@@ -1,0 +1,190 @@
+{
+  "ok": true,
+  "artifact": {
+    "sha256": "a016de887eae7ffc9bf8d2b1888eedd0f1fd0b2e197f6a92a2fba7466616e3cd",
+    "bytes": 820929
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "container_border_runs",
+      "ok": true,
+      "details": [
+        "[composition/container-border-run] relationship \"web\" -> \"edge\" follows stage \"0\" right border for 114px on segment 1 [184, 157] -> [184, 271]"
+      ]
+    },
+    {
+      "name": "route_rhythm",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "legend_clearance",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "pass",
+    "summary": {
+      "errors": 0,
+      "warnings": 2
+    },
+    "metrics": {
+      "properCrossings": 0,
+      "resolvedCrossovers": 0,
+      "ambiguousCorridors": 0,
+      "arrowheadCollisions": 0,
+      "containerBorderRuns": 1,
+      "labelRouteClearanceIssues": 0,
+      "labelCanvasOverflowIssues": 0,
+      "minLabelRouteClearance": 57,
+      "desktopReadabilityIssues": 0,
+      "viewportHeightIssues": 1,
+      "minProjectedNodeTextPx": 6.027777777777779,
+      "maxBends": 3,
+      "routesOverSuggestedBends": 2,
+      "maxStretch": 1.369,
+      "routesOverSuggestedStretch": 1,
+      "minSegmentPx": 24,
+      "minInteriorSegmentPx": 45,
+      "shortSegmentCount": 0,
+      "shortEndpointSegmentCount": 0,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 0
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "from": "edge",
+            "to": "consent",
+            "label": "identity + consent",
+            "collectionIndex": 2,
+            "artifactIndex": 3
+          },
+          "bends": 3,
+          "stretch": 1.369
+        },
+        {
+          "relationship": {
+            "from": "pii",
+            "to": "dashboard",
+            "label": "restricted join",
+            "collectionIndex": 9,
+            "artifactIndex": 10
+          },
+          "bends": 3,
+          "stretch": 1
+        }
+      ]
+    },
+    "leadingSpace": {
+      "measured": false,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "legacy-930",
+      "readerContract": "declared-wide-v1",
+      "availableDiagramWidth": 930,
+      "actualBudgetPx": 930,
+      "limit": "legacy",
+      "requestedTargetPx": null,
+      "requestedTargetMet": null,
+      "hardFloorPx": 6,
+      "hardFloorMet": true,
+      "minimumOwner": {
+        "kind": "node",
+        "id": "web"
+      },
+      "minimumSourceTextPx": 7,
+      "minimumProjectedTextPx": 6.027777777777779,
+      "semanticTextCount": 30
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "composition/container-border-run",
+        "relationship": {
+          "from": "web",
+          "to": "edge",
+          "label": "clickstream",
+          "collectionIndex": 0,
+          "artifactIndex": 1
+        },
+        "frame": {
+          "kind": "stage",
+          "id": "0"
+        },
+        "side": "right",
+        "segmentIndex": 1,
+        "overlapLength": 114,
+        "from": [
+          184,
+          157
+        ],
+        "to": [
+          184,
+          271
+        ]
+      },
+      {
+        "severity": "warning",
+        "code": "composition/viewport-height",
+        "readerFit": null,
+        "viewBoxWidth": 1080,
+        "viewBoxHeight": 760,
+        "viewportWidth": 1440,
+        "viewportHeight": 900,
+        "ratio": 1.42,
+        "wideRatio": 1.55,
+        "svgWidthPx": 1346,
+        "svgHeightPx": 947,
+        "fixedChromePx": 126,
+        "pageHeightPx": 1073,
+        "overflowPx": 173,
+        "detail": "[composition/viewport-height] Preserve every node, relationship, and label. This 1080x760 canvas (ratio 1.42) declares no intrinsic-height fit and is below the 1.55 wide ratio, so the desktop Reader can neither narrow it nor accept vertical scroll: it renders 947px tall at the full 1346px width and the page reaches 1073px before cards against 900px, a certain visual-check failure. Either compact vertical spacing so meta.viewBox height is at most 696 at this width, or spread content sideways so the width is at least 1178 at this height; for architecture and readable-v2 workflow, omitting meta.viewBox lets the renderer size the canvas and declare the fit."
+      }
+    ]
+  }
+}

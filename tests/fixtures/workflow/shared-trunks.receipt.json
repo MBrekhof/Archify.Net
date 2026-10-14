@@ -1,0 +1,450 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    1157,
+    776
+  ],
+  "requiredViewBox": [
+    1157,
+    776
+  ],
+  "columns": [
+    126,
+    356,
+    476,
+    696.4,
+    926.4,
+    1046.4
+  ],
+  "nodes": [
+    {
+      "id": "submit",
+      "lane": "parent",
+      "col": 0,
+      "x": 48,
+      "y": 93,
+      "width": 156,
+      "height": 52
+    },
+    {
+      "id": "capabilities",
+      "lane": "parent",
+      "col": 1,
+      "x": 270,
+      "y": 93,
+      "width": 172,
+      "height": 52
+    },
+    {
+      "id": "reply",
+      "lane": "parent",
+      "col": 5,
+      "x": 960.4000000000001,
+      "y": 93,
+      "width": 172,
+      "height": 52
+    },
+    {
+      "id": "native",
+      "lane": "ordinary",
+      "col": 3,
+      "x": 610.4,
+      "y": 217,
+      "width": 172,
+      "height": 52
+    },
+    {
+      "id": "decide",
+      "lane": "execution",
+      "col": 2,
+      "x": 398,
+      "y": 341,
+      "width": 156,
+      "height": 52
+    },
+    {
+      "id": "child",
+      "lane": "execution",
+      "col": 3,
+      "x": 610.4,
+      "y": 341,
+      "width": 172,
+      "height": 52
+    },
+    {
+      "id": "collect",
+      "lane": "execution",
+      "col": 4,
+      "x": 848.4,
+      "y": 341,
+      "width": 156,
+      "height": 52
+    },
+    {
+      "id": "workflow",
+      "lane": "orchestration",
+      "col": 3,
+      "x": 610.4,
+      "y": 465,
+      "width": 172,
+      "height": 52
+    },
+    {
+      "id": "background",
+      "lane": "process",
+      "col": 3,
+      "x": 610.4,
+      "y": 589,
+      "width": 172,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "child-result",
+      "from": "child",
+      "to": "collect",
+      "points": [
+        [
+          782.4,
+          367
+        ],
+        [
+          848.4,
+          367
+        ]
+      ]
+    },
+    {
+      "id": "continue-work",
+      "from": "collect",
+      "to": "decide",
+      "points": [
+        [
+          926.4,
+          341
+        ],
+        [
+          926.4,
+          180
+        ],
+        [
+          476,
+          180
+        ],
+        [
+          476,
+          341
+        ]
+      ]
+    },
+    {
+      "id": "delegate-work",
+      "from": "decide",
+      "to": "child",
+      "points": [
+        [
+          554,
+          367
+        ],
+        [
+          610.4,
+          367
+        ]
+      ]
+    },
+    {
+      "id": "direct-answer",
+      "from": "decide",
+      "to": "reply",
+      "points": [
+        [
+          452,
+          341
+        ],
+        [
+          452,
+          112
+        ],
+        [
+          960.4000000000001,
+          112
+        ]
+      ]
+    },
+    {
+      "id": "finish",
+      "from": "collect",
+      "to": "reply",
+      "points": [
+        [
+          1004.4,
+          367
+        ],
+        [
+          1046.4,
+          367
+        ],
+        [
+          1046.4,
+          145
+        ]
+      ]
+    },
+    {
+      "id": "launch-process",
+      "from": "decide",
+      "to": "background",
+      "points": [
+        [
+          469,
+          393
+        ],
+        [
+          469,
+          615
+        ],
+        [
+          610.4,
+          615
+        ]
+      ]
+    },
+    {
+      "id": "model-turn",
+      "from": "capabilities",
+      "to": "decide",
+      "points": [
+        [
+          356,
+          145
+        ],
+        [
+          356,
+          367
+        ],
+        [
+          398,
+          367
+        ]
+      ]
+    },
+    {
+      "id": "native-result",
+      "from": "native",
+      "to": "collect",
+      "points": [
+        [
+          782.4,
+          243
+        ],
+        [
+          902.4,
+          243
+        ],
+        [
+          902.4,
+          341
+        ]
+      ]
+    },
+    {
+      "id": "orchestrate-work",
+      "from": "decide",
+      "to": "workflow",
+      "points": [
+        [
+          500,
+          393
+        ],
+        [
+          500,
+          491
+        ],
+        [
+          610.4,
+          491
+        ]
+      ]
+    },
+    {
+      "id": "ordinary-work",
+      "from": "decide",
+      "to": "native",
+      "points": [
+        [
+          512,
+          341
+        ],
+        [
+          512,
+          243
+        ],
+        [
+          610.4,
+          243
+        ]
+      ]
+    },
+    {
+      "id": "prepare",
+      "from": "submit",
+      "to": "capabilities",
+      "points": [
+        [
+          204,
+          119
+        ],
+        [
+          270,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "process-result",
+      "from": "background",
+      "to": "collect",
+      "points": [
+        [
+          782.4,
+          615
+        ],
+        [
+          919.4,
+          615
+        ],
+        [
+          919.4,
+          393
+        ]
+      ]
+    },
+    {
+      "id": "workflow-result",
+      "from": "workflow",
+      "to": "collect",
+      "points": [
+        [
+          782.4,
+          491
+        ],
+        [
+          902.4,
+          491
+        ],
+        [
+          902.4,
+          393
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "child-result",
+      "label": "完成后跟进",
+      "x": 815.4,
+      "y": 357,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "continue-work",
+      "label": "仍需后续工作",
+      "x": 701.2,
+      "y": 170,
+      "width": 67.6,
+      "height": 14
+    },
+    {
+      "edge": "delegate-work",
+      "label": "独立执行",
+      "x": 582.2,
+      "y": 357,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "direct-answer",
+      "label": "无需工具时直接回答",
+      "x": 706.2,
+      "y": 102,
+      "width": 96.39999999999999,
+      "height": 14
+    },
+    {
+      "edge": "finish",
+      "label": "综合结果",
+      "x": 1046.4,
+      "y": 256,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "launch-process",
+      "label": "后台执行",
+      "x": 539.7,
+      "y": 605,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "model-turn",
+      "label": "可用工具面",
+      "x": 356,
+      "y": 256,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "native-result",
+      "label": "工具结果",
+      "x": 842.4,
+      "y": 233,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "orchestrate-work",
+      "label": "编排执行",
+      "x": 555.2,
+      "y": 481,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "ordinary-work",
+      "label": "普通工作",
+      "x": 561.2,
+      "y": 233,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "prepare",
+      "label": "回合启动前",
+      "x": 237,
+      "y": 109,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "process-result",
+      "label": "状态／完成通知",
+      "x": 850.9,
+      "y": 605,
+      "width": 77.2,
+      "height": 14
+    },
+    {
+      "edge": "workflow-result",
+      "label": "等待返回／稍后投递",
+      "x": 842.4,
+      "y": 481,
+      "width": 96.39999999999999,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

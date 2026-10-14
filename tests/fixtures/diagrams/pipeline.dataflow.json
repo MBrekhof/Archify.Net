@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Request processing",
+    "output": "diagram.html",
+    "quality_profile": "showcase"
+  },
+  "stages": [
+    {
+      "label": "Input"
+    },
+    {
+      "label": "Prepare"
+    },
+    {
+      "label": "Execute"
+    },
+    {
+      "label": "Decode"
+    },
+    {
+      "label": "Output"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input",
+      "type": "frontend",
+      "label": "Configuration",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "prepare",
+      "type": "backend",
+      "label": "Invocation",
+      "stage": 1,
+      "row": 0
+    },
+    {
+      "id": "task",
+      "type": "backend",
+      "label": "Task",
+      "stage": 2,
+      "row": 0
+    },
+    {
+      "id": "provider",
+      "type": "external",
+      "label": "Provider",
+      "stage": 2,
+      "row": 2
+    },
+    {
+      "id": "bytes",
+      "type": "external",
+      "label": "Log bytes",
+      "stage": 3,
+      "row": 2
+    },
+    {
+      "id": "decoded",
+      "type": "backend",
+      "label": "Answer and status",
+      "stage": 3,
+      "row": 0,
+      "sublabel": "success / failed / timeout / cancelled"
+    },
+    {
+      "id": "output",
+      "type": "backend",
+      "label": "Ordered results",
+      "stage": 4,
+      "row": 0,
+      "sublabel": "complete / partial / failed"
+    },
+    {
+      "id": "archive",
+      "type": "database",
+      "label": "Archive",
+      "stage": 4,
+      "row": 2
+    }
+  ],
+  "flows": [
+    {
+      "id": "f0",
+      "from": "input",
+      "to": "prepare",
+      "label": "configuration"
+    },
+    {
+      "id": "f1",
+      "from": "prepare",
+      "to": "task",
+      "label": "task input"
+    },
+    {
+      "id": "f2",
+      "from": "task",
+      "to": "provider",
+      "label": "command"
+    },
+    {
+      "id": "f3",
+      "from": "provider",
+      "to": "bytes",
+      "label": "log bytes"
+    },
+    {
+      "id": "f4",
+      "from": "bytes",
+      "to": "decoded",
+      "label": "decode"
+    },
+    {
+      "id": "f5",
+      "from": "task",
+      "to": "decoded",
+      "label": "timeout / cancellation"
+    },
+    {
+      "id": "f6",
+      "from": "decoded",
+      "to": "output",
+      "label": "answer"
+    },
+    {
+      "id": "f7",
+      "from": "output",
+      "to": "archive",
+      "label": "save mode"
+    }
+  ]
+}

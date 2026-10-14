@@ -1,0 +1,545 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    814,
+    786
+  ],
+  "requiredViewBox": [
+    814,
+    786
+  ],
+  "columns": [
+    94,
+    214,
+    348,
+    472,
+    596,
+    726
+  ],
+  "nodes": [
+    {
+      "id": "send",
+      "lane": "client",
+      "col": 0,
+      "x": 48,
+      "y": 94,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "stream",
+      "lane": "client",
+      "col": 3,
+      "x": 426,
+      "y": 94,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "approve",
+      "lane": "client",
+      "col": 4,
+      "x": 550,
+      "y": 94,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "ingest",
+      "lane": "server",
+      "col": 1,
+      "x": 168,
+      "y": 220,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "route",
+      "lane": "server",
+      "col": 2,
+      "x": 302,
+      "y": 220,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "relay",
+      "lane": "server",
+      "col": 3,
+      "x": 426,
+      "y": 220,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "inputDeny",
+      "lane": "policy",
+      "col": 1,
+      "x": 168,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "toolGate",
+      "lane": "policy",
+      "col": 4,
+      "x": 550,
+      "y": 338,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "resultGate",
+      "lane": "policy",
+      "col": 5,
+      "x": 674,
+      "y": 346,
+      "width": 104,
+      "height": 52
+    },
+    {
+      "id": "turn",
+      "lane": "runner",
+      "col": 3,
+      "x": 426,
+      "y": 464,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "dispatch",
+      "lane": "runner",
+      "col": 4,
+      "x": 550,
+      "y": 472,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "exec",
+      "lane": "runner",
+      "col": 5,
+      "x": 680,
+      "y": 472,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "native",
+      "lane": "harness",
+      "col": 2,
+      "x": 302,
+      "y": 598,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "loop",
+      "lane": "harness",
+      "col": 3,
+      "x": 426,
+      "y": 598,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "approve-gate",
+      "from": "approve",
+      "to": "toolGate",
+      "points": [
+        [
+          596,
+          146
+        ],
+        [
+          596,
+          338
+        ]
+      ]
+    },
+    {
+      "id": "dispatch-gate",
+      "from": "dispatch",
+      "to": "toolGate",
+      "points": [
+        [
+          596,
+          472
+        ],
+        [
+          596,
+          406
+        ]
+      ]
+    },
+    {
+      "id": "exec-result",
+      "from": "exec",
+      "to": "resultGate",
+      "points": [
+        [
+          726,
+          472
+        ],
+        [
+          726,
+          398
+        ]
+      ]
+    },
+    {
+      "id": "gate-approve",
+      "from": "toolGate",
+      "to": "approve",
+      "points": [
+        [
+          642,
+          372
+        ],
+        [
+          658,
+          372
+        ],
+        [
+          658,
+          120
+        ],
+        [
+          642,
+          120
+        ]
+      ]
+    },
+    {
+      "id": "gate-exec",
+      "from": "toolGate",
+      "to": "exec",
+      "points": [
+        [
+          620,
+          406
+        ],
+        [
+          620,
+          422
+        ],
+        [
+          650,
+          422
+        ],
+        [
+          650,
+          498
+        ],
+        [
+          680,
+          498
+        ]
+      ]
+    },
+    {
+      "id": "ingest-deny",
+      "from": "ingest",
+      "to": "inputDeny",
+      "points": [
+        [
+          214,
+          272
+        ],
+        [
+          214,
+          346
+        ]
+      ]
+    },
+    {
+      "id": "ingest-route",
+      "from": "ingest",
+      "to": "route",
+      "points": [
+        [
+          260,
+          246
+        ],
+        [
+          302,
+          246
+        ]
+      ]
+    },
+    {
+      "id": "loop-dispatch",
+      "from": "loop",
+      "to": "dispatch",
+      "points": [
+        [
+          518,
+          631
+        ],
+        [
+          596,
+          631
+        ],
+        [
+          596,
+          524
+        ]
+      ]
+    },
+    {
+      "id": "relay-stream",
+      "from": "relay",
+      "to": "stream",
+      "points": [
+        [
+          472,
+          220
+        ],
+        [
+          472,
+          146
+        ]
+      ]
+    },
+    {
+      "id": "result-loop",
+      "from": "resultGate",
+      "to": "loop",
+      "points": [
+        [
+          778,
+          372
+        ],
+        [
+          798,
+          372
+        ],
+        [
+          798,
+          666
+        ],
+        [
+          472,
+          666
+        ],
+        [
+          472,
+          650
+        ]
+      ]
+    },
+    {
+      "id": "route-native",
+      "from": "route",
+      "to": "native",
+      "points": [
+        [
+          348,
+          272
+        ],
+        [
+          348,
+          598
+        ]
+      ]
+    },
+    {
+      "id": "route-turn",
+      "from": "route",
+      "to": "turn",
+      "points": [
+        [
+          394,
+          246
+        ],
+        [
+          410,
+          246
+        ],
+        [
+          410,
+          498
+        ],
+        [
+          426,
+          498
+        ]
+      ]
+    },
+    {
+      "id": "send-ingest",
+      "from": "send",
+      "to": "ingest",
+      "points": [
+        [
+          140,
+          120
+        ],
+        [
+          214,
+          120
+        ],
+        [
+          214,
+          220
+        ]
+      ]
+    },
+    {
+      "id": "turn-loop",
+      "from": "turn",
+      "to": "loop",
+      "points": [
+        [
+          472,
+          532
+        ],
+        [
+          472,
+          598
+        ]
+      ]
+    },
+    {
+      "id": "turn-relay",
+      "from": "turn",
+      "to": "relay",
+      "points": [
+        [
+          472,
+          464
+        ],
+        [
+          472,
+          272
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "approve-gate",
+      "label": "批准后重试",
+      "x": 596,
+      "y": 242,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "dispatch-gate",
+      "label": "tools/call",
+      "x": 596,
+      "y": 439,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "exec-result",
+      "label": "工具输出",
+      "x": 726,
+      "y": 435,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "gate-approve",
+      "label": "ASK",
+      "x": 658,
+      "y": 246,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": "gate-exec",
+      "label": "ALLOW",
+      "x": 665,
+      "y": 488,
+      "width": 34,
+      "height": 14
+    },
+    {
+      "edge": "ingest-deny",
+      "label": "DENY / 未批准",
+      "x": 214,
+      "y": 309,
+      "width": 72.4,
+      "height": 14
+    },
+    {
+      "edge": "ingest-route",
+      "label": "ALLOW",
+      "x": 281,
+      "y": 236,
+      "width": 34,
+      "height": 14
+    },
+    {
+      "edge": "loop-dispatch",
+      "label": "action_required",
+      "x": 557,
+      "y": 621,
+      "width": 82,
+      "height": 14
+    },
+    {
+      "edge": "relay-stream",
+      "label": "response.* / status",
+      "x": 472,
+      "y": 183,
+      "width": 101.2,
+      "height": 14
+    },
+    {
+      "edge": "result-loop",
+      "label": "结果回传 · 继续循环",
+      "x": 635,
+      "y": 656,
+      "width": 101.2,
+      "height": 14
+    },
+    {
+      "edge": "route-native",
+      "label": "native 会话",
+      "x": 348,
+      "y": 435,
+      "width": 62.8,
+      "height": 14
+    },
+    {
+      "edge": "route-turn",
+      "label": "持久化 + 转发",
+      "x": 410,
+      "y": 372,
+      "width": 72.4,
+      "height": 14
+    },
+    {
+      "edge": "send-ingest",
+      "label": "message",
+      "x": 177,
+      "y": 110,
+      "width": 43.6,
+      "height": 14
+    },
+    {
+      "edge": "turn-loop",
+      "label": "流式回合",
+      "x": 472,
+      "y": 565,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "turn-relay",
+      "label": "SSE 事件",
+      "x": 472,
+      "y": 368,
+      "width": 48.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

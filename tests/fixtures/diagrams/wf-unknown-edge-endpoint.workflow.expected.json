@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"to_year_end\" references unknown target \"year_ned\".",
+  "diagnostics": [
+    {
+      "code": "workflow/unknown-edge-endpoint",
+      "severity": "error",
+      "message": "Workflow edge \"to_year_end\" references unknown target \"year_ned\".",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "to_year_end",
+        "path": "/edges/2/to",
+        "from": "national_day",
+        "to": "year_ned"
+      },
+      "evidence": {
+        "endpoint": "target",
+        "unknownNodeId": "year_ned",
+        "availableNodeIds": [
+          "makeup_work",
+          "mid_autumn",
+          "national_day",
+          "today",
+          "year_end"
+        ],
+        "fixVerification": "each candidate was verified by applying every listed repoint together and recompiling"
+      },
+      "supportedFixes": [
+        "set /edges/2/to to verified node id \"year_end\""
+      ]
+    }
+  ]
+}

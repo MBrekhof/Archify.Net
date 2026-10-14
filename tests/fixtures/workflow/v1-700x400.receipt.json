@@ -1,0 +1,87 @@
+{
+  "contract": "fixed-v1",
+  "viewBox": [
+    700,
+    400
+  ],
+  "requiredViewBox": [
+    700,
+    400
+  ],
+  "columns": [
+    88,
+    220,
+    300,
+    430,
+    500,
+    625
+  ],
+  "nodes": [
+    {
+      "id": "node_0",
+      "lane": "first",
+      "col": 0,
+      "x": 42,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "node_1",
+      "lane": "first",
+      "col": 2,
+      "x": 254,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "node_2",
+      "lane": "first",
+      "col": 4,
+      "x": 454,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "node_3",
+      "lane": "second",
+      "col": 0,
+      "x": 42,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "node_4",
+      "lane": "second",
+      "col": 2,
+      "x": 254,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "node_5",
+      "lane": "second",
+      "col": 4,
+      "x": 454,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "node_6",
+      "lane": "second",
+      "col": 5,
+      "x": 579,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [],
+  "labels": [],
+  "diagnostics": []
+}

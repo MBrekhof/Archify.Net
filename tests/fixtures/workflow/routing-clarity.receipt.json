@@ -1,0 +1,396 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    949,
+    528
+  ],
+  "requiredViewBox": [
+    949,
+    528
+  ],
+  "columns": [
+    94,
+    271.2,
+    391.2,
+    544.4,
+    716.8,
+    874.8
+  ],
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "host",
+      "col": 0,
+      "x": 48,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "admit",
+      "lane": "host",
+      "col": 1,
+      "x": 225.2,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "graph",
+      "lane": "host",
+      "col": 3,
+      "x": 498.4,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "start",
+      "lane": "runtime",
+      "col": 2,
+      "x": 345.2,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "turn",
+      "lane": "runtime",
+      "col": 3,
+      "x": 498.4,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "tool",
+      "lane": "runtime",
+      "col": 4,
+      "x": 670.8,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "resume",
+      "lane": "runtime",
+      "col": 5,
+      "x": 828.8,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "commit",
+      "lane": "evidence",
+      "col": 4,
+      "x": 670.8,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "project",
+      "lane": "evidence",
+      "col": 5,
+      "x": 828.8,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": null,
+      "from": "admit",
+      "to": "start",
+      "points": [
+        [
+          271.2,
+          145
+        ],
+        [
+          271.2,
+          243
+        ],
+        [
+          345.2,
+          243
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "commit",
+      "to": "project",
+      "points": [
+        [
+          762.8,
+          367
+        ],
+        [
+          828.8,
+          367
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "graph",
+      "to": "turn",
+      "points": [
+        [
+          544.4,
+          145
+        ],
+        [
+          544.4,
+          217
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "request",
+      "to": "admit",
+      "points": [
+        [
+          140,
+          119
+        ],
+        [
+          225.2,
+          119
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "resume",
+      "to": "commit",
+      "points": [
+        [
+          874.8,
+          269
+        ],
+        [
+          874.8,
+          290
+        ],
+        [
+          716.8,
+          290
+        ],
+        [
+          716.8,
+          341
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "start",
+      "to": "graph",
+      "points": [
+        [
+          391.2,
+          217
+        ],
+        [
+          391.2,
+          119
+        ],
+        [
+          498.4,
+          119
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "start",
+      "to": "turn",
+      "points": [
+        [
+          437.2,
+          243
+        ],
+        [
+          498.4,
+          243
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "tool",
+      "to": "turn",
+      "points": [
+        [
+          716.8,
+          269
+        ],
+        [
+          716.8,
+          285
+        ],
+        [
+          544.4,
+          285
+        ],
+        [
+          544.4,
+          269
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "turn",
+      "to": "commit",
+      "points": [
+        [
+          520.4,
+          269
+        ],
+        [
+          520.4,
+          367
+        ],
+        [
+          670.8,
+          367
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "turn",
+      "to": "resume",
+      "points": [
+        [
+          568.4,
+          217
+        ],
+        [
+          568.4,
+          201
+        ],
+        [
+          874.8,
+          201
+        ],
+        [
+          874.8,
+          217
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "turn",
+      "to": "tool",
+      "points": [
+        [
+          590.4,
+          243
+        ],
+        [
+          670.8,
+          243
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": null,
+      "label": "authorized session",
+      "x": 271.2,
+      "y": 194,
+      "width": 96.39999999999999,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "projection",
+      "x": 795.8,
+      "y": 357,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "activation",
+      "x": 544.4,
+      "y": 181,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "client request",
+      "x": 182.6,
+      "y": 109,
+      "width": 77.2,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "replay evidence",
+      "x": 795.8,
+      "y": 280,
+      "width": 82,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "schedule graph",
+      "x": 444.79999999999995,
+      "y": 109,
+      "width": 77.2,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "startTurn",
+      "x": 467.79999999999995,
+      "y": 233,
+      "width": 53.199999999999996,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "tool result",
+      "x": 630.5999999999999,
+      "y": 275,
+      "width": 62.8,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "append event",
+      "x": 595.5999999999999,
+      "y": 357,
+      "width": 67.6,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "crash / handoff",
+      "x": 721.5999999999999,
+      "y": 191,
+      "width": 82,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "dispatch tool",
+      "x": 630.5999999999999,
+      "y": 233,
+      "width": 72.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

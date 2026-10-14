@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow layout validation failed:\n- mainPath references unknown node \"ghost\".",
+  "diagnostics": [
+    {
+      "code": "workflow/unknown-endpoint",
+      "severity": "error",
+      "message": "mainPath references unknown node \"ghost\".",
+      "subject": {
+        "diagramType": "workflow",
+        "mainPath": "ghost",
+        "path": "/mainPath/3"
+      },
+      "evidence": {
+        "unknownNodeId": "ghost",
+        "availableNodeIds": [
+          "alert",
+          "close",
+          "contain",
+          "declare",
+          "escalate",
+          "page",
+          "recover",
+          "rollback",
+          "triage",
+          "update",
+          "verify"
+        ],
+        "fixVerification": "each candidate was verified by applying every listed repoint together and recompiling"
+      },
+      "supportedFixes": [
+        "set /mainPath/3 to verified node id \"contain\""
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow node id \"mid_autumn\" is duplicated.",
+  "diagnostics": [
+    {
+      "code": "workflow/duplicate-node-id",
+      "severity": "error",
+      "message": "Workflow node id \"mid_autumn\" is duplicated.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "mid_autumn",
+        "path": "/nodes/2/id"
+      },
+      "evidence": {
+        "duplicateNodeId": "mid_autumn",
+        "firstPath": "/nodes/1/id",
+        "duplicatePath": "/nodes/2/id"
+      },
+      "supportedFixes": []
+    }
+  ]
+}

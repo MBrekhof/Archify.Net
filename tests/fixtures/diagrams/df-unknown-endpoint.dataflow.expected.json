@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Data-flow layout validation failed:\n- Flow \"identity + consent\" references unknown target \"consnt\".",
+  "diagnostics": [
+    {
+      "code": "dataflow/unknown-endpoint",
+      "severity": "error",
+      "message": "Flow \"identity + consent\" references unknown target \"consnt\".",
+      "subject": {
+        "diagramType": "dataflow",
+        "flow": "consent-enrichment",
+        "path": "/flows/2/to",
+        "from": "edge",
+        "to": "consnt"
+      },
+      "evidence": {
+        "endpoint": "target",
+        "unknownNodeId": "consnt",
+        "availableNodeIds": [
+          "consent",
+          "stream",
+          "pii",
+          "warehouse",
+          "features",
+          "dashboard",
+          "model",
+          "web",
+          "mobile"
+        ]
+      },
+      "supportedFixes": [
+        "set /flows/2/to to verified node id \"consent\"",
+        "set /flows/2/to to verified node id \"stream\"",
+        "set /flows/2/to to verified node id \"pii\""
+      ]
+    }
+  ]
+}

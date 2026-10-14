@@ -1,0 +1,401 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    921,
+    652
+  ],
+  "requiredViewBox": [
+    921,
+    652
+  ],
+  "columns": [
+    94,
+    237.6,
+    400.4,
+    539.2,
+    697.6,
+    846.4000000000001
+  ],
+  "nodes": [
+    {
+      "id": "req",
+      "lane": "user_lane",
+      "col": 0,
+      "x": 48,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "surface",
+      "lane": "user_lane",
+      "col": 1,
+      "x": 191.6,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "reply",
+      "lane": "user_lane",
+      "col": 5,
+      "x": 800.4000000000001,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "plan",
+      "lane": "agent_lane",
+      "col": 1,
+      "x": 191.6,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "route",
+      "lane": "agent_lane",
+      "col": 2,
+      "x": 354.4,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "gate",
+      "lane": "policy_lane",
+      "col": 2,
+      "x": 354.4,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "blocked",
+      "lane": "policy_lane",
+      "col": 3,
+      "x": 493.20000000000005,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "exec",
+      "lane": "exec_lane",
+      "col": 3,
+      "x": 493.20000000000005,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "provider",
+      "lane": "exec_lane",
+      "col": 4,
+      "x": 641.6,
+      "y": 465,
+      "width": 112,
+      "height": 52
+    },
+    {
+      "id": "trace",
+      "lane": "exec_lane",
+      "col": 5,
+      "x": 800.4000000000001,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_approved",
+      "from": "gate",
+      "to": "exec",
+      "points": [
+        [
+          400.4,
+          393
+        ],
+        [
+          400.4,
+          491
+        ],
+        [
+          493.20000000000005,
+          491
+        ]
+      ]
+    },
+    {
+      "id": "e_auto",
+      "from": "route",
+      "to": "exec",
+      "points": [
+        [
+          376.4,
+          269
+        ],
+        [
+          376.4,
+          285
+        ],
+        [
+          20,
+          285
+        ],
+        [
+          20,
+          533
+        ],
+        [
+          539.2,
+          533
+        ],
+        [
+          539.2,
+          517
+        ]
+      ]
+    },
+    {
+      "id": "e_call",
+      "from": "exec",
+      "to": "provider",
+      "points": [
+        [
+          585.2,
+          491
+        ],
+        [
+          641.6,
+          491
+        ]
+      ]
+    },
+    {
+      "id": "e_denied",
+      "from": "gate",
+      "to": "blocked",
+      "points": [
+        [
+          446.4,
+          367
+        ],
+        [
+          493.20000000000005,
+          367
+        ]
+      ]
+    },
+    {
+      "id": "e_gate",
+      "from": "route",
+      "to": "gate",
+      "points": [
+        [
+          400.4,
+          269
+        ],
+        [
+          400.4,
+          341
+        ]
+      ]
+    },
+    {
+      "id": "e_plan",
+      "from": "surface",
+      "to": "plan",
+      "points": [
+        [
+          237.6,
+          145
+        ],
+        [
+          237.6,
+          217
+        ]
+      ]
+    },
+    {
+      "id": "e_record",
+      "from": "provider",
+      "to": "trace",
+      "points": [
+        [
+          753.6,
+          491
+        ],
+        [
+          800.4000000000001,
+          491
+        ]
+      ]
+    },
+    {
+      "id": "e_req",
+      "from": "req",
+      "to": "surface",
+      "points": [
+        [
+          140,
+          119
+        ],
+        [
+          191.6,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "e_result",
+      "from": "provider",
+      "to": "reply",
+      "points": [
+        [
+          697.6,
+          465
+        ],
+        [
+          697.6,
+          119
+        ],
+        [
+          800.4000000000001,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "e_retry",
+      "from": "blocked",
+      "to": "plan",
+      "points": [
+        [
+          539.2,
+          341
+        ],
+        [
+          539.2,
+          160
+        ],
+        [
+          261.6,
+          160
+        ],
+        [
+          261.6,
+          217
+        ]
+      ]
+    },
+    {
+      "id": "e_route",
+      "from": "plan",
+      "to": "route",
+      "points": [
+        [
+          283.6,
+          243
+        ],
+        [
+          354.4,
+          243
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "e_approved",
+      "label": "approved",
+      "x": 446.8,
+      "y": 481,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "e_auto",
+      "label": "no approval needed",
+      "x": 279.6,
+      "y": 523,
+      "width": 96.39999999999999,
+      "height": 14
+    },
+    {
+      "edge": "e_call",
+      "label": "API call",
+      "x": 613.4000000000001,
+      "y": 481,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "e_denied",
+      "label": "denied",
+      "x": 469.8,
+      "y": 357,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "e_gate",
+      "label": "needs approval",
+      "x": 400.4,
+      "y": 305,
+      "width": 77.2,
+      "height": 14
+    },
+    {
+      "edge": "e_plan",
+      "label": "prompt",
+      "x": 237.6,
+      "y": 181,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "e_record",
+      "label": "record",
+      "x": 777,
+      "y": 481,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "e_req",
+      "label": "message",
+      "x": 165.8,
+      "y": 109,
+      "width": 43.6,
+      "height": 14
+    },
+    {
+      "edge": "e_result",
+      "label": "result",
+      "x": 749,
+      "y": 109,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "e_retry",
+      "label": "retry",
+      "x": 400.40000000000003,
+      "y": 150,
+      "width": 34,
+      "height": 14
+    },
+    {
+      "edge": "e_route",
+      "label": "tool intent",
+      "x": 319,
+      "y": 233,
+      "width": 62.8,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

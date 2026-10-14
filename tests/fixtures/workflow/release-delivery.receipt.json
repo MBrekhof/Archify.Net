@@ -1,0 +1,354 @@
+{
+  "contract": "fixed-v1",
+  "viewBox": [
+    720,
+    900
+  ],
+  "requiredViewBox": [
+    720,
+    900
+  ],
+  "columns": [
+    88,
+    220,
+    300,
+    430,
+    500,
+    625
+  ],
+  "nodes": [
+    {
+      "id": "commit",
+      "lane": "dev",
+      "col": 0,
+      "x": 42,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "pull_request",
+      "lane": "dev",
+      "col": 1,
+      "x": 174,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "build",
+      "lane": "ci",
+      "col": 2,
+      "x": 254,
+      "y": 209,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "checks",
+      "lane": "ci",
+      "col": 3,
+      "x": 384,
+      "y": 209,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "approval",
+      "lane": "approval",
+      "col": 4,
+      "x": 454,
+      "y": 333,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "deploy",
+      "lane": "environment",
+      "col": 4,
+      "x": 454,
+      "y": 457,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "verify_prod",
+      "lane": "environment",
+      "col": 5,
+      "x": 579,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "announce",
+      "lane": "communication",
+      "col": 5,
+      "x": 579,
+      "y": 589,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "failed",
+      "lane": "exceptions",
+      "col": 2,
+      "x": 254,
+      "y": 713,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "rollback",
+      "lane": "exceptions",
+      "col": 4,
+      "x": 468,
+      "y": 705,
+      "width": 64,
+      "height": 68
+    }
+  ],
+  "edges": [
+    {
+      "id": null,
+      "from": "commit",
+      "to": "pull_request",
+      "points": [
+        [
+          134,
+          119
+        ],
+        [
+          174,
+          119
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "pull_request",
+      "to": "build",
+      "points": [
+        [
+          220,
+          145
+        ],
+        [
+          220,
+          166
+        ],
+        [
+          300,
+          166
+        ],
+        [
+          300,
+          209
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "build",
+      "to": "checks",
+      "points": [
+        [
+          346,
+          243
+        ],
+        [
+          384,
+          243
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "checks",
+      "to": "approval",
+      "points": [
+        [
+          430,
+          277
+        ],
+        [
+          430,
+          290
+        ],
+        [
+          500,
+          290
+        ],
+        [
+          500,
+          333
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "approval",
+      "to": "deploy",
+      "points": [
+        [
+          500,
+          401
+        ],
+        [
+          500,
+          414
+        ],
+        [
+          500,
+          414
+        ],
+        [
+          500,
+          457
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "deploy",
+      "to": "verify_prod",
+      "points": [
+        [
+          546,
+          491
+        ],
+        [
+          579,
+          491
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "verify_prod",
+      "to": "announce",
+      "points": [
+        [
+          625,
+          517
+        ],
+        [
+          625,
+          538
+        ],
+        [
+          625,
+          538
+        ],
+        [
+          625,
+          589
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "checks",
+      "to": "failed",
+      "points": [
+        [
+          430,
+          277
+        ],
+        [
+          430,
+          476
+        ],
+        [
+          300,
+          476
+        ],
+        [
+          300,
+          713
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "verify_prod",
+      "to": "rollback",
+      "points": [
+        [
+          671,
+          491
+        ],
+        [
+          692,
+          491
+        ],
+        [
+          692,
+          739
+        ],
+        [
+          532,
+          739
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "rollback",
+      "to": "deploy",
+      "points": [
+        [
+          468,
+          739
+        ],
+        [
+          426,
+          739
+        ],
+        [
+          426,
+          491
+        ],
+        [
+          454,
+          491
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": null,
+      "label": "merge",
+      "x": 260,
+      "y": 156,
+      "width": 34,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "healthy",
+      "x": 625,
+      "y": 528,
+      "width": 43.6,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "red",
+      "x": 365,
+      "y": 466,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "restore",
+      "x": 426,
+      "y": 605,
+      "width": 43.6,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

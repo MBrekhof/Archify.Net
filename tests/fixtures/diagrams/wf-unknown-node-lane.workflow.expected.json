@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow node \"makeup_work\" uses unknown lane \"makeups\".",
+  "diagnostics": [
+    {
+      "code": "workflow/unknown-node-lane",
+      "severity": "error",
+      "message": "Workflow node \"makeup_work\" uses unknown lane \"makeups\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "makeup_work",
+        "path": "/nodes/4/lane"
+      },
+      "evidence": {
+        "unknownLaneId": "makeups",
+        "availableLaneIds": [
+          "calendar",
+          "makeup"
+        ]
+      },
+      "supportedFixes": [
+        "set /nodes/4/lane to verified lane id \"makeup\""
+      ]
+    }
+  ]
+}

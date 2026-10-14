@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Data-flow layout validation failed:\n- Node ids must be unique.\n- Nodes \"consent\" and \"consent\" are less than 10px apart — move one to another stage/row or adjust yOffset.\n- Flow \"identity + consent\" has a diagonal segment from (450, 157) to (474, 385) — align via[2] with its adjacent point by sharing the same x or y coordinate.\n- Flow \"accepted events\" references unknown target \"stream\".\n- Flow \"normalized facts\" references unknown source \"stream\".\n- [clean-flow/endpoint-side-direction] dataflow flows[2] id \"consent-enrichment\" \"edge\" -> \"consent\" final segment 3 [450, 157] -> [474, 385] does not honor toSide \"left\" — it must run horizontal rightward from the left; keep automatic routing, or choose fromSide/toSide and via points whose first and final segments cross node borders perpendicularly.",
+  "diagnostics": [
+    {
+      "code": "clean-flow/endpoint-side-direction",
+      "severity": "error",
+      "message": "[clean-flow/endpoint-side-direction] dataflow flows[2] id \"consent-enrichment\" \"edge\" -> \"consent\" final segment 3 [450, 157] -> [474, 385] does not honor toSide \"left\" — it must run horizontal rightward from the left; keep automatic routing, or choose fromSide/toSide and via points whose first and final segments cross node borders perpendicularly.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 2,
+        "id": "consent-enrichment",
+        "from": "edge",
+        "to": "consent"
+      },
+      "evidence": {
+        "endpoint": "target",
+        "authoredField": "toSide",
+        "sideOrigin": "authored",
+        "side": "left",
+        "segmentIndex": 3,
+        "from": [
+          450,
+          157
+        ],
+        "to": [
+          474,
+          385
+        ],
+        "expectedAxis": "horizontal",
+        "expectedDirection": "rightward from the left"
+      },
+      "supportedFixes": [
+        "keep automatic routing, or choose fromSide/toSide and via points whose first and final segments cross node borders perpendicularly"
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node ids must be unique.",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Nodes \"consent\" and \"consent\" are less than 10px apart — move one to another stage/row or adjust yOffset.",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Flow \"identity + consent\" has a diagonal segment from (450, 157) to (474, 385) — align via[2] with its adjacent point by sharing the same x or y coordinate.",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "dataflow/unknown-endpoint",
+      "severity": "error",
+      "message": "Flow \"accepted events\" references unknown target \"stream\".",
+      "subject": {
+        "diagramType": "dataflow",
+        "flow": "accepted-events",
+        "path": "/flows/3/to",
+        "from": "edge",
+        "to": "stream"
+      },
+      "evidence": {
+        "endpoint": "target",
+        "unknownNodeId": "stream",
+        "availableNodeIds": [
+          "consent",
+          "pii",
+          "warehouse",
+          "features",
+          "dashboard",
+          "model",
+          "web",
+          "mobile"
+        ]
+      },
+      "supportedFixes": [
+        "set /flows/3/to to verified node id \"consent\"",
+        "set /flows/3/to to verified node id \"pii\"",
+        "set /flows/3/to to verified node id \"warehouse\""
+      ]
+    },
+    {
+      "code": "dataflow/unknown-endpoint",
+      "severity": "error",
+      "message": "Flow \"normalized facts\" references unknown source \"stream\".",
+      "subject": {
+        "diagramType": "dataflow",
+        "flow": "normalized-facts",
+        "path": "/flows/5/from",
+        "from": "stream",
+        "to": "warehouse"
+      },
+      "evidence": {
+        "endpoint": "source",
+        "unknownNodeId": "stream",
+        "availableNodeIds": [
+          "consent",
+          "edge",
+          "web",
+          "mobile",
+          "dashboard",
+          "model",
+          "pii",
+          "features"
+        ]
+      },
+      "supportedFixes": [
+        "set /flows/5/from to verified node id \"consent\"",
+        "set /flows/5/from to verified node id \"edge\"",
+        "set /flows/5/from to verified node id \"web\""
+      ]
+    }
+  ]
+}

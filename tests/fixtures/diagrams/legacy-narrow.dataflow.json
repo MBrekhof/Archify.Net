@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Legacy narrow dataflow",
+    "viewBox": [
+      423,
+      720
+    ],
+    "output": "dataflow-v1-compatibility.html"
+  },
+  "stages": [
+    {
+      "label": "Input"
+    },
+    {
+      "label": "Output"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "in_0",
+      "type": "backend",
+      "label": "In 0",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "out_0",
+      "type": "database",
+      "label": "Out 0",
+      "stage": 1,
+      "row": 0
+    },
+    {
+      "id": "in_1",
+      "type": "backend",
+      "label": "In 1",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "out_1",
+      "type": "backend",
+      "label": "Out 1",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "in_2",
+      "type": "backend",
+      "label": "In 2",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "out_2",
+      "type": "backend",
+      "label": "Out 2",
+      "stage": 1,
+      "row": 2
+    },
+    {
+      "id": "in_3",
+      "type": "backend",
+      "label": "In 3",
+      "stage": 0,
+      "row": 3
+    },
+    {
+      "id": "out_3",
+      "type": "backend",
+      "label": "Out 3",
+      "stage": 1,
+      "row": 3
+    }
+  ],
+  "flows": [
+    {
+      "from": "in_0",
+      "to": "out_0",
+      "label": "emphasis",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "in_1",
+      "to": "out_1",
+      "label": "security",
+      "variant": "security",
+      "route": "straight"
+    },
+    {
+      "from": "in_2",
+      "to": "out_2",
+      "label": "dashed",
+      "variant": "dashed",
+      "route": "straight"
+    },
+    {
+      "from": "in_3",
+      "to": "out_3",
+      "label": "default",
+      "variant": "default",
+      "route": "straight"
+    }
+  ]
+}

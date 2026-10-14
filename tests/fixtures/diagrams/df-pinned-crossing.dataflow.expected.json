@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Data-flow layout validation failed:\n- [composition/proper-crossing] showcase dataflow flows[4] id \"identity-map\" \"consent\" -> \"pii\" crosses flows[5] id \"normalized-facts\" \"stream\" -> \"warehouse\" at [638, 320] (segments 2 and 1) — if the authored via/labelAt/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via or channelX/channelY so the flows use separate stage corridors.\n- [composition/label-route-clearance] showcase dataflow label \"normalized facts\" on flows[5] id \"normalized-facts\" \"stream\" -> \"warehouse\" label \"normalized facts\" is 0px from flows[4] id \"identity-map\" \"consent\" -> \"pii\" label \"identity map\" segment 1 [610, 157] -> [610, 320] (label rect [593, 315, 90, 27]; minimum 4px) — if the authored via/fromSide/toSide/labelAt are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "error",
+      "message": "[composition/proper-crossing] showcase dataflow flows[4] id \"identity-map\" \"consent\" -> \"pii\" crosses flows[5] id \"normalized-facts\" \"stream\" -> \"warehouse\" at [638, 320] (segments 2 and 1) — if the authored via/labelAt/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via or channelX/channelY so the flows use separate stage corridors.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 4,
+        "id": "identity-map",
+        "from": "consent",
+        "to": "pii"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 5,
+          "id": "normalized-facts",
+          "from": "stream",
+          "to": "warehouse"
+        },
+        "point": [
+          638,
+          320
+        ],
+        "segmentIndex": 2,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "if the authored via/labelAt/fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via or channelX/channelY so the flows use separate stage corridors"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"normalized facts\" on flows[5] id \"normalized-facts\" \"stream\" -> \"warehouse\" label \"normalized facts\" is 0px from flows[4] id \"identity-map\" \"consent\" -> \"pii\" label \"identity map\" segment 1 [610, 157] -> [610, 320] (label rect [593, 315, 90, 27]; minimum 4px) — if the authored via/fromSide/toSide/labelAt are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 5,
+        "id": "normalized-facts",
+        "from": "stream",
+        "to": "warehouse"
+      },
+      "evidence": {
+        "label": "normalized facts",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 4,
+          "id": "identity-map",
+          "from": "consent",
+          "to": "pii"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "normalized-facts",
+            "from": "stream",
+            "to": "warehouse",
+            "label": "normalized facts",
+            "classification": "non-PII",
+            "variant": "emphasis",
+            "fromSide": "right",
+            "toSide": "left",
+            "via": [
+              [
+                638,
+                385
+              ],
+              [
+                638,
+                271
+              ]
+            ],
+            "labelAt": [
+              638,
+              326
+            ]
+          },
+          "relationIndex": 5,
+          "label": "normalized facts",
+          "x": 592.8,
+          "y": 315,
+          "width": 90.4,
+          "height": 27,
+          "lx": 638,
+          "ly": 326
+        },
+        "from": [
+          610,
+          157
+        ],
+        "to": [
+          610,
+          320
+        ]
+      },
+      "supportedFixes": [
+        "if the authored via/fromSide/toSide/labelAt are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    }
+  ]
+}

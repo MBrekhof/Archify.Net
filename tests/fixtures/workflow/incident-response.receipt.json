@@ -1,0 +1,359 @@
+{
+  "contract": "fixed-v1",
+  "viewBox": [
+    720,
+    900
+  ],
+  "requiredViewBox": [
+    720,
+    900
+  ],
+  "columns": [
+    88,
+    220,
+    300,
+    430,
+    500,
+    625
+  ],
+  "nodes": [
+    {
+      "id": "alert",
+      "lane": "signals",
+      "col": 0,
+      "x": 42,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "page",
+      "lane": "responders",
+      "col": 1,
+      "x": 182,
+      "y": 217,
+      "width": 76,
+      "height": 52
+    },
+    {
+      "id": "triage",
+      "lane": "responders",
+      "col": 2,
+      "x": 268,
+      "y": 217,
+      "width": 64,
+      "height": 52
+    },
+    {
+      "id": "declare",
+      "lane": "responders",
+      "col": 3,
+      "x": 384,
+      "y": 209,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "contain",
+      "lane": "mitigation",
+      "col": 3,
+      "x": 394,
+      "y": 341,
+      "width": 72,
+      "height": 52
+    },
+    {
+      "id": "recover",
+      "lane": "mitigation",
+      "col": 4,
+      "x": 474,
+      "y": 341,
+      "width": 52,
+      "height": 52
+    },
+    {
+      "id": "verify",
+      "lane": "recovery",
+      "col": 5,
+      "x": 579,
+      "y": 457,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "close",
+      "lane": "communication",
+      "col": 5,
+      "x": 579,
+      "y": 589,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "update",
+      "lane": "communication",
+      "col": 3,
+      "x": 384,
+      "y": 589,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "escalate",
+      "lane": "exceptions",
+      "col": 3,
+      "x": 394,
+      "y": 713,
+      "width": 72,
+      "height": 52
+    },
+    {
+      "id": "rollback",
+      "lane": "exceptions",
+      "col": 5,
+      "x": 579,
+      "y": 713,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": null,
+      "from": "alert",
+      "to": "page",
+      "points": [
+        [
+          88,
+          145
+        ],
+        [
+          88,
+          166
+        ],
+        [
+          220,
+          166
+        ],
+        [
+          220,
+          217
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "page",
+      "to": "triage",
+      "points": [
+        [
+          220,
+          269
+        ],
+        [
+          220,
+          301
+        ],
+        [
+          300,
+          301
+        ],
+        [
+          300,
+          269
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "triage",
+      "to": "contain",
+      "points": [
+        [
+          300,
+          269
+        ],
+        [
+          300,
+          290
+        ],
+        [
+          430,
+          290
+        ],
+        [
+          430,
+          341
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "contain",
+      "to": "recover",
+      "points": [
+        [
+          430,
+          393
+        ],
+        [
+          430,
+          425
+        ],
+        [
+          500,
+          425
+        ],
+        [
+          500,
+          393
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "recover",
+      "to": "verify",
+      "points": [
+        [
+          500,
+          393
+        ],
+        [
+          500,
+          414
+        ],
+        [
+          625,
+          414
+        ],
+        [
+          625,
+          457
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "verify",
+      "to": "close",
+      "points": [
+        [
+          625,
+          525
+        ],
+        [
+          625,
+          538
+        ],
+        [
+          625,
+          538
+        ],
+        [
+          625,
+          589
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "triage",
+      "to": "declare",
+      "points": [
+        [
+          332,
+          243
+        ],
+        [
+          384,
+          243
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "declare",
+      "to": "update",
+      "points": [
+        [
+          430,
+          209
+        ],
+        [
+          430,
+          16
+        ],
+        [
+          20,
+          16
+        ],
+        [
+          20,
+          615
+        ],
+        [
+          384,
+          615
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "update",
+      "to": "escalate",
+      "points": [
+        [
+          430,
+          641
+        ],
+        [
+          430,
+          662
+        ],
+        [
+          430,
+          662
+        ],
+        [
+          430,
+          713
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "verify",
+      "to": "rollback",
+      "points": [
+        [
+          671,
+          491
+        ],
+        [
+          692,
+          491
+        ],
+        [
+          692,
+          739
+        ],
+        [
+          671,
+          739
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": null,
+      "label": "page",
+      "x": 154,
+      "y": 156,
+      "width": 30,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

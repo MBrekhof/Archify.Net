@@ -1,0 +1,403 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    872,
+    786
+  ],
+  "requiredViewBox": [
+    872,
+    786
+  ],
+  "columns": [
+    94,
+    218,
+    366.4,
+    514.8,
+    638.8,
+    762.8
+  ],
+  "nodes": [
+    {
+      "id": "submit_order",
+      "lane": "order_flow",
+      "col": 0,
+      "x": 48,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "check_inventory",
+      "lane": "order_flow",
+      "col": 1,
+      "x": 172,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "notify_insufficient",
+      "lane": "order_flow",
+      "col": 2,
+      "x": 320.4,
+      "y": 446,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "reserve_inventory",
+      "lane": "order_flow",
+      "col": 2,
+      "x": 320.4,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "create_pending",
+      "lane": "order_flow",
+      "col": 3,
+      "x": 468.79999999999995,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "release_inventory",
+      "lane": "order_flow",
+      "col": 4,
+      "x": 592.8,
+      "y": 506,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "wait_payment",
+      "lane": "order_flow",
+      "col": 4,
+      "x": 592.8,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "cancel_order",
+      "lane": "order_flow",
+      "col": 5,
+      "x": 716.8,
+      "y": 486,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "deduct_inventory",
+      "lane": "order_flow",
+      "col": 5,
+      "x": 716.8,
+      "y": 346,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "manual_fulfillment",
+      "lane": "order_flow",
+      "col": 5,
+      "x": 716.8,
+      "y": 606,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "payment_success",
+      "lane": "order_flow",
+      "col": 5,
+      "x": 716.8,
+      "y": 236,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "ship_order",
+      "lane": "order_flow",
+      "col": 5,
+      "x": 716.8,
+      "y": 426,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "cancel_to_release",
+      "from": "cancel_order",
+      "to": "release_inventory",
+      "points": [
+        [
+          808.8,
+          512
+        ],
+        [
+          833,
+          512
+        ],
+        [
+          833,
+          574
+        ],
+        [
+          638.8,
+          574
+        ],
+        [
+          638.8,
+          558
+        ]
+      ]
+    },
+    {
+      "id": "check_to_insufficient",
+      "from": "check_inventory",
+      "to": "notify_insufficient",
+      "points": [
+        [
+          218,
+          398
+        ],
+        [
+          218,
+          472
+        ],
+        [
+          320.4,
+          472
+        ]
+      ]
+    },
+    {
+      "id": "check_to_reserve",
+      "from": "check_inventory",
+      "to": "reserve_inventory",
+      "points": [
+        [
+          264,
+          372
+        ],
+        [
+          320.4,
+          372
+        ]
+      ]
+    },
+    {
+      "id": "deduct_to_ship",
+      "from": "deduct_inventory",
+      "to": "ship_order",
+      "points": [
+        [
+          762.8,
+          398
+        ],
+        [
+          762.8,
+          426
+        ]
+      ]
+    },
+    {
+      "id": "paid_to_deduct",
+      "from": "payment_success",
+      "to": "deduct_inventory",
+      "points": [
+        [
+          762.8,
+          288
+        ],
+        [
+          762.8,
+          346
+        ]
+      ]
+    },
+    {
+      "id": "pending_to_wait",
+      "from": "create_pending",
+      "to": "wait_payment",
+      "points": [
+        [
+          560.8,
+          372
+        ],
+        [
+          592.8,
+          372
+        ]
+      ]
+    },
+    {
+      "id": "reserve_to_pending",
+      "from": "reserve_inventory",
+      "to": "create_pending",
+      "points": [
+        [
+          412.4,
+          372
+        ],
+        [
+          468.79999999999995,
+          372
+        ]
+      ]
+    },
+    {
+      "id": "ship_to_manual",
+      "from": "ship_order",
+      "to": "manual_fulfillment",
+      "points": [
+        [
+          808.8,
+          452
+        ],
+        [
+          853.2,
+          452
+        ],
+        [
+          853.2,
+          632
+        ],
+        [
+          808.8,
+          632
+        ]
+      ]
+    },
+    {
+      "id": "submit_to_check",
+      "from": "submit_order",
+      "to": "check_inventory",
+      "points": [
+        [
+          140,
+          372
+        ],
+        [
+          172,
+          372
+        ]
+      ]
+    },
+    {
+      "id": "wait_to_paid",
+      "from": "wait_payment",
+      "to": "payment_success",
+      "points": [
+        [
+          638.8,
+          346
+        ],
+        [
+          638.8,
+          262
+        ],
+        [
+          716.8,
+          262
+        ]
+      ]
+    },
+    {
+      "id": "wait_to_timeout",
+      "from": "wait_payment",
+      "to": "cancel_order",
+      "points": [
+        [
+          638.8,
+          398
+        ],
+        [
+          638.8,
+          414
+        ],
+        [
+          689.8,
+          414
+        ],
+        [
+          689.8,
+          512
+        ],
+        [
+          716.8,
+          512
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "cancel_to_release",
+      "label": "释放预占",
+      "x": 735.9,
+      "y": 564,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "check_to_insufficient",
+      "label": "库存不足",
+      "x": 269.2,
+      "y": 462,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "check_to_reserve",
+      "label": "库存充足",
+      "x": 292.2,
+      "y": 362,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "paid_to_deduct",
+      "label": "结算预占",
+      "x": 762.8,
+      "y": 317,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "reserve_to_pending",
+      "label": "预占成功",
+      "x": 440.59999999999997,
+      "y": 362,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "ship_to_manual",
+      "label": "发货失败",
+      "x": 831,
+      "y": 442,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "wait_to_paid",
+      "label": "支付成功",
+      "x": 677.8,
+      "y": 252,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "wait_to_timeout",
+      "label": "支付超时",
+      "x": 689.8,
+      "y": 463,
+      "width": 48.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

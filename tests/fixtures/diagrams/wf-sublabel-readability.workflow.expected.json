@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow layout validation failed",
+  "diagnostics": [
+    {
+      "code": "workflow/sublabel-readability",
+      "severity": "error",
+      "message": "Sublabel \"1234567890123456789012\" needs ~102px at the 7.7px minimum that stays readable on this 1193px canvas, but node \"mid_autumn\" provides 84px — shorten the sublabel while preserving its role or protocol.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "mid_autumn",
+        "path": "/nodes/1/sublabel"
+      },
+      "evidence": {
+        "requiredFontPx": 7.7,
+        "maximumSlotFontPx": 8,
+        "canvasWidthPx": 1193,
+        "maximumCanvasWidthPx": 1240,
+        "requiredTextWidthPx": 101.64,
+        "availableTextWidthPx": 84
+      },
+      "supportedFixes": [
+        "shorten node \"mid_autumn\" sublabel while preserving its role or protocol; move supplementary facts into a card"
+      ]
+    }
+  ]
+}

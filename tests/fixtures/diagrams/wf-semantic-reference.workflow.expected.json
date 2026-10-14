@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow semantic contract references unknown node \"nobody\" at /semanticChecks/allowedRoots/0.",
+  "diagnostics": [
+    {
+      "code": "workflow/semantic-node-reference",
+      "severity": "error",
+      "message": "Workflow semantic contract references unknown node \"nobody\" at /semanticChecks/allowedRoots/0.",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "nobody",
+        "path": "/semanticChecks/allowedRoots/0"
+      },
+      "evidence": {
+        "knownNodes": [
+          "today",
+          "mid_autumn",
+          "national_day",
+          "year_end",
+          "makeup_work"
+        ]
+      },
+      "supportedFixes": [
+        "replace \"nobody\" with an existing node id",
+        "add the missing node before compiling"
+      ]
+    }
+  ]
+}

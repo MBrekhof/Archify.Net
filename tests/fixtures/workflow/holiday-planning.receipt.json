@@ -1,0 +1,163 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    802,
+    408
+  ],
+  "requiredViewBox": [
+    802,
+    408
+  ],
+  "columns": [
+    94,
+    247.2,
+    367.2,
+    487.2,
+    607.2,
+    727.2
+  ],
+  "nodes": [
+    {
+      "id": "today",
+      "lane": "calendar",
+      "col": 0,
+      "x": 48,
+      "y": 94,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "mid_autumn",
+      "lane": "calendar",
+      "col": 1,
+      "x": 201.2,
+      "y": 86,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "national_day",
+      "lane": "calendar",
+      "col": 3,
+      "x": 441.2,
+      "y": 86,
+      "width": 92,
+      "height": 68
+    },
+    {
+      "id": "year_end",
+      "lane": "calendar",
+      "col": 5,
+      "x": 681.2,
+      "y": 94,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "makeup_work",
+      "lane": "makeup",
+      "col": 3,
+      "x": 441.2,
+      "y": 212,
+      "width": 92,
+      "height": 68
+    }
+  ],
+  "edges": [
+    {
+      "id": "makeup_branch",
+      "from": "national_day",
+      "to": "makeup_work",
+      "points": [
+        [
+          487.2,
+          154
+        ],
+        [
+          487.2,
+          212
+        ]
+      ]
+    },
+    {
+      "id": "mid_to_national",
+      "from": "mid_autumn",
+      "to": "national_day",
+      "points": [
+        [
+          293.2,
+          120
+        ],
+        [
+          441.2,
+          120
+        ]
+      ]
+    },
+    {
+      "id": "to_mid_autumn",
+      "from": "today",
+      "to": "mid_autumn",
+      "points": [
+        [
+          140,
+          120
+        ],
+        [
+          201.2,
+          120
+        ]
+      ]
+    },
+    {
+      "id": "to_year_end",
+      "from": "national_day",
+      "to": "year_end",
+      "points": [
+        [
+          533.2,
+          120
+        ],
+        [
+          681.2,
+          120
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "makeup_branch",
+      "label": "国庆调休",
+      "x": 487.2,
+      "y": 183,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "mid_to_national",
+      "label": "节后上班3天",
+      "x": 367.2,
+      "y": 110,
+      "width": 62.8,
+      "height": 14
+    },
+    {
+      "edge": "to_mid_autumn",
+      "label": "3天后连休",
+      "x": 170.6,
+      "y": 110,
+      "width": 53.199999999999996,
+      "height": 14
+    },
+    {
+      "edge": "to_year_end",
+      "label": "假期结束",
+      "x": 607.2,
+      "y": 110,
+      "width": 48.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

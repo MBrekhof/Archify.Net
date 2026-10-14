@@ -1,0 +1,375 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    1108,
+    684
+  ],
+  "requiredViewBox": [
+    1108,
+    684
+  ],
+  "columns": [
+    114,
+    278,
+    495.2,
+    659.2,
+    838,
+    1002
+  ],
+  "nodes": [
+    {
+      "id": "user",
+      "lane": "ui",
+      "col": 0,
+      "x": 48,
+      "y": 94,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "chat",
+      "lane": "ui",
+      "col": 1,
+      "x": 212,
+      "y": 94,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "final",
+      "lane": "ui",
+      "col": 5,
+      "x": 936,
+      "y": 94,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "planner",
+      "lane": "agent",
+      "col": 2,
+      "x": 429.2,
+      "y": 219,
+      "width": 132,
+      "height": 68
+    },
+    {
+      "id": "router",
+      "lane": "agent",
+      "col": 3,
+      "x": 593.2,
+      "y": 227,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "approval",
+      "lane": "policy",
+      "col": 3,
+      "x": 593.2,
+      "y": 353,
+      "width": 132,
+      "height": 68
+    },
+    {
+      "id": "blocked",
+      "lane": "policy",
+      "col": 4,
+      "x": 772,
+      "y": 361,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "retry",
+      "lane": "policy",
+      "col": 5,
+      "x": 936,
+      "y": 361,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "store",
+      "lane": "tools",
+      "col": 1,
+      "x": 212,
+      "y": 495,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "trace",
+      "lane": "tools",
+      "col": 2,
+      "x": 429.2,
+      "y": 495,
+      "width": 132,
+      "height": 52
+    },
+    {
+      "id": "tool",
+      "lane": "tools",
+      "col": 4,
+      "x": 772,
+      "y": 487,
+      "width": 132,
+      "height": 68
+    },
+    {
+      "id": "external",
+      "lane": "tools",
+      "col": 5,
+      "x": 936,
+      "y": 495,
+      "width": 132,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "approval-check",
+      "from": "router",
+      "to": "approval",
+      "points": [
+        [
+          659.2,
+          279
+        ],
+        [
+          659.2,
+          302
+        ],
+        [
+          577.2,
+          302
+        ],
+        [
+          577.2,
+          387
+        ],
+        [
+          593.2,
+          387
+        ]
+      ]
+    },
+    {
+      "id": "approval-denied",
+      "from": "approval",
+      "to": "blocked",
+      "points": [
+        [
+          725.2,
+          387
+        ],
+        [
+          772,
+          387
+        ]
+      ]
+    },
+    {
+      "id": "approved-tool",
+      "from": "approval",
+      "to": "tool",
+      "points": [
+        [
+          659.2,
+          421
+        ],
+        [
+          659.2,
+          521
+        ],
+        [
+          772,
+          521
+        ]
+      ]
+    },
+    {
+      "id": "external-reply",
+      "from": "external",
+      "to": "final",
+      "points": [
+        [
+          1068,
+          521
+        ],
+        [
+          1092,
+          521
+        ],
+        [
+          1092,
+          120
+        ],
+        [
+          1068,
+          120
+        ]
+      ]
+    },
+    {
+      "id": "plan-request",
+      "from": "chat",
+      "to": "planner",
+      "points": [
+        [
+          278,
+          146
+        ],
+        [
+          278,
+          253
+        ],
+        [
+          429.2,
+          253
+        ]
+      ]
+    },
+    {
+      "id": "planner-route",
+      "from": "planner",
+      "to": "router",
+      "points": [
+        [
+          561.2,
+          253
+        ],
+        [
+          593.2,
+          253
+        ]
+      ]
+    },
+    {
+      "id": "record-result",
+      "from": "external",
+      "to": "trace",
+      "points": [
+        [
+          1002,
+          547
+        ],
+        [
+          1002,
+          579
+        ],
+        [
+          495.2,
+          579
+        ],
+        [
+          495.2,
+          547
+        ]
+      ]
+    },
+    {
+      "id": "request-chat",
+      "from": "user",
+      "to": "chat",
+      "points": [
+        [
+          180,
+          120
+        ],
+        [
+          212,
+          120
+        ]
+      ]
+    },
+    {
+      "id": "retry-request",
+      "from": "blocked",
+      "to": "retry",
+      "points": [
+        [
+          904,
+          387
+        ],
+        [
+          936,
+          387
+        ]
+      ]
+    },
+    {
+      "id": "tool-external-call",
+      "from": "tool",
+      "to": "external",
+      "points": [
+        [
+          904,
+          521
+        ],
+        [
+          936,
+          521
+        ]
+      ]
+    },
+    {
+      "id": "write-trace-memory",
+      "from": "store",
+      "to": "trace",
+      "points": [
+        [
+          344,
+          521
+        ],
+        [
+          429.2,
+          521
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "approval-check",
+      "label": "needs approval?",
+      "x": 618.2,
+      "y": 292,
+      "width": 82,
+      "height": 14
+    },
+    {
+      "edge": "approval-denied",
+      "label": "denied",
+      "x": 748.6,
+      "y": 377,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "plan-request",
+      "label": "plan",
+      "x": 353.6,
+      "y": 243,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": "record-result",
+      "label": "record result",
+      "x": 748.6,
+      "y": 569,
+      "width": 72.4,
+      "height": 14
+    },
+    {
+      "edge": "write-trace-memory",
+      "label": "trace + memory",
+      "x": 386.6,
+      "y": 511,
+      "width": 77.2,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

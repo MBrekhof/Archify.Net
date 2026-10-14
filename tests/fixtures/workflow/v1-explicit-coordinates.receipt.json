@@ -1,0 +1,145 @@
+{
+  "contract": "fixed-v1",
+  "viewBox": [
+    720,
+    700
+  ],
+  "requiredViewBox": [
+    720,
+    700
+  ],
+  "columns": [
+    88,
+    220,
+    300,
+    430,
+    500,
+    625
+  ],
+  "nodes": [
+    {
+      "id": "route-a",
+      "lane": "route",
+      "col": 0,
+      "x": 42,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "route-b",
+      "lane": "route",
+      "col": 2,
+      "x": 254,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "label-a",
+      "lane": "label",
+      "col": 2,
+      "x": 254,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "label-b",
+      "lane": "label",
+      "col": 3,
+      "x": 384,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "channel-a",
+      "lane": "channel-source",
+      "col": 1,
+      "x": 174,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "channel-b",
+      "lane": "channel-target",
+      "col": 1,
+      "x": 174,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "pinned-via",
+      "from": "route-a",
+      "to": "route-b",
+      "points": [
+        [
+          134,
+          119
+        ],
+        [
+          220,
+          119
+        ],
+        [
+          254,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "pinned-label",
+      "from": "label-a",
+      "to": "label-b",
+      "points": [
+        [
+          346,
+          243
+        ],
+        [
+          384,
+          243
+        ]
+      ]
+    },
+    {
+      "id": "pinned-channel",
+      "from": "channel-a",
+      "to": "channel-b",
+      "points": [
+        [
+          266,
+          367
+        ],
+        [
+          500,
+          367
+        ],
+        [
+          500,
+          491
+        ],
+        [
+          266,
+          491
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "pinned-label",
+      "label": "ok",
+      "x": 365,
+      "y": 203,
+      "width": 30,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

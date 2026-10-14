@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow viewBox 700×360 cannot contain the readable-v2 layout; minimum 802×408.",
+  "diagnostics": [
+    {
+      "code": "workflow/viewbox-capacity",
+      "severity": "error",
+      "message": "Workflow viewBox 700×360 cannot contain the readable-v2 layout; minimum 802×408.",
+      "subject": {
+        "diagramType": "workflow",
+        "path": "/meta/viewBox"
+      },
+      "evidence": {
+        "actualViewBox": [
+          700,
+          360
+        ],
+        "requiredViewBox": [
+          802,
+          408
+        ],
+        "contentBounds": [
+          20,
+          27,
+          786,
+          346
+        ],
+        "contributors": [
+          "legend title",
+          "workflow top padding",
+          "workflow lanes",
+          "legend",
+          "edge to_mid_autumn label mask",
+          "node mid_autumn width 92px",
+          "node today width 92px",
+          "rank 0→1 direct clearance",
+          "node makeup_work height 68px",
+          "node mid_autumn height 68px",
+          "node national_day height 68px"
+        ]
+      },
+      "supportedFixes": [
+        "set meta.viewBox to at least [802, 408]",
+        "omit meta.viewBox so the compiler can use its measured intrinsic canvas"
+      ]
+    }
+  ]
+}

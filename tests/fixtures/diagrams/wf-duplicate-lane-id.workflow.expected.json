@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow lane id \"calendar\" is duplicated.",
+  "diagnostics": [
+    {
+      "code": "workflow/duplicate-lane-id",
+      "severity": "error",
+      "message": "Workflow lane id \"calendar\" is duplicated.",
+      "subject": {
+        "diagramType": "workflow",
+        "lane": "calendar",
+        "path": "/lanes/1/id"
+      },
+      "evidence": {
+        "duplicateLaneId": "calendar",
+        "firstPath": "/lanes/0/id",
+        "duplicatePath": "/lanes/1/id"
+      },
+      "supportedFixes": []
+    }
+  ]
+}

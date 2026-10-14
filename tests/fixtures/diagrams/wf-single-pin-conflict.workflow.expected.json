@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"plan-request\" has explicit geometry that violates orthogonal route segments.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"plan-request\" has explicit geometry that violates orthogonal route segments.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "plan-request",
+        "from": "chat",
+        "to": "planner",
+        "path": "/edges/1/via"
+      },
+      "evidence": {
+        "invariant": "orthogonal route segments",
+        "conflictingPins": [
+          {
+            "edge": "plan-request",
+            "field": "via",
+            "path": "/edges/1/via",
+            "value": [
+              [
+                300,
+                60
+              ]
+            ]
+          }
+        ],
+        "segmentIndex": 0,
+        "from": [
+          340,
+          120
+        ],
+        "to": [
+          300,
+          60
+        ]
+      },
+      "supportedFixes": [
+        "remove via from edge \"plan-request\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

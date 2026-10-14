@@ -1,0 +1,274 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    816,
+    652
+  ],
+  "requiredViewBox": [
+    816,
+    652
+  ],
+  "columns": [
+    94,
+    214,
+    381.6,
+    501.6,
+    621.6,
+    741.6
+  ],
+  "nodes": [
+    {
+      "id": "alert",
+      "lane": "mon",
+      "col": 0,
+      "x": 48,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "verify",
+      "lane": "mon",
+      "col": 4,
+      "x": 573.6,
+      "y": 93,
+      "width": 96,
+      "height": 52
+    },
+    {
+      "id": "ack",
+      "lane": "oncall",
+      "col": 1,
+      "x": 168,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "triage",
+      "lane": "oncall",
+      "col": 2,
+      "x": 335.6,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "fix",
+      "lane": "eng",
+      "col": 3,
+      "x": 455.6,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "review",
+      "lane": "eng",
+      "col": 5,
+      "x": 695.6,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "status",
+      "lane": "comms",
+      "col": 3,
+      "x": 455.6,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": null,
+      "from": "ack",
+      "to": "triage",
+      "points": [
+        [
+          260,
+          243
+        ],
+        [
+          335.6,
+          243
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "alert",
+      "to": "ack",
+      "points": [
+        [
+          140,
+          119
+        ],
+        [
+          214,
+          119
+        ],
+        [
+          214,
+          217
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "fix",
+      "to": "verify",
+      "points": [
+        [
+          501.6,
+          341
+        ],
+        [
+          501.6,
+          119
+        ],
+        [
+          573.6,
+          119
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "triage",
+      "to": "fix",
+      "points": [
+        [
+          427.6,
+          243
+        ],
+        [
+          477.6,
+          243
+        ],
+        [
+          477.6,
+          341
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "triage",
+      "to": "status",
+      "points": [
+        [
+          388.6,
+          269
+        ],
+        [
+          388.6,
+          491
+        ],
+        [
+          455.6,
+          491
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "verify",
+      "to": "fix",
+      "points": [
+        [
+          614.6,
+          145
+        ],
+        [
+          614.6,
+          367
+        ],
+        [
+          547.6,
+          367
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "verify",
+      "to": "review",
+      "points": [
+        [
+          669.6,
+          119
+        ],
+        [
+          741.6,
+          119
+        ],
+        [
+          741.6,
+          341
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": null,
+      "label": "acknowledged",
+      "x": 297.8,
+      "y": 233,
+      "width": 67.6,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "page",
+      "x": 177,
+      "y": 109,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "deployed",
+      "x": 537.6,
+      "y": 109,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "SEV1/2",
+      "x": 452.6,
+      "y": 233,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "customer impact",
+      "x": 388.6,
+      "y": 380,
+      "width": 82,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "still failing",
+      "x": 614.6,
+      "y": 256,
+      "width": 72.4,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "resolved",
+      "x": 705.6,
+      "y": 109,
+      "width": 48.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

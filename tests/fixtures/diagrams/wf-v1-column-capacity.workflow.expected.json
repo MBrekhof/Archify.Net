@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow columns 1→2 place nodes \"label-a\" and \"label-b\" so they overlap by 12px under the fixed-v1 layout.",
+  "diagnostics": [
+    {
+      "code": "workflow/column-capacity",
+      "severity": "error",
+      "message": "Workflow columns 1→2 place nodes \"label-a\" and \"label-b\" so they overlap by 12px under the fixed-v1 layout.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "pinned-label",
+        "from": "label-a",
+        "to": "label-b",
+        "fromCol": 1,
+        "toCol": 2
+      },
+      "evidence": {
+        "centerDistancePx": 80,
+        "nodeWidthsPx": [
+          92,
+          92
+        ],
+        "actualSignedClearancePx": -12,
+        "requiredDirectClearancePx": 28
+      },
+      "supportedFixes": [
+        "migrate this workflow to schema_version 2",
+        "move node \"label-b\" to verified free column 3",
+        "set node widths \"label-a\"=32px and \"label-b\"=72px"
+      ],
+      "suppresses": [
+        "workflow/short-edge",
+        "clean-flow/endpoint-side-direction",
+        "workflow/label-node-overlap"
+      ]
+    }
+  ]
+}

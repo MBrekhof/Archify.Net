@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Data-flow layout validation failed:\n- Node \"consent\" starts above the readable diagram area — keep y at or above 104.\n- Flow \"identity + consent\" has a diagonal segment from (450, 157) to (474, -243) — align via[2] with its adjacent point by sharing the same x or y coordinate.\n- [clean-flow/endpoint-side-direction] dataflow flows[2] id \"consent-enrichment\" \"edge\" -> \"consent\" final segment 3 [450, 157] -> [474, -243] does not honor toSide \"left\" — it must run horizontal rightward from the left; keep automatic routing, or choose fromSide/toSide and via points whose first and final segments cross node borders perpendicularly.",
+  "diagnostics": [
+    {
+      "code": "clean-flow/endpoint-side-direction",
+      "severity": "error",
+      "message": "[clean-flow/endpoint-side-direction] dataflow flows[2] id \"consent-enrichment\" \"edge\" -> \"consent\" final segment 3 [450, 157] -> [474, -243] does not honor toSide \"left\" — it must run horizontal rightward from the left; keep automatic routing, or choose fromSide/toSide and via points whose first and final segments cross node borders perpendicularly.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 2,
+        "id": "consent-enrichment",
+        "from": "edge",
+        "to": "consent"
+      },
+      "evidence": {
+        "endpoint": "target",
+        "authoredField": "toSide",
+        "sideOrigin": "authored",
+        "side": "left",
+        "segmentIndex": 3,
+        "from": [
+          450,
+          157
+        ],
+        "to": [
+          474,
+          -243
+        ],
+        "expectedAxis": "horizontal",
+        "expectedDirection": "rightward from the left"
+      },
+      "supportedFixes": [
+        "keep automatic routing, or choose fromSide/toSide and via points whose first and final segments cross node borders perpendicularly"
+      ]
+    },
+    {
+      "code": "dataflow/node-above-area",
+      "severity": "error",
+      "message": "Node \"consent\" starts above the readable diagram area — keep y at or above 104.",
+      "subject": {
+        "diagramType": "dataflow",
+        "node": "consent"
+      },
+      "evidence": {
+        "y": -272,
+        "areaTop": 104,
+        "yOffset": -400
+      },
+      "supportedFixes": [
+        "raise or remove the negative yOffset on node \"consent\""
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Flow \"identity + consent\" has a diagonal segment from (450, 157) to (474, -243) — align via[2] with its adjacent point by sharing the same x or y coordinate.",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

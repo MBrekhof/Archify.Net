@@ -1,0 +1,259 @@
+{
+  "ok": true,
+  "artifact": {
+    "sha256": "0c08fecafe2085bad8ec8a3c2cd11af4a673f3068d64ab8a6e958d74c046e43d",
+    "bytes": 811301
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "container_border_runs",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "route_rhythm",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "legend_clearance",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "showcase",
+    "status": "pass",
+    "summary": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "metrics": {
+      "properCrossings": 0,
+      "resolvedCrossovers": 5,
+      "ambiguousCorridors": 0,
+      "arrowheadCollisions": 0,
+      "containerBorderRuns": 0,
+      "labelRouteClearanceIssues": 0,
+      "labelCanvasOverflowIssues": 0,
+      "minLabelRouteClearance": 4,
+      "desktopReadabilityIssues": 0,
+      "viewportHeightIssues": 0,
+      "minProjectedNodeTextPx": 8,
+      "maxBends": 4,
+      "routesOverSuggestedBends": 2,
+      "maxStretch": 1.271,
+      "routesOverSuggestedStretch": 0,
+      "minSegmentPx": 11.1,
+      "minInteriorSegmentPx": 16,
+      "shortSegmentCount": 1,
+      "shortEndpointSegmentCount": 1,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 0
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [
+        {
+          "left": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "label": "value · key · TTL",
+            "collectionIndex": 0,
+            "artifactIndex": 1
+          },
+          "right": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "label": "一级未命中：二级值",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "point": [
+            637.5,
+            401
+          ]
+        },
+        {
+          "left": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "label": "value · TTL",
+            "collectionIndex": 1,
+            "artifactIndex": 2
+          },
+          "right": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "label": "一级未命中：二级值",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "point": [
+            637.5,
+            400.0000000000001
+          ]
+        },
+        {
+          "left": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "label": "一级未命中：二级值",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "right": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "label": "已持有：处理完成或失败",
+            "collectionIndex": 4,
+            "artifactIndex": 5
+          },
+          "point": [
+            637.5,
+            499
+          ]
+        },
+        {
+          "left": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "label": "一级未命中：二级值",
+            "collectionIndex": 3,
+            "artifactIndex": 4
+          },
+          "right": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "label": "未持有：完成或失败",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "point": [
+            637.5,
+            385
+          ]
+        },
+        {
+          "left": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "label": "已持有：处理异常",
+            "collectionIndex": 5,
+            "artifactIndex": 6
+          },
+          "right": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "label": "未持有：完成或失败",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "point": [
+            530,
+            455
+          ]
+        }
+      ],
+      "detours": [
+        {
+          "relationship": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "label": "value · key · TTL",
+            "collectionIndex": 0,
+            "artifactIndex": 1
+          },
+          "bends": 4,
+          "stretch": 1.271
+        },
+        {
+          "relationship": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "label": "未持有：完成或失败",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "bends": 4,
+          "stretch": 1
+        }
+      ]
+    },
+    "leadingSpace": {
+      "measured": false,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "legacy-930",
+      "readerContract": "declared-wide-v1",
+      "availableDiagramWidth": 930,
+      "actualBudgetPx": 930,
+      "limit": "legacy",
+      "requestedTargetPx": null,
+      "requestedTargetMet": null,
+      "hardFloorPx": 6,
+      "hardFloorMet": true,
+      "minimumOwner": {
+        "kind": "edge",
+        "id": "e0",
+        "from": "n1",
+        "to": "n2"
+      },
+      "minimumSourceTextPx": 8,
+      "minimumProjectedTextPx": 8,
+      "semanticTextCount": 16
+    },
+    "issues": []
+  }
+}

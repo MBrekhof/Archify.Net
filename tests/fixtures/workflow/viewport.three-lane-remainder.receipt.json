@@ -1,0 +1,167 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    774,
+    528
+  ],
+  "requiredViewBox": [
+    774,
+    528
+  ],
+  "columns": [
+    94,
+    214,
+    334,
+    460,
+    580,
+    700
+  ],
+  "nodes": [
+    {
+      "id": "apply",
+      "lane": "staff",
+      "col": 0,
+      "x": 48,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "notify",
+      "lane": "staff",
+      "col": 4,
+      "x": 534,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "review",
+      "lane": "lead",
+      "col": 1,
+      "x": 168,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "record",
+      "lane": "hr",
+      "col": 2,
+      "x": 288,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "calendar",
+      "lane": "hr",
+      "col": 3,
+      "x": 412,
+      "y": 341,
+      "width": 96,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": null,
+      "from": "apply",
+      "to": "review",
+      "points": [
+        [
+          140,
+          119
+        ],
+        [
+          214,
+          119
+        ],
+        [
+          214,
+          217
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "calendar",
+      "to": "notify",
+      "points": [
+        [
+          508,
+          367
+        ],
+        [
+          580,
+          367
+        ],
+        [
+          580,
+          145
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "record",
+      "to": "calendar",
+      "points": [
+        [
+          380,
+          367
+        ],
+        [
+          412,
+          367
+        ]
+      ]
+    },
+    {
+      "id": null,
+      "from": "review",
+      "to": "record",
+      "points": [
+        [
+          214,
+          269
+        ],
+        [
+          214,
+          367
+        ],
+        [
+          288,
+          367
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": null,
+      "label": "submit",
+      "x": 177,
+      "y": 109,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "notify",
+      "x": 544,
+      "y": 357,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": null,
+      "label": "approved",
+      "x": 251,
+      "y": 357,
+      "width": 48.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

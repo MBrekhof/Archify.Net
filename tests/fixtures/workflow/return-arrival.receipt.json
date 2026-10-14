@@ -1,0 +1,558 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    1192,
+    1276
+  ],
+  "requiredViewBox": [
+    1192,
+    1276
+  ],
+  "columns": [
+    124,
+    308,
+    492,
+    676,
+    860,
+    1044
+  ],
+  "nodes": [
+    {
+      "id": "retry",
+      "lane": "buyer",
+      "col": 0,
+      "x": 48,
+      "y": 89,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "submit",
+      "lane": "buyer",
+      "col": 1,
+      "x": 232,
+      "y": 89,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "validate",
+      "lane": "order",
+      "col": 1,
+      "x": 232,
+      "y": 210,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "no_stock",
+      "lane": "order",
+      "col": 2,
+      "x": 416,
+      "y": 210,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "pending",
+      "lane": "order",
+      "col": 2,
+      "x": 416,
+      "y": 310,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "reserve",
+      "lane": "stock",
+      "col": 1,
+      "x": 232,
+      "y": 428,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "release",
+      "lane": "stock",
+      "col": 5,
+      "x": 968,
+      "y": 528,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "failed",
+      "lane": "payment",
+      "col": 0,
+      "x": 48,
+      "y": 746,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "pay",
+      "lane": "payment",
+      "col": 2,
+      "x": 416,
+      "y": 646,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "result",
+      "lane": "payment",
+      "col": 3,
+      "x": 600,
+      "y": 646,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "deadline",
+      "lane": "payment",
+      "col": 5,
+      "x": 959,
+      "y": 746,
+      "width": 170,
+      "height": 60
+    },
+    {
+      "id": "paid",
+      "lane": "paid",
+      "col": 3,
+      "x": 600,
+      "y": 867,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "event",
+      "lane": "paid",
+      "col": 4,
+      "x": 784,
+      "y": 867,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "close",
+      "lane": "paid",
+      "col": 5,
+      "x": 968,
+      "y": 867,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "pick",
+      "lane": "warehouse",
+      "col": 4,
+      "x": 784,
+      "y": 988,
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "ship",
+      "lane": "warehouse",
+      "col": 4,
+      "x": 784,
+      "y": 1088,
+      "width": 152,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "close-release",
+      "from": "close",
+      "to": "release",
+      "points": [
+        [
+          1120,
+          897
+        ],
+        [
+          1174,
+          897
+        ],
+        [
+          1174,
+          558
+        ],
+        [
+          1120,
+          558
+        ]
+      ]
+    },
+    {
+      "id": "deadline-close",
+      "from": "deadline",
+      "to": "close",
+      "points": [
+        [
+          1044,
+          806
+        ],
+        [
+          1044,
+          867
+        ]
+      ]
+    },
+    {
+      "id": "event-pick",
+      "from": "event",
+      "to": "pick",
+      "points": [
+        [
+          860,
+          927
+        ],
+        [
+          860,
+          988
+        ]
+      ]
+    },
+    {
+      "id": "failed-retry",
+      "from": "failed",
+      "to": "retry",
+      "points": [
+        [
+          124,
+          746
+        ],
+        [
+          124,
+          730
+        ],
+        [
+          20,
+          730
+        ],
+        [
+          20,
+          119
+        ],
+        [
+          48,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "paid-event",
+      "from": "paid",
+      "to": "event",
+      "points": [
+        [
+          752,
+          897
+        ],
+        [
+          784,
+          897
+        ]
+      ]
+    },
+    {
+      "id": "pay-result",
+      "from": "pay",
+      "to": "result",
+      "points": [
+        [
+          568,
+          676
+        ],
+        [
+          600,
+          676
+        ]
+      ]
+    },
+    {
+      "id": "pending-deadline",
+      "from": "pending",
+      "to": "deadline",
+      "points": [
+        [
+          568,
+          340
+        ],
+        [
+          763.5,
+          340
+        ],
+        [
+          763.5,
+          776
+        ],
+        [
+          959,
+          776
+        ]
+      ]
+    },
+    {
+      "id": "pending-pay",
+      "from": "pending",
+      "to": "pay",
+      "points": [
+        [
+          492,
+          370
+        ],
+        [
+          492,
+          646
+        ]
+      ]
+    },
+    {
+      "id": "pick-ship",
+      "from": "pick",
+      "to": "ship",
+      "points": [
+        [
+          860,
+          1048
+        ],
+        [
+          860,
+          1088
+        ]
+      ]
+    },
+    {
+      "id": "reserve-no_stock",
+      "from": "reserve",
+      "to": "no_stock",
+      "points": [
+        [
+          332,
+          428
+        ],
+        [
+          332,
+          384
+        ],
+        [
+          400,
+          384
+        ],
+        [
+          400,
+          240
+        ],
+        [
+          416,
+          240
+        ]
+      ]
+    },
+    {
+      "id": "reserve-pending",
+      "from": "reserve",
+      "to": "pending",
+      "points": [
+        [
+          384,
+          458
+        ],
+        [
+          468,
+          458
+        ],
+        [
+          468,
+          370
+        ]
+      ]
+    },
+    {
+      "id": "result-failed",
+      "from": "result",
+      "to": "failed",
+      "points": [
+        [
+          652,
+          706
+        ],
+        [
+          652,
+          776
+        ],
+        [
+          200,
+          776
+        ]
+      ]
+    },
+    {
+      "id": "result-paid",
+      "from": "result",
+      "to": "paid",
+      "points": [
+        [
+          676,
+          706
+        ],
+        [
+          676,
+          867
+        ]
+      ]
+    },
+    {
+      "id": "retry-pay",
+      "from": "retry",
+      "to": "pay",
+      "points": [
+        [
+          131,
+          149
+        ],
+        [
+          131,
+          165
+        ],
+        [
+          52,
+          165
+        ],
+        [
+          52,
+          676
+        ],
+        [
+          416,
+          676
+        ]
+      ]
+    },
+    {
+      "id": "submit-validate",
+      "from": "submit",
+      "to": "validate",
+      "points": [
+        [
+          308,
+          149
+        ],
+        [
+          308,
+          210
+        ]
+      ]
+    },
+    {
+      "id": "validate-reserve",
+      "from": "validate",
+      "to": "reserve",
+      "points": [
+        [
+          308,
+          270
+        ],
+        [
+          308,
+          428
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "close-release",
+      "label": "关闭后释放",
+      "x": 1147,
+      "y": 887,
+      "width": 58,
+      "height": 14
+    },
+    {
+      "edge": "deadline-close",
+      "label": "是",
+      "x": 1044,
+      "y": 836.5,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": "event-pick",
+      "label": "OrderPaid",
+      "x": 860,
+      "y": 957.5,
+      "width": 53.199999999999996,
+      "height": 14
+    },
+    {
+      "edge": "failed-retry",
+      "label": "允许重试",
+      "x": 72,
+      "y": 720,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "pending-deadline",
+      "label": "等待支付",
+      "x": 665.75,
+      "y": 330,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "reserve-no_stock",
+      "label": "库存不足",
+      "x": 366,
+      "y": 374,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "reserve-pending",
+      "label": "预占成功",
+      "x": 426,
+      "y": 448,
+      "width": 48.4,
+      "height": 14
+    },
+    {
+      "edge": "result-failed",
+      "label": "失败",
+      "x": 426,
+      "y": 766,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": "result-paid",
+      "label": "成功",
+      "x": 676,
+      "y": 786.5,
+      "width": 30,
+      "height": 14
+    },
+    {
+      "edge": "retry-pay",
+      "label": "未超时",
+      "x": 234,
+      "y": 666,
+      "width": 38.8,
+      "height": 14
+    },
+    {
+      "edge": "validate-reserve",
+      "label": "校验完成",
+      "x": 308,
+      "y": 349,
+      "width": 48.4,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

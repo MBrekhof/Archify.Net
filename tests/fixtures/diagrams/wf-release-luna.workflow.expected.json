@@ -1,0 +1,253 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow node overlap:\n- Workflow nodes \"test_join\" and \"staging_deploy\" are less than 8px apart in lane \"ci\".\n- Workflow nodes \"metric_gate\" and \"rollback_stable\" are less than 8px apart in lane \"ci\".\n- Workflow nodes \"metric_gate\" and \"rollback_end\" are less than 8px apart in lane \"ci\".\n- Workflow nodes \"metric_gate\" and \"full_release\" are less than 8px apart in lane \"ci\".\n- Workflow nodes \"rollback_stable\" and \"rollback_end\" are less than 8px apart in lane \"ci\".\n- Workflow nodes \"rollback_stable\" and \"full_release\" are less than 8px apart in lane \"ci\".\n- Workflow nodes \"rollback_end\" and \"full_release\" are less than 8px apart in lane \"ci\".",
+  "diagnostics": [
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"test_join\" and \"staging_deploy\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "staging_deploy",
+        "path": "/nodes/4"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "test_join",
+            "rect": {
+              "x": 288,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          },
+          {
+            "id": "staging_deploy",
+            "rect": {
+              "x": 288,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"metric_gate\" and \"rollback_stable\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "rollback_stable",
+        "path": "/nodes/9"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "metric_gate",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          },
+          {
+            "id": "rollback_stable",
+            "rect": {
+              "x": 702.8,
+              "y": 621,
+              "width": 104,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"metric_gate\" and \"rollback_end\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "rollback_end",
+        "path": "/nodes/10"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "metric_gate",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          },
+          {
+            "id": "rollback_end",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"metric_gate\" and \"full_release\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "full_release",
+        "path": "/nodes/11"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "metric_gate",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          },
+          {
+            "id": "full_release",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"rollback_stable\" and \"rollback_end\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "rollback_end",
+        "path": "/nodes/10"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "rollback_stable",
+            "rect": {
+              "x": 702.8,
+              "y": 621,
+              "width": 104,
+              "height": 52
+            }
+          },
+          {
+            "id": "rollback_end",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"rollback_stable\" and \"full_release\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "full_release",
+        "path": "/nodes/11"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "rollback_stable",
+            "rect": {
+              "x": 702.8,
+              "y": 621,
+              "width": 104,
+              "height": 52
+            }
+          },
+          {
+            "id": "full_release",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"rollback_end\" and \"full_release\" are less than 8px apart in lane \"ci\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "full_release",
+        "path": "/nodes/11"
+      },
+      "evidence": {
+        "lane": "ci",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "rollback_end",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          },
+          {
+            "id": "full_release",
+            "rect": {
+              "x": 708.8,
+              "y": 621,
+              "width": 92,
+              "height": 52
+            }
+          }
+        ]
+      },
+      "supportedFixes": []
+    }
+  ]
+}

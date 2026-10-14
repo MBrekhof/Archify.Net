@@ -1,0 +1,141 @@
+{
+  "ok": true,
+  "artifact": {
+    "sha256": "7c06cb1a8346ac0189fb170974fbfbbcb09483809b6214a3210fff0c57cbccd4",
+    "bytes": 804839
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "container_border_runs",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "route_rhythm",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "legend_clearance",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "pass",
+    "summary": {
+      "errors": 0,
+      "warnings": 1
+    },
+    "metrics": {
+      "properCrossings": 0,
+      "resolvedCrossovers": 0,
+      "ambiguousCorridors": 0,
+      "arrowheadCollisions": 0,
+      "containerBorderRuns": 0,
+      "labelRouteClearanceIssues": 0,
+      "labelCanvasOverflowIssues": 0,
+      "minLabelRouteClearance": 93,
+      "desktopReadabilityIssues": 0,
+      "viewportHeightIssues": 1,
+      "minProjectedNodeTextPx": 8,
+      "maxBends": 0,
+      "routesOverSuggestedBends": 0,
+      "maxStretch": 1,
+      "routesOverSuggestedStretch": 0,
+      "minSegmentPx": 103,
+      "minInteriorSegmentPx": null,
+      "shortSegmentCount": 0,
+      "shortEndpointSegmentCount": 0,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 0
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [],
+      "detours": []
+    },
+    "leadingSpace": {
+      "measured": false,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "legacy-930",
+      "readerContract": "declared-wide-v1",
+      "availableDiagramWidth": 930,
+      "actualBudgetPx": 930,
+      "limit": "legacy",
+      "requestedTargetPx": null,
+      "requestedTargetMet": null,
+      "hardFloorPx": 6,
+      "hardFloorMet": true,
+      "minimumOwner": {
+        "kind": "edge",
+        "id": null,
+        "from": "in_0",
+        "to": "out_0"
+      },
+      "minimumSourceTextPx": 8,
+      "minimumProjectedTextPx": 8,
+      "semanticTextCount": 12
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "composition/viewport-height",
+        "readerFit": null,
+        "viewBoxWidth": 423,
+        "viewBoxHeight": 720,
+        "viewportWidth": 1440,
+        "viewportHeight": 900,
+        "ratio": 0.59,
+        "wideRatio": 1.55,
+        "svgWidthPx": 1346,
+        "svgHeightPx": 2291,
+        "fixedChromePx": 126,
+        "pageHeightPx": 2417,
+        "overflowPx": 1517,
+        "detail": "[composition/viewport-height] Preserve every node, relationship, and label. This 423x720 canvas (ratio 0.59) declares no intrinsic-height fit and is below the 1.55 wide ratio, so the desktop Reader can neither narrow it nor accept vertical scroll: it renders 2291px tall at the full 1346px width and the page reaches 2417px before cards against 900px, a certain visual-check failure. Either compact vertical spacing so meta.viewBox height is at most 272 at this width, or spread content sideways so the width is at least 1116 at this height; for architecture and readable-v2 workflow, omitting meta.viewBox lets the renderer size the canvas and declare the fit."
+      }
+    ]
+  }
+}

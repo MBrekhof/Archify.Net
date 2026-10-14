@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Data-flow layout validation failed:\n- Node \"model\" exceeds the readable diagram area — keep y within [104, 388] so that y + height does not pass 446. Raising meta.viewBox[1] to at least 648 and at most 696 also fits it and still fits the target viewport.",
+  "diagnostics": [
+    {
+      "code": "dataflow/node-below-area",
+      "severity": "error",
+      "message": "Node \"model\" exceeds the readable diagram area — keep y within [104, 388] so that y + height does not pass 446. Raising meta.viewBox[1] to at least 648 and at most 696 also fits it and still fits the target viewport.",
+      "subject": {
+        "diagramType": "dataflow",
+        "node": "model"
+      },
+      "evidence": {
+        "y": 516,
+        "height": 58,
+        "areaBottom": 446,
+        "requiredViewBoxHeight": 648,
+        "requiredViewBoxFitsViewport": true,
+        "maximumViewBoxHeight": 696,
+        "viewBoxHeight": 520
+      },
+      "supportedFixes": [
+        "lower yOffset on node \"model\"",
+        "raise meta.viewBox[1] to at least 648 and at most 696, then rerun deliver and visual-check"
+      ]
+    }
+  ]
+}

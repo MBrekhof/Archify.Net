@@ -347,10 +347,124 @@ targets.push(
   ['lifecycle', out('fixtures/diagrams/agent-run.no-sublabel-tag.lifecycle.json'), 'agent-run.no-sublabel-tag-rendered.html'],
   ['class', out('fixtures/diagrams/payments.no-sublabel.class.json'), 'payments.no-sublabel-rendered.html'],
 );
+// --- phase 3: upstream regression inputs (C:\projects\archify\test\fixtures), copied verbatim, renamed by folder ---
+const TF = 'C:/projects/archify/test/fixtures';
+const phase3Copies = [
+  ['workflow', 'automatic-routing-node-border-clearance.workflow.json', 'border-clearance.workflow.json'],
+  ['workflow', 'v1-workflow-700x400.workflow.json', 'v1-700x400.workflow.json'],
+  ['workflow', 'v1-workflow-explicit-coordinates.workflow.json', 'v1-explicit-coordinates.workflow.json'],
+  ['workflow', 'workflow-dense-automatic.json', 'dense-automatic.workflow.json'],
+  ['workflow', 'workflow-fanin-label-recovery.json', 'fanin-label-recovery.workflow.json'],
+  ['workflow', 'workflow-free-space.json', 'free-space.workflow.json'],
+  ['workflow', 'workflow-return-arrival.json', 'return-arrival.workflow.json'],
+  ['workflow', 'workflow-route-text-recovery.json', 'route-text-recovery.workflow.json'],
+  ['workflow', 'workflow-routing-clarity.workflow.json', 'routing-clarity.workflow.json'],
+  ['workflow', 'workflow-shared-trunks.workflow.json', 'shared-trunks.workflow.json'],
+  ['workflow', 'v1-baseline/agent-tool-call.workflow.json', 'v1-baseline.agent-tool-call.workflow.json'],
+  // release-luna.workflow.json is upstream's NEGATIVE fixture (7 workflow/node-overlap, T/architecture-first-draft.test.mjs:261-269):
+  // not a golden — it is the `wf-release-luna` failure receipt below.
+  ...['agent-tool-call', 'automatic-fanout', 'automatic-port-slot', 'customer-refund', 'incident-response']
+    .map((n) => ['workflow', `workflow-first-draft/${n}.workflow.json`, `first-draft.${n}.workflow.json`]),
+  ...['order-overflow', 'order-reflow', 'three-lane-remainder']
+    .map((n) => ['workflow', `workflow-viewport/${n}.workflow.json`, `viewport.${n}.workflow.json`]),
+  ['dataflow', 'dataflow-bidirectional-labels.json', 'bidirectional-labels.dataflow.json'],
+  ['dataflow', 'dataflow-label-visibility.json', 'label-visibility.dataflow.json'],
+  ['dataflow', 'v1-baseline/product-analytics.dataflow.json', 'v1-baseline.product-analytics.dataflow.json'],
+  ...['joint-label-routing', 'mixed-port-recovery', 'ml-features', 'rejected-grid-recovery', 'vertical-label-corridor', 'vertical-label-neighbour']
+    .map((n) => ['dataflow', `dataflow-first-draft/${n}.dataflow.json`, `first-draft.${n}.dataflow.json`]),
+];
+for (const [, from, to] of phase3Copies) fs.copyFileSync(path.join(TF, from), out(`fixtures/diagrams/${to}`));
+// Inline scenes from upstream tests. pipeline() and fiveStageDiagram() are copied verbatim from T/dataflow-automatic-layout.test.mjs:27-51
+// and :355-361; the legacy narrow dataflow literal verbatim from T/v1-compatibility.test.mjs:180-203.
+function pipeline() {
+  return {
+    schema_version: 1, diagram_type: 'dataflow',
+    meta: { title: 'Request processing', output: 'diagram.html', quality_profile: 'showcase' },
+    stages: ['Input', 'Prepare', 'Execute', 'Decode', 'Output'].map(label => ({ label })),
+    nodes: [
+      { id: 'input', type: 'frontend', label: 'Configuration', stage: 0, row: 0 },
+      { id: 'prepare', type: 'backend', label: 'Invocation', stage: 1, row: 0 },
+      { id: 'task', type: 'backend', label: 'Task', stage: 2, row: 0 },
+      { id: 'provider', type: 'external', label: 'Provider', stage: 2, row: 2 },
+      { id: 'bytes', type: 'external', label: 'Log bytes', stage: 3, row: 2 },
+      { id: 'decoded', type: 'backend', label: 'Answer and status', stage: 3, row: 0,
+        sublabel: 'success / failed / timeout / cancelled' },
+      { id: 'output', type: 'backend', label: 'Ordered results', stage: 4, row: 0,
+        sublabel: 'complete / partial / failed' },
+      { id: 'archive', type: 'database', label: 'Archive', stage: 4, row: 2 },
+    ],
+    flows: [
+      ['input', 'prepare', 'configuration'], ['prepare', 'task', 'task input'],
+      ['task', 'provider', 'command'], ['provider', 'bytes', 'log bytes'],
+      ['bytes', 'decoded', 'decode'], ['task', 'decoded', 'timeout / cancellation'],
+      ['decoded', 'output', 'answer'], ['output', 'archive', 'save mode'],
+    ].map(([from, to, label], index) => ({ id: `f${index}`, from, to, label })),
+  };
+}
+function fiveStageDiagram(profile = 'standard') {
+  const diagram = pipeline();
+  diagram.meta.quality_profile = profile;
+  diagram.nodes = diagram.stages.map((_, stage) => ({ id: `n${stage}`, type: 'backend', label: 'Node', stage, row: 0 }));
+  diagram.flows = diagram.nodes.slice(1).map((node, index) => ({ id: `f${index}`, from: `n${index}`, to: node.id, label: 'd' }));
+  return diagram;
+}
+const LEGACY_NARROW = {
+  schema_version: 1,
+  diagram_type: 'dataflow',
+  meta: { title: 'Legacy narrow dataflow', viewBox: [423, 720] },
+  stages: [{ label: 'Input' }, { label: 'Output' }],
+  nodes: [
+    { id: 'in_0', type: 'backend', label: 'In 0', stage: 0, row: 0 },
+    { id: 'out_0', type: 'database', label: 'Out 0', stage: 1, row: 0 },
+    { id: 'in_1', type: 'backend', label: 'In 1', stage: 0, row: 1 },
+    { id: 'out_1', type: 'backend', label: 'Out 1', stage: 1, row: 1 },
+    { id: 'in_2', type: 'backend', label: 'In 2', stage: 0, row: 2 },
+    { id: 'out_2', type: 'backend', label: 'Out 2', stage: 1, row: 2 },
+    { id: 'in_3', type: 'backend', label: 'In 3', stage: 0, row: 3 },
+    { id: 'out_3', type: 'backend', label: 'Out 3', stage: 1, row: 3 },
+  ],
+  flows: ['emphasis', 'security', 'dashed', 'default'].map((variant, index) => ({
+    from: `in_${index}`,
+    to: `out_${index}`,
+    label: variant,
+    variant,
+    route: 'straight',
+  })),
+};
+write('fixtures/diagrams/five-stage.dataflow.json', fiveStageDiagram());   // meta.quality_profile 'standard', no viewBox
+write('fixtures/diagrams/pipeline.dataflow.json', pipeline());             // showcase, no viewBox
+// The test's render() (T/v1-compatibility.test.mjs:17) adds the schema-required meta.output before rendering; do the same.
+write('fixtures/diagrams/legacy-narrow.dataflow.json', { ...LEGACY_NARROW, meta: { ...LEGACY_NARROW.meta, output: 'dataflow-v1-compatibility.html' } });
+// Brand fixtures: built-in marks from the embedded catalog (upstream/brand-marks/catalog.json ids).
+const pa = ex('product-analytics.dataflow.json');
+pa.nodes[0].brand = 'react'; pa.nodes[6].brand = 'snowflake'; pa.meta.output = 'product-analytics.brand.html';
+write('fixtures/diagrams/product-analytics.brand.dataflow.json', pa);
+const hp = ex('holiday-planning.workflow.json');
+hp.nodes[1].brand = 'notion'; hp.nodes[2].brand = 'wechat'; hp.meta.output = 'holiday-planning.brand.html';   // nodes[0] 'today' fails the brand top rail (92px node)
+write('fixtures/diagrams/holiday-planning.brand.workflow.json', hp);
+// Phase-3 golden targets
+const p3 = (type, name) => [type, out(`fixtures/diagrams/${name}.${type}.json`), `${name}-rendered.html`];
+const p3Targets = [
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'holiday-planning-rendered.html'],
+  ['workflow', path.join(EX, 'incident-response.workflow.json'), 'incident-response-rendered.html'],
+  ['workflow', path.join(EX, 'release-delivery.workflow.json'), 'release-delivery-rendered.html'],
+  ['dataflow', path.join(EX, 'event-stream.dataflow.json'), 'event-stream-rendered.html'],
+  ...phase3Copies.map(([type, , to]) => p3(type, to.replace(`.${type}.json`, ''))),
+  p3('dataflow', 'five-stage'), p3('dataflow', 'pipeline'), p3('dataflow', 'legacy-narrow'),
+  p3('dataflow', 'product-analytics.brand'), p3('workflow', 'holiday-planning.brand'),
+];
+targets.push(...p3Targets);
+// Quality-option goldens: minted with the env var upstream reads; C# renders the same input with RenderOptions.
+const renderEnv = (type, input, output, env) => execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), input, output], { stdio: 'inherit', env: { ...cleanEnv, ...env } });
+const optionGoldens = [   // [type, input, golden, quality]
+  ['dataflow', out('fixtures/diagrams/five-stage.dataflow.json'), 'five-stage.option-showcase-rendered.html', 'showcase'],
+  ['workflow', path.join(EX, 'agent-tool-call.workflow.json'), 'agent-tool-call.option-standard-rendered.html', 'standard'],
+];
+for (const [type, input, golden, quality] of optionGoldens) renderEnv(type, input, out(`goldens/${golden}`), { ARCHIFY_QUALITY_PROFILE: quality });
 for (const [type, input, golden] of targets) render(type, input, out(`goldens/${golden}`));
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
 const upstreamGoldens = fs.readdirSync(EX).filter((f) => f.endsWith('.html')).map((f) => path.join(EX, f));
-for (const html of [...upstreamGoldens, ...targets.map(([, , g]) => out(`goldens/${g}`))]) {
+for (const html of [...upstreamGoldens, ...[...targets, ...optionGoldens].map(([, , g]) => out(`goldens/${g}`))]) {
   const res = JSON.parse(execFileSync(process.execPath, [path.join(UP, 'scripts/check-render-output.mjs'), html],
     { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: cleanEnv, maxBuffer: 64 * 1024 * 1024 }));   // upstream's checker buffer
   delete res.file;
@@ -538,6 +652,113 @@ for (const [name, input] of [['waterfall-checkout-request', path.join(EX, 'check
   const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/waterfall/render-waterfall.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
+// --- phase 3 manifest: one row per workflow/dataflow input, with owning task and (workflow) the compiler branches it reaches ---
+// Coverage probe: workflow-compiler.mjs with a tag call inserted after each anchor, imported from a data: URL (relative imports made absolute).
+const wfCompilerPath = path.join(UP, 'renderers/workflow/workflow-compiler.mjs');
+const wfFileUrl = pathToFileURL(wfCompilerPath).href;
+let wfProbeSrc = fs.readFileSync(wfCompilerPath, 'utf8').replace(/\r\n/g, '\n')
+  .replace(/from '(\.[^']+)'/g, (_, rel) => `from '${new URL(rel, wfFileUrl).href}'`);
+for (const [tag, anchor] of [
+  ['controlled', 'function readableControlledRoute(edge, from, to) {\n'],
+  ['preset', 'function readablePresetVia(edge, from, to, start, end, fromSide, toSide) {\n'],
+  ['sizing', 'widthOverrides.set(node.id, width);\n'],
+  ['endpoint-repairs', 'function automaticEndpointRepairs(edge, selected, from, to, naturalFromSide, naturalToSide, narrowSlots = false) {\n'],
+  ['internal-detour', 'function readableInternalDetourPlans(edge, selected, from, to, naturalFromSide, naturalToSide) {\n'],
+  ['free-space', 'function readableFreeSpacePlans(edge, selected, from, to, naturalFromSide, naturalToSide) {\n'],
+]) {
+  const count = wfProbeSrc.split(anchor).length - 1;
+  if (count !== 1) throw new Error(`coverage probe anchor ${tag}: ${count} occurrences, expected 1`);
+  wfProbeSrc = wfProbeSrc.replace(anchor, () => `${anchor}globalThis.__wfcov?.add('${tag}');\n`);
+}
+const wfProbe = await import(`data:text/javascript;base64,${Buffer.from(wfProbeSrc).toString('base64')}`);
+const coverageOf = (workflow, qualityProfile) => {
+  globalThis.__wfcov = new Set();
+  wfProbe.compileWorkflow({ workflow: JSON.parse(JSON.stringify(workflow)), qualityProfile, sourceEvidence: null });
+  const tags = [...globalThis.__wfcov].sort(); delete globalThis.__wfcov; return tags;
+};
+const repoRel = (p) => (p.startsWith(EX) ? `upstream/examples/${path.basename(p)}` : path.relative(ROOT, p).replaceAll('\\', '/'));
+const PIN_KEYS = ['via', 'labelAt', 'channelX', 'channelY', 'route', 'fromSide', 'toSide', 'labelDx', 'labelDy', 'labelSegment'];
+const goldenName = (g) => g.replace('-rendered.html', '');
+const optionQuality = new Map(optionGoldens.map(([, , g, quality]) => [goldenName(g), quality]));
+const p3Rows = [   // [name, type, input, golden (repo-relative)]
+  ['agent-tool-call', 'workflow', path.join(EX, 'agent-tool-call.workflow.json'), 'upstream/examples/workflow-agent-tool-call-rendered.html'],
+  ['product-analytics', 'dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'upstream/examples/dataflow-product-analytics.html'],
+  ...[...p3Targets, ...optionGoldens].map(([type, input, golden]) => [goldenName(golden), type, input, `tests/goldens/${golden}`]),
+].map(([name, type, input, golden]) => {
+  const d = JSON.parse(fs.readFileSync(input, 'utf8'));
+  const qualityProfile = optionQuality.get(name) ?? d.meta?.quality_profile ?? null;
+  const pins = (d.edges || d.flows || []).some((r) => PIN_KEYS.some((k) => r[k] !== undefined));
+  const coverage = type === 'workflow' ? coverageOf(d, qualityProfile ?? undefined) : [];
+  const viewBox = Array.isArray(d.meta?.viewBox);
+  const task = type === 'dataflow' ? (viewBox ? 4 : 5)
+    : d.schema_version === 1 ? 7
+      : ['agent-tool-call.option-standard', 'holiday-planning.brand'].includes(name) ? 11
+        : pins || coverage.includes('controlled') || coverage.includes('preset') ? 10 : 8;
+  return { name, type, input: repoRel(input), golden, schemaVersion: d.schema_version, viewBox, qualityProfile, locale: d.meta?.locale ?? null, pins, coverage, task };
+});
+write('fixtures/diagrams/phase3-manifest.json', {
+  coverageNote: 'coverage = workflow-compiler branches reached by an instrumented in-process compile (controlled, preset, sizing decide ownership; endpoint-repairs, internal-detour, free-space are information for reviewers). Fix-discovery recompiles also reach them, so a tag is a superset of the final layout\'s branches. Never an expected value.',
+  rows: p3Rows,
+});
+// Workflow compiler receipts: the CLI's own `--layout-json` stdout (render-workflow.mjs:30-33 prints JSON.stringify(compiled.receipt, null, 2)).
+// A child process because diagnostics.mjs (already loaded through geometry.mjs above) fixes ARCHIFY_DIAGNOSTIC_FORMAT at import time.
+fs.mkdirSync(out('fixtures/workflow'), { recursive: true });
+for (const { name, type, input } of p3Rows.filter((r) => r.type === 'workflow')) {
+  const option = optionQuality.has(name) ? { ARCHIFY_QUALITY_PROFILE: optionQuality.get(name) } : {};
+  const stdout = execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), path.join(ROOT, input), out(`goldens/${name}.layout.html`), '--layout-json'],
+    { encoding: 'utf8', env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json', ...option }, stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 });
+  fs.writeFileSync(out(`fixtures/workflow/${name}.receipt.json`), stdout);
+}
+// Phase-3 failure receipts: one fault per diagnostic code; upstream must FAIL with the target code in its receipt or the script throws.
+const p3Faults = [   // [type, source input, name, target code, edit]
+  // workflow v2 without pins (holiday-planning, zh-CN). lanes calendar makeup; nodes today@calendar:0 mid_autumn@calendar:1 national_day@calendar:3
+  // year_end@calendar:5 makeup_work@makeup:3; edges 0 today>mid_autumn 1 mid_autumn>national_day 2 national_day>year_end 3 national_day>makeup_work
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-duplicate-node-id', 'workflow/duplicate-node-id', (d) => { d.nodes[2].id = d.nodes[1].id; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-duplicate-lane-id', 'workflow/duplicate-lane-id', (d) => { d.lanes[1].id = d.lanes[0].id; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-unknown-edge-endpoint', 'workflow/unknown-edge-endpoint', (d) => { d.edges[2].to = 'year_ned'; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-unknown-node-lane', 'workflow/unknown-node-lane', (d) => { d.nodes[4].lane = 'makeups'; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-node-overlap', 'workflow/node-overlap', (d) => { d.nodes[4].lane = 'calendar'; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-viewbox-capacity', 'workflow/viewbox-capacity', (d) => { d.meta.viewBox = [700, 360]; }],   // schema minimum width is 700
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-sublabel-readability', 'workflow/sublabel-readability',
+    (d) => { for (const n of d.nodes) n.width = 280; d.nodes[1].width = 92; d.nodes[1].sublabel = '1234567890123456789012'; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-semantic-reference', 'workflow/semantic-node-reference', (d) => { d.semanticChecks = { allowedRoots: ['nobody'] }; }],
+  ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-required-edge', 'workflow/required-edge', (d) => { d.semanticChecks = { requiredEdges: [{ from: 'today', to: 'year_end' }] }; }],
+  // workflow v2 with pins/presets (agent-tool-call)
+  ['workflow', path.join(EX, 'agent-tool-call.workflow.json'), 'wf-preset-conflict', 'workflow/route-preset-conflict', (d) => { d.edges[0].route = 'drop'; }],
+  ['workflow', path.join(EX, 'agent-tool-call.workflow.json'), 'wf-single-pin-conflict', 'workflow/explicit-pin-conflict', (d) => { d.edges[1].via = [[300, 60]]; }],
+  // workflow v1
+  ['workflow', path.join(EX, 'incident-response.workflow.json'), 'wf-unknown-main-path', 'workflow/unknown-endpoint', (d) => { d.mainPath[3] = 'ghost'; }],
+  ['workflow', path.join(TF, 'v1-workflow-explicit-coordinates.workflow.json'), 'wf-v1-column-capacity', 'workflow/column-capacity', (d) => { d.nodes[2].col = 1; d.nodes[3].col = 2; }],
+  ['workflow', path.join(TF, 'workflow-first-draft/release-luna.workflow.json'), 'wf-release-luna', 'workflow/node-overlap', () => {}],   // upstream's own negative fixture, unedited
+  // dataflow (product-analytics, viewBox 1080x520)
+  ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-unknown-endpoint', 'dataflow/unknown-endpoint', (d) => { d.flows[2].to = 'consnt'; }],
+  ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-node-above-area', 'dataflow/node-above-area', (d) => { d.nodes[3].yOffset = -400; }],
+  ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-node-below-area', 'dataflow/node-below-area', (d) => { d.nodes[9].row = 4; d.nodes[9].yOffset = 300; }],
+  ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-node-below-area-raised', 'dataflow/node-below-area', (d) => { d.nodes[9].row = 2; d.nodes[9].yOffset = 160; }],
+  ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-duplicate-node', 'layout/constraint', (d) => { d.nodes[4].id = d.nodes[3].id; }],
+  ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-pinned-crossing', 'composition/proper-crossing',
+    (d) => { delete d.flows[4].route; d.flows[4].via = [[610, 157], [610, 320], [660, 320], [660, 157]]; }],
+];
+const p3FaultReceipts = new Map();
+for (const [type, source, name, code, edit] of p3Faults) {
+  const diagram = JSON.parse(fs.readFileSync(source, 'utf8'));
+  edit(diagram);
+  write(`fixtures/diagrams/${name}.${type}.json`, diagram);
+  let receipt;
+  try {
+    execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), out(`fixtures/diagrams/${name}.${type}.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; receipt = JSON.parse(String(e.stderr)); }
+  if (!receipt) { fs.rmSync(out(`goldens/${name}.html`), { force: true }); throw new Error(`fault ${name}: rendered, expected ${code}`); }
+  if (!receipt.diagnostics?.some((x) => x.code === code)) throw new Error(`fault ${name}: expected ${code}`);
+  write(`fixtures/diagrams/${name}.${type}.expected.json`, receipt);
+  p3FaultReceipts.set(name, receipt);
+}
+// The two node-below-area rows differ in whether the raised canvas fits (dataflow-compiler.mjs raisedCanvasFits).
+const belowFits = (name) => p3FaultReceipts.get(name).diagnostics.find((x) => x.code === 'dataflow/node-below-area').evidence?.requiredViewBoxFitsViewport;
+if (belowFits('df-node-below-area') !== false || belowFits('df-node-below-area-raised') !== true) {
+  throw new Error(`node-below-area: requiredViewBoxFitsViewport ${belowFits('df-node-below-area')}/${belowFits('df-node-below-area-raised')}, expected false/true`);
 }
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.

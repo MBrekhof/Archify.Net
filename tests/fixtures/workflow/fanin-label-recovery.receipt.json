@@ -1,0 +1,190 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    768,
+    740
+  ],
+  "requiredViewBox": [
+    768,
+    740
+  ],
+  "columns": [
+    94,
+    214,
+    334,
+    454,
+    574,
+    694
+  ],
+  "nodes": [
+    {
+      "id": "signal",
+      "lane": "coordinator",
+      "col": 4,
+      "x": 492,
+      "y": 206,
+      "width": 164,
+      "height": 52
+    },
+    {
+      "id": "poll",
+      "lane": "provider",
+      "col": 2,
+      "x": 242,
+      "y": 436,
+      "width": 184,
+      "height": 52
+    },
+    {
+      "id": "start",
+      "lane": "provider",
+      "col": 2,
+      "x": 242,
+      "y": 316,
+      "width": 184,
+      "height": 52
+    },
+    {
+      "id": "decoded",
+      "lane": "exceptions",
+      "col": 2,
+      "x": 248,
+      "y": 553,
+      "width": 172,
+      "height": 52
+    },
+    {
+      "id": "stopped",
+      "lane": "exceptions",
+      "col": 4,
+      "x": 502,
+      "y": 553,
+      "width": 144,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "poll-decoded",
+      "from": "poll",
+      "to": "decoded",
+      "points": [
+        [
+          334,
+          488
+        ],
+        [
+          334,
+          553
+        ]
+      ]
+    },
+    {
+      "id": "poll-stopped",
+      "from": "poll",
+      "to": "stopped",
+      "points": [
+        [
+          426,
+          462
+        ],
+        [
+          550,
+          462
+        ],
+        [
+          550,
+          553
+        ]
+      ]
+    },
+    {
+      "id": "signal-stopped",
+      "from": "signal",
+      "to": "stopped",
+      "points": [
+        [
+          574,
+          258
+        ],
+        [
+          574,
+          553
+        ]
+      ]
+    },
+    {
+      "id": "start-poll",
+      "from": "start",
+      "to": "poll",
+      "points": [
+        [
+          334,
+          368
+        ],
+        [
+          334,
+          436
+        ]
+      ]
+    },
+    {
+      "id": "start-stopped",
+      "from": "start",
+      "to": "stopped",
+      "points": [
+        [
+          426,
+          342
+        ],
+        [
+          483,
+          342
+        ],
+        [
+          483,
+          197
+        ],
+        [
+          665,
+          197
+        ],
+        [
+          665,
+          579
+        ],
+        [
+          646,
+          579
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "poll-stopped",
+      "label": "stall / hard deadline",
+      "x": 488,
+      "y": 452,
+      "width": 110.8,
+      "height": 14
+    },
+    {
+      "edge": "signal-stopped",
+      "label": "running / starting",
+      "x": 574,
+      "y": 405.5,
+      "width": 96.39999999999999,
+      "height": 14
+    },
+    {
+      "edge": "start-stopped",
+      "label": "start deadline",
+      "x": 574,
+      "y": 187,
+      "width": 77.2,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

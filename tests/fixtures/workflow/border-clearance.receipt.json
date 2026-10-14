@@ -1,0 +1,71 @@
+{
+  "contract": "fixed-v1",
+  "viewBox": [
+    720,
+    360
+  ],
+  "requiredViewBox": [
+    720,
+    360
+  ],
+  "columns": [
+    88,
+    220,
+    300,
+    430,
+    500,
+    625
+  ],
+  "nodes": [
+    {
+      "id": "team_send",
+      "lane": "orchestrator",
+      "col": 2,
+      "x": 254,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "inject",
+      "lane": "runtime",
+      "col": 1,
+      "x": 174,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "stdin",
+      "from": "inject",
+      "to": "team_send",
+      "points": [
+        [
+          220,
+          217
+        ],
+        [
+          220,
+          119
+        ],
+        [
+          254,
+          119
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "stdin",
+      "label": "PTY stdin",
+      "x": 220,
+      "y": 168,
+      "width": 53.199999999999996,
+      "height": 14
+    }
+  ],
+  "diagnostics": []
+}

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow semantic contract requires edge \"today\" -> \"year_end\", but no authored edge matches it.",
+  "diagnostics": [
+    {
+      "code": "workflow/required-edge",
+      "severity": "error",
+      "message": "Workflow semantic contract requires edge \"today\" -> \"year_end\", but no authored edge matches it.",
+      "subject": {
+        "diagramType": "workflow",
+        "from": "today",
+        "to": "year_end",
+        "path": "/semanticChecks/requiredEdges/0"
+      },
+      "evidence": {
+        "authoredEdgeCount": 4
+      },
+      "supportedFixes": [
+        "add an edge from \"today\" to \"year_end\" without deleting the semantic requirement"
+      ]
+    }
+  ]
+}

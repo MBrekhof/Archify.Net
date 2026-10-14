@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"request-chat\" cannot satisfy route preset \"drop\": candidate violates perpendicular endpoint-side direction.",
+  "diagnostics": [
+    {
+      "code": "workflow/route-preset-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"request-chat\" cannot satisfy route preset \"drop\": candidate violates perpendicular endpoint-side direction.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "request-chat",
+        "from": "user",
+        "to": "chat",
+        "route": "drop"
+      },
+      "evidence": {
+        "invariant": "perpendicular endpoint-side direction",
+        "attemptedCandidateFamily": "drop",
+        "points": [
+          [
+            180,
+            120
+          ],
+          [
+            180,
+            105
+          ],
+          [
+            212,
+            105
+          ],
+          [
+            212,
+            120
+          ]
+        ],
+        "fromSide": "right",
+        "toSide": "left",
+        "requiredEndpointStubPx": 8,
+        "requiredInteriorSegmentPx": 16,
+        "requiredDirectClearancePx": 28
+      },
+      "supportedFixes": [
+        "set edge \"request-chat\" route to verified preset \"straight\"",
+        "remove route from edge \"request-chat\" so readable-v2 can use its verified automatic candidate"
+      ]
+    }
+  ]
+}
