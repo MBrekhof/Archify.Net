@@ -30,8 +30,11 @@ public sealed class Box
     public double Y { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
-    public double Cx => X + Width / 2;
-    public double Cy => Y + Height / 2;
+    // A renderer that stores its centre (workflow `cx = colXs[col]`, dataflow `cx`/`cy`) sets these; `x + width / 2` is not
+    // always the stored double (252.6 vs 252.59999999999997), and a later `y` shift does not move a stored `cy`.
+    double? cx, cy;
+    public double Cx { get => cx ?? X + Width / 2; set => cx = value; }
+    public double Cy { get => cy ?? Y + Height / 2; set => cy = value; }
     public required JsonObject Source { get; init; }
     public ResolvedBrand? Brand { get; set; }
     public JsonObject? Relation { get; set; }

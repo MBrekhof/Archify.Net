@@ -2,6 +2,7 @@
 // Dev-time only. Captures V8 behaviour and upstream renderer output as fixtures for the C# parity suite.
 // Usage: node tools/capture-fixtures.mjs   (from repo root; needs C:\projects\archify at c21c31ff)
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -898,6 +899,141 @@ for (const name of ['first-draft.joint-label-routing#0', 'first-draft.rejected-g
   if (jointRows.find((r) => r.name === name)?.output.labelsSame !== false) throw new Error(`repairLabelRoutes: ${name} no longer changes a label`);
 }
 write('fixtures/js/joint-label-routing.json', jointRows);
+// --- workflow model (Task 6): workflow-compiler.mjs's module-level clusters A-D through a shimmed copy (relative imports made absolute,
+// so the shim shares every shared/MG module instance with imp(); the private functions exported) written to os.tmpdir(); MG and PR
+// imported directly. canonicalReadableWorkflow runs before createReadableLayout on every row: it fills the automaticNodeWidths WeakMap.
+// Rows: every manifest workflow input (deduplicated by file), three fault inputs (unknown lane → NaN geometry, semantic codes) and
+// crafted edits of holiday-planning / incident-response, embedded as `document` (no new input files). ---
+const WM_EXPORTS = ['createReadableLayout', 'canonicalReadableWorkflow', 'semanticContractDiagnostics', 'automaticNodeWidth', 'authoredNodeWidth',
+  'stableValueKey', 'compareWorkflowEdges', 'resolveWorkflowLegendFootprint', 'createWorkflowLaneGeometry', 'measureWorkflowNodes',
+  'workflowNodeTextProblems', 'createWorkflowStepIndexes', 'createLegacyLayout', 'hasAbsoluteWorkflowPins', 'hasVerticalStack', 'usesIndependentLaneMeasurement'];
+const wmShimPath = path.join(os.tmpdir(), 'archify-net-workflow-model-shim.mjs');
+fs.writeFileSync(wmShimPath, fs.readFileSync(wfCompilerPath, 'utf8').replace(/\r\n/g, '\n')
+  .replace(/from '(\.\.\/shared\/[^']+|\.\/workflow-[^']+)'/g, (_, rel) => `from '${new URL(rel, wfFileUrl).href}'`)
+  + `\nexport { ${WM_EXPORTS.join(', ')} };\n`);
+const wm = await import(pathToFileURL(wmShimPath).href);
+const mg = await imp('renderers/workflow/workflow-migration-geometry.mjs');
+const { proposeWorkflowPlacement } = await imp('renderers/workflow/workflow-placement-repair.mjs');
+const { registerLocale } = await imp('renderers/shared/i18n.mjs');
+const holiday = () => ex('holiday-planning.workflow.json');
+const wmCrafted = [
+  // compareWorkflowEdges ties on id/from/to/label/route: three id-less today→mid_autumn edges (one with id '') ordered by stableValueKey.
+  ['crafted.edge-tiebreak', (() => { const d = holiday(); d.edges.push({ from: 'today', to: 'mid_autumn', variant: 'dashed', width: 2 },
+    { width: 1.5, from: 'today', to: 'mid_autumn', variant: 'dashed' }, { id: '', from: 'today', to: 'mid_autumn' }); return d; })()],
+  // yOffset stack in makeup:3 (independent lane measurement), a single-column group and phase, a phase range.
+  ['crafted.stack-groups', (() => { const d = holiday(); d.nodes[4].yOffset = -30;
+    d.nodes.push({ id: 'makeup_extra', lane: 'makeup', col: 3, type: 'security', label: '补班二', tag: 'x', yOffset: 40 });
+    d.groups = [{ id: 'g1', label: 'A very long group label that spans', lane: 'makeup', fromCol: 3, toCol: 3 }];
+    d.phases = [{ id: 'p1', label: 'Single column phase with a long label', fromCol: 2, toCol: 2 }, { id: 'p0', label: 'Range', fromCol: 0, toCol: 1 }];
+    return d; })()],
+  // fromSide top on a col-0 node (lane-header shift), a same-lane label over the channel budget, a labeled direct edge under it.
+  ['crafted.top-side-labels', (() => { const d = holiday(); d.edges[0].fromSide = 'top';
+    d.edges[1].label = 'a long direct label that exceeds the automatic channel detour budget by far';
+    d.edges[2].label = 'medium length label'; return d; })()],
+  // Two-decimal authored widths (the sizing loop's verifiedReducedWidths output shape): measured cx = colXs[col] differs from
+  // x + width / 2 for at least one node (checked below), which pins the stored Box.Cx (R2).
+  ['crafted.fractional-widths', (() => { const d = holiday();
+    for (const [i, width] of [156.48, 124.32, 150.57, 198.61, 164.6].entries()) d.nodes[i].width = width; return d; })()],
+  ['crafted.semantic', (() => { const d = holiday(); d.semanticChecks = { allowedRoots: [], allowedTerminals: ['year_end'],
+    requiredEdges: [{ from: 'today', to: 'year_end' }], requiredPaths: [{ from: 'today', to: 'makeup_work' }, { from: 'makeup_work', to: 'today' }] };
+    return d; })()],
+  // proposeWorkflowPlacement: a return cycle (makeup_work→mid_autumn), a same-lane cyclic branch (retry) and three unconnected
+  // mixed-case ids sharing makeup:1, ordered by localeCompare.
+  ['crafted.placement', (() => { const d = holiday();
+    d.nodes.push({ id: 'retry', lane: 'calendar', col: 2, type: 'backend', label: 'Retry' },
+      ...['beta', 'alpha', 'Alpha'].map((id) => ({ id, lane: 'makeup', col: 0, type: 'external', label: id })));
+    d.edges.push({ id: 'makeup_return', from: 'makeup_work', to: 'mid_autumn' }, { id: 'to_retry', from: 'national_day', to: 'retry' },
+      { id: 'retry_back', from: 'retry', to: 'mid_autumn' }); return d; })()],
+  // v1 migration: a straight labeled edge, a kept edge whose labelAt is mapped and whose label planning drops.
+  ['crafted.migration', (() => { const d = ex('incident-response.workflow.json');
+    Object.assign(d.edges[6], { route: 'straight', label: 'declare it', width: 2, role: 'branch' });
+    d.edges.push({ from: 'alert', to: 'triage', label: 'skip', labelAt: [150.5, 60], width: 1.6 }); return d; })()],
+];
+const wmRows = [];
+const seenInputs = new Set();
+for (const { name, input } of p3Rows.filter((r) => r.type === 'workflow')) {
+  if (seenInputs.has(input)) continue;
+  seenInputs.add(input);
+  wmRows.push({ name, input });
+}
+for (const name of ['wf-unknown-node-lane', 'wf-semantic-reference', 'wf-required-edge']) wmRows.push({ name, input: `tests/fixtures/diagrams/${name}.workflow.json` });
+for (const [name, document] of wmCrafted) wmRows.push({ name, document: JSON.parse(JSON.stringify(document)) });
+const wmDoc = (row) => (row.document ? structuredClone(row.document) : JSON.parse(fs.readFileSync(path.join(ROOT, row.input), 'utf8')));
+const WM_FEEDBACK = { rankGapMinimums: { '1:3': 260.5, '0:1': 150.25, '2:3': 133 }, rankGapContributors: { '1:3': ['rank 1→3 route clearance', 'edge x route'] },
+  laneGapMin: 31.2, laneGapContributors: ['edge y lane-gap route clearance'] };
+const layoutJson = (layout) => ({ ...layout, ...(layout.channelLabelEdgeKeys ? { channelLabelEdgeKeys: [...layout.channelLabelEdgeKeys] } : {}) });
+function measuredJson(doc) {
+  registerLocale(doc.meta?.locale, doc.meta?.translations);   // as the loader does before any renderer runs
+  const layout = doc.schema_version === 2 ? wm.createReadableLayout(doc, {}) : wm.createLegacyLayout();
+  const legend = wm.resolveWorkflowLegendFootprint(doc, layout);
+  const lanes = wm.createWorkflowLaneGeometry(doc, layout, legend.legendExtraHeight, legend.minimumCanvasWidth);
+  const { nodes, nodeTextFit } = wm.measureWorkflowNodes(doc, layout, lanes);
+  return {
+    legend: { entries: legend.workflowLegendEntries.map((e) => [e.kind, e.label]), present: [...legend.presentLegendKinds],
+      packingWidth: legend.legendPackingWidth, rows: legend.packedLegendFootprint.rowCount, extraHeight: legend.legendExtraHeight,
+      minimumCanvasWidth: legend.minimumCanvasWidth },
+    autoHeight: lanes.autoHeight, initialViewBox: lanes.initialViewBox, laneTops: doc.lanes.map((l) => lanes.laneTop(l.id)),
+    laneHeights: doc.lanes.map((_, i) => lanes.laneHeight(i)), lastLaneBottom: lanes.lastLaneBottom(), legendY: lanes.legendY(),
+    nodes: [...nodes.values()].map((n) => ({ id: n.id, x: n.x, y: n.y, width: n.width, height: n.height, cx: n.cx, cy: n.cy,
+      context: lanes.nodeContext(n), problems: wm.workflowNodeTextProblems(n, nodeTextFit) })),
+  };
+}
+const wmModel = wmRows.map((row) => {
+  const doc = wmDoc(row);
+  const c = wm.canonicalReadableWorkflow(doc);
+  const steps = wm.createWorkflowStepIndexes(c);
+  return { ...row,
+    canonical: { lanes: c.lanes.map((l) => l.id), nodes: c.nodes.map((n) => n.id), edges: c.edges.map((e) => wm.stableValueKey(e)),
+      phases: c.phases?.map((p) => p.id) ?? null, groups: c.groups?.map((g) => g.id) ?? null,
+      widths: c.nodes.map((n) => wm.authoredNodeWidth(n)), automatic: c.nodes.map((n) => wm.automaticNodeWidth(n)),
+      absolutePins: wm.hasAbsoluteWorkflowPins(c), verticalStack: wm.hasVerticalStack(c), independent: wm.usesIndependentLaneMeasurement(c),
+      preserves: mg.preservesWorkflowAbsoluteGeometry(c) },
+    semantic: wm.semanticContractDiagnostics(c).map((d) => [d.code, d.subject.path]),
+    layout: { none: layoutJson(wm.createReadableLayout(c)), feedback: layoutJson(wm.createReadableLayout(c, WM_FEEDBACK)) },
+    measured: measuredJson(c),
+    steps: { edges: c.edges.map((e) => steps.edgeSteps.get(e)), nodes: c.nodes.map((n) => steps.nodeStep(n)) },
+  };
+});
+if (!wmModel.find((r) => r.name === 'crafted.fractional-widths').measured.nodes.some((n) => n.x + n.width / 2 !== n.cx)) {
+  throw new Error('crafted.fractional-widths: every x + width / 2 equals cx; the stored-cx row pins nothing');
+}
+// widthOverrides (sizing loop input, :712): the larger of the automatic width and the override wins; 0 deletes the entry.
+const overridden = wm.canonicalReadableWorkflow(holiday(), new Map([['today', 150], ['mid_autumn', 40], ['year_end', 0]]));
+const WM_LEGACY = [88, 220, 300, 430, 500, 625];
+const mapperColumns = [[94, 214, 334, 454, 574, 694], [94.1, 247.2, 367.2, 487.25, 607.3333, 727.0000005]];
+const mapperXs = [-40, 0, 87.9999999, 88, 100, 154.3, 219.9999995, 220, 260, 299.5, 300, 365.123456789, 430, 465.4444444, 500, 562.5, 625,
+  625.0000001, 700, 1234.5678915, 0.0000004, 333.3333335];
+const mapperRow = (oldColumns, newColumns, xs) => {
+  try {
+    const map = mg.createHorizontalRankMapper(oldColumns, newColumns);
+    return { oldColumns, newColumns, xs, outputs: xs.map((x) => { try { return map(x); } catch (e) { return { error: e.message }; } }) };
+  } catch (e) { return { oldColumns, newColumns, error: e.message }; }
+};
+const mgDocs = wmRows.filter((row) => wmDoc(row).schema_version === 1).map((row) => {
+  const doc = wmDoc(row);
+  const intrinsic = mg.intrinsicWorkflow(doc);
+  const planning = mg.planningWorkflow(doc);
+  const columns = wm.createReadableLayout({ ...doc, schema_version: 2 }).colXs;
+  const mapped = mg.createMappedWorkflowCandidate(doc, WM_LEGACY, columns);
+  return { name: row.name, preserves: mg.preservesWorkflowAbsoluteGeometry(doc),
+    intrinsic, intrinsicPolicy: mg.preservesWorkflowAbsoluteGeometry(intrinsic), planning, planningPolicy: mg.preservesWorkflowAbsoluteGeometry(planning),
+    columns, changedCoordinates: mapped.changedCoordinates, mapped: mapped.document };
+});
+const prRows = wmRows.map((row) => ({ name: row.name, result: proposeWorkflowPlacement(wmDoc(row)) }));
+if (!prRows.some((r) => r.name === 'crafted.placement' && r.result.eligible && r.result.changes.length)) throw new Error('crafted.placement: not an eligible proposal');
+if (!prRows.some((r) => !r.result.eligible)) throw new Error('proposeWorkflowPlacement: no ineligible row');
+if (!mgDocs.some((r) => r.changedCoordinates.length)) throw new Error('mapExplicitCoordinates: no row changes a coordinate');
+write('fixtures/js/workflow-model.json', {
+  feedback: WM_FEEDBACK,
+  rows: wmModel,
+  overrides: { overrides: { today: 150, mid_autumn: 40, year_end: 0 }, widths: overridden.nodes.map((n) => [n.id, wm.authoredNodeWidth(n)]) },
+  legacyLayout: wm.createLegacyLayout(),
+  mapper: [...mapperColumns.map((cols) => mapperRow(WM_LEGACY, cols, mapperXs)),
+    mapperRow([88, 220], [1, 2, 3], []), mapperRow([88], [1], []), mapperRow([88, 88], [1, 2], []), mapperRow([88, 220], [5, 5], []),
+    mapperRow([88, 220], [1, 2], [null])],
+  migration: mgDocs,
+  placement: prRows,
+});
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

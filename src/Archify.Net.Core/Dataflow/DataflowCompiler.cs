@@ -212,7 +212,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
             return new Box
             {
                 Id = node.Str("id") ?? "undefined", Source = node, Brand = ctx.Brands.BrandMarkFor(node),
-                Width = width, Height = height, X = cx - width / 2, Y = y,
+                Width = width, Height = height, X = cx - width / 2, Y = y, Cx = cx, Cy = y + height / 2,
             };
         }
 
