@@ -1,0 +1,782 @@
+[
+  {
+    "text": "",
+    "han": false,
+    "graphemes": [],
+    "words": [],
+    "tokens": [],
+    "hanTokens": []
+  },
+  {
+    "text": "ascii",
+    "han": false,
+    "graphemes": [
+      "a",
+      "s",
+      "c",
+      "i",
+      "i"
+    ],
+    "words": [
+      "ascii"
+    ],
+    "tokens": [
+      "ascii"
+    ],
+    "hanTokens": [
+      "ascii"
+    ]
+  },
+  {
+    "text": "é",
+    "han": false,
+    "graphemes": [
+      "é"
+    ],
+    "words": [
+      "é"
+    ],
+    "tokens": [
+      "é"
+    ],
+    "hanTokens": [
+      "é"
+    ]
+  },
+  {
+    "text": "aaaaaaaaaaaé",
+    "han": false,
+    "graphemes": [
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "a",
+      "é"
+    ],
+    "words": [
+      "aaaaaaaaaaaé"
+    ],
+    "tokens": [
+      "aaaaaaaaaaaé"
+    ],
+    "hanTokens": [
+      "aaaaaaaaaaaé"
+    ]
+  },
+  {
+    "text": "naïve café",
+    "han": false,
+    "graphemes": [
+      "n",
+      "a",
+      "ï",
+      "v",
+      "e",
+      " ",
+      "c",
+      "a",
+      "f",
+      "é"
+    ],
+    "words": [
+      "naïve",
+      " ",
+      "café"
+    ],
+    "tokens": [
+      "naïve",
+      " ",
+      "café"
+    ],
+    "hanTokens": [
+      "naïve",
+      " ",
+      "café"
+    ]
+  },
+  {
+    "text": "👨‍👩‍👧",
+    "han": false,
+    "graphemes": [
+      "👨‍👩‍👧"
+    ],
+    "words": [
+      "👨‍👩‍👧"
+    ],
+    "tokens": [
+      "👨‍👩‍👧"
+    ],
+    "hanTokens": [
+      "👨‍👩‍👧"
+    ]
+  },
+  {
+    "text": "🇩🇪🇫🇷",
+    "han": false,
+    "graphemes": [
+      "🇩🇪",
+      "🇫🇷"
+    ],
+    "words": [
+      "🇩🇪",
+      "🇫🇷"
+    ],
+    "tokens": [
+      "🇩🇪🇫🇷"
+    ],
+    "hanTokens": [
+      "🇩🇪🇫🇷"
+    ]
+  },
+  {
+    "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "han": false,
+    "graphemes": [
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x",
+      "x"
+    ],
+    "words": [
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ],
+    "tokens": [
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ],
+    "hanTokens": [
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ]
+  },
+  {
+    "text": "see https://api.example.com/v2/users/profile/settings/notifications/email-preferences",
+    "han": false,
+    "graphemes": [
+      "s",
+      "e",
+      "e",
+      " ",
+      "h",
+      "t",
+      "t",
+      "p",
+      "s",
+      ":",
+      "/",
+      "/",
+      "a",
+      "p",
+      "i",
+      ".",
+      "e",
+      "x",
+      "a",
+      "m",
+      "p",
+      "l",
+      "e",
+      ".",
+      "c",
+      "o",
+      "m",
+      "/",
+      "v",
+      "2",
+      "/",
+      "u",
+      "s",
+      "e",
+      "r",
+      "s",
+      "/",
+      "p",
+      "r",
+      "o",
+      "f",
+      "i",
+      "l",
+      "e",
+      "/",
+      "s",
+      "e",
+      "t",
+      "t",
+      "i",
+      "n",
+      "g",
+      "s",
+      "/",
+      "n",
+      "o",
+      "t",
+      "i",
+      "f",
+      "i",
+      "c",
+      "a",
+      "t",
+      "i",
+      "o",
+      "n",
+      "s",
+      "/",
+      "e",
+      "m",
+      "a",
+      "i",
+      "l",
+      "-",
+      "p",
+      "r",
+      "e",
+      "f",
+      "e",
+      "r",
+      "e",
+      "n",
+      "c",
+      "e",
+      "s"
+    ],
+    "words": [
+      "see",
+      " ",
+      "https",
+      ":",
+      "/",
+      "/",
+      "api.example.com",
+      "/",
+      "v2",
+      "/",
+      "users",
+      "/",
+      "profile",
+      "/",
+      "settings",
+      "/",
+      "notifications",
+      "/",
+      "email",
+      "-",
+      "preferences"
+    ],
+    "tokens": [
+      "see",
+      " ",
+      "https://api.example.com/v2/users/profile/settings/notifications/email-preferences"
+    ],
+    "hanTokens": [
+      "see",
+      " ",
+      "https://api.example.com/v2/users/profile/settings/notifications/email-preferences"
+    ]
+  },
+  {
+    "text": "file-edit seq +4",
+    "han": false,
+    "graphemes": [
+      "f",
+      "i",
+      "l",
+      "e",
+      "-",
+      "e",
+      "d",
+      "i",
+      "t",
+      " ",
+      "s",
+      "e",
+      "q",
+      " ",
+      "+",
+      "4"
+    ],
+    "words": [
+      "file",
+      "-",
+      "edit",
+      " ",
+      "seq",
+      " ",
+      "+",
+      "4"
+    ],
+    "tokens": [
+      "file-edit",
+      " ",
+      "seq",
+      " ",
+      "+4"
+    ],
+    "hanTokens": [
+      "file-edit",
+      " ",
+      "seq",
+      " ",
+      "+4"
+    ]
+  },
+  {
+    "text": "✅ done",
+    "han": false,
+    "graphemes": [
+      "✅",
+      " ",
+      "d",
+      "o",
+      "n",
+      "e"
+    ],
+    "words": [
+      "✅",
+      " ",
+      "done"
+    ],
+    "tokens": [
+      "✅",
+      " ",
+      "done"
+    ],
+    "hanTokens": [
+      "✅",
+      " ",
+      "done"
+    ]
+  },
+  {
+    "text": "a‍b",
+    "han": false,
+    "graphemes": [
+      "a‍",
+      "b"
+    ],
+    "words": [
+      "a‍b"
+    ],
+    "tokens": [
+      "a‍b"
+    ],
+    "hanTokens": [
+      "a‍b"
+    ]
+  },
+  {
+    "text": "Ünïcödé",
+    "han": false,
+    "graphemes": [
+      "Ü",
+      "n",
+      "ï",
+      "c",
+      "ö",
+      "d",
+      "é"
+    ],
+    "words": [
+      "Ünïcödé"
+    ],
+    "tokens": [
+      "Ünïcödé"
+    ],
+    "hanTokens": [
+      "Ünïcödé"
+    ]
+  },
+  {
+    "text": "한글",
+    "han": false,
+    "graphemes": [
+      "한",
+      "글"
+    ],
+    "words": [
+      "한글"
+    ],
+    "tokens": [
+      "한글"
+    ],
+    "hanTokens": [
+      "한글"
+    ]
+  },
+  {
+    "text": "ｶﾅ halfwidth",
+    "han": false,
+    "graphemes": [
+      "ｶ",
+      "ﾅ",
+      " ",
+      "h",
+      "a",
+      "l",
+      "f",
+      "w",
+      "i",
+      "d",
+      "t",
+      "h"
+    ],
+    "words": [
+      "ｶﾅ",
+      " ",
+      "halfwidth"
+    ],
+    "tokens": [
+      "ｶﾅ",
+      " ",
+      "halfwidth"
+    ],
+    "hanTokens": [
+      "ｶﾅ",
+      " ",
+      "halfwidth"
+    ]
+  },
+  {
+    "text": "成功或抛错都会",
+    "han": true,
+    "graphemes": [
+      "成",
+      "功",
+      "或",
+      "抛",
+      "错",
+      "都",
+      "会"
+    ],
+    "words": [
+      "成功",
+      "或",
+      "抛",
+      "错",
+      "都会"
+    ],
+    "tokens": [
+      "成功或抛错都会"
+    ],
+    "hanTokens": [
+      "成功或抛错都会"
+    ]
+  },
+  {
+    "text": "inner.run 成功或抛错都会 close；外层 init 失败发生在 try 之前。",
+    "han": true,
+    "graphemes": [
+      "i",
+      "n",
+      "n",
+      "e",
+      "r",
+      ".",
+      "r",
+      "u",
+      "n",
+      " ",
+      "成",
+      "功",
+      "或",
+      "抛",
+      "错",
+      "都",
+      "会",
+      " ",
+      "c",
+      "l",
+      "o",
+      "s",
+      "e",
+      "；",
+      "外",
+      "层",
+      " ",
+      "i",
+      "n",
+      "i",
+      "t",
+      " ",
+      "失",
+      "败",
+      "发",
+      "生",
+      "在",
+      " ",
+      "t",
+      "r",
+      "y",
+      " ",
+      "之",
+      "前",
+      "。"
+    ],
+    "words": [
+      "inner.run",
+      " ",
+      "成功",
+      "或",
+      "抛",
+      "错",
+      "都会",
+      " ",
+      "close",
+      "；",
+      "外层",
+      " ",
+      "init",
+      " ",
+      "失败",
+      "发生",
+      "在",
+      " ",
+      "try",
+      " ",
+      "之前",
+      "。"
+    ],
+    "tokens": [
+      "inner.run",
+      " ",
+      "成功或抛错都会",
+      " ",
+      "close；外层",
+      " ",
+      "init",
+      " ",
+      "失败发生在",
+      " ",
+      "try",
+      " ",
+      "之前。"
+    ],
+    "hanTokens": [
+      "inner.run",
+      " ",
+      "成功或抛错都会",
+      " ",
+      "close；",
+      "外层",
+      " ",
+      "init",
+      " ",
+      "失败发生在",
+      " ",
+      "try",
+      " ",
+      "之前",
+      "。"
+    ]
+  },
+  {
+    "text": "评分：会话 ID 匹配 +4、匹配 file-edit seq +4、非空事件 +1；取最高且大于 0 的结果。",
+    "han": true,
+    "graphemes": [
+      "评",
+      "分",
+      "：",
+      "会",
+      "话",
+      " ",
+      "I",
+      "D",
+      " ",
+      "匹",
+      "配",
+      " ",
+      "+",
+      "4",
+      "、",
+      "匹",
+      "配",
+      " ",
+      "f",
+      "i",
+      "l",
+      "e",
+      "-",
+      "e",
+      "d",
+      "i",
+      "t",
+      " ",
+      "s",
+      "e",
+      "q",
+      " ",
+      "+",
+      "4",
+      "、",
+      "非",
+      "空",
+      "事",
+      "件",
+      " ",
+      "+",
+      "1",
+      "；",
+      "取",
+      "最",
+      "高",
+      "且",
+      "大",
+      "于",
+      " ",
+      "0",
+      " ",
+      "的",
+      "结",
+      "果",
+      "。"
+    ],
+    "words": [
+      "评",
+      "分",
+      "：",
+      "会话",
+      " ",
+      "ID",
+      " ",
+      "匹配",
+      " ",
+      "+",
+      "4",
+      "、",
+      "匹配",
+      " ",
+      "file",
+      "-",
+      "edit",
+      " ",
+      "seq",
+      " ",
+      "+",
+      "4",
+      "、",
+      "非",
+      "空",
+      "事件",
+      " ",
+      "+",
+      "1",
+      "；",
+      "取",
+      "最高",
+      "且",
+      "大于",
+      " ",
+      "0",
+      " ",
+      "的",
+      "结果",
+      "。"
+    ],
+    "tokens": [
+      "评分：会话",
+      " ",
+      "ID",
+      " ",
+      "匹配",
+      " ",
+      "+4、匹配",
+      " ",
+      "file-edit",
+      " ",
+      "seq",
+      " ",
+      "+4、非空事件",
+      " ",
+      "+1；取最高且大于",
+      " ",
+      "0",
+      " ",
+      "的结果。"
+    ],
+    "hanTokens": [
+      "评分",
+      "：",
+      "会话",
+      " ",
+      "ID",
+      " ",
+      "匹配",
+      " ",
+      "+4、",
+      "匹配",
+      " ",
+      "file-edit",
+      " ",
+      "seq",
+      " ",
+      "+4、",
+      "非空事件",
+      " ",
+      "+1；",
+      "取最高且大于",
+      " ",
+      "0",
+      " ",
+      "的结果",
+      "。"
+    ]
+  },
+  {
+    "text": "漢︎字",
+    "han": true,
+    "graphemes": [
+      "漢︎",
+      "字"
+    ],
+    "words": [
+      "漢︎",
+      "字"
+    ],
+    "tokens": [
+      "漢︎字"
+    ],
+    "hanTokens": [
+      "漢︎字"
+    ]
+  }
+]

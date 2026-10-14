@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "diagram_type": "timeline",
+  "meta": {
+    "title": "Daylight saving transitions",
+    "output": "dst-new-york.html",
+    "evidence": "illustrative",
+    "timezone": "America/New_York",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "clock",
+      "label": "Clock"
+    },
+    {
+      "id": "ops",
+      "label": "Operations"
+    }
+  ],
+  "events": [
+    {
+      "id": "before_gap",
+      "at": "2026-03-08T01:30:00-05:00",
+      "title": "Last EST half hour",
+      "lane": "clock",
+      "kind": "change"
+    },
+    {
+      "id": "after_gap",
+      "at": "2026-03-08T03:30:00-04:00",
+      "title": "First EDT half hour",
+      "lane": "clock",
+      "kind": "change"
+    },
+    {
+      "id": "noon",
+      "at": "2026-03-08T12:00:00-04:00",
+      "title": "Noon check",
+      "detail": "Dashboards reviewed after the shift.",
+      "lane": "ops",
+      "kind": "action"
+    },
+    {
+      "id": "eve",
+      "at": "2026-10-31T23:30:00-04:00",
+      "title": "Evening before fall-back",
+      "lane": "ops",
+      "kind": "alert"
+    },
+    {
+      "id": "first_130",
+      "at": "2026-11-01T01:30:00-04:00",
+      "title": "First 01:30 (EDT)",
+      "lane": "clock",
+      "kind": "change"
+    },
+    {
+      "id": "second_130",
+      "at": "2026-11-01T01:30:00-05:00",
+      "title": "Second 01:30 (EST)",
+      "lane": "clock",
+      "kind": "recovery"
+    },
+    {
+      "id": "morning",
+      "at": "2026-11-01T09:00:00-05:00",
+      "title": "Morning review",
+      "lane": "ops",
+      "kind": "action"
+    }
+  ]
+}

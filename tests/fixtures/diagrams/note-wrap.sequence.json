@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Note wrap",
+    "output": "note-wrap.html",
+    "column_fit": "spread"
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "backend",
+      "label": "CLIENT"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "API"
+    },
+    {
+      "id": "db",
+      "type": "backend",
+      "label": "DB"
+    },
+    {
+      "id": "cache",
+      "type": "backend",
+      "label": "CACHE"
+    },
+    {
+      "id": "queue",
+      "type": "backend",
+      "label": "QUEUE"
+    }
+  ],
+  "messages": [
+    {
+      "id": "request",
+      "from": "client",
+      "to": "api",
+      "y": 200,
+      "label": "request",
+      "note": "this note explains the whole retry and backoff policy in a lot of detail so it is very long"
+    },
+    {
+      "id": "link",
+      "from": "client",
+      "to": "api",
+      "y": 420,
+      "label": "docs",
+      "note": "see https://api.example.com/v2/users/profile/settings/notifications/email-preferences"
+    },
+    {
+      "id": "token",
+      "from": "client",
+      "to": "api",
+      "y": 640,
+      "label": "token",
+      "note": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé"
+    },
+    {
+      "id": "accent",
+      "from": "api",
+      "to": "client",
+      "y": 900,
+      "label": "reply",
+      "variant": "return",
+      "note": "naïve café aaaaaaaaaaaé résumé ✅ done"
+    },
+    {
+      "id": "short",
+      "from": "api",
+      "to": "client",
+      "y": 960,
+      "label": "cached",
+      "variant": "return",
+      "note": "cached for 5 minutes"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "api",
+      "from": 190,
+      "to": 980
+    }
+  ]
+}

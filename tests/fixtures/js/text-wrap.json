@@ -1,0 +1,684 @@
+{
+  "trim": [
+    {
+      "s": "﻿x﻿",
+      "trimStart": "x﻿",
+      "trimEnd": "﻿x"
+    },
+    {
+      "s": "x",
+      "trimStart": "x",
+      "trimEnd": "x"
+    },
+    {
+      "s": " x ",
+      "trimStart": "x ",
+      "trimEnd": " x"
+    },
+    {
+      "s": " x ",
+      "trimStart": "x ",
+      "trimEnd": " x"
+    },
+    {
+      "s": " x ",
+      "trimStart": "x ",
+      "trimEnd": " x"
+    },
+    {
+      "s": "\tx\n",
+      "trimStart": "x\n",
+      "trimEnd": "\tx"
+    },
+    {
+      "s": "　x",
+      "trimStart": "x",
+      "trimEnd": "　x"
+    },
+    {
+      "s": "",
+      "trimStart": "",
+      "trimEnd": ""
+    },
+    {
+      "s": "   ",
+      "trimStart": "",
+      "trimEnd": ""
+    },
+    {
+      "s": "a b",
+      "trimStart": "a b",
+      "trimEnd": "a b"
+    },
+    {
+      "s": "a b",
+      "trimStart": "a b",
+      "trimEnd": "a b"
+    }
+  ],
+  "splitOnSpaces": [
+    {
+      "s": "Payment platform",
+      "parts": [
+        "Payment",
+        "platform"
+      ]
+    },
+    {
+      "s": "  two  spaces  ",
+      "parts": [
+        "",
+        "two",
+        "spaces",
+        ""
+      ]
+    },
+    {
+      "s": "trailing ",
+      "parts": [
+        "trailing",
+        ""
+      ]
+    },
+    {
+      "s": " leading",
+      "parts": [
+        "",
+        "leading"
+      ]
+    },
+    {
+      "s": "a b c",
+      "parts": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "s": "",
+      "parts": [
+        ""
+      ]
+    },
+    {
+      "s": "x",
+      "parts": [
+        "x"
+      ]
+    },
+    {
+      "s": "支付平台核心服务",
+      "parts": [
+        "支付平台核心服务"
+      ]
+    },
+    {
+      "s": "결제 플랫폼 코어",
+      "parts": [
+        "결제",
+        "플랫폼",
+        "코어"
+      ]
+    },
+    {
+      "s": "ＡＢＣ　ｄｅｆ",
+      "parts": [
+        "ＡＢＣ",
+        "ｄｅｆ"
+      ]
+    },
+    {
+      "s": "mixed 漢字 text 한글 ok",
+      "parts": [
+        "mixed",
+        "漢字",
+        "text",
+        "한글",
+        "ok"
+      ]
+    },
+    {
+      "s": "URL https://api.example.com/v2/users",
+      "parts": [
+        "URL",
+        "https://api.example.com/v2/users"
+      ]
+    },
+    {
+      "s": "tab\tsep\nline",
+      "parts": [
+        "tab",
+        "sep",
+        "line"
+      ]
+    },
+    {
+      "s": "éé combining",
+      "parts": [
+        "éé",
+        "combining"
+      ]
+    },
+    {
+      "s": "⺀鿿가힯豈﫿＀￯ edges",
+      "parts": [
+        "⺀鿿가힯豈﫿＀￯",
+        "edges"
+      ]
+    },
+    {
+      "s": "😀 emoji 😀",
+      "parts": [
+        "😀",
+        "emoji",
+        "😀"
+      ]
+    }
+  ],
+  "splitKeepingSpaces": [
+    {
+      "s": "Payment platform",
+      "parts": [
+        "Payment",
+        " ",
+        "platform"
+      ]
+    },
+    {
+      "s": "  two  spaces  ",
+      "parts": [
+        "",
+        "  ",
+        "two",
+        "  ",
+        "spaces",
+        "  ",
+        ""
+      ]
+    },
+    {
+      "s": "trailing ",
+      "parts": [
+        "trailing",
+        " ",
+        ""
+      ]
+    },
+    {
+      "s": " leading",
+      "parts": [
+        "",
+        " ",
+        "leading"
+      ]
+    },
+    {
+      "s": "a b c",
+      "parts": [
+        "a",
+        " ",
+        "b",
+        " ",
+        "c"
+      ]
+    },
+    {
+      "s": "",
+      "parts": [
+        ""
+      ]
+    },
+    {
+      "s": "x",
+      "parts": [
+        "x"
+      ]
+    },
+    {
+      "s": "支付平台核心服务",
+      "parts": [
+        "支付平台核心服务"
+      ]
+    },
+    {
+      "s": "결제 플랫폼 코어",
+      "parts": [
+        "결제",
+        " ",
+        "플랫폼",
+        " ",
+        "코어"
+      ]
+    },
+    {
+      "s": "ＡＢＣ　ｄｅｆ",
+      "parts": [
+        "ＡＢＣ",
+        "　",
+        "ｄｅｆ"
+      ]
+    },
+    {
+      "s": "mixed 漢字 text 한글 ok",
+      "parts": [
+        "mixed",
+        " ",
+        "漢字",
+        " ",
+        "text",
+        " ",
+        "한글",
+        " ",
+        "ok"
+      ]
+    },
+    {
+      "s": "URL https://api.example.com/v2/users",
+      "parts": [
+        "URL",
+        " ",
+        "https://api.example.com/v2/users"
+      ]
+    },
+    {
+      "s": "tab\tsep\nline",
+      "parts": [
+        "tab",
+        "\t",
+        "sep",
+        "\n",
+        "line"
+      ]
+    },
+    {
+      "s": "éé combining",
+      "parts": [
+        "éé",
+        " ",
+        "combining"
+      ]
+    },
+    {
+      "s": "⺀鿿가힯豈﫿＀￯ edges",
+      "parts": [
+        "⺀鿿가힯豈﫿＀￯",
+        " ",
+        "edges"
+      ]
+    },
+    {
+      "s": "😀 emoji 😀",
+      "parts": [
+        "😀",
+        " ",
+        "emoji",
+        " ",
+        "😀"
+      ]
+    }
+  ],
+  "cjkWrapTokens": [
+    {
+      "s": "Payment platform",
+      "tokens": [
+        "Payment ",
+        "platform"
+      ]
+    },
+    {
+      "s": "  two  spaces  ",
+      "tokens": [
+        "  ",
+        "two  ",
+        "spaces  "
+      ]
+    },
+    {
+      "s": "trailing ",
+      "tokens": [
+        "trailing "
+      ]
+    },
+    {
+      "s": " leading",
+      "tokens": [
+        " ",
+        "leading"
+      ]
+    },
+    {
+      "s": "a b c",
+      "tokens": [
+        "a ",
+        "b ",
+        "c"
+      ]
+    },
+    {
+      "s": "",
+      "tokens": [
+        ""
+      ]
+    },
+    {
+      "s": "x",
+      "tokens": [
+        "x"
+      ]
+    },
+    {
+      "s": "支付平台核心服务",
+      "tokens": [
+        "支",
+        "付",
+        "平",
+        "台",
+        "核",
+        "心",
+        "服",
+        "务"
+      ]
+    },
+    {
+      "s": "결제 플랫폼 코어",
+      "tokens": [
+        "결",
+        "제",
+        " ",
+        "플",
+        "랫",
+        "폼",
+        " ",
+        "코",
+        "어"
+      ]
+    },
+    {
+      "s": "ＡＢＣ　ｄｅｆ",
+      "tokens": [
+        "Ａ",
+        "Ｂ",
+        "Ｃ",
+        "　",
+        "ｄ",
+        "ｅ",
+        "ｆ"
+      ]
+    },
+    {
+      "s": "mixed 漢字 text 한글 ok",
+      "tokens": [
+        "mixed ",
+        "漢",
+        "字",
+        " ",
+        "text ",
+        "한",
+        "글",
+        " ",
+        "ok"
+      ]
+    },
+    {
+      "s": "URL https://api.example.com/v2/users",
+      "tokens": [
+        "URL ",
+        "https://api.example.com/v2/users"
+      ]
+    },
+    {
+      "s": "tab\tsep\nline",
+      "tokens": [
+        "tab\t",
+        "sep\n",
+        "line"
+      ]
+    },
+    {
+      "s": "éé combining",
+      "tokens": [
+        "éé ",
+        "combining"
+      ]
+    },
+    {
+      "s": "⺀鿿가힯豈﫿＀￯ edges",
+      "tokens": [
+        "⺀",
+        "鿿",
+        "가",
+        "힯",
+        "豈",
+        "﫿",
+        "＀",
+        "￯",
+        " ",
+        "edges"
+      ]
+    },
+    {
+      "s": "😀 emoji 😀",
+      "tokens": [
+        "😀 ",
+        "emoji ",
+        "😀"
+      ]
+    }
+  ],
+  "splitSignature": [
+    {
+      "s": "calculate(amount: Money, currency: Currency): Money",
+      "parts": [
+        "calculate(",
+        "amount: Money, ",
+        "currency: Currency",
+        "): Money"
+      ]
+    },
+    {
+      "s": "process(order: Order, customer: Customer, options: ProcessingOptions): Result<Receipt>",
+      "parts": [
+        "process(",
+        "order: Order, customer: Customer, ",
+        "options: ProcessingOptions",
+        "): Result<Receipt>"
+      ]
+    },
+    {
+      "s": "veryLongMethodNameWithoutParametersAtAll(): void",
+      "parts": [
+        "veryLongMethodNameWithoutParametersAtAll(",
+        "): void"
+      ]
+    },
+    {
+      "s": "noParens",
+      "parts": [
+        "noParens"
+      ]
+    },
+    {
+      "s": "a(b)",
+      "parts": [
+        "a(",
+        "b)"
+      ]
+    },
+    {
+      "s": "f(x: int, y: int)",
+      "parts": [
+        "f(",
+        "x: int, ",
+        "y: int)"
+      ]
+    },
+    {
+      "s": "g(): ",
+      "parts": [
+        "g(",
+        "): "
+      ]
+    },
+    {
+      "s": "h(p: Map<string, List<int>>, q: string): Map<string, int>",
+      "parts": [
+        "h(",
+        "p: Map<string, ",
+        "List<int>>, ",
+        "q: string",
+        "): Map<string, ",
+        "int>"
+      ]
+    }
+  ],
+  "splitAfterCommaSpace": [
+    {
+      "s": "calculate(amount: Money, currency: Currency): Money",
+      "parts": [
+        "calculate(amount: Money, ",
+        "currency: Currency): Money"
+      ]
+    },
+    {
+      "s": "process(order: Order, customer: Customer, options: ProcessingOptions): Result<Receipt>",
+      "parts": [
+        "process(order: Order, customer: Customer, ",
+        "options: ProcessingOptions): Result<Receipt>"
+      ]
+    },
+    {
+      "s": "veryLongMethodNameWithoutParametersAtAll(): void",
+      "parts": [
+        "veryLongMethodNameWithoutParametersAtAll(): void"
+      ]
+    },
+    {
+      "s": "noParens",
+      "parts": [
+        "noParens"
+      ]
+    },
+    {
+      "s": "a(b)",
+      "parts": [
+        "a(b)"
+      ]
+    },
+    {
+      "s": "f(x: int, y: int)",
+      "parts": [
+        "f(x: int, ",
+        "y: int)"
+      ]
+    },
+    {
+      "s": "g(): ",
+      "parts": [
+        "g(): "
+      ]
+    },
+    {
+      "s": "h(p: Map<string, List<int>>, q: string): Map<string, int>",
+      "parts": [
+        "h(p: Map<string, ",
+        "List<int>>, ",
+        "q: string): Map<string, ",
+        "int>"
+      ]
+    }
+  ],
+  "splitKeepingCommas": [
+    {
+      "s": "a: int, b: string",
+      "parts": [
+        "a: int",
+        ", ",
+        "b: string"
+      ],
+      "isComma": [
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "s": "a,b",
+      "parts": [
+        "a",
+        ",",
+        "b"
+      ],
+      "isComma": [
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "s": "a,  b, c",
+      "parts": [
+        "a",
+        ",  ",
+        "b",
+        ", ",
+        "c"
+      ],
+      "isComma": [
+        false,
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "s": "single",
+      "parts": [
+        "single"
+      ],
+      "isComma": [
+        false
+      ]
+    },
+    {
+      "s": "",
+      "parts": [
+        ""
+      ],
+      "isComma": [
+        false
+      ]
+    },
+    {
+      "s": "x: Map<string, int>, y",
+      "parts": [
+        "x: Map<string",
+        ", ",
+        "int>",
+        ", ",
+        "y"
+      ],
+      "isComma": [
+        false,
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "s": "a:b:c, d",
+      "parts": [
+        "a:b:c",
+        ", ",
+        "d"
+      ],
+      "isComma": [
+        false,
+        true,
+        false
+      ]
+    }
+  ]
+}

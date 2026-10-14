@@ -1,0 +1,2545 @@
+{
+  "valid": [
+    {
+      "id": "UTC",
+      "valid": true
+    },
+    {
+      "id": "Etc/UTC",
+      "valid": true
+    },
+    {
+      "id": "GMT",
+      "valid": true
+    },
+    {
+      "id": "Asia/Shanghai",
+      "valid": true
+    },
+    {
+      "id": "America/New_York",
+      "valid": true
+    },
+    {
+      "id": "Europe/Berlin",
+      "valid": true
+    },
+    {
+      "id": "Asia/Kolkata",
+      "valid": true
+    },
+    {
+      "id": "Pacific/Chatham",
+      "valid": true
+    },
+    {
+      "id": "Australia/Lord_Howe",
+      "valid": true
+    },
+    {
+      "id": "asia/shanghai",
+      "valid": true
+    },
+    {
+      "id": "America/new_york",
+      "valid": true
+    },
+    {
+      "id": "Asia/Calcutta",
+      "valid": true
+    },
+    {
+      "id": "US/Eastern",
+      "valid": true
+    },
+    {
+      "id": "EST",
+      "valid": true
+    },
+    {
+      "id": "PST",
+      "valid": true
+    },
+    {
+      "id": "Etc/GMT+8",
+      "valid": true
+    },
+    {
+      "id": "+08:00",
+      "valid": true
+    },
+    {
+      "id": "-05:30",
+      "valid": true
+    },
+    {
+      "id": "+0800",
+      "valid": true
+    },
+    {
+      "id": "+08",
+      "valid": true
+    },
+    {
+      "id": "+08:00:00",
+      "valid": false
+    },
+    {
+      "id": "+8:00",
+      "valid": false
+    },
+    {
+      "id": "China Standard Time",
+      "valid": false
+    },
+    {
+      "id": "Eastern Standard Time",
+      "valid": false
+    },
+    {
+      "id": "Mars/Olympus",
+      "valid": false
+    },
+    {
+      "id": "",
+      "valid": false
+    },
+    {
+      "id": "UTC+8",
+      "valid": false
+    }
+  ],
+  "wall": [
+    {
+      "zone": "UTC",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "06",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "07",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "07",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "05",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "06",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "06",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "02",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "04",
+        "h": "16",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "02",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "12",
+        "d": "31",
+        "h": "23",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 0,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": -1000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1969",
+        "mo": "12",
+        "d": "31",
+        "h": "23",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": -62135596800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": -59042995200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": -62167219200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "UTC",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "9999",
+        "mo": "12",
+        "d": "31",
+        "h": "23",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "14",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "13",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "10",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "10",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "05",
+        "s": "43"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "05",
+        "s": "43"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "05",
+        "s": "43"
+      }
+    },
+    {
+      "zone": "Asia/Shanghai",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "01",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "03",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "03",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "01",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "01",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "01",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "09",
+        "d": "30",
+        "h": "22",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "04",
+        "h": "12",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "04",
+        "h": "22",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2025",
+        "mo": "12",
+        "d": "31",
+        "h": "19",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1969",
+        "mo": "12",
+        "d": "31",
+        "h": "19",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1969",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "12",
+        "d": "31",
+        "h": "19",
+        "mi": "03",
+        "s": "58"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "98",
+        "mo": "12",
+        "d": "31",
+        "h": "19",
+        "mi": "03",
+        "s": "58"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "-1",
+        "mo": "12",
+        "d": "31",
+        "h": "19",
+        "mi": "03",
+        "s": "58"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "9999",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "06",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "07",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "07",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "04",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "04",
+        "h": "18",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "04",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "01",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "01",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "53",
+        "s": "28"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "53",
+        "s": "28"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "53",
+        "s": "28"
+      }
+    },
+    {
+      "zone": "Europe/Berlin",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "12",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "12",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "12",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "11",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "11",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "12",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "07",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "04",
+        "h": "21",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "53",
+        "s": "28"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "53",
+        "s": "28"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "53",
+        "s": "28"
+      }
+    },
+    {
+      "zone": "Asia/Kolkata",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "20",
+        "mi": "44",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "20",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "20",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "19",
+        "mi": "44",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "19",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "20",
+        "mi": "15",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "15",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "05",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "15",
+        "mi": "15",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "13",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "13",
+        "mi": "44",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "12",
+        "mi": "45",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "12",
+        "mi": "44",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "12",
+        "mi": "13",
+        "s": "48"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "12",
+        "mi": "13",
+        "s": "48"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "12",
+        "mi": "13",
+        "s": "48"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "13",
+        "mi": "44",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "17",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "18",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "18",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "16",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "17",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "17",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "12",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "03",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "13",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "11",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "09",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "36",
+        "s": "20"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "36",
+        "s": "20"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "36",
+        "s": "20"
+      }
+    },
+    {
+      "zone": "Australia/Lord_Howe",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "14",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "13",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "10",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "10",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 0,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": -1000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": -62135596800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": -59042995200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": -62167219200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "01",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "01",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "01",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "00",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "00",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "01",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "09",
+        "d": "30",
+        "h": "20",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "04",
+        "h": "10",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "04",
+        "h": "21",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2025",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 0,
+      "guaranteed": true,
+      "parts": {
+        "y": "1969",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": -1000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1969",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": -62135596800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "0",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": -59042995200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "98",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": -62167219200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "-1",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "-05:30",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "9999",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "29",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "14",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "13",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "10",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "10",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 0,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": -1000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": -62135596800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": -59042995200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": -62167219200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+0800",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "14",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "15",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "13",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "14",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "10",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "10",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 0,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": -1000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": -62135596800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": -59042995200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": -62167219200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "07",
+        "mi": "59",
+        "s": "59"
+      }
+    }
+  ]
+}
