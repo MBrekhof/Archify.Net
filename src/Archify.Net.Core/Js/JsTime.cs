@@ -37,8 +37,9 @@ public static partial class Js
     /// True iff <c>new Intl.DateTimeFormat('en-US', { timeZone: id })</c> does not throw (time-zones.json "valid"). IANA ids match
     /// case-insensitively against ICU's own list, as V8 does.
     /// Deviation: off Windows the ICU list is not read, so only exact-case IANA ids (plus 3–4-letter upper-case ones) are accepted.
-    /// Deviation: ICU ids the OS zone table cannot resolve (CET, EET, MET, WET, America/Ciudad_Juarez, Antarctica/Troll, SystemV/*)
-    /// are rejected, though V8 accepts them.
+    /// Deviation: ids present in V8's ICU but absent from, or unresolvable by, the Windows ICU/TimeZoneInfo build are rejected; the
+    /// set varies with the OS build. On this machine (ICU 72.1, 2026-10-14) examples are CET, EET, MET, WET, America/Ciudad_Juarez,
+    /// Antarctica/Troll, Asia/Urumqi, Asia/Kashgar, Antarctica/Vostok, America/Coyhaique and the SystemV/* legacy ids.
     /// </summary>
     // ponytail: V8 parity — rule order: UTC, fixed offset, exact IANA→Windows mapping, then the ICU case-insensitive list.
     public static bool IsIanaTimeZone(string id) =>
@@ -51,7 +52,7 @@ public static partial class Js
     // ICU does not list it or the ICU list is unavailable (non-Windows, or Windows without icu.dll).
     internal static string? CanonicalZoneId(string id) => IcuZones.Value?.GetValueOrDefault(id);
 
-    // ponytail: V8 parity — ICU's 634 zone ids (aliases included, no two differ only by case), read once; null when unavailable.
+    // ponytail: V8 parity — ICU's zone ids (aliases included, no two differ only by case), read once; null when unavailable.
     static readonly Lazy<Dictionary<string, string>?> IcuZones = new(() =>
     {
         if (!OperatingSystem.IsWindows()) return null;
@@ -76,9 +77,12 @@ public static partial class Js
     // version-suffixed names (ucal_openTimeZones_74); add a suffix probe if the off-Windows deviation matters.
     static class Icu
     {
-        [DllImport("icu.dll")] internal static extern IntPtr ucal_openTimeZones(ref int status);
-        [DllImport("icu.dll")] internal static extern IntPtr uenum_unext(IntPtr e, out int len, ref int status);
-        [DllImport("icu.dll")] internal static extern void uenum_close(IntPtr e);
+        [DllImport("icu.dll", CallingConvention = CallingConvention.Cdecl), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr ucal_openTimeZones(ref int status);
+        [DllImport("icu.dll", CallingConvention = CallingConvention.Cdecl), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr uenum_unext(IntPtr e, out int len, ref int status);
+        [DllImport("icu.dll", CallingConvention = CallingConvention.Cdecl), DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern void uenum_close(IntPtr e);
     }
 
     // ponytail: V8 parity — ±HH[:MM] / ±HHMM with hour ≤ 23 and minute ≤ 59; `+08` means +08:00. Null when not a fixed offset.
@@ -106,7 +110,9 @@ public static partial class Js
         return new(Num(y), Two(mo), Two(d), Two(t / 3_600_000), Two(t / 60_000 % 60), Two(t / 1000 % 60));
     }
 
-    static readonly long MinMs = (long)(DateTime.MinValue - DateTime.UnixEpoch).TotalMilliseconds, MaxMs = (long)(DateTime.MaxValue - DateTime.UnixEpoch).TotalMilliseconds;
+    // Integer ticks: TimeSpan.TotalMilliseconds is a double and rounds MaxMs up past DateTime.MaxValue (9999-12-31T24:00Z threw).
+    static readonly long MinMs = (DateTime.MinValue.Ticks - DateTime.UnixEpoch.Ticks) / TimeSpan.TicksPerMillisecond,
+        MaxMs = (DateTime.MaxValue.Ticks - DateTime.UnixEpoch.Ticks) / TimeSpan.TicksPerMillisecond;
     static long ZoneOffsetMs(TimeZoneInfo z, long ms) =>
         (long)(ms >= MinMs && ms <= MaxMs ? z.GetUtcOffset(DateTime.UnixEpoch.AddMilliseconds(ms)) : z.BaseUtcOffset).TotalMilliseconds;
 

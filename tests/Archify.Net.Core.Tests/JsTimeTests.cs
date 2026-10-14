@@ -55,5 +55,13 @@ public class JsTimeTests
         Assert.Null(Js.CanonicalZoneId("China Standard Time")); Assert.Null(Js.CanonicalZoneId("Eastern Standard Time")); Assert.Null(Js.CanonicalZoneId("UTC-08"));
         Assert.Equal(Js.ZoneWall("Asia/Shanghai", 0), Js.ZoneWall("asia/shanghai", 0));
     }
+    [Fact] public void ZoneWall_past_DateTime_MaxValue_takes_the_base_offset()   // node 24.12: formatToParts → 10000-01-01 00:00:00 AD
+    {
+        foreach (var s in new[] { "9999-12-31T24:00Z", "9999-12-31T23:00:00-01:00" })
+        {
+            var w = Js.ZoneWall("UTC", Js.DateParse(s)); Assert.Equal(("10000", "01", "01", "00", "00", "00"), (w.Y, w.Mo, w.D, w.H, w.Mi, w.S));
+        }
+        Assert.Equal("10000", Js.ZoneWall("Asia/Shanghai", Js.DateParse("9999-12-31T24:00Z")).Y);   // named zone: no throw
+    }
     [Fact] public void Civil_round_trip() { foreach (var z in new long[] { -719468, -1, 0, 1, 19999, 2932896 }) { var (y, m, d) = Js.CivilFromDays(z); Assert.Equal(z, Js.DaysFromCivil(y, m, d)); } }
 }
