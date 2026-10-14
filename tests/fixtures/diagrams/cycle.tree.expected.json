@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Tree structure validation failed:\n- Parent links form a cycle: \"orders\" -> \"create_order\" -> \"orders\".",
+  "diagnostics": [
+    {
+      "code": "tree/cycle",
+      "severity": "error",
+      "message": "Parent links form a cycle: \"orders\" -> \"create_order\" -> \"orders\".",
+      "subject": {
+        "diagramType": "tree",
+        "path": "/nodes/1/parent",
+        "nodeId": "orders"
+      },
+      "evidence": {
+        "cycle": [
+          "orders",
+          "create_order"
+        ]
+      },
+      "supportedFixes": [
+        "Point one node in the cycle at a parent outside it."
+      ]
+    }
+  ]
+}

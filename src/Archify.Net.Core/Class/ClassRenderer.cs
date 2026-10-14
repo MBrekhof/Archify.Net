@@ -370,18 +370,6 @@ public sealed class ClassRenderer : IDiagramRenderer
             new("methods", type["methods"].AsArrayOrEmpty().Select(node => { var method = (JsonObject)node!; return new MemberRow(method, MethodText(method)); }).ToList()),
         }.Where(compartment => compartment.Rows.Count > 0).ToList();
 
-        // Array.from(string): code points, a lone surrogate kept as its own element.
-        static List<string> CodePoints(string s)
-        {
-            var list = new List<string>(s.Length);
-            for (var i = 0; i < s.Length; i++)
-            {
-                if (char.IsHighSurrogate(s[i]) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1])) { list.Add(s.Substring(i, 2)); i++; }
-                else list.Add(s[i].ToString());
-            }
-            return list;
-        }
-
         // A member longer than its box wraps instead of being cut (:149).
         static List<Line> FillLines(IEnumerable<string> pieces, double limit, double firstIndent, double indent)
         {
@@ -400,7 +388,7 @@ public sealed class ClassRenderer : IDiagramRenderer
                 current = Js.TrimStart(piece);
                 while (Utils.TextUnits(current) > Room())
                 {
-                    var chars = CodePoints(current);
+                    var chars = Js.CodePoints(current);
                     var cut = 0;
                     for (var units = 0; cut < chars.Count && units + Utils.TextUnits(chars[cut]) <= Room(); cut += 1) units += Utils.TextUnits(chars[cut]);
                     var at = Math.Max(1, cut);

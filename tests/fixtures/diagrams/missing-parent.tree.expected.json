@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Tree structure validation failed:\n- Node \"orders\" names parent \"ghost\", which is not declared.",
+  "diagnostics": [
+    {
+      "code": "tree/missing-parent",
+      "severity": "error",
+      "message": "Node \"orders\" names parent \"ghost\", which is not declared.",
+      "subject": {
+        "diagramType": "tree",
+        "path": "/nodes/1/parent",
+        "nodeId": "orders"
+      },
+      "evidence": {
+        "parent": "ghost"
+      },
+      "supportedFixes": [
+        "Declare a node with id \"ghost\".",
+        "Point parent at an existing node.",
+        "Remove parent to make this the root."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Tree structure validation failed:\n- A tree has one root, but 2 nodes have no parent: \"platform\", \"orders\".",
+  "diagnostics": [
+    {
+      "code": "tree/root-count",
+      "severity": "error",
+      "message": "A tree has one root, but 2 nodes have no parent: \"platform\", \"orders\".",
+      "subject": {
+        "diagramType": "tree",
+        "path": "/nodes"
+      },
+      "evidence": {
+        "roots": [
+          "platform",
+          "orders"
+        ]
+      },
+      "supportedFixes": [
+        "Give all but one of these nodes a parent.",
+        "Add a single root that the top-level nodes name as parent."
+      ]
+    }
+  ]
+}

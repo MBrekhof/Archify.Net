@@ -23,7 +23,28 @@ public class ParityTests
         ["lifecycle", Fixtures.Fixture("diagrams/deployment-release.notes.lifecycle.json"), Fixtures.Golden("deployment-release.notes-rendered.html")],
         ["class", Fixtures.Upstream("examples/payments.class.json"), Fixtures.Upstream("examples/class-payments-rendered.html")],
         ["class", Fixtures.Upstream("examples/payment-processors.class.json"), Fixtures.Upstream("examples/class-payment-processors-rendered.html")],
+        ["tree", Fixtures.Upstream("examples/payment-platform.tree.json"), Fixtures.Upstream("examples/tree-payment-platform-rendered.html")],
+        ["tree", Fixtures.Upstream("examples/archify-repository.tree.json"), Fixtures.Upstream("examples/tree-archify-repository-rendered.html")],
+        ["tree", Fixtures.Fixture("diagrams/payment-platform.right.tree.json"), Fixtures.Golden("payment-platform.right-rendered.html")],
+        ["tree", Fixtures.Fixture("diagrams/payment-platform.wrap.tree.json"), Fixtures.Golden("payment-platform.wrap-rendered.html")],   // CJK/Hangul, spaces, in-word cut
     ];
+
+    [Fact] public void Tree_missing_parent_reports_upstream_code()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-platform.tree.json")));
+        d["nodes"]![1]!["parent"] = "ghost";
+        var r = ArchifyNet.Render(DiagramType.Tree, d);
+        Assert.Equal("", r.Html);
+        Assert.Contains(r.Diagnostics, x => x.Code == "tree/missing-parent" && x.Path == "/nodes/1/parent");
+    }
+
+    // render-tree.mjs:29 `tree.layout?.direction === 'right'` reaches the layout report (:395) unchanged.
+    [Fact] public void Tree_right_direction_reaches_layout_report()
+    {
+        var r = ArchifyNet.Render(DiagramType.Tree, DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/payment-platform.right.tree.json"))));
+        Assert.DoesNotContain(r.Diagnostics, x => x.Severity == Severity.Error);
+        Assert.Equal("right", r.Layout!.Report["direction"]!.GetValue<string>());
+    }
 
     // render-class.mjs:623-650 generalizationCycle walks `inheritance` edges only, after the per-relationship kind checks;
     // a reversed class-to-class inheritance stays on one side of the interface boundary, so the cycle is the code reported.
@@ -224,6 +245,45 @@ public class ParityTests
     public void Class_layout_report_equals_upstream_layout_json(string input, string name)
     {
         var r = ArchifyNet.Render(DiagramType.Class, DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream($"examples/{input}"))));
+        Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
+    }
+
+    // Tree failure receipts (same capture, from the payment-platform example with one fault each): validateStructure's four
+    // tree/* codes and the canvas check's untyped layout/constraint problems — messages, subjects, evidence, fixes, order.
+    [Theory]
+    [InlineData("root-count")]
+    [InlineData("missing-parent")]
+    [InlineData("duplicate-id")]
+    [InlineData("cycle")]
+    [InlineData("canvas-constraint")]
+    public void Tree_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.tree.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.tree.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Tree, d);
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
+    }
+
+    // `node render-tree.mjs <in> <out> --layout-json` stdout for both tree goldens and the rightward fixture.
+    [Theory]
+    [InlineData("upstream:examples/payment-platform.tree.json", "tree-payment-platform")]
+    [InlineData("upstream:examples/archify-repository.tree.json", "tree-archify-repository")]
+    [InlineData("fixture:diagrams/payment-platform.right.tree.json", "tree-payment-platform.right")]
+    public void Tree_layout_report_equals_upstream_layout_json(string input, string name)
+    {
+        var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
+        var r = ArchifyNet.Render(DiagramType.Tree, DiagramLoader.Parse(Fixtures.Lf(path)));
         Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
     }
 

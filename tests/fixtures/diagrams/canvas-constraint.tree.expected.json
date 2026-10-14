@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Tree layout validation failed:\n- Node \"platform\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"orders\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"payments\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"operations\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"create_order\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"cancel_order\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"card_payment\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"wallet_payment\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"refunds\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.\n- Node \"reconciliation\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"platform\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"orders\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"payments\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"operations\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"create_order\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"cancel_order\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"card_payment\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"wallet_payment\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"refunds\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Node \"reconciliation\" lies outside the authored meta.viewBox 400x240 — remove meta.viewBox or enlarge it.",
+      "subject": {
+        "diagramType": "tree"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

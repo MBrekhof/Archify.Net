@@ -1,0 +1,977 @@
+{
+  "diagram_type": "tree",
+  "direction": "down",
+  "viewBox": [
+    1841,
+    926
+  ],
+  "nodes": [
+    {
+      "id": "repo",
+      "parent": null,
+      "depth": 0,
+      "x": 1059,
+      "y": 64,
+      "width": 196,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "skill",
+      "parent": "repo",
+      "depth": 1,
+      "x": 535,
+      "y": 179,
+      "width": 195,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "viewer",
+      "parent": "repo",
+      "depth": 1,
+      "x": 1172,
+      "y": 179,
+      "width": 195,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "site",
+      "parent": "repo",
+      "depth": 1,
+      "x": 1407,
+      "y": 179,
+      "width": 148,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "scripts",
+      "parent": "repo",
+      "depth": 1,
+      "x": 1583,
+      "y": 179,
+      "width": 195,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "renderers",
+      "parent": "skill",
+      "depth": 2,
+      "x": 106,
+      "y": 294,
+      "width": 160,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "schemas",
+      "parent": "skill",
+      "depth": 2,
+      "x": 552,
+      "y": 294,
+      "width": 160,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "bin",
+      "parent": "skill",
+      "depth": 2,
+      "x": 740,
+      "y": 294,
+      "width": 140,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "references",
+      "parent": "skill",
+      "depth": 2,
+      "x": 988,
+      "y": 294,
+      "width": 156,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "r_arch",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 409,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_workflow",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 478,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_sequence",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 547,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_dataflow",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 616,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_lifecycle",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 685,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_erd",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 754,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_tree",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 60,
+      "y": 823,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "r_shared",
+      "parent": "renderers",
+      "depth": 3,
+      "x": 257,
+      "y": 409,
+      "width": 140,
+      "height": 59,
+      "lines": 1,
+      "stacked": false
+    },
+    {
+      "id": "s_cli",
+      "parent": "r_shared",
+      "depth": 4,
+      "x": 295,
+      "y": 524,
+      "width": 229,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "s_geometry",
+      "parent": "r_shared",
+      "depth": 4,
+      "x": 295,
+      "y": 593,
+      "width": 229,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "s_i18n",
+      "parent": "r_shared",
+      "depth": 4,
+      "x": 295,
+      "y": 662,
+      "width": 229,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "s_validators",
+      "parent": "r_shared",
+      "depth": 4,
+      "x": 295,
+      "y": 731,
+      "width": 229,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "b_archify",
+      "parent": "bin",
+      "depth": 3,
+      "x": 778,
+      "y": 409,
+      "width": 182,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "b_finalize",
+      "parent": "bin",
+      "depth": 3,
+      "x": 778,
+      "y": 478,
+      "width": 182,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "b_preview",
+      "parent": "bin",
+      "depth": 3,
+      "x": 778,
+      "y": 547,
+      "width": 182,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "v_focus",
+      "parent": "viewer",
+      "depth": 2,
+      "x": 1210,
+      "y": 294,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "v_export",
+      "parent": "viewer",
+      "depth": 2,
+      "x": 1210,
+      "y": 363,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "v_tree",
+      "parent": "viewer",
+      "depth": 2,
+      "x": 1210,
+      "y": 432,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "v_camera",
+      "parent": "viewer",
+      "depth": 2,
+      "x": 1210,
+      "y": 501,
+      "width": 169,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "sc_viewer",
+      "parent": "scripts",
+      "depth": 2,
+      "x": 1621,
+      "y": 294,
+      "width": 188,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "sc_zip",
+      "parent": "scripts",
+      "depth": 2,
+      "x": 1621,
+      "y": 363,
+      "width": 188,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    },
+    {
+      "id": "sc_gallery",
+      "parent": "scripts",
+      "depth": 2,
+      "x": 1621,
+      "y": 432,
+      "width": 188,
+      "height": 59,
+      "lines": 1,
+      "stacked": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo",
+      "to": "skill",
+      "points": [
+        [
+          1157,
+          123
+        ],
+        [
+          1157,
+          151
+        ],
+        [
+          632.5,
+          151
+        ],
+        [
+          632.5,
+          179
+        ]
+      ]
+    },
+    {
+      "from": "repo",
+      "to": "viewer",
+      "points": [
+        [
+          1157,
+          123
+        ],
+        [
+          1157,
+          151
+        ],
+        [
+          1269.5,
+          151
+        ],
+        [
+          1269.5,
+          179
+        ]
+      ]
+    },
+    {
+      "from": "repo",
+      "to": "site",
+      "points": [
+        [
+          1157,
+          123
+        ],
+        [
+          1157,
+          151
+        ],
+        [
+          1481,
+          151
+        ],
+        [
+          1481,
+          179
+        ]
+      ]
+    },
+    {
+      "from": "repo",
+      "to": "scripts",
+      "points": [
+        [
+          1157,
+          123
+        ],
+        [
+          1157,
+          151
+        ],
+        [
+          1680.5,
+          151
+        ],
+        [
+          1680.5,
+          179
+        ]
+      ]
+    },
+    {
+      "from": "skill",
+      "to": "renderers",
+      "points": [
+        [
+          632.5,
+          238
+        ],
+        [
+          632.5,
+          266
+        ],
+        [
+          186,
+          266
+        ],
+        [
+          186,
+          294
+        ]
+      ]
+    },
+    {
+      "from": "skill",
+      "to": "schemas",
+      "points": [
+        [
+          632,
+          238
+        ],
+        [
+          632,
+          294
+        ]
+      ]
+    },
+    {
+      "from": "skill",
+      "to": "bin",
+      "points": [
+        [
+          632.5,
+          238
+        ],
+        [
+          632.5,
+          266
+        ],
+        [
+          810,
+          266
+        ],
+        [
+          810,
+          294
+        ]
+      ]
+    },
+    {
+      "from": "skill",
+      "to": "references",
+      "points": [
+        [
+          632.5,
+          238
+        ],
+        [
+          632.5,
+          266
+        ],
+        [
+          1066,
+          266
+        ],
+        [
+          1066,
+          294
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_arch",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          438.5
+        ],
+        [
+          60,
+          438.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_workflow",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          507.5
+        ],
+        [
+          60,
+          507.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_sequence",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          576.5
+        ],
+        [
+          60,
+          576.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_dataflow",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          645.5
+        ],
+        [
+          60,
+          645.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_lifecycle",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          714.5
+        ],
+        [
+          60,
+          714.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_erd",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          783.5
+        ],
+        [
+          60,
+          783.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_tree",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          44,
+          381
+        ],
+        [
+          44,
+          852.5
+        ],
+        [
+          60,
+          852.5
+        ]
+      ]
+    },
+    {
+      "from": "renderers",
+      "to": "r_shared",
+      "points": [
+        [
+          186,
+          353
+        ],
+        [
+          186,
+          381
+        ],
+        [
+          327,
+          381
+        ],
+        [
+          327,
+          409
+        ]
+      ]
+    },
+    {
+      "from": "r_shared",
+      "to": "s_cli",
+      "points": [
+        [
+          279,
+          468
+        ],
+        [
+          279,
+          553.5
+        ],
+        [
+          295,
+          553.5
+        ]
+      ]
+    },
+    {
+      "from": "r_shared",
+      "to": "s_geometry",
+      "points": [
+        [
+          279,
+          468
+        ],
+        [
+          279,
+          622.5
+        ],
+        [
+          295,
+          622.5
+        ]
+      ]
+    },
+    {
+      "from": "r_shared",
+      "to": "s_i18n",
+      "points": [
+        [
+          279,
+          468
+        ],
+        [
+          279,
+          691.5
+        ],
+        [
+          295,
+          691.5
+        ]
+      ]
+    },
+    {
+      "from": "r_shared",
+      "to": "s_validators",
+      "points": [
+        [
+          279,
+          468
+        ],
+        [
+          279,
+          760.5
+        ],
+        [
+          295,
+          760.5
+        ]
+      ]
+    },
+    {
+      "from": "bin",
+      "to": "b_archify",
+      "points": [
+        [
+          762,
+          353
+        ],
+        [
+          762,
+          438.5
+        ],
+        [
+          778,
+          438.5
+        ]
+      ]
+    },
+    {
+      "from": "bin",
+      "to": "b_finalize",
+      "points": [
+        [
+          762,
+          353
+        ],
+        [
+          762,
+          507.5
+        ],
+        [
+          778,
+          507.5
+        ]
+      ]
+    },
+    {
+      "from": "bin",
+      "to": "b_preview",
+      "points": [
+        [
+          762,
+          353
+        ],
+        [
+          762,
+          576.5
+        ],
+        [
+          778,
+          576.5
+        ]
+      ]
+    },
+    {
+      "from": "viewer",
+      "to": "v_focus",
+      "points": [
+        [
+          1194,
+          238
+        ],
+        [
+          1194,
+          323.5
+        ],
+        [
+          1210,
+          323.5
+        ]
+      ]
+    },
+    {
+      "from": "viewer",
+      "to": "v_export",
+      "points": [
+        [
+          1194,
+          238
+        ],
+        [
+          1194,
+          392.5
+        ],
+        [
+          1210,
+          392.5
+        ]
+      ]
+    },
+    {
+      "from": "viewer",
+      "to": "v_tree",
+      "points": [
+        [
+          1194,
+          238
+        ],
+        [
+          1194,
+          461.5
+        ],
+        [
+          1210,
+          461.5
+        ]
+      ]
+    },
+    {
+      "from": "viewer",
+      "to": "v_camera",
+      "points": [
+        [
+          1194,
+          238
+        ],
+        [
+          1194,
+          530.5
+        ],
+        [
+          1210,
+          530.5
+        ]
+      ]
+    },
+    {
+      "from": "scripts",
+      "to": "sc_viewer",
+      "points": [
+        [
+          1605,
+          238
+        ],
+        [
+          1605,
+          323.5
+        ],
+        [
+          1621,
+          323.5
+        ]
+      ]
+    },
+    {
+      "from": "scripts",
+      "to": "sc_zip",
+      "points": [
+        [
+          1605,
+          238
+        ],
+        [
+          1605,
+          392.5
+        ],
+        [
+          1621,
+          392.5
+        ]
+      ]
+    },
+    {
+      "from": "scripts",
+      "to": "sc_gallery",
+      "points": [
+        [
+          1605,
+          238
+        ],
+        [
+          1605,
+          461.5
+        ],
+        [
+          1621,
+          461.5
+        ]
+      ]
+    }
+  ]
+}

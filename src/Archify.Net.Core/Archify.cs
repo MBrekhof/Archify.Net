@@ -16,6 +16,7 @@ internal static class Renderers
         DiagramType.Sequence => new SequenceRenderer(),
         DiagramType.Lifecycle => new LifecycleRenderer(),
         DiagramType.Class => new ClassRenderer(),
+        DiagramType.Tree => new TreeRenderer(),
         _ => throw new NotSupportedException($"{type.Name()} renderer lands in phase 2–4"),
     };
 }

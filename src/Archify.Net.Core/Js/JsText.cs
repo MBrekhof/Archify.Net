@@ -68,6 +68,18 @@ public static partial class Js
     public static string TrimStart(string s) { var i = 0; while (i < s.Length && IsSpace(s[i])) i++; return s[i..]; }
     public static string TrimEnd(string s) { var j = s.Length; while (j > 0 && IsSpace(s[j - 1])) j--; return s[..j]; }
 
+    // Array.from(string): code points, a lone surrogate kept as its own element.
+    public static List<string> CodePoints(string s)
+    {
+        var list = new List<string>(s.Length);
+        for (var i = 0; i < s.Length; i++)
+        {
+            if (char.IsHighSurrogate(s[i]) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1])) { list.Add(s.Substring(i, 2)); i++; }
+            else list.Add(s[i].ToString());
+        }
+        return list;
+    }
+
     // ES2023 §22.2.6.14 RegExp.prototype[@@split] for a non-unicode regex without a limit: empty matches at 0 and at the end never
     // split, captures are interleaved. One walk for every split below — Regex.Split differs on empty matches at the ends.
     static string[] JsSplit(Regex re, string s)

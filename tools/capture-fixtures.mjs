@@ -272,6 +272,14 @@ write('fixtures/diagrams/deployment-release.notes.lifecycle.json', notes);
 // Tree drawn rightward (render-tree.mjs:29 `direction === 'right'`; both examples are downward).
 const right = ex('payment-platform.tree.json'); right.meta.output = 'payment-platform.right.html'; right.layout = { ...(right.layout || {}), direction: 'right' };
 write('fixtures/diagrams/payment-platform.right.tree.json', right);
+// Tree text wrap (render-tree.mjs:123-145, :201): CJK and Hangul break per code unit, a word wider than 1.5 x nodeMaxW is cut
+// inside itself (the Array.from loop), runs of spaces and a trailing space reach split(/\s+/) and the trims.
+const wrap = ex('payment-platform.tree.json'); wrap.meta.output = 'payment-platform.wrap.html';
+wrap.nodes[0].label = '支付平台核心服务能力分解与治理结构总览';
+wrap.nodes[2].sublabel = '결제 처리 서비스 모음 및 정산 파이프라인 전체';
+wrap.nodes[8].label = 'Refund   handling and  chargeback  disputes ';
+wrap.nodes[9].label = 'TransactionReconciliationAndSettlementOrchestratorService';
+write('fixtures/diagrams/payment-platform.wrap.tree.json', wrap);
 // DST: America/New_York spring-forward (2026-03-08 02:00 EST → 03:00 EDT) and fall-back (2026-11-01 02:00 EDT → 01:00 EST), multi-day, one disclosed break.
 const dst = {
   schema_version: 1, diagram_type: 'timeline',
@@ -314,6 +322,7 @@ targets.push(
   ['sequence', out('fixtures/diagrams/brand-participants.sequence.json'), 'brand-participants-rendered.html'],
   ['lifecycle', out('fixtures/diagrams/deployment-release.notes.lifecycle.json'), 'deployment-release.notes-rendered.html'],
   ['tree', out('fixtures/diagrams/payment-platform.right.tree.json'), 'payment-platform.right-rendered.html'],
+  ['tree', out('fixtures/diagrams/payment-platform.wrap.tree.json'), 'payment-platform.wrap-rendered.html'],
   ['timeline', out('fixtures/diagrams/dst-new-york.timeline.json'), 'dst-new-york-rendered.html'],
   ['timeline', out('fixtures/diagrams/payment-incident.zh-CN.timeline.json'), 'payment-incident.zh-CN-rendered.html'],
   ['waterfall', out('fixtures/diagrams/incomplete-trace.waterfall.json'), 'incomplete-trace-rendered.html'],
@@ -411,6 +420,34 @@ for (const [name, fault] of classFaults) {
 // to these bytes (same keys, same order, same numbers).
 for (const [name, input] of [['class-payments', 'payments.class.json'], ['class-payment-processors', 'payment-processors.class.json']]) {
   const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/class/render-class.mjs'), path.join(EX, input), out(`goldens/${name}.layout.html`), '--layout-json'],
+    { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
+  fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
+// Tree failure receipts: payment-platform.tree.json with one fault each, one per code render-tree.mjs can emit
+// (validateStructure's four tree/* codes and the canvas check's layout/constraint).
+const treeFaults = [
+  ['root-count', (d) => { delete d.nodes[1].parent; }],                                                   // orders becomes a second root
+  ['missing-parent', (d) => { d.nodes[1].parent = 'ghost'; }],
+  ['duplicate-id', (d) => { d.nodes[4].id = 'cancel_order'; }],                                           // create_order renamed onto its sibling
+  ['cycle', (d) => { d.nodes[1].parent = 'create_order'; }],                                              // orders <-> create_order, reached twice
+  ['canvas-constraint', (d) => { d.meta.viewBox = [400, 240]; }],
+];
+for (const [name, fault] of treeFaults) {
+  const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'payment-platform.tree.json'), 'utf8'));
+  fault(diagram);
+  diagram.meta.output = `${name}.html`;
+  write(`fixtures/diagrams/${name}.tree.json`, diagram);
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/tree/render-tree.mjs'), out(`fixtures/diagrams/${name}.tree.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    console.warn(`tree fault ${name} unexpectedly rendered — no receipt written`);
+    fs.rmSync(out(`goldens/${name}.html`), { force: true });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.tree.expected.json`, JSON.parse(String(e.stderr))); }
+}
+// Tree layout reports (`--layout-json` stdout) for both upstream tree goldens and the rightward fixture.
+for (const [name, input] of [['tree-payment-platform', path.join(EX, 'payment-platform.tree.json')], ['tree-archify-repository', path.join(EX, 'archify-repository.tree.json')],
+  ['tree-payment-platform.right', out('fixtures/diagrams/payment-platform.right.tree.json')]]) {
+  const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/tree/render-tree.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
 }

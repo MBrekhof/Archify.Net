@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "diagram_type": "tree",
+  "meta": {
+    "title": "Payment platform capabilities",
+    "subtitle": "Illustrative decomposition: each capability belongs to exactly one parent. Links show containment, not calls.",
+    "output": "payment-platform.wrap.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "platform",
+      "label": "支付平台核心服务能力分解与治理结构总览",
+      "sublabel": "Decomposed by capability"
+    },
+    {
+      "id": "orders",
+      "label": "Orders",
+      "parent": "platform",
+      "sublabel": "Order lifecycle"
+    },
+    {
+      "id": "payments",
+      "label": "Payments",
+      "parent": "platform",
+      "sublabel": "결제 처리 서비스 모음 및 정산 파이프라인 전체"
+    },
+    {
+      "id": "operations",
+      "label": "Operations",
+      "parent": "platform",
+      "sublabel": "Back-office work"
+    },
+    {
+      "id": "create_order",
+      "label": "Create order",
+      "parent": "orders"
+    },
+    {
+      "id": "cancel_order",
+      "label": "Cancel order",
+      "parent": "orders"
+    },
+    {
+      "id": "card_payment",
+      "label": "Card payment",
+      "parent": "payments"
+    },
+    {
+      "id": "wallet_payment",
+      "label": "Wallet payment",
+      "parent": "payments"
+    },
+    {
+      "id": "refunds",
+      "label": "Refund   handling and  chargeback  disputes ",
+      "parent": "operations"
+    },
+    {
+      "id": "reconciliation",
+      "label": "TransactionReconciliationAndSettlementOrchestratorService",
+      "parent": "operations"
+    }
+  ]
+}
