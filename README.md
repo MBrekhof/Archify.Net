@@ -7,36 +7,23 @@ The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/
 
 .NET 10, C# 14, no NuGet dependencies in the library.
 
-## Library surface
+## Contents
 
-`Archify.Net.Core` exposes one static facade, `ArchifyNet`, in namespace `Archify.Net`:
+- [Status](#status)
+- [Quick start](#quick-start)
+- [Library surface](#library-surface)
+- [Diagram types](#diagram-types)
+- [Build and test](#build-and-test)
+- [How parity is tested](#how-parity-is-tested)
+- [Repository layout](#repository-layout)
+- [Updating fixtures from upstream](#updating-fixtures-from-upstream)
+- [Design documents](#design-documents)
+- [Known deviations from upstream](#known-deviations-from-upstream)
+- [Credits and license](#credits-and-license)
 
-- `Render(type, diagram, options)` runs the load gates and the renderer. It returns the HTML, SVG, cards, diagnostics and layout report.
-- `Check(html)` runs the artifact checker. Its report JSON equals upstream's `scripts/check-render-output.mjs` minus `file`.
-- `Validate(type, diagram, options)` renders, checks, and returns the render diagnostics followed by the checker's.
+## Status
 
-Input and validation problems come back as diagnostics with upstream's codes, messages, subjects, evidence and fixes.
-Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names the exception type, as upstream's JSON-mode boundary does.
-The facade throws only `NotSupportedException`:
-
-- From `Render` and `Validate` for a diagram type that lands in phases 3 and 4: workflow, dataflow and erd.
-- From `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
-
-## Build and test
-
-From the repo root:
-
-```
-dotnet test
-```
-
-The parity suite reads the goldens and fixtures committed under `tests/` and `upstream/`. It needs no network and no Node.
-
-`tools/capture-fixtures.mjs` is a dev-time tool that mints those fixtures from upstream. It needs Node 24 and an
-upstream repo checkout at `C:\projects\archify` on commit `c21c31ff`. It reads the skill package root inside it,
-`C:\projects\archify\archify`. CI never runs it.
-
-## Phases
+The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP server.
 
 | Phase | Scope | Status |
 |---|---|---|
@@ -61,6 +48,146 @@ Phase 2 parity results:
 - Every phase-2 renderer's failure receipts equal upstream's diagnostics.
 - The class, tree, timeline and waterfall layout reports equal upstream's `--layout-json`, and the nine golden.mjs schema cases pass.
 
+The full suite (`dotnet test`) runs 364 tests.
+
+## Quick start
+
+Reference `src/Archify.Net.Core/Archify.Net.Core.csproj` (there is no NuGet package yet), then:
+
+```csharp
+using System.Text.Json.Nodes;
+using Archify.Net;
+
+var diagram = JsonNode.Parse(File.ReadAllText("web-app.architecture.json"))!;
+
+var result = ArchifyNet.Render(DiagramType.Architecture, diagram);
+if (result.Html.Length == 0)
+{
+    // Input or renderer problems never throw: they come back as diagnostics with upstream's codes.
+    foreach (var d in result.Diagnostics)
+        Console.Error.WriteLine($"{d.Severity} {d.Code} {d.Path}: {d.Message}");
+    return 1;
+}
+
+File.WriteAllText("web-app.html", result.Html);
+
+// The artifact checker upstream runs on a written file, here on the HTML string.
+var check = ArchifyNet.Check(result.Html);
+Console.WriteLine(check.Ok ? "check ok" : check.Report.ToJsonString());
+return 0;
+```
+
+`DiagramTypes.Parse("sequence")` maps upstream's type names to the enum. Example inputs for every type are under
+`upstream/examples/` (`<name>.<type>.json`).
+
+## Library surface
+
+`Archify.Net.Core` exposes one static facade, `ArchifyNet`, in namespace `Archify.Net`:
+
+- `Render(type, diagram, options)` runs the load gates and the renderer. It returns a `RenderResult`: `Html`, `Svg`,
+  `Cards`, `Diagnostics` and `Layout` (the layout report upstream prints with `--layout-json`).
+- `Check(html, options)` runs the artifact checker. Its `Report` JSON equals upstream's
+  `scripts/check-render-output.mjs` minus `file`; `Ok` mirrors the report's `ok`.
+- `Validate(type, diagram, options)` renders, checks, and returns the render diagnostics followed by the checker's.
+
+`RenderOptions(Quality, RepoRoot)` selects the quality profile (`Standard` or `Showcase`, upstream's environment-driven
+profile as an option) and the repository root for evidence. `CheckOptions(RequireProvenance)` is reserved for phase 5.
+
+Input and validation problems come back as `Diagnostic` records with upstream's codes, messages, subjects, evidence
+and supported fixes. Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names
+the exception type, as upstream's JSON-mode boundary does. The facade throws only `NotSupportedException`:
+
+- From `Render` and `Validate` for a diagram type that lands in phases 3 and 4: workflow, dataflow and erd.
+- From `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
+
+The facade is named `ArchifyNet`, not `Archify`: a class of that name inside namespace `Archify.Net` cannot be named
+from consumer code.
+
+## Diagram types
+
+| Type | Upstream renderer | Port | Phase |
+|---|---|---|---|
+| architecture | `renderers/architecture` | `src/Archify.Net.Core/Architecture` | 1 |
+| sequence | `renderers/sequence` | `src/Archify.Net.Core/Sequence` | 2 |
+| lifecycle | `renderers/lifecycle` | `src/Archify.Net.Core/Lifecycle` | 2 |
+| class | `renderers/class` | `src/Archify.Net.Core/Class` | 2 |
+| tree | `renderers/tree` | `src/Archify.Net.Core/Tree` | 2 |
+| timeline | `renderers/timeline` | `src/Archify.Net.Core/Timeline` | 2 |
+| waterfall | `renderers/waterfall` | `src/Archify.Net.Core/Waterfall` | 2 |
+| workflow | `renderers/workflow` | not yet | 3 |
+| dataflow | `renderers/dataflow` | not yet | 3 |
+| erd | `renderers/erd` | banded grid only (`src/Archify.Net.Core/Erd/Grid.cs`) | 4 |
+
+## Build and test
+
+From the repo root:
+
+```
+dotnet test
+```
+
+The parity suite reads the goldens and fixtures committed under `tests/` and `upstream/`. It needs no network and no Node.
+Warnings are errors (`Directory.Build.props`). The time-zone tests assume Windows with ICU (Windows 10 1903 or later);
+two facts fail elsewhere by design (see the time-zone deviations below).
+
+## How parity is tested
+
+Every expected value in the suite was produced by upstream, never written by hand:
+
+- **Rendered goldens** (`tests/goldens/*-rendered.html`): upstream's own goldens plus goldens minted by running
+  upstream on example inputs and on targeted fixture inputs. `ParityTests.Render_is_byte_identical_to_upstream`
+  renders each input and compares bytes.
+- **Checker reports** (`tests/goldens/checker/*.json`): upstream's checker run over each golden.
+  `ArtifactCheckerTests` asserts the port's report equals it.
+- **Failure receipts** (`tests/fixtures/diagrams/*.expected.json`): upstream's diagnostics for inputs that fail a
+  renderer's own checks, one per diagnostic code. The receipt theories compare code order, message, severity,
+  subject, evidence and supported fixes.
+- **Layout reports**: upstream's `--layout-json` per golden input for class, tree, timeline and waterfall.
+- **Js fixtures** (`tests/fixtures/js/*.json`): V8's answers for the JavaScript semantics the renderers lean on:
+  number formatting, sorting, grapheme segmentation, text wrapping, `Date` parsing and time-zone conversion.
+  The `Js` layer in `src/Archify.Net.Core/Js` reproduces them, and `JsTests`, `JsTextTests` and `JsTimeTests` pin it.
+- **Schema battery**: the JSON Schemas in `upstream/schemas` are embedded and enforced by a port of the ajv subset
+  upstream uses; `ValidationTests` checks the error set against ajv's.
+
+## Repository layout
+
+```
+src/Archify.Net.Core/        the library
+  Archify.cs                 ArchifyNet facade, renderer dispatch
+  Shared/                    loader, validation gates, diagnostics, geometry, routing, brand marks, i18n, template writer, checker
+  Js/                        V8-compatible number, string, sort, text segmentation and time helpers
+  <Type>/                    one renderer per diagram type
+  Erd/Grid.cs                the erd banded grid, shared by class now and erd in phase 4
+tests/Archify.Net.Core.Tests xUnit suite
+tests/goldens/               upstream-rendered HTML and checker reports
+tests/fixtures/              diagram inputs, receipts, layout reports, Js fixtures, checker probes
+upstream/                    verbatim copy of the upstream skill package files the port embeds or tests against
+                             (schemas, locales, viewer, template, brand marks, references, examples)
+tools/capture-fixtures.mjs   dev-time fixture minting from upstream (Node)
+docs/superpowers/            design spec, phase plans, rulings and plan reviews
+```
+
+`upstream/UPSTREAM.md` records the pinned commit and how the copy was taken. The library embeds the schemas,
+locales, HTML template and brand-mark catalog from `upstream/` as resources, so the built DLL is self-contained.
+
+## Updating fixtures from upstream
+
+`tools/capture-fixtures.mjs` is a dev-time tool that mints the goldens, receipts, layout reports and Js fixtures
+from upstream. It needs Node 24 and an upstream repo checkout at `C:\projects\archify` on commit `c21c31ff`. It reads
+the skill package root inside it, `C:\projects\archify\archify`. It is deterministic: a re-run on the pinned commit
+rewrites every file byte-identically. CI never runs it; the test suite only reads what it committed.
+
+To add a parity case, add the input mutation to the script, run it from the repo root with `node
+tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
+
+## Design documents
+
+- Design spec: `docs/superpowers/specs/2026-10-13-archify-csharp-port-design.md`, with its review next to it.
+- Phase 1 plan: `docs/superpowers/plans/2026-10-13-phase1-foundation-architecture.md`, plus its review and the
+  phase-1 rulings (`2026-10-13-phase1-rulings.md`).
+- Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md`, plus its review.
+- `SESSION_HANDOFF.md`: current state, carried items and the next phase.
+
 ## Known deviations from upstream
 
 - `Render` throws `NotSupportedException` for the three diagram types that land in phases 3 and 4: workflow, dataflow and erd. `Validate` throws it too once the input passes the load gates.
@@ -76,6 +203,7 @@ Phase 2 parity results:
 - *`Date.parse` outside the schema shape:* strings the timeline schema rejects (`2026-10-01 10:00:00Z`, offset-less timestamps) are `NaN` in the port; unreachable through `Render` because the schema gate runs first.
 - *Time zone ids the OS cannot resolve:* `meta.timezone` ids that V8's ICU accepts but the host's ICU list or `TimeZoneInfo` cannot resolve are rejected with `timeline/invalid-timezone`. The set varies with the OS build. On Windows with ICU 72.1 it includes `CET`, `EET`, `MET`, `WET`, `America/Ciudad_Juarez`, `Antarctica/Troll`, `Asia/Urumqi`, `Asia/Kashgar`, `Antarctica/Vostok`, `America/Coyhaique` and the `SystemV/*` legacy ids (card TZ-001).
 - *Time zones by host:* Windows with `icu.dll` matches IANA ids case-insensitively, as V8 does. Off Windows only exact-case IANA ids are accepted. On Windows without ICU (before Windows 10 1903, Server 2019, or `System.Globalization.UseNls=true`) only UTC and fixed offsets are accepted (card TZ-002).
+- A host with `InvariantGlobalization` on cannot use the library: the `Js` static constructor throws (card GLOB-001).
 - A valid-JSON root that is not an object reports `input/json-parse`. Upstream reports `schema/type` at `/`.
 - `Js.Sort` equals V8 only for consistent comparators. A comparator that returns NaN diverges.
 - The remote brand form `{url, sha256}` reports `brand/capture-unavailable` and makes no network call.
@@ -84,3 +212,9 @@ Phase 2 parity results:
 - A forwarded checker diagnostic without a message gets `""` as its message. Upstream omits the key.
 - The unpinned-URL hint text can differ from WHATWG `url.href` for IDN hosts, `|`, `%7e`, and backslashes in query or fragment.
 - `Check` hashes the UTF-8 encoding of the string it is given. A lone surrogate hashes differently from Node's raw file bytes.
+
+## Credits and license
+
+Archify is by tt-a1i, building on work by Cocoon AI, and is MIT-licensed. The files under `upstream/` are copied from it
+unchanged, and its license is kept at `upstream/LICENSE`. This repository is private and carries no license of
+its own yet.
