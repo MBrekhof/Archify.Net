@@ -1,0 +1,117 @@
+{
+  "diagram_type": "timeline",
+  "viewBox": [
+    1123,
+    485
+  ],
+  "timezone": "Asia/Shanghai",
+  "scalePxPerMinute": 39.4,
+  "segments": [
+    {
+      "start": 1790820000000,
+      "end": 1790821200000,
+      "x0": 221,
+      "x1": 1008.9999999999999
+    }
+  ],
+  "breaks": [],
+  "ticks": [
+    {
+      "t": 1790820000000,
+      "x": 221
+    },
+    {
+      "t": 1790820300000,
+      "x": 418
+    },
+    {
+      "t": 1790820600000,
+      "x": 615
+    },
+    {
+      "t": 1790820900000,
+      "x": 812
+    },
+    {
+      "t": 1790821200000,
+      "x": 1009
+    }
+  ],
+  "lanes": [
+    {
+      "id": "release",
+      "y": 112,
+      "height": 97,
+      "lineY": 136
+    },
+    {
+      "id": "monitoring",
+      "y": 219,
+      "height": 97,
+      "lineY": 243
+    },
+    {
+      "id": "response",
+      "y": 326,
+      "height": 97,
+      "lineY": 350
+    }
+  ],
+  "events": [
+    {
+      "id": "deploy",
+      "t": 1790820000000,
+      "lane": "release",
+      "x": 221,
+      "left": 165.5,
+      "top": 152,
+      "width": 111,
+      "height": 43,
+      "row": 0
+    },
+    {
+      "id": "alert",
+      "t": 1790820300000,
+      "lane": "monitoring",
+      "x": 418,
+      "left": 323,
+      "top": 259,
+      "width": 190,
+      "height": 43,
+      "row": 0
+    },
+    {
+      "id": "rollback",
+      "t": 1790820600000,
+      "lane": "response",
+      "x": 615,
+      "left": 547.5,
+      "top": 366,
+      "width": 135,
+      "height": 43,
+      "row": 0
+    },
+    {
+      "id": "recovered",
+      "t": 1790820900000,
+      "lane": "monitoring",
+      "x": 812,
+      "left": 733,
+      "top": 259,
+      "width": 158,
+      "height": 43,
+      "row": 0
+    },
+    {
+      "id": "closed",
+      "t": 1790821200000,
+      "lane": "response",
+      "x": 1009,
+      "left": 937.5,
+      "top": 366,
+      "width": 143,
+      "height": 43,
+      "row": 0
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Timeline validation failed:\n- Event \"alert\" names lane \"ghost\", which is not declared.\n- Event \"closed\" has no lane, but the timeline declares lanes.",
+  "diagnostics": [
+    {
+      "code": "timeline/unknown-lane",
+      "severity": "error",
+      "message": "Event \"alert\" names lane \"ghost\", which is not declared.",
+      "subject": {
+        "diagramType": "timeline",
+        "path": "/events/1/lane",
+        "nodeId": "alert"
+      },
+      "evidence": {
+        "lane": "ghost",
+        "lanes": [
+          "release",
+          "monitoring",
+          "response"
+        ]
+      },
+      "supportedFixes": [
+        "Set lane to one of the declared lane ids.",
+        "Declare the missing lane."
+      ]
+    },
+    {
+      "code": "timeline/unknown-lane",
+      "severity": "error",
+      "message": "Event \"closed\" has no lane, but the timeline declares lanes.",
+      "subject": {
+        "diagramType": "timeline",
+        "path": "/events/4/lane",
+        "nodeId": "closed"
+      },
+      "evidence": {
+        "lane": null,
+        "lanes": [
+          "release",
+          "monitoring",
+          "response"
+        ]
+      },
+      "supportedFixes": [
+        "Set lane to one of the declared lane ids.",
+        "Declare the missing lane."
+      ]
+    }
+  ]
+}

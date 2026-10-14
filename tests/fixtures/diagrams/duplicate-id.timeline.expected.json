@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Timeline validation failed:\n- Event id \"alert\" is declared twice.",
+  "diagnostics": [
+    {
+      "code": "timeline/duplicate-id",
+      "severity": "error",
+      "message": "Event id \"alert\" is declared twice.",
+      "subject": {
+        "diagramType": "timeline",
+        "path": "/events/2/id"
+      },
+      "evidence": {
+        "id": "alert"
+      },
+      "supportedFixes": [
+        "Give every event a unique id."
+      ]
+    }
+  ]
+}

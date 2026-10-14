@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Timeline validation failed:\n- Lane id \"release\" is declared twice.",
+  "diagnostics": [
+    {
+      "code": "timeline/duplicate-lane-id",
+      "severity": "error",
+      "message": "Lane id \"release\" is declared twice.",
+      "subject": {
+        "diagramType": "timeline",
+        "path": "/lanes/3/id"
+      },
+      "evidence": {
+        "id": "release"
+      },
+      "supportedFixes": [
+        "Give every lane a unique id and update its event references."
+      ]
+    }
+  ]
+}

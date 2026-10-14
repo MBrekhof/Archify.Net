@@ -451,6 +451,38 @@ for (const [name, input] of [['tree-payment-platform', path.join(EX, 'payment-pl
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
 }
+// Timeline failure receipts: payment-incident.timeline.json with one fault each, one per code render-timeline.mjs's input
+// checks (:61-110) can emit, plus the second branch of each two-branch check.
+const timelineFaults = [
+  ['invalid-timezone', (d) => { d.meta.timezone = 'Mars/Olympus_Mons'; }],
+  ['invalid-timezone-windows', (d) => { d.meta.timezone = 'China Standard Time'; }],                   // a Windows id V8 rejects
+  ['duplicate-lane-id', (d) => { d.lanes.push({ ...d.lanes[0] }); }],
+  ['duplicate-id', (d) => { d.events[2].id = 'alert'; }],
+  ['invalid-timestamp', (d) => { d.events[1].at = '2026-02-30T10:05:00+08:00'; }],                       // schema-valid, calendar-invalid
+  ['invalid-timestamp-hour', (d) => { d.events[3].at = '2026-10-01T25:15:00+08:00'; }],                  // calendar-valid, Date.parse NaN
+  ['unknown-lane', (d) => { d.events[1].lane = 'ghost'; delete d.events[4].lane; }],                     // both message variants
+];
+for (const [name, fault] of timelineFaults) {
+  const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'payment-incident.timeline.json'), 'utf8'));
+  fault(diagram);
+  diagram.meta.output = `${name}.html`;
+  write(`fixtures/diagrams/${name}.timeline.json`, diagram);
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/timeline/render-timeline.mjs'), out(`fixtures/diagrams/${name}.timeline.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    console.warn(`timeline fault ${name} unexpectedly rendered — no receipt written`);
+    fs.rmSync(out(`goldens/${name}.html`), { force: true });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.timeline.expected.json`, JSON.parse(String(e.stderr))); }
+}
+// Timeline layout reports (`--layout-json` stdout) for the four timeline goldens.
+for (const [name, input] of [['timeline-payment-incident', path.join(EX, 'payment-incident.timeline.json')],
+  ['timeline-archify-dev-activity', path.join(EX, 'archify-dev-activity.timeline.json')],
+  ['dst-new-york', out('fixtures/diagrams/dst-new-york.timeline.json')],
+  ['payment-incident.zh-CN', out('fixtures/diagrams/payment-incident.zh-CN.timeline.json')]]) {
+  const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/timeline/render-timeline.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
+    { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
+  fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

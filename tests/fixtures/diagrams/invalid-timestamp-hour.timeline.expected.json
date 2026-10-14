@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Timeline validation failed:\n- Event \"recovered\" timestamp \"2026-10-01T25:15:00+08:00\" is not a valid date and time.",
+  "diagnostics": [
+    {
+      "code": "timeline/invalid-timestamp",
+      "severity": "error",
+      "message": "Event \"recovered\" timestamp \"2026-10-01T25:15:00+08:00\" is not a valid date and time.",
+      "subject": {
+        "diagramType": "timeline",
+        "path": "/events/3/at",
+        "nodeId": "recovered"
+      },
+      "evidence": {
+        "at": "2026-10-01T25:15:00+08:00"
+      },
+      "supportedFixes": [
+        "Use ISO 8601 with an explicit offset, e.g. \"2026-10-01T10:05:00+08:00\"."
+      ]
+    }
+  ]
+}

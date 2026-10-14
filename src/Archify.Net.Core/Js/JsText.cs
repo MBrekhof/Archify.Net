@@ -104,6 +104,9 @@ public static partial class Js
     public static string[] SplitOnSpaces(string s) => JsSplit(Spaces, s);
     // ponytail: V8 parity — s.split(/(\s+)/) (render-timeline.mjs:282).
     public static string[] SplitKeepingSpaces(string s) => JsSplit(SpacesKept, s);
+    // ponytail: V8 parity — s.split('-') with a one-character string separator (render-timeline.mjs:68): String.Split(char)
+    // keeps empty parts and returns [""] for "", exactly as JS does.
+    public static string[] SplitOnChar(string s, char separator) => s.Split(separator);
 
     // BMP code-unit classes, no `u` flag: .NET Regex matches UTF-16 units, so a surrogate pair falls in the "other" run as in V8.
     const string Cjk = "\u2E80-\u9FFF\uAC00-\uD7AF\uF900-\uFAFF\uFF00-\uFFEF";

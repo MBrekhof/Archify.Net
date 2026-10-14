@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Timeline validation failed:\n- meta.timezone \"China Standard Time\" is not a recognised IANA time zone.",
+  "diagnostics": [
+    {
+      "code": "timeline/invalid-timezone",
+      "severity": "error",
+      "message": "meta.timezone \"China Standard Time\" is not a recognised IANA time zone.",
+      "subject": {
+        "diagramType": "timeline",
+        "path": "/meta/timezone"
+      },
+      "evidence": {
+        "timezone": "China Standard Time"
+      },
+      "supportedFixes": [
+        "Use an IANA zone such as \"UTC\", \"Europe/Berlin\", or \"Asia/Shanghai\"."
+      ]
+    }
+  ]
+}

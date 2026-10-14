@@ -27,7 +27,42 @@ public class ParityTests
         ["tree", Fixtures.Upstream("examples/archify-repository.tree.json"), Fixtures.Upstream("examples/tree-archify-repository-rendered.html")],
         ["tree", Fixtures.Fixture("diagrams/payment-platform.right.tree.json"), Fixtures.Golden("payment-platform.right-rendered.html")],
         ["tree", Fixtures.Fixture("diagrams/payment-platform.wrap.tree.json"), Fixtures.Golden("payment-platform.wrap-rendered.html")],   // CJK/Hangul, spaces, in-word cut
+        ["timeline", Fixtures.Upstream("examples/payment-incident.timeline.json"), Fixtures.Upstream("examples/timeline-payment-incident-rendered.html")],
+        ["timeline", Fixtures.Upstream("examples/archify-dev-activity.timeline.json"), Fixtures.Upstream("examples/timeline-archify-dev-activity-rendered.html")],
+        ["timeline", Fixtures.Fixture("diagrams/dst-new-york.timeline.json"), Fixtures.Golden("dst-new-york-rendered.html")],
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.zh-CN.timeline.json"), Fixtures.Golden("payment-incident.zh-CN-rendered.html")],
     ];
+
+    // render-timeline.mjs:81-86: `new Intl.DateTimeFormat('en-US', { timeZone })` throws on a Windows zone id, so it is rejected.
+    [Fact] public void Timeline_windows_zone_id_is_rejected_like_V8()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-incident.timeline.json")));
+        d["meta"]!["timezone"] = "China Standard Time";
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
+        Assert.Equal("", r.Html);
+        Assert.Contains(r.Diagnostics, x => x.Code == "timeline/invalid-timezone" && x.Path == "/meta/timezone");
+    }
+
+    [Theory] [InlineData("0000")] [InlineData("0001")] [InlineData("0099")] [InlineData("0100")] [InlineData("2026")]
+    public void Timeline_historical_years_keep_utc_offset(string year)   // UP/test/timeline-rendering.test.mjs "historical years"
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-incident.timeline.json")));
+        d["meta"]!["timezone"] = "UTC";
+        d["events"] = new JsonArray(new JsonObject { ["id"] = "event", ["at"] = $"{year}-01-01T00:00:00Z", ["title"] = "Historical event", ["lane"] = "release" });
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
+        Assert.DoesNotContain(r.Diagnostics, x => x.Severity == Severity.Error);
+        Assert.Contains("UTC+00:00", r.Svg);
+        Assert.DoesNotMatch(@"UTC\+\d{3,}:", r.Svg);
+    }
+
+    [Fact] public void Timeline_dst_fixture_crosses_both_transitions()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/dst-new-york.timeline.json")));
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
+        Assert.Contains("America/New_York (UTC-05:00)", r.Svg);                      // header uses the first event's offset (EST)
+        Assert.Contains("01:30:00 UTC-04:00", r.Svg); Assert.Contains("01:30:00 UTC-05:00", r.Svg);   // the repeated hour, both offsets
+        Assert.True(r.Layout!.Report["breaks"]!.AsArray().Count >= 1);
+    }
 
     [Fact] public void Tree_missing_parent_reports_upstream_code()
     {
@@ -284,6 +319,49 @@ public class ParityTests
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
         var r = ArchifyNet.Render(DiagramType.Tree, DiagramLoader.Parse(Fixtures.Lf(path)));
+        Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
+    }
+
+    // Timeline failure receipts (same capture, from the payment-incident example with one fault each): the input checks'
+    // five timeline/* codes (render-timeline.mjs:61-110), incl. a Windows zone id, a calendar-invalid and an hour-invalid
+    // timestamp, and both unknown-lane messages — messages, subjects, evidence, fixes, order.
+    [Theory]
+    [InlineData("invalid-timezone")]
+    [InlineData("invalid-timezone-windows")]
+    [InlineData("duplicate-lane-id")]
+    [InlineData("duplicate-id")]
+    [InlineData("invalid-timestamp")]
+    [InlineData("invalid-timestamp-hour")]
+    [InlineData("unknown-lane")]
+    public void Timeline_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.timeline.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.timeline.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
+    }
+
+    // `node render-timeline.mjs <in> <out> --layout-json` stdout for the four timeline goldens.
+    [Theory]
+    [InlineData("upstream:examples/payment-incident.timeline.json", "timeline-payment-incident")]
+    [InlineData("upstream:examples/archify-dev-activity.timeline.json", "timeline-archify-dev-activity")]
+    [InlineData("fixture:diagrams/dst-new-york.timeline.json", "dst-new-york")]
+    [InlineData("fixture:diagrams/payment-incident.zh-CN.timeline.json", "payment-incident.zh-CN")]
+    public void Timeline_layout_report_equals_upstream_layout_json(string input, string name)
+    {
+        var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
+        var r = ArchifyNet.Render(DiagramType.Timeline, DiagramLoader.Parse(Fixtures.Lf(path)));
         Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
     }
 
