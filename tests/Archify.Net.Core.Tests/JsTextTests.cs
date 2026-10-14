@@ -82,4 +82,23 @@ public class JsTextTests
         Assert.Equal([""], Js.SplitOnChar("", '-'));
         Assert.Equal(["", "a", ""], Js.SplitOnChar("-a-", '-'));
     }
+
+    public static IEnumerable<object[]> WordRows() =>
+        JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture("js/word-breaks.json")))!.AsArray()
+            .Select(r => new object[] { r!["text"]!.GetValue<string>(), r["dictionary"]!.GetValue<bool>(), Js.Stringify(r["words"]) });
+
+    [Theory, MemberData(nameof(WordRows))]
+    public void WordBreaks_match_Intl_Segmenter_outside_dictionary_scripts(string text, bool dictionary, string v8Words)
+    {
+        var words = Js.WordBreaks(text);
+        Assert.Equal(text, string.Concat(words));
+        if (!dictionary) Assert.Equal(v8Words, Js.Stringify(new JsonArray([.. words.Select(w => (JsonNode?)JsonValue.Create(w))])));
+    }
+
+    [Fact] public void WordBreaks_split_dictionary_runs_per_grapheme()
+    {
+        Assert.Equal(["已", "持", "有", "：", "处", "理"], Js.WordBreaks("已持有：处理"));
+        Assert.Equal(["clickstream", " ", "events"], Js.WordBreaks("clickstream events"));
+        Assert.Equal(["Archify", "로"], Js.WordBreaks("Archify로"));   // Hangul never joins Latin (ICU tailoring)
+    }
 }

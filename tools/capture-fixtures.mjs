@@ -760,6 +760,35 @@ const belowFits = (name) => p3FaultReceipts.get(name).diagnostics.find((x) => x.
 if (belowFits('df-node-below-area') !== false || belowFits('df-node-below-area-raised') !== true) {
   throw new Error(`node-below-area: requiredViewBoxFitsViewport ${belowFits('df-node-below-area')}/${belowFits('df-node-below-area-raised')}, expected false/true`);
 }
+// --- Intl.Segmenter word granularity (label-capacity.mjs:32-33) on every string a phase-3 label can carry + a battery. `dictionary`
+// rows (Han/Kana/Thai/Lao/Khmer/Myanmar) are parity-exempt: C# asserts concatenation and per-grapheme splitting of those runs only. ---
+const wordSeg3 = new Intl.Segmenter(undefined, { granularity: 'word' });
+const DICT = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Thai}\p{Script=Lao}\p{Script=Khmer}\p{Script=Myanmar}ーｰ]/u;
+const battery = [
+  'OrderPlaced', 'identity + consent', 'metrics SQL', 'argv / JSON-RPC', 'value · key · TTL', 'response payload v1',
+  'api.example.com', 'GET /v1/users?id=42', 's3://bucket/key.parquet', 'user_id', 'snake_case_name', 'x86_64', 'don\'t', 'it\'s',
+  'O\'Reilly', '1,000 rows', '3.5 MB', '1.2.3', '10:30', '2026-10-14', '50%', '$100', 'p95 latency', '2xx/5xx', 'C++ code', '#tag',
+  '@user', 'e-mail', 'kebab-case', 'wait—what', 'foo...bar', 'a.b.c', 'U.S.A.', 'a:b', 'result:error', '“quoted”', '"dq"',
+  'tab\u0009here', 'two  spaces', ' lead', 'trail ', 'naïve café', 'café au lait', 'Ünïcödé', 'ＡＢＣ ｄｅｆ', '한국어 텍스트', '한국어텍스트처리',
+  'ZWJ 👨\u200D👩\u200D👧 family', 'emoji 🇩🇪🇫🇷 flags', '❤\uFE0F love', '😀😀', 'a😀b', '👩\u200D💻 / é result',
+  'save / copy result', 'v2 API', 'k8s pod', 'A/B test', 'in→out', 'x×y', 'a&b', 'a|b', '(paren) [br]', 'él.está', 'Δx.Δy',
+  'שלום עולם', 'מ"מ', 'צה\'\'ל', 'привет мир', 'a\u00ADb', 'a\u200Bb', '1,000,000', '.5', '5.', 'a1.b2', 'ab12_cd', 'x‿y',
+  'ＡＢＣ１２３', '١٢٣ عربي', '#\uFE0F\u20E3 key', 'a\u202Fb', 'a\u00A0b', 'a\u000D\u000Ab', 'a\u000Ab', 'a  \u0009 b',
+  'v1.2.3-beta+build', 'user@example.com', 'https://example.com/a_b?c=d#e', 'C#', 'F# and .NET', 'Node.js', '3rd-party', '10x',
+  'x10', '1st', 'O’Brien', 'rock ’n’ roll', 'i18n', 'e.g.', 'i.e., this', '50/50', '±5', '~/home', 'a—b', 'a–b', 'αβγ δε',
+  'Ελληνικά.κείμενο', 'İstanbul', 'straße', 'ǅemal', 'ﬁle', 'a\u0301\u0302b', '😀\u200D😀', '👍🏽 ok', 'a\u200Db', '·', 'a·b·c',
+  'x\'', '\'x', 'x.', 'x..y', '1..2', '1.a', 'a.1', '1\'2', 'a\'1', '1_a', '_x_', '__init__',
+  // WB4 and Hangul edges where V8 differs from the measured prototype: Extend/Format clusters after a control or a space ride on it,
+  // a space carrying one no longer joins the next space (WB3d is pre-WB4), jamo are ALetter and only syllables form ICU's Hangul run.
+  'a\u0009\u0301b', 'a\u0001\u0301b', 'a\u00AD\u0301b', 'x \u0301y', 'x \u00ADy', ' \u0301 ', ' \u00AD ', '\u0301ab', 'x\u0009ﾞz',
+  '\u0009\u{1F3FD}a', 'ﾞa', 'ㄱㄱ', 'ㄱa', 'ㄱ가', '가ㄱ', '가\u0301가', '가\u2060가',
+];
+const wordTexts = new Set(battery);
+const strWalk = (v) => { if (typeof v === 'string') wordTexts.add(v); else if (v && typeof v === 'object') for (const x of Object.values(v)) strWalk(x); };
+for (const f of fs.readdirSync(EX).filter((f) => /\.(workflow|dataflow)\.json$/.test(f))) strWalk(JSON.parse(fs.readFileSync(path.join(EX, f), 'utf8')));
+for (const { input } of p3Rows) strWalk(JSON.parse(fs.readFileSync(path.join(ROOT, input), 'utf8')));
+write('fixtures/js/word-breaks.json', [...wordTexts].filter((text) => text.length <= 200).sort()
+  .map((text) => ({ text, dictionary: DICT.test(text), words: [...wordSeg3.segment(text)].map((s) => s.segment) })));
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

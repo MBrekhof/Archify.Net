@@ -20,9 +20,106 @@ public static partial class Js
         while (e.MoveNext()) list.Add(e.GetTextElement());
         return list;
     }
-    // ponytail: per-grapheme fallback, parity-exempt per spec; P/Invoke ubrk_* from icu.dll if a CJK user appears.
-    // Only upstream input is a Han+Mark run (render-sequence.mjs:203-205).
-    public static List<string> WordBreaks(string s) => Graphemes(s);
+    // ponytail: V8 parity — UAX #29 subset; dictionary scripts per grapheme (stated deviation)
+    // Intl.Segmenter word granularity (label-capacity.mjs:32-33) as WB3–WB13b over Graphemes, classed by first code point. Port of
+    // uax29proto.mjs with three V8-measured corrections: WB4 attaches every Extend/Format-only cluster except after a Newline, WB3d and
+    // the Hangul run look at the previous cluster's last code point, and only syllables form ICU's Hangul run (jamo are ALetter).
+    // No regional-indicator rule: Graphemes already pairs flags. Ceiling: a grapheme that V8 splits at word level (Prepend U+0600,
+    // jamo next to a syllable) or WB3c (ZWJ × pictograph after a non-pictograph) is not reproduced; ubrk_* from icu.dll if that matters.
+    public static List<string> WordBreaks(string s)
+    {
+        var cs = new List<(string S, Wb First, Wb Last)>();
+        foreach (var g in Graphemes(s))
+        {
+            if (cs.Count > 0 && cs[^1].First != Wb.Newline && IsExtendOrFormat(g)) { var p = cs[^1]; cs[^1] = (p.S + g, p.First, LastClass(g)); continue; }   // WB4
+            cs.Add((g, WordClass(CodePointAt(g, 0).cp), LastClass(g)));
+        }
+        var words = new List<string>();
+        var word = new StringBuilder();
+        for (var k = 0; k < cs.Count; k++)
+        {
+            if (k > 0 && !JoinsWord(cs, k)) { words.Add(word.ToString()); word.Clear(); }
+            word.Append(cs[k].S);
+        }
+        if (word.Length > 0) words.Add(word.ToString());
+        return words;
+    }
+
+    enum Wb { Other, Newline, WSeg, Dict, SQ, DQ, MidLetter, MidNumLet, MidNum, ExtendNumLet, Numeric, HebrewLetter, Hangul, ALetter }
+    const string NewlineChars = "\r\n\u000B\u000C\u0085\u2028\u2029", WSegChars = " \u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2008\u2009\u200A\u205F\u3000",
+        MidLetterChars = ":\u00B7\u0387\u055F\u05F4\u2027\uFE13\uFE55\uFF1A", MidNumLetChars = ".\u2018\u2019\u2024\uFE52\uFF07\uFF0E",
+        MidNumChars = ",;\u037E\u0589\u060C\u060D\u066C\u07F8\u2044\uFE10\uFE14\uFE50\uFE54\uFF0C\uFF1B",
+        ExtendNumLetChars = "_\u202F\u203F\u2040\u2054\uFE33\uFE34\uFE4D\uFE4E\uFE4F\uFF3F";
+    // Hiragana, Katakana (incl. U+30FC, U+FF70), Thai, Lao, Khmer, Myanmar; Han is IsHan. Only Script=Common letters inside these
+    // blocks (U+FF9E/FF9F) differ from \p{Script=…}, and V8 breaks around them as it does around a dictionary grapheme.
+    static readonly int[] DictRanges =
+    [
+        0x3041, 0x309F, 0x30A0, 0x30FF, 0x31F0, 0x31FF, 0x32D0, 0x32FE, 0x3300, 0x3357, 0xFF66, 0xFF9F, 0x0E00, 0x0E7F, 0x0E80, 0x0EFF,
+        0x1780, 0x17FF, 0x19E0, 0x19FF, 0x1000, 0x109F, 0xA9E0, 0xA9FF, 0xAA60, 0xAA7F,
+    ];
+    static readonly int[] HebrewLetterRanges = [0x05D0, 0x05EA, 0x05EF, 0x05F2, 0xFB1D, 0xFB4F];
+
+    static bool InRanges(int[] r, int cp)
+    {
+        for (var i = 0; i < r.Length; i += 2) if (cp >= r[i] && cp <= r[i + 1]) return true;
+        return false;
+    }
+    static bool In(string chars, int cp) => cp <= 0xFFFF && chars.Contains((char)cp);
+    static Wb WordClass(int cp)
+    {
+        if (In(NewlineChars, cp)) return Wb.Newline;
+        if (In(WSegChars, cp)) return Wb.WSeg;
+        if (IsHan(cp) || InRanges(DictRanges, cp)) return Wb.Dict;
+        if (cp == '\'') return Wb.SQ;
+        if (cp == '"') return Wb.DQ;
+        if (In(MidLetterChars, cp)) return Wb.MidLetter;
+        if (In(MidNumLetChars, cp)) return Wb.MidNumLet;
+        if (In(MidNumChars, cp)) return Wb.MidNum;
+        if (In(ExtendNumLetChars, cp)) return Wb.ExtendNumLet;
+        var cat = CharUnicodeInfo.GetUnicodeCategory(cp);
+        if (cat == UnicodeCategory.DecimalDigitNumber) return Wb.Numeric;
+        var letter = cat is UnicodeCategory.UppercaseLetter or UnicodeCategory.LowercaseLetter or UnicodeCategory.TitlecaseLetter
+            or UnicodeCategory.ModifierLetter or UnicodeCategory.OtherLetter;
+        if (letter && InRanges(HebrewLetterRanges, cp)) return Wb.HebrewLetter;
+        if (cp is >= 0xAC00 and <= 0xD7A3) return Wb.Hangul;   // ICU word.txt: syllables join only syllables
+        return letter || cat == UnicodeCategory.LetterNumber ? Wb.ALetter : Wb.Other;
+    }
+    static Wb LastClass(string g) => WordClass(CodePointAt(g, g.Length - (g.Length > 1 && char.IsSurrogatePair(g[^2], g[^1]) ? 2 : 1)).cp);
+    // WB Extend/Format/ZWJ: marks, Cf except U+200B (WB Other), emoji modifiers and the halfwidth sound marks (Grapheme_Extend).
+    static bool IsExtendOrFormat(string g)
+    {
+        foreach (var r in g.EnumerateRunes())
+        {
+            var cp = r.Value;
+            if (cp is 0x200B) return false;
+            if (cp is >= 0x1F3FB and <= 0x1F3FF or 0xFF9E or 0xFF9F) continue;
+            if (CharUnicodeInfo.GetUnicodeCategory(cp) is not (UnicodeCategory.NonSpacingMark or UnicodeCategory.SpacingCombiningMark
+                or UnicodeCategory.EnclosingMark or UnicodeCategory.Format)) return false;
+        }
+        return true;
+    }
+    static bool AH(Wb? c) => c is Wb.ALetter or Wb.HebrewLetter;
+    static bool Mid(Wb? c) => c is Wb.MidLetter or Wb.MidNumLet or Wb.SQ;
+    static bool MidN(Wb? c) => c is Wb.MidNum or Wb.MidNumLet or Wb.SQ;
+    static bool JoinsWord(List<(string S, Wb First, Wb Last)> cs, int k)
+    {
+        Wb? p2 = k >= 2 ? cs[k - 2].First : null, n2 = k + 1 < cs.Count ? cs[k + 1].First : null;
+        Wb p = cs[k - 1].First, n = cs[k].First;
+        if (p == Wb.WSeg && n == Wb.WSeg) return cs[k - 1].Last == Wb.WSeg;                                   // WB3d (before WB4)
+        if (p == Wb.Newline || n == Wb.Newline) return cs[k - 1].S == "\r" && cs[k].S == "\n";               // WB3/3a/3b
+        if (AH(p) && AH(n)) return true;                                                                     // WB5
+        if (p == Wb.Hangul && n == Wb.Hangul) return cs[k - 1].Last == Wb.Hangul;                             // ICU $Hangul run
+        if (AH(p) && Mid(n) && AH(n2)) return true;                                                          // WB6
+        if (AH(p2) && Mid(p) && AH(n)) return true;                                                          // WB7
+        if (p == Wb.HebrewLetter && n == Wb.SQ) return true;                                                 // WB7a
+        if (p == Wb.HebrewLetter && n == Wb.DQ && n2 == Wb.HebrewLetter) return true;                         // WB7b
+        if (p2 == Wb.HebrewLetter && p == Wb.DQ && n == Wb.HebrewLetter) return true;                         // WB7c
+        if ((p == Wb.Numeric || AH(p)) && (n == Wb.Numeric || AH(n)) && (p == Wb.Numeric || n == Wb.Numeric)) return true;   // WB8-10
+        if (p == Wb.Numeric && MidN(n) && n2 == Wb.Numeric) return true;                                     // WB12
+        if (p2 == Wb.Numeric && MidN(p) && n == Wb.Numeric) return true;                                     // WB11
+        if ((AH(p) || p is Wb.Numeric or Wb.ExtendNumLet) && n == Wb.ExtendNumLet) return true;               // WB13a
+        return p == Wb.ExtendNumLet && (AH(n) || n == Wb.Numeric);                                           // WB13b
+    }
 
     static readonly int[] HanRanges =
     [
@@ -32,11 +129,7 @@ public static partial class Js
         0x2F800, 0x2FA1D, 0x30000, 0x3134A, 0x31350, 0x323AF,
     ];
     // ponytail: V8 parity — \p{Script=Han} by range table (equals V8's set by full enumeration); .NET Regex has no \p{Script=…}.
-    public static bool IsHan(int cp)
-    {
-        for (var i = 0; i < HanRanges.Length; i += 2) if (cp >= HanRanges[i] && cp <= HanRanges[i + 1]) return true;
-        return false;
-    }
+    public static bool IsHan(int cp) => InRanges(HanRanges, cp);
     // ponytail: V8 parity — \p{Mark} = Mn | Mc | Me.
     public static bool IsMark(int cp) => Rune.IsValid(cp) && Rune.GetUnicodeCategory(new Rune(cp))
         is UnicodeCategory.NonSpacingMark or UnicodeCategory.SpacingCombiningMark or UnicodeCategory.EnclosingMark;
