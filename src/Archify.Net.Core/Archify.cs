@@ -18,6 +18,7 @@ internal static class Renderers
         DiagramType.Class => new ClassRenderer(),
         DiagramType.Tree => new TreeRenderer(),
         DiagramType.Timeline => new TimelineRenderer(),
+        DiagramType.Waterfall => new WaterfallRenderer(),
         _ => throw new NotSupportedException($"{type.Name()} renderer lands in phase 2–4"),
     };
 }

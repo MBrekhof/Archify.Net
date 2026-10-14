@@ -483,6 +483,41 @@ for (const [name, input] of [['timeline-payment-incident', path.join(EX, 'paymen
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
 }
+// Waterfall failure receipts: checkout-request.waterfall.json with one fault each, one per code render-waterfall.mjs's timing
+// checks (:54-105) can emit, every per-span invalid-timing message, and the axis-scale site (:167-171).
+const waterfallFaults = [
+  ['duplicate-id', (d) => { d.spans[2].id = 'auth'; }],                                                  // inventory renamed onto its sibling
+  ['invalid-timing', (d) => {
+    d.spans[2].end = 50;                                                                                  // before start, and disagrees with duration
+    d.spans[3].end = 250;                                                                                 // disagrees with start + duration
+    delete d.spans[4].duration;                                                                           // neither end nor duration
+    delete d.spans[5].duration; d.spans[5].status = 'cancelled';                                          // same, status in evidence
+  }],
+  ['invalid-timing-overflow', (d) => { d.spans[5].start = 1e308; d.spans[5].duration = 1e308; }],         // derived end is Infinity
+  ['invalid-timing-scale', (d) => { d.spans = [{ id: 'request', name: 'POST /checkout', start: 0, end: 5e-324 }]; }],   // 760 / 5e-324 = Infinity
+  ['missing-parent', (d) => { d.spans[1].parent = 'ghost'; }],
+  ['cycle', (d) => { d.spans[0].parent = 'auth'; d.spans[5].parent = 'save'; }],                        // request <-> auth reached thrice, save -> save
+];
+for (const [name, fault] of waterfallFaults) {
+  const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'checkout-request.waterfall.json'), 'utf8'));
+  fault(diagram);
+  diagram.meta.output = `${name}.html`;
+  write(`fixtures/diagrams/${name}.waterfall.json`, diagram);
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/waterfall/render-waterfall.mjs'), out(`fixtures/diagrams/${name}.waterfall.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    console.warn(`waterfall fault ${name} unexpectedly rendered — no receipt written`);
+    fs.rmSync(out(`goldens/${name}.html`), { force: true });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.waterfall.expected.json`, JSON.parse(String(e.stderr))); }
+}
+// Waterfall layout reports (`--layout-json` stdout) for the three waterfall goldens.
+for (const [name, input] of [['waterfall-checkout-request', path.join(EX, 'checkout-request.waterfall.json')],
+  ['waterfall-example-rebuild', path.join(EX, 'example-rebuild.waterfall.json')],
+  ['incomplete-trace', out('fixtures/diagrams/incomplete-trace.waterfall.json')]]) {
+  const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/waterfall/render-waterfall.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
+    { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
+  fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

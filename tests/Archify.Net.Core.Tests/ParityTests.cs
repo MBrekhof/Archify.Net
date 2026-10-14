@@ -31,7 +31,19 @@ public class ParityTests
         ["timeline", Fixtures.Upstream("examples/archify-dev-activity.timeline.json"), Fixtures.Upstream("examples/timeline-archify-dev-activity-rendered.html")],
         ["timeline", Fixtures.Fixture("diagrams/dst-new-york.timeline.json"), Fixtures.Golden("dst-new-york-rendered.html")],
         ["timeline", Fixtures.Fixture("diagrams/payment-incident.zh-CN.timeline.json"), Fixtures.Golden("payment-incident.zh-CN-rendered.html")],
+        ["waterfall", Fixtures.Upstream("examples/checkout-request.waterfall.json"), Fixtures.Upstream("examples/waterfall-checkout-request-rendered.html")],
+        ["waterfall", Fixtures.Upstream("examples/example-rebuild.waterfall.json"), Fixtures.Upstream("examples/waterfall-example-rebuild-rendered.html")],
+        ["waterfall", Fixtures.Fixture("diagrams/incomplete-trace.waterfall.json"), Fixtures.Golden("incomplete-trace-rendered.html")],
     ];
+
+    [Fact] public void Waterfall_cycle_reports_upstream_code()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/checkout-request.waterfall.json")));
+        var spans = d["spans"]!.AsArray(); spans[0]!["parent"] = spans[1]!.Str("id");   // root now points at its own child
+        var r = ArchifyNet.Render(DiagramType.Waterfall, d);
+        Assert.Equal("", r.Html);
+        Assert.Contains(r.Diagnostics, x => x.Code == "waterfall/cycle");
+    }
 
     // render-timeline.mjs:81-86: `new Intl.DateTimeFormat('en-US', { timeZone })` throws on a Windows zone id, so it is rejected.
     [Fact] public void Timeline_windows_zone_id_is_rejected_like_V8()
@@ -362,6 +374,47 @@ public class ParityTests
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
         var r = ArchifyNet.Render(DiagramType.Timeline, DiagramLoader.Parse(Fixtures.Lf(path)));
+        Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
+    }
+
+    // Waterfall failure receipts (same capture, from the checkout-request example with one fault each): the timing checks'
+    // five codes (render-waterfall.mjs:54-105), every per-span invalid-timing message, and the axis-scale site (:167-171)
+    // that throws without a code — messages, subjects, evidence, fixes, order.
+    [Theory]
+    [InlineData("duplicate-id")]
+    [InlineData("invalid-timing")]
+    [InlineData("invalid-timing-overflow")]
+    [InlineData("invalid-timing-scale")]
+    [InlineData("missing-parent")]
+    [InlineData("cycle")]
+    public void Waterfall_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.waterfall.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.waterfall.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Waterfall, d);
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
+    }
+
+    // `node render-waterfall.mjs <in> <out> --layout-json` stdout for the three waterfall goldens.
+    [Theory]
+    [InlineData("upstream:examples/checkout-request.waterfall.json", "waterfall-checkout-request")]
+    [InlineData("upstream:examples/example-rebuild.waterfall.json", "waterfall-example-rebuild")]
+    [InlineData("fixture:diagrams/incomplete-trace.waterfall.json", "incomplete-trace")]
+    public void Waterfall_layout_report_equals_upstream_layout_json(string input, string name)
+    {
+        var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
+        var r = ArchifyNet.Render(DiagramType.Waterfall, DiagramLoader.Parse(Fixtures.Lf(path)));
         Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.layout.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
     }
 

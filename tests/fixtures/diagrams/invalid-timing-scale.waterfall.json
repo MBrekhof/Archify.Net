@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "diagram_type": "waterfall",
+  "meta": {
+    "title": "Checkout request execution",
+    "subtitle": "Illustrative timing: inventory lookup and discount calculation run concurrently; payment follows.",
+    "output": "invalid-timing-scale.html",
+    "evidence": "illustrative",
+    "unit": "ms",
+    "quality_profile": "showcase"
+  },
+  "spans": [
+    {
+      "id": "request",
+      "name": "POST /checkout",
+      "start": 0,
+      "end": 5e-324
+    }
+  ]
+}

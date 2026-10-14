@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Waterfall validation failed:\n- Parent links form a cycle: \"request\" -> \"auth\" -> \"request\".\n- Parent links form a cycle: \"save\" -> \"save\".",
+  "diagnostics": [
+    {
+      "code": "waterfall/cycle",
+      "severity": "error",
+      "message": "Parent links form a cycle: \"request\" -> \"auth\" -> \"request\".",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/0/parent",
+        "nodeId": "request"
+      },
+      "evidence": {
+        "cycle": [
+          "request",
+          "auth"
+        ]
+      },
+      "supportedFixes": [
+        "Point one span in the cycle at a parent outside it."
+      ]
+    },
+    {
+      "code": "waterfall/cycle",
+      "severity": "error",
+      "message": "Parent links form a cycle: \"save\" -> \"save\".",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/5/parent",
+        "nodeId": "save"
+      },
+      "evidence": {
+        "cycle": [
+          "save"
+        ]
+      },
+      "supportedFixes": [
+        "Point one span in the cycle at a parent outside it."
+      ]
+    }
+  ]
+}

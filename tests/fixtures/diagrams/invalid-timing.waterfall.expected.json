@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Waterfall validation failed:\n- Span \"inventory\" ends (50) before it starts (100).\n- Span \"inventory\" states end 50 and duration 300, which disagree with start 100.\n- Span \"discount\" states end 250 and duration 200, which disagree with start 100.\n- Span \"payment\" has neither end nor duration. A span without a recorded end must be marked status \"incomplete\".\n- Span \"save\" has neither end nor duration. A span without a recorded end must be marked status \"incomplete\".",
+  "diagnostics": [
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "Span \"inventory\" ends (50) before it starts (100).",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/2",
+        "nodeId": "inventory"
+      },
+      "evidence": {
+        "start": 100,
+        "end": 50,
+        "duration": 300,
+        "status": "ok"
+      },
+      "supportedFixes": [
+        "Correct start or end from the recorded timing."
+      ]
+    },
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "Span \"inventory\" states end 50 and duration 300, which disagree with start 100.",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/2",
+        "nodeId": "inventory"
+      },
+      "evidence": {
+        "start": 100,
+        "end": 50,
+        "duration": 300,
+        "status": "ok"
+      },
+      "supportedFixes": [
+        "Keep only one of end or duration."
+      ]
+    },
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "Span \"discount\" states end 250 and duration 200, which disagree with start 100.",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/3",
+        "nodeId": "discount"
+      },
+      "evidence": {
+        "start": 100,
+        "end": 250,
+        "duration": 200,
+        "status": "ok"
+      },
+      "supportedFixes": [
+        "Keep only one of end or duration."
+      ]
+    },
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "Span \"payment\" has neither end nor duration. A span without a recorded end must be marked status \"incomplete\".",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/4",
+        "nodeId": "payment"
+      },
+      "evidence": {
+        "start": 400,
+        "end": null,
+        "duration": null,
+        "status": "ok"
+      },
+      "supportedFixes": [
+        "Add the recorded end or duration.",
+        "Set status to \"incomplete\" if the trace has no end for it."
+      ]
+    },
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "Span \"save\" has neither end nor duration. A span without a recorded end must be marked status \"incomplete\".",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/5",
+        "nodeId": "save"
+      },
+      "evidence": {
+        "start": 1050,
+        "end": null,
+        "duration": null,
+        "status": "cancelled"
+      },
+      "supportedFixes": [
+        "Add the recorded end or duration.",
+        "Set status to \"incomplete\" if the trace has no end for it."
+      ]
+    }
+  ]
+}

@@ -84,6 +84,10 @@ public class JsTests
         var s = new JsSet<int>(); s.Add(3); s.Add(1); s.Add(2); s.Delete(3); s.Add(3);
         Assert.Equal(new[] { 1, 2, 3 }, s);
     }
+    [Fact] public void Waterfall_number_matches_V8()
+    {
+        foreach (var e in Load("waterfall-number.json")) Assert.Equal(e!["text"]!.GetValue<string>(), WaterfallRenderer.Number(e["value"]!.GetValue<double>()));
+    }
     [Fact] public void Num_handles_raw_json_text_variants()
     {
         Assert.Equal("1", Js.Num(JsonNode.Parse("1.0")!.GetValue<double>()));

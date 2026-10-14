@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Waterfall validation failed:\n- The recorded range cannot form a finite axis scale.",
+  "diagnostics": [
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "The recorded range cannot form a finite axis scale.",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans"
+      },
+      "evidence": {
+        "start": 0,
+        "end": 5e-324,
+        "wall": 5e-324
+      },
+      "supportedFixes": [
+        "Rescale the recorded timing and unit to a representable range."
+      ]
+    }
+  ]
+}

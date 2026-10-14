@@ -1,0 +1,372 @@
+{
+  "diagram_type": "waterfall",
+  "unit": "ms",
+  "viewBox": [
+    1216,
+    783
+  ],
+  "origin": 0,
+  "wall": 1286.2,
+  "pxPerUnit": 0.5908878867983206,
+  "axis": {
+    "x0": 351,
+    "x1": 1111
+  },
+  "ticks": [
+    {
+      "t": 0,
+      "x": 351
+    },
+    {
+      "t": 200,
+      "x": 469.18
+    },
+    {
+      "t": 400,
+      "x": 587.36
+    },
+    {
+      "t": 600,
+      "x": 705.53
+    },
+    {
+      "t": 800,
+      "x": 823.71
+    },
+    {
+      "t": 1000,
+      "x": 941.89
+    },
+    {
+      "t": 1200,
+      "x": 1060.07
+    }
+  ],
+  "rows": [
+    {
+      "id": "batch",
+      "parent": null,
+      "depth": 0,
+      "start": 0,
+      "end": 1286.2,
+      "open": false,
+      "x0": 351,
+      "x1": 1111,
+      "y": 88,
+      "label": "1,286.2 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex0",
+      "parent": "batch",
+      "depth": 1,
+      "start": 0.2,
+      "end": 429.7,
+      "open": false,
+      "x0": 351.12,
+      "x1": 604.9,
+      "y": 113,
+      "label": "429.5 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex0_render",
+      "parent": "ex0",
+      "depth": 2,
+      "start": 0.2,
+      "end": 263.3,
+      "open": false,
+      "x0": 351.12,
+      "x1": 506.58,
+      "y": 138,
+      "label": "263.1 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex0_check",
+      "parent": "ex0",
+      "depth": 2,
+      "start": 263.3,
+      "end": 429.7,
+      "open": false,
+      "x0": 506.58,
+      "x1": 604.9,
+      "y": 163,
+      "label": "166.4 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex1",
+      "parent": "batch",
+      "depth": 1,
+      "start": 1.6,
+      "end": 445.2,
+      "open": false,
+      "x0": 351.95,
+      "x1": 614.06,
+      "y": 188,
+      "label": "443.6 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex1_render",
+      "parent": "ex1",
+      "depth": 2,
+      "start": 1.6,
+      "end": 298.5,
+      "open": false,
+      "x0": 351.95,
+      "x1": 527.38,
+      "y": 213,
+      "label": "296.9 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex1_check",
+      "parent": "ex1",
+      "depth": 2,
+      "start": 298.5,
+      "end": 445.2,
+      "open": false,
+      "x0": 527.38,
+      "x1": 614.06,
+      "y": 238,
+      "label": "146.7 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex2",
+      "parent": "batch",
+      "depth": 1,
+      "start": 2.2,
+      "end": 398.4,
+      "open": false,
+      "x0": 352.3,
+      "x1": 586.41,
+      "y": 263,
+      "label": "396.2 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex2_render",
+      "parent": "ex2",
+      "depth": 2,
+      "start": 2.2,
+      "end": 224.4,
+      "open": false,
+      "x0": 352.3,
+      "x1": 483.6,
+      "y": 288,
+      "label": "222.2 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex2_check",
+      "parent": "ex2",
+      "depth": 2,
+      "start": 224.4,
+      "end": 398.4,
+      "open": false,
+      "x0": 483.6,
+      "x1": 586.41,
+      "y": 313,
+      "label": "174 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex3",
+      "parent": "batch",
+      "depth": 1,
+      "start": 398.4,
+      "end": 830.7,
+      "open": false,
+      "x0": 586.41,
+      "x1": 841.85,
+      "y": 338,
+      "label": "432.3 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex3_render",
+      "parent": "ex3",
+      "depth": 2,
+      "start": 398.4,
+      "end": 593.4,
+      "open": false,
+      "x0": 586.41,
+      "x1": 701.63,
+      "y": 363,
+      "label": "195 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex3_check",
+      "parent": "ex3",
+      "depth": 2,
+      "start": 593.4,
+      "end": 830.7,
+      "open": false,
+      "x0": 701.63,
+      "x1": 841.85,
+      "y": 388,
+      "label": "237.3 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex4",
+      "parent": "batch",
+      "depth": 1,
+      "start": 429.8,
+      "end": 862.8,
+      "open": false,
+      "x0": 604.96,
+      "x1": 860.82,
+      "y": 413,
+      "label": "433 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex4_render",
+      "parent": "ex4",
+      "depth": 2,
+      "start": 429.8,
+      "end": 643.7,
+      "open": false,
+      "x0": 604.96,
+      "x1": 731.35,
+      "y": 438,
+      "label": "213.9 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex4_check",
+      "parent": "ex4",
+      "depth": 2,
+      "start": 643.7,
+      "end": 862.8,
+      "open": false,
+      "x0": 731.35,
+      "x1": 860.82,
+      "y": 463,
+      "label": "219.1 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex5",
+      "parent": "batch",
+      "depth": 1,
+      "start": 445.2,
+      "end": 868.3,
+      "open": false,
+      "x0": 614.06,
+      "x1": 864.07,
+      "y": 488,
+      "label": "423.1 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex5_render",
+      "parent": "ex5",
+      "depth": 2,
+      "start": 445.2,
+      "end": 645.9,
+      "open": false,
+      "x0": 614.06,
+      "x1": 732.65,
+      "y": 513,
+      "label": "200.7 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex5_check",
+      "parent": "ex5",
+      "depth": 2,
+      "start": 645.9,
+      "end": 868.3,
+      "open": false,
+      "x0": 732.65,
+      "x1": 864.07,
+      "y": 538,
+      "label": "222.4 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex6",
+      "parent": "batch",
+      "depth": 1,
+      "start": 830.7,
+      "end": 1231.3,
+      "open": false,
+      "x0": 841.85,
+      "x1": 1078.56,
+      "y": 563,
+      "label": "400.6 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex6_render",
+      "parent": "ex6",
+      "depth": 2,
+      "start": 830.7,
+      "end": 1022.2,
+      "open": false,
+      "x0": 841.85,
+      "x1": 955.01,
+      "y": 588,
+      "label": "191.5 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex6_check",
+      "parent": "ex6",
+      "depth": 2,
+      "start": 1022.2,
+      "end": 1231.3,
+      "open": false,
+      "x0": 955.01,
+      "x1": 1078.56,
+      "y": 613,
+      "label": "209.1 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex7",
+      "parent": "batch",
+      "depth": 1,
+      "start": 862.8,
+      "end": 1286.2,
+      "open": false,
+      "x0": 860.82,
+      "x1": 1111,
+      "y": 638,
+      "label": "423.4 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex7_render",
+      "parent": "ex7",
+      "depth": 2,
+      "start": 862.8,
+      "end": 1082.5,
+      "open": false,
+      "x0": 860.82,
+      "x1": 990.64,
+      "y": 663,
+      "label": "219.7 ms",
+      "placement": "after"
+    },
+    {
+      "id": "ex7_check",
+      "parent": "ex7",
+      "depth": 2,
+      "start": 1082.5,
+      "end": 1286.2,
+      "open": false,
+      "x0": 990.64,
+      "x1": 1111,
+      "y": 688,
+      "label": "203.7 ms",
+      "placement": "after"
+    }
+  ]
+}

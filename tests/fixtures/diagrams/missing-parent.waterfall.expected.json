@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Waterfall validation failed:\n- Span \"auth\" names parent \"ghost\", which is not declared.",
+  "diagnostics": [
+    {
+      "code": "waterfall/missing-parent",
+      "severity": "error",
+      "message": "Span \"auth\" names parent \"ghost\", which is not declared.",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/1/parent",
+        "nodeId": "auth"
+      },
+      "evidence": {
+        "parent": "ghost"
+      },
+      "supportedFixes": [
+        "Declare the parent span.",
+        "Remove parent to make this a root span."
+      ]
+    }
+  ]
+}

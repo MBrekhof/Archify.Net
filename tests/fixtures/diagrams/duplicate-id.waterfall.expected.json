@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Waterfall validation failed:\n- Span id \"auth\" is declared twice.",
+  "diagnostics": [
+    {
+      "code": "waterfall/duplicate-id",
+      "severity": "error",
+      "message": "Span id \"auth\" is declared twice.",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/2/id"
+      },
+      "evidence": {
+        "id": "auth"
+      },
+      "supportedFixes": [
+        "Give every span a unique id."
+      ]
+    }
+  ]
+}

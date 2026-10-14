@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Waterfall validation failed:\n- Span \"save\" has a derived end outside the finite numeric range.",
+  "diagnostics": [
+    {
+      "code": "waterfall/invalid-timing",
+      "severity": "error",
+      "message": "Span \"save\" has a derived end outside the finite numeric range.",
+      "subject": {
+        "diagramType": "waterfall",
+        "path": "/spans/5",
+        "nodeId": "save"
+      },
+      "evidence": {
+        "start": 1e+308,
+        "end": null,
+        "duration": 1e+308,
+        "status": "ok"
+      },
+      "supportedFixes": [
+        "Rescale the recorded timing and unit to a representable range."
+      ]
+    }
+  ]
+}
