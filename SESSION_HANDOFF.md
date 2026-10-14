@@ -22,7 +22,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - The ajv-oracle schema battery (14 cases) and all Js fixtures pass.
 - `Validate` maps checker failures with a port of upstream `checkerDiagnostics`. Its output equals upstream's on
   every failing checker probe, pinned by SHA-256 in `ParityTests`.
-- `dotnet test` from the repo root: 217 passed, 0 failed, no warnings.
+- `dotnet test` from the repo root at commit `a02d62b`: 217 passed, 0 failed, no warnings.
 - `master`, no remote yet.
 
 ## Known deviations
@@ -38,5 +38,5 @@ Listed in `README.md` under "Known deviations from upstream". The CJK word-wrap 
 ## Next phase
 
 `PORT-002`: erd/grid, sequence, lifecycle, class, tree, timeline and waterfall renderers. Plan:
-`docs/superpowers/plans/2026-10-14-phase2-renderers.md`, with its Opus review next to it. The plan is being
-revised after that review and is not committed yet.
+`docs/superpowers/plans/2026-10-14-phase2-renderers.md`, with its Opus review folded in and committed next to it
+(`2a56657`).

@@ -2,7 +2,7 @@
 
 Date: 2026-10-13. Status: approved by Martin (design in chat, review findings settled);
 reviewed by a Claude Opus subagent (`2026-10-13-spec-review-opus.md`, 2 blockers +
-11 should-fix, all folded in below). Phase 1 implemented (commits 1f18dd7..f4aa31a + this docs commit).
+11 should-fix, all folded in below). Phase 1 implemented (commits 1f18dd7 through a02d62b).
 
 ## Goal
 
