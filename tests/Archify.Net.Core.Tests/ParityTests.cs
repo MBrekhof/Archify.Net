@@ -20,7 +20,7 @@ public class ParityTests
     public void Render_is_byte_identical_to_upstream(string type, string input, string golden)
     {
         var diagram = DiagramLoader.Parse(Fixtures.Lf(input));
-        var result = Archify.Render(DiagramTypes.Parse(type), diagram);
+        var result = ArchifyNet.Render(DiagramTypes.Parse(type), diagram);
         Assert.DoesNotContain(result.Diagnostics, d => d.Severity == Severity.Error);
         var expected = Fixtures.Lf(golden);
         if (expected != result.Html) Assert.Fail(FirstDifference(expected, result.Html));
@@ -30,9 +30,9 @@ public class ParityTests
     [Fact] public void No_profile_fixture_is_advisory()
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/web-app.no-profile.architecture.json")));
-        var r = Archify.Render(DiagramType.Architecture, d);
+        var r = ArchifyNet.Render(DiagramType.Architecture, d);
         Assert.Contains("data-quality-profile=\"standard\" data-quality-gates=\"advisory\"", r.Svg);
-        var showcase = Archify.Render(DiagramType.Architecture, d, new RenderOptions(Quality: QualityProfile.Showcase));
+        var showcase = ArchifyNet.Render(DiagramType.Architecture, d, new RenderOptions(Quality: QualityProfile.Showcase));
         Assert.Contains("data-quality-profile=\"showcase\"", showcase.Svg);
         Assert.DoesNotContain("advisory", showcase.Svg);
         // Option-level showcase must NOT turn on the meta-only layout gates: the no-profile diagram still renders. Verified
@@ -49,7 +49,7 @@ public class ParityTests
     [Fact] public void Grid_layout_is_byte_identical_to_upstream()
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/grid-layout.architecture.json")));
-        var r = Archify.Render(DiagramType.Architecture, d);
+        var r = ArchifyNet.Render(DiagramType.Architecture, d);
         Assert.DoesNotContain(r.Diagnostics, x => x.Severity == Severity.Error);
         var expected = Fixtures.Lf(Fixtures.Fixture("diagrams/grid-layout-rendered.html"));
         if (expected != r.Html) Assert.Fail(FirstDifference(expected, r.Html));
@@ -60,7 +60,7 @@ public class ParityTests
     [Fact] public void Bad_input_returns_diagnostics_not_exceptions()
     {
         var d = DiagramLoader.Parse("{\"schema_version\":1,\"diagram_type\":\"architecture\",\"meta\":{\"title\":\"x\",\"output\":\"x.html\"},\"components\":[]}");
-        var r = Archify.Render(DiagramType.Architecture, d);
+        var r = ArchifyNet.Render(DiagramType.Architecture, d);
         Assert.Equal("", r.Html);
         Assert.NotEmpty(r.Diagnostics);
     }
@@ -71,7 +71,7 @@ public class ParityTests
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/web-app.invalid.architecture.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/web-app.invalid.expected.json")))!;
-        var r = Archify.Render(DiagramType.Architecture, d);
+        var r = ArchifyNet.Render(DiagramType.Architecture, d);
         Assert.Equal("", r.Html);
         var upstream = expected["diagnostics"]!.AsArray();
         Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
@@ -88,16 +88,27 @@ public class ParityTests
 
     [Fact] public void Non_object_root_returns_json_parse_diagnostic()
     {
-        var r = Archify.Render(DiagramType.Architecture, new JsonArray());
+        var r = ArchifyNet.Render(DiagramType.Architecture, new JsonArray());
         Assert.Equal("", r.Html);
         Assert.Equal(["input/json-parse"], r.Diagnostics.Select(x => x.Code));
     }
 
+    // installRendererDiagnosticBoundary: an error without a diagnostic comes back as internal/unclassified, never thrown.
+    [Fact] public void Non_diagnostic_renderer_error_returns_internal_unclassified()
+    {
+        var d = (JsonObject)JsonNode.Parse(Fixtures.Lf(Fixtures.Upstream("examples/web-app.architecture.json")))!;
+        d["meta"]!["title"] = JsonNode.Parse("\"\\ud800\"");   // lone-surrogate escape: reading it as a string throws InvalidOperationException
+        var r = ArchifyNet.Render(DiagramType.Architecture, d);
+        Assert.Equal("", r.Html);
+        var diagnostic = Assert.Single(r.Diagnostics, x => x.Code == "internal/unclassified");
+        Assert.Equal("InvalidOperationException", diagnostic.Evidence["errorName"]!.GetValue<string>());
+    }
+
     [Fact] public void Validate_passes_every_architecture_target_and_fails_bad_input()
     {
-        foreach (var t in Targets()) Assert.DoesNotContain(Archify.Validate(DiagramTypes.Parse((string)t[0]), DiagramLoader.Parse(Fixtures.Lf((string)t[1]))), d => d.Severity == Severity.Error);
+        foreach (var t in Targets()) Assert.DoesNotContain(ArchifyNet.Validate(DiagramTypes.Parse((string)t[0]), DiagramLoader.Parse(Fixtures.Lf((string)t[1]))), d => d.Severity == Severity.Error);
         var bad = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/web-app.architecture.json"))); bad["components"]![0]!["id"] = "1bad";
-        Assert.Contains(Archify.Validate(DiagramType.Architecture, bad), d => d.Code == "schema/pattern");
+        Assert.Contains(ArchifyNet.Validate(DiagramType.Architecture, bad), d => d.Code == "schema/pattern");
     }
 
     // Upstream bin/archify.mjs checkerDiagnostics, sliced out verbatim and run by node 2026-10-14 over each failing checker
@@ -116,7 +127,7 @@ public class ParityTests
     [InlineData("two-svg-blocks", "3d13b38566c8e2ec4f85e5981e0cc3f3558293c13f060777901dc1cd1eff4d26")]
     public void Checker_diagnostics_equal_upstream_on_failing_probe(string probe, string sha256)
     {
-        var check = Archify.Check(Fixtures.Lf(Fixtures.Fixture($"checker/{probe}.html")));
+        var check = ArchifyNet.Check(Fixtures.Lf(Fixtures.Fixture($"checker/{probe}.html")));
         Assert.False(check.Ok);
         var json = DiagnosticsJson(CheckerDiagnostics.From(check.Report));
         Assert.Equal(sha256, Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(json))));

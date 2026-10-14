@@ -17,7 +17,9 @@ internal static class Renderers
     };
 }
 
-public static class Archify
+// Not `Archify`: a class of that name inside namespace Archify.Net cannot be named from consumer code
+// (`Archify.Render` binds to the root namespace, CS0234).
+public static class ArchifyNet
 {
     public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)
     {
@@ -43,6 +45,12 @@ public static class Archify
         }
         catch (ArchifyDiagnosticException ex)
         {
+            var (_, diagnostics) = ctx.Diagnostics.RendererFailure(ex);
+            return new RenderResult("", "", "", diagnostics, null);
+        }
+        catch (Exception ex) when (ex is not NotSupportedException)
+        {
+            // installRendererDiagnosticBoundary: any other uncaught error becomes internal/unclassified.
             var (_, diagnostics) = ctx.Diagnostics.RendererFailure(ex);
             return new RenderResult("", "", "", diagnostics, null);
         }

@@ -7,7 +7,7 @@ reviewed by a Claude Opus subagent (`2026-10-13-spec-review-opus.md`, 2 blockers
 ## Goal
 
 Port the machine-side of [tt-a1i/archify](https://github.com/tt-a1i/archify) v3.1.0
-(upstream commit `c21c31ff`, local checkout `C:\projects\archify`) to C#/.NET 10 as a
+(upstream commit `c21c31ff`, local checkout: repo root `C:\projects\archify`, skill package root `C:\projects\archify\archify`) to C#/.NET 10 as a
 class library first, with a CLI and MCP server on top. The reader-side viewer runtime
 stays JavaScript and is embedded verbatim.
 
@@ -93,7 +93,7 @@ Task state is board-only (ContextBoard project `Archify.Net`, id 46; no `TODO.md
 ## Core API (`Archify.Net.Core`)
 
 ```csharp
-public static class Archify
+public static class ArchifyNet
 {
     public static IReadOnlyList<Diagnostic> Validate(DiagramType type, JsonNode diagram, RenderOptions? options = null);
     public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null);
@@ -208,7 +208,7 @@ ajv's. The synthetic `portablePath` keyword is a ported `PortablePath.Validate`.
 `schema/<keyword>`. Note: `validateAuthoredOutputPath` runs before the schema, so `meta.output`
 syntax failures surface as `output/meta-path-syntax`, not `schema/…`.
 
-**Output path in the library (decision S6, Option 1).** `Archify.Validate`/`Render` check
+**Output path in the library (decision S6, Option 1).** `ArchifyNet.Validate`/`Render` check
 `meta.output` lexically only (portable path, `.html` extension, no `..`/absolute) — no
 `cwd`, no filesystem resolution. `path-semantics.mjs`, `resolveOutputPath` and `sidecar-path`
 belong to the CLI and move to phase 5.

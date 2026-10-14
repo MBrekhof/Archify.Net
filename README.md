@@ -9,18 +9,18 @@ The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/
 
 ## Library surface
 
-`Archify.Net.Core` exposes one static facade, `Archify`:
+`Archify.Net.Core` exposes one static facade, `ArchifyNet`, in namespace `Archify.Net`:
 
 - `Render(type, diagram, options)` runs the load gates and the renderer. It returns the HTML, SVG, cards, diagnostics and layout report.
 - `Check(html)` runs the artifact checker. Its report JSON equals upstream's `scripts/check-render-output.mjs` minus `file`.
 - `Validate(type, diagram, options)` renders, checks, and returns the render diagnostics followed by the checker's.
 
 Input and validation problems come back as diagnostics with upstream's codes, messages, subjects, evidence and fixes.
-These are the only exceptions the facade throws:
+Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names the exception type, as upstream's JSON-mode boundary does.
+The facade throws only `NotSupportedException`:
 
-- `NotSupportedException` from `Render` and `Validate` for a diagram type that lands in phases 2 to 4.
-- `NotSupportedException` from `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
-- `InvalidOperationException` from `Render` and `Validate` when a diagram built with `JsonNode.Parse` holds a lone-surrogate escape such as `\ud800`.
+- From `Render` and `Validate` for a diagram type that lands in phases 2 to 4.
+- From `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
 
 ## Build and test
 
@@ -33,7 +33,8 @@ dotnet test
 The parity suite reads the goldens and fixtures committed under `tests/` and `upstream/`. It needs no network and no Node.
 
 `tools/capture-fixtures.mjs` is a dev-time tool that mints those fixtures from upstream. It needs Node 24 and an
-upstream checkout at `C:\projects\archify` on commit `c21c31ff`. CI never runs it.
+upstream repo checkout at `C:\projects\archify` on commit `c21c31ff`. It reads the skill package root inside it,
+`C:\projects\archify\archify`. CI never runs it.
 
 ## Phases
 
@@ -62,12 +63,14 @@ Phase 1 parity results:
 - Brand diagnostics come in a different order when a brand is pinned as `{url, sha256}`. Upstream appends capture failures after the synchronous problems. The set is the same.
 - A URL with whitespace in its userinfo part is treated as no URL. WHATWG percent-encodes the whitespace instead.
 - `DiagramLoader.Parse` stops at nesting depth 64. `JSON.parse` has no limit.
-- A raw lone surrogate inside a C# input string becomes U+FFFD. The escaped form `\udXXX` survives.
+- A raw lone surrogate inside a C# input string becomes U+FFFD. The escaped form `\udXXX` survives parsing, but rendering it fails with `internal/unclassified`.
 - CJK word wrapping is outside the byte-parity guarantee. Phase 1 cannot reach it yet.
 - A valid-JSON root that is not an object reports `input/json-parse`. Upstream reports `schema/type` at `/`.
 - `Js.Sort` equals V8 only for consistent comparators. A comparator that returns NaN diverges.
 - The remote brand form `{url, sha256}` reports `brand/capture-unavailable` and makes no network call.
 - On a failed render `Layout` is `null`. Upstream emits a partial layout report.
+- `Diagnostic.Path` throws `InvalidOperationException` when `subject.path` is not a string. Upstream reads `undefined`.
+- A forwarded checker diagnostic without a message gets `""` as its message. Upstream omits the key.
 - The unpinned-URL hint text can differ from WHATWG `url.href` for IDN hosts, `|`, `%7e`, and backslashes in query or fragment.
 - `Check` hashes the UTF-8 encoding of the string it is given. A lone surrogate hashes differently from Node's raw file bytes.
 - Time zones and `Intl` segmentation arrive in phase 2 with their own stated deviations.

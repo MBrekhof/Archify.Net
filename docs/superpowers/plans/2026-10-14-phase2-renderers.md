@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** `Archify.Render(type, json)` produces HTML byte-identical to upstream Node archify 3.1.0 for `sequence`, `lifecycle`, `class`, `tree`, `timeline` and `waterfall` (10 upstream goldens + 2 example goldens minted from upstream + 7 synthetic fixture goldens = 19 parity rows), on the phase-1 foundation unchanged except for the `Js` members these renderers need (`Graphemes`, `WordBreaks`, Han detection, the JS-whitespace trims and splits, `DateParse`, IANA time-zone wall clock) and the `erd/grid.mjs` port that class (now) and erd (phase 4) share.
+**Goal:** `ArchifyNet.Render(type, json)` produces HTML byte-identical to upstream Node archify 3.1.0 for `sequence`, `lifecycle`, `class`, `tree`, `timeline` and `waterfall` (10 upstream goldens + 2 example goldens minted from upstream + 7 synthetic fixture goldens = 19 parity rows), on the phase-1 foundation unchanged except for the `Js` members these renderers need (`Graphemes`, `WordBreaks`, Han detection, the JS-whitespace trims and splits, `DateParse`, IANA time-zone wall clock) and the `erd/grid.mjs` port that class (now) and erd (phase 4) share.
 
 **Architecture:** As phase 1: one C# file per upstream `.mjs`, same base name, same function names PascalCased, same order of operations. Each `render-<type>.mjs` module body becomes `<Type>Renderer : IDiagramRenderer` with a private `Scene` class whose constructor runs the module-level statements in source order and whose methods are the module's functions (the shape `Architecture/ArchitectureRenderer.cs` already has). `Renderers.For(type)` dispatches. Module globals (`process.argv --layout-json`, `process.env`) do not exist: the layout report is always built and returned as `LayoutReport` for class/tree/timeline/waterfall and is `null` for sequence/lifecycle (upstream has no `--layout-json` there). JavaScript semantics stay inside `Js` (now a `partial` class across three files).
 
@@ -31,7 +31,7 @@ Reused verbatim from phase 1 (they all still apply):
 New in phase 2:
 
 - **CJK exemption, precisely.** Upstream wraps sequence notes with `Intl.Segmenter` (render-sequence.mjs:179 grapheme, :201/:205 word). The word segmenter runs **only on tokens that contain Han** (`/\p{Script=Han}/u`, lines 197 and 204); Latin notes never reach it. Therefore: the Latin/emoji/combining-mark note-wrap path **is** byte-parity-checked (fixture golden in Task 5); `Js.WordBreaks` (whose only input is a Han+Mark run) and any rendered **sequence note** that depends on it is outside the byte-parity guarantee; `Js.Graphemes` is parity-checked for every script the fixture carries. The exemption is **that narrow**: tree label wrapping (render-tree.mjs:126, a code-unit character class, no `Intl`), class member wrapping, timeline title wrapping and every zh-CN locale rendering are byte-exact and are pinned by fixtures (Tasks 2, 8, 9). The only ban is: no Han text inside a sequence `note` of any golden or fixture golden (every golden already carries the template's 47-character Han language picker, so a blanket no-Han rule is unmeetable).
-- **Time zones.** `meta.timezone` accepts what V8's `Intl.DateTimeFormat` accepts and nothing else, decided by `Js.IsIanaTimeZone` (fixture-pinned battery, Task 3): IANA ids in any letter case (`asia/shanghai` is valid in both engines), legacy links (`Asia/Calcutta`, `US/Eastern`, `EST`, `Etc/GMT+8`) and fixed offsets `±HH:MM`; a Windows display id such as `"China Standard Time"` must yield `timeline/invalid-timezone` exactly as V8 does. The authored spelling is kept in the header (render-timeline.mjs:427), so no case-folding of ids anywhere. Wall-clock fields come from `Js.ZoneWall` (= upstream `wall()`, render-timeline.mjs:116-119): offset from `TimeZoneInfo` for instants inside `DateTime`'s range, `BaseUtcOffset` outside it, then proleptic-Gregorian civil arithmetic — so year `0000` (1 BC, which upstream's `era: 'short'` branch maps to year `0`) formats without a `DateTime`. **Stated deviation (two cases, restated verbatim in the README "Known deviations from upstream" and in the XML doc of `Archify.Render`, Task 11):** .NET on Windows converts with the OS zone table (registry adjustment rules), not Node's bundled tzdata. **(a)** For instants before a zone's first tzdata transition (local mean time, roughly before 1900) the port shows the zone's base offset: upstream labels a `Asia/Shanghai` event at `0001-01-01T00:00:00Z` `UTC+08:06` (LMT +08:05:43), the port prints `UTC+08:00`. **(b)** For years before the OS table's first adjustment rule the port extrapolates that rule backwards: `Pacific/Chatham` and `Australia/Lord_Howe` in 1970 read +13:45/+11:00 (DST applied) where upstream reads +12:45/+10:00. UTC is exact for every year; every battery zone is exact for 2026 and 9999. The DST fixture pins the 2026 `America/New_York` transitions. Upgrade path if it bites: embed tzdata or P/Invoke ICU `ucal_*`.
+- **Time zones.** `meta.timezone` accepts what V8's `Intl.DateTimeFormat` accepts and nothing else, decided by `Js.IsIanaTimeZone` (fixture-pinned battery, Task 3): IANA ids in any letter case (`asia/shanghai` is valid in both engines), legacy links (`Asia/Calcutta`, `US/Eastern`, `EST`, `Etc/GMT+8`) and fixed offsets `±HH:MM`; a Windows display id such as `"China Standard Time"` must yield `timeline/invalid-timezone` exactly as V8 does. The authored spelling is kept in the header (render-timeline.mjs:427), so no case-folding of ids anywhere. Wall-clock fields come from `Js.ZoneWall` (= upstream `wall()`, render-timeline.mjs:116-119): offset from `TimeZoneInfo` for instants inside `DateTime`'s range, `BaseUtcOffset` outside it, then proleptic-Gregorian civil arithmetic — so year `0000` (1 BC, which upstream's `era: 'short'` branch maps to year `0`) formats without a `DateTime`. **Stated deviation (two cases, restated verbatim in the README "Known deviations from upstream" and in the XML doc of `ArchifyNet.Render`, Task 11):** .NET on Windows converts with the OS zone table (registry adjustment rules), not Node's bundled tzdata. **(a)** For instants before a zone's first tzdata transition (local mean time, roughly before 1900) the port shows the zone's base offset: upstream labels a `Asia/Shanghai` event at `0001-01-01T00:00:00Z` `UTC+08:06` (LMT +08:05:43), the port prints `UTC+08:00`. **(b)** For years before the OS table's first adjustment rule the port extrapolates that rule backwards: `Pacific/Chatham` and `Australia/Lord_Howe` in 1970 read +13:45/+11:00 (DST applied) where upstream reads +12:45/+10:00. UTC is exact for every year; every battery zone is exact for 2026 and 9999. The DST fixture pins the 2026 `America/New_York` transitions. Upgrade path if it bites: embed tzdata or P/Invoke ICU `ucal_*`.
 - **Quality profile (settled in phase 1, Ruling 1 / S5; unchanged):** a shared geometry gate that upstream reads through `qualityProfileForGate` (geometry.mjs:1302-1306, `process.env.ARCHIFY_QUALITY_PROFILE || profile`) receives `gateProfile = ctx.Options.Quality?.Name() ?? meta.quality_profile` from the renderer. Those gates are `CleanCrossingProblems`, `CleanAmbiguousCorridorProblems`, `CleanBorderRunProblems`, `CleanRouteRhythmProblems`, `CleanLabelRouteClearanceProblems`, `CleanLabelCanvasContainmentProblems`. Every **direct** `meta?.quality_profile` read in a renderer stays meta-only. `SvgAttrs.SvgRootAttrs(ctx)` already applies the option. Per-renderer site lists are in each task.
 - **`LayoutReport`:** non-null only for class, tree, timeline, waterfall (upstream `buildLayoutReport` at render-class.mjs:821, render-tree.mjs:392, render-timeline.mjs:533, render-waterfall.mjs:348); sequence and lifecycle have no `--layout-json` and return `null`.
 - **Brand marks:** `BrandMarkResolver.Collection` maps only architecture/workflow/sequence/dataflow/lifecycle (brand-marks.mjs:10-16); for class/tree/timeline/waterfall `PrepareDiagramBrandMarks` is a no-op, matching upstream's plain `loadDiagram`. Sequence and lifecycle resolve a node's mark **once from the authored `JsonObject`** (`ctx.Brands.BrandMarkFor(authored)`) and store it on the measured record; upstream carries it through object spreads as a symbol property, the port carries it explicitly (phase-1 `Box.Brand` rule).
@@ -624,7 +624,7 @@ Porting rules specific to this file:
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/cache-miss-request.sequence.json")));
         d["messages"]![0]!["to"] = "nobody";
-        var r = Archify.Render(DiagramType.Sequence, d);
+        var r = ArchifyNet.Render(DiagramType.Sequence, d);
         Assert.Equal("", r.Html);
         Assert.Contains(r.Diagnostics, x => x.Code == "sequence/unknown-endpoint" && x.Path == "/messages/0/to");
     }
@@ -666,7 +666,7 @@ Porting rules:
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/agent-run.lifecycle.json")));
         var t = d["transitions"]!.AsArray(); var gap = t.First(x => x!.Str("from") == "queued" && x.Str("to") == "planning"); t.Remove(gap);
-        var r = Archify.Render(DiagramType.Lifecycle, d);
+        var r = ArchifyNet.Render(DiagramType.Lifecycle, d);
         Assert.Equal("", r.Html);
         Assert.Contains(r.Diagnostics, x => x.Code == "lifecycle/main-path-gap" && x.Path == "/mainPath/0");
     }
@@ -712,7 +712,7 @@ Porting rules:
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-processors.class.json")));
         var rel = d["relationships"]!.AsArray().First(x => x!.Str("kind") == "inheritance")!.AsObject();
         d["relationships"]!.AsArray().Add(new JsonObject { ["from"] = rel["to"]!.DeepClone(), ["to"] = rel["from"]!.DeepClone(), ["kind"] = "inheritance" });
-        var r = Archify.Render(DiagramType.Class, DiagramLoader.Normalize(d));
+        var r = ArchifyNet.Render(DiagramType.Class, DiagramLoader.Normalize(d));
         Assert.Equal("", r.Html);
         Assert.Contains(r.Diagnostics, x => x.Code == "class/inheritance-cycle");
     }
@@ -752,7 +752,7 @@ Porting rules:
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-platform.tree.json")));
         d["nodes"]![1]!["parent"] = "ghost";
-        var r = Archify.Render(DiagramType.Tree, d);
+        var r = ArchifyNet.Render(DiagramType.Tree, d);
         Assert.Equal("", r.Html);
         Assert.Contains(r.Diagnostics, x => x.Code == "tree/missing-parent" && x.Path == "/nodes/1/parent");
     }
@@ -799,7 +799,7 @@ Porting rules:
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-incident.timeline.json")));
         d["meta"]!["timezone"] = "China Standard Time";
-        var r = Archify.Render(DiagramType.Timeline, d);
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
         Assert.Equal("", r.Html);
         Assert.Contains(r.Diagnostics, x => x.Code == "timeline/invalid-timezone" && x.Path == "/meta/timezone");
     }
@@ -809,7 +809,7 @@ Porting rules:
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/payment-incident.timeline.json")));
         d["meta"]!["timezone"] = "UTC";
         d["events"] = new JsonArray(new JsonObject { ["id"] = "event", ["at"] = $"{year}-01-01T00:00:00Z", ["title"] = "Historical event", ["lane"] = "release" });
-        var r = Archify.Render(DiagramType.Timeline, d);
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
         Assert.DoesNotContain(r.Diagnostics, x => x.Severity == Severity.Error);
         Assert.Contains("UTC+00:00", r.Svg);
         Assert.DoesNotMatch(@"UTC\+\d{3,}:", r.Svg);
@@ -817,7 +817,7 @@ Porting rules:
     [Fact] public void Timeline_dst_fixture_crosses_both_transitions()
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/dst-new-york.timeline.json")));
-        var r = Archify.Render(DiagramType.Timeline, d);
+        var r = ArchifyNet.Render(DiagramType.Timeline, d);
         Assert.Contains("America/New_York (UTC-05:00)", r.Svg);                      // header uses the first event's offset (EST)
         Assert.Contains("01:30:00 UTC-04:00", r.Svg); Assert.Contains("01:30:00 UTC-05:00", r.Svg);   // the repeated hour, both offsets
         Assert.True(r.Layout!.Report["breaks"]!.AsArray().Count >= 1);
@@ -864,7 +864,7 @@ Porting rules:
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/checkout-request.waterfall.json")));
         var spans = d["spans"]!.AsArray(); spans[0]!["parent"] = spans[1]!.Str("id");   // root now points at its own child
-        var r = Archify.Render(DiagramType.Waterfall, d);
+        var r = ArchifyNet.Render(DiagramType.Waterfall, d);
         Assert.Equal("", r.Html);
         Assert.Contains(r.Diagnostics, x => x.Code == "waterfall/cycle");
     }
@@ -891,7 +891,7 @@ and in `JsTests.cs` (the helper is `internal`; Task 3's `InternalsVisibleTo` csp
   - *CJK word breaks in sequence notes:* upstream segments Han runs with ICU's dictionary (`Intl.Segmenter` word granularity); the port breaks per grapheme. Only a sequence `note` containing Han is affected; every other text path (tree, class, timeline wrapping; zh-CN locale) is byte-exact.
   - *Time zones before the OS zone table's history:* conversions use the operating system's zone data, not Node's bundled tzdata. (a) Before a zone's first tzdata transition (local mean time, roughly pre-1900) the port shows the base offset — a `Asia/Shanghai` event at `0001-01-01T00:00:00Z` is labelled `UTC+08:06` by upstream and `UTC+08:00` by the port. (b) Before the OS table's first adjustment rule the rule is extrapolated backwards — `Pacific/Chatham`/`Australia/Lord_Howe` in 1970 read +13:45/+11:00 instead of +12:45/+10:00. UTC and fixed offsets are exact for every year; named zones are exact from the table's history onward (2026 transitions pinned by fixture).
   - *`Date.parse` outside the schema shape:* strings the timeline schema rejects (`2026-10-01 10:00:00Z`, offset-less timestamps) are `NaN` in the port; unreachable through `Render` because the schema gate runs first.
-  Put the same three sentences (condensed) in the `/// <remarks>` of `Archify.Render` in `Archify.cs`.
+  Put the same three sentences (condensed) in the `/// <remarks>` of `ArchifyNet.Render` in `Archify.cs`.
 - [ ] **Step 4: `SESSION_HANDOFF.md`** — phase-2 state: the 19 parity rows, the fixture set, the three deviations above (pointer to the README section), the `joinRoutePoints` memo deferral to phase 3 with the workflow-compiler line list, the note that `gateProfile` sites are review-checked only (no phase-2 fixture makes a shared gate fail, so a meta-only port would pass the same goldens — Tasks 5 and 7 list the sites for the reviewer), and the next-phase pointer (PORT-003 workflow + dataflow; PORT-004 erd reuses `ErdGrid`). No card lanes.
 - [ ] **Step 5: Spec status line** → "Phase 2 implemented, commit <sha from `git log -1 --format=%h`>". README phase table row 2 → done.
 - [ ] **Step 6: Self-review before the hand-off** (global CLAUDE.md rule): list, per renderer, the cases the port must handle — `||` vs `??` sites, empty collections (`Math.max(...[])`), absent optional keys (`detail`, `note`, `sublabel`, `service`, `parent`, `layout`), repeated ids, half columns, the DST repeated hour, a fixed-offset `meta.timezone`, `unit` absent — and point each at a golden, fixture or fact. A case with neither gets a test first.
@@ -904,8 +904,8 @@ and in `JsTests.cs` (the helper is `internal`; Task 3's `InternalsVisibleTo` csp
 - **Upstream goldens byte-identical — 10, not 8.** `UP/scripts/render-examples.mjs:12-28` `TARGETS` has two rows each for tree, class, timeline and waterfall plus one each for sequence and lifecycle; the card's "8" undercounts by two. Files: `sequence-cache-miss-request.html`, `lifecycle-agent-run.html`, `tree-payment-platform-rendered.html`, `tree-archify-repository-rendered.html`, `class-payments-rendered.html`, `class-payment-processors-rendered.html`, `timeline-payment-incident-rendered.html`, `timeline-archify-dev-activity-rendered.html`, `waterfall-checkout-request-rendered.html`, `waterfall-example-rebuild-rendered.html`.
 - **Node-minted example goldens byte-identical:** `async-job-roundtrip-rendered.html`, `deployment-release-rendered.html`.
 - **Fixture goldens byte-identical:** `note-wrap`, `brand-participants`, `deployment-release.notes`, `payment-platform.right`, `dst-new-york` (America/New_York DST), `payment-incident.zh-CN` (the spec's zh-CN fixture), `incomplete-trace`. Total parity rows this phase: 10 + 2 + 7 = **19**.
-- **Checker JSONs** minted for all 9 new goldens; equal to `Archify.Check` once phase-1 Task 10 lands.
+- **Checker JSONs** minted for all 9 new goldens; equal to `ArchifyNet.Check` once phase-1 Task 10 lands.
 - **`Js` fixtures green:** `segmenter.json` (graphemes exact for every row incl. Han; `WordBreaks` concatenation + per-grapheme on Han runs — the spec's CJK exemption), `text-wrap.json` (trims and the five tree/class/timeline splits exact), `dates.json` (every in-schema row), `time-zones.json` (acceptance battery exact incl. `"China Standard Time"` rejected and `+08:00` accepted; wall clock exact on every guaranteed row), `waterfall-number.json`, `erd-grid.json`.
 - **Pinned facts green:** one renderer-level diagnostic code per type; the nine golden.mjs schema cases; the Windows-zone-id rejection; historical years in UTC; DST fixture assertions.
-- **Deviations stated where users read them:** README "Known deviations from upstream" + `Archify.Render` remarks (CJK note breaks; OS zone table, two cases with the `UTC+08:06` example; out-of-schema `Date.parse`).
+- **Deviations stated where users read them:** README "Known deviations from upstream" + `ArchifyNet.Render` remarks (CJK note breaks; OS zone table, two cases with the `UTC+08:06` example; out-of-schema `Date.parse`).
 - **Review:** the reviewer subagent's pass over the phase-2 diff settled (findings reproduced or dismissed with a test), per the spec's review gate.
