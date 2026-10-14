@@ -18,7 +18,19 @@ public class ParityTests
         ["sequence", Fixtures.Upstream("examples/async-job-roundtrip.sequence.json"), Fixtures.Golden("async-job-roundtrip-rendered.html")],
         ["sequence", Fixtures.Fixture("diagrams/note-wrap.sequence.json"), Fixtures.Golden("note-wrap-rendered.html")],
         ["sequence", Fixtures.Fixture("diagrams/brand-participants.sequence.json"), Fixtures.Golden("brand-participants-rendered.html")],
+        ["lifecycle", Fixtures.Upstream("examples/agent-run.lifecycle.json"), Fixtures.Upstream("examples/lifecycle-agent-run.html")],
+        ["lifecycle", Fixtures.Upstream("examples/deployment-release.lifecycle.json"), Fixtures.Golden("deployment-release-rendered.html")],
+        ["lifecycle", Fixtures.Fixture("diagrams/deployment-release.notes.lifecycle.json"), Fixtures.Golden("deployment-release.notes-rendered.html")],
     ];
+
+    [Fact] public void Lifecycle_main_path_gap_reports_upstream_code()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/agent-run.lifecycle.json")));
+        var t = d["transitions"]!.AsArray(); var gap = t.First(x => x!.Str("from") == "queued" && x.Str("to") == "planning"); t.Remove(gap);
+        var r = ArchifyNet.Render(DiagramType.Lifecycle, d);
+        Assert.Equal("", r.Html);
+        Assert.Contains(r.Diagnostics, x => x.Code == "lifecycle/main-path-gap" && x.Path == "/mainPath/0");
+    }
 
     [Fact] public void Sequence_unknown_endpoint_reports_upstream_code()
     {
@@ -115,6 +127,37 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.sequence.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.sequence.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Sequence, d);
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
+    }
+
+    // Lifecycle failure receipts (same capture, from the agent-run example with one fault each): validateStructure's and
+    // validateLayout's codes, messages, subjects, evidence, fixes, order — every lifecycle/* code the renderer can emit.
+    [Theory]
+    [InlineData("unknown-main-path-state")]
+    [InlineData("unknown-endpoint")]
+    [InlineData("duplicate-state")]
+    [InlineData("repeated-main-path-state")]
+    [InlineData("main-path-gap")]
+    [InlineData("state-text-too-long")]
+    [InlineData("crowded-side-transitions")]
+    [InlineData("too-wide")]
+    [InlineData("label-unplaced")]
+    public void Lifecycle_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.lifecycle.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.lifecycle.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Lifecycle, d);
         Assert.Equal("", r.Html);
         var upstream = expected["diagnostics"]!.AsArray();
         Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle validation failed:\n- State ids must be unique.",
+  "diagnostics": [
+    {
+      "code": "lifecycle/duplicate-state",
+      "severity": "error",
+      "message": "State ids must be unique.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "collection": "states"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "give every state a unique id"
+      ]
+    }
+  ]
+}

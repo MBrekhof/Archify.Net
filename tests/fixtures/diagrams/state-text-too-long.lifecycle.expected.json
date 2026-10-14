@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle validation failed:\n- Sublabel \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" of state \"planning\" is wider than the widest 220px state: it needs ~288px at the 8px legible minimum, but 212px fit — shorten the sublabel and move detail into a card.",
+  "diagnostics": [
+    {
+      "code": "lifecycle/state-text-too-long",
+      "severity": "error",
+      "message": "Sublabel \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" of state \"planning\" is wider than the widest 220px state: it needs ~288px at the 8px legible minimum, but 212px fit — shorten the sublabel and move detail into a card.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "collection": "states",
+        "path": "/states/1/sublabel"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "shorten the sublabel and move detail into a card"
+      ]
+    }
+  ]
+}

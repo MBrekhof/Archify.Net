@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle validation failed:\n- Transition 4 references unknown target \"nowhere\".",
+  "diagnostics": [
+    {
+      "code": "lifecycle/unknown-endpoint",
+      "severity": "error",
+      "message": "Transition 4 references unknown target \"nowhere\".",
+      "subject": {
+        "diagramType": "lifecycle",
+        "collection": "transitions",
+        "path": "/transitions/4/to",
+        "transition": "executing-approval"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "set /transitions/4/to to state id \"queued\"",
+        "set /transitions/4/to to state id \"planning\"",
+        "set /transitions/4/to to state id \"executing\""
+      ]
+    }
+  ]
+}

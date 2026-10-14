@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle layout validation failed:\n- Transition \"failed\" -> \"executing\" label \"retry after the exponential backoff window has fully elapsed and budget remains\" cannot be placed clear of nearby routes.",
+  "diagnostics": [
+    {
+      "code": "lifecycle/label-unplaced",
+      "severity": "error",
+      "message": "Transition \"failed\" -> \"executing\" label \"retry after the exponential backoff window has fully elapsed and budget remains\" cannot be placed clear of nearby routes.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "collection": "transitions",
+        "index": 8,
+        "from": "failed",
+        "to": "executing"
+      },
+      "evidence": {
+        "widthDriver": "label"
+      },
+      "supportedFixes": [
+        "review the transition label wording; preserve every condition; shorten wording only, or move complete detail to a card explicitly associated with the same transition; shorter wording may not resolve other layout constraints",
+        "only equivalent exits with identical labels, notes and variants can share one arrow; keep distinct notes on separate exits without removing them to force sharing"
+      ]
+    }
+  ]
+}

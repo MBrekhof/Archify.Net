@@ -359,6 +359,30 @@ for (const [name, fault] of sequenceFaults) {
     fs.rmSync(out(`goldens/${name}.html`), { force: true });
   } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.sequence.expected.json`, JSON.parse(String(e.stderr))); }
 }
+// Lifecycle failure receipts: one injected fault per diagnostic code validateStructure/validateLayout can emit.
+const lifecycleFaults = [
+  ['unknown-main-path-state', (d) => { d.mainPath[2] = 'ghost'; }],
+  ['unknown-endpoint', (d) => { d.transitions[4].to = 'nowhere'; }],
+  ['duplicate-state', (d) => { d.states.push({ ...d.states[5] }); }],
+  ['repeated-main-path-state', (d) => { d.mainPath.push('planning'); }],
+  ['main-path-gap', (d) => { d.transitions.splice(0, 1); }],
+  ['state-text-too-long', (d) => { d.states[1].sublabel = 'x'.repeat(60); d.states[2].label = 'Executing every queued tool call'; }],
+  ['crowded-side-transitions', (d) => { for (let i = 0; i < 6; i += 1) d.transitions.push({ from: 'approval', to: 'failed', label: `trigger ${i}` }); }],
+  ['too-wide', (d) => { for (let i = 0; i < 4; i += 1) d.transitions[i].label = `${d.transitions[i].label} once every precondition has been verified`; }],
+  ['label-unplaced', (d) => { d.transitions[8].label = 'retry after the exponential backoff window has fully elapsed and budget remains'; }],
+];
+for (const [name, fault] of lifecycleFaults) {
+  const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'agent-run.lifecycle.json'), 'utf8'));
+  fault(diagram);
+  diagram.meta.output = `${name}.html`;
+  write(`fixtures/diagrams/${name}.lifecycle.json`, diagram);
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/lifecycle/render-lifecycle.mjs'), out(`fixtures/diagrams/${name}.lifecycle.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    console.warn(`lifecycle fault ${name} unexpectedly rendered — no receipt written`);
+    fs.rmSync(out(`goldens/${name}.html`), { force: true });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.lifecycle.expected.json`, JSON.parse(String(e.stderr))); }
+}
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

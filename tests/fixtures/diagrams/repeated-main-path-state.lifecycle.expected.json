@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle validation failed:\n- mainPath lists a state more than once; a return to an earlier phase is a transition, not a repeated step.\n- mainPath step \"completed\" -> \"planning\" has no transition.",
+  "diagnostics": [
+    {
+      "code": "lifecycle/repeated-main-path-state",
+      "severity": "error",
+      "message": "mainPath lists a state more than once; a return to an earlier phase is a transition, not a repeated step.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "path": "/mainPath"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "list each main-path state once and keep the return as a transition"
+      ]
+    },
+    {
+      "code": "lifecycle/main-path-gap",
+      "severity": "error",
+      "message": "mainPath step \"completed\" -> \"planning\" has no transition.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "path": "/mainPath/4"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "add a transition from \"completed\" to \"planning\"",
+        "remove the state from mainPath if it is not on the happy path"
+      ]
+    }
+  ]
+}

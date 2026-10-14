@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle validation failed:\n- 6 transitions between the neighbouring states \"approval\" and \"failed\" cannot spread apart on the shared edge; at most five stay legible.",
+  "diagnostics": [
+    {
+      "code": "lifecycle/crowded-side-transitions",
+      "severity": "error",
+      "message": "6 transitions between the neighbouring states \"approval\" and \"failed\" cannot spread apart on the shared edge; at most five stay legible.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "collection": "transitions",
+        "from": "approval",
+        "to": "failed"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "merge the triggers into one transition label"
+      ]
+    }
+  ]
+}

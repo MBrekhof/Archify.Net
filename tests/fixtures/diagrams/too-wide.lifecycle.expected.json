@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Lifecycle layout validation failed:\n- The lifecycle is 2146px wide; at 9px text it stays readable on a desktop only up to 1395px. Transition labels or notes widen their main-path gaps.",
+  "diagnostics": [
+    {
+      "code": "lifecycle/too-wide",
+      "severity": "error",
+      "message": "The lifecycle is 2146px wide; at 9px text it stays readable on a desktop only up to 1395px. Transition labels or notes widen their main-path gaps.",
+      "subject": {
+        "diagramType": "lifecycle",
+        "path": "/mainPath"
+      },
+      "evidence": {
+        "viewBoxWidth": 2146,
+        "budgetPx": 1395,
+        "mainPathStates": 5,
+        "lowerRowStates": 5,
+        "wideStepLabels": [
+          {
+            "from": "planning",
+            "to": "executing",
+            "label": "plan ready once every precondition has been verified",
+            "excessPx": 278,
+            "widthDriver": "label"
+          },
+          {
+            "from": "executing",
+            "to": "reviewing",
+            "label": "steps done once every precondition has been verified",
+            "excessPx": 278,
+            "widthDriver": "label"
+          },
+          {
+            "from": "queued",
+            "to": "planning",
+            "label": "start once every precondition has been verified",
+            "excessPx": 248,
+            "widthDriver": "label"
+          },
+          {
+            "from": "reviewing",
+            "to": "completed",
+            "label": "pass once every precondition has been verified",
+            "excessPx": 242,
+            "widthDriver": "label"
+          }
+        ],
+        "spacingWideners": []
+      },
+      "supportedFixes": [
+        "review the width-driving main-path transition text: \"planning\" -> \"executing\" label (+278px), \"executing\" -> \"reviewing\" label (+278px), \"queued\" -> \"planning\" label (+248px), \"reviewing\" -> \"completed\" label (+242px); preserve every condition; shorten wording only, or move complete detail to a card explicitly associated with the same transition; shorter wording may not resolve other layout constraints",
+        "shorten state labels and sublabels",
+        "move secondary phases off mainPath or merge adjacent phases",
+        "split the lifecycle into two diagrams"
+      ]
+    }
+  ]
+}
