@@ -77,5 +77,9 @@ public class JsTextTests
         Assert.Equal(["", " ", "a", " ", ""], Js.SplitKeepingSpaces(" a "));
         Assert.Equal(["\u0085x", ""], Js.SplitOnSpaces("\u0085x\uFEFF"));
         Assert.False(Js.IsCommaPart(",x\n")); Assert.True(Js.IsCommaPart(",\n"));
+        // s.split('-') (render-timeline.mjs:68), Node 24.12: [["2026","02","30"],[""],["","a",""]]
+        Assert.Equal(["2026", "02", "30"], Js.SplitOnChar("2026-02-30", '-'));
+        Assert.Equal([""], Js.SplitOnChar("", '-'));
+        Assert.Equal(["", "a", ""], Js.SplitOnChar("-a-", '-'));
     }
 }

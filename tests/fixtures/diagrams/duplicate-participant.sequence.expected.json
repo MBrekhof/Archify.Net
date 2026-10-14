@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Participant ids must be unique.\n- Message \"emit trace\" references unknown target \"trace\".\n- Activation references unknown participant \"trace\".",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Participant ids must be unique.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "sequence/unknown-endpoint",
+      "severity": "error",
+      "message": "Message \"emit trace\" references unknown target \"trace\".",
+      "subject": {
+        "diagramType": "sequence",
+        "message": "emit trace",
+        "path": "/messages/9/to",
+        "from": "api",
+        "to": "trace"
+      },
+      "evidence": {
+        "endpoint": "target",
+        "unknownNodeId": "trace",
+        "availableNodeIds": [
+          "web",
+          "auth",
+          "user",
+          "redis",
+          "db"
+        ]
+      },
+      "supportedFixes": [
+        "set /messages/9/to to verified node id \"web\"",
+        "set /messages/9/to to verified node id \"auth\"",
+        "set /messages/9/to to verified node id \"user\""
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Activation references unknown participant \"trace\".",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

@@ -20,6 +20,12 @@ public class JsTimeTests
         foreach (var e in Fx("time-zones.json")["valid"]!.AsArray())
             Assert.True(e!["valid"]!.GetValue<bool>() == Js.IsIanaTimeZone(e["id"]!.GetValue<string>()), $"zone id \"{e["id"]}\"");
     }
+    [Fact] public void Every_accepted_zone_id_reaches_a_wall_clock()   // invariant: IsIanaTimeZone(id) => ZoneWall(id, ms) does not throw
+    {
+        var ids = Fx("time-zones.json")["valid"]!.AsArray().Where(e => e!["valid"]!.GetValue<bool>()).Select(e => e!["id"]!.GetValue<string>()).ToList();
+        Assert.NotEmpty(ids);
+        foreach (var id in ids.Where(Js.IsIanaTimeZone)) Js.ZoneWall(id, 0);
+    }
     [Fact] public void Windows_display_ids_are_rejected_like_V8()   // Review Focus 2
     {
         Assert.False(Js.IsIanaTimeZone("China Standard Time")); Assert.False(Js.IsIanaTimeZone("Eastern Standard Time"));

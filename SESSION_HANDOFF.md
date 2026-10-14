@@ -24,22 +24,24 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   (`src/Archify.Net.Core/Archify.cs`). Workflow, dataflow and erd throw `NotSupportedException` (phases 3 and 4).
 - Shared in phase 2: the erd banded grid (`src/Archify.Net.Core/Erd/Grid.cs`, used by class, reused by erd in
   phase 4), the Js text helpers (graphemes, Han tokenizers, splits) and the Js time layer (`Js/JsTime.cs`).
-- Parity, 20 phase-2 rows of `ParityTests.Render_is_byte_identical_to_upstream`, all byte-identical:
+- Parity, 26 phase-2 rows of `ParityTests.Render_is_byte_identical_to_upstream`, all byte-identical:
   - 10 upstream goldens: sequence and lifecycle 1 each; tree, class, timeline and waterfall 2 each.
   - 2 Node-minted example goldens: `async-job-roundtrip`, `deployment-release`.
-  - 8 fixture goldens: `note-wrap`, `brand-participants`, `deployment-release.notes`, `payment-platform.right`,
+  - 14 fixture goldens: `note-wrap`, `brand-participants`, `deployment-release.notes`, `payment-platform.right`,
     `payment-platform.wrap` (added in Task 8 for the CJK/Hangul and in-word cut branches), `dst-new-york`,
-    `payment-incident.zh-CN`, `incomplete-trace`.
-- Checker: the 10 new goldens each have `tests/goldens/checker/<name>.json`; `ArtifactCheckerTests` enumerates
-  all 30 and every report equals upstream's.
-- Failure receipts equal upstream's diagnostics: sequence 8, lifecycle 9, class 7, tree 5, timeline 7, waterfall 6.
+    `payment-incident.zh-CN`, `incomplete-trace`, and six fallback-site goldens from the final fix wave (TEST-001):
+    `incomplete-trace.no-unit`, `checkout-request.width`, `payment-incident.no-timezone`,
+    `payment-incident.minus-half`, `agent-run.no-sublabel-tag`, `payments.no-sublabel`.
+- Checker: the 16 new goldens each have `tests/goldens/checker/<name>.json`; `ArtifactCheckerTests` enumerates
+  all 36 and every report equals upstream's.
+- Failure receipts equal upstream's diagnostics: sequence 9, lifecycle 9, class 7, tree 5, timeline 7, waterfall 6.
   Layout reports equal upstream's `--layout-json` for class 2, tree 3, timeline 4, waterfall 3.
 - Fixtures under `tests/fixtures/js`: `segmenter.json`, `text-wrap.json`, `dates.json`, `time-zones.json`,
-  `waterfall-number.json`, `erd-grid.json` (`JsTextTests` 9, `JsTimeTests` 10, `ErdGridTests` 5, all green).
+  `waterfall-number.json`, `erd-grid.json` (`JsTextTests` 9, `JsTimeTests` 11, `ErdGridTests` 5, all green).
   Diagram fixtures, receipts and layout JSONs are under `tests/fixtures/diagrams`.
 - Pinned facts: one renderer-level diagnostic code per type, the nine golden.mjs schema cases, the Windows zone
   id rejection, historical years in UTC, both 2026 `America/New_York` DST transitions (repeated 01:30 hour included).
-- `dotnet test` from the repo root at commit `43d9c40`: 350 passed, 0 failed, no warnings.
+- `dotnet test` from the repo root with the phase-2 final fix wave applied: 364 passed, 0 failed, no warnings.
 - Task reviews from Task 9 on were done by agy (Google Antigravity CLI, Gemini) instead of Opus.
 
 ## Known deviations

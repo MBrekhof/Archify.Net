@@ -250,7 +250,7 @@ public sealed class TreeRenderer : IDiagramRenderer
                 var id = Id(node);
                 if (byId.Has(id))
                 {
-                    Fail("tree/duplicate-id", $"Node id \"{id}\" is declared twice.", new JsonObject { ["path"] = $"/nodes/{index}/id" },
+                    Fail("tree/duplicate-id", $"Node id \"{id}\" is declared twice.", new JsonObject { ["path"] = $"/nodes/{N(index)}/id" },
                         new JsonObject { ["id"] = id }, ["Give every node a unique id."]);
                 }
                 byId.Set(id, node);
@@ -261,7 +261,7 @@ public sealed class TreeRenderer : IDiagramRenderer
                 if (node.Str("parent") is { } parent && !byId.Has(parent))
                 {
                     Fail("tree/missing-parent", $"Node \"{Id(node)}\" names parent \"{parent}\", which is not declared.",
-                        new JsonObject { ["path"] = $"/nodes/{index}/parent", ["nodeId"] = Id(node) }, new JsonObject { ["parent"] = parent },
+                        new JsonObject { ["path"] = $"/nodes/{N(index)}/parent", ["nodeId"] = Id(node) }, new JsonObject { ["parent"] = parent },
                         [$"Declare a node with id \"{parent}\".", "Point parent at an existing node.", "Remove parent to make this the root."]);
                 }
             }
@@ -296,7 +296,7 @@ public sealed class TreeRenderer : IDiagramRenderer
                     {
                         reported.Add(key);
                         Fail("tree/cycle", $"Parent links form a cycle: {string.Join(" -> ", cycle.Append(cycle[0]).Select(id => $"\"{id}\""))}.",
-                            new JsonObject { ["path"] = $"/nodes/{index}/parent", ["nodeId"] = Id(node) },
+                            new JsonObject { ["path"] = $"/nodes/{N(index)}/parent", ["nodeId"] = Id(node) },
                             new JsonObject { ["cycle"] = new JsonArray([.. cycle.Select(id => (JsonNode?)id)]) },
                             ["Point one node in the cycle at a parent outside it."]);
                     }

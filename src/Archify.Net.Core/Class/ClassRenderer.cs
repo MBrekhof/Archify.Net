@@ -52,10 +52,10 @@ public sealed class ClassRenderer : IDiagramRenderer
         _ => null,
     };
 
-    // VISIBILITY_GLYPH[member.visibility]: an unknown visibility reads `undefined` in the template.
-    static string VisibilityGlyph(string visibility) => visibility switch
+    // VISIBILITY_GLYPH[member.visibility]: an unknown visibility is `undefined` (schema-unreachable: visibility is an enum).
+    static string? VisibilityGlyph(string visibility) => visibility switch
     {
-        "public" => "+", "protected" => "#", "package" => "~", "private" => "-", _ => "undefined",
+        "public" => "+", "protected" => "#", "package" => "~", "private" => "-", _ => null,
     };
 
     static string? VisibilityClass(string glyph) => glyph switch
@@ -353,7 +353,7 @@ public sealed class ClassRenderer : IDiagramRenderer
 
         // ---- Members -------------------------------------------------------------------
         static string VisibilityPrefix(JsonObject member) =>
-            member["visibility"].Truthy() ? $"{VisibilityGlyph(S(member.Str("visibility")))} " : "";
+            member["visibility"].Truthy() ? $"{VisibilityGlyph(S(member.Str("visibility"))) ?? "undefined"} " : "";   // template prints `undefined`
 
         static string AttributeText(JsonObject attribute) =>
             $"{VisibilityPrefix(attribute)}{S(attribute.Str("name"))}{(attribute["type"].Truthy() ? $": {BrandMarks.JsString(attribute["type"])}" : "")}";
@@ -1007,7 +1007,7 @@ public sealed class ClassRenderer : IDiagramRenderer
                     var zebra = stripe++ % 2 == 1
                         ? $"<rect x=\"{N(type.X + 4)}\" y=\"{N(rowTop + 1)}\" width=\"{N(type.Width - 8)}\" height=\"{N(lines.Count * Layout.RowH - 2)}\" rx=\"4\" class=\"cl-zebra\"/>"
                         : "";
-                    var glyph = member["visibility"].Truthy() ? VisibilityGlyph(S(member.Str("visibility"))) : "";
+                    var glyph = member["visibility"].Truthy() ? VisibilityGlyph(S(member.Str("visibility"))) ?? "" : "";   // `undefined` is falsy: no chip
                     var x0 = type.X + Layout.PadX;
                     var chip = glyph.Length > 0 ? VisibilityChip(glyph, x0, rowTop + Layout.RowH - 5) : "";
                     var textX = glyph.Length > 0 ? x0 + VIS_CHIP + VIS_GAP : x0;

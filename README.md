@@ -56,7 +56,7 @@ Phase 1 parity results:
 
 Phase 2 parity results:
 
-- All 20 phase-2 parity rows are byte-identical: the 10 upstream goldens, 2 Node-minted example goldens and 8 fixture goldens.
+- All 26 phase-2 parity rows are byte-identical: the 10 upstream goldens, 2 Node-minted example goldens and 14 fixture goldens.
 - The erd banded grid equals upstream's `erd/grid.mjs` on every row of its fixture, and the checker report on every new golden equals upstream's.
 - Every phase-2 renderer's failure receipts equal upstream's diagnostics.
 - The class, tree, timeline and waterfall layout reports equal upstream's `--layout-json`, and the nine golden.mjs schema cases pass.

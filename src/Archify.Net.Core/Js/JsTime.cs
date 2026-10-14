@@ -7,6 +7,7 @@ namespace Archify.Net;
 // formatToParts wall clock (render-timeline.mjs:61-133). Fixtures: tests/fixtures/js/dates.json, time-zones.json.
 public static partial class Js
 {
+    // ponytail: V8 parity — msPerDay (ES Day(t)), used by ZoneWall's civil arithmetic.
     const long DayMs = 86_400_000;
 
     // ponytail: V8 parity — timeline.schema.json:128 with capture groups (JS `$` → `\z`).
@@ -112,12 +113,14 @@ public static partial class Js
         return new(Num(y), Two(mo), Two(d), Two(t / 3_600_000), Two(t / 60_000 % 60), Two(t / 1000 % 60));
     }
 
+    // ponytail: V8 parity — ZoneWall's offset lookup (fixture: time-zones.json `wall`; JsTimeTests past-MaxValue fact).
     // Integer ticks: TimeSpan.TotalMilliseconds is a double and rounds MaxMs up past DateTime.MaxValue (9999-12-31T24:00Z threw).
     static readonly long MinMs = (DateTime.MinValue.Ticks - DateTime.UnixEpoch.Ticks) / TimeSpan.TicksPerMillisecond,
         MaxMs = (DateTime.MaxValue.Ticks - DateTime.UnixEpoch.Ticks) / TimeSpan.TicksPerMillisecond;
     static long ZoneOffsetMs(TimeZoneInfo z, long ms) =>
         (long)(ms >= MinMs && ms <= MaxMs ? z.GetUtcOffset(DateTime.UnixEpoch.AddMilliseconds(ms)) : z.BaseUtcOffset).TotalMilliseconds;
 
+    // ponytail: V8 parity — ES floor(t / msPerDay) for negative instants (year 0000 and BC rows of time-zones.json).
     static long FloorDiv(long a, long b) => a / b - (a % b < 0 ? 1 : 0);
 
     // ponytail: V8 parity — Howard Hinnant's days_from_civil (proleptic Gregorian, day 0 = 1970-01-01), the arithmetic of V8's MakeDay.

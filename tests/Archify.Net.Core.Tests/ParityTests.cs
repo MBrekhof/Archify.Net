@@ -34,6 +34,13 @@ public class ParityTests
         ["waterfall", Fixtures.Upstream("examples/checkout-request.waterfall.json"), Fixtures.Upstream("examples/waterfall-checkout-request-rendered.html")],
         ["waterfall", Fixtures.Upstream("examples/example-rebuild.waterfall.json"), Fixtures.Upstream("examples/waterfall-example-rebuild-rendered.html")],
         ["waterfall", Fixtures.Fixture("diagrams/incomplete-trace.waterfall.json"), Fixtures.Golden("incomplete-trace-rendered.html")],
+        // TEST-001: schema-valid fallback sites no other golden reaches, one edit each on a committed input.
+        ["waterfall", Fixtures.Fixture("diagrams/incomplete-trace.no-unit.waterfall.json"), Fixtures.Golden("incomplete-trace.no-unit-rendered.html")],   // `meta.unit || 'ms'`
+        ["waterfall", Fixtures.Fixture("diagrams/checkout-request.width.waterfall.json"), Fixtures.Golden("checkout-request.width-rendered.html")],     // `layout?.width ?? 760`
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.no-timezone.timeline.json"), Fixtures.Golden("payment-incident.no-timezone-rendered.html")],   // `meta.timezone || 'UTC'`
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.minus-half.timeline.json"), Fixtures.Golden("payment-incident.minus-half-rendered.html")],     // fixed offset -05:30
+        ["lifecycle", Fixtures.Fixture("diagrams/agent-run.no-sublabel-tag.lifecycle.json"), Fixtures.Golden("agent-run.no-sublabel-tag-rendered.html")],
+        ["class", Fixtures.Fixture("diagrams/payments.no-sublabel.class.json"), Fixtures.Golden("payments.no-sublabel-rendered.html")],
     ];
 
     [Fact] public void Waterfall_cycle_reports_upstream_code()
@@ -179,18 +186,7 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/web-app.invalid.architecture.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/web-app.invalid.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Architecture, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // Sequence failure receipts (ARCHIFY_DIAGNOSTIC_FORMAT=json stderr of upstream, captured by tools/capture-fixtures.mjs
@@ -204,23 +200,13 @@ public class ParityTests
     [InlineData("segment-label-wide")]
     [InlineData("legend-room")]
     [InlineData("participant-overflow")]
+    [InlineData("duplicate-participant")]
     public void Sequence_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.sequence.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.sequence.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Sequence, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // Lifecycle failure receipts (same capture, from the agent-run example with one fault each): validateStructure's and
@@ -240,18 +226,7 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.lifecycle.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.lifecycle.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Lifecycle, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // Class failure receipts (same capture, from the payments example with one fault each): validateClassDiagram's typed
@@ -270,18 +245,7 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.class.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.class.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Class, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // `node render-class.mjs <in> <out> --layout-json` stdout for both class goldens (captured by tools/capture-fixtures.mjs):
@@ -308,18 +272,7 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.tree.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.tree.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Tree, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // `node render-tree.mjs <in> <out> --layout-json` stdout for both tree goldens and the rightward fixture.
@@ -350,18 +303,7 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.timeline.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.timeline.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Timeline, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // `node render-timeline.mjs <in> <out> --layout-json` stdout for the four timeline goldens.
@@ -392,18 +334,7 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.waterfall.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.waterfall.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Waterfall, d);
-        Assert.Equal("", r.Html);
-        var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
-        for (var i = 0; i < upstream.Count; i++)
-        {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
-            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
-            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
-            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
-            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
-            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
-        }
+        AssertReceipt(expected, r);
     }
 
     // `node render-waterfall.mjs <in> <out> --layout-json` stdout for the three waterfall goldens.
@@ -478,6 +409,24 @@ public class ParityTests
         const string fallback = """[{"code":"artifact/check-failed","severity":"error","message":"Final artifact check failed without a classified diagnostic.","subject":{"check":"unknown"},"evidence":{},"supportedFixes":[]}]""";
         Assert.Equal(fallback, DiagnosticsJson(CheckerDiagnostics.From(JsonNode.Parse("""{"ok":false,"checks":[{"name":"label_route_clearance","ok":false}],"composition":{"issues":[{"severity":"warning","code":"x"}]}}""")!.AsObject())));
         Assert.Equal(fallback, DiagnosticsJson(CheckerDiagnostics.From(null)));
+    }
+
+    // A failure receipt (upstream's ARCHIFY_DIAGNOSTIC_FORMAT=json stderr): no HTML, the same codes in order, then message,
+    // severity, subject, evidence and fixes per index.
+    static void AssertReceipt(JsonNode expected, RenderResult r)
+    {
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
     }
 
     // diagnostic({ code, severity, message, subject, evidence, supportedFixes }) as JSON.stringify writes it.

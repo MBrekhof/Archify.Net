@@ -314,6 +314,20 @@ const incomplete = {
   ],
 };
 write('fixtures/diagrams/incomplete-trace.waterfall.json', incomplete);
+// Schema-valid fallback sites no other golden reaches (TEST-001, final-review I-1): each is one committed input with one edit.
+const noUnit = structuredClone(incomplete); noUnit.meta.output = 'incomplete-trace.no-unit.html'; delete noUnit.meta.unit;   // `wf.meta.unit || 'ms'` (render-waterfall.mjs), us -> ms observable
+write('fixtures/diagrams/incomplete-trace.no-unit.waterfall.json', noUnit);
+const wfWidth = ex('checkout-request.waterfall.json'); wfWidth.meta.output = 'checkout-request.width.html'; wfWidth.layout = { width: 500 };   // `wf.layout?.width ?? 760`
+write('fixtures/diagrams/checkout-request.width.waterfall.json', wfWidth);
+const noTz = ex('payment-incident.timeline.json'); noTz.meta.output = 'payment-incident.no-timezone.html'; delete noTz.meta.timezone;   // `tl.meta.timezone || 'UTC'`
+write('fixtures/diagrams/payment-incident.no-timezone.timeline.json', noTz);
+const halfTz = ex('payment-incident.timeline.json'); halfTz.meta.output = 'payment-incident.minus-half.html'; halfTz.meta.timezone = '-05:30';   // fixed offset at render level
+write('fixtures/diagrams/payment-incident.minus-half.timeline.json', halfTz);
+const lcBare = ex('agent-run.lifecycle.json'); lcBare.meta.output = 'agent-run.no-sublabel-tag.html';   // every golden state carries both: the other baseline tuples
+for (const s of lcBare.states) { delete s.sublabel; delete s.tag; }
+write('fixtures/diagrams/agent-run.no-sublabel-tag.lifecycle.json', lcBare);
+const clBare = ex('payments.class.json'); clBare.meta.output = 'payments.no-sublabel.html'; for (const t of clBare.types) delete t.sublabel;
+write('fixtures/diagrams/payments.no-sublabel.class.json', clBare);
 // Phase-2 golden targets (appended to the phase-1 array so the checker loop covers them)
 targets.push(
   ['sequence', path.join(EX, 'async-job-roundtrip.sequence.json'), 'async-job-roundtrip-rendered.html'],
@@ -326,6 +340,12 @@ targets.push(
   ['timeline', out('fixtures/diagrams/dst-new-york.timeline.json'), 'dst-new-york-rendered.html'],
   ['timeline', out('fixtures/diagrams/payment-incident.zh-CN.timeline.json'), 'payment-incident.zh-CN-rendered.html'],
   ['waterfall', out('fixtures/diagrams/incomplete-trace.waterfall.json'), 'incomplete-trace-rendered.html'],
+  ['waterfall', out('fixtures/diagrams/incomplete-trace.no-unit.waterfall.json'), 'incomplete-trace.no-unit-rendered.html'],
+  ['waterfall', out('fixtures/diagrams/checkout-request.width.waterfall.json'), 'checkout-request.width-rendered.html'],
+  ['timeline', out('fixtures/diagrams/payment-incident.no-timezone.timeline.json'), 'payment-incident.no-timezone-rendered.html'],
+  ['timeline', out('fixtures/diagrams/payment-incident.minus-half.timeline.json'), 'payment-incident.minus-half-rendered.html'],
+  ['lifecycle', out('fixtures/diagrams/agent-run.no-sublabel-tag.lifecycle.json'), 'agent-run.no-sublabel-tag-rendered.html'],
+  ['class', out('fixtures/diagrams/payments.no-sublabel.class.json'), 'payments.no-sublabel-rendered.html'],
 );
 for (const [type, input, golden] of targets) render(type, input, out(`goldens/${golden}`));
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
@@ -355,6 +375,7 @@ const sequenceFaults = [
   ['segment-label-wide', (d) => { d.segments[2].label = 'R'.repeat(220); }],
   ['legend-room', (d) => { d.meta.viewBox = [1080, 500]; d.segments.pop(); d.activations = d.activations.filter((a) => a.to < 440); d.messages = d.messages.filter((m) => m.y < 420); }],
   ['participant-overflow', (d) => { d.participants[2].label = 'API Gateway Request Handler Service Layer'; d.participants[2].sublabel = 'handles every inbound request and fans out to downstream services'; }],
+  ['duplicate-participant', (d) => { d.participants[6].id = d.participants[5].id; }],                     // `participants.size !== length` (TEST-001)
 ];
 for (const [name, fault] of sequenceFaults) {
   const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'cache-miss-request.sequence.json'), 'utf8'));
