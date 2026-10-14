@@ -14,12 +14,13 @@ internal static class Renderers
     {
         DiagramType.Architecture => new ArchitectureRenderer(),
         DiagramType.Sequence => new SequenceRenderer(),
+        DiagramType.Dataflow => new DataflowRenderer(),
         DiagramType.Lifecycle => new LifecycleRenderer(),
         DiagramType.Class => new ClassRenderer(),
         DiagramType.Tree => new TreeRenderer(),
         DiagramType.Timeline => new TimelineRenderer(),
         DiagramType.Waterfall => new WaterfallRenderer(),
-        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phases 3–4"),
+        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phases 3–4"),   // workflow, erd
     };
 }
 

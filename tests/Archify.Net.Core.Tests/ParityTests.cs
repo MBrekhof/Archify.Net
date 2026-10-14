@@ -41,7 +41,32 @@ public class ParityTests
         ["timeline", Fixtures.Fixture("diagrams/payment-incident.minus-half.timeline.json"), Fixtures.Golden("payment-incident.minus-half-rendered.html")],     // fixed offset -05:30
         ["lifecycle", Fixtures.Fixture("diagrams/agent-run.no-sublabel-tag.lifecycle.json"), Fixtures.Golden("agent-run.no-sublabel-tag-rendered.html")],
         ["class", Fixtures.Fixture("diagrams/payments.no-sublabel.class.json"), Fixtures.Golden("payments.no-sublabel-rendered.html")],
+        // Phase 3, task 4: dataflow with authored viewBox (automaticShowcase false). Rows from tests/fixtures/diagrams/phase3-manifest.json.
+        ["dataflow", Fixtures.Upstream("examples/product-analytics.dataflow.json"), Fixtures.Upstream("examples/dataflow-product-analytics.html")],
+        ["dataflow", Fixtures.Upstream("examples/event-stream.dataflow.json"), Fixtures.Golden("event-stream-rendered.html")],   // reaches the two-line repair
+        ["dataflow", Fixtures.Fixture("diagrams/label-visibility.dataflow.json"), Fixtures.Golden("label-visibility-rendered.html")],
+        ["dataflow", Fixtures.Fixture("diagrams/v1-baseline.product-analytics.dataflow.json"), Fixtures.Golden("v1-baseline.product-analytics-rendered.html")],   // standard, subtitle
+        ["dataflow", Fixtures.Fixture("diagrams/legacy-narrow.dataflow.json"), Fixtures.Golden("legacy-narrow-rendered.html")],   // no quality profile, 423px canvas
+        ["dataflow", Fixtures.Fixture("diagrams/product-analytics.brand.dataflow.json"), Fixtures.Golden("product-analytics.brand-rendered.html")],   // brand marks
     ];
+
+    // Dataflow failure receipts (same capture, from the product-analytics example with one fault each): validateDataflow's three
+    // dataflow/* codes (both raisedCanvasFits branches of node-below-area, sorted candidates for unknown-endpoint), the untyped
+    // layout/constraint problems and a pinned crossing's composition gates — messages, subjects, evidence, fixes, order.
+    [Theory]
+    [InlineData("df-unknown-endpoint")]
+    [InlineData("df-node-above-area")]
+    [InlineData("df-node-below-area")]
+    [InlineData("df-node-below-area-raised")]
+    [InlineData("df-duplicate-node")]
+    [InlineData("df-pinned-crossing")]
+    public void Dataflow_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.dataflow.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.dataflow.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Dataflow, d);
+        AssertReceipt(expected, r);
+    }
 
     [Fact] public void Waterfall_cycle_reports_upstream_code()
     {
