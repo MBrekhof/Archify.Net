@@ -334,6 +334,31 @@ try {
     { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
   throw new Error('remote brand unexpectedly rendered — the fixture URL must not resolve');
 } catch (e) { if (!e.stderr) throw e; write('fixtures/diagrams/remote-brand.expected.json', JSON.parse(String(e.stderr))); }
+// Sequence failure receipts: the sequence goldens are all clean, so these faults (one per validateSequence branch the
+// Task 5 review probed) pin the diagnostic codes, subjects, evidence and fixes. Each input is the upstream cache-miss
+// example with one edit; upstream must FAIL (exit 1, JSON receipt on stderr) or the row is skipped and reported.
+const sequenceFaults = [
+  ['label-overlap', (d) => { d.messages[3].y = 210; }],                                                   // two labels share y 210
+  ['self-message', (d) => { d.messages[2].to = 'api'; }],
+  ['note-overlap', (d) => { d.messages[4].note = 'cache lookup by tenant and user id with a fallback to the primary store when the entry is stale or missing entirely'; }],
+  ['note-canvas-limit', (d) => { d.messages[11].note = 'final render step with a long explanatory note that keeps wrapping inside the narrow lane gap until it runs past the canvas bottom edge for sure, really, many many words more'; d.messages[11].from = 'user'; d.messages[11].to = 'web'; }],
+  ['segment-border-run', (d) => { d.segments[1].from = 270; }],
+  ['segment-label-wide', (d) => { d.segments[2].label = 'R'.repeat(220); }],
+  ['legend-room', (d) => { d.meta.viewBox = [1080, 500]; d.segments.pop(); d.activations = d.activations.filter((a) => a.to < 440); d.messages = d.messages.filter((m) => m.y < 420); }],
+  ['participant-overflow', (d) => { d.participants[2].label = 'API Gateway Request Handler Service Layer'; d.participants[2].sublabel = 'handles every inbound request and fans out to downstream services'; }],
+];
+for (const [name, fault] of sequenceFaults) {
+  const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'cache-miss-request.sequence.json'), 'utf8'));
+  fault(diagram);
+  diagram.meta.output = `${name}.html`;
+  write(`fixtures/diagrams/${name}.sequence.json`, diagram);
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/sequence/render-sequence.mjs'), out(`fixtures/diagrams/${name}.sequence.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    console.warn(`sequence fault ${name} unexpectedly rendered — no receipt written`);
+    fs.rmSync(out(`goldens/${name}.html`), { force: true });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.sequence.expected.json`, JSON.parse(String(e.stderr))); }
+}
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

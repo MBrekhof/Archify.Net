@@ -206,7 +206,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
                     placementBottom: architectureLegendEntries.Count > 0
                         ? LegendY() - 32 - Legend.LegendFootprint(architectureLegendEntries, viewBox[0] - Layout.Margin * 2).ExtraHeight
                         : viewBox[1]);
-                foreach (var rect in connectionLabels) resolvedLabelPoints.Set(rect.Relation, new(rect.Lx, rect.Ly));
+                foreach (var rect in connectionLabels) resolvedLabelPoints.Set(rect.Relation, new(rect.Lx!.Value, rect.Ly!.Value));
             }
         }
 
@@ -1019,7 +1019,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
                 else
                 {
                     foreach (var c in blockedComponents)
-                        problems.Add($"Label \"{S(rect.Label)}\" overlaps component \"{c.Id}\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n{Geometry.SuggestLabelObstacleFix(rect, rect.Lx, rect.Ly, c, "component", viewBox, components.Values)}");
+                        problems.Add($"Label \"{S(rect.Label)}\" overlaps component \"{c.Id}\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n{Geometry.SuggestLabelObstacleFix(rect, rect.Lx!.Value, rect.Ly!.Value, c, "component", viewBox, components.Values)}");
                 }
                 if (enforcesBoundaryTitleComposition)
                 {
@@ -1065,7 +1065,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
                 ["y"] = Js.Round(rect.Y),
                 ["width"] = Js.Round(rect.Width),
                 ["height"] = 14,
-                ["labelAt"] = new JsonArray(Js.Round(rect.Lx), Js.Round(rect.Ly)),
+                ["labelAt"] = new JsonArray(Js.Round(rect.Lx!.Value), Js.Round(rect.Ly!.Value)),
             })]);
             JsonObject layout;
             if (grid is not null)
@@ -1137,7 +1137,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
             if (box is null) return "";
             return $"        <g data-detail=\"context\" {SvgAttrs.FocusEdgeAttrs(S(conn.Str("from")), S(conn.Str("to")), conn.Str("label"), N(index), conn.Str("id"))}>\n"
                 + $"          <rect x=\"{N(box.X)}\" y=\"{N(box.Y)}\" width=\"{N(box.Width)}\" height=\"{N(box.Height)}\" rx=\"3\" class=\"c-mask\"/>\n"
-                + $"          <text x=\"{N(box.Lx)}\" y=\"{N(box.Ly)}\" class=\"{Geometry.EdgeLabelAccent(conn.Str("variant"))}\" font-size=\"8\" text-anchor=\"middle\">{Utils.Esc(conn.Str("label"))}</text>\n"
+                + $"          <text x=\"{N(box.Lx!.Value)}\" y=\"{N(box.Ly!.Value)}\" class=\"{Geometry.EdgeLabelAccent(conn.Str("variant"))}\" font-size=\"8\" text-anchor=\"middle\">{Utils.Esc(conn.Str("label"))}</text>\n"
                 + "        </g>";
         }
 

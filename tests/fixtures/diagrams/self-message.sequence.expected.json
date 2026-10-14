@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Message \"verify JWT\" is a self-message on participant \"api\"; this Sequence renderer supports only messages between distinct participants. Participant spacing cannot repair it. Preserve the internal step's meaning and order in a supported representation such as a note on a real message or a card; do not invent a participant.",
+  "diagnostics": [
+    {
+      "code": "sequence/self-message-unsupported",
+      "severity": "error",
+      "message": "Message \"verify JWT\" is a self-message on participant \"api\"; this Sequence renderer supports only messages between distinct participants. Participant spacing cannot repair it. Preserve the internal step's meaning and order in a supported representation such as a note on a real message or a card; do not invent a participant.",
+      "subject": {
+        "diagramType": "sequence",
+        "message": "verify JWT",
+        "collection": "messages",
+        "index": 2,
+        "path": "/messages/2",
+        "id": "verify-jwt",
+        "from": "api",
+        "to": "api",
+        "fromPath": "/messages/2/from",
+        "toPath": "/messages/2/to"
+      },
+      "evidence": {
+        "participant": "api",
+        "participantPath": "/participants/2",
+        "y": 210,
+        "supportedMessageGeometry": "horizontal-between-distinct-participants"
+      },
+      "supportedFixes": []
+    }
+  ]
+}

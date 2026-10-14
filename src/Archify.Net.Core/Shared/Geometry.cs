@@ -48,8 +48,10 @@ public sealed class LabelRect
     public double Y { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
-    public double Lx { get; set; }
-    public double Ly { get; set; }
+    // The label anchor. Architecture's label records carry `lx`/`ly`; the sequence renderer's (render-sequence.mjs:374-387)
+    // have no such keys, so they stay null and never reach evidence.labelRect.
+    public double? Lx { get; set; }
+    public double? Ly { get; set; }
     public LabelRect Clone() => (LabelRect)MemberwiseClone();
 }
 
@@ -1218,13 +1220,19 @@ public static class Geometry
 
     // evidence.labelRect is the whole label record upstream (`hit.rect` is the label itself); JSON.stringify drops the
     // relation object cycle-free but keeps every own property, so emit the record's scalar fields in its shape.
-    static JsonObject LabelRectJson(LabelRect label) => new()
+    static JsonObject LabelRectJson(LabelRect label)
     {
-        ["relation"] = label.Relation.DeepClone(),
-        ["relationIndex"] = label.RelationIndex,
-        ["label"] = label.Label,
-        ["x"] = label.X, ["y"] = label.Y, ["width"] = label.Width, ["height"] = label.Height, ["lx"] = label.Lx, ["ly"] = label.Ly,
-    };
+        var json = new JsonObject
+        {
+            ["relation"] = label.Relation.DeepClone(),
+            ["relationIndex"] = label.RelationIndex,
+            ["label"] = label.Label,
+            ["x"] = label.X, ["y"] = label.Y, ["width"] = label.Width, ["height"] = label.Height,
+        };
+        if (label.Lx is { } lx) json["lx"] = lx;
+        if (label.Ly is { } ly) json["ly"] = ly;
+        return json;
+    }
 
     // How far [start, start + size) leaves [0, extent), per end of one axis. This
     // is the single definition of "inside the canvas" that both the containment

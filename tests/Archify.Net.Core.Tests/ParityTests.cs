@@ -99,6 +99,36 @@ public class ParityTests
         }
     }
 
+    // Sequence failure receipts (ARCHIFY_DIAGNOSTIC_FORMAT=json stderr of upstream, captured by tools/capture-fixtures.mjs
+    // from the cache-miss example with one fault each): validateSequence's codes, messages, subjects, evidence, fixes, order.
+    [Theory]
+    [InlineData("label-overlap")]
+    [InlineData("self-message")]
+    [InlineData("note-overlap")]
+    [InlineData("note-canvas-limit")]
+    [InlineData("segment-border-run")]
+    [InlineData("segment-label-wide")]
+    [InlineData("legend-room")]
+    [InlineData("participant-overflow")]
+    public void Sequence_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.sequence.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.sequence.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Sequence, d);
+        Assert.Equal("", r.Html);
+        var upstream = expected["diagnostics"]!.AsArray();
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        for (var i = 0; i < upstream.Count; i++)
+        {
+            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
+            Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
+            Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
+            Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
+            Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+        }
+    }
+
     [Fact] public void Non_object_root_returns_json_parse_diagnostic()
     {
         var r = ArchifyNet.Render(DiagramType.Architecture, new JsonArray());

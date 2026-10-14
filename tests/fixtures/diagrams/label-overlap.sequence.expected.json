@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Messages \"verify JWT\" and \"claims ok\" are less than 28px apart and share horizontal space — spread their y values.\n- Labels \"verify JWT\" and \"claims ok\" overlap — spread their message y values or shorten the labels.\n- [composition/label-route-clearance] showcase sequence label \"verify JWT\" on messages[2] id \"verify-jwt\" \"api\" -> \"auth\" label \"verify JWT\" is 2px from messages[3] id \"auth-claims\" \"auth\" -> \"api\" label \"claims ok\" segment 0 [551, 210] -> [406.8, 210] (label rect [440, 190, 78, 18]; minimum 4px) — spread the message y values, shorten the label, or reorder participants so the adjacent route stays visible.\n- [composition/label-route-clearance] showcase sequence label \"claims ok\" on messages[3] id \"auth-claims\" \"auth\" -> \"api\" label \"claims ok\" is 2px from messages[2] id \"verify-jwt\" \"api\" -> \"auth\" label \"verify JWT\" segment 0 [406.8, 210] -> [551, 210] (label rect [443, 190, 71, 18]; minimum 4px) — spread the message y values, shorten the label, or reorder participants so the adjacent route stays visible.",
+  "diagnostics": [
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase sequence label \"verify JWT\" on messages[2] id \"verify-jwt\" \"api\" -> \"auth\" label \"verify JWT\" is 2px from messages[3] id \"auth-claims\" \"auth\" -> \"api\" label \"claims ok\" segment 0 [551, 210] -> [406.8, 210] (label rect [440, 190, 78, 18]; minimum 4px) — spread the message y values, shorten the label, or reorder participants so the adjacent route stays visible.",
+      "subject": {
+        "diagramType": "sequence",
+        "collection": "messages",
+        "index": 2,
+        "id": "verify-jwt",
+        "from": "api",
+        "to": "auth"
+      },
+      "evidence": {
+        "label": "verify JWT",
+        "otherRelationship": {
+          "diagramType": "sequence",
+          "collection": "messages",
+          "index": 3,
+          "id": "auth-claims",
+          "from": "auth",
+          "to": "api"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 2,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "verify-jwt",
+            "from": "api",
+            "to": "auth",
+            "y": 210,
+            "label": "verify JWT",
+            "variant": "security"
+          },
+          "relationIndex": 2,
+          "label": "verify JWT",
+          "x": 439.91666666666663,
+          "y": 190,
+          "width": 78,
+          "height": 18
+        },
+        "from": [
+          551,
+          210
+        ],
+        "to": [
+          406.8333333333333,
+          210
+        ]
+      },
+      "supportedFixes": [
+        "spread the message y values, shorten the label, or reorder participants so the adjacent route stays visible"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase sequence label \"claims ok\" on messages[3] id \"auth-claims\" \"auth\" -> \"api\" label \"claims ok\" is 2px from messages[2] id \"verify-jwt\" \"api\" -> \"auth\" label \"verify JWT\" segment 0 [406.8, 210] -> [551, 210] (label rect [443, 190, 71, 18]; minimum 4px) — spread the message y values, shorten the label, or reorder participants so the adjacent route stays visible.",
+      "subject": {
+        "diagramType": "sequence",
+        "collection": "messages",
+        "index": 3,
+        "id": "auth-claims",
+        "from": "auth",
+        "to": "api"
+      },
+      "evidence": {
+        "label": "claims ok",
+        "otherRelationship": {
+          "diagramType": "sequence",
+          "collection": "messages",
+          "index": 2,
+          "id": "verify-jwt",
+          "from": "api",
+          "to": "auth"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 2,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "auth-claims",
+            "from": "auth",
+            "to": "api",
+            "y": 210,
+            "label": "claims ok",
+            "variant": "return"
+          },
+          "relationIndex": 3,
+          "label": "claims ok",
+          "x": 443.21666666666664,
+          "y": 190,
+          "width": 71.4,
+          "height": 18
+        },
+        "from": [
+          406.8333333333333,
+          210
+        ],
+        "to": [
+          551,
+          210
+        ]
+      },
+      "supportedFixes": [
+        "spread the message y values, shorten the label, or reorder participants so the adjacent route stays visible"
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Messages \"verify JWT\" and \"claims ok\" are less than 28px apart and share horizontal space — spread their y values.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Labels \"verify JWT\" and \"claims ok\" overlap — spread their message y values or shorten the labels.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

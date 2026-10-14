@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- [composition/container-border-run] sequence messages[4] id \"cache-read\" \"api\" -> \"redis\" follows segment \"Fallback\" top border for 288.3px on segment 0 [406.8, 270] -> [695.2, 270] — move the message y so it crosses a segment boundary perpendicularly or stays clearly inside the segment.\n- Segment \"Fallback\" top edge at y 270 runs along message \"read cache\" (arrow at y 270) — move the edge to at least 274 to leave the message above it, or to at most 266 to leave it below.",
+  "diagnostics": [
+    {
+      "code": "composition/container-border-run",
+      "severity": "error",
+      "message": "[composition/container-border-run] sequence messages[4] id \"cache-read\" \"api\" -> \"redis\" follows segment \"Fallback\" top border for 288.3px on segment 0 [406.8, 270] -> [695.2, 270] — move the message y so it crosses a segment boundary perpendicularly or stays clearly inside the segment.",
+      "subject": {
+        "diagramType": "sequence",
+        "collection": "messages",
+        "index": 4,
+        "id": "cache-read",
+        "from": "api",
+        "to": "redis"
+      },
+      "evidence": {
+        "frameKind": "segment",
+        "frameId": 1,
+        "frameLabel": "Fallback",
+        "side": "top",
+        "segmentIndex": 0,
+        "overlapLengthPx": 288.3,
+        "from": [
+          406.8333333333333,
+          270
+        ],
+        "to": [
+          695.1666666666666,
+          270
+        ]
+      },
+      "supportedFixes": [
+        "move the message y so it crosses a segment boundary perpendicularly or stays clearly inside the segment"
+      ]
+    },
+    {
+      "code": "sequence/segment-message-border-run",
+      "severity": "error",
+      "message": "Segment \"Fallback\" top edge at y 270 runs along message \"read cache\" (arrow at y 270) — move the edge to at least 274 to leave the message above it, or to at most 266 to leave it below.",
+      "subject": {
+        "diagramType": "sequence",
+        "collection": "segments",
+        "index": 1,
+        "path": "/segments/1/from"
+      },
+      "evidence": {
+        "segmentLabel": "Fallback",
+        "edge": "from",
+        "borderY": 270,
+        "messageIndex": 4,
+        "messageLabel": "read cache",
+        "messageY": 270,
+        "minimumClearancePx": 4
+      },
+      "supportedFixes": [
+        "set /segments/1/from to at least 274 to leave the message above it",
+        "set /segments/1/from to at most 266 to leave the message below it"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Message \"emit trace\" sits outside the readable timeline — keep y between 160 and 417.\n- Sequence content ends at y=424, leaving no room for the legend below it — set meta.viewBox[1] to at least 522 or omit meta.viewBox so the canvas grows.",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Message \"emit trace\" sits outside the readable timeline — keep y between 160 and 417.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Sequence content ends at y=424, leaving no room for the legend below it — set meta.viewBox[1] to at least 522 or omit meta.viewBox so the canvas grows.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

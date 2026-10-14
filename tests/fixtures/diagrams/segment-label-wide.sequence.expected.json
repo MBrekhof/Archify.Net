@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Segment \"RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\" label (~1158px) exceeds the segment frame's available width (976px) — shorten the label or increase meta.viewBox[0] to at least 1262.\n- Segment \"RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\" label would cover the message route of message \"read cache\" — move the segment start (from: 380) or that message so they are further apart.",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Segment \"RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\" label (~1158px) exceeds the segment frame's available width (976px) — shorten the label or increase meta.viewBox[0] to at least 1262.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "sequence/segment-label-overlap",
+      "severity": "error",
+      "message": "Segment \"RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR\" label would cover the message route of message \"read cache\" — move the segment start (from: 380) or that message so they are further apart.",
+      "subject": {
+        "diagramType": "sequence",
+        "segment": "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR",
+        "path": "/segments/2/from"
+      },
+      "evidence": {
+        "label": {
+          "x": 56,
+          "y": 270,
+          "width": 1158,
+          "height": 18
+        },
+        "attempts": 4,
+        "covered": {
+          "kind": "message route",
+          "message": "read cache",
+          "path": "/messages/4/y",
+          "bounds": {
+            "x": 413.8,
+            "y": 268,
+            "width": 274.3,
+            "height": 4
+          }
+        }
+      },
+      "supportedFixes": [
+        "set /segments/2/from to 230"
+      ]
+    }
+  ]
+}

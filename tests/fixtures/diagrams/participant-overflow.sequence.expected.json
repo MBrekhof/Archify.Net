@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Label \"API Gateway Request Handler Service Layer\" (~279px) is wider than component \"api\" (113px) — shorten the label or widen the participant box.\n- Sublabel \"handles every inbound request and fans out to downstream services\" needs ~234px at the 6px legible minimum, but participant \"api\" provides 105px — shorten the sublabel (participant boxes are 113px for this viewBox width and 7 participants).",
+  "diagnostics": [
+    {
+      "code": "sequence/participant-label-overflow",
+      "severity": "error",
+      "message": "Label \"API Gateway Request Handler Service Layer\" (~279px) is wider than component \"api\" (113px) — shorten the label or widen the participant box.",
+      "subject": {
+        "diagramType": "sequence",
+        "nodeId": "api",
+        "path": "/participants/2/label"
+      },
+      "evidence": {
+        "viewBoxWidth": 1080,
+        "participantWidth": 113,
+        "text": "API Gateway Request Handler Service Layer",
+        "requiredWidth": 278.8,
+        "availableWidth": 119
+      },
+      "supportedFixes": [
+        "shorten the participant label while preserving its role"
+      ]
+    },
+    {
+      "code": "sequence/participant-sublabel-overflow",
+      "severity": "error",
+      "message": "Sublabel \"handles every inbound request and fans out to downstream services\" needs ~234px at the 6px legible minimum, but participant \"api\" provides 105px — shorten the sublabel (participant boxes are 113px for this viewBox width and 7 participants).",
+      "subject": {
+        "diagramType": "sequence",
+        "nodeId": "api",
+        "path": "/participants/2/sublabel"
+      },
+      "evidence": {
+        "viewBoxWidth": 1080,
+        "participantWidth": 113,
+        "text": "handles every inbound request and fans out to downstream services",
+        "requiredWidth": 234,
+        "availableWidth": 105,
+        "minimumFontPx": 6
+      },
+      "supportedFixes": [
+        "shorten the participant sublabel while preserving its role or protocol; move supplementary detail into a card"
+      ]
+    }
+  ]
+}

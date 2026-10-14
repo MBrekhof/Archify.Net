@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Note on message \"read cache\" wraps to 5 lines (down to y=336) and reaches message \"miss\" at y=298 — move \"miss\" and later messages down so it sits at y=358 or below, or shorten the note.",
+  "diagnostics": [
+    {
+      "code": "sequence/note-overlap",
+      "severity": "error",
+      "message": "Note on message \"read cache\" wraps to 5 lines (down to y=336) and reaches message \"miss\" at y=298 — move \"miss\" and later messages down so it sits at y=358 or below, or shorten the note.",
+      "subject": {
+        "diagramType": "sequence",
+        "message": "read cache",
+        "path": "/messages/4/note",
+        "from": "api",
+        "to": "redis"
+      },
+      "evidence": {
+        "lines": 5,
+        "note": {
+          "x": 425.8,
+          "y": 279.6,
+          "width": 109.2,
+          "height": 56.4
+        },
+        "blocker": {
+          "message": "miss",
+          "path": "/messages/5/y",
+          "y": 298,
+          "kind": "message label",
+          "bounds": {
+            "x": 531.8,
+            "y": 278,
+            "width": 38.4,
+            "height": 18
+          }
+        },
+        "requiredY": 358
+      },
+      "supportedFixes": []
+    }
+  ]
+}

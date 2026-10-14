@@ -282,7 +282,7 @@ public static class AutomaticLabels
             // its own route; shared callers retain their existing policy. If no nearby
             // slot fits, retain the collision so validation can request more space.
             var ownSegments = segments.Where(segment => segment.RelationIndex == label.RelationIndex).ToList();
-            var baseAnchors = new List<Pt> { new(label.Lx, label.Ly) };
+            var baseAnchors = new List<Pt> { new(label.Lx!.Value, label.Ly!.Value) };
             baseAnchors.AddRange(ownSegments.Select(segment => new Pt(
                 (segment.Start.X + segment.End.X) / 2,
                 (segment.Start.Y + segment.End.Y) / 2)));

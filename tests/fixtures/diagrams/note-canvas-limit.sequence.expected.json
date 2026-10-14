@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Sequence layout validation failed:\n- Note on message \"render\" wraps to 7 lines and ends at y=556, below the canvas content limit y=535 — set meta.viewBox[1] to at least 654, move the message up, or shorten the note.\n- Sequence content ends at y=556, leaving no room for the legend below it — set meta.viewBox[1] to at least 654 or omit meta.viewBox so the canvas grows.",
+  "diagnostics": [
+    {
+      "code": "sequence/note-canvas-limit",
+      "severity": "error",
+      "message": "Note on message \"render\" wraps to 7 lines and ends at y=556, below the canvas content limit y=535 — set meta.viewBox[1] to at least 654, move the message up, or shorten the note.",
+      "subject": {
+        "diagramType": "sequence",
+        "message": "render",
+        "path": "/messages/11/note",
+        "from": "user",
+        "to": "web"
+      },
+      "evidence": {
+        "lines": 7,
+        "note": {
+          "x": 137.5,
+          "y": 477.6,
+          "width": 113.4,
+          "height": 78.4
+        },
+        "canvasLimitY": 535,
+        "viewBoxHeight": 580,
+        "requiredViewBoxHeight": 654
+      },
+      "supportedFixes": [
+        "set /meta/viewBox/1 to 654"
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Sequence content ends at y=556, leaving no room for the legend below it — set meta.viewBox[1] to at least 654 or omit meta.viewBox so the canvas grows.",
+      "subject": {
+        "diagramType": "sequence"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}
