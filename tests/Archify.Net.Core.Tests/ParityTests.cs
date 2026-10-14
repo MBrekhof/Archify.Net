@@ -76,6 +76,13 @@ public class ParityTests
         var diff = Enumerable.Range(0, node.Length).Where(i => node[i] != port[i]).ToList();
         Assert.Single(diff);
         Assert.Contains("已持有", node[diff[0]]);
+        // The only licensed difference is where the word segmenter split the label: V8 (ICU dictionary) `已持有：处理|完成或失败`,
+        // the port (per grapheme) `已持有：处|理完成或失败`. Everything else on the line — the <tspan> attributes included — must match.
+        var split = new System.Text.RegularExpressions.Regex(">已持有：处理</tspan>(<tspan [^>]*>)完成或失败<");
+        Assert.Single(split.Matches(node[diff[0]]));
+        var expectedPortLine = split.Replace(node[diff[0]], ">已持有：处</tspan>$1理完成或失败<");
+        Assert.NotEqual(node[diff[0]], expectedPortLine);
+        Assert.Equal(expectedPortLine, port[diff[0]]);
     }
 
     // Dataflow failure receipts (same capture, from the product-analytics example with one fault each): validateDataflow's three
