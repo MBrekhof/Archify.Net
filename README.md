@@ -216,5 +216,5 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 ## Credits and license
 
 Archify is by tt-a1i, building on work by Cocoon AI, and is MIT-licensed. The files under `upstream/` are copied from it
-unchanged, and its license is kept at `upstream/LICENSE`. This repository is private and carries no license of
-its own yet.
+unchanged, and its license is kept at `upstream/LICENSE`. Archify.Net is MIT-licensed as well; see `LICENSE`, which
+carries the upstream copyright notices alongside the port's.
