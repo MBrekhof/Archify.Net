@@ -11,4 +11,7 @@
     <EmbeddedResource Include="..\..\upstream\generated-brand-marks.json" LogicalName="generated-brand-marks.json" />
     <EmbeddedResource Include="..\..\upstream\brand-marks\catalog.json" LogicalName="brand-marks/catalog.json" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Archify.Net.Core.Tests" />
+  </ItemGroup>
 </Project>

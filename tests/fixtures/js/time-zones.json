@@ -107,6 +107,26 @@
     {
       "id": "UTC+8",
       "valid": false
+    },
+    {
+      "id": "utc",
+      "valid": true
+    },
+    {
+      "id": "est",
+      "valid": true
+    },
+    {
+      "id": "japan",
+      "valid": true
+    },
+    {
+      "id": "etc/utc",
+      "valid": true
+    },
+    {
+      "id": "america/new_york",
+      "valid": true
     }
   ],
   "wall": [
