@@ -1,6 +1,6 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-13 (planning session; no code yet).
+Updated 2026-10-14 (end of phase 1).
 
 ## What this repo is
 
@@ -10,32 +10,33 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 
 - Spec: `docs/superpowers/specs/2026-10-13-archify-csharp-port-design.md` (+ Opus spec review next to it)
 - Phase 1 plan: `docs/superpowers/plans/2026-10-13-phase1-foundation-architecture.md` (+ Opus plan review)
-- Task state: **board-only** — ContextBoard project id 46 (created as `arc#hify`, to be renamed `Archify.Net` in
-  the UI). Cards `PORT-001`…`PORT-006` = CARD-2166…2171, dependency-chained, all unclaimed. No `TODO.md` here.
+- Task state: **board-only**, ContextBoard project 46. Phase 1 is `PORT-001` (CARD-2166); phases 2 to 6 are
+  `PORT-002` to `PORT-006`. No `TODO.md` here.
 
-## Pending from Martin (settled in chat 2026-10-13 unless noted)
+## State at end of phase 1
 
-- Rename the folder before the next session: PowerShell, `Rename-Item -Path "C:\projects\arc#hify" -NewName
-  "Archify.Net"`. Plan Task 1 Step 0 refuses to run while the path contains `#`. The auto-memory directory key
-  changes with the path, so nothing was written to memory this session — this file is the carry-over.
-- Rename board project #46 in the ContextBoard UI (no MCP tool for it).
-- **Execution method for PORT-001 not yet chosen**: subagent-driven (recommended in chat) or native.
+- Phase 1 ran as 11 tasks: commits `1f18dd7` through `f4aa31a`, plus the docs commit that adds README and this file.
+- The facade is `Archify.Render`, `Archify.Check` and `Archify.Validate` in `src/Archify.Net.Core/Archify.cs`.
+- Parity: 6/6 architecture goldens byte-identical; 20/20 checker reports equal upstream; 11 committed checker
+  issue-path probes equal; option-level showcase on the no-profile fixture equals upstream's env-showcase output.
+- The ajv-oracle schema battery (14 cases) and all Js fixtures pass.
+- `Validate` maps checker failures with a port of upstream `checkerDiagnostics`. Its output equals upstream's on
+  every failing checker probe, pinned by SHA-256 in `ParityTests`.
+- `dotnet test` from the repo root: 217 passed, 0 failed, no warnings.
+- `master`, no remote yet.
 
-## Decisions taken (all in the spec)
+## Known deviations
 
-Library first; viewer stays JS; strict byte parity (CJK word-wrap exempt); cuts: atomic-output hardening,
-update-awareness, hand-rolled CDP (→ Playwright), remote brand capture (built-in 107 marks only), CLI commands
-compare/brands/migrate/preview. After the plan review (applied as my recommendation, Martin informed):
-in-house JSON Schema 2020-12 evaluator with an ajv oracle instead of JsonSchema.Net (OSMF fee EULA + four
-semantic divergences); library output-path check is lexical, `path-semantics`/`sidecar-path` → phase 5.
-Reviewer: Codex unavailable → Claude Opus subagent reviews spec, plan, and each phase diff.
+Listed in `README.md` under "Known deviations from upstream". The CJK word-wrap exemption is not yet reachable.
+`Render` throws `NotSupportedException` for the nine types that land in phases 2 to 4.
 
-## Next step
+## Dev-time tooling
 
-Martin picks the execution method → execute PORT-001 per the plan (`superpowers:subagent-driven-development`
-or `superpowers:executing-plans`). First concrete action in the renamed repo is Task 1 Step 1 (`.gitattributes`,
-`-text` lines last) before any upstream byte is copied.
+`tools/capture-fixtures.mjs` mints fixtures from upstream. It needs Node 24 and `C:\projects\archify` at
+`c21c31ff`. CI never runs it; the test suite only reads what it committed.
 
-## Git
+## Next phase
 
-`master`, 7 docs-only commits, no remote yet. Latest: `ca9d77f`.
+`PORT-002`: erd/grid, sequence, lifecycle, class, tree, timeline and waterfall renderers. Plan:
+`docs/superpowers/plans/2026-10-14-phase2-renderers.md`, with its Opus review next to it. The plan is being
+revised after that review and is not committed yet.
