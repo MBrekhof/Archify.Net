@@ -81,3 +81,18 @@ every ruling and the deferred minors that go to the phase-2 final review.
 
 `PORT-003`: workflow and dataflow renderers, including the `joinRoutePoints` memo above. `PORT-004`: the erd renderer,
 which reuses `ErdGrid`, and repository evidence.
+
+## Resume point (2026-10-14 ~20:00, session stopped for a reset)
+
+- Phase 2 is implemented and task-reviewed through Task 11. The final whole-branch review (fable) returned "With fixes":
+  one Important (pin seven untested fallback inputs) and seven Minors. The fix wave landed as `47d59b0` (364 tests,
+  exit 0): six new fixture goldens, one sequence receipt, the receipt-compare helper, `Js.SplitOnChar` assertions,
+  `N(index)` in tree diagnostics, `JsTime` comments, the zone-id invariant fact, and one renderer change (an unknown
+  class-member visibility no longer draws a chip, per render-class.mjs:914-917; schema-unreachable, so untested).
+  The Windows-only `JsTimeTests` facts were left as they are.
+- **Next step:** the scoped re-review of the fix wave, `9b1af5e..47d59b0`, by agy (task reviews moved to agy from
+  Task 9 on; invocation in Claude's memory, prompt shape in `.superpowers/sdd/2026-10-14-phase2-renderers/task-10-review-prompt.md`).
+  Package it code-only: the goldens add about 90k lines. Then settle residuals, collect every `Ruling:` line from the
+  ledger for Martin, and wait for his go before closing PORT-002 or pushing.
+- TEST-001 (CARD-2176) keeps the ten remaining untested inputs.
+- The ledger with every ruling: `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`.
