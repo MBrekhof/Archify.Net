@@ -82,7 +82,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
         readonly JsMap<string, int> nodeSteps = new();
         readonly JsMap<JsonObject, RoutedPath> pathCache = new();
         JsMap<JsonObject, SpreadPorts> automaticPorts = new();
-        readonly JsSet<JsonObject> resolvedCrossoverFlows = new();
+        JsSet<JsonObject> resolvedCrossoverFlows = new();   // `.clear()` at :1373 → a fresh set
         List<JsonObject> routable = [];
         const double DETOUR_NODE_GAP = 12;
         const double ENDPOINT_STUB = 24;

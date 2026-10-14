@@ -48,7 +48,35 @@ public class ParityTests
         ["dataflow", Fixtures.Fixture("diagrams/v1-baseline.product-analytics.dataflow.json"), Fixtures.Golden("v1-baseline.product-analytics-rendered.html")],   // standard, subtitle
         ["dataflow", Fixtures.Fixture("diagrams/legacy-narrow.dataflow.json"), Fixtures.Golden("legacy-narrow-rendered.html")],   // no quality profile, 423px canvas
         ["dataflow", Fixtures.Fixture("diagrams/product-analytics.brand.dataflow.json"), Fixtures.Golden("product-analytics.brand-rendered.html")],   // brand marks
+        // Phase 3, task 5: automatic showcase (no viewBox, showcase profile) — clusters B/C/H/I/M/N/O. five-stage is standard (automatic
+        // width only); first-draft.mixed-port-recovery is the R1 deviation fact below.
+        ["dataflow", Fixtures.Fixture("diagrams/bidirectional-labels.dataflow.json"), Fixtures.Golden("bidirectional-labels-rendered.html")],
+        ["dataflow", Fixtures.Fixture("diagrams/first-draft.joint-label-routing.dataflow.json"), Fixtures.Golden("first-draft.joint-label-routing-rendered.html")],   // zh-CN, repairLabelRoutes
+        ["dataflow", Fixtures.Fixture("diagrams/first-draft.ml-features.dataflow.json"), Fixtures.Golden("first-draft.ml-features-rendered.html")],   // crossover halos
+        ["dataflow", Fixtures.Fixture("diagrams/first-draft.rejected-grid-recovery.dataflow.json"), Fixtures.Golden("first-draft.rejected-grid-recovery-rendered.html")],
+        ["dataflow", Fixtures.Fixture("diagrams/first-draft.vertical-label-corridor.dataflow.json"), Fixtures.Golden("first-draft.vertical-label-corridor-rendered.html")],
+        ["dataflow", Fixtures.Fixture("diagrams/first-draft.vertical-label-neighbour.dataflow.json"), Fixtures.Golden("first-draft.vertical-label-neighbour-rendered.html")],
+        ["dataflow", Fixtures.Fixture("diagrams/five-stage.dataflow.json"), Fixtures.Golden("five-stage-rendered.html")],   // standard, automatic width
+        ["dataflow", Fixtures.Fixture("diagrams/pipeline.dataflow.json"), Fixtures.Golden("pipeline-rendered.html")],
     ];
+
+    [Fact] public void Dataflow_quality_option_switches_the_automatic_layout_like_the_env_var()   // Review Focus 2
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/five-stage.dataflow.json")));
+        var r = ArchifyNet.Render(DiagramType.Dataflow, d, new RenderOptions(Quality: QualityProfile.Showcase));
+        Assert.Equal(Fixtures.Lf(Fixtures.Golden("five-stage.option-showcase-rendered.html")), r.Html);
+    }
+
+    [Fact] public void Mixed_port_recovery_differs_from_upstream_only_in_the_dictionary_wrapped_label()   // R1 deviation
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/first-draft.mixed-port-recovery.dataflow.json")));
+        var port = ArchifyNet.Render(DiagramType.Dataflow, d).Html.Split('\n');
+        var node = Fixtures.Lf(Fixtures.Golden("first-draft.mixed-port-recovery-rendered.html")).Split('\n');
+        Assert.Equal(node.Length, port.Length);
+        var diff = Enumerable.Range(0, node.Length).Where(i => node[i] != port[i]).ToList();
+        Assert.Single(diff);
+        Assert.Contains("已持有", node[diff[0]]);
+    }
 
     // Dataflow failure receipts (same capture, from the product-analytics example with one fault each): validateDataflow's three
     // dataflow/* codes (both raisedCanvasFits branches of node-below-area, sorted candidates for unknown-endpoint), the untyped
