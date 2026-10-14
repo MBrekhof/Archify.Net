@@ -19,7 +19,7 @@ internal static class Renderers
         DiagramType.Tree => new TreeRenderer(),
         DiagramType.Timeline => new TimelineRenderer(),
         DiagramType.Waterfall => new WaterfallRenderer(),
-        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phase 2–4"),
+        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phases 3–4"),
     };
 }
 
@@ -27,6 +27,19 @@ internal static class Renderers
 // (`Archify.Render` binds to the root namespace, CS0234).
 public static class ArchifyNet
 {
+    /// <summary>Runs the load gates and the typed renderer; problems come back as diagnostics, never as exceptions.</summary>
+    /// <exception cref="NotSupportedException">The diagram type lands in phases 3–4 (workflow, dataflow, erd).</exception>
+    /// <remarks>
+    /// Known deviations from upstream (full list in README.md, "Known deviations from upstream"):
+    /// CJK word breaks in sequence notes: upstream segments Han runs with ICU's word dictionary, the port breaks them per grapheme;
+    /// every other text path, zh-CN included, is byte-exact.
+    /// Time zones use the operating system's zone table, not Node's tzdata: before a zone's first transition the port shows the base
+    /// offset (an <c>Asia/Shanghai</c> event at <c>0001-01-01T00:00:00Z</c> is <c>UTC+08:06</c> upstream, <c>UTC+08:00</c> here), and before
+    /// the table's first adjustment rule that rule is extrapolated backwards (<c>Pacific/Chatham</c> and <c>Australia/Lord_Howe</c> in 1970
+    /// read +13:45/+11:00 instead of +12:45/+10:00). UTC and fixed offsets are exact for every year.
+    /// <c>Date.parse</c> outside the timeline schema's timestamp shape is NaN in the port; the schema gate rejects such strings before
+    /// any renderer runs.
+    /// </remarks>
     public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)
     {
         // Ruling 3: a non-object root reports input/json-parse the way DiagramLoader.Parse does, never throws.
@@ -41,7 +54,7 @@ public static class ArchifyNet
         {
             DiagramLoader.Load(type, root, ctx);                                   // cli.mjs loadDiagram gates
             ctx.Brands.PrepareDiagramBrandMarks(type, root, ctx.Diagnostics);      // loadDiagramWithBrandMarks
-            var renderer = Renderers.For(type);                                    // phase 1: Architecture only
+            var renderer = Renderers.For(type);                                    // workflow, dataflow, erd throw (phases 3–4)
             var (svg, cards, layout) = renderer.Render(ctx);
             var meta = root["meta"]!.AsObject();
             var cardsHtml = Utils.RenderCards(cards);
