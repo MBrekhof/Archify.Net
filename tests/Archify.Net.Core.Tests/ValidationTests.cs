@@ -253,4 +253,36 @@ public class ValidationTests
             """{"code":"engineering/deployment-private-region-consistency","severity":"error","message":"Private boundary \"private application network\" must contain components from exactly one shared region.","subject":{"diagramType":"architecture","profile":"deployment-ownership","collection":"boundaries","index":0},"evidence":{"boundaryKind":"security-group","members":[{"id":"api_a","regions":[]},{"id":"api_b","regions":[]},{"id":"redis","regions":[]},{"id":"postgres","regions":[]},{"id":"events","regions":[]},{"id":"worker","regions":[]}]},"supportedFixes":["assign every private-boundary component to exactly one shared region boundary"]}""",
         ], all.Where((x, i) => i < 2 || x.Code.EndsWith("consistency")).Take(3).Select(Json));
     }
+
+    public static IEnumerable<object[]> GoldenSchemaCases() =>
+    [   // golden.mjs line, type, example, mutation name, expected code, expected instance path
+        ["182 tree node without a label", "tree", "payment-platform.tree.json", "schema/required", "/nodes/1"],
+        ["184 unknown tree direction", "tree", "payment-platform.tree.json", "schema/enum", "/layout/direction"],
+        ["186 type without a kind", "class", "payments.class.json", "schema/required", "/types/0"],
+        ["188 unknown relationship kind", "class", "payments.class.json", "schema/enum", "/relationships/0/kind"],
+        ["190 unknown member visibility", "class", "payments.class.json", "schema/enum", "/types/0/methods/0/visibility"],
+        ["192 timeline timestamp without an offset", "timeline", "payment-incident.timeline.json", "schema/pattern", "/events/0/at"],
+        ["194 timeline without evidence status", "timeline", "payment-incident.timeline.json", "schema/required", "/meta"],
+        ["196 negative span start", "waterfall", "checkout-request.waterfall.json", "schema/minimum", "/spans/0/start"],
+        ["198 waterfall without evidence status", "waterfall", "checkout-request.waterfall.json", "schema/required", "/meta"],
+    ];
+
+    [Theory, MemberData(nameof(GoldenSchemaCases))]
+    public void Golden_schema_failure_cases(string name, string type, string file, string code, string path)
+    {
+        var d = Example(file);
+        switch (name[..3])
+        {
+            case "182": d["nodes"]![1]!.AsObject().Remove("label"); break;
+            case "184": d["layout"] = new JsonObject { ["direction"] = "up" }; break;
+            case "186": d["types"]![0]!.AsObject().Remove("kind"); break;
+            case "188": d["relationships"]![0]!["kind"] = "uses"; break;
+            case "190": d["types"]![0]!["methods"]![0]!["visibility"] = "internal"; break;
+            case "192": d["events"]![0]!["at"] = "2026-10-01T10:00:00"; break;
+            case "194": case "198": d["meta"]!.AsObject().Remove("evidence"); break;
+            case "196": d["spans"]![0]!["start"] = -1; break;
+        }
+        var ex = Fails(DiagramTypes.Parse(type), DiagramLoader.Normalize(d));
+        Assert.Contains(ex.Diagnostics, x => x.Code == code && x.Path == path);
+    }
 }
