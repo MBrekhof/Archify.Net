@@ -1,6 +1,6 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-14 (end of phase 2).
+Updated 2026-10-14 (phase 2 closed).
 
 ## What this repo is
 
@@ -14,7 +14,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md` (+ Opus plan review)
 - Task state: **board-only**, ContextBoard project 46. Phase 1 is `PORT-001` (CARD-2166), phase 2 is `PORT-002`
   (CARD-2167); phases 3 to 6 are `PORT-003` to `PORT-006`. No `TODO.md` here.
-- `master`, no remote yet.
+- `master`, remote `origin` = https://github.com/MBrekhof/Archify.Net (private, `gh` account `MBrekhof`).
 
 ## State at end of phase 2
 
@@ -82,17 +82,10 @@ every ruling and the deferred minors that go to the phase-2 final review.
 `PORT-003`: workflow and dataflow renderers, including the `joinRoutePoints` memo above. `PORT-004`: the erd renderer,
 which reuses `ErdGrid`, and repository evidence.
 
-## Resume point (2026-10-14 ~20:00, session stopped for a reset)
+## Phase 2 closed (2026-10-14)
 
-- Phase 2 is implemented and task-reviewed through Task 11. The final whole-branch review (fable) returned "With fixes":
-  one Important (pin seven untested fallback inputs) and seven Minors. The fix wave landed as `47d59b0` (364 tests,
-  exit 0): six new fixture goldens, one sequence receipt, the receipt-compare helper, `Js.SplitOnChar` assertions,
-  `N(index)` in tree diagnostics, `JsTime` comments, the zone-id invariant fact, and one renderer change (an unknown
-  class-member visibility no longer draws a chip, per render-class.mjs:914-917; schema-unreachable, so untested).
-  The Windows-only `JsTimeTests` facts were left as they are.
-- **Next step:** the scoped re-review of the fix wave, `9b1af5e..47d59b0`, by agy (task reviews moved to agy from
-  Task 9 on; invocation in Claude's memory, prompt shape in `.superpowers/sdd/2026-10-14-phase2-renderers/task-10-review-prompt.md`).
-  Package it code-only: the goldens add about 90k lines. Then settle residuals, collect every `Ruling:` line from the
-  ledger for Martin, and wait for his go before closing PORT-002 or pushing.
+- The final review's fix wave `47d59b0` was re-reviewed by agy: Approved, no findings. PORT-002 is completed on the
+  board; the README was rewritten (`30e74e3`) and the repo was pushed to GitHub (private).
 - TEST-001 (CARD-2176) keeps the ten remaining untested inputs.
-- The ledger with every ruling: `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`.
+- **Next step:** plan PORT-003 (workflow and dataflow, including the `joinRoutePoints` memo above).
+- The phase-2 ledger with every ruling: `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`.
