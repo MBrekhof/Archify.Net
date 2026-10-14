@@ -14,7 +14,20 @@ public class ParityTests
         ["architecture", Fixtures.Upstream("examples/checkout-platform.base.architecture.json"), Fixtures.Golden("checkout-platform.base-rendered.html")],
         ["architecture", Fixtures.Upstream("examples/checkout-platform.head.architecture.json"), Fixtures.Golden("checkout-platform.head-rendered.html")],
         ["architecture", Fixtures.Fixture("diagrams/web-app.no-profile.architecture.json"), Fixtures.Golden("web-app.no-profile-rendered.html")],
+        ["sequence", Fixtures.Upstream("examples/cache-miss-request.sequence.json"), Fixtures.Upstream("examples/sequence-cache-miss-request.html")],
+        ["sequence", Fixtures.Upstream("examples/async-job-roundtrip.sequence.json"), Fixtures.Golden("async-job-roundtrip-rendered.html")],
+        ["sequence", Fixtures.Fixture("diagrams/note-wrap.sequence.json"), Fixtures.Golden("note-wrap-rendered.html")],
+        ["sequence", Fixtures.Fixture("diagrams/brand-participants.sequence.json"), Fixtures.Golden("brand-participants-rendered.html")],
     ];
+
+    [Fact] public void Sequence_unknown_endpoint_reports_upstream_code()
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/cache-miss-request.sequence.json")));
+        d["messages"]![0]!["to"] = "nobody";
+        var r = ArchifyNet.Render(DiagramType.Sequence, d);
+        Assert.Equal("", r.Html);
+        Assert.Contains(r.Diagnostics, x => x.Code == "sequence/unknown-endpoint" && x.Path == "/messages/0/to");
+    }
 
     [Theory, MemberData(nameof(Targets))]
     public void Render_is_byte_identical_to_upstream(string type, string input, string golden)

@@ -13,6 +13,7 @@ internal static class Renderers
     public static IDiagramRenderer For(DiagramType type) => type switch
     {
         DiagramType.Architecture => new ArchitectureRenderer(),
+        DiagramType.Sequence => new SequenceRenderer(),
         _ => throw new NotSupportedException($"{type.Name()} renderer lands in phase 2–4"),
     };
 }
