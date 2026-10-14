@@ -1068,10 +1068,16 @@ public static class Geometry
 
     public static List<string> CleanBorderRunProblems(DiagnosticSink sink, JsonNode? relations, JsSet<string>? endpointIds, IEnumerable<Frame>? frames,
         Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string? profile, bool profileIsAuthoritative = false,
+        string routeHint = "adjust route/via or channel coordinates so the relationship crosses the frame perpendicularly through a clear opening") =>
+        CleanBorderRunProblems(sink, AsArray(relations), endpointIds, frames, pathFor, diagramType, relationCollection, profile, profileIsAuthoritative, routeHint);
+
+    // The list overload (see CleanEndpointSideProblems): workflow passes its authored edge list (workflow-compiler.mjs:2916).
+    public static List<string> CleanBorderRunProblems(DiagnosticSink sink, IEnumerable<JsonNode?>? relations, JsSet<string>? endpointIds, IEnumerable<Frame>? frames,
+        Func<JsonObject, List<Pt>?> pathFor, string diagramType, string relationCollection, string? profile, bool profileIsAuthoritative = false,
         string routeHint = "adjust route/via or channel coordinates so the relationship crosses the frame perpendicularly through a clear opening")
     {
         if (!Truthy(QualityProfileForGate(profile, profileIsAuthoritative))) return [];
-        var routedRelations = CollectEligibleRoutedRelations(AsArray(relations), endpointIds, pathFor);
+        var routedRelations = CollectEligibleRoutedRelations(relations, endpointIds, pathFor);
         var problems = new List<string>();
         foreach (var hit in CollectBorderRuns(routedRelations, frames))
         {

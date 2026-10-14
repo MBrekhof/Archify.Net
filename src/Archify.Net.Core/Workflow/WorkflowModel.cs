@@ -168,7 +168,7 @@ internal static class WorkflowModel
         return (left, width, left + width / 2);
     }
 
-    static bool VerticalIntervalsOverlap(JsonObject a, JsonObject b, double clearance) =>
+    internal static bool VerticalIntervalsOverlap(JsonObject a, JsonObject b, double clearance) =>
         Math.Abs(NumberOr0(a["yOffset"]) - NumberOr0(b["yOffset"])) < AuthoredNodeHeight(a) / 2 + AuthoredNodeHeight(b) / 2 + clearance;
 
     // ---------------------------------------------------------------- B (:233-661)

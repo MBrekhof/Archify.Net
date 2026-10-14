@@ -58,6 +58,13 @@ public class ParityTests
         ["dataflow", Fixtures.Fixture("diagrams/first-draft.vertical-label-neighbour.dataflow.json"), Fixtures.Golden("first-draft.vertical-label-neighbour-rendered.html")],
         ["dataflow", Fixtures.Fixture("diagrams/five-stage.dataflow.json"), Fixtures.Golden("five-stage-rendered.html")],   // standard, automatic width
         ["dataflow", Fixtures.Fixture("diagrams/pipeline.dataflow.json"), Fixtures.Golden("pipeline-rendered.html")],
+        // Phase 3, task 7: workflow schema v1 (fixed-v1 contract) — clusters G, I1, J, K3/K4 v1, K8, L, M, N and the legacy capacity repair.
+        ["workflow", Fixtures.Upstream("examples/incident-response.workflow.json"), Fixtures.Golden("incident-response-rendered.html")],   // one via
+        ["workflow", Fixtures.Upstream("examples/release-delivery.workflow.json"), Fixtures.Golden("release-delivery-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/border-clearance.workflow.json"), Fixtures.Golden("border-clearance-rendered.html")],   // authored viewBox
+        ["workflow", Fixtures.Fixture("diagrams/v1-700x400.workflow.json"), Fixtures.Golden("v1-700x400-rendered.html")],   // no quality profile
+        ["workflow", Fixtures.Fixture("diagrams/v1-explicit-coordinates.workflow.json"), Fixtures.Golden("v1-explicit-coordinates-rendered.html")],   // via/labelAt/channel pins
+        ["workflow", Fixtures.Fixture("diagrams/v1-baseline.agent-tool-call.workflow.json"), Fixtures.Golden("v1-baseline.agent-tool-call-rendered.html")],   // presets, sides, label offsets
     ];
 
     [Fact] public void Dataflow_quality_option_switches_the_automatic_layout_like_the_env_var()   // Review Focus 2
@@ -100,6 +107,19 @@ public class ParityTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.dataflow.json")));
         var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.dataflow.expected.json")))!;
         var r = ArchifyNet.Render(DiagramType.Dataflow, d);
+        AssertReceipt(expected, r);
+    }
+
+    // Workflow failure receipts (same capture, from the incident-response example with one fault each): validateWorkflow's
+    // mainPath check with its verified repoint fixes (acceptsFix recompiles every candidate). wf-v1-column-capacity needs the
+    // migration recompile (Task 10).
+    [Theory]
+    [InlineData("wf-unknown-main-path")]
+    public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));
+        var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.expected.json")))!;
+        var r = ArchifyNet.Render(DiagramType.Workflow, d);
         AssertReceipt(expected, r);
     }
 
