@@ -1,0 +1,1203 @@
+{
+  "flowLabelHeight": 16,
+  "sizes": [
+    {
+      "flow": {
+        "label": "x"
+      },
+      "lines": null,
+      "size": {
+        "width": 34,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": "save / copy result"
+      },
+      "lines": null,
+      "size": {
+        "width": 100.2,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": "保存 / 复制结果"
+      },
+      "lines": null,
+      "size": {
+        "width": 85.5,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": "👩‍💻 / é result"
+      },
+      "lines": null,
+      "size": {
+        "width": 95.3,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": "clickstream events with a rather long description of the payload"
+      },
+      "lines": null,
+      "size": {
+        "width": 325.6,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": ""
+      },
+      "lines": null,
+      "size": {
+        "width": 34,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": "save",
+        "classification": "private"
+      },
+      "lines": null,
+      "size": {
+        "width": 46.3,
+        "height": 27
+      }
+    },
+    {
+      "flow": {
+        "label": "x",
+        "classification": "a much longer classification text"
+      },
+      "lines": null,
+      "size": {
+        "width": 173.7,
+        "height": 27
+      }
+    },
+    {
+      "flow": {
+        "label": "复制结果",
+        "classification": "机密"
+      },
+      "lines": null,
+      "size": {
+        "width": 51.2,
+        "height": 27
+      }
+    },
+    {
+      "flow": {
+        "label": "save",
+        "classification": ""
+      },
+      "lines": null,
+      "size": {
+        "width": 34,
+        "height": 16
+      }
+    },
+    {
+      "flow": {
+        "label": "save / copy result"
+      },
+      "lines": [
+        "save / ",
+        "copy result"
+      ],
+      "size": {
+        "width": 65.9,
+        "height": 27
+      }
+    },
+    {
+      "flow": {
+        "label": "保存 / 复制结果",
+        "classification": "pii"
+      },
+      "lines": [
+        "保存 / ",
+        "复制结果"
+      ],
+      "size": {
+        "width": 51.2,
+        "height": 38
+      }
+    },
+    {
+      "flow": {
+        "label": "a b c"
+      },
+      "lines": [
+        "a",
+        "b",
+        "c"
+      ],
+      "size": {
+        "width": 34,
+        "height": 38
+      }
+    },
+    {
+      "flow": {
+        "label": "x",
+        "classification": "restricted"
+      },
+      "lines": [
+        "x"
+      ],
+      "size": {
+        "width": 61,
+        "height": 27
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "name": "blocked: 保存 / 复制结果",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": false,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 51.2,
+          "height": 27,
+          "lx": 250.4,
+          "ly": 193,
+          "x": 224.8,
+          "y": 182,
+          "lines": [
+            "保存 / ",
+            "复制结果"
+          ],
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果"
+          }
+        }
+      ]
+    },
+    {
+      "name": "blocked: save / copy result",
+      "dictionary": false,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "save / copy result",
+            "width": 100.2,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 200.9,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "save / copy result"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": false,
+          "relationIndex": 0,
+          "label": "save / copy result",
+          "width": 65.9,
+          "height": 27,
+          "lx": 243.05,
+          "ly": 193,
+          "x": 210.1,
+          "y": 182,
+          "lines": [
+            "save / ",
+            "copy result"
+          ],
+          "relation": {
+            "id": "output",
+            "label": "save / copy result"
+          }
+        }
+      ]
+    },
+    {
+      "name": "blocked: 👩‍💻 / é result",
+      "dictionary": false,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "👩‍💻 / é result",
+            "width": 95.3,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 203.35,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "👩‍💻 / é result"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": false,
+          "relationIndex": 0,
+          "label": "👩‍💻 / é result",
+          "width": 56.1,
+          "height": 27,
+          "lx": 247.95000000000002,
+          "ly": 193,
+          "x": 219.9,
+          "y": 182,
+          "lines": [
+            "👩‍💻 / ",
+            "é result"
+          ],
+          "relation": {
+            "id": "output",
+            "label": "👩‍💻 / é result"
+          }
+        }
+      ]
+    },
+    {
+      "name": "valid: save",
+      "dictionary": false,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "save",
+            "width": 34,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 234,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "save"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "save",
+          "width": 34,
+          "height": 16,
+          "lx": 251,
+          "ly": 203,
+          "x": 234,
+          "y": 192,
+          "relation": {
+            "id": "output",
+            "label": "save"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pinned: labelAt",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果",
+              "labelAt": [
+                251,
+                203
+              ]
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 85.5,
+          "height": 16,
+          "lx": 251,
+          "ly": 203,
+          "x": 208.25,
+          "y": 192,
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果",
+            "labelAt": [
+              251,
+              203
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "pinned: labelDx",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果",
+              "labelDx": 0
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 85.5,
+          "height": 16,
+          "lx": 251,
+          "ly": 203,
+          "x": 208.25,
+          "y": 192,
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果",
+            "labelDx": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "pinned: labelDy",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果",
+              "labelDy": 0
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 85.5,
+          "height": 16,
+          "lx": 251,
+          "ly": 203,
+          "x": 208.25,
+          "y": 192,
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果",
+            "labelDy": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "pinned: labelSegment",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果",
+              "labelSegment": 0
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 85.5,
+          "height": 16,
+          "lx": 251,
+          "ly": 203,
+          "x": 208.25,
+          "y": 192,
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果",
+            "labelSegment": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "classified",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 27,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果",
+              "classification": "private"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": false,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 51.2,
+          "height": 38,
+          "lx": 250.4,
+          "ly": 182,
+          "x": 224.8,
+          "y": 171,
+          "lines": [
+            "保存 / ",
+            "复制结果"
+          ],
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果",
+            "classification": "private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exhausted",
+      "dictionary": true,
+      "input": {
+        "labels": [
+          {
+            "relationIndex": 0,
+            "label": "保存 / 复制结果",
+            "width": 85.5,
+            "height": 16,
+            "lx": 251,
+            "ly": 203,
+            "x": 208.25,
+            "y": 192,
+            "relation": {
+              "id": "output",
+              "label": "保存 / 复制结果"
+            }
+          }
+        ],
+        "routes": [
+          {
+            "relationIndex": 0,
+            "points": [
+              [
+                201,
+                213
+              ],
+              [
+                301,
+                213
+              ]
+            ]
+          },
+          {
+            "relationIndex": 1,
+            "points": [
+              [
+                280,
+                257
+              ],
+              [
+                280,
+                50
+              ]
+            ]
+          },
+          {
+            "relationIndex": 2,
+            "points": [
+              [
+                42,
+                161
+              ],
+              [
+                279.5,
+                161
+              ]
+            ]
+          }
+        ],
+        "components": [
+          {
+            "x": 89,
+            "y": 184,
+            "width": 112,
+            "height": 58
+          },
+          {
+            "x": 301,
+            "y": 184,
+            "width": 118,
+            "height": 58
+          },
+          {
+            "x": 205,
+            "y": 0,
+            "width": 92,
+            "height": 300
+          }
+        ],
+        "titles": [],
+        "viewBox": [
+          468,
+          355
+        ],
+        "placementBottom": 281
+      },
+      "output": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "保存 / 复制结果",
+          "width": 85.5,
+          "height": 16,
+          "lx": 251,
+          "ly": 203,
+          "x": 208.25,
+          "y": 192,
+          "relation": {
+            "id": "output",
+            "label": "保存 / 复制结果"
+          }
+        }
+      ]
+    }
+  ]
+}

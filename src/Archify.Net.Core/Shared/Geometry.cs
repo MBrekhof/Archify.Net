@@ -52,6 +52,9 @@ public sealed class LabelRect
     // have no such keys, so they stay null and never reach evidence.labelRect.
     public double? Lx { get; set; }
     public double? Ly { get; set; }
+    // A dataflow plate wrapped onto two rows (label-capacity.mjs:35, :69); null renders `label` on one row. Clone() shares the
+    // list like upstream's spread; nothing mutates it.
+    public IReadOnlyList<string>? Lines { get; set; }
     public LabelRect Clone() => (LabelRect)MemberwiseClone();
 }
 

@@ -789,6 +789,115 @@ for (const f of fs.readdirSync(EX).filter((f) => /\.(workflow|dataflow)\.json$/.
 for (const { input } of p3Rows) strWalk(JSON.parse(fs.readFileSync(path.join(ROOT, input), 'utf8')));
 write('fixtures/js/word-breaks.json', [...wordTexts].filter((text) => text.length <= 200).sort()
   .map((text) => ({ text, dictionary: DICT.test(text), words: [...wordSeg3.segment(text)].map((s) => s.segment) })));
+// --- dataflow label-capacity.mjs: flowLabelSize on a battery, wrapBlockedFlowLabels on the scenes of T/dataflow-label-capacity.test.mjs.
+// `dictionary` marks scenes whose label holds a dictionary script (R1): there the port's per-grapheme breaks may pick another split. ---
+const lc = await imp('renderers/dataflow/label-capacity.mjs');
+const sizeFlows = [
+  [{ label: 'x' }], [{ label: 'save / copy result' }], [{ label: '保存 / 复制结果' }], [{ label: '👩‍💻 / é result' }],
+  [{ label: 'clickstream events with a rather long description of the payload' }], [{ label: '' }],
+  [{ label: 'save', classification: 'private' }], [{ label: 'x', classification: 'a much longer classification text' }],
+  [{ label: '复制结果', classification: '机密' }], [{ label: 'save', classification: '' }],
+  [{ label: 'save / copy result' }, ['save / ', 'copy result']], [{ label: '保存 / 复制结果', classification: 'pii' }, ['保存 / ', '复制结果']],
+  [{ label: 'a b c' }, ['a', 'b', 'c']], [{ label: 'x', classification: 'restricted' }, ['x']],
+];
+// fixture() verbatim from T/dataflow-label-capacity.test.mjs:6-20; the scene edits verbatim from :22, :43-48, :52-57.
+function lcFixture(text = '保存 / 复制结果') {
+  const relation = { id: 'output', label: text };
+  const size = lc.flowLabelSize(relation);
+  return {
+    labels: [{ relation, relationIndex: 0, label: text, ...size, lx: 251, ly: 203,
+      x: 251 - size.width / 2, y: 192 }],
+    routes: [
+      { relationIndex: 0, points: [[201, 213], [301, 213]] },
+      { relationIndex: 1, points: [[280, 257], [280, 50]] },
+      { relationIndex: 2, points: [[42, 161], [279.5, 161]] },
+    ],
+    components: [{ x: 89, y: 184, width: 112, height: 58 }, { x: 301, y: 184, width: 118, height: 58 }],
+    titles: [], viewBox: [468, 355], placementBottom: 281,
+  };
+}
+const lcScenes = [];
+for (const text of ['保存 / 复制结果', 'save / copy result', '👩‍💻 / é result']) lcScenes.push([`blocked: ${text}`, lcFixture(text)]);
+lcScenes.push(['valid: save', lcFixture('save')]);
+for (const key of ['labelAt', 'labelDx', 'labelDy', 'labelSegment']) {
+  const scene = lcFixture(); scene.labels[0].relation[key] = key === 'labelAt' ? [251, 203] : 0;
+  lcScenes.push([`pinned: ${key}`, scene]);
+}
+const classified = lcFixture(); classified.labels[0].relation.classification = 'private';
+Object.assign(classified.labels[0], lc.flowLabelSize(classified.labels[0].relation));
+lcScenes.push(['classified', classified]);
+const exhausted = lcFixture(); exhausted.components.push({ x: 205, y: 0, width: 92, height: 300 });
+lcScenes.push(['exhausted', exhausted]);
+const LABEL_KEYS = new Set(['relation', 'relationIndex', 'label', 'x', 'y', 'width', 'height', 'lx', 'ly', 'lines']);
+const labelJson = (rect) => {
+  const extra = Object.keys(rect).filter((k) => !LABEL_KEYS.has(k));
+  if (extra.length) throw new Error(`label rect carries unported keys: ${extra}`);
+  const { relation, ...rest } = rect;
+  return { ...rest, relation };
+};
+write('fixtures/js/label-capacity.json', {
+  flowLabelHeight: lc.FLOW_LABEL_HEIGHT,
+  sizes: sizeFlows.map(([flow, lines]) => ({ flow, lines: lines ?? null, size: lines ? lc.flowLabelSize(flow, lines) : lc.flowLabelSize(flow) })),
+  scenes: lcScenes.map(([name, scene]) => {
+    const input = structuredClone(scene);
+    const result = lc.wrapBlockedFlowLabels(scene);
+    return { name, dictionary: DICT.test(scene.labels[0].label), input: { ...input, labels: input.labels.map(labelJson) },
+      output: result.map((rect, i) => ({ same: rect === scene.labels[i], ...labelJson(rect) })) };
+  }),
+});
+// --- dataflow joint-label-routing.mjs: repairLabelRoutes input and output, recorded inside the real compile. An in-thread load hook
+// rewrites dataflow-compiler.mjs in memory (a `?joint-capture` instance, so an earlier import cannot serve the unhooked module) to route
+// the call through globalThis.__jlr. Relations serialise as {id, from, to, pins}; sideFor becomes a relationIndex -> sides table.
+// `same` flags record identity (R9): the compiler adopts a proposal only when `labels !== resolvedLabelRects`. ---
+const { registerHooks } = await import('node:module');
+const JLR_ANCHOR = 'const proposal = repairLabelRoutes({';
+const jlrHook = registerHooks({
+  load(url, context, nextLoad) {
+    const result = nextLoad(url, context);
+    if (!url.endsWith('/renderers/dataflow/dataflow-compiler.mjs?joint-capture')) return result;
+    const src = String(result.source);
+    if (src.split(JLR_ANCHOR).length !== 2) throw new Error(`anchor not unique: ${JLR_ANCHOR}`);
+    return { ...result, source: src.replace(JLR_ANCHOR, () => 'const proposal = globalThis.__jlr(repairLabelRoutes, {'), shortCircuit: true };
+  },
+});
+const { compileDataflow: compileDataflowJoint } = await import(pathToFileURL(path.join(UP, 'renderers/dataflow/dataflow-compiler.mjs')).href + '?joint-capture');
+jlrHook.deregister();
+// PIN_KEYS (manifest block above) is joint-label-routing.mjs:16-18's `pinned` key set plus `via` and `route`.
+const relationJson = (flow) => ({ id: flow.id, from: flow.from, to: flow.to,
+  pins: Object.fromEntries(PIN_KEYS.filter((k) => flow[k] !== undefined).map((k) => [k, flow[k]])) });
+const jointLabel = (rect) => ({ ...labelJson(rect), relation: relationJson(rect.relation) });
+const jointRows = [];
+for (const f of fs.readdirSync(out('fixtures/diagrams')).filter((f) => /\.dataflow\.json$/.test(f)).sort()) {
+  const d = JSON.parse(fs.readFileSync(out(`fixtures/diagrams/${f}`), 'utf8'));
+  const calls = [];
+  globalThis.__jlr = (fn, args) => {
+    const sides = Object.fromEntries(args.routes.map((r) => [r.relationIndex, args.sideFor(r.relation)]));
+    const input = JSON.parse(JSON.stringify({
+      labels: args.labels.map(jointLabel),
+      routes: args.routes.map((r) => ({ relationIndex: r.relationIndex, relation: relationJson(r.relation), points: r.points })),
+      nodes: args.nodes.map(({ id, x, y, width, height }) => ({ id, x, y, width, height })),
+      titles: args.titles.map(({ x, y, width, height }) => ({ x, y, width, height })),
+      frames: args.frames.map(({ id, label, kind, x, y, width, height, radius }) => ({ id, label, kind, x, y, width, height, radius })),
+      viewBox: args.viewBox, placementBottom: args.placementBottom, sides,
+    }));
+    if (args.maximumSearches !== undefined || args.metrics !== undefined) throw new Error('compiler now passes maximumSearches/metrics');
+    const metrics = {};
+    const result = fn({ ...args, metrics });
+    calls.push({ input, output: {
+      labelsSame: result.labels === args.labels, routesSame: result.routes === args.routes, metrics,
+      labels: result.labels.map((rect, i) => ({ same: rect === args.labels[i], ...jointLabel(rect) })),
+      routes: result.routes.map((r, i) => ({ same: r === args.routes[i], relationIndex: r.relationIndex, points: r.points })),
+    } });
+    return result;
+  };
+  try { compileDataflowJoint({ dataflow: d, sourceEvidence: null, qualityProfile: d.meta?.quality_profile }); } catch { /* failure fixtures */ }
+  for (const [i, call] of calls.entries()) jointRows.push({ name: `${f.replace(/\.dataflow\.json$/, '')}#${i}`, ...call });
+}
+delete globalThis.__jlr;
+for (const name of ['first-draft.joint-label-routing#0', 'first-draft.rejected-grid-recovery#0']) {
+  if (jointRows.find((r) => r.name === name)?.output.labelsSame !== false) throw new Error(`repairLabelRoutes: ${name} no longer changes a label`);
+}
+write('fixtures/js/joint-label-routing.json', jointRows);
 // Hand-written checker probes: the goldens are all clean, so these reach the issue, diagnostic, route-review and
 // sequence-note paths. A failing artifact exits 1 with its report on stdout; any other failure is real.
 const checkerDir = out('fixtures/checker');

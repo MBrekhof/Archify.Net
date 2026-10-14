@@ -1,0 +1,8145 @@
+[
+  {
+    "name": "bidirectional-labels#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "request payload",
+          "x": 164.75,
+          "y": 213,
+          "width": 85.5,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 224,
+          "relation": {
+            "id": "request",
+            "from": "client",
+            "to": "service",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "response payload v1",
+          "x": 154.95,
+          "y": 308,
+          "width": 105.1,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 319,
+          "relation": {
+            "id": "response",
+            "from": "service",
+            "to": "client",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "request",
+            "from": "client",
+            "to": "service",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              262
+            ],
+            [
+              259,
+              262
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "response",
+            "from": "service",
+            "to": "client",
+            "pins": {}
+          },
+          "points": [
+            [
+              259,
+              280
+            ],
+            [
+              156,
+              280
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "client",
+          "x": 44,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "service",
+          "x": 259,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "Client",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 313,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "Service",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 313,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        480,
+        433
+      ],
+      "placementBottom": 359,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "left",
+          "toSide": "right"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 0,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "request payload",
+          "x": 164.75,
+          "y": 213,
+          "width": 85.5,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 224,
+          "relation": {
+            "id": "request",
+            "from": "client",
+            "to": "service",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "response payload v1",
+          "x": 154.95,
+          "y": 308,
+          "width": 105.1,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 319,
+          "relation": {
+            "id": "response",
+            "from": "service",
+            "to": "client",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              156,
+              262
+            ],
+            [
+              259,
+              262
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              259,
+              280
+            ],
+            [
+              156,
+              280
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.joint-label-routing#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "aaa",
+          "x": 172.1,
+          "y": 116,
+          "width": 70.8,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 127,
+          "relation": {
+            "id": "f1",
+            "from": "n00",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "N1 文文文",
+          "x": 229.20000000000002,
+          "y": 212.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 264.6,
+          "ly": 223.5,
+          "relation": {
+            "id": "f2",
+            "from": "n02",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "N1 文文文",
+          "x": 393.9,
+          "y": 110,
+          "width": 56.1,
+          "height": 27,
+          "lx": 421.95,
+          "ly": 121,
+          "relation": {
+            "id": "f3",
+            "from": "n01",
+            "to": "n03",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "N1 文文文",
+          "x": 460.25,
+          "y": 194,
+          "width": 70.8,
+          "height": 27,
+          "lx": 495.65,
+          "ly": 205,
+          "relation": {
+            "id": "f4",
+            "from": "n03",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "N1 文文文",
+          "x": 330,
+          "y": 212.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 365.4,
+          "ly": 223.5,
+          "relation": {
+            "id": "f5",
+            "from": "n01",
+            "to": "n02",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "文文文",
+          "x": 634.1,
+          "y": 123,
+          "width": 70.8,
+          "height": 27,
+          "lx": 669.5,
+          "ly": 134,
+          "relation": {
+            "id": "f6",
+            "from": "n01",
+            "to": "n04",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 6,
+          "label": "文文文",
+          "x": 181.9,
+          "y": 250,
+          "width": 51.2,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 261,
+          "relation": {
+            "id": "f7",
+            "from": "n01",
+            "to": "n05",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 7,
+          "label": "文文 Naaaaa",
+          "x": 28.099999999999994,
+          "y": 421,
+          "width": 65.9,
+          "height": 27,
+          "lx": 61.05,
+          "ly": 432,
+          "relation": {
+            "id": "f8",
+            "from": "n05",
+            "to": "n06",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 8,
+          "label": "文文文 aaaaa",
+          "x": 169.2,
+          "y": 404,
+          "width": 70.8,
+          "height": 27,
+          "lx": 204.6,
+          "ly": 415,
+          "relation": {
+            "id": "f9",
+            "from": "n05",
+            "to": "n07",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 9,
+          "label": "文文文文",
+          "x": 424.4,
+          "y": 425.5,
+          "width": 51.2,
+          "height": 27,
+          "lx": 450,
+          "ly": 436.5,
+          "relation": {
+            "id": "f10",
+            "from": "n07",
+            "to": "n10",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 10,
+          "label": "文文文文文",
+          "x": 392,
+          "y": 355,
+          "width": 61,
+          "height": 27,
+          "lx": 422.5,
+          "ly": 366,
+          "relation": {
+            "id": "f11",
+            "from": "n07",
+            "to": "n08",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 11,
+          "label": "文文文文文文",
+          "x": 536,
+          "y": 435,
+          "width": 70.8,
+          "height": 27,
+          "lx": 571.4,
+          "ly": 446,
+          "relation": {
+            "id": "f12",
+            "from": "n08",
+            "to": "n10",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 12,
+          "label": "文文文文",
+          "x": 584.4,
+          "y": 370.5,
+          "width": 51.2,
+          "height": 27,
+          "lx": 610,
+          "ly": 381.5,
+          "relation": {
+            "id": "f13",
+            "from": "n08",
+            "to": "n09",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 13,
+          "label": "文文 aaa",
+          "x": 671,
+          "y": 290,
+          "width": 70.8,
+          "height": 27,
+          "lx": 706.4,
+          "ly": 301,
+          "relation": {
+            "id": "f14",
+            "from": "n09",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 14,
+          "label": "文文文文文文",
+          "x": 406.6,
+          "y": 240,
+          "width": 70.8,
+          "height": 27,
+          "lx": 442,
+          "ly": 251,
+          "relation": {
+            "id": "f15",
+            "from": "n01",
+            "to": "n09",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 15,
+          "label": "文文文文文",
+          "x": 775.7,
+          "y": 428.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 811.1,
+          "ly": 439.5,
+          "relation": {
+            "id": "f16",
+            "from": "n09",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 16,
+          "label": "文文文文文文",
+          "x": 651.25,
+          "y": 437.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 686.65,
+          "ly": 448.5,
+          "relation": {
+            "id": "f17",
+            "from": "n09",
+            "to": "n10",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 17,
+          "label": "aaaaaa 文文",
+          "x": 533.2,
+          "y": 610.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 568.6,
+          "ly": 621.5,
+          "relation": {
+            "id": "f18",
+            "from": "n10",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 18,
+          "label": "aaaaa · NNN",
+          "x": 468.85,
+          "y": 281,
+          "width": 70.8,
+          "height": 27,
+          "lx": 504.25,
+          "ly": 292,
+          "relation": {
+            "id": "f19",
+            "from": "n11",
+            "to": "n02",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 19,
+          "label": "N1 文文文",
+          "x": 575.4000000000001,
+          "y": 232.25,
+          "width": 56.1,
+          "height": 27,
+          "lx": 603.45,
+          "ly": 243.25,
+          "relation": {
+            "id": "f20",
+            "from": "n11",
+            "to": "n03",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 20,
+          "label": "文文文 aaaaa",
+          "x": 880.4,
+          "y": 440.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 915.8,
+          "ly": 451.5,
+          "relation": {
+            "id": "f21",
+            "from": "n11",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 21,
+          "label": "文文 aaaaa",
+          "x": 886,
+          "y": 541.75,
+          "width": 70.8,
+          "height": 27,
+          "lx": 921.4,
+          "ly": 552.75,
+          "relation": {
+            "id": "f22",
+            "from": "n12",
+            "to": "n06",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 22,
+          "label": "aaaaa 文 aaaaa",
+          "x": 966,
+          "y": 321,
+          "width": 80.6,
+          "height": 27,
+          "lx": 1006.3,
+          "ly": 332,
+          "relation": {
+            "id": "f23",
+            "from": "n12",
+            "to": "n04",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 23,
+          "label": "文文文文 aaaaa",
+          "x": 120.825,
+          "y": 435,
+          "width": 80.6,
+          "height": 27,
+          "lx": 161.125,
+          "ly": 446,
+          "relation": {
+            "id": "f24",
+            "from": "n06",
+            "to": "n04",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 24,
+          "label": "aaaaaa 文文",
+          "x": 538.0999999999999,
+          "y": 549,
+          "width": 65.9,
+          "height": 27,
+          "lx": 571.05,
+          "ly": 560,
+          "relation": {
+            "id": "f25",
+            "from": "n10",
+            "to": "n13",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 25,
+          "label": "N1 文文文",
+          "x": 779.9000000000001,
+          "y": 553.5,
+          "width": 56.1,
+          "height": 27,
+          "lx": 807.95,
+          "ly": 564.5,
+          "relation": {
+            "id": "f26",
+            "from": "n11",
+            "to": "n13",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 26,
+          "label": "文文文文",
+          "x": 122.80000000000001,
+          "y": 581.5,
+          "width": 51.2,
+          "height": 27,
+          "lx": 148.4,
+          "ly": 592.5,
+          "relation": {
+            "id": "f27",
+            "from": "n13",
+            "to": "n06",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 643.25,
+          "y": 551.25,
+          "width": 70.8,
+          "height": 27,
+          "lx": 678.65,
+          "ly": 562.25,
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "f1",
+            "from": "n00",
+            "to": "n01",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              148
+            ],
+            [
+              259,
+              148
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "f2",
+            "from": "n02",
+            "to": "n01",
+            "pins": {}
+          },
+          "points": [
+            [
+              306,
+              242
+            ],
+            [
+              306,
+              197
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "id": "f3",
+            "from": "n01",
+            "to": "n03",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              133
+            ],
+            [
+              395,
+              133
+            ],
+            [
+              395,
+              164
+            ],
+            [
+              450,
+              164
+            ],
+            [
+              450,
+              148
+            ],
+            [
+              474,
+              148
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "id": "f4",
+            "from": "n03",
+            "to": "n01",
+            "pins": {}
+          },
+          "points": [
+            [
+              474,
+              166
+            ],
+            [
+              422.5,
+              166
+            ],
+            [
+              422.5,
+              145
+            ],
+            [
+              371,
+              145
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "id": "f5",
+            "from": "n01",
+            "to": "n02",
+            "pins": {}
+          },
+          "points": [
+            [
+              324,
+              197
+            ],
+            [
+              324,
+              242
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "id": "f6",
+            "from": "n01",
+            "to": "n04",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              157
+            ],
+            [
+              459,
+              157
+            ],
+            [
+              459,
+              113
+            ],
+            [
+              880,
+              113
+            ],
+            [
+              880,
+              148
+            ],
+            [
+              904,
+              148
+            ]
+          ]
+        },
+        {
+          "relationIndex": 6,
+          "relation": {
+            "id": "f7",
+            "from": "n01",
+            "to": "n05",
+            "pins": {}
+          },
+          "points": [
+            [
+              259,
+              166
+            ],
+            [
+              207.5,
+              166
+            ],
+            [
+              207.5,
+              376
+            ],
+            [
+              156,
+              376
+            ]
+          ]
+        },
+        {
+          "relationIndex": 7,
+          "relation": {
+            "id": "f8",
+            "from": "n05",
+            "to": "n06",
+            "pins": {}
+          },
+          "points": [
+            [
+              100,
+              414
+            ],
+            [
+              100,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 8,
+          "relation": {
+            "id": "f9",
+            "from": "n05",
+            "to": "n07",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              394
+            ],
+            [
+              259,
+              394
+            ]
+          ]
+        },
+        {
+          "relationIndex": 9,
+          "relation": {
+            "id": "f10",
+            "from": "n07",
+            "to": "n10",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              394
+            ],
+            [
+              450,
+              394
+            ],
+            [
+              450,
+              499
+            ],
+            [
+              474,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 10,
+          "relation": {
+            "id": "f11",
+            "from": "n07",
+            "to": "n08",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              376
+            ],
+            [
+              474,
+              376
+            ]
+          ]
+        },
+        {
+          "relationIndex": 11,
+          "relation": {
+            "id": "f12",
+            "from": "n08",
+            "to": "n10",
+            "pins": {}
+          },
+          "points": [
+            [
+              530,
+              414
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 12,
+          "relation": {
+            "id": "f13",
+            "from": "n08",
+            "to": "n09",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              376
+            ],
+            [
+              610,
+              376
+            ],
+            [
+              610,
+              407
+            ],
+            [
+              665,
+              407
+            ],
+            [
+              665,
+              391
+            ],
+            [
+              689,
+              391
+            ]
+          ]
+        },
+        {
+          "relationIndex": 13,
+          "relation": {
+            "id": "f14",
+            "from": "n09",
+            "to": "n01",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              367
+            ],
+            [
+              665,
+              367
+            ],
+            [
+              665,
+              227
+            ],
+            [
+              404.8,
+              227
+            ],
+            [
+              404.8,
+              169
+            ],
+            [
+              371,
+              169
+            ]
+          ]
+        },
+        {
+          "relationIndex": 14,
+          "relation": {
+            "id": "f15",
+            "from": "n01",
+            "to": "n09",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              181
+            ],
+            [
+              442,
+              181
+            ],
+            [
+              442,
+              341
+            ],
+            [
+              665,
+              341
+            ],
+            [
+              665,
+              379
+            ],
+            [
+              689,
+              379
+            ]
+          ]
+        },
+        {
+          "relationIndex": 15,
+          "relation": {
+            "id": "f16",
+            "from": "n09",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              801,
+              385
+            ],
+            [
+              852.5,
+              385
+            ],
+            [
+              852.5,
+              486
+            ],
+            [
+              904,
+              486
+            ]
+          ]
+        },
+        {
+          "relationIndex": 16,
+          "relation": {
+            "id": "f17",
+            "from": "n09",
+            "to": "n10",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              403
+            ],
+            [
+              645.25,
+              403
+            ],
+            [
+              645.25,
+              486
+            ],
+            [
+              586,
+              486
+            ]
+          ]
+        },
+        {
+          "relationIndex": 17,
+          "relation": {
+            "id": "f18",
+            "from": "n10",
+            "to": "n11",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              499
+            ],
+            [
+              610,
+              499
+            ],
+            [
+              610,
+              657
+            ],
+            [
+              844.5,
+              657
+            ],
+            [
+              844.5,
+              535.5
+            ],
+            [
+              665,
+              535.5
+            ],
+            [
+              665,
+              512
+            ],
+            [
+              689,
+              512
+            ]
+          ]
+        },
+        {
+          "relationIndex": 18,
+          "relation": {
+            "id": "f19",
+            "from": "n11",
+            "to": "n02",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              499
+            ],
+            [
+              639.6,
+              499
+            ],
+            [
+              639.6,
+              271
+            ],
+            [
+              371,
+              271
+            ]
+          ]
+        },
+        {
+          "relationIndex": 19,
+          "relation": {
+            "id": "f20",
+            "from": "n11",
+            "to": "n03",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              486
+            ],
+            [
+              639.6,
+              486
+            ],
+            [
+              639.6,
+              157
+            ],
+            [
+              586,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 20,
+          "relation": {
+            "id": "f21",
+            "from": "n11",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              801,
+              490
+            ],
+            [
+              825,
+              490
+            ],
+            [
+              825,
+              515
+            ],
+            [
+              880,
+              515
+            ],
+            [
+              880,
+              499
+            ],
+            [
+              904,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 21,
+          "relation": {
+            "id": "f22",
+            "from": "n12",
+            "to": "n06",
+            "pins": {}
+          },
+          "points": [
+            [
+              904,
+              512
+            ],
+            [
+              880,
+              512
+            ],
+            [
+              880,
+              561
+            ],
+            [
+              1036,
+              561
+            ],
+            [
+              1036,
+              665
+            ],
+            [
+              180,
+              665
+            ],
+            [
+              180,
+              499
+            ],
+            [
+              156,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 22,
+          "relation": {
+            "id": "f23",
+            "from": "n12",
+            "to": "n04",
+            "pins": {}
+          },
+          "points": [
+            [
+              960,
+              470
+            ],
+            [
+              960,
+              186
+            ]
+          ]
+        },
+        {
+          "relationIndex": 23,
+          "relation": {
+            "id": "f24",
+            "from": "n06",
+            "to": "n04",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              486
+            ],
+            [
+              180,
+              486
+            ],
+            [
+              180,
+              455
+            ],
+            [
+              24.099999999999994,
+              455
+            ],
+            [
+              24.099999999999994,
+              102
+            ],
+            [
+              880,
+              102
+            ],
+            [
+              880,
+              166
+            ],
+            [
+              904,
+              166
+            ]
+          ]
+        },
+        {
+          "relationIndex": 24,
+          "relation": {
+            "id": "f25",
+            "from": "n10",
+            "to": "n13",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              512
+            ],
+            [
+              610,
+              512
+            ],
+            [
+              610,
+              600
+            ],
+            [
+              244,
+              600
+            ],
+            [
+              244,
+              333
+            ],
+            [
+              875,
+              333
+            ],
+            [
+              875,
+              600
+            ],
+            [
+              899,
+              600
+            ]
+          ]
+        },
+        {
+          "relationIndex": 25,
+          "relation": {
+            "id": "f26",
+            "from": "n11",
+            "to": "n13",
+            "pins": {}
+          },
+          "points": [
+            [
+              801,
+              508
+            ],
+            [
+              850,
+              508
+            ],
+            [
+              850,
+              613
+            ],
+            [
+              899,
+              613
+            ]
+          ]
+        },
+        {
+          "relationIndex": 26,
+          "relation": {
+            "id": "f27",
+            "from": "n13",
+            "to": "n06",
+            "pins": {}
+          },
+          "points": [
+            [
+              899,
+              626
+            ],
+            [
+              852.5,
+              626
+            ],
+            [
+              852.5,
+              665
+            ],
+            [
+              180,
+              665
+            ],
+            [
+              180,
+              512
+            ],
+            [
+              156,
+              512
+            ]
+          ]
+        },
+        {
+          "relationIndex": 27,
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              394
+            ],
+            [
+              637.25,
+              394
+            ],
+            [
+              637.25,
+              613
+            ],
+            [
+              688.5,
+              613
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n00",
+          "x": 44,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n01",
+          "x": 259,
+          "y": 117,
+          "width": 112,
+          "height": 80
+        },
+        {
+          "id": "n02",
+          "x": 259,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n03",
+          "x": 474,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n04",
+          "x": 904,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n05",
+          "x": 44,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n06",
+          "x": 44,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n07",
+          "x": 259,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n08",
+          "x": 474,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n09",
+          "x": 689,
+          "y": 351,
+          "width": 112,
+          "height": 68
+        },
+        {
+          "id": "n10",
+          "x": 474,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n11",
+          "x": 689,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n12",
+          "x": 904,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n13",
+          "x": 899,
+          "y": 584,
+          "width": 122,
+          "height": 58
+        },
+        {
+          "id": "n14",
+          "x": 688.5,
+          "y": 584,
+          "width": 113,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "文文文文文",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 643,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "文文文文文",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 643,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "文文文文文",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 643,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "文文文文文",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 643,
+          "radius": 10
+        },
+        {
+          "id": 4,
+          "label": "文文文文文",
+          "kind": "stage",
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 643,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        1071,
+        763
+      ],
+      "placementBottom": 689,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "top",
+          "toSide": "bottom"
+        },
+        "2": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "3": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "4": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "5": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "6": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "7": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "8": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "9": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "10": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "11": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "12": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "13": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "14": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "15": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "16": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "17": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "18": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "19": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "20": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "21": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "22": {
+          "fromSide": "top",
+          "toSide": "bottom"
+        },
+        "23": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "24": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "25": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "26": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "27": {
+          "fromSide": "right",
+          "toSide": "left"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": false,
+      "routesSame": false,
+      "metrics": {
+        "searches": 4,
+        "maximumSearches": 32,
+        "changedLabels": 1,
+        "changedRoutes": 3
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "aaa",
+          "x": 172.1,
+          "y": 116,
+          "width": 70.8,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 127,
+          "relation": {
+            "id": "f1",
+            "from": "n00",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "N1 文文文",
+          "x": 229.20000000000002,
+          "y": 212.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 264.6,
+          "ly": 223.5,
+          "relation": {
+            "id": "f2",
+            "from": "n02",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "label": "N1 文文文",
+          "x": 393.9,
+          "y": 110,
+          "width": 56.1,
+          "height": 27,
+          "lx": 421.95,
+          "ly": 121,
+          "relation": {
+            "id": "f3",
+            "from": "n01",
+            "to": "n03",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "N1 文文文",
+          "x": 460.25,
+          "y": 194,
+          "width": 70.8,
+          "height": 27,
+          "lx": 495.65,
+          "ly": 205,
+          "relation": {
+            "id": "f4",
+            "from": "n03",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "N1 文文文",
+          "x": 330,
+          "y": 212.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 365.4,
+          "ly": 223.5,
+          "relation": {
+            "id": "f5",
+            "from": "n01",
+            "to": "n02",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "文文文",
+          "x": 634.1,
+          "y": 123,
+          "width": 70.8,
+          "height": 27,
+          "lx": 669.5,
+          "ly": 134,
+          "relation": {
+            "id": "f6",
+            "from": "n01",
+            "to": "n04",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "label": "文文文",
+          "x": 181.9,
+          "y": 250,
+          "width": 51.2,
+          "height": 27,
+          "lx": 207.5,
+          "ly": 261,
+          "relation": {
+            "id": "f7",
+            "from": "n01",
+            "to": "n05",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "label": "文文 Naaaaa",
+          "x": 28.099999999999994,
+          "y": 421,
+          "width": 65.9,
+          "height": 27,
+          "lx": 61.05,
+          "ly": 432,
+          "relation": {
+            "id": "f8",
+            "from": "n05",
+            "to": "n06",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "label": "文文文 aaaaa",
+          "x": 169.2,
+          "y": 404,
+          "width": 70.8,
+          "height": 27,
+          "lx": 204.6,
+          "ly": 415,
+          "relation": {
+            "id": "f9",
+            "from": "n05",
+            "to": "n07",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 9,
+          "label": "文文文文",
+          "x": 424.4,
+          "y": 425.5,
+          "width": 51.2,
+          "height": 27,
+          "lx": 450,
+          "ly": 436.5,
+          "relation": {
+            "id": "f10",
+            "from": "n07",
+            "to": "n10",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 10,
+          "label": "文文文文文",
+          "x": 392,
+          "y": 355,
+          "width": 61,
+          "height": 27,
+          "lx": 422.5,
+          "ly": 366,
+          "relation": {
+            "id": "f11",
+            "from": "n07",
+            "to": "n08",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 11,
+          "label": "文文文文文文",
+          "x": 536,
+          "y": 435,
+          "width": 70.8,
+          "height": 27,
+          "lx": 571.4,
+          "ly": 446,
+          "relation": {
+            "id": "f12",
+            "from": "n08",
+            "to": "n10",
+            "pins": {}
+          }
+        },
+        {
+          "same": false,
+          "relationIndex": 12,
+          "label": "文文文文",
+          "x": 588,
+          "y": 345,
+          "width": 51.2,
+          "height": 27,
+          "lx": 613.6,
+          "ly": 356,
+          "relation": {
+            "id": "f13",
+            "from": "n08",
+            "to": "n09",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 13,
+          "label": "文文 aaa",
+          "x": 671,
+          "y": 290,
+          "width": 70.8,
+          "height": 27,
+          "lx": 706.4,
+          "ly": 301,
+          "relation": {
+            "id": "f14",
+            "from": "n09",
+            "to": "n01",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 14,
+          "label": "文文文文文文",
+          "x": 406.6,
+          "y": 240,
+          "width": 70.8,
+          "height": 27,
+          "lx": 442,
+          "ly": 251,
+          "relation": {
+            "id": "f15",
+            "from": "n01",
+            "to": "n09",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 15,
+          "label": "文文文文文",
+          "x": 775.7,
+          "y": 428.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 811.1,
+          "ly": 439.5,
+          "relation": {
+            "id": "f16",
+            "from": "n09",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 16,
+          "label": "文文文文文文",
+          "x": 651.25,
+          "y": 437.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 686.65,
+          "ly": 448.5,
+          "relation": {
+            "id": "f17",
+            "from": "n09",
+            "to": "n10",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 17,
+          "label": "aaaaaa 文文",
+          "x": 533.2,
+          "y": 610.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 568.6,
+          "ly": 621.5,
+          "relation": {
+            "id": "f18",
+            "from": "n10",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 18,
+          "label": "aaaaa · NNN",
+          "x": 468.85,
+          "y": 281,
+          "width": 70.8,
+          "height": 27,
+          "lx": 504.25,
+          "ly": 292,
+          "relation": {
+            "id": "f19",
+            "from": "n11",
+            "to": "n02",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 19,
+          "label": "N1 文文文",
+          "x": 575.4000000000001,
+          "y": 232.25,
+          "width": 56.1,
+          "height": 27,
+          "lx": 603.45,
+          "ly": 243.25,
+          "relation": {
+            "id": "f20",
+            "from": "n11",
+            "to": "n03",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 20,
+          "label": "文文文 aaaaa",
+          "x": 880.4,
+          "y": 440.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 915.8,
+          "ly": 451.5,
+          "relation": {
+            "id": "f21",
+            "from": "n11",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 21,
+          "label": "文文 aaaaa",
+          "x": 886,
+          "y": 541.75,
+          "width": 70.8,
+          "height": 27,
+          "lx": 921.4,
+          "ly": 552.75,
+          "relation": {
+            "id": "f22",
+            "from": "n12",
+            "to": "n06",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 22,
+          "label": "aaaaa 文 aaaaa",
+          "x": 966,
+          "y": 321,
+          "width": 80.6,
+          "height": 27,
+          "lx": 1006.3,
+          "ly": 332,
+          "relation": {
+            "id": "f23",
+            "from": "n12",
+            "to": "n04",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 23,
+          "label": "文文文文 aaaaa",
+          "x": 120.825,
+          "y": 435,
+          "width": 80.6,
+          "height": 27,
+          "lx": 161.125,
+          "ly": 446,
+          "relation": {
+            "id": "f24",
+            "from": "n06",
+            "to": "n04",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 24,
+          "label": "aaaaaa 文文",
+          "x": 538.0999999999999,
+          "y": 549,
+          "width": 65.9,
+          "height": 27,
+          "lx": 571.05,
+          "ly": 560,
+          "relation": {
+            "id": "f25",
+            "from": "n10",
+            "to": "n13",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 25,
+          "label": "N1 文文文",
+          "x": 779.9000000000001,
+          "y": 553.5,
+          "width": 56.1,
+          "height": 27,
+          "lx": 807.95,
+          "ly": 564.5,
+          "relation": {
+            "id": "f26",
+            "from": "n11",
+            "to": "n13",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 26,
+          "label": "文文文文",
+          "x": 122.80000000000001,
+          "y": 581.5,
+          "width": 51.2,
+          "height": 27,
+          "lx": 148.4,
+          "ly": 592.5,
+          "relation": {
+            "id": "f27",
+            "from": "n13",
+            "to": "n06",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 643.25,
+          "y": 551.25,
+          "width": 70.8,
+          "height": 27,
+          "lx": 678.65,
+          "ly": 562.25,
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              156,
+              148
+            ],
+            [
+              259,
+              148
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              306,
+              242
+            ],
+            [
+              306,
+              197
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "points": [
+            [
+              371,
+              133
+            ],
+            [
+              395,
+              133
+            ],
+            [
+              395,
+              164
+            ],
+            [
+              450,
+              164
+            ],
+            [
+              450,
+              148
+            ],
+            [
+              474,
+              148
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              474,
+              166
+            ],
+            [
+              422.5,
+              166
+            ],
+            [
+              422.5,
+              145
+            ],
+            [
+              371,
+              145
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              324,
+              197
+            ],
+            [
+              324,
+              242
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              371,
+              157
+            ],
+            [
+              459,
+              157
+            ],
+            [
+              459,
+              113
+            ],
+            [
+              880,
+              113
+            ],
+            [
+              880,
+              148
+            ],
+            [
+              904,
+              148
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "points": [
+            [
+              259,
+              166
+            ],
+            [
+              207.5,
+              166
+            ],
+            [
+              207.5,
+              376
+            ],
+            [
+              156,
+              376
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "points": [
+            [
+              100,
+              414
+            ],
+            [
+              100,
+              470
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "points": [
+            [
+              156,
+              394
+            ],
+            [
+              259,
+              394
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 9,
+          "points": [
+            [
+              371,
+              394
+            ],
+            [
+              450,
+              394
+            ],
+            [
+              450,
+              499
+            ],
+            [
+              474,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 10,
+          "points": [
+            [
+              371,
+              376
+            ],
+            [
+              474,
+              376
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 11,
+          "points": [
+            [
+              530,
+              414
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "same": false,
+          "relationIndex": 12,
+          "points": [
+            [
+              586,
+              376
+            ],
+            [
+              602,
+              376
+            ],
+            [
+              602,
+              407
+            ],
+            [
+              673,
+              407
+            ],
+            [
+              673,
+              391
+            ],
+            [
+              689,
+              391
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 13,
+          "points": [
+            [
+              689,
+              367
+            ],
+            [
+              665,
+              367
+            ],
+            [
+              665,
+              227
+            ],
+            [
+              404.8,
+              227
+            ],
+            [
+              404.8,
+              169
+            ],
+            [
+              371,
+              169
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 14,
+          "points": [
+            [
+              371,
+              181
+            ],
+            [
+              442,
+              181
+            ],
+            [
+              442,
+              341
+            ],
+            [
+              665,
+              341
+            ],
+            [
+              665,
+              379
+            ],
+            [
+              689,
+              379
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 15,
+          "points": [
+            [
+              801,
+              385
+            ],
+            [
+              852.5,
+              385
+            ],
+            [
+              852.5,
+              486
+            ],
+            [
+              904,
+              486
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 16,
+          "points": [
+            [
+              689,
+              403
+            ],
+            [
+              645.25,
+              403
+            ],
+            [
+              645.25,
+              486
+            ],
+            [
+              586,
+              486
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 17,
+          "points": [
+            [
+              586,
+              499
+            ],
+            [
+              610,
+              499
+            ],
+            [
+              610,
+              657
+            ],
+            [
+              844.5,
+              657
+            ],
+            [
+              844.5,
+              535.5
+            ],
+            [
+              665,
+              535.5
+            ],
+            [
+              665,
+              512
+            ],
+            [
+              689,
+              512
+            ]
+          ]
+        },
+        {
+          "same": false,
+          "relationIndex": 18,
+          "points": [
+            [
+              689,
+              499
+            ],
+            [
+              629.1,
+              499
+            ],
+            [
+              629.1,
+              391
+            ],
+            [
+              645.25,
+              391
+            ],
+            [
+              645.25,
+              303
+            ],
+            [
+              395,
+              303
+            ],
+            [
+              395,
+              271
+            ],
+            [
+              371,
+              271
+            ]
+          ]
+        },
+        {
+          "same": false,
+          "relationIndex": 19,
+          "points": [
+            [
+              689,
+              486
+            ],
+            [
+              665,
+              486
+            ],
+            [
+              665,
+              469.5
+            ],
+            [
+              629.1,
+              469.5
+            ],
+            [
+              629.1,
+              383
+            ],
+            [
+              645.25,
+              383
+            ],
+            [
+              645.25,
+              157
+            ],
+            [
+              586,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 20,
+          "points": [
+            [
+              801,
+              490
+            ],
+            [
+              825,
+              490
+            ],
+            [
+              825,
+              515
+            ],
+            [
+              880,
+              515
+            ],
+            [
+              880,
+              499
+            ],
+            [
+              904,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 21,
+          "points": [
+            [
+              904,
+              512
+            ],
+            [
+              880,
+              512
+            ],
+            [
+              880,
+              561
+            ],
+            [
+              1036,
+              561
+            ],
+            [
+              1036,
+              665
+            ],
+            [
+              180,
+              665
+            ],
+            [
+              180,
+              499
+            ],
+            [
+              156,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 22,
+          "points": [
+            [
+              960,
+              470
+            ],
+            [
+              960,
+              186
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 23,
+          "points": [
+            [
+              156,
+              486
+            ],
+            [
+              180,
+              486
+            ],
+            [
+              180,
+              455
+            ],
+            [
+              24.099999999999994,
+              455
+            ],
+            [
+              24.099999999999994,
+              102
+            ],
+            [
+              880,
+              102
+            ],
+            [
+              880,
+              166
+            ],
+            [
+              904,
+              166
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 24,
+          "points": [
+            [
+              586,
+              512
+            ],
+            [
+              610,
+              512
+            ],
+            [
+              610,
+              600
+            ],
+            [
+              244,
+              600
+            ],
+            [
+              244,
+              333
+            ],
+            [
+              875,
+              333
+            ],
+            [
+              875,
+              600
+            ],
+            [
+              899,
+              600
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 25,
+          "points": [
+            [
+              801,
+              508
+            ],
+            [
+              850,
+              508
+            ],
+            [
+              850,
+              613
+            ],
+            [
+              899,
+              613
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 26,
+          "points": [
+            [
+              899,
+              626
+            ],
+            [
+              852.5,
+              626
+            ],
+            [
+              852.5,
+              665
+            ],
+            [
+              180,
+              665
+            ],
+            [
+              180,
+              512
+            ],
+            [
+              156,
+              512
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 27,
+          "points": [
+            [
+              586,
+              394
+            ],
+            [
+              637.25,
+              394
+            ],
+            [
+              637.25,
+              613
+            ],
+            [
+              688.5,
+              613
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.mixed-port-recovery#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "value · key · TTL",
+          "x": 677,
+          "y": 324.75,
+          "width": 95.3,
+          "height": 16,
+          "lx": 724.65,
+          "ly": 335.75,
+          "relation": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "value · TTL",
+          "x": 624,
+          "y": 503.25,
+          "width": 65.9,
+          "height": 16,
+          "lx": 656.95,
+          "ly": 514.25,
+          "relation": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "可选存储：value · TTL",
+          "x": 687.55,
+          "y": 482.75,
+          "width": 114.9,
+          "height": 16,
+          "lx": 745,
+          "ly": 493.75,
+          "relation": {
+            "id": "e2",
+            "from": "n2",
+            "to": "n6",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "一级未命中：二级值",
+          "x": 511.79999999999995,
+          "y": 264,
+          "width": 100.2,
+          "height": 16,
+          "lx": 561.9,
+          "ly": 275,
+          "relation": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "已持有：处理完成或失败",
+          "x": 577.6,
+          "y": 417.25,
+          "width": 119.8,
+          "height": 16,
+          "lx": 637.5,
+          "ly": 428.25,
+          "relation": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "已持有：处理异常",
+          "x": 484.8,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 530,
+          "ly": 432,
+          "relation": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 6,
+          "label": "未持有：完成或失败",
+          "x": 270.79999999999995,
+          "y": 448,
+          "width": 100.2,
+          "height": 16,
+          "lx": 320.9,
+          "ly": 459,
+          "relation": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 7,
+          "label": "未持有：处理异常",
+          "x": 377.3,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 432,
+          "relation": {
+            "id": "e7",
+            "from": "n1",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 8,
+          "label": "释放完成（含异常）",
+          "x": 372.4,
+          "y": 540,
+          "width": 100.2,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 551,
+          "relation": {
+            "id": "e8",
+            "from": "n3",
+            "to": "n4",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              385
+            ],
+            [
+              665,
+              385
+            ],
+            [
+              665,
+              362.5
+            ],
+            [
+              689,
+              362.5
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              407.5
+            ],
+            [
+              610,
+              407.5
+            ],
+            [
+              610,
+              613
+            ],
+            [
+              586,
+              613
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "id": "e2",
+            "from": "n2",
+            "to": "n6",
+            "pins": {}
+          },
+          "points": [
+            [
+              745,
+              423.5
+            ],
+            [
+              745,
+              584
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              613
+            ],
+            [
+              618,
+              613
+            ],
+            [
+              618,
+              157
+            ],
+            [
+              156,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              377.5
+            ],
+            [
+              637.5,
+              377.5
+            ],
+            [
+              637.5,
+              499
+            ],
+            [
+              586,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "pins": {}
+          },
+          "points": [
+            [
+              530,
+              414
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 6,
+          "relation": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              392.5
+            ],
+            [
+              601,
+              392.5
+            ],
+            [
+              601,
+              455
+            ],
+            [
+              395,
+              455
+            ],
+            [
+              395,
+              486
+            ],
+            [
+              371,
+              486
+            ]
+          ]
+        },
+        {
+          "relationIndex": 7,
+          "relation": {
+            "id": "e7",
+            "from": "n1",
+            "to": "n4",
+            "pins": {}
+          },
+          "points": [
+            [
+              474,
+              385
+            ],
+            [
+              422.5,
+              385
+            ],
+            [
+              422.5,
+              499
+            ],
+            [
+              371,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 8,
+          "relation": {
+            "id": "e8",
+            "from": "n3",
+            "to": "n4",
+            "pins": {}
+          },
+          "points": [
+            [
+              474,
+              512
+            ],
+            [
+              371,
+              512
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n0",
+          "x": 44,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n1",
+          "x": 474,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n2",
+          "x": 689,
+          "y": 346.5,
+          "width": 112,
+          "height": 77
+        },
+        {
+          "id": "n3",
+          "x": 474,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n4",
+          "x": 259,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n5",
+          "x": 474,
+          "y": 584,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n6",
+          "x": 689,
+          "y": 584,
+          "width": 112,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "读取",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "结果",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "处理",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "存储",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        853,
+        740
+      ],
+      "placementBottom": 666,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "2": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "3": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "4": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "5": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "6": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "7": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "8": {
+          "fromSide": "left",
+          "toSide": "right"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 16,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "value · key · TTL",
+          "x": 677,
+          "y": 324.75,
+          "width": 95.3,
+          "height": 16,
+          "lx": 724.65,
+          "ly": 335.75,
+          "relation": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "value · TTL",
+          "x": 624,
+          "y": 503.25,
+          "width": 65.9,
+          "height": 16,
+          "lx": 656.95,
+          "ly": 514.25,
+          "relation": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "label": "可选存储：value · TTL",
+          "x": 687.55,
+          "y": 482.75,
+          "width": 114.9,
+          "height": 16,
+          "lx": 745,
+          "ly": 493.75,
+          "relation": {
+            "id": "e2",
+            "from": "n2",
+            "to": "n6",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "一级未命中：二级值",
+          "x": 511.79999999999995,
+          "y": 264,
+          "width": 100.2,
+          "height": 16,
+          "lx": 561.9,
+          "ly": 275,
+          "relation": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "已持有：处理完成或失败",
+          "x": 577.6,
+          "y": 417.25,
+          "width": 119.8,
+          "height": 16,
+          "lx": 637.5,
+          "ly": 428.25,
+          "relation": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "已持有：处理异常",
+          "x": 484.8,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 530,
+          "ly": 432,
+          "relation": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "label": "未持有：完成或失败",
+          "x": 270.79999999999995,
+          "y": 448,
+          "width": 100.2,
+          "height": 16,
+          "lx": 320.9,
+          "ly": 459,
+          "relation": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "label": "未持有：处理异常",
+          "x": 377.3,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 432,
+          "relation": {
+            "id": "e7",
+            "from": "n1",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "label": "释放完成（含异常）",
+          "x": 372.4,
+          "y": 540,
+          "width": 100.2,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 551,
+          "relation": {
+            "id": "e8",
+            "from": "n3",
+            "to": "n4",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              586,
+              385
+            ],
+            [
+              665,
+              385
+            ],
+            [
+              665,
+              362.5
+            ],
+            [
+              689,
+              362.5
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              689,
+              407.5
+            ],
+            [
+              610,
+              407.5
+            ],
+            [
+              610,
+              613
+            ],
+            [
+              586,
+              613
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "points": [
+            [
+              745,
+              423.5
+            ],
+            [
+              745,
+              584
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              689,
+              613
+            ],
+            [
+              618,
+              613
+            ],
+            [
+              618,
+              157
+            ],
+            [
+              156,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              689,
+              377.5
+            ],
+            [
+              637.5,
+              377.5
+            ],
+            [
+              637.5,
+              499
+            ],
+            [
+              586,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              530,
+              414
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "points": [
+            [
+              689,
+              392.5
+            ],
+            [
+              601,
+              392.5
+            ],
+            [
+              601,
+              455
+            ],
+            [
+              395,
+              455
+            ],
+            [
+              395,
+              486
+            ],
+            [
+              371,
+              486
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "points": [
+            [
+              474,
+              385
+            ],
+            [
+              422.5,
+              385
+            ],
+            [
+              422.5,
+              499
+            ],
+            [
+              371,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "points": [
+            [
+              474,
+              512
+            ],
+            [
+              371,
+              512
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.mixed-port-recovery#1",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "value · key · TTL",
+          "x": 677.65,
+          "y": 320,
+          "width": 95.3,
+          "height": 16,
+          "lx": 725.3,
+          "ly": 331,
+          "relation": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "value · TTL",
+          "x": 646.175,
+          "y": 418,
+          "width": 65.9,
+          "height": 16,
+          "lx": 679.125,
+          "ly": 429,
+          "relation": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "可选存储：value · TTL",
+          "x": 696.55,
+          "y": 528,
+          "width": 114.9,
+          "height": 16,
+          "lx": 754,
+          "ly": 539,
+          "relation": {
+            "id": "e2",
+            "from": "n2",
+            "to": "n6",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "一级未命中：二级值",
+          "x": 531.3,
+          "y": 264,
+          "width": 100.2,
+          "height": 16,
+          "lx": 581.4,
+          "ly": 275,
+          "relation": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "已持有：处理完成或失败",
+          "x": 641.5,
+          "y": 468,
+          "width": 70.8,
+          "height": 27,
+          "lx": 676.9,
+          "ly": 479,
+          "lines": [
+            "已持有：处理",
+            "完成或失败"
+          ],
+          "relation": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "已持有：处理异常",
+          "x": 484.8,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 530,
+          "ly": 432,
+          "relation": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 6,
+          "label": "未持有：完成或失败",
+          "x": 270.79999999999995,
+          "y": 448,
+          "width": 100.2,
+          "height": 16,
+          "lx": 320.9,
+          "ly": 459,
+          "relation": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 7,
+          "label": "未持有：处理异常",
+          "x": 377.3,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 432,
+          "relation": {
+            "id": "e7",
+            "from": "n1",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 8,
+          "label": "释放完成（含异常）",
+          "x": 372.4,
+          "y": 540,
+          "width": 100.2,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 551,
+          "relation": {
+            "id": "e8",
+            "from": "n3",
+            "to": "n4",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              385
+            ],
+            [
+              610,
+              385
+            ],
+            [
+              610,
+              401
+            ],
+            [
+              665,
+              401
+            ],
+            [
+              665,
+              370
+            ],
+            [
+              689,
+              370
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              400
+            ],
+            [
+              597.1,
+              400
+            ],
+            [
+              597.1,
+              613
+            ],
+            [
+              586,
+              613
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "id": "e2",
+            "from": "n2",
+            "to": "n6",
+            "pins": {}
+          },
+          "points": [
+            [
+              754,
+              416
+            ],
+            [
+              754,
+              584
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              613
+            ],
+            [
+              637.5,
+              613
+            ],
+            [
+              637.5,
+              157
+            ],
+            [
+              156,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "pins": {}
+          },
+          "points": [
+            [
+              736,
+              416
+            ],
+            [
+              736,
+              499
+            ],
+            [
+              586,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "pins": {}
+          },
+          "points": [
+            [
+              530,
+              414
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 6,
+          "relation": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "pins": {}
+          },
+          "points": [
+            [
+              689,
+              385
+            ],
+            [
+              601,
+              385
+            ],
+            [
+              601,
+              455
+            ],
+            [
+              395,
+              455
+            ],
+            [
+              395,
+              486
+            ],
+            [
+              371,
+              486
+            ]
+          ]
+        },
+        {
+          "relationIndex": 7,
+          "relation": {
+            "id": "e7",
+            "from": "n1",
+            "to": "n4",
+            "pins": {}
+          },
+          "points": [
+            [
+              474,
+              385
+            ],
+            [
+              422.5,
+              385
+            ],
+            [
+              422.5,
+              499
+            ],
+            [
+              371,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 8,
+          "relation": {
+            "id": "e8",
+            "from": "n3",
+            "to": "n4",
+            "pins": {}
+          },
+          "points": [
+            [
+              474,
+              512
+            ],
+            [
+              371,
+              512
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n0",
+          "x": 44,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n1",
+          "x": 474,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n2",
+          "x": 689,
+          "y": 354,
+          "width": 112,
+          "height": 62
+        },
+        {
+          "id": "n3",
+          "x": 474,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n4",
+          "x": 259,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n5",
+          "x": 474,
+          "y": 584,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n6",
+          "x": 689,
+          "y": 584,
+          "width": 112,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "读取",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "结果",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "处理",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "存储",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        853,
+        740
+      ],
+      "placementBottom": 666,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "2": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "3": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "4": {
+          "fromSide": "bottom",
+          "toSide": "right"
+        },
+        "5": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "6": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "7": {
+          "fromSide": "left",
+          "toSide": "right"
+        },
+        "8": {
+          "fromSide": "left",
+          "toSide": "right"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 0,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "value · key · TTL",
+          "x": 677.65,
+          "y": 320,
+          "width": 95.3,
+          "height": 16,
+          "lx": 725.3,
+          "ly": 331,
+          "relation": {
+            "id": "e0",
+            "from": "n1",
+            "to": "n2",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "value · TTL",
+          "x": 646.175,
+          "y": 418,
+          "width": 65.9,
+          "height": 16,
+          "lx": 679.125,
+          "ly": 429,
+          "relation": {
+            "id": "e1",
+            "from": "n2",
+            "to": "n5",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "label": "可选存储：value · TTL",
+          "x": 696.55,
+          "y": 528,
+          "width": 114.9,
+          "height": 16,
+          "lx": 754,
+          "ly": 539,
+          "relation": {
+            "id": "e2",
+            "from": "n2",
+            "to": "n6",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "一级未命中：二级值",
+          "x": 531.3,
+          "y": 264,
+          "width": 100.2,
+          "height": 16,
+          "lx": 581.4,
+          "ly": 275,
+          "relation": {
+            "id": "e3",
+            "from": "n6",
+            "to": "n0",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "已持有：处理完成或失败",
+          "x": 641.5,
+          "y": 468,
+          "width": 70.8,
+          "height": 27,
+          "lx": 676.9,
+          "ly": 479,
+          "lines": [
+            "已持有：处理",
+            "完成或失败"
+          ],
+          "relation": {
+            "id": "e4",
+            "from": "n2",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "已持有：处理异常",
+          "x": 484.8,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 530,
+          "ly": 432,
+          "relation": {
+            "id": "e5",
+            "from": "n1",
+            "to": "n3",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "label": "未持有：完成或失败",
+          "x": 270.79999999999995,
+          "y": 448,
+          "width": 100.2,
+          "height": 16,
+          "lx": 320.9,
+          "ly": 459,
+          "relation": {
+            "id": "e6",
+            "from": "n2",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "label": "未持有：处理异常",
+          "x": 377.3,
+          "y": 421,
+          "width": 90.4,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 432,
+          "relation": {
+            "id": "e7",
+            "from": "n1",
+            "to": "n4",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "label": "释放完成（含异常）",
+          "x": 372.4,
+          "y": 540,
+          "width": 100.2,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 551,
+          "relation": {
+            "id": "e8",
+            "from": "n3",
+            "to": "n4",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              586,
+              385
+            ],
+            [
+              610,
+              385
+            ],
+            [
+              610,
+              401
+            ],
+            [
+              665,
+              401
+            ],
+            [
+              665,
+              370
+            ],
+            [
+              689,
+              370
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              689,
+              400
+            ],
+            [
+              597.1,
+              400
+            ],
+            [
+              597.1,
+              613
+            ],
+            [
+              586,
+              613
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "points": [
+            [
+              754,
+              416
+            ],
+            [
+              754,
+              584
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              689,
+              613
+            ],
+            [
+              637.5,
+              613
+            ],
+            [
+              637.5,
+              157
+            ],
+            [
+              156,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              736,
+              416
+            ],
+            [
+              736,
+              499
+            ],
+            [
+              586,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              530,
+              414
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "points": [
+            [
+              689,
+              385
+            ],
+            [
+              601,
+              385
+            ],
+            [
+              601,
+              455
+            ],
+            [
+              395,
+              455
+            ],
+            [
+              395,
+              486
+            ],
+            [
+              371,
+              486
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "points": [
+            [
+              474,
+              385
+            ],
+            [
+              422.5,
+              385
+            ],
+            [
+              422.5,
+              499
+            ],
+            [
+              371,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "points": [
+            [
+              474,
+              512
+            ],
+            [
+              371,
+              512
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.ml-features#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "click logs",
+          "x": 177,
+          "y": 188.5,
+          "width": 61,
+          "height": 16,
+          "lx": 207.5,
+          "ly": 199.5,
+          "relation": {
+            "from": "events",
+            "to": "fe",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "accounts",
+          "x": 181.9,
+          "y": 311.5,
+          "width": 51.2,
+          "height": 16,
+          "lx": 207.5,
+          "ly": 322.5,
+          "relation": {
+            "from": "crm",
+            "to": "fe",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "write features",
+          "x": 274.7,
+          "y": 364,
+          "width": 80.6,
+          "height": 16,
+          "lx": 315,
+          "ly": 375,
+          "relation": {
+            "from": "fe",
+            "to": "store",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "training set",
+          "x": 387.1,
+          "y": 359.5,
+          "width": 70.8,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 370.5,
+          "relation": {
+            "from": "store",
+            "to": "train",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "model",
+          "x": 511.75,
+          "y": 364,
+          "width": 36.5,
+          "height": 16,
+          "lx": 530,
+          "ly": 375,
+          "relation": {
+            "from": "train",
+            "to": "registry",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "deploy",
+          "x": 616.8,
+          "y": 416.5,
+          "width": 41.4,
+          "height": 16,
+          "lx": 637.5,
+          "ly": 427.5,
+          "relation": {
+            "from": "registry",
+            "to": "serve",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 6,
+          "label": "online lookup",
+          "x": 340.79999999999995,
+          "y": 444,
+          "width": 75.7,
+          "height": 16,
+          "lx": 378.65,
+          "ly": 455,
+          "relation": {
+            "from": "store",
+            "to": "serve",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "from": "events",
+            "to": "fe",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              157
+            ],
+            [
+              207.5,
+              157
+            ],
+            [
+              207.5,
+              262
+            ],
+            [
+              259,
+              262
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "from": "crm",
+            "to": "fe",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              385
+            ],
+            [
+              207.5,
+              385
+            ],
+            [
+              207.5,
+              280
+            ],
+            [
+              259,
+              280
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "from": "fe",
+            "to": "store",
+            "pins": {}
+          },
+          "points": [
+            [
+              315,
+              300
+            ],
+            [
+              315,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "from": "store",
+            "to": "train",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              490
+            ],
+            [
+              422.5,
+              490
+            ],
+            [
+              422.5,
+              271
+            ],
+            [
+              474,
+              271
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "from": "train",
+            "to": "registry",
+            "pins": {}
+          },
+          "points": [
+            [
+              530,
+              300
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "from": "registry",
+            "to": "serve",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              499
+            ],
+            [
+              637.5,
+              499
+            ],
+            [
+              637.5,
+              376
+            ],
+            [
+              689,
+              376
+            ]
+          ]
+        },
+        {
+          "relationIndex": 6,
+          "relation": {
+            "from": "store",
+            "to": "serve",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              508
+            ],
+            [
+              422.5,
+              508
+            ],
+            [
+              422.5,
+              394
+            ],
+            [
+              689,
+              394
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "events",
+          "x": 44,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "crm",
+          "x": 44,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "fe",
+          "x": 259,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "store",
+          "x": 259,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "train",
+          "x": 474,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "registry",
+          "x": 474,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "serve",
+          "x": 689,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "Raw data",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 506,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "Features",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 506,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "Training",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 506,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "Serving",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 506,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        853,
+        626
+      ],
+      "placementBottom": 552,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "2": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "3": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "4": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "5": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "6": {
+          "fromSide": "right",
+          "toSide": "left"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 0,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "click logs",
+          "x": 177,
+          "y": 188.5,
+          "width": 61,
+          "height": 16,
+          "lx": 207.5,
+          "ly": 199.5,
+          "relation": {
+            "from": "events",
+            "to": "fe",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "accounts",
+          "x": 181.9,
+          "y": 311.5,
+          "width": 51.2,
+          "height": 16,
+          "lx": 207.5,
+          "ly": 322.5,
+          "relation": {
+            "from": "crm",
+            "to": "fe",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "label": "write features",
+          "x": 274.7,
+          "y": 364,
+          "width": 80.6,
+          "height": 16,
+          "lx": 315,
+          "ly": 375,
+          "relation": {
+            "from": "fe",
+            "to": "store",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "training set",
+          "x": 387.1,
+          "y": 359.5,
+          "width": 70.8,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 370.5,
+          "relation": {
+            "from": "store",
+            "to": "train",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "model",
+          "x": 511.75,
+          "y": 364,
+          "width": 36.5,
+          "height": 16,
+          "lx": 530,
+          "ly": 375,
+          "relation": {
+            "from": "train",
+            "to": "registry",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "deploy",
+          "x": 616.8,
+          "y": 416.5,
+          "width": 41.4,
+          "height": 16,
+          "lx": 637.5,
+          "ly": 427.5,
+          "relation": {
+            "from": "registry",
+            "to": "serve",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "label": "online lookup",
+          "x": 340.79999999999995,
+          "y": 444,
+          "width": 75.7,
+          "height": 16,
+          "lx": 378.65,
+          "ly": 455,
+          "relation": {
+            "from": "store",
+            "to": "serve",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              156,
+              157
+            ],
+            [
+              207.5,
+              157
+            ],
+            [
+              207.5,
+              262
+            ],
+            [
+              259,
+              262
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              156,
+              385
+            ],
+            [
+              207.5,
+              385
+            ],
+            [
+              207.5,
+              280
+            ],
+            [
+              259,
+              280
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "points": [
+            [
+              315,
+              300
+            ],
+            [
+              315,
+              470
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              371,
+              490
+            ],
+            [
+              422.5,
+              490
+            ],
+            [
+              422.5,
+              271
+            ],
+            [
+              474,
+              271
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              530,
+              300
+            ],
+            [
+              530,
+              470
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              586,
+              499
+            ],
+            [
+              637.5,
+              499
+            ],
+            [
+              637.5,
+              376
+            ],
+            [
+              689,
+              376
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "points": [
+            [
+              371,
+              508
+            ],
+            [
+              422.5,
+              508
+            ],
+            [
+              422.5,
+              394
+            ],
+            [
+              689,
+              394
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.rejected-grid-recovery#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "状态非 active 或 Idle",
+          "x": 455.50000000000006,
+          "y": 250.5,
+          "width": 114.9,
+          "height": 27,
+          "lx": 512.95,
+          "ly": 261.5,
+          "relation": {
+            "id": "f9",
+            "from": "n7",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "处理已结束或 EOF",
+          "x": 325.85,
+          "y": 313.5,
+          "width": 90.4,
+          "height": 27,
+          "lx": 371.05,
+          "ly": 324.5,
+          "relation": {
+            "id": "f10",
+            "from": "n8",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "请求结束或 EOF",
+          "x": 354.7,
+          "y": 370.5,
+          "width": 80.6,
+          "height": 27,
+          "lx": 395,
+          "ly": 381.5,
+          "relation": {
+            "id": "f11",
+            "from": "n9",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "捕获指定处理异常",
+          "x": 260.05,
+          "y": 584,
+          "width": 90.4,
+          "height": 27,
+          "lx": 305.25,
+          "ly": 595,
+          "relation": {
+            "id": "f12",
+            "from": "n10",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "close 收尾后交付",
+          "x": 536,
+          "y": 492,
+          "width": 90.4,
+          "height": 27,
+          "lx": 581.2,
+          "ly": 503,
+          "relation": {
+            "id": "f13",
+            "from": "n11",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "中间值或输入错误",
+          "x": 326.1,
+          "y": 212.625,
+          "width": 90.4,
+          "height": 27,
+          "lx": 371.3,
+          "ly": 223.625,
+          "relation": {
+            "id": "f14",
+            "from": "n7",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 6,
+          "label": "result 或处理错误",
+          "x": 321.20000000000005,
+          "y": 436.5,
+          "width": 95.3,
+          "height": 27,
+          "lx": 368.85,
+          "ly": 447.5,
+          "relation": {
+            "id": "f15",
+            "from": "n8",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 7,
+          "label": "中间值或输入错误",
+          "x": 326.1,
+          "y": 499.5,
+          "width": 90.4,
+          "height": 27,
+          "lx": 371.3,
+          "ly": 510.5,
+          "relation": {
+            "id": "f16",
+            "from": "n9",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 8,
+          "label": "result:error 字典",
+          "x": 269.85,
+          "y": 627,
+          "width": 95.3,
+          "height": 27,
+          "lx": 317.5,
+          "ly": 638,
+          "relation": {
+            "id": "f17",
+            "from": "n10",
+            "to": "n12",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "f9",
+            "from": "n7",
+            "to": "n11",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              148
+            ],
+            [
+              449.5,
+              148
+            ],
+            [
+              449.5,
+              367
+            ],
+            [
+              473.5,
+              367
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "f10",
+            "from": "n8",
+            "to": "n11",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              262
+            ],
+            [
+              439.29999999999995,
+              262
+            ],
+            [
+              439.29999999999995,
+              379
+            ],
+            [
+              473.5,
+              379
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "id": "f11",
+            "from": "n9",
+            "to": "n11",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              376
+            ],
+            [
+              395,
+              376
+            ],
+            [
+              395,
+              407
+            ],
+            [
+              449.5,
+              407
+            ],
+            [
+              449.5,
+              391
+            ],
+            [
+              473.5,
+              391
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "id": "f12",
+            "from": "n10",
+            "to": "n11",
+            "pins": {}
+          },
+          "points": [
+            [
+              161,
+              604
+            ],
+            [
+              449.5,
+              604
+            ],
+            [
+              449.5,
+              403
+            ],
+            [
+              473.5,
+              403
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "id": "f13",
+            "from": "n11",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              530,
+              419
+            ],
+            [
+              530,
+              579
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "id": "f14",
+            "from": "n7",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              166
+            ],
+            [
+              422.5,
+              166
+            ],
+            [
+              422.5,
+              595
+            ],
+            [
+              474,
+              595
+            ]
+          ]
+        },
+        {
+          "relationIndex": 6,
+          "relation": {
+            "id": "f15",
+            "from": "n8",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              280
+            ],
+            [
+              439.29999999999995,
+              280
+            ],
+            [
+              439.29999999999995,
+              607
+            ],
+            [
+              474,
+              607
+            ]
+          ]
+        },
+        {
+          "relationIndex": 7,
+          "relation": {
+            "id": "f16",
+            "from": "n9",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              394
+            ],
+            [
+              422.5,
+              394
+            ],
+            [
+              422.5,
+              619
+            ],
+            [
+              474,
+              619
+            ]
+          ]
+        },
+        {
+          "relationIndex": 8,
+          "relation": {
+            "id": "f17",
+            "from": "n10",
+            "to": "n12",
+            "pins": {}
+          },
+          "points": [
+            [
+              161,
+              622
+            ],
+            [
+              185,
+              622
+            ],
+            [
+              185,
+              647
+            ],
+            [
+              450,
+              647
+            ],
+            [
+              450,
+              631
+            ],
+            [
+              474,
+              631
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "n7",
+          "x": 259,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n8",
+          "x": 259,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n9",
+          "x": 259,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "n10",
+          "x": 39,
+          "y": 584,
+          "width": 122,
+          "height": 58
+        },
+        {
+          "id": "n11",
+          "x": 473.5,
+          "y": 351,
+          "width": 113,
+          "height": 68
+        },
+        {
+          "id": "n12",
+          "x": 474,
+          "y": 579,
+          "width": 112,
+          "height": 68
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "输入结果",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 632,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "分支条件",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 632,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "清理与交付",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 632,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        651,
+        752
+      ],
+      "placementBottom": 678,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "2": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "3": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "4": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "5": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "6": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "7": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "8": {
+          "fromSide": "right",
+          "toSide": "left"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": false,
+      "routesSame": false,
+      "metrics": {
+        "searches": 1,
+        "maximumSearches": 32,
+        "changedLabels": 1,
+        "changedRoutes": 2
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "状态非 active 或 Idle",
+          "x": 455.50000000000006,
+          "y": 250.5,
+          "width": 114.9,
+          "height": 27,
+          "lx": 512.95,
+          "ly": 261.5,
+          "relation": {
+            "id": "f9",
+            "from": "n7",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "处理已结束或 EOF",
+          "x": 325.85,
+          "y": 313.5,
+          "width": 90.4,
+          "height": 27,
+          "lx": 371.05,
+          "ly": 324.5,
+          "relation": {
+            "id": "f10",
+            "from": "n8",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "same": false,
+          "relationIndex": 2,
+          "label": "请求结束或 EOF",
+          "x": 453.4,
+          "y": 322,
+          "width": 80.6,
+          "height": 27,
+          "lx": 493.7,
+          "ly": 333,
+          "relation": {
+            "id": "f11",
+            "from": "n9",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "捕获指定处理异常",
+          "x": 260.05,
+          "y": 584,
+          "width": 90.4,
+          "height": 27,
+          "lx": 305.25,
+          "ly": 595,
+          "relation": {
+            "id": "f12",
+            "from": "n10",
+            "to": "n11",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "close 收尾后交付",
+          "x": 536,
+          "y": 492,
+          "width": 90.4,
+          "height": 27,
+          "lx": 581.2,
+          "ly": 503,
+          "relation": {
+            "id": "f13",
+            "from": "n11",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "中间值或输入错误",
+          "x": 326.1,
+          "y": 212.625,
+          "width": 90.4,
+          "height": 27,
+          "lx": 371.3,
+          "ly": 223.625,
+          "relation": {
+            "id": "f14",
+            "from": "n7",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "label": "result 或处理错误",
+          "x": 321.20000000000005,
+          "y": 436.5,
+          "width": 95.3,
+          "height": 27,
+          "lx": 368.85,
+          "ly": 447.5,
+          "relation": {
+            "id": "f15",
+            "from": "n8",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "label": "中间值或输入错误",
+          "x": 326.1,
+          "y": 499.5,
+          "width": 90.4,
+          "height": 27,
+          "lx": 371.3,
+          "ly": 510.5,
+          "relation": {
+            "id": "f16",
+            "from": "n9",
+            "to": "n12",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "label": "result:error 字典",
+          "x": 269.85,
+          "y": 627,
+          "width": 95.3,
+          "height": 27,
+          "lx": 317.5,
+          "ly": 638,
+          "relation": {
+            "id": "f17",
+            "from": "n10",
+            "to": "n12",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": false,
+          "relationIndex": 0,
+          "points": [
+            [
+              371,
+              148
+            ],
+            [
+              430.5,
+              148
+            ],
+            [
+              430.5,
+              367
+            ],
+            [
+              473.5,
+              367
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              371,
+              262
+            ],
+            [
+              439.29999999999995,
+              262
+            ],
+            [
+              439.29999999999995,
+              379
+            ],
+            [
+              473.5,
+              379
+            ]
+          ]
+        },
+        {
+          "same": false,
+          "relationIndex": 2,
+          "points": [
+            [
+              371,
+              376
+            ],
+            [
+              387,
+              376
+            ],
+            [
+              387,
+              360
+            ],
+            [
+              457.5,
+              360
+            ],
+            [
+              457.5,
+              391
+            ],
+            [
+              473.5,
+              391
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              161,
+              604
+            ],
+            [
+              449.5,
+              604
+            ],
+            [
+              449.5,
+              403
+            ],
+            [
+              473.5,
+              403
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              530,
+              419
+            ],
+            [
+              530,
+              579
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              371,
+              166
+            ],
+            [
+              422.5,
+              166
+            ],
+            [
+              422.5,
+              595
+            ],
+            [
+              474,
+              595
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "points": [
+            [
+              371,
+              280
+            ],
+            [
+              439.29999999999995,
+              280
+            ],
+            [
+              439.29999999999995,
+              607
+            ],
+            [
+              474,
+              607
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "points": [
+            [
+              371,
+              394
+            ],
+            [
+              422.5,
+              394
+            ],
+            [
+              422.5,
+              619
+            ],
+            [
+              474,
+              619
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 8,
+          "points": [
+            [
+              161,
+              622
+            ],
+            [
+              185,
+              622
+            ],
+            [
+              185,
+              647
+            ],
+            [
+              450,
+              647
+            ],
+            [
+              450,
+              631
+            ],
+            [
+              474,
+              631
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.vertical-label-corridor#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "配置",
+          "x": 275,
+          "y": 335.5,
+          "width": 34,
+          "height": 16,
+          "lx": 292,
+          "ly": 346.5,
+          "relation": {
+            "id": "flow1",
+            "from": "configuration",
+            "to": "context",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "模板内容",
+          "x": 209.525,
+          "y": 365,
+          "width": 51.2,
+          "height": 16,
+          "lx": 235.125,
+          "ly": 376,
+          "relation": {
+            "id": "flow2",
+            "from": "template",
+            "to": "transform",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "写入最终结果",
+          "x": 915.6,
+          "y": 535,
+          "width": 70.8,
+          "height": 16,
+          "lx": 951,
+          "ly": 546,
+          "relation": {
+            "id": "flow3",
+            "from": "writer",
+            "to": "artifact",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "可选复制路径",
+          "x": 167.2,
+          "y": 531.5,
+          "width": 70.8,
+          "height": 16,
+          "lx": 202.6,
+          "ly": 542.5,
+          "relation": {
+            "id": "flow4",
+            "from": "input",
+            "to": "writer",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "路径与文件大小",
+          "x": 975,
+          "y": 556.5,
+          "width": 80.6,
+          "height": 16,
+          "lx": 1015.3,
+          "ly": 567.5,
+          "relation": {
+            "id": "flow5",
+            "from": "artifact",
+            "to": "result",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "原始参数",
+          "x": 174.4,
+          "y": 470,
+          "width": 51.2,
+          "height": 16,
+          "lx": 200,
+          "ly": 481,
+          "relation": {
+            "id": "flow6",
+            "from": "input",
+            "to": "result",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "flow1",
+            "from": "configuration",
+            "to": "context",
+            "pins": {}
+          },
+          "points": [
+            [
+              315,
+              300
+            ],
+            [
+              315,
+              470
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "flow2",
+            "from": "template",
+            "to": "transform",
+            "pins": {}
+          },
+          "points": [
+            [
+              156.5,
+              385
+            ],
+            [
+              471,
+              385
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "id": "flow3",
+            "from": "writer",
+            "to": "artifact",
+            "pins": {}
+          },
+          "points": [
+            [
+              951,
+              528
+            ],
+            [
+              951,
+              584
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "id": "flow4",
+            "from": "input",
+            "to": "writer",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              508
+            ],
+            [
+              244,
+              508
+            ],
+            [
+              244,
+              569
+            ],
+            [
+              877,
+              569
+            ],
+            [
+              877,
+              499
+            ],
+            [
+              901,
+              499
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "id": "flow5",
+            "from": "artifact",
+            "to": "result",
+            "pins": {}
+          },
+          "points": [
+            [
+              969,
+              584
+            ],
+            [
+              969,
+              555
+            ],
+            [
+              869,
+              555
+            ],
+            [
+              869,
+              438
+            ],
+            [
+              960,
+              438
+            ],
+            [
+              960,
+              414
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "id": "flow6",
+            "from": "input",
+            "to": "result",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              490
+            ],
+            [
+              244,
+              490
+            ],
+            [
+              244,
+              569
+            ],
+            [
+              875,
+              569
+            ],
+            [
+              875,
+              385
+            ],
+            [
+              899,
+              385
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "input",
+          "x": 44,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "template",
+          "x": 43.5,
+          "y": 356,
+          "width": 113,
+          "height": 58
+        },
+        {
+          "id": "configuration",
+          "x": 259,
+          "y": 242,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "context",
+          "x": 259,
+          "y": 470,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "transform",
+          "x": 471,
+          "y": 356,
+          "width": 118,
+          "height": 58
+        },
+        {
+          "id": "writer",
+          "x": 901,
+          "y": 470,
+          "width": 118,
+          "height": 58
+        },
+        {
+          "id": "artifact",
+          "x": 901,
+          "y": 584,
+          "width": 118,
+          "height": 58
+        },
+        {
+          "id": "result",
+          "x": 899,
+          "y": 356,
+          "width": 122,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "Stage 1",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "Stage 2",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "Stage 3",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "Stage 4",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 4,
+          "label": "Stage 5",
+          "kind": "stage",
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        1080,
+        740
+      ],
+      "placementBottom": 666,
+      "sides": {
+        "0": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "1": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "2": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "3": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "4": {
+          "fromSide": "top",
+          "toSide": "bottom"
+        },
+        "5": {
+          "fromSide": "right",
+          "toSide": "left"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 0,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "配置",
+          "x": 275,
+          "y": 335.5,
+          "width": 34,
+          "height": 16,
+          "lx": 292,
+          "ly": 346.5,
+          "relation": {
+            "id": "flow1",
+            "from": "configuration",
+            "to": "context",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "模板内容",
+          "x": 209.525,
+          "y": 365,
+          "width": 51.2,
+          "height": 16,
+          "lx": 235.125,
+          "ly": 376,
+          "relation": {
+            "id": "flow2",
+            "from": "template",
+            "to": "transform",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "label": "写入最终结果",
+          "x": 915.6,
+          "y": 535,
+          "width": 70.8,
+          "height": 16,
+          "lx": 951,
+          "ly": 546,
+          "relation": {
+            "id": "flow3",
+            "from": "writer",
+            "to": "artifact",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "可选复制路径",
+          "x": 167.2,
+          "y": 531.5,
+          "width": 70.8,
+          "height": 16,
+          "lx": 202.6,
+          "ly": 542.5,
+          "relation": {
+            "id": "flow4",
+            "from": "input",
+            "to": "writer",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "路径与文件大小",
+          "x": 975,
+          "y": 556.5,
+          "width": 80.6,
+          "height": 16,
+          "lx": 1015.3,
+          "ly": 567.5,
+          "relation": {
+            "id": "flow5",
+            "from": "artifact",
+            "to": "result",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "原始参数",
+          "x": 174.4,
+          "y": 470,
+          "width": 51.2,
+          "height": 16,
+          "lx": 200,
+          "ly": 481,
+          "relation": {
+            "id": "flow6",
+            "from": "input",
+            "to": "result",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              315,
+              300
+            ],
+            [
+              315,
+              470
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              156.5,
+              385
+            ],
+            [
+              471,
+              385
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "points": [
+            [
+              951,
+              528
+            ],
+            [
+              951,
+              584
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              156,
+              508
+            ],
+            [
+              244,
+              508
+            ],
+            [
+              244,
+              569
+            ],
+            [
+              877,
+              569
+            ],
+            [
+              877,
+              499
+            ],
+            [
+              901,
+              499
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              969,
+              584
+            ],
+            [
+              969,
+              555
+            ],
+            [
+              869,
+              555
+            ],
+            [
+              869,
+              438
+            ],
+            [
+              960,
+              438
+            ],
+            [
+              960,
+              414
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              156,
+              490
+            ],
+            [
+              244,
+              490
+            ],
+            [
+              244,
+              569
+            ],
+            [
+              875,
+              569
+            ],
+            [
+              875,
+              385
+            ],
+            [
+              899,
+              385
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "first-draft.vertical-label-neighbour#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "标题与旁白",
+          "x": 239,
+          "y": 207,
+          "width": 61,
+          "height": 16,
+          "lx": 269.5,
+          "ly": 218,
+          "relation": {
+            "id": "f2",
+            "from": "content",
+            "to": "board",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "旁白列表",
+          "x": 330,
+          "y": 199.5,
+          "width": 51.2,
+          "height": 16,
+          "lx": 355.6,
+          "ly": 210.5,
+          "relation": {
+            "id": "f4",
+            "from": "content",
+            "to": "visual",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "f2",
+            "from": "content",
+            "to": "board",
+            "pins": {}
+          },
+          "points": [
+            [
+              306,
+              186
+            ],
+            [
+              306,
+              242
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "f4",
+            "from": "content",
+            "to": "visual",
+            "pins": {}
+          },
+          "points": [
+            [
+              324,
+              186
+            ],
+            [
+              324,
+              227
+            ],
+            [
+              237,
+              227
+            ],
+            [
+              237,
+              332
+            ],
+            [
+              315,
+              332
+            ],
+            [
+              315,
+              356
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "content",
+          "x": 259,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "board",
+          "x": 258.5,
+          "y": 242,
+          "width": 113,
+          "height": 58
+        },
+        {
+          "id": "visual",
+          "x": 259,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "records",
+          "x": 252,
+          "y": 584,
+          "width": 126,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "Stage 1",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "Stage 2",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "Stage 3",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "Stage 4",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        },
+        {
+          "id": 4,
+          "label": "Stage 5",
+          "kind": "stage",
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 620,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        1068,
+        740
+      ],
+      "placementBottom": 666,
+      "sides": {
+        "0": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "1": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 0,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "标题与旁白",
+          "x": 239,
+          "y": 207,
+          "width": 61,
+          "height": 16,
+          "lx": 269.5,
+          "ly": 218,
+          "relation": {
+            "id": "f2",
+            "from": "content",
+            "to": "board",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "旁白列表",
+          "x": 330,
+          "y": 199.5,
+          "width": 51.2,
+          "height": 16,
+          "lx": 355.6,
+          "ly": 210.5,
+          "relation": {
+            "id": "f4",
+            "from": "content",
+            "to": "visual",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              306,
+              186
+            ],
+            [
+              306,
+              242
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              324,
+              186
+            ],
+            [
+              324,
+              227
+            ],
+            [
+              237,
+              227
+            ],
+            [
+              237,
+              332
+            ],
+            [
+              315,
+              332
+            ],
+            [
+              315,
+              356
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "pipeline#0",
+    "input": {
+      "labels": [
+        {
+          "relationIndex": 0,
+          "label": "configuration",
+          "x": 169.65,
+          "y": 136,
+          "width": 75.7,
+          "height": 16,
+          "lx": 207.5,
+          "ly": 147,
+          "relation": {
+            "id": "f0",
+            "from": "input",
+            "to": "prepare",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 1,
+          "label": "task input",
+          "x": 392,
+          "y": 136,
+          "width": 61,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 147,
+          "relation": {
+            "id": "f1",
+            "from": "prepare",
+            "to": "task",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 2,
+          "label": "command",
+          "x": 506.85,
+          "y": 250,
+          "width": 46.3,
+          "height": 16,
+          "lx": 530,
+          "ly": 261,
+          "relation": {
+            "id": "f2",
+            "from": "task",
+            "to": "provider",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 3,
+          "label": "log bytes",
+          "x": 609.45,
+          "y": 364,
+          "width": 56.1,
+          "height": 16,
+          "lx": 637.5,
+          "ly": 375,
+          "relation": {
+            "id": "f3",
+            "from": "provider",
+            "to": "bytes",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 4,
+          "label": "decode",
+          "x": 724.3,
+          "y": 250,
+          "width": 41.4,
+          "height": 16,
+          "lx": 745,
+          "ly": 261,
+          "relation": {
+            "id": "f4",
+            "from": "bytes",
+            "to": "decoded",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 5,
+          "label": "timeout / cancellation",
+          "x": 563.6,
+          "y": 108,
+          "width": 119.8,
+          "height": 16,
+          "lx": 623.5,
+          "ly": 119,
+          "relation": {
+            "id": "f5",
+            "from": "task",
+            "to": "decoded",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 6,
+          "label": "answer",
+          "x": 843.3,
+          "y": 136,
+          "width": 41.4,
+          "height": 16,
+          "lx": 864,
+          "ly": 147,
+          "relation": {
+            "id": "f6",
+            "from": "decoded",
+            "to": "output",
+            "pins": {}
+          }
+        },
+        {
+          "relationIndex": 7,
+          "label": "save mode",
+          "x": 931.95,
+          "y": 250,
+          "width": 56.1,
+          "height": 16,
+          "lx": 960,
+          "ly": 261,
+          "relation": {
+            "id": "f7",
+            "from": "output",
+            "to": "archive",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "relationIndex": 0,
+          "relation": {
+            "id": "f0",
+            "from": "input",
+            "to": "prepare",
+            "pins": {}
+          },
+          "points": [
+            [
+              156,
+              157
+            ],
+            [
+              259,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 1,
+          "relation": {
+            "id": "f1",
+            "from": "prepare",
+            "to": "task",
+            "pins": {}
+          },
+          "points": [
+            [
+              371,
+              157
+            ],
+            [
+              474,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 2,
+          "relation": {
+            "id": "f2",
+            "from": "task",
+            "to": "provider",
+            "pins": {}
+          },
+          "points": [
+            [
+              530,
+              186
+            ],
+            [
+              530,
+              356
+            ]
+          ]
+        },
+        {
+          "relationIndex": 3,
+          "relation": {
+            "id": "f3",
+            "from": "provider",
+            "to": "bytes",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              385
+            ],
+            [
+              689,
+              385
+            ]
+          ]
+        },
+        {
+          "relationIndex": 4,
+          "relation": {
+            "id": "f4",
+            "from": "bytes",
+            "to": "decoded",
+            "pins": {}
+          },
+          "points": [
+            [
+              745,
+              356
+            ],
+            [
+              745,
+              186
+            ]
+          ]
+        },
+        {
+          "relationIndex": 5,
+          "relation": {
+            "id": "f5",
+            "from": "task",
+            "to": "decoded",
+            "pins": {}
+          },
+          "points": [
+            [
+              586,
+              157
+            ],
+            [
+              661,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 6,
+          "relation": {
+            "id": "f6",
+            "from": "decoded",
+            "to": "output",
+            "pins": {}
+          },
+          "points": [
+            [
+              829,
+              157
+            ],
+            [
+              899,
+              157
+            ]
+          ]
+        },
+        {
+          "relationIndex": 7,
+          "relation": {
+            "id": "f7",
+            "from": "output",
+            "to": "archive",
+            "pins": {}
+          },
+          "points": [
+            [
+              960,
+              186
+            ],
+            [
+              960,
+              356
+            ]
+          ]
+        }
+      ],
+      "nodes": [
+        {
+          "id": "input",
+          "x": 44,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "prepare",
+          "x": 259,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "task",
+          "x": 474,
+          "y": 128,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "provider",
+          "x": 474,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "bytes",
+          "x": 689,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        },
+        {
+          "id": "decoded",
+          "x": 661,
+          "y": 128,
+          "width": 168,
+          "height": 58
+        },
+        {
+          "id": "output",
+          "x": 899,
+          "y": 128,
+          "width": 122,
+          "height": 58
+        },
+        {
+          "id": "archive",
+          "x": 904,
+          "y": 356,
+          "width": 112,
+          "height": 58
+        }
+      ],
+      "titles": [
+        {
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        },
+        {
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 36
+        }
+      ],
+      "frames": [
+        {
+          "id": 0,
+          "label": "Input",
+          "kind": "stage",
+          "x": 16,
+          "y": 46,
+          "width": 168,
+          "height": 392,
+          "radius": 10
+        },
+        {
+          "id": 1,
+          "label": "Prepare",
+          "kind": "stage",
+          "x": 231,
+          "y": 46,
+          "width": 168,
+          "height": 392,
+          "radius": 10
+        },
+        {
+          "id": 2,
+          "label": "Execute",
+          "kind": "stage",
+          "x": 446,
+          "y": 46,
+          "width": 168,
+          "height": 392,
+          "radius": 10
+        },
+        {
+          "id": 3,
+          "label": "Decode",
+          "kind": "stage",
+          "x": 661,
+          "y": 46,
+          "width": 168,
+          "height": 392,
+          "radius": 10
+        },
+        {
+          "id": 4,
+          "label": "Output",
+          "kind": "stage",
+          "x": 876,
+          "y": 46,
+          "width": 168,
+          "height": 392,
+          "radius": 10
+        }
+      ],
+      "viewBox": [
+        1068,
+        512
+      ],
+      "placementBottom": 438,
+      "sides": {
+        "0": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "1": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "2": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        },
+        "3": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "4": {
+          "fromSide": "top",
+          "toSide": "bottom"
+        },
+        "5": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "6": {
+          "fromSide": "right",
+          "toSide": "left"
+        },
+        "7": {
+          "fromSide": "bottom",
+          "toSide": "top"
+        }
+      }
+    },
+    "output": {
+      "labelsSame": true,
+      "routesSame": true,
+      "metrics": {
+        "searches": 0,
+        "maximumSearches": 32,
+        "changedLabels": 0,
+        "changedRoutes": 0
+      },
+      "labels": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "label": "configuration",
+          "x": 169.65,
+          "y": 136,
+          "width": 75.7,
+          "height": 16,
+          "lx": 207.5,
+          "ly": 147,
+          "relation": {
+            "id": "f0",
+            "from": "input",
+            "to": "prepare",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "label": "task input",
+          "x": 392,
+          "y": 136,
+          "width": 61,
+          "height": 16,
+          "lx": 422.5,
+          "ly": 147,
+          "relation": {
+            "id": "f1",
+            "from": "prepare",
+            "to": "task",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "label": "command",
+          "x": 506.85,
+          "y": 250,
+          "width": 46.3,
+          "height": 16,
+          "lx": 530,
+          "ly": 261,
+          "relation": {
+            "id": "f2",
+            "from": "task",
+            "to": "provider",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "label": "log bytes",
+          "x": 609.45,
+          "y": 364,
+          "width": 56.1,
+          "height": 16,
+          "lx": 637.5,
+          "ly": 375,
+          "relation": {
+            "id": "f3",
+            "from": "provider",
+            "to": "bytes",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "label": "decode",
+          "x": 724.3,
+          "y": 250,
+          "width": 41.4,
+          "height": 16,
+          "lx": 745,
+          "ly": 261,
+          "relation": {
+            "id": "f4",
+            "from": "bytes",
+            "to": "decoded",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "label": "timeout / cancellation",
+          "x": 563.6,
+          "y": 108,
+          "width": 119.8,
+          "height": 16,
+          "lx": 623.5,
+          "ly": 119,
+          "relation": {
+            "id": "f5",
+            "from": "task",
+            "to": "decoded",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "label": "answer",
+          "x": 843.3,
+          "y": 136,
+          "width": 41.4,
+          "height": 16,
+          "lx": 864,
+          "ly": 147,
+          "relation": {
+            "id": "f6",
+            "from": "decoded",
+            "to": "output",
+            "pins": {}
+          }
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "label": "save mode",
+          "x": 931.95,
+          "y": 250,
+          "width": 56.1,
+          "height": 16,
+          "lx": 960,
+          "ly": 261,
+          "relation": {
+            "id": "f7",
+            "from": "output",
+            "to": "archive",
+            "pins": {}
+          }
+        }
+      ],
+      "routes": [
+        {
+          "same": true,
+          "relationIndex": 0,
+          "points": [
+            [
+              156,
+              157
+            ],
+            [
+              259,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 1,
+          "points": [
+            [
+              371,
+              157
+            ],
+            [
+              474,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 2,
+          "points": [
+            [
+              530,
+              186
+            ],
+            [
+              530,
+              356
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 3,
+          "points": [
+            [
+              586,
+              385
+            ],
+            [
+              689,
+              385
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 4,
+          "points": [
+            [
+              745,
+              356
+            ],
+            [
+              745,
+              186
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 5,
+          "points": [
+            [
+              586,
+              157
+            ],
+            [
+              661,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 6,
+          "points": [
+            [
+              829,
+              157
+            ],
+            [
+              899,
+              157
+            ]
+          ]
+        },
+        {
+          "same": true,
+          "relationIndex": 7,
+          "points": [
+            [
+              960,
+              186
+            ],
+            [
+              960,
+              356
+            ]
+          ]
+        }
+      ]
+    }
+  }
+]
