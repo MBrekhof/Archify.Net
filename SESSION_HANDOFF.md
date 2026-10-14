@@ -40,3 +40,19 @@ Listed in `README.md` under "Known deviations from upstream". The CJK word-wrap 
 `PORT-002`: erd/grid, sequence, lifecycle, class, tree, timeline and waterfall renderers. Plan:
 `docs/superpowers/plans/2026-10-14-phase2-renderers.md`, with its Opus review folded in and committed next to it
 (`2a56657`).
+
+## Resume point (2026-10-14 19:00, session restarted mid-PORT-002)
+
+- PORT-001 (phase 1) is in Review on the board; final state commit `23de573` + rulings doc `bbc8aa1` (228 tests then).
+- PORT-002 (phase 2) is in progress on `master`: Tasks 1-8 complete and reviewed; Task 9 (timeline) implemented at
+  `f798a38` (4/4 goldens, 7 receipts, layout-json 4/4, 336 tests) and **awaiting its task review**. Tasks 10 (waterfall) and
+  11 (docs/handoff) remain. Plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md`.
+- SDD ledger (git-ignored, on disk): `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md` — every ruling,
+  deferred minor and carried item; briefs `task-N-brief.md`, reports `task-N-report.md`, reviews `task-N-review.md`,
+  review package for Task 9 already built: `review-ce02c99..f798a38.code.diff`. Resume = dispatch the Task 9 review.
+- Reviewer change requested by Martin: Google Antigravity CLI (`agy`) replaces the Opus task reviewer. Not usable yet
+  at restart: `agy` is not on PATH in Claude's shells and its log said "You are not logged into Antigravity"; the npm
+  `gemini` 0.64 CLI refuses (individual tier deprecated). Needed: Martin logs in, `agy --help` shows the headless flags,
+  and Martin says whether it takes over from Task 9's review or from the phase-2 final review.
+- Cards minted this phase: TZ-001 (CARD-2172, ICU ids .NET cannot resolve), TZ-002 (CARD-2173, Windows without ICU),
+  GLOB-001 (CARD-2174, Js static ctor under InvariantGlobalization).
