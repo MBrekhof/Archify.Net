@@ -69,7 +69,7 @@ public static partial class Js
             finally { Icu.uenum_close(e); }
             return status > 0 ? null : map;
         }
-        catch (Exception x) when (x is DllNotFoundException or EntryPointNotFoundException) { return null; }   // Windows before 10 1903 ships no icu.dll
+        catch { return null; }   // ponytail: any failure (no icu.dll before Windows 10 1903, missing export, …) degrades to the exact-case path
     });
 
     // ponytail: ucal_openTimeZones / uenum_unext / uenum_close from the OS icu.dll (Windows 10 1903+), Windows-only. Linux ICU exports
