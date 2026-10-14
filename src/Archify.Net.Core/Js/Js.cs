@@ -7,7 +7,7 @@ using System.Text.Json.Nodes;
 namespace Archify.Net;
 
 // ponytail: V8 parity — the only file allowed to know how JavaScript formats, sorts and escapes.
-public static class Js
+public static partial class Js
 {
     // Number.prototype.toString(): shortest round-trip digits, then ES2023 §6.1.6.1.20 layout.
     public static string Num(double v)
@@ -266,5 +266,5 @@ public static class Js
     public static string ReplaceFirst(string s, string search, Func<string, string> replacement)
     { var at = s.IndexOf(search, StringComparison.Ordinal); return at < 0 ? s : string.Concat(s.AsSpan(0, at), replacement(search), s.AsSpan(at + search.Length)); }
     public static string EscapeHtml(string? s) => (s ?? "").Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&#39;");
-    // Graphemes / WordBreaks (Intl.Segmenter stand-ins) arrive in phase 2 with their fixtures (sequence notes, dataflow labels).
+    // Graphemes / WordBreaks, Han tokenizers and the JS-whitespace splits live in JsText.cs.
 }
