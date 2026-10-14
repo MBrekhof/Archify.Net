@@ -36,7 +36,9 @@ public static partial class Js
     /// <summary>
     /// True iff <c>new Intl.DateTimeFormat('en-US', { timeZone: id })</c> does not throw (time-zones.json "valid"). IANA ids match
     /// case-insensitively against ICU's own list, as V8 does.
-    /// Deviation: off Windows the ICU list is not read, so only exact-case IANA ids (plus 3–4-letter upper-case ones) are accepted.
+    /// Deviation, by host: a Windows host with icu.dll gets the full ICU list. On non-Windows hosts the list is not read, and only
+    /// exact-case IANA ids are accepted, through TimeZoneInfo. On Windows without ICU (builds before 10 1903, Server 2019, or
+    /// System.Globalization.UseNls=true) TimeZoneInfo cannot resolve IANA ids, so only UTC and fixed-offset zones are accepted.
     /// Deviation: ids present in V8's ICU but absent from, or unresolvable by, the Windows ICU/TimeZoneInfo build are rejected; the
     /// set varies with the OS build. On this machine (ICU 72.1, 2026-10-14) examples are CET, EET, MET, WET, America/Ciudad_Juarez,
     /// Antarctica/Troll, Asia/Urumqi, Asia/Kashgar, Antarctica/Vostok, America/Coyhaique and the SystemV/* legacy ids.
