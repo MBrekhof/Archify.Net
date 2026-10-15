@@ -1,0 +1,30 @@
+{
+  "args": [
+    "check",
+    "out.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "set": "out.delivery.json",
+      "key": "output",
+      "value": "<WORK>\\missing.html"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"invalid\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Delivery provenance could not determine whether its recorded output identifies the inspected artifact.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Delivery provenance could not determine whether its recorded output identifies the inspected artifact.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-output-indeterminate\",\n      \"severity\": \"error\",\n      \"message\": \"Delivery provenance could not determine whether its recorded output identifies the inspected artifact.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\",\n        \"recordedOutput\": \"<WORK>\\\\missing.html\"\n      },\n      \"evidence\": {\n        \"pathIdentity\": {\n          \"code\": \"entry-missing\",\n          \"operation\": \"same-entry\",\n          \"missing\": [\n            \"left\"\n          ]\n        }\n      },\n      \"supportedFixes\": [\n        \"restore access to both the artifact and its recorded output path, then rerun deliver successfully\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,35 @@
+{
+  "args": [
+    "check",
+    "out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json",
+    "schema-failure-output.architecture.json": "tests/fixtures/cli/inputs/schema-failure-output.architecture.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "schema-failure-output.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 1
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"failed\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"A delivery attempt is unfinished or failed; complete a successful deliver before trusting this artifact.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"A delivery attempt is unfinished or failed; complete a successful deliver before trusting this artifact.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-failed\",\n      \"severity\": \"error\",\n      \"message\": \"A delivery attempt is unfinished or failed; complete a successful deliver before trusting this artifact.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"pendingJournal\": \"<WORK>\\\\out.delivery-pending.json\",\n        \"found\": true\n      },\n      \"supportedFixes\": [\n        \"finish any active delivery, then rerun deliver successfully; retain the pending journal until recovery succeeds\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

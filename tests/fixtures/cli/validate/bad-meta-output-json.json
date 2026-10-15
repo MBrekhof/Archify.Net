@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "bad-meta-output.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "bad-meta-output.architecture.json": "tests/fixtures/cli/inputs/bad-meta-output.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"render\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\bad-meta-output.architecture.json\",\n  \"error\": \"meta.output must target an .html file.\",\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"subject\": {\n        \"output\": \"out.txt\",\n        \"path\": \"/meta/output\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"change meta.output to a portable path ending in .html\"\n      ],\n      \"code\": \"output/meta-extension\",\n      \"message\": \"meta.output must target an .html file.\"\n    }\n  ]\n}\n",
+  "stderr": ""
+}

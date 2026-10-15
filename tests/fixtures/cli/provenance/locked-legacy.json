@@ -1,0 +1,29 @@
+{
+  "args": [
+    "check",
+    "out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json",
+    "lock.json": "tests/fixtures/cli/inputs/stale.archify-delivery-lock.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "copy": "lock.json",
+      "to": "out.delivery-lock.json"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"locked\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Delivery ownership is unresolved while the output lock remains; complete or recover delivery before trusting this artifact.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Delivery ownership is unresolved while the output lock remains; complete or recover delivery before trusting this artifact.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-locked\",\n      \"severity\": \"error\",\n      \"message\": \"Delivery ownership is unresolved while the output lock remains; complete or recover delivery before trusting this artifact.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"lock\": \"<WORK>\\\\out.delivery-lock.json\"\n      },\n      \"evidence\": {\n        \"deliveryLock\": \"<WORK>\\\\out.delivery-lock.json\",\n        \"found\": true\n      },\n      \"supportedFixes\": [\n        \"finish the active delivery or inspect and recover the preserved lock, then rerun deliver successfully\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

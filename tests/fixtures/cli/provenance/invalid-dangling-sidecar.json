@@ -1,0 +1,18 @@
+{
+  "args": [
+    "check",
+    "out.html"
+  ],
+  "files": {
+    "out.html": "upstream/examples/web-app-rendered.html"
+  },
+  "setup": [
+    {
+      "symlink": "out.delivery.json",
+      "target": "missing.json"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"invalid\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Could not read delivery provenance: Delivery provenance is not a stable regular file (delivery-provenance-not-regular-file).\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Could not read delivery provenance: Delivery provenance is not a stable regular file (delivery-provenance-not-regular-file).\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-invalid\",\n      \"severity\": \"error\",\n      \"message\": \"Could not read delivery provenance: Delivery provenance is not a stable regular file (delivery-provenance-not-regular-file).\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Delivery provenance is not a stable regular file (delivery-provenance-not-regular-file).\"\n      },\n      \"supportedFixes\": [\n        \"rerun deliver to replace the invalid provenance sidecar\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

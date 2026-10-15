@@ -1,0 +1,33 @@
+{
+  "args": [
+    "check",
+    "out.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "a.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "copy": "a.html",
+      "to": "out.html"
+    },
+    {
+      "copy": "a.delivery.json",
+      "to": "out.delivery.json"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"invalid\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Delivery provenance could not be verified.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Delivery provenance could not be verified.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-invalid\",\n      \"severity\": \"error\",\n      \"message\": \"Delivery provenance could not be verified.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"The recorded delivery output does not identify this artifact.\",\n        \"recordedOutput\": \"<WORK>\\\\a.html\",\n        \"pathIdentity\": {\n          \"code\": \"file-identity-different\",\n          \"operation\": \"same-entry\",\n          \"method\": \"bigint-stat\"\n        }\n      },\n      \"supportedFixes\": [\n        \"restore access to the delivery records, then rerun deliver successfully\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

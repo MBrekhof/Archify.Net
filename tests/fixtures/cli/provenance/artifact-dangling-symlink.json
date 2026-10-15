@@ -1,0 +1,16 @@
+{
+  "args": [
+    "check",
+    "out.html"
+  ],
+  "files": {},
+  "setup": [
+    {
+      "symlink": "out.html",
+      "target": "missing.html"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Could not read the HTML artifact: The artifact is not a stable regular file (delivery-artifact-not-regular-file).\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Could not read the HTML artifact: The artifact is not a stable regular file (delivery-artifact-not-regular-file).\",\n  \"diagnostics\": [\n    {\n      \"code\": \"input/artifact-unreadable\",\n      \"severity\": \"error\",\n      \"message\": \"Could not read the HTML artifact: The artifact is not a stable regular file (delivery-artifact-not-regular-file).\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\"\n      },\n      \"evidence\": {\n        \"reason\": \"The artifact is not a stable regular file (delivery-artifact-not-regular-file).\"\n      },\n      \"supportedFixes\": [\n        \"provide an existing readable .html artifact, then rerun the checker\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

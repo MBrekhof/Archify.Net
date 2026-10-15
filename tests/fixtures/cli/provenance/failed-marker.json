@@ -1,0 +1,39 @@
+{
+  "args": [
+    "check",
+    "out.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json",
+    "schema-failure-output.architecture.json": "tests/fixtures/cli/inputs/schema-failure-output.architecture.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "schema-failure-output.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 1
+    },
+    {
+      "delete": "out.delivery-pending.json"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"failed\",\n  \"deliveryReceiptId\": \"<uuid>\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"The artifact is stale because the latest delivery attempt failed.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"The artifact is stale because the latest delivery attempt failed.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-failed\",\n      \"severity\": \"error\",\n      \"message\": \"The artifact is stale because the latest delivery attempt failed.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"stage\": \"render\",\n        \"deliveryReceiptId\": \"<uuid>\"\n      },\n      \"supportedFixes\": [\n        \"repair the specification and complete a successful deliver before checking this artifact\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

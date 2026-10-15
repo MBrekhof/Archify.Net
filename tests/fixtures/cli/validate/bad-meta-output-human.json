@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "bad-meta-output.architecture.json"
+  ],
+  "files": {
+    "bad-meta-output.architecture.json": "tests/fixtures/cli/inputs/bad-meta-output.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "meta.output must target an .html file.\n[output/meta-extension] meta.output must target an .html file. Fix: change meta.output to a portable path ending in .html.\n"
+}

@@ -37,18 +37,21 @@ static partial class ValidateCommand
         // otherwise only the authored output path.
         byte[] specification;
         JsonObject document;
+        var authoredOutput = false;
         try
         {
             document = RenderCommand.ReadDiagram(inputPath, out specification);
-            if (document["meta"] is JsonObject meta && meta.TryGetPropertyValue("output", out var output))
-                OutputPaths.Native.ValidateAuthoredOutputPath(output, io.Cwd);
+            JsonNode? output = null;
+            authoredOutput = document["meta"] is JsonObject meta && meta.TryGetPropertyValue("output", out output);
+            if (authoredOutput) OutputPaths.Native.ValidateAuthoredOutputPath(output, io.Cwd);
             else SchemaValidator.Validate(type, document, new DiagnosticSink());
         }
         catch (ArchifyDiagnosticException error)
         {
             // inputDiagnostic (A:2609-2625): `error` is Node's own message; only the diagnostic prefixes it.
             var message = error.Diagnostics is [{ Code: "input/read" or "input/json-parse" } input] ? input.Evidence["reason"]!.GetValue<string>() : error.Message;
-            return Cli.ReportArtifactFailure(io, json, Failure(message, error.Diagnostics));
+            // An authored-output failure is an OutputPathError, reported with its spread key order (pinned by validate/bad-meta-output-json).
+            return Cli.ReportArtifactFailure(io, json, Failure(message, error.Diagnostics) with { SpreadOrdered = authoredOutput ? error.Diagnostics : [] });
         }
 
         var renderOptions = Args.RenderOptions(quality, repoRoot);

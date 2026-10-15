@@ -41,6 +41,15 @@ internal sealed class DeliveryAttempt(string output, string lockPath, string pen
 // lock error that kept it from recording or releasing.
 internal sealed record FailureRecord(string Status, Diagnostic? Diagnostic = null, Exception? LockError = null);
 
+// inspectArtifactDeliveryProvenance's result: the gate's status (current | unknown | failed | locked | mismatch | invalid), the
+// delivery receiptId, its one failure diagnostic, and the bytes it read (the expected bindings verifyDeliveryUnchanged re-checks).
+internal sealed record Provenance(bool Ok, string Status, string? ReceiptId = null, Diagnostic? Failure = null)
+{
+    public IReadOnlyList<Diagnostic> Diagnostics => Failure is null ? [] : [Failure];
+    public byte[] Artifact { get; init; } = [];
+    public byte[]? Sidecar { get; init; }
+}
+
 // The delivery sidecars (Q5): the directory lock, the pending journal, success and failure provenance, and the pair commit.
 // Cut (survey-delivery §3, D1-D10): atomic-output bindings, lock/journal identity re-checks, quarantine and recovery directories,
 // creating the legacy per-artifact lock.
@@ -167,7 +176,7 @@ internal sealed partial class DeliveryStore
             var lockJson = JsonNode.Parse(new UTF8Encoding(false).GetString(buffer.ToArray())) as JsonObject;
             var schemaVersion = Number(lockJson?["schemaVersion"]);
             var pidValue = Number(lockJson?["pid"]);
-            receiptId = lockJson?["receiptId"] is JsonValue id && id.GetValueKind() == JsonValueKind.String ? id.GetValue<string>() : "";
+            receiptId = Text(lockJson?["receiptId"]) ?? "";
             if (schemaVersion != 1 || pidValue is not double p || p != Math.Floor(p) || p <= 0 || p > 9007199254740991 || !UuidV4().IsMatch(receiptId))
                 throw new FormatException();
             pid = (long)p;
@@ -177,9 +186,10 @@ internal sealed partial class DeliveryStore
             return new("delivery/concurrent-attempt", lockPath, $"Another delivery attempt owns \"{output}\" through lock \"{lockPath}\".");
         return new("delivery/lock-stale", lockPath, $"A stale delivery lock remains at \"{lockPath}\"; recover it serially before retrying.",
             new JsonObject { ["pid"] = pid, ["receiptId"] = receiptId });
-
-        static double? Number(JsonNode? node) => node is JsonValue value && value.GetValueKind() == JsonValueKind.Number ? value.GetValue<double>() : null;
     }
+
+    static double? Number(JsonNode? node) => node is JsonValue value && value.GetValueKind() == JsonValueKind.Number ? node.D() : null;
+    static string? Text(JsonNode? node) => node is JsonValue value && value.GetValueKind() == JsonValueKind.String ? value.GetValue<string>() : null;
 
     // processIsRunning (A:218-226): alive unless the pid is gone (ESRCH); a process we may not open still counts as alive, as EPERM
     // does upstream. libuv maps OpenProcess's invalid-parameter answer for an impossible pid to ESRCH as well. ponytail: Windows
@@ -379,6 +389,220 @@ internal sealed partial class DeliveryStore
                 Thread.Sleep(100);
             }
         }
+    }
+
+    // --- the provenance gate (check --require-provenance, survey-delivery §2.4) ---
+
+    static readonly HashSet<string> Types = [.. Enum.GetValues<DiagramType>().Select(type => type.Name())];
+
+    // inspectArtifactDeliveryProvenance (A:5309-5424): (a) the artifact's realpath read as a regular file, then gates (b)-(i). With
+    // `expected` (verifyDeliveryUnchanged) the artifact and the sidecar must still hold the bytes that inspection read.
+    // Cut with atomic-output (D1, D2): identity and link-count bindings (a hard link or a same-bytes replacement passes) and the
+    // re-verification of the artifact binding right after the gate.
+    public static Provenance InspectProvenance(string artifactPath, bool requireProvenance, Provenance? expected = null)
+    {
+        var stable = CanonicalExistingOutput(artifactPath);
+        if (RegularFile(stable, "delivery-artifact", expected?.Artifact, out var artifact) is { } code)
+        {
+            var reason = $"The artifact is not a stable regular file ({code}).";
+            var message = $"Could not read the HTML artifact: {reason}";
+            return new(false, "unknown", Failure: new Diagnostic("input/artifact-unreadable", Severity.Error, message, new JsonObject { ["artifact"] = artifactPath },
+                new JsonObject { ["reason"] = reason }, ["provide an existing readable .html artifact, then rerun the checker"], null));
+        }
+        return Gate(artifactPath, stable, artifact, requireProvenance, expected?.Sidecar) with { Artifact = artifact };
+    }
+
+    // verifyDeliveryUnchanged (A:5426-5448): after the checker, a second inspection bound to the first one's bytes, which must agree
+    // with it and with what the checker read.
+    public static Provenance VerifyUnchanged(string artifactPath, Provenance expected, JsonNode? checkedArtifact)
+    {
+        var current = InspectProvenance(artifactPath, requireProvenance: false, expected);
+        if (!current.Ok) return current;
+        var expectedIdentity = Identity(expected.Artifact);
+        if (current.Status == expected.Status && current.ReceiptId == expected.ReceiptId && current.Artifact.AsSpan().SequenceEqual(expected.Artifact)
+            && Text(checkedArtifact?["sha256"]) == expectedIdentity["sha256"]!.GetValue<string>() && Number(checkedArtifact?["bytes"]) == expected.Artifact.Length)
+            return current;
+        return new(false, "mismatch", Failure: new Diagnostic("delivery/provenance-mismatch", Severity.Error, "The artifact or delivery record changed during inspection.",
+            new JsonObject { ["artifact"] = artifactPath },
+            new JsonObject { ["expected"] = expectedIdentity, ["checked"] = checkedArtifact?.DeepClone(), ["current"] = Identity(current.Artifact) },
+            ["finish delivery and other writes before rerunning the checker"], null));
+    }
+
+    // inspectDeliveryProvenance (A:1903-2178), gates (b)-(i) over the artifact bytes gate (a) read.
+    // Cut with the legacy migration (survey-delivery §3): raw-head and legacy-extension journals and sidecars are not looked for.
+    static Provenance Gate(string artifactPath, string stable, byte[] artifact, bool requireProvenance, byte[]? expectedSidecar)
+    {
+        var sidecar = ProvenancePath(artifactPath);
+        var pending = PendingPath(artifactPath);
+        string[] locks = [LockPath(stable), .. LegacyLockPaths(artifactPath, stable)];
+        JsonObject Subject(string key, string value) => new() { ["artifact"] = artifactPath, [key] = value };
+        Provenance Failed(string status, string code, string message, JsonObject subject, JsonObject evidence, string fix, string? receiptId = null) =>
+            new(false, status, receiptId, new Diagnostic(code, Severity.Error, message, subject, evidence, [fix], null));
+
+        // (b) an unfinished or failed attempt's journal
+        try
+        {
+            if (EntryExists(pending))
+                return Failed("failed", "delivery/provenance-failed",
+                    "A delivery attempt is unfinished or failed; complete a successful deliver before trusting this artifact.", Subject("provenance", sidecar),
+                    new JsonObject { ["pendingJournal"] = pending, ["found"] = true },
+                    "finish any active delivery, then rerun deliver successfully; retain the pending journal until recovery succeeds");
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            return Unverified(artifactPath, pending, new JsonObject { ["reason"] = error.Message });
+        }
+        // (c) any lock, the directory's or a legacy per-artifact one
+        foreach (var lockPath in locks)
+        {
+            try
+            {
+                if (EntryExists(lockPath))
+                    return Failed("locked", "delivery/provenance-locked",
+                        "Delivery ownership is unresolved while the output lock remains; complete or recover delivery before trusting this artifact.",
+                        Subject("lock", lockPath), new JsonObject { ["deliveryLock"] = lockPath, ["found"] = true },
+                        "finish the active delivery or inspect and recover the preserved lock, then rerun deliver successfully");
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+            {
+                return Unverified(artifactPath, lockPath, new JsonObject { ["reason"] = error.Message });
+            }
+        }
+        // (d) no sidecar: unknown, or a failure when provenance is required
+        bool found;
+        try { found = EntryExists(sidecar); }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            return Unverified(artifactPath, sidecar, new JsonObject { ["reason"] = error.Message });
+        }
+        if (!found)
+            return requireProvenance
+                ? Failed("unknown", "delivery/provenance-required", "Delivery provenance is required, but the artifact has no .delivery.json sidecar.",
+                    Subject("provenance", sidecar), new JsonObject { ["required"] = true, ["found"] = false },
+                    "rerun deliver for the current specification, then retry with --require-provenance")
+                : new(true, "unknown");
+        // (e) a regular file holding a supported receipt
+        JsonObject receipt;
+        byte[] sidecarBytes;
+        try
+        {
+            if (RegularFile(sidecar, "delivery-provenance", expectedSidecar, out sidecarBytes) is { } code)
+                throw new InvalidDataException($"Delivery provenance is not a stable regular file ({code}).");
+            receipt = SupportedReceipt(sidecarBytes);
+        }
+        catch (Exception error)
+        {
+            return Failed("invalid", "delivery/provenance-invalid", $"Could not read delivery provenance: {error.Message}", Subject("provenance", sidecar),
+                new JsonObject { ["reason"] = error.Message }, "rerun deliver to replace the invalid provenance sidecar");
+        }
+        return Verdict() with { Sidecar = sidecarBytes };
+
+        Provenance Verdict()
+        {
+            // (f) the recorded output is this artifact
+            var recordedOutput = Text(receipt["output"])!;
+            PathRelation identity;
+            try { identity = PathSemantics.Native.SameEntry(recordedOutput, artifactPath); }
+            catch (Exception error)
+            {
+                var reason = new JsonObject { ["code"] = "path-identity-check-failed" };
+                if (NativeFs.ErrorCode(error) is { } systemCode) reason["systemCode"] = systemCode;
+                identity = new("unknown", reason);
+            }
+            if (identity.Status == "unknown")
+                return Failed("invalid", "delivery/provenance-output-indeterminate",
+                    "Delivery provenance could not determine whether its recorded output identifies the inspected artifact.",
+                    new JsonObject { ["artifact"] = artifactPath, ["provenance"] = sidecar, ["recordedOutput"] = recordedOutput },
+                    new JsonObject { ["pathIdentity"] = identity.Reason.DeepClone() },
+                    "restore access to both the artifact and its recorded output path, then rerun deliver successfully");
+            if (identity.Status != "match")
+                return Unverified(artifactPath, sidecar, new JsonObject
+                {
+                    ["reason"] = "The recorded delivery output does not identify this artifact.", ["recordedOutput"] = recordedOutput,
+                    ["pathIdentity"] = identity.Reason.DeepClone(),
+                });
+            var receiptId = Text(receipt["receiptId"])!;
+            // (g) the latest attempt failed
+            if (Text(receipt["status"]) == "failed")
+                return Failed("failed", "delivery/provenance-failed", "The artifact is stale because the latest delivery attempt failed.", Subject("provenance", sidecar),
+                    new JsonObject { ["stage"] = receipt["stage"]!.DeepClone(), ["deliveryReceiptId"] = receiptId },
+                    "repair the specification and complete a successful deliver before checking this artifact", receiptId);
+            // (h) other bytes than delivered
+            var recorded = receipt["artifact"]!;
+            var actualSha256 = Identity(artifact)["sha256"]!.GetValue<string>();
+            if (Text(recorded["sha256"]) != actualSha256 || Number(recorded["bytes"]) != artifact.Length)
+                return Failed("mismatch", "delivery/provenance-mismatch", "The artifact bytes do not match their delivery provenance.", Subject("provenance", sidecar),
+                    new JsonObject
+                    {
+                        ["expectedSha256"] = recorded["sha256"]!.DeepClone(), ["actualSha256"] = actualSha256, ["expectedBytes"] = recorded["bytes"]!.DeepClone(),
+                        ["actualBytes"] = artifact.Length,
+                    },
+                    "restore the delivered artifact or rerun deliver to create a matching artifact and provenance pair", receiptId);
+            // (i)
+            return new(true, "current", receiptId);
+        }
+    }
+
+    // invalidProvenance (A:2180-2189): evidence is {reason, ...extra}; the subject's artifact is the path as given.
+    static Provenance Unverified(string artifactPath, string sidecar, JsonObject evidence) =>
+        new(false, "invalid", Failure: new Diagnostic("delivery/provenance-invalid", Severity.Error, "Delivery provenance could not be verified.",
+            new JsonObject { ["artifact"] = artifactPath, ["provenance"] = sidecar }, evidence,
+            ["restore access to the delivery records, then rerun deliver successfully"], null));
+
+    // legacyDeliveryLockPaths (A:118-134): `<artifact minus .htm(l)>.delivery-lock.json`, read only (D5: deliver never creates one).
+    static IEnumerable<string> LegacyLockPaths(params string[] artifacts) =>
+        artifacts.Select(artifact => HtmlExtension().Replace(NodePath.Resolve(artifact), "") + ".delivery-lock.json")
+            .Where(lockPath => OperatingSystem.IsWindows() ? Path.GetFileName(lockPath).Length <= 255 : Encoding.UTF8.GetByteCount(Path.GetFileName(lockPath)) <= 255)
+            .Distinct(StringComparer.Ordinal);
+
+    // pathEntryExists (A:759-767)
+    static bool EntryExists(string path)
+    {
+        try
+        {
+            NativeFs.LStat(path);
+            return true;
+        }
+        catch (Exception error) when (NativeFs.ErrorCode(error) is "ENOENT" or "ENOTDIR") { return false; }
+    }
+
+    // captureRegularFileBinding (atomic-output.mjs:302-421) reduced to its verdicts on Windows: lstat, a regular file, its bytes, and,
+    // against an earlier inspection, the same bytes. The reason code, or null with the content.
+    static string? RegularFile(string path, string subject, byte[]? expected, out byte[] content)
+    {
+        content = [];
+        FsStat stat;
+        try { stat = NativeFs.LStat(path); }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException) { return $"{subject}-inspection-failed"; }
+        if (stat.IsDirectory || stat.IsSymbolicLink) return $"{subject}-not-regular-file";
+        try { content = File.ReadAllBytes(path); }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException) { return $"{subject}-handle-inspection-failed"; }
+        return expected is null || content.AsSpan().SequenceEqual(expected) ? null : $"{subject}-content-changed";
+    }
+
+    [GeneratedRegex("^[0-9a-f]{64}\\z")]
+    private static partial Regex Sha256Hex();
+
+    // A:2046-2060: the sidecar's UTF-8 text through JSON.parse, then the schema of a current or failed receipt.
+    // ponytail: a sidecar with duplicate keys fails here with .NET's message where JSON.parse keeps the last; deliver never writes one.
+    static JsonObject SupportedReceipt(byte[] bytes)
+    {
+        static bool Absolute(string? path) => path is { Length: > 0 } && (OperatingSystem.IsWindows()
+            ? path[0] is '/' or '\\' || path.Length > 2 && char.IsAsciiLetter(path[0]) && path[1] == ':' && path[2] is '/' or '\\'
+            : path[0] == '/');
+        static bool IdentityValid(JsonNode? value) => value is JsonObject identity && Text(identity["sha256"]) is { } sha256 && Sha256Hex().IsMatch(sha256)
+            && Number(identity["bytes"]) is double bytes && bytes == Math.Floor(bytes) && bytes >= 0 && bytes <= 9007199254740991;
+
+        var receipt = JsonNode.Parse(Encoding.UTF8.GetString(bytes)) as JsonObject;
+        var status = Text(receipt?["status"]);
+        if (receipt is null || Number(receipt["schemaVersion"]) != 1 || Text(receipt["command"]) != "deliver"
+            || Text(receipt["receiptId"]) is not { } receiptId || !UuidV4().IsMatch(receiptId)
+            || !Absolute(Text(receipt["output"])) || !Absolute(Text(receipt["input"]))
+            || status is not ("current" or "failed")
+            || status == "current" && (Text(receipt["type"]) is not { } type || !Types.Contains(type) || !IdentityValid(receipt["specification"]) || !IdentityValid(receipt["artifact"]))
+            || status == "failed" && Text(receipt["stage"]) is null)
+            throw new InvalidDataException("Delivery provenance does not conform to the supported receipt schema.");
+        return receipt;
     }
 
     // --- diagnostics ---

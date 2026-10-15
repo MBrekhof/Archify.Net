@@ -1,0 +1,14 @@
+{
+  "args": [
+    "check",
+    "out.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "out.html": "upstream/examples/web-app-rendered.html"
+  },
+  "setup": [],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Delivery provenance is required, but the artifact has no .delivery.json sidecar.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Delivery provenance is required, but the artifact has no .delivery.json sidecar.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-required\",\n      \"severity\": \"error\",\n      \"message\": \"Delivery provenance is required, but the artifact has no .delivery.json sidecar.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"required\": true,\n        \"found\": false\n      },\n      \"supportedFixes\": [\n        \"rerun deliver for the current specification, then retry with --require-provenance\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

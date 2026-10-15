@@ -4,8 +4,10 @@ using Xunit;
 
 namespace Archify.Net.Cli.Tests;
 
-// A Node-minted CLI fixture (tools/capture-cli-fixtures.mjs): `files` maps workdir names to repo-relative sources.
-public sealed record CliFixture(string Name, string[] Args, IReadOnlyDictionary<string, string> Files, int Exit, string Stdout, string Stderr)
+// A Node-minted CLI fixture (tools/capture-cli-fixtures.mjs): `files` maps workdir names to repo-relative sources; `setup` lists the
+// steps run in the workdir before the recorded command.
+public sealed record CliFixture(string Name, string[] Args, IReadOnlyDictionary<string, string> Files, int Exit, string Stdout, string Stderr,
+    JsonArray? Setup = null)
 {
     public override string ToString() => Name;
 }
@@ -25,7 +27,38 @@ public static class CliTestHost
         return new CliFixture(rel,
             [.. json["args"]!.AsArray().Select(a => a!.GetValue<string>())],
             json["files"]!.AsObject().ToDictionary(kv => kv.Key, kv => kv.Value!.GetValue<string>()),
-            json["exit"]!.GetValue<int>(), json["stdout"]!.GetValue<string>(), json["stderr"]!.GetValue<string>());
+            json["exit"]!.GetValue<int>(), json["stdout"]!.GetValue<string>(), json["stderr"]!.GetValue<string>(), json["setup"]?.AsArray());
+    }
+
+    // The capture script's applySetup, step for step: CLI runs go through Cli.Run in the workdir.
+    public static void Replay(string work, JsonArray steps)
+    {
+        string At(string relative) => Path.Join(work, relative);
+        string Text(JsonObject step, string key) => step[key]!.GetValue<string>();
+        foreach (var step in steps.Select(s => s!.AsObject()))
+        {
+            if (step["run"] is JsonArray run)
+            {
+                var output = new StringWriter();
+                var exit = Cli.Run([.. run.Select(a => a!.GetValue<string>())], new CliIo(output, output, work, CliServices.Default));
+                Assert.True(step["exit"]!.GetValue<int>() == exit, $"setup {Js.Stringify(run)} exited {exit}: {output}");
+            }
+            else if (step.ContainsKey("copy")) File.Copy(At(Text(step, "copy")), At(Text(step, "to")), overwrite: true);
+            else if (step.ContainsKey("delete")) File.Delete(At(Text(step, "delete")));
+            else if (step.ContainsKey("append")) File.AppendAllText(At(Text(step, "append")), Text(step, "text"), new UTF8Encoding(false));
+            else if (step.ContainsKey("write")) File.WriteAllText(At(Text(step, "write")), Text(step, "text"), new UTF8Encoding(false));
+            else if (step.ContainsKey("set"))
+            {
+                var target = At(Text(step, "set"));
+                var json = JsonNode.Parse(ReadLf(target))!.AsObject();
+                var value = step["value"]!.DeepClone();
+                json[Text(step, "key")] = value is JsonValue text && text.TryGetValue<string>(out var s) ? s.Replace("<WORK>", work) : value;
+                File.WriteAllText(target, Js.Stringify(json, 2) + "\n", new UTF8Encoding(false));
+            }
+            else if (step.ContainsKey("mkdir")) Directory.CreateDirectory(At(Text(step, "mkdir")));
+            else if (step.ContainsKey("symlink")) PathSemanticsTests.FileSymlink(At(Text(step, "symlink")), Text(step, "target"));
+            else throw new InvalidOperationException($"unknown setup step {Js.Stringify(step)}");
+        }
     }
 
     // Fixture names ("help/x") in a group, optionally only those whose file name starts with a prefix.
@@ -35,7 +68,7 @@ public static class CliTestHost
     // Runs Cli.Run in a fresh temp workdir seeded from `seedFiles` (workdir name -> repo-relative source), tokenises the output
     // like the fixtures (Q8), and deletes the workdir; `inspect(workdir)` runs just before that.
     public static (int Exit, string Stdout, string Stderr) Run(string[] args, IReadOnlyDictionary<string, string>? seedFiles = null, CliServices? services = null,
-        Action<string>? inspect = null)
+        Action<string>? inspect = null, JsonArray? setup = null)
     {
         var work = Directory.CreateTempSubdirectory("archify-cli-").FullName;
         try
@@ -46,6 +79,7 @@ public static class CliTestHost
                 Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                 File.Copy(Path.Combine(RepoRoot, source.Replace('/', Path.DirectorySeparatorChar)), target);
             }
+            if (setup is not null) Replay(work, setup);
             // StringWriter keeps NewLine "\r\n", so a stray WriteLine shows up as a byte difference.
             var stdout = new StringWriter();
             var stderr = new StringWriter();
@@ -65,7 +99,7 @@ public static class CliTestHost
     // Runs a fixture and asserts exit, stdout and stderr byte-equal after UsageEdit (Q3).
     public static void AssertFixture(CliFixture fixture, Action<string>? inspect = null)
     {
-        var (exit, stdout, stderr) = Run(fixture.Args, fixture.Files, inspect: inspect);
+        var (exit, stdout, stderr) = Run(fixture.Args, fixture.Files, inspect: inspect, setup: fixture.Setup);
         Assert.Equal(UsageEdit.Apply(fixture.Stdout), stdout);
         Assert.Equal(UsageEdit.Apply(fixture.Stderr), stderr);
         Assert.Equal(fixture.Exit, exit);

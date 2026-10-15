@@ -51,8 +51,31 @@ function tokenise(text, work) {
 
 fs.rmSync(repo(CLI_FIX), { recursive: true, force: true });
 const minted = new Set();
+// `setup` steps run in the workdir after seeding and before the recorded command; a C# test replays the same list. Each step is
+// one of {run: args, exit} (a CLI run that must exit so), {copy: from, to}, {delete: p}, {append: p, text}, {write: p, text},
+// {set: p, key, value} (a JSON file rewritten as indent 2 + "\n"; "<WORK>" in a string value is the workdir), {mkdir: p} or
+// {symlink: p, target} (a file symbolic link to a workdir-relative target). Paths are workdir-relative.
+function applySetup(work, steps) {
+  const at = (p) => path.join(work, p);
+  for (const step of steps) {
+    if (step.run) {
+      const r = spawnSync(process.execPath, [cli, ...step.run], { cwd: work, env, encoding: 'utf8' });
+      if (r.error) throw r.error;
+      expect(r.status === step.exit, `setup ${step.run.join(' ')} exits ${step.exit}, got ${r.status}: ${r.stdout}${r.stderr}`);
+    } else if (step.copy) fs.copyFileSync(at(step.copy), at(step.to));
+    else if (step.delete) fs.rmSync(at(step.delete));
+    else if (step.append) fs.appendFileSync(at(step.append), step.text);
+    else if (step.write) fs.writeFileSync(at(step.write), step.text);
+    else if (step.set) {
+      const value = typeof step.value === 'string' ? step.value.replaceAll('<WORK>', work) : step.value;
+      fs.writeFileSync(at(step.set), `${JSON.stringify({ ...JSON.parse(fs.readFileSync(at(step.set), 'utf8')), [step.key]: value }, null, 2)}\n`);
+    } else if (step.mkdir) fs.mkdirSync(at(step.mkdir));
+    else if (step.symlink) fs.symlinkSync(step.target, at(step.symlink), 'file');
+    else throw new Error(`unknown setup step ${JSON.stringify(step)}`);
+  }
+}
 // `inspect(work, fixture)` runs before the workdir is removed (output-byte assertions).
-function mint(group, name, args, files = {}, inspect = () => {}) {
+function mint(group, name, args, files = {}, inspect = () => {}, setup = undefined) {
   const rel = `${CLI_FIX}/${group}/${name}.json`;
   if (minted.has(rel)) throw new Error(`duplicate fixture ${rel}`);
   const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
@@ -61,9 +84,10 @@ function mint(group, name, args, files = {}, inspect = () => {}) {
       fs.mkdirSync(path.dirname(path.join(work, dest)), { recursive: true });
       fs.copyFileSync(repo(src), path.join(work, dest));
     }
+    if (setup) applySetup(work, setup);
     const r = spawnSync(process.execPath, [cli, ...args], { cwd: work, env, encoding: 'utf8' });
     if (r.error) throw r.error;
-    const fixture = { args, files, exit: r.status, stdout: tokenise(r.stdout, work), stderr: tokenise(r.stderr, work) };
+    const fixture = { args, files, ...(setup ? { setup } : {}), exit: r.status, stdout: tokenise(r.stdout, work), stderr: tokenise(r.stderr, work) };
     inspect(work, fixture);
     writeJson(rel, fixture);
     minted.add(rel);
@@ -123,6 +147,9 @@ craft('schema-failure.architecture.json', JSON.stringify(schemaNoOutput, null, 2
 const schemaOutput = example('web-app.architecture.json'); schemaOutput.components[0].colour = 'red';
 craft('schema-failure-output.architecture.json', JSON.stringify(schemaOutput, null, 2));
 craft('broken.workflow.json', '{"broken":');
+// validate's pre-gate reports an OutputPathError's diagnostics as spread (output-path.mjs:359-370; A:6866-6878).
+const badMetaOutput = example('web-app.architecture.json'); badMetaOutput.meta.output = 'out.txt';
+craft('bad-meta-output.architecture.json', JSON.stringify(badMetaOutput, null, 2));
 // A UTF-8 BOM: Node's JSON.parse does not strip it (survey-cli §2.2 step 3).
 craft('bom.architecture.json', '\ufeff' + fs.readFileSync(repo(`${EX}/web-app.architecture.json`), 'utf8'));
 
@@ -231,6 +258,7 @@ const failureInputs = [
   ['bom', 'architecture', 'bom.architecture.json'],
   ['schema-failure', 'architecture', 'schema-failure.architecture.json'],
   ['schema-failure-output', 'architecture', 'schema-failure-output.architecture.json'],
+  ['bad-meta-output', 'architecture', 'bad-meta-output.architecture.json'],
 ];
 for (const [name, type, file] of failureInputs) {
   mint('validate', `${name}-json`, ['validate', type, file, '--json'], { [file]: inputs[file] });
@@ -449,6 +477,49 @@ expect(deliverFixture('lock-path-conflict-json', ['deliver', 'architecture', '.a
   .stdout.includes('delivery/lock-path-conflict'), 'lock-path-conflict');
 expect(deliverFixture('lock-invalid-json',['deliver', 'architecture', arch, 'out.html', '--json'], lockedFiles('invalid.archify-delivery-lock.json'),
   untouched('invalid.archify-delivery-lock.json')).stdout.includes('delivery/lock-invalid'), 'lock-invalid');
+
+// --- provenance: check's delivery gate (A:1903-2178, :5309-5468), every state from a real deliver plus documented edits ---
+// The deliveryReceiptId is a v4 uuid -> <uuid>.
+const delivered = { run: ['deliver', 'architecture', arch, 'out.html', '--json'], exit: 0 };
+// A render failure over the delivered artifact keeps it, leaves the journal and writes a failed marker (stage render).
+const failedRedelivery = { run: ['deliver', 'architecture', 'schema-failure-output.architecture.json', 'out.html', '--json'], exit: 1 };
+const withFailure = { ...exFiles(arch), 'schema-failure-output.architecture.json': inputs['schema-failure-output.architecture.json'] };
+const withLock = { ...exFiles(arch), 'lock.json': inputs['stale.archify-delivery-lock.json'] };
+const renderedOnly = { 'out.html': `${EX}/web-app-rendered.html` };
+const strict = ['check', 'out.html', '--require-provenance'];
+const plain = ['check', 'out.html'];
+const provenanceCases = [
+  // [name, files, setup, args, exit, provenance status, first diagnostic code]
+  ['current-required', exFiles(arch), [delivered], strict, 0, 'current'],
+  ['current', exFiles(arch), [delivered], plain, 0, 'current'],
+  ['unknown', renderedOnly, [], plain, 0, 'unknown'],
+  ['required', renderedOnly, [], strict, 1, 'unknown', 'delivery/provenance-required'],
+  ['failed-pending', withFailure, [delivered, failedRedelivery], strict, 1, 'failed', 'delivery/provenance-failed'],
+  ['failed-pending-plain', withFailure, [delivered, failedRedelivery], plain, 1, 'failed', 'delivery/provenance-failed'],
+  ['failed-marker', withFailure, [delivered, failedRedelivery, { delete: 'out.delivery-pending.json' }], strict, 1, 'failed', 'delivery/provenance-failed'],
+  ['locked', withLock, [delivered, { copy: 'lock.json', to: '.archify-delivery-lock.json' }], strict, 1, 'locked', 'delivery/provenance-locked'],
+  ['locked-legacy', withLock, [delivered, { copy: 'lock.json', to: 'out.delivery-lock.json' }], plain, 1, 'locked', 'delivery/provenance-locked'],
+  ['mismatch', exFiles(arch), [delivered, { append: 'out.html', text: '\n' }], strict, 1, 'mismatch', 'delivery/provenance-mismatch'],
+  ['mismatch-plain', exFiles(arch), [delivered, { append: 'out.html', text: '\n' }], plain, 1, 'mismatch', 'delivery/provenance-mismatch'],
+  ['invalid-json', exFiles(arch), [delivered, { write: 'out.delivery.json', text: 'not json\n' }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
+  ['invalid-null', exFiles(arch), [delivered, { write: 'out.delivery.json', text: 'null\n' }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
+  ['invalid-schema', exFiles(arch), [delivered, { set: 'out.delivery.json', key: 'schemaVersion', value: 999 }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
+  ['invalid-other-output', exFiles(arch), [{ run: ['deliver', 'architecture', arch, 'a.html', '--json'], exit: 0 },
+    { copy: 'a.html', to: 'out.html' }, { copy: 'a.delivery.json', to: 'out.delivery.json' }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
+  ['output-indeterminate', exFiles(arch), [delivered, { set: 'out.delivery.json', key: 'output', value: '<WORK>\\missing.html' }], strict, 1, 'invalid',
+    'delivery/provenance-output-indeterminate'],
+  ['invalid-directory-sidecar', exFiles(arch), [delivered, { delete: 'out.delivery.json' }, { mkdir: 'out.delivery.json' }], strict, 1, 'invalid',
+    'delivery/provenance-invalid'],
+  ['invalid-dangling-sidecar', renderedOnly, [{ symlink: 'out.delivery.json', target: 'missing.json' }], plain, 1, 'invalid', 'delivery/provenance-invalid'],
+  // A dangling artifact link is no regular file (lstat after the realpath fails, A:5320-5354).
+  ['artifact-dangling-symlink', {}, [{ symlink: 'out.html', target: 'missing.html' }], plain, 1, 'unknown', 'input/artifact-unreadable'],
+];
+for (const [name, files, setup, args, exit, status, code] of provenanceCases) {
+  const { fixture } = mint('provenance', name, args, files, (_, f) => { f.stdout = f.stdout.replace(UUID_V4, '<uuid>'); }, setup);
+  const receipt = JSON.parse(fixture.stdout);
+  expect(fixture.exit === exit && receipt.provenance === status && fixture.stderr === '', `provenance ${name}: exit ${fixture.exit}, ${receipt.provenance}`);
+  expect(code ? receipt.diagnostics[0].code === code : receipt.ok === true, `provenance ${name}: ${code ?? 'ok'}`);
+}
 
 // --- paths: output-path.mjs and sidecar-path.mjs, called directly (pure, or on a real temp directory of this volume) ---
 const outputPath = await import(pathToFileURL(path.join(SKILL, 'renderers/shared/output-path.mjs')).href);
