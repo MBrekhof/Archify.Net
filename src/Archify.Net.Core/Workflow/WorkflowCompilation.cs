@@ -8,8 +8,8 @@ namespace Archify.Net;
 // E (legacy column-capacity repair), F legacy (one-bend sides), J1/J2 (route primitives, caches), K3 routeVia, K4 (label
 // point, edgeSides, automaticPorts) and K8 (registerRouted, pathFor, labelRectFor). Validation is in WorkflowCompilation.Validation.cs,
 // canvas measurement, SVG and the receipt in WorkflowCompilation.Svg.cs, readable-v2 automatic routing (F readable, H2/H4/H5,
-// J3, K1/K2/K5/K6) in WorkflowCompilation.Routing.cs. The typed input diagnostics (I2, Task 9) and the pin/preset conflict paths
-// (H1 throwers, K3 readablePresetVia, K7 readableControlledRoute, Task 10) are still stubs.
+// J3, K1/K2/K5/K6) in WorkflowCompilation.Routing.cs, the typed input diagnostics (I2) in WorkflowCompilation.Inputs.cs. The
+// pin/preset conflict paths (H1 throwers, K3 readablePresetVia, K7 readableControlledRoute, Task 10) are still stubs.
 internal sealed partial class WorkflowCompilation
 {
     // `{ d, points }` (:5094, :5124). A class, not a record: LABEL_RECT_CACHE keys on the routed object (R9).

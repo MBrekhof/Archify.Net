@@ -3,19 +3,11 @@ using static Archify.Net.WorkflowModel;
 
 namespace Archify.Net;
 
-// workflow-compiler.mjs cluster I: validateWorkflow (:2693-3036) and the readable-v2 input gate (:3038-3258, Task 9); the
-// readable pinned-geometry driver (H5, :2378-2692) is Task 10.
+// workflow-compiler.mjs cluster I: validateWorkflow (:2693-3036). The readable-v2 input gate (I2, :3038-3258) is in
+// WorkflowCompilation.Inputs.cs; the readable pinned-geometry driver (H5, :2378-2692) is in WorkflowCompilation.Routing.cs,
+// where only its pin-conflict branches remain Task 10 stubs.
 internal sealed partial class WorkflowCompilation
 {
-    // validateReadableInputsBeforeRouting: v2-only typed input diagnostics with verified fixes. It only throws on invalid input
-    // (duplicate lane/node ids, unknown endpoints or lanes, node overlaps), so a valid document passes through unchanged.
-    // Task 9: port workflow-compiler.mjs:3038-3258 here.
-    void ValidateReadableInputsBeforeRouting()
-    {
-        if (workflow.SchemaVersion != 2) return;
-    }
-
-    // validateReadablePinnedGeometry (the v2 routing driver) is in WorkflowCompilation.Routing.cs.
 
     void ValidateWorkflow()
     {
@@ -228,8 +220,10 @@ internal sealed partial class WorkflowCompilation
                         ["availableNodeIds"] = new JsonArray([.. candidates.Select(nodeId => (JsonNode?)nodeId)]),
                         ["fixVerification"] = "each candidate was verified by applying every listed repoint together and recompiling",
                     },
+                    // `.filter(acceptsFix).slice(0, 3)`: every candidate is recompiled before the cut.
                     [.. candidates
                         .Where(nodeId => AcceptsFix(document => RepointReferences(document, id, nodeId)))
+                        .ToList()
                         .Take(3)
                         .SelectMany(nodeId => UnknownIdReferenceFixes(id, nodeId))],
                     null));

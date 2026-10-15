@@ -128,11 +128,19 @@ public class ParityTests
     // Workflow failure receipts (same capture, from the incident-response example with one fault each): validateWorkflow's
     // mainPath check with its verified repoint fixes (acceptsFix recompiles every candidate). wf-v1-column-capacity needs the
     // migration recompile (Task 10). Task 8: the readable-v2 canvas (finalizeReadableViewBox, both verified fixes recompile
-    // v2) and node-text (validateReadableNodeText after the sizing loop) failures.
+    // v2) and node-text (validateReadableNodeText after the sizing loop) failures. Task 9: the typed input gate
+    // (validateReadableInputsBeforeRouting, each fix verified by a recompile) and the semantic-contract preamble.
     [Theory]
     [InlineData("wf-unknown-main-path")]
     [InlineData("wf-viewbox-capacity")]
     [InlineData("wf-sublabel-readability")]
+    [InlineData("wf-duplicate-node-id")]
+    [InlineData("wf-duplicate-lane-id")]
+    [InlineData("wf-unknown-edge-endpoint")]
+    [InlineData("wf-unknown-node-lane")]
+    [InlineData("wf-node-overlap")]
+    [InlineData("wf-semantic-reference")]
+    [InlineData("wf-required-edge")]
     public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));
