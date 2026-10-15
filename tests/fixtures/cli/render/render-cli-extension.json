@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "web-app.architecture.json",
+    "out.htm"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "CLI output must target a .html file.\n[output/cli-extension] CLI output must target a .html file. Fix: choose a path ending in .html whose symbolic-link target also ends in .html.\n"
+}

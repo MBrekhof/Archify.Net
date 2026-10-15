@@ -4,14 +4,14 @@ namespace Archify.Net;
 
 // output-path.mjs validateAuthoredOutputPath (:323-357), lexical subset only: no cwd, no filesystem. The resolved-extension
 // (meta-resolved-extension) and symlink-aware containment (meta-outside-cwd) checks, resolveOutputPath, path-semantics and
-// sidecar-path arrive with the CLI in phase 5. Lexical containment needs no code of its own: portable-path already rejects
+// sidecar-path live in the CLI (Archify.Net.Cli/Paths). Lexical containment needs no code of its own: portable-path already rejects
 // absolute paths (output/meta-absolute) and `.`/`..` segments (output/meta-path-syntax), so a path that passes stays inside.
 public static class OutputPath
 {
     public static void ValidateAuthoredOutputPath(string raw, DiagnosticSink sink) => ValidateAuthoredOutputPath(JsonValue.Create(raw), sink);
 
     // cli.mjs:79-80 hands over whatever meta.output holds; a non-string fails portable-path's 'type' reason.
-    internal static void ValidateAuthoredOutputPath(JsonNode? raw, DiagnosticSink sink)
+    public static void ValidateAuthoredOutputPath(JsonNode? raw, DiagnosticSink sink)
     {
         var rawOutput = raw is JsonValue v && v.TryGetValue<string>(out var s) ? s : null;
         try { PortablePath.Validate(rawOutput!, "output"); }

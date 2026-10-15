@@ -578,7 +578,7 @@ public partial class PathSemanticsTests
 
     // ---- helpers ----
 
-    sealed class Scratch : IDisposable
+    internal sealed class Scratch : IDisposable
     {
         public string Root { get; } = System.IO.Directory.CreateTempSubdirectory("archify-path-semantics-").FullName;
         public string Path(string relative) => System.IO.Path.Join(Root, relative);
@@ -619,7 +619,7 @@ public partial class PathSemanticsTests
     static void Junction(string link, string target) => Cmd($"/c mklink /J \"{link}\" \"{target}\"");
 
     // Upstream skips when file symbolic links are unavailable; here that fails loudly with the fix (Q10).
-    static void FileSymlink(string link, string target)
+    internal static void FileSymlink(string link, string target)
     {
         try { File.CreateSymbolicLink(link, target); }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException)
@@ -628,7 +628,7 @@ public partial class PathSemanticsTests
         }
     }
 
-    static void HardLink(string link, string existing) =>
+    internal static void HardLink(string link, string existing) =>
         Assert.True(CreateHardLinkW(link, existing, 0), $"CreateHardLinkW failed: Win32 error {Marshal.GetLastPInvokeError()}");
 
     [LibraryImport("kernel32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]

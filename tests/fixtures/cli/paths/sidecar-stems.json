@@ -1,0 +1,754 @@
+{
+  "stems": [
+    {
+      "stem": "web-app",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "web-app"
+    },
+    {
+      "stem": "web-app",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "web-app.~archify-a7a1d1b1b26d8785d3cae7a3b8b137b8f08991a2412713846e58baaba5683a4c"
+    },
+    {
+      "stem": "web-app",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "web-app.~archify-89c89fbbb7eb738e86efd3d556d3b8aafc64dfd4084ceaee1e41f82590e722a8"
+    },
+    {
+      "stem": "web-app",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "web-app"
+    },
+    {
+      "stem": "web-app",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "web-app.~archify-a7a1d1b1b26d8785d3cae7a3b8b137b8f08991a2412713846e58baaba5683a4c"
+    },
+    {
+      "stem": "web-app",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "web-app.~archify-89c89fbbb7eb738e86efd3d556d3b8aafc64dfd4084ceaee1e41f82590e722a8"
+    },
+    {
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    {
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.~archify-fafd4e42e5c49f68401ae406d8bf2ba2c420ee12937a373a848ac41cc61eed90"
+    },
+    {
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.~archify-30db467f59c9a3c89677df0478c987131bad515d9db5621ceb54965b1fa1207c"
+    },
+    {
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.~archify-5e49947899449e853405aa8c52d35998bcc003fd1299e721f6990b38a698ca6c"
+    },
+    {
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.~archify-5e49947899449e853405aa8c52d35998bcc003fd1299e721f6990b38a698ca6c"
+    },
+    {
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.~archify-a1e7f9b715f70595d120881babdb899a5326af3472864b9c77ebd056df46794b"
+    },
+    {
+      "stem": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.~archify-4189f745c51fa274c7ed00825356cc9596c265202136f3d2da0d8a0cab9ab6da"
+    },
+    {
+      "stem": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.~archify-4189f745c51fa274c7ed00825356cc9596c265202136f3d2da0d8a0cab9ab6da"
+    },
+    {
+      "stem": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.~archify-5dcc13243034debc7f62002e640d5ac7f7564a97187d07dba2e9ed91d648007b"
+    },
+    {
+      "stem": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"
+    },
+    {
+      "stem": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.~archify-4189f745c51fa274c7ed00825356cc9596c265202136f3d2da0d8a0cab9ab6da"
+    },
+    {
+      "stem": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.~archify-5dcc13243034debc7f62002e640d5ac7f7564a97187d07dba2e9ed91d648007b"
+    },
+    {
+      "stem": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.~archify-1c472b57625fd1c9ca754d3a7a3cab9af2fb6ddf975204d5944c89c4fbc564e2"
+    },
+    {
+      "stem": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.~archify-1c472b57625fd1c9ca754d3a7a3cab9af2fb6ddf975204d5944c89c4fbc564e2"
+    },
+    {
+      "stem": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀.~archify-5db828ed905239ceab751008f31468cae1fee20be6c3e33eb9b6fd9c8f70918d"
+    },
+    {
+      "stem": "𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜tail",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜.~archify-5515ba20165dd3b35a66a1725a35ec005a82b07d3f40c6fec02acabaeebd89f8"
+    },
+    {
+      "stem": "𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜tail",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜.~archify-5515ba20165dd3b35a66a1725a35ec005a82b07d3f40c6fec02acabaeebd89f8"
+    },
+    {
+      "stem": "𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜tail",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜𝒜.~archify-61d136a0191b709d01bc8cc97b4bcf5c1bfa6e2d0107fe3a408f79fdd14a2914"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-cc34692342b678f80245503c06367c2ce9a893d0248e0f61ad4a0efad7cc01d0"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-5f44465bc430af3fa41690c4a0294861ad6a5254a83810b1ef521e9d0326f37f"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-0ceeee6251e9782987e28e7e386aeaa4c2875b9a652a631163160fee99437ccf"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-0ceeee6251e9782987e28e7e386aeaa4c2875b9a652a631163160fee99437ccf"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-eda14a76080c5ff6e34d99462e4ef726f07244f58af405ce90e724f099d2de76"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-57c42d71b2a0f0d14086964cf358b71a2f29b17ff54f0d4801a6d344c215544d"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-57c42d71b2a0f0d14086964cf358b71a2f29b17ff54f0d4801a6d344c215544d"
+    },
+    {
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界",
+      "suffixes": [
+        ".receipt.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-c790bd8716caa6ef8f01e88a8252015676bb463d5372731a5b244bfaac146cda"
+    },
+    {
+      "stem": "áááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááá",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "ááááááááááááááááááááááááááááááááááááááááááááááááááááá.~archify-418b9740581719b48c27bbc0636a8ccff4e9c5c6e3883ecb99c5f9296939a328"
+    },
+    {
+      "stem": "áááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááá",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "ááááááááááááááááááááááááááááááááááááááááááááááááááááá.~archify-418b9740581719b48c27bbc0636a8ccff4e9c5c6e3883ecb99c5f9296939a328"
+    },
+    {
+      "stem": "áááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááááá",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "ááááááááááááááááááááááááááááááááááááááááááááááááááááá.~archify-ab6842f2dfa669e01e6f4655286ae2a4fbc57afe6cc9b5d4941659db89177e08"
+    },
+    {
+      "stem": "👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍.~archify-62af0466040ec7a383bef1795fa2da7faa3812830ba50aa1f93d1d5e7eacd4f5"
+    },
+    {
+      "stem": "👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍.~archify-62af0466040ec7a383bef1795fa2da7faa3812830ba50aa1f93d1d5e7eacd4f5"
+    },
+    {
+      "stem": "👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": true,
+      "isBounded": false,
+      "bounded": "👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍👧👨‍👩‍.~archify-2cfc7b1f0b4cd2befbfdad8d6bc53d78366369fa75d0b673dd98ce42656ebc68"
+    },
+    {
+      "stem": "legacy.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": true,
+      "bounded": "legacy.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.~archify-3ec81fe88e001462664351404782659502a61947af11eab2222717af6490c1c2"
+    },
+    {
+      "stem": "legacy.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": true,
+      "bounded": "legacy.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.~archify-3ec81fe88e001462664351404782659502a61947af11eab2222717af6490c1c2"
+    },
+    {
+      "stem": "legacy.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": true,
+      "bounded": "legacy.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.~archify-da05887071629983f4d76e4bb046c70f4c87331d6ffd0cadfa2596d184cc2ded"
+    },
+    {
+      "stem": "X.~ARCHIFY-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": true,
+      "bounded": "X.~ARCHIFY-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.~archify-c1a86ac7d1853a8930182c38eb23728dfb2e82d1c9c67d0c9f4db363372ea2a7"
+    },
+    {
+      "stem": "X.~ARCHIFY-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": true,
+      "bounded": "X.~ARCHIFY-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.~archify-c1a86ac7d1853a8930182c38eb23728dfb2e82d1c9c67d0c9f4db363372ea2a7"
+    },
+    {
+      "stem": "X.~ARCHIFY-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": true,
+      "bounded": "X.~ARCHIFY-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.~archify-15a02ba2b01f85217d2e36895816dffc91ae6d97dbffff4c658d835711479ee0"
+    },
+    {
+      "stem": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "stem": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.~archify-2e2179c5408cfc60b08b846c65a0e7fe203ab94672ae80e0c67a779450c9c82c"
+    },
+    {
+      "stem": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.~archify-f3df3e3bdc78fc602201127355152739706cbf2e2b9997e86cd1d803df46a681"
+    },
+    {
+      "stem": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bak",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": null,
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bak"
+    },
+    {
+      "stem": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bak",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bak.~archify-25647bbcd5793bbfe36d756022d2420b23b12f75e7caf42b39e188b8a41a30b9"
+    },
+    {
+      "stem": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bak",
+      "suffixes": [
+        ".delivery.json",
+        ".delivery-pending.json",
+        ".delivery-lock.json"
+      ],
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "needsBounding": false,
+      "isBounded": false,
+      "bounded": "x.~archify-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bak.~archify-41afc71b8b46376b7fbeb214d64cad2933fff5074aed9bfbdfc19465bf501df1"
+    }
+  ],
+  "components": [
+    {
+      "component": "web-app.html",
+      "stem": "web-app",
+      "options": null,
+      "bounded": "web-app"
+    },
+    {
+      "component": "WebApp.HTML",
+      "stem": "WebApp.HTML",
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "bounded": "WebApp.HTML.~archify-850a92dc886501c626491ada40fca3a30b430c3f1992d84fc66cc113258557a6"
+    },
+    {
+      "component": "report.htm",
+      "stem": "report.htm",
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "bounded": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759"
+    },
+    {
+      "component": "report.Html",
+      "stem": "report.Html",
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "bounded": "report.Html.~archify-2e1076081a7ce27d0281ce7188c63a6ac75134e26b23585412c30695e3c921f5"
+    },
+    {
+      "component": "archive.html.txt",
+      "stem": "archive.html.txt",
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "bounded": "archive.html.txt.~archify-173eb072870d4fcd7689ffcecbcf5a5ff0c68b56dc8fe2f8bc39be50aaf37015"
+    },
+    {
+      "component": ".html",
+      "stem": "",
+      "options": null,
+      "bounded": ""
+    },
+    {
+      "component": "x.html.html",
+      "stem": "x.html",
+      "options": null,
+      "bounded": "x.html"
+    },
+    {
+      "component": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.html",
+      "stem": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "options": null,
+      "bounded": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.~archify-086d4a1c293bde318dc1fec9a21b9d828ba7637bcbdc5cdb42662fd84b733e9f"
+    },
+    {
+      "component": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.HTML",
+      "stem": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.HTML",
+      "options": {
+        "force": true,
+        "hashDomain": "full-component"
+      },
+      "bounded": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-ecd372b2b3ca97c13159a6bfadb4d184538a8a99dcaadca3c908cfe4ef3b405a"
+    }
+  ]
+}

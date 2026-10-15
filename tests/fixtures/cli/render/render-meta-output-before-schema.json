@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "meta-output-under-file.architecture.json"
+  ],
+  "files": {
+    "meta-output-under-file.architecture.json": "tests/fixtures/cli/inputs/meta-output-under-file.architecture.json",
+    "blocker": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Output path could not be resolved safely.\n[output/path-resolution-indeterminate] Output path could not be resolved safely for the requested filesystem location. Fix: use an ordinary local filesystem path that can be resolved safely, then retry.\n"
+}

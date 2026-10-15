@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "web-app.architecture.json",
+    "web-app.architecture.json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Output must not replace an input.\n[output/input-alias] Output must not replace an input, including through a symbolic-link or future-path alias. Fix: choose an output path that is distinct from every input path.\n"
+}

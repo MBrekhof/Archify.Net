@@ -57,7 +57,10 @@ function mint(group, name, args, files = {}, inspect = () => {}) {
   if (minted.has(rel)) throw new Error(`duplicate fixture ${rel}`);
   const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
   try {
-    for (const [dest, src] of Object.entries(files)) fs.copyFileSync(repo(src), path.join(work, dest));
+    for (const [dest, src] of Object.entries(files)) {
+      fs.mkdirSync(path.dirname(path.join(work, dest)), { recursive: true });
+      fs.copyFileSync(repo(src), path.join(work, dest));
+    }
     const r = spawnSync(process.execPath, [cli, ...args], { cwd: work, env, encoding: 'utf8' });
     if (r.error) throw r.error;
     const fixture = { args, files, exit: r.status, stdout: tokenise(r.stdout, work), stderr: tokenise(r.stderr, work) };
@@ -329,4 +332,158 @@ mint('render', 'examples', ['examples'], {}, (_, fixture) => {
   }
 });
 
-console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, and upstream/recipes/scenarios.json`);
+// --- render: output-path errors and their order against the load gates (cli.mjs:79-99) ---
+// The authored meta.output check (with cwd) runs before the schema; resolveOutputPath runs after the load gates and before
+// the layout, so a CLI output error loses to the schema and wins over a layout failure, after the locale warning.
+const underFile = example('web-app.architecture.json'); underFile.meta.output = 'blocker/diagram.html'; underFile.components[0].colour = 'red';
+craft('meta-output-under-file.architecture.json', JSON.stringify(underFile, null, 2));
+const renderErrors = [
+  ['render-input-alias', [arch, arch], exFiles(arch), 'output/input-alias'],
+  ['render-cli-extension', [arch, 'out.htm'], exFiles(arch), 'output/cli-extension'],
+  ['render-native-path-syntax', [arch, 'out.html:stream'], exFiles(arch), 'output/native-path-syntax'],
+  ['render-schema-before-cli-output', ['schema-failure.architecture.json', 'out.txt'],
+    { 'schema-failure.architecture.json': inputs['schema-failure.architecture.json'] }, 'schema/required'],
+  ['render-cli-output-before-layout', ['overflow-label-locale.architecture.json', 'out.txt'],
+    { 'overflow-label-locale.architecture.json': inputs['overflow-label-locale.architecture.json'] }, 'output/cli-extension'],
+  ['render-meta-output-before-schema', ['meta-output-under-file.architecture.json'],
+    { 'meta-output-under-file.architecture.json': inputs['meta-output-under-file.architecture.json'], blocker: `${EX}/${arch}` },
+    'output/path-resolution-indeterminate'],
+];
+for (const [name, rest, files, code] of renderErrors) {
+  const { fixture } = mint('render', name, ['render', 'architecture', ...rest], files, (work) =>
+    expect(fs.readdirSync(work).length === Object.keys(files).length, `${name} writes nothing`));
+  expect(fixture.exit === 1 && fixture.stderr.includes(`[${code}]`), `${name} reports ${code}`);
+}
+// An empty output positional is no output (`...(output ? [output] : [])`), an empty demo directory is the cwd, and a
+// directory as input reads as EISDIR.
+mint('render', 'render-empty-output', ['render', 'architecture', arch, ''], exFiles(arch),
+  (work) => expect(sameBytes(path.join(work, 'web-app-rendered.html'), golden('web-app-rendered.html')), 'empty output uses meta.output'));
+mint('render', 'demo-empty-directory', ['demo', ''], {},
+  (work) => expect(sameBytes(path.join(work, 'archify-demo.html'), golden('web-app-rendered.html')), 'empty demo dir is cwd'));
+mint('render', 'render-input-directory', ['render', 'architecture', 'specs', 'out.html'], { [`specs/${arch}`]: `${EX}/${arch}` });
+mint('render', 'render-nested-output',['render', 'architecture', arch, 'nested/deeper/out.html'], exFiles(arch),
+  (work) => expect(sameBytes(path.join(work, 'nested', 'deeper', 'out.html'), golden('web-app-rendered.html')), 'nested render equals golden'));
+
+// --- paths: output-path.mjs and sidecar-path.mjs, called directly (pure, or on a real temp directory of this volume) ---
+const outputPath = await import(pathToFileURL(path.join(SKILL, 'renderers/shared/output-path.mjs')).href);
+const sidecarPath = await import(pathToFileURL(path.join(SKILL, 'renderers/shared/sidecar-path.mjs')).href);
+const pathSemantics = await import(pathToFileURL(path.join(SKILL, 'renderers/shared/path-semantics.mjs')).href);
+const { raw } = String;
+
+// T/native-output-path.test.mjs, row by row: [fn, value, options, upstream's assertion]. `ok` = returns the value (or, for a
+// directory, `expect` is the resolved path); a string = the reason it must fail with; 'fail' = output/native-path-syntax.
+const W = { platform: 'win32' };
+const nativeRows = [];
+const rows = (fn, options, values, check) => values.forEach((v) => nativeRows.push([fn, v, options, check]));
+rows('validate', W, [raw`C:\reports\diagram.html`, raw`\\server\share\reports\diagram.html`, raw`\\server\CON\reports\diagram.html`,
+  '//server/share/reports/diagram.html', raw`\\?\C:\reports\diagram.html`, raw`\\?\UNC\server\share\reports\diagram.html`,
+  raw`\\?\UNC\server\CON\reports\diagram.html`, raw`reports\diagram.html`, raw`..\diagram.html`, raw`.\reports\..\diagram.html`,
+  raw`C:\reports\..\diagram.html`, raw`\\server\share\reports\..\diagram.html`, raw`C:\ARCHIF~1\diagram.html`,
+  `C:\\reports\\${'界'.repeat(100)}.html`, `\\\\?\\C:\\reports\\${'界'.repeat(100)}.html`], 'ok');
+rows('validate', W, [raw`C:`, raw`C:diagram.html`, raw`C:\reports\diagram.html:payload`, raw`\\.\NUL`, '//./NUL/diagram.html',
+  raw`\\?\GLOBALROOT\Device\HarddiskVolume1\diagram.html`, '//?/GLOBALROOT/Device/HarddiskVolume1/diagram.html',
+  raw`\\?/GLOBALROOT\Device\HarddiskVolume1\diagram.html`, raw`\\?\\C:diagram.html`, raw`\\?\foo.html`, raw`\\ser?ver\share\file.html`,
+  raw`\reports\diagram.html`, raw`C:\reports\CON.html`, raw`C:\reports\diagram .html `, raw`C:\reports\bad?.html`,
+  raw`\\localhost\pipe\diagram.html`, raw`\\server\mailslot\diagram.html`, raw`\\server\IPC$\diagram.html`,
+  raw`\\?\UNC\localhost\pipe\diagram.html`, raw`\\?\UNC\server\MAILSLOT\diagram.html`, raw`\\?\UNC\server\ipc$\diagram.html`], 'fail');
+rows('validate', W, [raw`\\server\CON\diagram.html`, raw`\\CON\share\diagram.html`, raw`\\?\UNC\server\CON\diagram.html`,
+  raw`\\?\UNC\CON\share\diagram.html`], 'ok');
+rows('validate', W, [raw`\\server\bad+share\diagram.html`, raw`\\server\trailing.\diagram.html`, `\\\\server\\${'x'.repeat(81)}\\diagram.html`,
+  raw`\\?\UNC\server\bad,share\diagram.html`, raw`\\?\UNC\server\trailing \diagram.html`], 'windows-unc-share-name');
+rows('resolve', { platform: 'win32', defaultOutput: 'diagram.html' }, [raw`\\server\IPC$\diagram.html`, raw`\\server\pipe\diagram.html`,
+  raw`\\server\mailslot\diagram.html`, raw`\\?\UNC\server\IPC$\diagram.html`, raw`\\?\UNC\server\pipe\diagram.html`,
+  raw`\\?\UNC\server\mailslot\diagram.html`], 'windows-ipc-namespace');
+const WD = { platform: 'win32', cwd: raw`C:\workspace\project` };
+for (const [v, reason] of [[raw`C:evidence`, 'drive-relative'], [raw`\evidence`, 'current-drive-rooted'], [raw`\\.\NUL`, 'windows-device-namespace'],
+  [raw`C:\reports\evidence:stream`, 'windows-ads'], [raw`C:\reports\CON`, 'windows-reserved-name'],
+  [raw`C:\reports\evidence.`, 'windows-trailing-dot-space'], [raw`C:\reports\evidence `, 'windows-trailing-dot-space']]) rows('directory', WD, [v], reason);
+rows('directory', WD, ['evidence'], raw`C:\workspace\project\evidence`);
+rows('directory', WD, [raw`D:\evidence`], raw`D:\evidence`);
+rows('validate', W, ['C:\\reports\\diagram.html\\', '\\\\server\\share\\diagram.html\\', '\\\\?\\C:\\reports\\diagram.html\\',
+  '\\\\?\\UNC\\server\\share\\diagram.html\\'], 'trailing-separator');
+rows('validate', { platform: 'linux' }, ['/tmp/archive.zip/'], 'fail');
+for (const [v, resolved] of [['C:\\reports\\', raw`C:\reports`], ['\\\\server\\share\\reports\\', raw`\\server\share\reports`],
+  ['\\\\?\\C:\\reports\\', raw`\\?\C:\reports`], ['\\\\?\\UNC\\server\\share\\reports\\', raw`\\?\UNC\server\share\reports`]]) {
+  rows('validate', { platform: 'win32', kind: 'directory' }, [v], 'ok');
+  rows('directory', WD, [v], resolved);
+}
+rows('validate', { platform: 'linux', kind: 'directory' }, ['/tmp/evidence/'], 'ok');
+rows('validate', W, [raw`\\server\\share\report.html`, '//server//share/report.html', raw`\\server\/share\report.html`,
+  raw`\\server/share\report.html`, raw`//server\share/report.html`], 'windows-unc-root');
+rows('validate', W, [raw`\\?\C:\reports\..\diagram.html`, raw`\\?\C:\reports\.\diagram.html`, raw`\\?\C:\reports\\diagram.html`,
+  raw`\\?\UNC\server\share\..\other\diagram.html`, raw`\\?\UNC\server\share\.\diagram.html`, raw`\\?\UNC\server\share\reports\\diagram.html`,
+  raw`\\?\C:/reports/diagram.html`, raw`\\?\UNC/server/share/diagram.html`, '//?/C:/reports/diagram.html', raw`\\?\C:diagram.html`,
+  raw`\\?\UNC\server`, raw`\\?\UNC\\share\diagram.html`, raw`\\?\Device\HarddiskVolume1\diagram.html`,
+  raw`\\?\Volume{01234567-89AB-CDEF-0123-456789ABCDEF}\reports\diagram.html`], 'fail');
+// The unpaired-surrogate rows (\ud800, \udfff) cannot cross JSON intact; the C# test asserts them directly.
+for (const platform of ['darwin', 'linux', 'win32']) rows('validate', { platform }, ['reports/\ud83d\ude00.html'], 'ok');
+rows('validate', { platform: 'linux' }, [`/tmp/${'é'.repeat(128)}.html`], 'fail');
+rows('validate', W, [`C:\\reports\\${'x'.repeat(256)}.html`, `C:\\reports\\${'x'.repeat(256)}~1.html`], 'fail');
+rows('resolve', { platform: 'win32', defaultOutput: 'diagram.html' }, [raw`C:\reports\NUL.html`], 'windows-reserved-name');
+rows('validate', { platform: 'linux' }, ['reports/CON.html', 'reports/name:stream.html', 'reports/name .html'], 'ok');
+rows('validate', { platform: 'linux' }, ['reports/diagram\0.html'], 'fail');
+const nativeTable = nativeRows.map(([fn, value, options, check]) => {
+  let outcome;
+  try {
+    const result = fn === 'validate' ? outputPath.validateNativeOutputPath(value, options)
+      : fn === 'directory' ? outputPath.resolveNativeOutputDirectory(value, options)
+        : outputPath.resolveOutputPath({ requestedOutput: value, ...options }).outputPath;
+    outcome = { ok: true, result };
+  } catch (error) {
+    if (!error.archifyDiagnostics) throw error;
+    outcome = { ok: false, message: error.message, diagnostic: error.archifyDiagnostics[0] };
+  }
+  const reason = outcome.diagnostic?.evidence?.reason;
+  const as = `${fn} ${JSON.stringify(value)} ${check}`;
+  if (check === 'ok') expect(outcome.ok && outcome.result === value, as);
+  else if (check === 'fail') expect(!outcome.ok && outcome.diagnostic.code === 'output/native-path-syntax', as);
+  else if (fn === 'directory' && /[\\/]/.test(check)) expect(outcome.ok && outcome.result === check, as);
+  else expect(!outcome.ok && reason === check, as);
+  return { fn, value, options, ...outcome };
+});
+writeJson(`${CLI_FIX}/paths/native-output-path.json`, nativeTable);
+
+// sidecar-path.mjs, all four functions. Delivery (archify.mjs:13-17) and compare (:18) suffix sets.
+const DELIVERY = ['.delivery.json', '.delivery-pending.json', '.delivery-lock.json'];
+const COMPARE = ['.receipt.json'];
+const stemRows = [
+  ['web-app', DELIVERY], ['web-app', COMPARE],
+  ['x'.repeat(233), DELIVERY], ['x'.repeat(234), DELIVERY], ['L'.repeat(240), DELIVERY], ['L'.repeat(240), COMPARE],
+  ['\ud83d\ude00'.repeat(120), DELIVERY], ['\ud835\udc9c'.repeat(60) + 'tail', DELIVERY],
+  ['界'.repeat(77), DELIVERY], ['界'.repeat(78), DELIVERY], ['界'.repeat(100), COMPARE],
+  ['a\u0301'.repeat(100), DELIVERY], ['👨‍👩‍👧'.repeat(30), DELIVERY],
+  [`legacy.~archify-${'a'.repeat(64)}`, DELIVERY], [`X.~ARCHIFY-${'A'.repeat(64)}`, DELIVERY], [`x.~archify-${'a'.repeat(63)}`, DELIVERY],
+  [`x.~archify-${'a'.repeat(64)}.bak`, DELIVERY],
+];
+const components = ['web-app.html', 'WebApp.HTML', 'report.htm', 'report.Html', 'archive.html.txt', '.html', 'x.html.html',
+  `${'x'.repeat(250)}.html`, `${'界'.repeat(90)}.HTML`];
+const stemTable = {
+  stems: stemRows.flatMap(([stem, suffixes]) => [undefined, { force: true }, { force: true, hashDomain: 'full-component' }].map((options) => ({
+    stem, suffixes, options: options ?? null,
+    needsBounding: sidecarPath.sidecarStemNeedsBounding(stem, suffixes),
+    isBounded: sidecarPath.isBoundedSidecarStem(stem),
+    bounded: sidecarPath.boundedSidecarStem(stem, suffixes, options),
+  }))),
+  components: components.map((component) => {
+    const { stem, options } = sidecarPath.sidecarStemFromComponent(component);
+    return { component, stem, options: options ?? null, bounded: sidecarPath.boundedSidecarStem(stem, DELIVERY, options) };
+  }),
+};
+expect(stemTable.stems.every((r) => !sidecarPath.sidecarStemNeedsBounding(r.bounded, r.suffixes)), 'bounded stems fit');
+expect(stemTable.stems.some((r) => r.isBounded && r.bounded !== r.stem && !r.options), 'a crafted stem is re-hashed unforced');
+writeJson(`${CLI_FIX}/paths/sidecar-stems.json`, stemTable);
+
+// The delivery provenance name (archify.mjs:35-66) of a future artifact in a real directory on this NTFS volume: the namespace
+// key folds what the directory folds, then the stem is bounded.
+const ntfsDir = fs.realpathSync.native(fs.mkdtempSync(path.join(tmpRoot, 'ntfs-')));
+const ntfsNames = ['WebApp.HTML', 'Ünïcode Straße.html', 'Ünïcode Straße.html'.normalize('NFD'), `${'L'.repeat(240)}.html`, 'web-app.html'];
+const ntfsTable = ntfsNames.map((name) => {
+  const key = pathSemantics.sidecarNamespaceComponentKey(ntfsDir, name);
+  expect(key.status === 'resolved' && key.directoryPath === ntfsDir, `namespace of ${name}`);
+  const { stem, options } = sidecarPath.sidecarStemFromComponent(key.componentKey);
+  return { name, componentKey: key.componentKey, provenance: `${sidecarPath.boundedSidecarStem(stem, DELIVERY, options)}.delivery.json` };
+});
+expect(fs.readdirSync(ntfsDir).length === 0, 'namespace probes leave no residue');
+writeJson(`${CLI_FIX}/paths/ntfs-sidecar-names.json`, ntfsTable);
+
+console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, three path tables, and upstream/recipes/scenarios.json`);

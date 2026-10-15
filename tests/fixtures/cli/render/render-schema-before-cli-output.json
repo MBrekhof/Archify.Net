@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "schema-failure.architecture.json",
+    "out.txt"
+  ],
+  "files": {
+    "schema-failure.architecture.json": "tests/fixtures/cli/inputs/schema-failure.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "architecture schema validation failed:\n  /meta must have required property 'output' {\"missingProperty\":\"output\"}\n  /components/0 (id/label: \"users\") must NOT have additional properties {\"additionalProperty\":\"colour\"}\n[schema/required] /meta must have required property 'output' Fix: add required property \"output\".\n[schema/additionalProperties] /components/0 (id/label: \"users\") must NOT have additional properties Fix: remove unsupported property \"colour\".\n"
+}

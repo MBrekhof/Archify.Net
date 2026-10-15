@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "web-app.architecture.json",
+    ""
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "<WORK>\\web-app-rendered.html\n",
+  "stderr": ""
+}

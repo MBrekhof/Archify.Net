@@ -41,7 +41,7 @@ public static class Cli
                 case null or "-h" or "--help" or "help":
                     io.Out(Usage());
                     return 0;
-                case "render": throw new NotImplementedException("Task 5");
+                case "render": return Commands.RenderCommand.Run(args, io);
                 case "deliver": throw new NotImplementedException("Task 8");
                 case "finalize": throw new NotImplementedException("Task 12");
                 case "validate": throw new NotImplementedException("Task 6");
@@ -59,10 +59,10 @@ public static class Cli
                 case "visual-check": throw new NotImplementedException("Task 11");
                 case "browser-check": throw new NotImplementedException("Task 11");
                 case "guide": throw new NotImplementedException("Task 7");
-                case "examples": throw new NotImplementedException("Task 5");
+                case "examples": return Commands.ExamplesCommand.Run(args, io);
                 case "doctor": throw new NotImplementedException("Task 7");
                 case "install-browser": throw new NotImplementedException("Task 7");
-                case "demo": throw new NotImplementedException("Task 5");
+                case "demo": return Commands.DemoCommand.Run(args, io);
                 default:
                     throw new CliFailException($"Unknown command \"{command}\".\n\n{Usage()}");
             }
@@ -83,6 +83,11 @@ public static class Cli
             return error.ExitCode;
         }
     }
+
+    // formatDiagnostics (A:2749-2758, diagnostics.mjs:136-146): the human failure text.
+    internal static string FormatDiagnostics(string error, IReadOnlyList<Diagnostic> diagnostics) =>
+        diagnostics.Count == 0 ? error : string.Join("\n", [error, .. diagnostics.Select(d =>
+            $"[{d.Code}] {d.Message}{(d.SupportedFixes.Count > 0 ? $" Fix: {string.Join("; ", d.SupportedFixes)}." : "")}")]);
 
     // reportArtifactArgumentFailure (A:4328-4344) through reportArtifactFailure's receipt (A:4251-4266): type and input are
     // undefined, so dropped.

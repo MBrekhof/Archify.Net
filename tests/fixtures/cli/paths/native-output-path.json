@@ -1,0 +1,1994 @@
+[
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "C:\\reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\share\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\server\\share\\reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\CON\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\server\\CON\\reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "//server/share/reports/diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "//server/share/reports/diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\?\\C:\\reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\share\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\?\\UNC\\server\\share\\reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\CON\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\?\\UNC\\server\\CON\\reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "reports\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "..\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "..\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": ".\\reports\\..\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": ".\\reports\\..\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\..\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "C:\\reports\\..\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\share\\reports\\..\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\server\\share\\reports\\..\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\ARCHIF~1\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "C:\\ARCHIF~1\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "C:\\reports\\界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\?\\C:\\reports\\界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html"
+  },
+  {
+    "fn": "validate",
+    "value": "C:",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:"
+      },
+      "evidence": {
+        "reason": "drive-relative"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:diagram.html"
+      },
+      "evidence": {
+        "reason": "drive-relative"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\diagram.html:payload",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\diagram.html:payload"
+      },
+      "evidence": {
+        "reason": "windows-ads",
+        "component": "diagram.html:payload",
+        "componentIndex": 1,
+        "character": ":"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\.\\NUL",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\.\\NUL"
+      },
+      "evidence": {
+        "reason": "windows-device-namespace"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "//./NUL/diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "//./NUL/diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-device-namespace"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\GLOBALROOT\\Device\\HarddiskVolume1\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\GLOBALROOT\\Device\\HarddiskVolume1\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-device-namespace"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "//?/GLOBALROOT/Device/HarddiskVolume1/diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "//?/GLOBALROOT/Device/HarddiskVolume1/diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?/GLOBALROOT\\Device\\HarddiskVolume1\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?/GLOBALROOT\\Device\\HarddiskVolume1\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\\\C:diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\\\C:diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\foo.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\foo.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\ser?ver\\share\\file.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\ser?ver\\share\\file.html"
+      },
+      "evidence": {
+        "reason": "windows-invalid-character",
+        "component": "ser?ver",
+        "componentIndex": 0,
+        "character": "?"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\reports\\diagram.html"
+      },
+      "evidence": {
+        "reason": "current-drive-rooted"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\CON.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\CON.html"
+      },
+      "evidence": {
+        "reason": "windows-reserved-name",
+        "component": "CON.html",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\diagram .html ",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\diagram .html "
+      },
+      "evidence": {
+        "reason": "windows-trailing-dot-space",
+        "component": "diagram .html ",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\bad?.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\bad?.html"
+      },
+      "evidence": {
+        "reason": "windows-invalid-character",
+        "component": "bad?.html",
+        "componentIndex": 1,
+        "character": "?"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\localhost\\pipe\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\localhost\\pipe\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "pipe"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\mailslot\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\mailslot\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "mailslot"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\IPC$\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\IPC$\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "IPC$"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\localhost\\pipe\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\localhost\\pipe\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "pipe"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\MAILSLOT\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\MAILSLOT\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "MAILSLOT"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\ipc$\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\ipc$\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "ipc$"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\CON\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\server\\CON\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\CON\\share\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\CON\\share\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\CON\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\?\\UNC\\server\\CON\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\CON\\share\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "\\\\?\\UNC\\CON\\share\\diagram.html"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\bad+share\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\bad+share\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-share-name",
+        "share": "bad+share",
+        "utf16CodeUnits": 9,
+        "limit": 80
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\trailing.\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\trailing.\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-share-name",
+        "share": "trailing.",
+        "utf16CodeUnits": 9,
+        "limit": 80
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-share-name",
+        "share": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "utf16CodeUnits": 81,
+        "limit": 80
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\bad,share\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\bad,share\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-share-name",
+        "share": "bad,share",
+        "utf16CodeUnits": 9,
+        "limit": 80
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\trailing \\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\trailing \\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-share-name",
+        "share": "trailing ",
+        "utf16CodeUnits": 9,
+        "limit": 80
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "\\\\server\\IPC$\\diagram.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\IPC$\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "IPC$"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "\\\\server\\pipe\\diagram.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\pipe\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "pipe"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "\\\\server\\mailslot\\diagram.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\mailslot\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "mailslot"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "\\\\?\\UNC\\server\\IPC$\\diagram.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\IPC$\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "IPC$"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "\\\\?\\UNC\\server\\pipe\\diagram.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\pipe\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "pipe"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "\\\\?\\UNC\\server\\mailslot\\diagram.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\mailslot\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-ipc-namespace",
+        "share": "mailslot"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "C:evidence",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:evidence"
+      },
+      "evidence": {
+        "reason": "drive-relative"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "\\evidence",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\evidence"
+      },
+      "evidence": {
+        "reason": "current-drive-rooted"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "\\\\.\\NUL",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\.\\NUL"
+      },
+      "evidence": {
+        "reason": "windows-device-namespace"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "C:\\reports\\evidence:stream",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\evidence:stream"
+      },
+      "evidence": {
+        "reason": "windows-ads",
+        "component": "evidence:stream",
+        "componentIndex": 1,
+        "character": ":"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "C:\\reports\\CON",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\CON"
+      },
+      "evidence": {
+        "reason": "windows-reserved-name",
+        "component": "CON",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "C:\\reports\\evidence.",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\evidence."
+      },
+      "evidence": {
+        "reason": "windows-trailing-dot-space",
+        "component": "evidence.",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "C:\\reports\\evidence ",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\evidence "
+      },
+      "evidence": {
+        "reason": "windows-trailing-dot-space",
+        "component": "evidence ",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "directory",
+    "value": "evidence",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": true,
+    "result": "C:\\workspace\\project\\evidence"
+  },
+  {
+    "fn": "directory",
+    "value": "D:\\evidence",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": true,
+    "result": "D:\\evidence"
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\diagram.html\\",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\diagram.html\\"
+      },
+      "evidence": {
+        "reason": "trailing-separator",
+        "kind": "file"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\share\\diagram.html\\",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\share\\diagram.html\\"
+      },
+      "evidence": {
+        "reason": "trailing-separator",
+        "kind": "file"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\diagram.html\\",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\C:\\reports\\diagram.html\\"
+      },
+      "evidence": {
+        "reason": "trailing-separator",
+        "kind": "file"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\share\\diagram.html\\",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\share\\diagram.html\\"
+      },
+      "evidence": {
+        "reason": "trailing-separator",
+        "kind": "file"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "/tmp/archive.zip/",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "/tmp/archive.zip/"
+      },
+      "evidence": {
+        "reason": "trailing-separator",
+        "kind": "file"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\",
+    "options": {
+      "platform": "win32",
+      "kind": "directory"
+    },
+    "ok": true,
+    "result": "C:\\reports\\"
+  },
+  {
+    "fn": "directory",
+    "value": "C:\\reports\\",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": true,
+    "result": "C:\\reports"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\share\\reports\\",
+    "options": {
+      "platform": "win32",
+      "kind": "directory"
+    },
+    "ok": true,
+    "result": "\\\\server\\share\\reports\\"
+  },
+  {
+    "fn": "directory",
+    "value": "\\\\server\\share\\reports\\",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": true,
+    "result": "\\\\server\\share\\reports"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\",
+    "options": {
+      "platform": "win32",
+      "kind": "directory"
+    },
+    "ok": true,
+    "result": "\\\\?\\C:\\reports\\"
+  },
+  {
+    "fn": "directory",
+    "value": "\\\\?\\C:\\reports\\",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": true,
+    "result": "\\\\?\\C:\\reports"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\share\\reports\\",
+    "options": {
+      "platform": "win32",
+      "kind": "directory"
+    },
+    "ok": true,
+    "result": "\\\\?\\UNC\\server\\share\\reports\\"
+  },
+  {
+    "fn": "directory",
+    "value": "\\\\?\\UNC\\server\\share\\reports\\",
+    "options": {
+      "platform": "win32",
+      "cwd": "C:\\workspace\\project"
+    },
+    "ok": true,
+    "result": "\\\\?\\UNC\\server\\share\\reports"
+  },
+  {
+    "fn": "validate",
+    "value": "/tmp/evidence/",
+    "options": {
+      "platform": "linux",
+      "kind": "directory"
+    },
+    "ok": true,
+    "result": "/tmp/evidence/"
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\\\share\\report.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\\\share\\report.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "//server//share/report.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "//server//share/report.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server\\/share\\report.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server\\/share\\report.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\server/share\\report.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\server/share\\report.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "//server\\share/report.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "//server\\share/report.html"
+      },
+      "evidence": {
+        "reason": "windows-unc-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\..\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\C:\\reports\\..\\diagram.html"
+      },
+      "evidence": {
+        "reason": "dot-segment",
+        "component": "..",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\.\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\C:\\reports\\.\\diagram.html"
+      },
+      "evidence": {
+        "reason": "dot-segment",
+        "component": ".",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:\\reports\\\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\C:\\reports\\\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\share\\..\\other\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\share\\..\\other\\diagram.html"
+      },
+      "evidence": {
+        "reason": "dot-segment",
+        "component": "..",
+        "componentIndex": 0
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\share\\.\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\share\\.\\diagram.html"
+      },
+      "evidence": {
+        "reason": "dot-segment",
+        "component": ".",
+        "componentIndex": 0
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server\\share\\reports\\\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server\\share\\reports\\\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:/reports/diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\C:/reports/diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-separator",
+        "character": "/"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC/server/share/diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC/server/share/diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-separator",
+        "character": "/"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "//?/C:/reports/diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "//?/C:/reports/diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\C:diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\C:diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\server",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\server"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\UNC\\\\share\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\UNC\\\\share\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\Device\\HarddiskVolume1\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\Device\\HarddiskVolume1\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-device-namespace"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "\\\\?\\Volume{01234567-89AB-CDEF-0123-456789ABCDEF}\\reports\\diagram.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "\\\\?\\Volume{01234567-89AB-CDEF-0123-456789ABCDEF}\\reports\\diagram.html"
+      },
+      "evidence": {
+        "reason": "windows-extended-root"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "reports/😀.html",
+    "options": {
+      "platform": "darwin"
+    },
+    "ok": true,
+    "result": "reports/😀.html"
+  },
+  {
+    "fn": "validate",
+    "value": "reports/😀.html",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": true,
+    "result": "reports/😀.html"
+  },
+  {
+    "fn": "validate",
+    "value": "reports/😀.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": true,
+    "result": "reports/😀.html"
+  },
+  {
+    "fn": "validate",
+    "value": "/tmp/éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé.html",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "/tmp/éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé.html"
+      },
+      "evidence": {
+        "reason": "component-too-long",
+        "component": "éééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééééé.html",
+        "componentIndex": 1,
+        "utf8Bytes": 261,
+        "limit": 255
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.html"
+      },
+      "evidence": {
+        "reason": "component-too-long",
+        "component": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.html",
+        "componentIndex": 1,
+        "utf8Bytes": 261,
+        "utf16CodeUnits": 261,
+        "limit": 255
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "C:\\reports\\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx~1.html",
+    "options": {
+      "platform": "win32"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx~1.html"
+      },
+      "evidence": {
+        "reason": "component-too-long",
+        "component": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx~1.html",
+        "componentIndex": 1,
+        "utf16CodeUnits": 263,
+        "limit": 255
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "resolve",
+    "value": "C:\\reports\\NUL.html",
+    "options": {
+      "platform": "win32",
+      "defaultOutput": "diagram.html"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "C:\\reports\\NUL.html"
+      },
+      "evidence": {
+        "reason": "windows-reserved-name",
+        "component": "NUL.html",
+        "componentIndex": 1
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  },
+  {
+    "fn": "validate",
+    "value": "reports/CON.html",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": true,
+    "result": "reports/CON.html"
+  },
+  {
+    "fn": "validate",
+    "value": "reports/name:stream.html",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": true,
+    "result": "reports/name:stream.html"
+  },
+  {
+    "fn": "validate",
+    "value": "reports/name .html",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": true,
+    "result": "reports/name .html"
+  },
+  {
+    "fn": "validate",
+    "value": "reports/diagram\u0000.html",
+    "options": {
+      "platform": "linux"
+    },
+    "ok": false,
+    "message": "The output path is not a valid native filesystem path on this host.",
+    "diagnostic": {
+      "severity": "error",
+      "subject": {
+        "output": "reports/diagram\u0000.html"
+      },
+      "evidence": {
+        "reason": "nul-character"
+      },
+      "supportedFixes": [
+        "choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components"
+      ],
+      "code": "output/native-path-syntax",
+      "message": "The output path is not a valid native filesystem path on this host."
+    }
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "specs",
+    "out.html"
+  ],
+  "files": {
+    "specs/web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Input could not be read: EISDIR: illegal operation on a directory, read\n[input/read] Input could not be read: EISDIR: illegal operation on a directory, read Fix: provide one readable JSON input file.\n"
+}

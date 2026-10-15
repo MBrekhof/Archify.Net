@@ -1,0 +1,10 @@
+{
+  "args": [
+    "demo",
+    ""
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "<WORK>\\archify-demo.html\n\nDemo ready: <WORK>\\archify-demo.html\nNext: open the HTML in your browser, then render your own diagram:\n  archify render architecture <input.json> <output.html>\n",
+  "stderr": ""
+}

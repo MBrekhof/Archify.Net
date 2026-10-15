@@ -61,8 +61,10 @@ public static class ArchifyNet
     /// <c>https://bücher-.example/x/y</c>, <c>https://ü</c> + 70 <c>a</c> + <c>.example/x/y</c> (a 71-character label),
     /// <c>https://bücher..example/o/r</c> and <c>https://xn--bcher-kva..example/o/r</c>.
     /// </remarks>
-    public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null) =>
-        Run(type, diagram, options, (ctx, root) =>
+    /// <param name="afterLoadGates">Runs after the load gates and before brand marks and rendering, where cli.mjs's loadDiagram
+    /// resolves the output path (cli.mjs:87-99). An <see cref="ArchifyDiagnosticException"/> it throws becomes the render failure.</param>
+    public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null, Action? afterLoadGates = null) =>
+        Run(type, diagram, options, afterLoadGates, (ctx, root) =>
         {
             var (svg, cards, layout) = Renderers.For(type).Render(ctx);
             var meta = root["meta"]!.AsObject();
@@ -78,14 +80,14 @@ public static class ArchifyNet
     {
         if (type is not (DiagramType.Architecture or DiagramType.Workflow))
             throw new ArgumentOutOfRangeException(nameof(type), type, "--layout-json supports architecture and workflow only");
-        return Run(type, diagram, options,
+        return Run(type, diagram, options, null,
             (ctx, _) => type == DiagramType.Architecture ? ArchitectureRenderer.LayoutMode(ctx) : WorkflowRenderer.LayoutMode(ctx),
             (error, diagnostics, _) => new LayoutOutcome(false, null, error, diagnostics));
     }
 
     // cli.mjs loadDiagramWithBrandMarks, then `body`; anything thrown becomes `failure(error, diagnostics, thrown)` as
     // installRendererDiagnosticBoundary's rendererFailure does (an unclassified error becomes internal/unclassified).
-    static T Run<T>(DiagramType type, JsonNode diagram, RenderOptions? options, Func<RenderContext, JsonObject, T> body,
+    static T Run<T>(DiagramType type, JsonNode diagram, RenderOptions? options, Action? afterLoadGates, Func<RenderContext, JsonObject, T> body,
         Func<string, IReadOnlyList<Diagnostic>, IReadOnlyList<Diagnostic>, T> failure)
     {
         // Ruling 3: a non-object root reports input/json-parse the way DiagramLoader.Parse does, never throws.
@@ -99,6 +101,7 @@ public static class ArchifyNet
         try
         {
             DiagramLoader.Load(type, root, ctx);                                   // cli.mjs loadDiagram gates
+            afterLoadGates?.Invoke();                                              // the CLI's resolveOutputPath
             ctx.Brands.PrepareDiagramBrandMarks(type, root, ctx.Diagnostics);      // loadDiagramWithBrandMarks
             return body(ctx, root);
         }

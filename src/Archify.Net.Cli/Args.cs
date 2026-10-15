@@ -94,6 +94,23 @@ static partial class Args
         return (rest, sha);
     }
 
+    // rendererPath (A:2237-2247): an unknown type is an argument error.
+    public static DiagramType DiagramType(string type)
+    {
+        const string types = "architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall";
+        try { return DiagramTypes.Parse(type); }
+        catch (ArgumentException)
+        {
+            throw new CliArgumentException($"Unknown diagram type \"{type}\". Expected one of: {types}", "cli/unknown-diagram-type",
+                new JsonObject { ["type"] = type }, new JsonObject { ["supportedTypes"] = new JsonArray([.. types.Split(", ").Select(t => (JsonNode?)t)]) },
+                [$"use one of: {types}"]);
+        }
+    }
+
+    // rendererEnv (A:2391-2397) as options: --quality and --repo-root (Q3).
+    public static RenderOptions RenderOptions(string? quality, string? repoRoot) =>
+        new(quality is null ? null : quality == "showcase" ? QualityProfile.Showcase : QualityProfile.Standard, repoRoot);
+
     // /^[0-9a-f]{64}$/: JS `$` does not match before a trailing "\n", hence \z.
     [GeneratedRegex(@"^[0-9a-f]{64}\z")]
     private static partial Regex Sha256Hex();

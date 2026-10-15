@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "web-app.architecture.json",
+    "nested/deeper/out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "<WORK>\\nested\\deeper\\out.html\n",
+  "stderr": ""
+}

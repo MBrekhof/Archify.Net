@@ -33,8 +33,9 @@ public static class CliTestHost
         Directory.GetFiles(Path.Combine(FixtureRoot, group), prefix + "*.json").Select(f => $"{group}/{Path.GetFileNameWithoutExtension(f)}").Order(StringComparer.Ordinal);
 
     // Runs Cli.Run in a fresh temp workdir seeded from `seedFiles` (workdir name -> repo-relative source), tokenises the output
-    // like the fixtures (Q8), and deletes the workdir.
-    public static (int Exit, string Stdout, string Stderr) Run(string[] args, IReadOnlyDictionary<string, string>? seedFiles = null, CliServices? services = null)
+    // like the fixtures (Q8), and deletes the workdir; `inspect(workdir)` runs just before that.
+    public static (int Exit, string Stdout, string Stderr) Run(string[] args, IReadOnlyDictionary<string, string>? seedFiles = null, CliServices? services = null,
+        Action<string>? inspect = null)
     {
         var work = Directory.CreateTempSubdirectory("archify-cli-").FullName;
         try
@@ -49,6 +50,7 @@ public static class CliTestHost
             var stdout = new StringWriter();
             var stderr = new StringWriter();
             var exit = Cli.Run(args, new CliIo(stdout, stderr, work, services ?? CliServices.Default));
+            inspect?.Invoke(work);
             return (exit, Tokenise(stdout.ToString(), work), Tokenise(stderr.ToString(), work));
         }
         finally
@@ -61,9 +63,9 @@ public static class CliTestHost
     public static string Tokenise(string text, string work) => text.Replace(work.Replace("\\", "\\\\"), "<WORK>").Replace(work, "<WORK>");
 
     // Runs a fixture and asserts exit, stdout and stderr byte-equal after UsageEdit (Q3).
-    public static void AssertFixture(CliFixture fixture)
+    public static void AssertFixture(CliFixture fixture, Action<string>? inspect = null)
     {
-        var (exit, stdout, stderr) = Run(fixture.Args, fixture.Files);
+        var (exit, stdout, stderr) = Run(fixture.Args, fixture.Files, inspect: inspect);
         Assert.Equal(UsageEdit.Apply(fixture.Stdout), stdout);
         Assert.Equal(UsageEdit.Apply(fixture.Stderr), stderr);
         Assert.Equal(fixture.Exit, exit);

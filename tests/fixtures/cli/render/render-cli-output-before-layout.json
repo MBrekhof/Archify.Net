@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "overflow-label-locale.architecture.json",
+    "out.txt"
+  ],
+  "files": {
+    "overflow-label-locale.architecture.json": "tests/fixtures/cli/inputs/overflow-label-locale.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "archify: meta.locale \"en-US\" has no bundled catalog and no usable meta.translations; the Viewer chrome and <html lang> fall back to English.\nCLI output must target a .html file.\n[output/cli-extension] CLI output must target a .html file. Fix: choose a path ending in .html whose symbolic-link target also ends in .html.\n"
+}
