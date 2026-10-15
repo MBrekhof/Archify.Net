@@ -78,7 +78,7 @@ internal sealed class GitRunner
     }
 
     /// <summary>Test seam: told, from inside each started helper, whether it runs on a thread-pool thread.</summary>
-    internal static Action<bool>? OnHelperThread;
+    internal static volatile Action<bool>? OnHelperThread;
 
     static Task StartBlocking(Action work) => Task.Factory.StartNew(() =>
     {

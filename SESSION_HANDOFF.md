@@ -128,8 +128,8 @@ of `ArchifyNet.Render`:
 - Evidence tests: the `subdirectory-root` receipt is Windows-only (path separator).
 
 Zone acceptance differs by host as well: ids the OS ICU list or `TimeZoneInfo` cannot resolve are rejected
-(card TZ-001), and Windows without ICU accepts only UTC and fixed offsets (card TZ-002). Card GLOB-001 records that
-the Js static constructor throws in a host with `InvariantGlobalization` on.
+(card TZ-001), and Windows without ICU accepts only UTC and fixed offsets (card TZ-002). Since GLOB-001 (`9f70132`), a host with
+`InvariantGlobalization` on works. Its only difference: the three localeCompare tie-breaks sort ordinally.
 
 ## Carried into later phases
 
@@ -177,7 +177,14 @@ All six port phases are done. The open cards on the board (project 46) are:
   - UPSTREAM-001: four upstream examples fail upstream's own gates. Report it upstream, or fix our copies of the examples?
   - UPSTREAM-002: `check` and `browser-check` crash in an uncreatable or non-directory sidecar location, faithful to
     upstream. Report it upstream, diverge, or keep parity?
-- **Ready to work:** TZ-001, TZ-002, GLOB-001, TEST-001, TEST-002, TEST-003, CLEAN-001 and PERF-001.
+  - PERF-002: an optional GitRunner timeout. It would be a new deviation from upstream, so it needs a decision on the
+    diagnostic code.
+- **Done in cleanup batch 1** (plan `docs/superpowers/plans/2026-10-15-cleanup-batch1.md`, all four reviewed by agy):
+  - GLOB-001 `9f70132`;
+  - CLEAN-001 `2ee032b`;
+  - PERF-001 `19a178f` (thread use only);
+  - TEST-001 `ac72624` (12 more Node goldens and receipts).
+- **Ready to work:** TZ-001, TZ-002, TEST-002 and TEST-003.
 
 ## Phase 4 closed (2026-10-15)
 

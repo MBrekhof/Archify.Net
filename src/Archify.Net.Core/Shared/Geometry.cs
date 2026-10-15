@@ -898,13 +898,13 @@ public static class Geometry
         return hits;
     }
 
-    // edge.width || (variant === 'emphasis' ? 1.8 : 1.4)
     static string Variant(JsonObject edge) => Truthy(edge.Str("variant")) ? edge.Str("variant")! : "default";
 
     static bool ShortWorkflowTrunk(Routed left, Routed right, int leftSegment, int rightSegment, double length)
     {
         if (length > 24 + 0.0001) return false;
         var a = left.Relation; var b = right.Relation;
+        // edge.width || (variant === 'emphasis' ? 1.8 : 1.4)
         static double Width(JsonObject edge) => Js.Or(edge.Num("width"), Variant(edge) == "emphasis" ? 1.8 : 1.4);
         if (Variant(a) != Variant(b) || Width(a) != Width(b) || (a.Str("role") ?? "") != (b.Str("role") ?? "")) return false;
         static bool Same(Pt p, Pt q) => Math.Abs(p.X - q.X) < 0.0001 && Math.Abs(p.Y - q.Y) < 0.0001;
