@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Archify.Net.Cli</RootNamespace>
+    <AssemblyName>Archify.Net.Cli</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>archify</ToolCommandName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Playwright" Version="1.63.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Archify.Net.Core\Archify.Net.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Archify.Net.Cli.Tests" />
+  </ItemGroup>
+</Project>
