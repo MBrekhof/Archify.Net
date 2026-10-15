@@ -1,7 +1,6 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
 
 namespace Archify.Net;
 
@@ -34,10 +33,6 @@ public sealed class TreeRenderer : IDiagramRenderer
     const int STACK_MIN = 3;
     const double STACK_GAP = 10;
     static readonly string[] SUBTREE_HUES = ["backend", "database", "cloud", "frontend", "messagebus", "external"];
-
-    // `.replace(/[ \t]+$/gm, '')`: JS multiline `$` also stops before CR, U+2028 and U+2029 (built from char codes so no
-    // tool decodes the escapes into literal line separators).
-    static readonly Regex TrailingBlanks = new("[ \t]+(?=[\n\r" + (char)0x2028 + (char)0x2029 + "]|\\z)", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
 
     // `{ stack: [...] }` or `{ single: id }` (:168-186); width/rowH/spine are written later, as upstream does.
     sealed class Group
@@ -552,7 +547,7 @@ public sealed class TreeRenderer : IDiagramRenderer
 
         string HueClass(string id) => hueOf.Has(id) ? $"tree-hue-{hueOf.Get(id)}" : "tree-hue-root";
 
-        static string StripTrailing(string s) => TrailingBlanks.Replace(s, "");
+        static string StripTrailing(string s) => Utils.TrailingBlanks.Replace(s, "");
 
         string RenderNode(TreeNode node)
         {

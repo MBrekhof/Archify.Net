@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 
 namespace Archify.Net;
 
@@ -7,6 +8,10 @@ namespace Archify.Net;
 public static class Utils
 {
     public static string Esc(string? value) => Js.EscapeHtml(value);
+
+    // `.replace(/[ \t]+$/gm, '')` (render-tree.mjs, render-erd.mjs:1385): JS multiline `$` also stops before CR, U+2028 and
+    // U+2029 (built from char codes so no tool decodes the escapes into literal line separators).
+    public static readonly Regex TrailingBlanks = new("[ \t]+(?=[\n\r" + (char)0x2028 + (char)0x2029 + "]|\\z)", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
 
     // `extra` appends type-owned definitions (the entity renderer's cardinality
     // markers) inside the same <defs>. Callers that pass nothing keep the exact

@@ -1934,7 +1934,11 @@ public static class Geometry
 
     // Shared by edges/flows/transitions: all carry the same optional
     // labelAt/labelDx/labelDy/labelSegment knobs.
-    public static Pt LabelPoint(JsonObject item, IReadOnlyList<Pt> points)
+    public static Pt LabelPoint(JsonObject item, IReadOnlyList<Pt> points) => LabelPoint(item, points, item.Num("labelSegment"));
+
+    // `labelPoint({ ...item, labelSegment }, points)` (render-erd.mjs:916) without writing the key onto the authored
+    // object: AutomaticLabels reads key presence as a pinned label.
+    public static Pt LabelPoint(JsonObject item, IReadOnlyList<Pt> points, double? labelSegment)
     {
         if (item["labelAt"].Truthy() && item["labelAt"] is JsonArray at) return new(at[0]!.D(), at[1]!.D());
         var labelDx = item.Num("labelDx") ?? 0;
@@ -1943,7 +1947,7 @@ public static class Geometry
             return new(
                 (points[0].X + points[1].X) / 2 + labelDx,
                 points[0].Y - 10 + labelDy);
-        var segmentIndex = (int)Math.Min(points.Count - 2, Math.Max(0, item.Num("labelSegment") ?? 1));
+        var segmentIndex = (int)Math.Min(points.Count - 2, Math.Max(0, labelSegment ?? 1));
         var a = points[segmentIndex];
         var b = points[segmentIndex + 1];
         return new((a.X + b.X) / 2 + labelDx, (a.Y + b.Y) / 2 - 10 + labelDy);

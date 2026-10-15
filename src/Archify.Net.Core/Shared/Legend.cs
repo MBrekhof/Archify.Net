@@ -4,8 +4,9 @@ namespace Archify.Net;
 
 // legend.mjs. One record stands in for the catalog entry, its resolved copy (`present`/`interactive`), the measured copy
 // (`width`) and the positioned copy (`x`/`baseline`/`row`); `Interactive` is null on a catalog entry that does not opt out.
+// `Lead` is the erd's own entry field (render-erd.mjs:473), carried through the spreads to its swatch renderer.
 public sealed record LegendEntry(string Kind, string Label, bool Present = false, bool? Interactive = null, double? SwatchWidth = null,
-    double? SwatchGap = null, double? TrailingWidth = null, double Width = 0, double X = 0, double Baseline = 0, int Row = 0);
+    double? SwatchGap = null, double? TrailingWidth = null, double Width = 0, double X = 0, double Baseline = 0, int Row = 0, double Lead = 0);
 
 // `{ kind: 'relationship-segment', start, end }` or `{ kind: 'relationship-label', x, y, width, height }`.
 public sealed record LegendObstacle(string Kind, Segment? Segment, Rect? Rect);

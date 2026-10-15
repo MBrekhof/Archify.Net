@@ -21,7 +21,8 @@ internal static class Renderers
         DiagramType.Timeline => new TimelineRenderer(),
         DiagramType.Waterfall => new WaterfallRenderer(),
         DiagramType.Workflow => new WorkflowRenderer(),
-        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phase 4"),   // erd
+        DiagramType.Erd => new ErdRenderer(),
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }
 
@@ -30,7 +31,6 @@ internal static class Renderers
 public static class ArchifyNet
 {
     /// <summary>Runs the load gates and the typed renderer; problems come back as diagnostics, never as exceptions.</summary>
-    /// <exception cref="NotSupportedException">The diagram type lands in phase 4 (erd).</exception>
     /// <remarks>
     /// Known deviations from upstream (full list in README.md, "Known deviations from upstream"):
     /// Word breaks: <c>Js.WordBreaks</c> matches V8's <c>Intl.Segmenter</c> word granularity except that Han, Hiragana, Katakana, Thai, Lao,
@@ -61,7 +61,7 @@ public static class ArchifyNet
         {
             DiagramLoader.Load(type, root, ctx);                                   // cli.mjs loadDiagram gates
             ctx.Brands.PrepareDiagramBrandMarks(type, root, ctx.Diagnostics);      // loadDiagramWithBrandMarks
-            var renderer = Renderers.For(type);                                    // erd throws (phase 4)
+            var renderer = Renderers.For(type);
             var (svg, cards, layout) = renderer.Render(ctx);
             var meta = root["meta"]!.AsObject();
             var cardsHtml = Utils.RenderCards(cards);
