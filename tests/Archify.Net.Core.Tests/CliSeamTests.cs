@@ -73,22 +73,23 @@ public class CliSeamTests
         Assert.Equal(Js.Stringify(receipt["diagnostics"], 2), Json(outcome.Diagnostics));
     }
 
-    // check-render-output.mjs hashes the file bytes and scans bytes.toString('utf8'): a BOM and invalid UTF-8 stay in.
-    // Expected sha256/bytes from Node's checker on the same bytes; the rest of its report equals the plain golden's.
+    // check-render-output.mjs hashes the file bytes and scans bytes.toString('utf8'): a BOM stays in, and each invalid UTF-8 sequence
+    // becomes U+FFFD. The input carries invalid bytes inside a scanned SVG attribute, so the decoded text shows in finite_svg's
+    // detail; the expected report is Node's `archify check --json` on the same bytes, minus the CLI's `file` and `provenance`.
     [Fact]
     public void Check_hashes_bytes_and_decodes_like_node()
     {
-        var golden = Fixtures.Bytes(Fixtures.Upstream("examples/web-app-rendered.html"));
-        byte[] bytes = [0xEF, 0xBB, 0xBF, .. golden, 0xC3, 0x28, 0xE2, 0x82];
+        var bytes = Fixtures.Bytes(Fixtures.Fixture("cli/inputs/decode-invalid-utf8.html"));
+        Assert.Equal([0xEF, 0xBB, 0xBF], bytes[..3]);
+        var expected = JsonNode.Parse(CliFixture("check/decode-invalid-utf8-json")["stdout"]!.GetValue<string>())!.AsObject();
+        expected.Remove("file");
+        expected.Remove("provenance");
         var report = ArchifyNet.Check(bytes).Report;
-        Assert.Equal("6cc964d38a540b0bc27b32685a46bc56c0e8c431a5baf5f7cfb37eaec8280373", report["artifact"]!["sha256"]!.GetValue<string>());
-        Assert.Equal(823712, report["artifact"]!["bytes"]!.GetValue<int>());
-        var plain = ArchifyNet.Check(golden).Report;
-        Assert.Equal("48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc", plain["artifact"]!["sha256"]!.GetValue<string>());
-        report.Remove("artifact");
-        plain.Remove("artifact");
-        Assert.Equal(Js.Stringify(plain, 2), Js.Stringify(report, 2));
+        Assert.Equal(Js.Stringify(expected, 2), Js.Stringify(report, 2));
+        var finite = report["checks"]!.AsArray().Single(c => c!["name"]!.GetValue<string>() == "finite_svg")!;
+        Assert.Equal("[\"rect x=\\\"�(�NaN\\\"\"]", Js.Stringify(finite["details"]));
         // The string overload is the bytes overload on its UTF-8 encoding.
+        var golden = Fixtures.Bytes(Fixtures.Upstream("examples/web-app-rendered.html"));
         var html = Encoding.UTF8.GetString(golden);
         Assert.Equal(Js.Stringify(ArchifyNet.Check(golden).Report, 2), Js.Stringify(ArchifyNet.Check(html).Report, 2));
         Assert.Equal(Convert.ToHexStringLower(SHA256.HashData(golden)), ArchifyNet.Check(html).Report["artifact"]!["sha256"]!.GetValue<string>());

@@ -1,0 +1,21 @@
+{
+  "scenario": {
+    "command": "browser-check",
+    "outDir": "evidence-file",
+    "before": [
+      {
+        "write": "evidence-file",
+        "text": "not a directory\n"
+      }
+    ],
+    "throws": true
+  },
+  "throws": {
+    "message": "Could not establish target sidecar semantics (sidecar-parent-not-directory).",
+    "code": "ARCHIFY_SIDECAR_NAMESPACE_INDETERMINATE"
+  },
+  "entries": [
+    "diagram.html",
+    "evidence-file"
+  ]
+}

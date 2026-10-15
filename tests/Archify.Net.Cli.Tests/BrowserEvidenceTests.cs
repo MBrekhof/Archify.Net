@@ -4,6 +4,7 @@ using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Archify.Net.Cli.Browser;
 using Archify.Net.Cli.Delivery;
+using Archify.Net.Cli.Paths;
 using Xunit;
 
 namespace Archify.Net.Cli.Tests;
@@ -43,6 +44,28 @@ public sealed partial class BrowserEvidenceTests
                 else if (step["write"] is { } write) File.WriteAllText(Path.Join(work, write.GetValue<string>()), step["text"]!.GetValue<string>(), Utf8);
                 else if (step["mkdir"] is { } mkdir) Directory.CreateDirectory(Path.Join(work, mkdir.GetValue<string>()));
                 else if (step["delete"] is { } delete) File.Delete(Path.Join(work, delete.GetValue<string>()));
+                else if (step["edit"] is { } edit)
+                {
+                    var file = Path.Join(work, edit.GetValue<string>());
+                    var value = JsonNode.Parse(File.ReadAllText(file, Utf8))!;
+                    var keys = step["key"]!.AsArray().Select(k => k!.GetValue<string>()).ToList();
+                    var parent = keys[..^1].Aggregate(value, (node, key) => node[key]!).AsObject();
+                    if (step.ContainsKey("value")) parent[keys[^1]] = step["value"]!.DeepClone();
+                    else parent.Remove(keys[^1]);
+                    File.WriteAllText(file, Js.Stringify(value, 2) + "\n", Utf8);
+                }
+                else throw new InvalidOperationException($"unknown before step {Js.Stringify(step)}");
+            }
+
+            if (fixture["throws"] is JsonObject throws)
+            {
+                var error = await Assert.ThrowsAnyAsync<Exception>(() => BrowserEvidence.RunAsync(new BrowserEvidenceRequest(artifact, command, capture) { OutDir = outDir },
+                    new FakeBrowsers(null)));
+                Assert.Equal(throws["message"]!.GetValue<string>(), CliTestHost.Tokenise(error.Message, work));
+                Assert.Equal(throws["code"]?.GetValue<string>(), DeliveryStore.SystemCode(error));
+                Assert.Equal(Js.Stringify(fixture["entries"]), Js.Stringify(new JsonArray([.. Directory.EnumerateFileSystemEntries(work, "*", SearchOption.AllDirectories)
+                    .Select(entry => Path.GetRelativePath(work, entry)).Order(StringComparer.Ordinal).Select(entry => (JsonNode?)entry)])));
+                return;
             }
 
             var browsers = new FakeBrowsers(scenario["fake"]?.AsObject(), scenario["browser"]?.GetValue<string>());
@@ -236,6 +259,91 @@ public sealed partial class BrowserEvidenceTests
         {
             Directory.Delete(work, recursive: true);
         }
+    }
+
+    // T/visual-check.test.mjs:670-769: under a target directory that folds case and normalisation while the source directory does
+    // not, source-distinct artifacts keep distinct evidence names, deterministically, and creating --out-dir renames nothing.
+    [Fact]
+    public void Sidecar_names_stay_distinct_under_a_folding_target_directory()
+    {
+        var work = Directory.CreateTempSubdirectory("archify-semantics-").FullName;
+        try
+        {
+            var sourceDir = Directory.CreateDirectory(Path.Join(work, "semantic-source-directory")).FullName;
+            var outDir = Directory.CreateDirectory(Path.Join(work, "semantic-target-directory")).FullName;
+            var semantics = new PathSemantics(new FoldingTargetFs(NativeFs.RealPath(sourceDir), NativeFs.RealPath(outDir)));
+            string[] artifacts = [.. new[] { "Report.html", "report.html", "Café.html", "Café.html" }.Select(name => Path.Join(sourceDir, name))];
+            EvidenceOutputs Calculate(string file, string target)
+            {
+                using (new FileStream(file, FileMode.CreateNew)) { }
+                try { return BrowserEvidence.SidecarPaths(file, target, "visual-check", true, semantics); }
+                finally { File.Delete(file); }
+            }
+
+            var receipts = artifacts.Select(file => Calculate(file, outDir).Receipt).ToList();
+            var names = receipts.Select(Path.GetFileName).ToList();
+            Assert.NotEqual(FoldingTargetFs.Key(names[0]!), FoldingTargetFs.Key(names[1]!));
+            Assert.NotEqual(FoldingTargetFs.Key(names[2]!), FoldingTargetFs.Key(names[3]!));
+            Assert.Equal(receipts, artifacts.Select(file => Calculate(file, outDir).Receipt));
+
+            var futureOutDir = Path.Join(work, "future-semantic-target-directory");
+            var beforeCreation = Calculate(artifacts[0], futureOutDir);
+            Directory.CreateDirectory(futureOutDir);
+            var afterCreation = Calculate(artifacts[0], futureOutDir);
+            Assert.Equal(Js.Stringify(Describe(beforeCreation)), Js.Stringify(Describe(afterCreation)));
+
+            foreach (var (receipt, file) in receipts.Zip(artifacts))
+            {
+                Assert.StartsWith(Path.GetFileNameWithoutExtension(file), Path.GetFileName(receipt), StringComparison.Ordinal);
+                Assert.EndsWith(".visual-check.json", receipt, StringComparison.Ordinal);
+                Assert.True(Encoding.UTF8.GetByteCount(Path.GetFileName(receipt)) <= 255);
+            }
+        }
+        finally
+        {
+            Directory.Delete(work, recursive: true);
+        }
+    }
+
+    static JsonObject Describe(EvidenceOutputs outputs) => new()
+    {
+        ["receipt"] = outputs.Receipt, ["contactSheet"] = outputs.ContactSheet,
+        ["screenshots"] = new JsonArray([.. outputs.Screenshots.Select(s => (JsonNode?)s.Path)]),
+    };
+
+    // The upstream test's fs mocks: probes created in the target directory are found again under its semantic key (case and
+    // normalisation folded, as targetSemanticKey does), and a probe name in the source directory that was not created is ENOENT.
+    sealed class FoldingTargetFs(string sourcePhysical, string outPhysical) : IPathFs
+    {
+        readonly Dictionary<string, string> targetEntries = [];
+        readonly HashSet<string> sourceProbes = [];
+
+        public static string Key(string name) =>
+            Js.ToLowerCase(Js.ToUpperCase(name.Normalize(NormalizationForm.FormC))).Normalize(NormalizationForm.FormC);
+
+        static bool IsProbe(string path) => Path.GetFileName(path).StartsWith(".archify-path-semantics-", StringComparison.Ordinal);
+
+        string? Alias(string path) => Path.GetDirectoryName(path) == outPhysical ? targetEntries.GetValueOrDefault(Key(Path.GetFileName(path))) : null;
+
+        public IDisposable CreateExclusive(string path)
+        {
+            var handle = NativeFs.Ops.CreateExclusive(path);
+            if (IsProbe(path) && Path.GetDirectoryName(path) == outPhysical) targetEntries[Key(Path.GetFileName(path))] = path;
+            else if (IsProbe(path) && Path.GetDirectoryName(path) == sourcePhysical) sourceProbes.Add(path);
+            return handle;
+        }
+
+        public FsStat Stat(string path)
+        {
+            if (Path.GetDirectoryName(path) == sourcePhysical && IsProbe(path) && !sourceProbes.Contains(path))
+                throw new NativeFsException("ENOENT", "simulated case- and normalization-sensitive lookup");
+            return NativeFs.Ops.Stat(Alias(path) ?? path);
+        }
+
+        public string RealPath(string path) => NativeFs.Ops.RealPath(Alias(path) ?? path);
+        public FsStat LStat(string path) => NativeFs.Ops.LStat(path);
+        public string ReadLink(string path) => NativeFs.Ops.ReadLink(path);
+        public void Delete(string path) => NativeFs.Ops.Delete(path);
     }
 
     // T/visual-check.test.mjs:2643-2663, assertion for assertion.

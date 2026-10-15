@@ -1,0 +1,22 @@
+{
+  "scenario": {
+    "command": "visual-check",
+    "before": [
+      {
+        "write": "diagram.visual-check.json",
+        "text": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"sidecars\":{\"receipt\":\"diagram.visual-check.json\",\"contactSheet\":\"diagram.visual-check.html\"}}\n"
+      }
+    ]
+  },
+  "exit": 1,
+  "launched": false,
+  "calls": [],
+  "receipt": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"pending\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"state\": {\n    \"detail\": \"read\",\n    \"motion\": \"still\"\n  },\n  \"chrome\": {\n    \"status\": \"not-checked\",\n    \"executable\": null\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/evidence-path-conflict\",\n      \"severity\": \"error\",\n      \"message\": \"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.json\\\".\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\diagram.html\",\n        \"evidencePath\": \"<WORK>\\\\diagram.visual-check.json\"\n      },\n      \"evidence\": {\n        \"reason\": {\n          \"code\": \"ownership-sidecar-path-mismatch\"\n        }\n      },\n      \"supportedFixes\": [\n        \"move the conflicting file aside, or choose a separate --out-dir, then rerun visual-check\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"themeStates\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"readability\": {\n    \"status\": \"fail\",\n    \"minimumProjectedNodeTextPx\": 6,\n    \"viewports\": []\n  },\n  \"viewerChrome\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"diagram.visual-check.json\",\n    \"contactSheet\": \"diagram.visual-check.html\",\n    \"files\": []\n  },\n  \"error\": \"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.json\\\".\"\n}\n",
+  "sidecar": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"sidecars\":{\"receipt\":\"diagram.visual-check.json\",\"contactSheet\":\"diagram.visual-check.html\"}}\n",
+  "contactSheet": null,
+  "summary": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"ok\":false,\"status\":\"fail\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"pending\",\"artifact\":{\"path\":\"<WORK>\\\\diagram.html\",\"sha256\":\"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\"bytes\":57},\"state\":{\"detail\":\"read\",\"motion\":\"still\"},\"chrome\":{\"status\":\"not-checked\",\"executable\":null},\"checks\":{\"containment\":\"fail\",\"readability\":\"fail\",\"viewerChrome\":\"fail\",\"themeStates\":\"fail\",\"captures\":\"fail\"},\"error\":\"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.json\\\".\",\"diagnostics\":[{\"code\":\"viewer/evidence-path-conflict\",\"severity\":\"error\",\"message\":\"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.json\\\".\",\"subject\":{\"artifact\":\"<WORK>\\\\diagram.html\",\"evidencePath\":\"<WORK>\\\\diagram.visual-check.json\"},\"evidence\":{\"reason\":{\"code\":\"ownership-sidecar-path-mismatch\"}},\"supportedFixes\":[\"move the conflicting file aside, or choose a separate --out-dir, then rerun visual-check\"]}],\"evidence\":{\"screenshots\":[]}}",
+  "entries": [
+    "diagram.html",
+    "diagram.visual-check.json"
+  ]
+}
