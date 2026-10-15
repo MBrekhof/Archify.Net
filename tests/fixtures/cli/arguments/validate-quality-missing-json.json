@@ -1,0 +1,15 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--quality",
+    "--json"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"arguments\",\n  \"error\": \"--quality requires standard or showcase.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/missing-option-value\",\n      \"severity\": \"error\",\n      \"message\": \"--quality requires standard or showcase.\",\n      \"subject\": {\n        \"command\": \"validate\",\n        \"option\": \"--quality\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"provide --quality standard or --quality showcase\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

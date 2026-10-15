@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "erd",
+    "orders.erd.json"
+  ],
+  "files": {
+    "orders.erd.json": "upstream/examples/orders.erd.json"
+  },
+  "exit": 0,
+  "stdout": "ok erd <WORK>\\orders.erd.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

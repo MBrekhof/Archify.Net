@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "bom.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "bom.architecture.json": "tests/fixtures/cli/inputs/bom.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"input\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\bom.architecture.json\",\n  \"error\": \"Unexpected token '﻿', \\\"﻿{\\n  \\\"sche\\\"... is not valid JSON\",\n  \"diagnostics\": [\n    {\n      \"code\": \"input/json-parse\",\n      \"severity\": \"error\",\n      \"message\": \"Input JSON could not be parsed: Unexpected token '﻿', \\\"﻿{\\n  \\\"sche\\\"... is not valid JSON\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\bom.architecture.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Unexpected token '﻿', \\\"﻿{\\n  \\\"sche\\\"... is not valid JSON\"\n      },\n      \"supportedFixes\": [\n        \"repair the JSON syntax and run validation again\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

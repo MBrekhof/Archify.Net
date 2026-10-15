@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "locale-warning.architecture.json",
+    "out.html"
+  ],
+  "files": {
+    "locale-warning.architecture.json": "tests/fixtures/cli/inputs/locale-warning.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "<WORK>\\out.html\n",
+  "stderr": "archify: meta.locale \"en-US\" has no bundled catalog and no usable meta.translations; the Viewer chrome and <html lang> fall back to English.\n"
+}

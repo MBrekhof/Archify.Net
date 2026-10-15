@@ -1,0 +1,15 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "web-app.architecture.json",
+    "--json",
+    "out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown render option \"--json\".\n"
+}

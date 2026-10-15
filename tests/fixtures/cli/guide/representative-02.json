@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "Show CI/CD build deploy rollback"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: Delivery workflow  [workflow]\nConfidence: high\nQuestion answered: How does a change move safely from commit to production?\n\nUse when: CI/CD design, release reviews, deployment governance, or onboarding developers to delivery.\nAvoid when: The question is where infrastructure runs or what states a deployment object can occupy.\nMust include: trigger and build; blocking checks; approval and environments; rollback and verification\nPresentation: classic · trace\n\nCopy-ready prompt:\nUse Archify workflow mode to draw this delivery process from commit to production. Separate developer, CI, approval, environment, and exception lanes; mark blocking checks, smoke tests, ownership, and the rollback path. Keep one unmistakable happy path.\n",
+  "stderr": ""
+}

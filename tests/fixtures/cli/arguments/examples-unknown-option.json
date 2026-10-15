@@ -1,0 +1,10 @@
+{
+  "args": [
+    "examples",
+    "--bogus"
+  ],
+  "files": {},
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown examples option \"--bogus\".\n"
+}

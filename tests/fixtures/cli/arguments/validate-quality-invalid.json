@@ -1,0 +1,15 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--quality",
+    "hero"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown quality profile \"hero\". Expected standard or showcase.\n"
+}

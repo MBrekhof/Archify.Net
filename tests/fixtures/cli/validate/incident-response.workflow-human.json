@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "incident-response.workflow.json"
+  ],
+  "files": {
+    "incident-response.workflow.json": "upstream/examples/incident-response.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "ok workflow <WORK>\\incident-response.workflow.json (9 artifact checks; composition showcase: 0 errors, 1 warnings)\n",
+  "stderr": ""
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "erd",
+    "subscription-billing.erd.json"
+  ],
+  "files": {
+    "subscription-billing.erd.json": "upstream/examples/subscription-billing.erd.json"
+  },
+  "exit": 0,
+  "stdout": "ok erd <WORK>\\subscription-billing.erd.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

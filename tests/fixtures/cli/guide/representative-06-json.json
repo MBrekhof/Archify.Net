@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "agent tool call approval gate MCP",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"en\",\n  \"query\": \"agent tool call approval gate MCP\",\n  \"confidence\": \"high\",\n  \"matchedSignals\": [\n    \"agent tool call\",\n    \"tool call\",\n    \"approval gate\",\n    \"mcp\"\n  ],\n  \"recommendation\": {\n    \"id\": \"agent-tool-call\",\n    \"type\": \"workflow\",\n    \"proof\": \"agent-tool-call\",\n    \"presentation\": {\n      \"preset\": \"signal-flow\",\n      \"motion\": \"trace\"\n    },\n    \"title\": \"Agent tool-call loop\",\n    \"question\": \"How does an agent plan, get permission, act, recover, and report?\",\n    \"summary\": \"A lane-based agent loop with policy gates, tool execution, exception recovery, evidence, and final response.\",\n    \"useWhen\": \"Explaining agent runtimes, MCP/tool orchestration, approvals, retries, or observability.\",\n    \"avoidWhen\": \"The goal is only to show static agent components or exact API message timing.\",\n    \"include\": [\n      \"request and planning\",\n      \"policy or approval gate\",\n      \"tool execution\",\n      \"exception and evidence paths\"\n    ],\n    \"prompt\": \"Use Archify workflow mode to explain this agent tool-call loop. Separate user surface, agent runtime, policy boundary, exception handling, tool execution, and observability into lanes. Make the successful path primary and show approval, retry, blocked, and evidence paths explicitly.\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

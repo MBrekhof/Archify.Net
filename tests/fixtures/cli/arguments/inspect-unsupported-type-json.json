@@ -1,0 +1,14 @@
+{
+  "args": [
+    "inspect",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--json"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"inspect\",\n  \"stage\": \"arguments\",\n  \"error\": \"inspect is currently supported for architecture diagrams only.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unsupported-option\",\n      \"severity\": \"error\",\n      \"message\": \"inspect is currently supported for architecture diagrams only.\",\n      \"subject\": {\n        \"command\": \"inspect\",\n        \"type\": \"workflow\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"use an architecture diagram\",\n        \"use validate <type> <input.json> --layout-json for workflow diagrams\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "waterfall",
+    "checkout-request.waterfall.json"
+  ],
+  "files": {
+    "checkout-request.waterfall.json": "upstream/examples/checkout-request.waterfall.json"
+  },
+  "exit": 0,
+  "stdout": "ok waterfall <WORK>\\checkout-request.waterfall.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

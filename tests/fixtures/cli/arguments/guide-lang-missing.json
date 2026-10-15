@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "--lang"
+  ],
+  "files": {},
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--lang must be \"en\" or \"zh\".\n"
+}

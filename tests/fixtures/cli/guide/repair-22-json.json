@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "滚动宽度",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"zh\",\n  \"query\": \"滚动宽度\",\n  \"confidence\": \"high\",\n  \"matchedSignals\": [\n    \"滚动宽度\"\n  ],\n  \"recommendation\": {\n    \"id\": \"layout-repair\",\n    \"type\": \"architecture\",\n    \"proof\": \"web-app\",\n    \"presentation\": {\n      \"preset\": \"classic\",\n      \"motion\": \"static\"\n    },\n    \"title\": \"布局修复\",\n    \"question\": \"现有图为什么仍然溢出、重叠或连线穿过节点，应该先修什么？\",\n    \"summary\": \"保留现有图表模式，依据验证诊断、途经点语义和实测桌面视口预算修复布局。\",\n    \"useWhen\": \"已有架构图、工作流、时序图、数据流或生命周期图需要修复布局；保留原来的图表类型和表现设置。\",\n    \"avoidWhen\": \"任务是为新图选择类型时不要使用。不要为了通过检查改变拓扑、删除有意义的标签或隐藏溢出。\",\n    \"include\": [\n      \"修复顺序：schema → 重叠 → 方向 → 交叉 → 标签\",\n      \"via 契约：绝对 [x, y] 中间点；路径 = [start, ...via, end]\",\n      \"包含标题和必要卡片的整页桌面视口预算\",\n      \"每次修改后 validate，最终在浏览器中检查 HTML\"\n    ],\n    \"prompt\": \"用 Archify 修复这张现有图，保留图表类型、拓扑、有意义的标签和表现设置。遵循 references/authoring-contract.md 的顺序：(1) schema 错误及缺失或无效的 meta.quality_profile；(2) 节点重叠或越界；(3) 连线穿过节点及端点方向错误；(4) 交叉、含混的共享通道、贴边走线、过度绕行和转弯节奏；(5) 标签与节点、标签与标签、标签与连线的间距。每次修改后运行 validate，依据 diagnostics[] 的 code、subject、evidence 和 supportedFixes，每次只应用一项有诊断依据的几何控制。当前 schema 支持 via 时，它是按顺序排列的绝对 SVG [x, y] 中间点数组：路径为 [start, ...via, end]，起终点由节点锚点提供。显式 via 会覆盖自动路由，不是偏移量，也不会请求自动绕障。修复正交走线时，相邻点应共享 x 或 y，首尾线段应遵守 fromSide/toSide；只使用当前模式支持的控制字段。视口预算遵循 references/delivery-contract.md：检查 1440×900、1600×1000、1920×1080 和 2048×1320，要求 document.documentElement.scrollWidth <= window.innerWidth。优先满足 document.documentElement.scrollHeight <= window.innerHeight；如果 browser-check 明确确认 Reader 已达到投影文字下限并接受可读的页面纵向滚动，则保留该滚动。预算覆盖整页，包括标题、主图和必要卡片。其他溢出先通过移除冗余内容或压缩间距修复，不得靠隐藏溢出、裁切、内部滚动区、拉伸 SVG 或缩小字体强行通过。让 finalize 执行必需的浏览器证据；只在用户要求或 delivery contract 规定的升级条件下进行感知视觉审阅。\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

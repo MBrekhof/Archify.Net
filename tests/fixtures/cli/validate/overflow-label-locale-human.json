@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "overflow-label-locale.architecture.json"
+  ],
+  "files": {
+    "overflow-label-locale.architecture.json": "tests/fixtures/cli/inputs/overflow-label-locale.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Architecture layout validation failed:\n- Label \"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\" (~528px) is wider than component \"node\" (88px) — shorten the label or widen size.\n[i18n/locale-fallback] meta.locale \"en-US\" has no bundled catalog and no usable meta.translations; the Viewer chrome and <html lang> fall back to English. Fix: Supply meta.translations for this locale.; Use a bundled locale: en, zh-CN, zh-TW, es, ko..\n[architecture/component-label-overflow] Label \"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\" (~528px) is wider than component \"node\" (88px) — shorten the label or widen size. Fix: shorten component \"node\" label \"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\" while preserving its meaning; or widen component \"node\" to at least 520px.\n"
+}

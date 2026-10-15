@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "column-capacity.workflow.json"
+  ],
+  "files": {
+    "column-capacity.workflow.json": "tests/fixtures/cli/inputs/column-capacity.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Workflow columns 1→2 place nodes \"a\" and \"b\" so they overlap by 12px under the fixed-v1 layout.\n[workflow/column-capacity] Workflow columns 1→2 place nodes \"a\" and \"b\" so they overlap by 12px under the fixed-v1 layout. Fix: migrate this workflow to schema_version 2; set node widths \"a\"=52px and \"b\"=92px.\n"
+}

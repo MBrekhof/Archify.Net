@@ -1,0 +1,13 @@
+{
+  "args": [
+    "check",
+    "--strict-json",
+    "web-app-rendered.html"
+  ],
+  "files": {
+    "web-app-rendered.html": "upstream/examples/web-app-rendered.html"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown check option \"--strict-json\".\n"
+}

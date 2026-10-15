@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "sequence",
+    "cache-miss-request.sequence.json",
+    "--layout-json"
+  ],
+  "files": {
+    "cache-miss-request.sequence.json": "upstream/examples/cache-miss-request.sequence.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--layout-json is currently supported for architecture and workflow diagrams only.\n"
+}

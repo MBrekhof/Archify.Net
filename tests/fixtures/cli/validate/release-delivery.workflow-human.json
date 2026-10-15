@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "release-delivery.workflow.json"
+  ],
+  "files": {
+    "release-delivery.workflow.json": "upstream/examples/release-delivery.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "ok workflow <WORK>\\release-delivery.workflow.json (9 artifact checks; composition showcase: 0 errors, 1 warnings)\n",
+  "stderr": ""
+}

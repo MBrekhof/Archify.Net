@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "class",
+    "payment-processors.class.json"
+  ],
+  "files": {
+    "payment-processors.class.json": "upstream/examples/payment-processors.class.json"
+  },
+  "exit": 0,
+  "stdout": "ok class <WORK>\\payment-processors.class.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

@@ -1,0 +1,16 @@
+{
+  "args": [
+    "render",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "standard.html",
+    "--quality",
+    "standard"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "<WORK>\\standard.html\n",
+  "stderr": ""
+}

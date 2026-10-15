@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "Show an API request with Redis cache miss"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: API request chain  [sequence]\nConfidence: high\nQuestion answered: Who calls whom, in what order, and what returns?\n\nUse when: API documentation, debugging request latency, auth reviews, or explaining cache fallback.\nAvoid when: Order is unimportant and the audience only needs the stable service topology.\nMust include: callers and callees; request and return messages; fallback or error path; async side effects\nPresentation: classic · trace\n\nCopy-ready prompt:\nUse Archify sequence mode to show this request from caller to final response. Include authentication, cache hit or miss, persistence fallback, return messages, and asynchronous trace or event emission. Keep message labels short and order unambiguous.\n",
+  "stderr": ""
+}

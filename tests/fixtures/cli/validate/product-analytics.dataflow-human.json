@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "dataflow",
+    "product-analytics.dataflow.json"
+  ],
+  "files": {
+    "product-analytics.dataflow.json": "upstream/examples/product-analytics.dataflow.json"
+  },
+  "exit": 0,
+  "stdout": "ok dataflow <WORK>\\product-analytics.dataflow.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

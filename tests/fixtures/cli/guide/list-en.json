@@ -1,0 +1,9 @@
+{
+  "args": [
+    "guide"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Archify scenario recipes (13)\n\nChoose the question before the diagram type. Run: archify guide \"your scenario\"\n\nsystem-overview  [architecture]  System overview\n  What exists, who owns it, and how is it connected?\ndeployment-ownership  [architecture]  Deployment ownership\n  Where does each workload run, and what crosses a boundary?\nagent-tool-call  [workflow]  Agent tool-call loop\n  How does an agent plan, get permission, act, recover, and report?\ndelivery-workflow  [workflow]  Delivery workflow\n  How does a change move safely from commit to production?\nincident-runbook  [workflow]  Incident runbook\n  How do responders detect, triage, mitigate, verify, and escalate?\napi-request  [sequence]  API request chain\n  Who calls whom, in what order, and what returns?\nasync-roundtrip  [sequence]  Async roundtrip\n  What happens after the initial request returns?\ndata-lineage  [dataflow]  Data lineage\n  Where does data come from, how does it change, and who consumes it?\nevent-stream  [dataflow]  Event-stream topology\n  Which events move through which topics, processors, groups, and failure paths?\nobject-lifecycle  [lifecycle]  Object lifecycle\n  Which states exist, what events move between them, and how does it end?\ndeployment-lifecycle  [lifecycle]  Deployment lifecycle\n  What state is a release in, and what can happen next?\ndatabase-schema  [erd]  Database schema\n  Which tables exist, what columns and keys do they carry, and how do they relate?\nlayout-repair  [architecture]  Layout repair\n  Why does the existing diagram overflow, overlap, or route through nodes, and what should be fixed first?\n",
+  "stderr": ""
+}

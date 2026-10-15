@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "ghost.workflow.json",
+    "--layout-json"
+  ],
+  "files": {
+    "ghost.workflow.json": "tests/fixtures/cli/inputs/ghost.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"contract\": \"readable-v2\",\n  \"diagnostics\": [\n    {\n      \"code\": \"workflow/unknown-edge-endpoint\",\n      \"severity\": \"error\",\n      \"message\": \"Workflow edge \\\"request-chat\\\" references unknown target \\\"ghost\\\".\",\n      \"subject\": {\n        \"diagramType\": \"workflow\",\n        \"edge\": \"request-chat\",\n        \"path\": \"/edges/0/to\",\n        \"from\": \"user\",\n        \"to\": \"ghost\"\n      },\n      \"evidence\": {\n        \"endpoint\": \"target\",\n        \"unknownNodeId\": \"ghost\",\n        \"availableNodeIds\": [\n          \"approval\",\n          \"blocked\",\n          \"chat\",\n          \"external\",\n          \"final\",\n          \"planner\",\n          \"retry\",\n          \"router\",\n          \"store\",\n          \"tool\",\n          \"trace\",\n          \"user\"\n        ],\n        \"fixVerification\": \"each candidate was verified by applying every listed repoint together and recompiling\"\n      },\n      \"supportedFixes\": [\n        \"set /edges/0/to to verified node id \\\"chat\\\"\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

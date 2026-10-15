@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "lifecycle",
+    "agent-run.lifecycle.json"
+  ],
+  "files": {
+    "agent-run.lifecycle.json": "upstream/examples/agent-run.lifecycle.json"
+  },
+  "exit": 0,
+  "stdout": "ok lifecycle <WORK>\\agent-run.lifecycle.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

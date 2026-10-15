@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "Show CI/CD build deploy rollback",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"en\",\n  \"query\": \"Show CI/CD build deploy rollback\",\n  \"confidence\": \"high\",\n  \"matchedSignals\": [\n    \"ci/cd\",\n    \"rollback\"\n  ],\n  \"recommendation\": {\n    \"id\": \"delivery-workflow\",\n    \"type\": \"workflow\",\n    \"proof\": \"delivery-workflow\",\n    \"presentation\": {\n      \"preset\": \"classic\",\n      \"motion\": \"trace\"\n    },\n    \"title\": \"Delivery workflow\",\n    \"question\": \"How does a change move safely from commit to production?\",\n    \"summary\": \"A delivery flow with build, checks, environments, approvals, smoke tests, rollback, and ownership lanes.\",\n    \"useWhen\": \"CI/CD design, release reviews, deployment governance, or onboarding developers to delivery.\",\n    \"avoidWhen\": \"The question is where infrastructure runs or what states a deployment object can occupy.\",\n    \"include\": [\n      \"trigger and build\",\n      \"blocking checks\",\n      \"approval and environments\",\n      \"rollback and verification\"\n    ],\n    \"prompt\": \"Use Archify workflow mode to draw this delivery process from commit to production. Separate developer, CI, approval, environment, and exception lanes; mark blocking checks, smoke tests, ownership, and the rollback path. Keep one unmistakable happy path.\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

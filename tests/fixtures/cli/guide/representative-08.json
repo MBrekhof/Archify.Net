@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "Draw deployment topology with named boundary crossings"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: Deployment ownership  [architecture]\nConfidence: high\nQuestion answered: Where does each workload run, and what crosses a boundary?\n\nUse when: Cloud reviews, production readiness, multi-region planning, or infrastructure ownership handoffs.\nAvoid when: Deployment facts are unknown or the real question is application behavior rather than placement.\nMust include: regions and networks; workload ownership; stateful services; named boundary crossings\nPresentation: blueprint · trace\n\nCopy-ready prompt:\nUse Archify to draw the production deployment topology. Group resources by region, network, cluster, and owner; show workloads and stateful services; label every cross-boundary mechanism. Do not invent deployment facts—mark unknown areas explicitly. If the user wants a fail-closed deployment review, ask before setting meta.engineering_profile to deployment-ownership; otherwise leave the engineering profile unset.\n\nOther possible fits: Layout repair [architecture]\n",
+  "stderr": ""
+}

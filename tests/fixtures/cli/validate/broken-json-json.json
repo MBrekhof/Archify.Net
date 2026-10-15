@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "broken.workflow.json",
+    "--json"
+  ],
+  "files": {
+    "broken.workflow.json": "tests/fixtures/cli/inputs/broken.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"input\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\broken.workflow.json\",\n  \"error\": \"Unexpected end of JSON input\",\n  \"diagnostics\": [\n    {\n      \"code\": \"input/json-parse\",\n      \"severity\": \"error\",\n      \"message\": \"Input JSON could not be parsed: Unexpected end of JSON input\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\broken.workflow.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Unexpected end of JSON input\"\n      },\n      \"supportedFixes\": [\n        \"repair the JSON syntax and run validation again\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

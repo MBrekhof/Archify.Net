@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--quality=standard"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "ok workflow <WORK>\\agent-tool-call.workflow.json (9 artifact checks; composition standard: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

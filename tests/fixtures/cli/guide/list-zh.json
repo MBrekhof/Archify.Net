@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "--lang",
+    "zh"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Archify 场景配方（13）\n\n先选择你要回答的问题，再选择图表类型。可运行：archify guide \"你的场景\"\n\nsystem-overview  [architecture]  系统总览\n  系统里有什么、归谁负责、彼此如何连接？\ndeployment-ownership  [architecture]  部署与归属\n  每个工作负载运行在哪里，哪些连接跨越了边界？\nagent-tool-call  [workflow]  智能体工具调用\n  智能体如何规划、获批、执行、恢复并汇报？\ndelivery-workflow  [workflow]  研发交付流程\n  一次变更如何安全地从提交走到生产？\nincident-runbook  [workflow]  事故处置 Runbook\n  响应者如何发现、分诊、缓解、验证并升级？\napi-request  [sequence]  API 请求链\n  谁调用谁、顺序如何、最终返回什么？\nasync-roundtrip  [sequence]  异步往返链路\n  初始请求返回之后，后台还会发生什么？\ndata-lineage  [dataflow]  数据血缘\n  数据从哪里来、如何变化、最终被谁消费？\nevent-stream  [dataflow]  事件流拓扑\n  哪些事件经过哪些 Topic、处理器、消费者组和失败路径？\nobject-lifecycle  [lifecycle]  对象生命周期\n  有哪些状态、什么事件触发流转、最终如何结束？\ndeployment-lifecycle  [lifecycle]  部署生命周期\n  一次发布当前处于什么状态，下一步可能发生什么？\ndatabase-schema  [erd]  数据库表结构\n  有哪些表、各自带哪些字段和键、彼此如何关联？\nlayout-repair  [architecture]  布局修复\n  现有图为什么仍然溢出、重叠或连线穿过节点，应该先修什么？\n",
+  "stderr": ""
+}

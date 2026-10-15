@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "lifecycle",
+    "deployment-release.lifecycle.json"
+  ],
+  "files": {
+    "deployment-release.lifecycle.json": "upstream/examples/deployment-release.lifecycle.json"
+  },
+  "exit": 0,
+  "stdout": "ok lifecycle <WORK>\\deployment-release.lifecycle.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

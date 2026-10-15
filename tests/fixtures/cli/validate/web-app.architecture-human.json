@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "web-app.architecture.json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "ok architecture <WORK>\\web-app.architecture.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

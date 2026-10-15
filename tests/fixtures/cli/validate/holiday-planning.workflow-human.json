@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "holiday-planning.workflow.json"
+  ],
+  "files": {
+    "holiday-planning.workflow.json": "upstream/examples/holiday-planning.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "ok workflow <WORK>\\holiday-planning.workflow.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

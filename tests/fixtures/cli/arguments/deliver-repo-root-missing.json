@@ -1,0 +1,14 @@
+{
+  "args": [
+    "deliver",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--repo-root"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--repo-root requires a repository path.\n"
+}

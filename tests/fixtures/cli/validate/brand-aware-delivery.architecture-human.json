@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "brand-aware-delivery.architecture.json"
+  ],
+  "files": {
+    "brand-aware-delivery.architecture.json": "upstream/examples/brand-aware-delivery.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "ok architecture <WORK>\\brand-aware-delivery.architecture.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

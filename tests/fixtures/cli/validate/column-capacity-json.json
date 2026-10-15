@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "column-capacity.workflow.json",
+    "--json"
+  ],
+  "files": {
+    "column-capacity.workflow.json": "tests/fixtures/cli/inputs/column-capacity.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"render\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\column-capacity.workflow.json\",\n  \"error\": \"Workflow columns 1→2 place nodes \\\"a\\\" and \\\"b\\\" so they overlap by 12px under the fixed-v1 layout.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"workflow/column-capacity\",\n      \"severity\": \"error\",\n      \"message\": \"Workflow columns 1→2 place nodes \\\"a\\\" and \\\"b\\\" so they overlap by 12px under the fixed-v1 layout.\",\n      \"subject\": {\n        \"diagramType\": \"workflow\",\n        \"edge\": \"ab\",\n        \"from\": \"a\",\n        \"to\": \"b\",\n        \"fromCol\": 1,\n        \"toCol\": 2\n      },\n      \"evidence\": {\n        \"centerDistancePx\": 80,\n        \"nodeWidthsPx\": [\n          92,\n          92\n        ],\n        \"actualSignedClearancePx\": -12,\n        \"requiredDirectClearancePx\": 8\n      },\n      \"supportedFixes\": [\n        \"migrate this workflow to schema_version 2\",\n        \"set node widths \\\"a\\\"=52px and \\\"b\\\"=92px\"\n      ],\n      \"suppresses\": [\n        \"workflow/short-edge\",\n        \"clean-flow/endpoint-side-direction\",\n        \"workflow/label-node-overlap\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

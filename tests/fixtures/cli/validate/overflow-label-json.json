@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "overflow-label.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "overflow-label.architecture.json": "tests/fixtures/cli/inputs/overflow-label.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"render\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\overflow-label.architecture.json\",\n  \"error\": \"Architecture layout validation failed:\\n- Label \\\"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\\\" (~528px) is wider than component \\\"node\\\" (88px) — shorten the label or widen size.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"architecture/component-label-overflow\",\n      \"severity\": \"error\",\n      \"message\": \"Label \\\"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\\\" (~528px) is wider than component \\\"node\\\" (88px) — shorten the label or widen size.\",\n      \"subject\": {\n        \"diagramType\": \"architecture\",\n        \"nodeId\": \"node\"\n      },\n      \"evidence\": {\n        \"text\": \"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\",\n        \"estimatedWidthPx\": 528,\n        \"availableWidthPx\": 88\n      },\n      \"supportedFixes\": [\n        \"shorten component \\\"node\\\" label \\\"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\\\" while preserving its meaning\",\n        \"or widen component \\\"node\\\" to at least 520px\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

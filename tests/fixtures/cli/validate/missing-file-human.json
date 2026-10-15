@@ -1,0 +1,11 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "missing.json"
+  ],
+  "files": {},
+  "exit": 1,
+  "stdout": "",
+  "stderr": "ENOENT: no such file or directory, open '<WORK>\\missing.json'\n[input/read] Input could not be read: ENOENT: no such file or directory, open '<WORK>\\missing.json' Fix: provide one readable JSON input file.\n"
+}

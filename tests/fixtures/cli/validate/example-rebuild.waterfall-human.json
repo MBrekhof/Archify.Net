@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "waterfall",
+    "example-rebuild.waterfall.json"
+  ],
+  "files": {
+    "example-rebuild.waterfall.json": "upstream/examples/example-rebuild.waterfall.json"
+  },
+  "exit": 0,
+  "stdout": "ok waterfall <WORK>\\example-rebuild.waterfall.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

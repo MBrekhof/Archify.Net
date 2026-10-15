@@ -1,0 +1,11 @@
+{
+  "args": [
+    "validate",
+    "unknown",
+    "ignored.json"
+  ],
+  "files": {},
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown diagram type \"unknown\". Expected one of: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\n"
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "bom.architecture.json"
+  ],
+  "files": {
+    "bom.architecture.json": "tests/fixtures/cli/inputs/bom.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Unexpected token '﻿', \"﻿{\n  \"sche\"... is not valid JSON\n[input/json-parse] Input JSON could not be parsed: Unexpected token '﻿', \"﻿{\n  \"sche\"... is not valid JSON Fix: repair the JSON syntax and run validation again.\n"
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "sequence",
+    "async-job-roundtrip.sequence.json"
+  ],
+  "files": {
+    "async-job-roundtrip.sequence.json": "upstream/examples/async-job-roundtrip.sequence.json"
+  },
+  "exit": 0,
+  "stdout": "ok sequence <WORK>\\async-job-roundtrip.sequence.json (9 artifact checks; composition showcase: 0 errors, 1 warnings)\n",
+  "stderr": ""
+}

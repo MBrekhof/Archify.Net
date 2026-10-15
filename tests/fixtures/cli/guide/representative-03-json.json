@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "展示 Kafka topic 消费者组和死信队列",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"zh\",\n  \"query\": \"展示 Kafka topic 消费者组和死信队列\",\n  \"confidence\": \"high\",\n  \"matchedSignals\": [\n    \"topic\",\n    \"消费者组\",\n    \"死信\"\n  ],\n  \"recommendation\": {\n    \"id\": \"event-stream\",\n    \"type\": \"dataflow\",\n    \"proof\": \"event-stream\",\n    \"presentation\": {\n      \"preset\": \"signal-flow\",\n      \"motion\": \"trace\"\n    },\n    \"title\": \"事件流拓扑\",\n    \"question\": \"哪些事件经过哪些 Topic、处理器、消费者组和失败路径？\",\n    \"summary\": \"展示生产者、Topic、有序处理器、消费者组、状态、重放和 DLQ。\",\n    \"useWhen\": \"适合 Kafka/事件平台设计、流处理评审、归属、重放和失败处理。\",\n    \"avoidWhen\": \"如果 Topic、消费者组和投递语义都不清楚，请先用通用工作流，不要编造事件拓扑。\",\n    \"include\": [\n      \"生产者与事件名\",\n      \"Topic 与顺序\",\n      \"处理器与消费者组\",\n      \"状态、重放与 DLQ\"\n    ],\n    \"prompt\": \"用 Archify 数据流模式绘制这段事件流拓扑。命名生产者、事件、Topic、有序处理器、消费者组、状态存储、重放路径和 DLQ；只有在证据充分时才标注归属和投递语义。\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

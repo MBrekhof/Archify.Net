@@ -1,0 +1,12 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "missing.json",
+    "--json"
+  ],
+  "files": {},
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"input\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\missing.json\",\n  \"error\": \"ENOENT: no such file or directory, open '<WORK>\\\\missing.json'\",\n  \"diagnostics\": [\n    {\n      \"code\": \"input/read\",\n      \"severity\": \"error\",\n      \"message\": \"Input could not be read: ENOENT: no such file or directory, open '<WORK>\\\\missing.json'\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\missing.json\"\n      },\n      \"evidence\": {\n        \"systemCode\": \"ENOENT\",\n        \"reason\": \"ENOENT: no such file or directory, open '<WORK>\\\\missing.json'\"\n      },\n      \"supportedFixes\": [\n        \"provide one readable JSON input file\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "incident-runbook",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"en\",\n  \"query\": \"incident-runbook\",\n  \"confidence\": \"high\",\n  \"matchedSignals\": [\n    \"incident-runbook\"\n  ],\n  \"recommendation\": {\n    \"id\": \"incident-runbook\",\n    \"type\": \"workflow\",\n    \"proof\": \"incident-runbook\",\n    \"presentation\": {\n      \"preset\": \"signal-flow\",\n      \"motion\": \"trace\"\n    },\n    \"title\": \"Incident runbook\",\n    \"question\": \"How do responders detect, triage, mitigate, verify, and escalate?\",\n    \"summary\": \"An operational workflow that separates signals, responders, mitigation, communications, and recovery proof.\",\n    \"useWhen\": \"Incident playbooks, on-call handoffs, reliability reviews, and tabletop exercises.\",\n    \"avoidWhen\": \"The audience needs live metrics or a post-incident component topology instead of response actions.\",\n    \"include\": [\n      \"detection signal\",\n      \"triage owner\",\n      \"mitigation and rollback\",\n      \"verification and communication\"\n    ],\n    \"prompt\": \"Use Archify workflow mode to turn this incident runbook into responder lanes. Show detection, triage, mitigation, escalation, communication, rollback, and recovery verification. Separate decision gates from actions and make missing ownership visible.\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

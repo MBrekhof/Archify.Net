@@ -1,0 +1,15 @@
+{
+  "args": [
+    "validate",
+    "--bogus",
+    "payload",
+    "workflow",
+    "agent-tool-call.workflow.json"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown validate option \"--bogus\".\n"
+}

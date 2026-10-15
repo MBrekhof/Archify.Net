@@ -1,0 +1,10 @@
+{
+  "args": [
+    "demo",
+    "--typo"
+  ],
+  "files": {},
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown demo option \"--typo\".\n"
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "tree",
+    "payment-platform.tree.json"
+  ],
+  "files": {
+    "payment-platform.tree.json": "upstream/examples/payment-platform.tree.json"
+  },
+  "exit": 0,
+  "stdout": "ok tree <WORK>\\payment-platform.tree.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

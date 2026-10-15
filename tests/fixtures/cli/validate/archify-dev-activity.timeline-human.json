@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "timeline",
+    "archify-dev-activity.timeline.json"
+  ],
+  "files": {
+    "archify-dev-activity.timeline.json": "upstream/examples/archify-dev-activity.timeline.json"
+  },
+  "exit": 0,
+  "stdout": "ok timeline <WORK>\\archify-dev-activity.timeline.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

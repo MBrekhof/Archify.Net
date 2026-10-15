@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "Show a system overview via an architecture diagram"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: System overview  [architecture]\nConfidence: high\nQuestion answered: What exists, who owns it, and how is it connected?\n\nUse when: Onboarding, design reviews, repository orientation, or explaining a service landscape.\nAvoid when: The audience needs exact call order, state transitions, or row-level data lineage.\nMust include: 8–12 core components; one primary path; external dependencies; trust boundaries\nPresentation: classic · static\n\nCopy-ready prompt:\nAnalyze this repository, then use Archify to create a high-level architecture diagram. Show 8–12 core runtime components, one primary request or data path, external dependencies, ownership or trust boundaries, and put supporting detail in cards instead of adding more edges.\n\nOther possible fits: Layout repair [architecture]\n",
+  "stderr": ""
+}

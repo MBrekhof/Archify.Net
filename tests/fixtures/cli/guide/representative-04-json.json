@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "梳理 ETL 数仓 PII 数据血缘",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"zh\",\n  \"query\": \"梳理 ETL 数仓 PII 数据血缘\",\n  \"confidence\": \"high\",\n  \"matchedSignals\": [\n    \"etl\",\n    \"pii\",\n    \"数据血缘\",\n    \"数仓\"\n  ],\n  \"recommendation\": {\n    \"id\": \"data-lineage\",\n    \"type\": \"dataflow\",\n    \"proof\": \"product-analytics\",\n    \"presentation\": {\n      \"preset\": \"classic\",\n      \"motion\": \"trace\"\n    },\n    \"title\": \"数据血缘\",\n    \"question\": \"数据从哪里来、如何变化、最终被谁消费？\",\n    \"summary\": \"从来源经过同意、转换、敏感存储、数仓直到消费者的治理路径。\",\n    \"useWhen\": \"适合分析架构、ETL/ELT 评审、PII 评估、数仓设计和特征血缘。\",\n    \"avoidWhen\": \"如果受众需要请求时序或操作负责人，而不是数据资产，请换其他配方。\",\n    \"include\": [\n      \"数据来源与资产\",\n      \"转换阶段\",\n      \"分类或同意边界\",\n      \"存储与消费者\"\n    ],\n    \"prompt\": \"用 Archify 数据流模式梳理这段数据血缘。为每个数据资产和转换命名，展示用户同意或数据分类边界，区分流式与批处理路径，并标明存储和下游消费者；所有数据流都必须有标签。\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--layout-json=true"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown validate option \"--layout-json=true\".\n"
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "dataflow",
+    "event-stream.dataflow.json"
+  ],
+  "files": {
+    "event-stream.dataflow.json": "upstream/examples/event-stream.dataflow.json"
+  },
+  "exit": 0,
+  "stdout": "ok dataflow <WORK>\\event-stream.dataflow.json (9 artifact checks; composition showcase: 0 errors, 1 warnings)\n",
+  "stderr": ""
+}

@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "broken.workflow.json"
+  ],
+  "files": {
+    "broken.workflow.json": "tests/fixtures/cli/inputs/broken.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Unexpected end of JSON input\n[input/json-parse] Input JSON could not be parsed: Unexpected end of JSON input Fix: repair the JSON syntax and run validation again.\n"
+}

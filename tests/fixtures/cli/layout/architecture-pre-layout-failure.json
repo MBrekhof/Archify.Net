@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "schema-failure-output.architecture.json",
+    "--layout-json"
+  ],
+  "files": {
+    "schema-failure-output.architecture.json": "tests/fixtures/cli/inputs/schema-failure-output.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "architecture schema validation failed:\n  /components/0 (id/label: \"users\") must NOT have additional properties {\"additionalProperty\":\"colour\"}\n[schema/additionalProperties] /components/0 (id/label: \"users\") must NOT have additional properties Fix: remove unsupported property \"colour\".\n"
+}

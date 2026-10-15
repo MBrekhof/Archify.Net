@@ -1,0 +1,13 @@
+{
+  "args": [
+    "render",
+    "workflow",
+    "agent-tool-call.workflow.json"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "<WORK>\\examples\\workflow-agent-tool-call-rendered.html\n",
+  "stderr": ""
+}

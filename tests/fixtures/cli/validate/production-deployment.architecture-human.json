@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "production-deployment.architecture.json"
+  ],
+  "files": {
+    "production-deployment.architecture.json": "upstream/examples/production-deployment.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "ok architecture <WORK>\\production-deployment.architecture.json (9 artifact checks; composition showcase: 0 errors, 0 warnings; engineering deployment-ownership: pass)\n",
+  "stderr": ""
+}

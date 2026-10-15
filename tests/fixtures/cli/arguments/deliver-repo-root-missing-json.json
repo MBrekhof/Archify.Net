@@ -1,0 +1,15 @@
+{
+  "args": [
+    "deliver",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--repo-root",
+    "--json"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"stage\": \"arguments\",\n  \"error\": \"--repo-root requires a repository path.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/missing-option-value\",\n      \"severity\": \"error\",\n      \"message\": \"--repo-root requires a repository path.\",\n      \"subject\": {\n        \"command\": \"deliver\",\n        \"option\": \"--repo-root\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"provide one repository path after --repo-root\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

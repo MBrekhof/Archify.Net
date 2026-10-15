@@ -1,0 +1,11 @@
+{
+  "args": [
+    "guide",
+    "make it delightful",
+    "--json"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "{\n  \"ok\": true,\n  \"mode\": \"recommendation\",\n  \"lang\": \"en\",\n  \"query\": \"make it delightful\",\n  \"confidence\": \"low\",\n  \"matchedSignals\": [],\n  \"recommendation\": {\n    \"id\": \"system-overview\",\n    \"type\": \"architecture\",\n    \"proof\": \"web-app\",\n    \"presentation\": {\n      \"preset\": \"classic\",\n      \"motion\": \"static\"\n    },\n    \"title\": \"System overview\",\n    \"question\": \"What exists, who owns it, and how is it connected?\",\n    \"summary\": \"A bounded map of core components, external dependencies, primary paths, and trust boundaries.\",\n    \"useWhen\": \"Onboarding, design reviews, repository orientation, or explaining a service landscape.\",\n    \"avoidWhen\": \"The audience needs exact call order, state transitions, or row-level data lineage.\",\n    \"include\": [\n      \"8–12 core components\",\n      \"one primary path\",\n      \"external dependencies\",\n      \"trust boundaries\"\n    ],\n    \"prompt\": \"Analyze this repository, then use Archify to create a high-level architecture diagram. Show 8–12 core runtime components, one primary request or data path, external dependencies, ownership or trust boundaries, and put supporting detail in cards instead of adding more edges.\"\n  },\n  \"alternatives\": []\n}\n",
+  "stderr": ""
+}

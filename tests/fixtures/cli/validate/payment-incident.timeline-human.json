@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "timeline",
+    "payment-incident.timeline.json"
+  ],
+  "files": {
+    "payment-incident.timeline.json": "upstream/examples/payment-incident.timeline.json"
+  },
+  "exit": 0,
+  "stdout": "ok timeline <WORK>\\payment-incident.timeline.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

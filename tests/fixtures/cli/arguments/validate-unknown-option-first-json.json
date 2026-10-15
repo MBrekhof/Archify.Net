@@ -1,0 +1,16 @@
+{
+  "args": [
+    "validate",
+    "--bogus",
+    "payload",
+    "workflow",
+    "agent-tool-call.workflow.json",
+    "--json"
+  ],
+  "files": {
+    "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"arguments\",\n  \"error\": \"Unknown validate option \\\"--bogus\\\".\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unknown-option\",\n      \"severity\": \"error\",\n      \"message\": \"Unknown validate option \\\"--bogus\\\".\",\n      \"subject\": {\n        \"command\": \"validate\",\n        \"option\": \"--bogus\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"remove the unknown option and retry\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

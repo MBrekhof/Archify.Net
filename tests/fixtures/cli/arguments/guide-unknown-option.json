@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "--bogus"
+  ],
+  "files": {},
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown guide option \"--bogus\".\n"
+}

@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "deployment lifecycle approval rollback state"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: Deployment lifecycle  [lifecycle]\nConfidence: high\nQuestion answered: What state is a release in, and what can happen next?\n\nUse when: Release controllers, GitOps reconciliation, environment promotion, or deployment status APIs.\nAvoid when: The question is the human/CI sequence of delivery actions rather than the deployment object state.\nMust include: queued and running states; verification and approval; promotion and rollback; success, failure, cancellation\nPresentation: signal-flow · trace\n\nCopy-ready prompt:\nUse Archify lifecycle mode to model the deployment object. Show queued, building, verifying, waiting for approval, promoting, rolling back, and every terminal outcome. Label the events and guards that permit each transition.\n\nOther possible fits: Delivery workflow [workflow]\n",
+  "stderr": ""
+}

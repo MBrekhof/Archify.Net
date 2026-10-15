@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "incident-runbook"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: Incident runbook  [workflow]\nConfidence: high\nQuestion answered: How do responders detect, triage, mitigate, verify, and escalate?\n\nUse when: Incident playbooks, on-call handoffs, reliability reviews, and tabletop exercises.\nAvoid when: The audience needs live metrics or a post-incident component topology instead of response actions.\nMust include: detection signal; triage owner; mitigation and rollback; verification and communication\nPresentation: signal-flow · trace\n\nCopy-ready prompt:\nUse Archify workflow mode to turn this incident runbook into responder lanes. Show detection, triage, mitigation, escalation, communication, rollback, and recovery verification. Separate decision gates from actions and make missing ownership visible.\n",
+  "stderr": ""
+}

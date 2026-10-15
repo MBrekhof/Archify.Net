@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "tree",
+    "archify-repository.tree.json"
+  ],
+  "files": {
+    "archify-repository.tree.json": "upstream/examples/archify-repository.tree.json"
+  },
+  "exit": 0,
+  "stdout": "ok tree <WORK>\\archify-repository.tree.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

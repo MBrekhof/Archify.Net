@@ -1,0 +1,15 @@
+{
+  "args": [
+    "inspect",
+    "architecture",
+    "web-app.architecture.json",
+    "--json",
+    "--bogus"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"inspect\",\n  \"stage\": \"arguments\",\n  \"error\": \"Unknown inspect option \\\"--bogus\\\".\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unknown-option\",\n      \"severity\": \"error\",\n      \"message\": \"Unknown inspect option \\\"--bogus\\\".\",\n      \"subject\": {\n        \"command\": \"inspect\",\n        \"option\": \"--bogus\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"remove the unknown option and retry\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

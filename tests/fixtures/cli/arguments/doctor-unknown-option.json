@@ -1,0 +1,10 @@
+{
+  "args": [
+    "doctor",
+    "--bogus"
+  ],
+  "files": {},
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown doctor option \"--bogus\".\n"
+}

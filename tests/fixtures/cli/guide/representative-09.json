@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "Explain an API request via a webhook callback"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: Async roundtrip  [sequence]\nConfidence: high\nQuestion answered: What happens after the initial request returns?\n\nUse when: Webhooks, jobs, queues, payment callbacks, eventual consistency, or async API contracts.\nAvoid when: The primary question is topic topology and consumer ownership rather than time order.\nMust include: initial acknowledgement; queue or scheduler; background work; callback, retry, and timeout\nPresentation: signal-flow · trace\n\nCopy-ready prompt:\nUse Archify sequence mode to explain this asynchronous roundtrip. Show the initial acknowledgement, enqueue or scheduling step, background processing, callback or polling, retry and timeout behavior, and the point where the caller can observe final consistency.\n\nOther possible fits: API request chain [sequence] · Layout repair [architecture]\n",
+  "stderr": ""
+}

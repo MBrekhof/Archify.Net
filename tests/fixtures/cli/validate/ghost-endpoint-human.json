@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "ghost.workflow.json"
+  ],
+  "files": {
+    "ghost.workflow.json": "tests/fixtures/cli/inputs/ghost.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Workflow edge \"request-chat\" references unknown target \"ghost\".\n[workflow/unknown-edge-endpoint] Workflow edge \"request-chat\" references unknown target \"ghost\". Fix: set /edges/0/to to verified node id \"chat\".\n"
+}

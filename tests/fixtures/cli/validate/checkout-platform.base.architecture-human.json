@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "checkout-platform.base.architecture.json"
+  ],
+  "files": {
+    "checkout-platform.base.architecture.json": "upstream/examples/checkout-platform.base.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "ok architecture <WORK>\\checkout-platform.base.architecture.json (9 artifact checks; composition standard: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

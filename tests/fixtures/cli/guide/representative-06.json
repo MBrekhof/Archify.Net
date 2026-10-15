@@ -1,0 +1,10 @@
+{
+  "args": [
+    "guide",
+    "agent tool call approval gate MCP"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Recommendation: Agent tool-call loop  [workflow]\nConfidence: high\nQuestion answered: How does an agent plan, get permission, act, recover, and report?\n\nUse when: Explaining agent runtimes, MCP/tool orchestration, approvals, retries, or observability.\nAvoid when: The goal is only to show static agent components or exact API message timing.\nMust include: request and planning; policy or approval gate; tool execution; exception and evidence paths\nPresentation: signal-flow · trace\n\nCopy-ready prompt:\nUse Archify workflow mode to explain this agent tool-call loop. Separate user surface, agent runtime, policy boundary, exception handling, tool execution, and observability into lanes. Make the successful path primary and show approval, retry, blocked, and evidence paths explicitly.\n",
+  "stderr": ""
+}

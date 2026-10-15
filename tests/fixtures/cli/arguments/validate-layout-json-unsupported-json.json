@@ -1,0 +1,15 @@
+{
+  "args": [
+    "validate",
+    "sequence",
+    "cache-miss-request.sequence.json",
+    "--layout-json",
+    "--json"
+  ],
+  "files": {
+    "cache-miss-request.sequence.json": "upstream/examples/cache-miss-request.sequence.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"arguments\",\n  \"error\": \"--layout-json is currently supported for architecture and workflow diagrams only.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unsupported-option\",\n      \"severity\": \"error\",\n      \"message\": \"--layout-json is currently supported for architecture and workflow diagrams only.\",\n      \"subject\": {\n        \"command\": \"validate\",\n        \"option\": \"--layout-json\",\n        \"type\": \"sequence\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"remove --layout-json or use an architecture or workflow diagram\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,14 @@
+{
+  "args": [
+    "render",
+    "architecture",
+    "web-app.architecture.json",
+    "--quality"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--quality requires standard or showcase.\n"
+}

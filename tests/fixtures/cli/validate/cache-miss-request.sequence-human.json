@@ -1,0 +1,13 @@
+{
+  "args": [
+    "validate",
+    "sequence",
+    "cache-miss-request.sequence.json"
+  ],
+  "files": {
+    "cache-miss-request.sequence.json": "upstream/examples/cache-miss-request.sequence.json"
+  },
+  "exit": 0,
+  "stdout": "ok sequence <WORK>\\cache-miss-request.sequence.json (9 artifact checks; composition showcase: 0 errors, 0 warnings)\n",
+  "stderr": ""
+}

@@ -1,0 +1,9 @@
+{
+  "args": [
+    "examples"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "<SKILL>\\examples\\workflow-agent-tool-call-rendered.html\n<SKILL>\\examples\\sequence-cache-miss-request.html\n<SKILL>\\examples\\dataflow-product-analytics.html\n<SKILL>\\examples\\lifecycle-agent-run.html\n<SKILL>\\examples\\web-app-rendered.html\n<SKILL>\\examples\\erd-orders-rendered.html\n<SKILL>\\examples\\subscription-billing-rendered.html\n<SKILL>\\examples\\tree-payment-platform-rendered.html\n<SKILL>\\examples\\tree-archify-repository-rendered.html\n<SKILL>\\examples\\class-payments-rendered.html\n<SKILL>\\examples\\class-payment-processors-rendered.html\n<SKILL>\\examples\\timeline-payment-incident-rendered.html\n<SKILL>\\examples\\timeline-archify-dev-activity-rendered.html\n<SKILL>\\examples\\waterfall-checkout-request-rendered.html\n<SKILL>\\examples\\waterfall-example-rebuild-rendered.html\n",
+  "stderr": ""
+}

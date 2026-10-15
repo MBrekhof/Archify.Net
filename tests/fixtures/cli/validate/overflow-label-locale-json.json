@@ -1,0 +1,14 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "overflow-label-locale.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "overflow-label-locale.architecture.json": "tests/fixtures/cli/inputs/overflow-label-locale.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"render\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\overflow-label-locale.architecture.json\",\n  \"error\": \"Architecture layout validation failed:\\n- Label \\\"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\\\" (~528px) is wider than component \\\"node\\\" (88px) — shorten the label or widen size.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"i18n/locale-fallback\",\n      \"severity\": \"warning\",\n      \"message\": \"meta.locale \\\"en-US\\\" has no bundled catalog and no usable meta.translations; the Viewer chrome and <html lang> fall back to English.\",\n      \"subject\": {\n        \"diagramType\": \"architecture\",\n        \"path\": \"/meta/locale\"\n      },\n      \"evidence\": {\n        \"locale\": \"en-US\",\n        \"bundledLocales\": [\n          \"en\",\n          \"zh-CN\",\n          \"zh-TW\",\n          \"es\",\n          \"ko\"\n        ]\n      },\n      \"supportedFixes\": [\n        \"Supply meta.translations for this locale.\",\n        \"Use a bundled locale: en, zh-CN, zh-TW, es, ko.\"\n      ]\n    },\n    {\n      \"code\": \"architecture/component-label-overflow\",\n      \"severity\": \"error\",\n      \"message\": \"Label \\\"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\\\" (~528px) is wider than component \\\"node\\\" (88px) — shorten the label or widen size.\",\n      \"subject\": {\n        \"diagramType\": \"architecture\",\n        \"nodeId\": \"node\"\n      },\n      \"evidence\": {\n        \"text\": \"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\",\n        \"estimatedWidthPx\": 528,\n        \"availableWidthPx\": 88\n      },\n      \"supportedFixes\": [\n        \"shorten component \\\"node\\\" label \\\"字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字字\\\" while preserving its meaning\",\n        \"or widen component \\\"node\\\" to at least 520px\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}
