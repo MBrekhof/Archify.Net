@@ -105,6 +105,12 @@ archify demo <output-directory>
 
 When shell access is unavailable, hand-place architecture SVG into `assets/template.html`, use CSS semantic classes rather than inline colors, and follow the visual review contract in `references/delivery-contract.md`.
 
+## Archify.Net differences
+
+- These upstream commands are not available, and an agent must not run them even when a reference mentions them: `preview`, `compare`, `brands` (query and capture), `migrate`, and `bin/recover-output.mjs`.
+- `deliver --open` reports that opening is unsupported. Open the HTML file yourself if the user asks.
+- Every other command named in the references maps to `archify <command>`. The MCP server exposes `archify_guide`, `archify_validate`, `archify_render` and `archify_finalize`. Commands with no tool, such as standalone `deliver`, `check`, `browser-check` and `visual-check`, run as CLI commands.
+
 ## Output
 
 Reply in the user's language, as briefly as the result allows; the diagram carries the content, so a single diagram usually needs one line.

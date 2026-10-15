@@ -32,6 +32,16 @@ public sealed partial class SkillPackageTests
         "archify_brands",
     ];
 
+    private static readonly string[] UnavailableCommands =
+    [
+        "`preview`",
+        "`compare`",
+        "`brands`",
+        "`migrate`",
+        "`bin/recover-output.mjs`",
+        "`deliver --open`",
+    ];
+
     [GeneratedRegex(@"(?:references|schemas|examples)/[A-Za-z0-9._/-]+\.(?:md|json)")]
     private static partial Regex RelativeSkillPathRegex();
 
@@ -54,6 +64,19 @@ public sealed partial class SkillPackageTests
         foreach (var forbidden in ForbiddenStrings)
         {
             Assert.DoesNotContain(forbidden, text, StringComparison.Ordinal);
+        }
+
+        const string differencesHeading = "## Archify.Net differences\n";
+        const string outputHeading = "\n## Output\n";
+        var differencesIndex = text.IndexOf(differencesHeading, StringComparison.Ordinal);
+        var outputIndex = text.IndexOf(outputHeading, StringComparison.Ordinal);
+        Assert.True(differencesIndex >= 0, "SKILL.md must contain a '## Archify.Net differences' section.");
+        Assert.True(outputIndex > differencesIndex, "'## Archify.Net differences' must appear before '## Output'.");
+
+        var differencesSection = text[differencesIndex..outputIndex];
+        foreach (var unavailable in UnavailableCommands)
+        {
+            Assert.Contains(unavailable, differencesSection, StringComparison.Ordinal);
         }
 
         var referencedPaths = RelativeSkillPathRegex().Matches(text).Select(m => m.Value).Distinct(StringComparer.Ordinal).ToList();

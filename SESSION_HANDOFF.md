@@ -1,6 +1,6 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-15 (phase 5 closed).
+Updated 2026-10-15 (phase 6 implemented — exit demonstration pending).
 
 ## What this repo is
 
@@ -15,9 +15,35 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`
 - Phase 4 plan: `docs/superpowers/plans/2026-10-15-phase4-erd-evidence.md`
 - Phase 5 plan: `docs/superpowers/plans/2026-10-15-phase5-cli.md`
+- Phase 6 plan: `docs/superpowers/plans/2026-10-15-phase6-mcp.md`
 - Task state: **board-only**, ContextBoard project 46. Phase 1 is `PORT-001` (CARD-2166), phase 2 is `PORT-002`
   (CARD-2167), phase 3 is `PORT-003` (CARD-2168), phase 4 is `PORT-004` (CARD-2169); phases 5 and 6 are `PORT-005` and `PORT-006`. No `TODO.md` here.
 - `master`, remote `origin` = https://github.com/MBrekhof/Archify.Net (private, `gh` account `MBrekhof`).
+
+## State at end of phase 6
+
+- Phase 6 (`PORT-006`) status: **Implemented — exit demonstration pending**.
+  - `src/Archify.Net.Mcp` (`archify-mcp` dotnet tool, `ModelContextProtocol` 2.2.0) exposes the 4 tools `archify_guide`,
+    `archify_validate`, `archify_render` and `archify_finalize` in-process over `Archify.Net.Cli`.
+  - `skill/archify/` is the self-contained agent skill package (`SKILL.md` with `## Archify.Net differences`, the 6 supported
+    `references/*.md` files with `node bin/archify.mjs` replaced by `archify`, the 12 `schemas/*` files and the 32
+    `examples/**/*.json` files).
+  - `tests/Archify.Net.Mcp.Tests` tests the 4-tool catalog, `archify_guide`, `archify_validate` (including `--layout-json`),
+    `archify_render`, `archify_finalize` (real Chromium and `NoChromium`), the `StdioClientTransport` subprocess smoke test and
+    `SkillPackageTests`.
+- Phase 6 commits (from `git log`):
+  - `90327f0 docs: phase-6 plan (MCP server + skill), written by agy, Claude-reviewed`
+  - `17abea8 feat(mcp): Archify.Net.Mcp server with the 4-tool catalog (validate, render, finalize, guide)`
+  - `85f158f test(mcp): end-to-end render, finalize (Chromium and no-Chromium) and stdio subprocess tests`
+  - `8ec3691 feat(skill): self-contained skill/archify package (SKILL.md, references, schemas, examples) with parity tests`
+  - plus the Task 5 docs commit (`docs: phase 6 — MCP server and skill (exit demonstration pending)`).
+- Test totals (`dotnet test Archify.Net.sln` from the repo root, including the `Browser` category): **3727 passed, 0 failed,
+  0 skipped, 0 warnings**:
+  - `Archify.Net.Core.Tests`: 2782 passed
+  - `Archify.Net.Cli.Tests`: 932 passed
+  - `Archify.Net.Mcp.Tests`: 13 passed
+  - `dotnet test --filter Category!=Browser` skips the Chromium-backed tests when running without a browser.
+- Implementer: Gemini (agy); task reviews by Claude Opus 5.5. SDD workspace: `.superpowers/sdd/2026-10-15-phase6-mcp/`.
 
 ## State at end of phase 5
 
@@ -131,13 +157,15 @@ the Js static constructor throws in a host with `InvariantGlobalization` on.
 
 `tools/capture-fixtures.mjs` mints fixtures from upstream. It needs Node 24 and the upstream repo `C:\projects\archify` at
 `c21c31ff`; it reads the skill package root `C:\projects\archify\archify`. CI never runs it; the test suite only reads what it committed.
-The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md` and
-`.superpowers/sdd/2026-10-14-phase3-workflow-dataflow/progress.md` and
-`.superpowers/sdd/2026-10-15-phase4-erd-evidence/progress.md`: every ruling and the deferred minors.
+The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`,
+`.superpowers/sdd/2026-10-14-phase3-workflow-dataflow/progress.md`,
+`.superpowers/sdd/2026-10-15-phase4-erd-evidence/progress.md`,
+`.superpowers/sdd/2026-10-15-phase5-cli/progress.md` and
+`.superpowers/sdd/2026-10-15-phase6-mcp/`: every ruling and the deferred minors.
 
-## Next phase
+## Next
 
-Next phase: `PORT-006` (MCP server + SKILL.md). PORT-006 will be implemented by Gemini (agy) with Claude reviewing (Martin, 2026-10-15).
+Next: the `PORT-006` exit-demonstration step (Task 6 of `docs/superpowers/plans/2026-10-15-phase6-mcp.md`), run by Claude in a headless Claude Code session against packed `archify` and `archify-mcp` tools and `skill/archify/SKILL.md`.
 
 ## Phase 4 closed (2026-10-15)
 

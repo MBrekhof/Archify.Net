@@ -13,6 +13,7 @@ The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/
 - [Quick start](#quick-start)
 - [Library surface](#library-surface)
 - [Command-line tool](#command-line-tool)
+- [MCP server and skill](#mcp-server-and-skill)
 - [Diagram types](#diagram-types)
 - [Source evidence](#source-evidence)
 - [Build and test](#build-and-test)
@@ -34,7 +35,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 3 | workflow and dataflow renderers | Done |
 | 4 | erd renderer and repository evidence | Done |
 | 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Done |
-| 6 | MCP server and SKILL.md | Planned |
+| 6 | MCP server and SKILL.md | Implemented — exit demonstration pending |
 
 Phase 1 parity results:
 
@@ -94,7 +95,17 @@ Phase 5 parity results:
   deliver with `composition/viewport-height`. The port fails them in the same places. So 21 of 25 pass at each quality, in C#
   and in Node. This is tracked as card UPSTREAM-001 (CARD-2181).
 
-The full suite (`dotnet test`) runs 3681 tests: 2772 in `Archify.Net.Core.Tests` and 909 in `Archify.Net.Cli.Tests`.
+Phase 6 results:
+
+- `src/Archify.Net.Mcp` is the `archify-mcp` stdio MCP server (`ModelContextProtocol` 2.2.0), exposing `archify_guide`,
+  `archify_validate`, `archify_render` and `archify_finalize` in-process over `Archify.Net.Cli`.
+- `skill/archify/` is the self-contained agent skill package (`SKILL.md`, the 6 supported `references/*.md` files with
+  `node bin/archify.mjs` replaced by `archify`, the 12 `schemas/*` files and the 32 `examples/**/*.json` files).
+- `tests/Archify.Net.Mcp.Tests` tests the 4-tool catalog, `archify_guide`, `archify_validate` (including `--layout-json`),
+  `archify_render` (byte-identical HTML output), `archify_finalize` with real headless Chromium and with Chromium unavailable,
+  the `StdioClientTransport` subprocess smoke test and `skill/archify/` parity.
+
+The full suite (`dotnet test`) runs 3727 tests: 2782 in `Archify.Net.Core.Tests`, 932 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 
 ## Quick start
 
@@ -232,6 +243,54 @@ One exception, as upstream (A:5633-5635): `browser-check` and `visual-check` exi
 arguments (`--out-dir` without a value still exits `2`).
 `--json` prints the receipt on stdout; without it the diagnostics go to stderr.
 
+## MCP server and skill
+
+`src/Archify.Net.Mcp` is the `archify-mcp` stdio MCP server (`ModelContextProtocol` 2.2.0). It dispatches its four tools in-process through `Archify.Net.Cli`.
+
+Pack and install both dotnet tools (and the Chromium headless shell for `archify_finalize`):
+
+```
+dotnet pack src/Archify.Net.Cli -o nupkg
+dotnet pack src/Archify.Net.Mcp -o nupkg
+dotnet tool install --global Archify.Net.Cli --add-source nupkg
+dotnet tool install --global Archify.Net.Mcp --add-source nupkg
+archify install-browser
+```
+
+Register the server with Claude Code (`--` before the command is required; `--transport stdio` may be written before the name since `stdio` is the default):
+
+```bash
+claude mcp add archify -- archify-mcp
+```
+
+The default scope is `local`; pass `--scope user` to register the server for all of the user's projects.
+
+For MCP clients that use a `mcpServers` JSON configuration:
+
+```json
+{
+  "mcpServers": {
+    "archify": {
+      "command": "archify-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+Tools exposed by `archify-mcp`:
+
+| Tool | Parameters | Description |
+|---|---|---|
+| `archify_guide` | `query?`, `lang?` (`"en"` \| `"zh"`) | Recommend a diagram type and scenario recipe for a plain-language scenario or question, or list all scenario recipes when `query` is omitted. |
+| `archify_validate` | `type`, `input`, `layoutJson?`, `quality?`, `repoRoot?`, `cwd?` | Validate a JSON specification against schema, layout and composition rules, or emit the resolved layout geometry report (`--layout-json`) when `layoutJson` is `true`. |
+| `archify_render` | `type`, `input`, `output?`, `quality?`, `repoRoot?`, `cwd?` | Render a JSON specification directly to a standalone HTML file and return the resolved output HTML path written by the CLI. |
+| `archify_finalize` | `type`, `input`, `output`, `receipt?`, `outDir?`, `quality?`, `repoRoot?`, `candidateSha256?`, `cwd?` | Run `validate`, `deliver`, strict `check` and headless Chromium `browser-check`, returning the compact JSON finalize receipt. |
+
+CLI exit code `0` maps to `IsError = false`; exit codes `1` and `2` map to `IsError = true` with the full JSON receipt or diagnostic text in the tool result content.
+
+To install the self-contained agent skill (`SKILL.md`, `references/`, `schemas/`, `examples/`), copy `skill/archify/` into `~/.claude/skills/archify` (or `<repo>/.claude/skills/archify`).
+
 ## Build and test
 
 From the repo root:
@@ -282,8 +341,11 @@ src/Archify.Net.Core/        the library
   Erd/                       the erd renderer; Grid.cs, the banded grid, is shared with class
   Evidence/                  repository evidence verifier, remote URL parser, git runner
 src/Archify.Net.Cli/         the archify dotnet tool: dispatch, commands, delivery (lock, journal, sidecars), browser gates, finalize
+src/Archify.Net.Mcp/         the archify-mcp stdio MCP server (archify_guide, archify_validate, archify_render, archify_finalize)
+skill/archify/               self-contained agent skill package (SKILL.md, references/, schemas/, examples/)
 tests/Archify.Net.Core.Tests xUnit suite
 tests/Archify.Net.Cli.Tests  xUnit suite for the CLI (fixtures in tests/fixtures/cli)
+tests/Archify.Net.Mcp.Tests  xUnit suite for the MCP server and skill package
 tests/goldens/               upstream-rendered HTML and checker reports
 tests/fixtures/              diagram inputs, receipts, layout reports, Js fixtures, checker probes
 upstream/                    verbatim copy of the upstream skill package files the port embeds or tests against
@@ -315,7 +377,8 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`.
 - Phase 4 plan: `docs/superpowers/plans/2026-10-15-phase4-erd-evidence.md`.
 - Phase 5 plan: `docs/superpowers/plans/2026-10-15-phase5-cli.md`.
-- `SESSION_HANDOFF.md`: current state, carried items and the next phase.
+- Phase 6 plan: `docs/superpowers/plans/2026-10-15-phase6-mcp.md`.
+- `SESSION_HANDOFF.md`: current state, carried items and the next step.
 
 ## Known deviations from upstream
 
