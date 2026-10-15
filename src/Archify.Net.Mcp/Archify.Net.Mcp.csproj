@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Archify.Net.Mcp</RootNamespace>
+    <AssemblyName>Archify.Net.Mcp</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>archify-mcp</ToolCommandName>
+    <PackageId>Archify.Net.Mcp</PackageId>
+    <!-- Microsoft.Playwright ships .ps1 helpers (playwright.ps1, reinstall_msedge_*) that pack flags as NU5111; the tool never runs them (install-browser is in-process) -->
+    <NoWarn>$(NoWarn);NU5111</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Archify.Net.Cli\Archify.Net.Cli.csproj" />
+  </ItemGroup>
+</Project>
