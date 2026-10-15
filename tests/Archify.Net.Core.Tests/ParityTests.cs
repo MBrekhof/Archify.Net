@@ -283,6 +283,56 @@ public class ParityTests
         Assert.Equal(Fixtures.Bytes(golden), new System.Text.UTF8Encoding(false).GetBytes(result.Html));   // BOM/encoding guard
     }
 
+    // Phase 4, task 6: each type's T/repository-evidence-types.test.mjs example with meta.repository and sources on its first node,
+    // rendered by Node with ARCHIFY_REPO_ROOT on the fixture repo (tools/capture-fixtures.mjs). The payload holds no paths, so the
+    // temp root never reaches the HTML. The last three rows pin badge geometry the per-type rows leave unchanged;
+    // lifecycle.evidence-narrow and workflow.evidence-shift reach text-fit's compact-leading fallback (the capture's probe).
+    [Theory]
+    [InlineData("architecture", "architecture.evidence")]
+    [InlineData("workflow", "workflow.evidence")]
+    [InlineData("sequence", "sequence.evidence")]
+    [InlineData("dataflow", "dataflow.evidence")]
+    [InlineData("lifecycle", "lifecycle.evidence")]
+    [InlineData("erd", "erd.evidence")]
+    [InlineData("tree", "tree.evidence")]
+    [InlineData("class", "class.evidence")]
+    [InlineData("timeline", "timeline.evidence")]
+    [InlineData("waterfall", "waterfall.evidence")]
+    [InlineData("lifecycle", "lifecycle.evidence-narrow")]
+    [InlineData("lifecycle", "lifecycle.evidence-width")]   // preferredWidth + SourceBadgeFootprint: 154px, 140 without
+    [InlineData("workflow", "workflow.evidence-shift")]     // 92px node: compact leading under the badge (probed)
+    public void Evidence_render_is_byte_identical_to_upstream(string type, string name)
+    {
+        var (repo, _) = EvidenceRepo.Create("git@github.com:example/evidence-repo.git");
+        try
+        {
+            var diagram = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.{type}.json")));
+            var result = ArchifyNet.Render(DiagramTypes.Parse(type), diagram, new RenderOptions(RepoRoot: repo));
+            Assert.DoesNotContain(result.Diagnostics, d => d.Severity == Severity.Error);
+            var golden = Fixtures.Golden($"{name}-rendered.html");
+            var expected = Fixtures.Lf(golden);
+            if (expected != result.Html) Assert.Fail(FirstDifference(expected, result.Html));
+            Assert.Equal(Fixtures.Bytes(golden), new System.Text.UTF8Encoding(false).GetBytes(result.Html));
+        }
+        finally { EvidenceRepo.Delete(repo); }
+    }
+
+    // wf-node-overlap with evidence present: the outer compile carries the payload, the acceptsFix recompiles that verify each
+    // free-column fix do not (workflow-compiler.mjs:1594), and the receipt pins both.
+    [Fact] public void Workflow_fault_with_evidence_matches_upstream_receipt()
+    {
+        var (repo, _) = EvidenceRepo.Create("git@github.com:example/evidence-repo.git");
+        try
+        {
+            var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/wf-node-overlap.evidence.workflow.json")));
+            var expected = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/wf-node-overlap.evidence.workflow.expected.json")))!;
+            var r = ArchifyNet.Render(DiagramType.Workflow, d, new RenderOptions(RepoRoot: repo));
+            Assert.Equal("", r.Html);
+            AssertReceipt(expected, [.. r.Diagnostics.Select(x => EvidenceRepo.Tokenise(x, repo))]);
+        }
+        finally { EvidenceRepo.Delete(repo); }
+    }
+
     [Fact] public void No_profile_fixture_is_advisory()
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/web-app.no-profile.architecture.json")));

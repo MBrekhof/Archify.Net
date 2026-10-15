@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow nodes \"national_day\" and \"makeup_work\" are less than 8px apart in lane \"calendar\".",
+  "diagnostics": [
+    {
+      "code": "workflow/node-overlap",
+      "severity": "error",
+      "message": "Workflow nodes \"national_day\" and \"makeup_work\" are less than 8px apart in lane \"calendar\".",
+      "subject": {
+        "diagramType": "workflow",
+        "node": "makeup_work",
+        "path": "/nodes/4"
+      },
+      "evidence": {
+        "lane": "calendar",
+        "minimumClearancePx": 8,
+        "nodes": [
+          {
+            "id": "national_day",
+            "rect": {
+              "x": 441.2,
+              "y": 86,
+              "width": 92,
+              "height": 68
+            }
+          },
+          {
+            "id": "makeup_work",
+            "rect": {
+              "x": 441.2,
+              "y": 86,
+              "width": 92,
+              "height": 68
+            }
+          }
+        ]
+      },
+      "supportedFixes": [
+        "set /nodes/4/col to verified free column 2",
+        "set /nodes/4/col to verified free column 4"
+      ]
+    }
+  ]
+}

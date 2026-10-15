@@ -540,7 +540,7 @@ for (const [type, input, golden] of targets) render(type, input, out(`goldens/${
 // enter their ports on diagonal segments. `relationship_crossings` passes.
 const checkerFails = new Set(['orders.crossing-standard-rendered']);
 const upstreamGoldens = fs.readdirSync(EX).filter((f) => f.endsWith('.html')).map((f) => path.join(EX, f));
-for (const html of [...upstreamGoldens, ...[...targets, ...optionGoldens].map(([, , g]) => out(`goldens/${g}`))]) {
+function writeCheckerReport(html) {
   const expectFail = checkerFails.has(path.basename(html, '.html'));
   let stdout;
   try {
@@ -552,6 +552,7 @@ for (const html of [...upstreamGoldens, ...[...targets, ...optionGoldens].map(([
   delete res.file;
   write(`goldens/checker/${path.basename(html, '.html')}.json`, res);
 }
+for (const html of [...upstreamGoldens, ...[...targets, ...optionGoldens].map(([, , g]) => out(`goldens/${g}`))]) writeCheckerReport(html);
 // Remote brand: upstream has no "offline" switch; `example.invalid` never resolves (fast ENOTFOUND), so upstream reports
 // brand/capture-unavailable ("could not reproduce the pinned capture") and the render FAILS. Capture that receipt as the C# oracle.
 try {
@@ -1120,6 +1121,93 @@ const [absent] = JSON.parse(execFileSync(process.execPath, ['--input-type=module
   { input: JSON.stringify([evidenceJobs[0]]), encoding: 'utf8', env: { ...noGitEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' } }));
 if (absent.diagnostics?.[0]?.evidence?.reason !== 'spawnSync git ENOENT') throw new Error(`evidence git-absent: ${JSON.stringify(absent)}`);
 write('fixtures/evidence/git-absent.expected.json', { diagnostics: tokenise(absent.diagnostics, evidenceJobs[0].base) });
+// Task 6: per-type evidence goldens. Each type's example from T/repository-evidence-types.test.mjs:19-30 gets meta.repository (github,
+// fixture HEAD) and the T/helpers sources on its first node (:83-91), and renders through cli.mjs:85 with ARCHIFY_REPO_ROOT, which is
+// how `archify render --repo-root` reaches the renderer (bin/archify.mjs:2394). Inputs `<name>.<type>.json`, goldens `<name>-rendered.html`.
+const EVIDENCE_TYPES = [   // [type, collection, example, first], T/repository-evidence-types.test.mjs:19-30
+  ['architecture', 'components', 'web-app.architecture.json', 'users'], ['workflow', 'nodes', 'agent-tool-call.workflow.json', 'user'],
+  ['sequence', 'participants', 'cache-miss-request.sequence.json', 'user'], ['dataflow', 'nodes', 'product-analytics.dataflow.json', 'web'],
+  ['lifecycle', 'states', 'agent-run.lifecycle.json', 'queued'], ['erd', 'entities', 'orders.erd.json', 'customer'],
+  ['tree', 'nodes', 'payment-platform.tree.json', 'platform'], ['class', 'types', 'payments.class.json', 'order_service'],
+  ['timeline', 'events', 'payment-incident.timeline.json', 'deploy'], ['waterfall', 'spans', 'checkout-request.waterfall.json', 'request'],
+];
+const withSources = (d, collection, first, sources = ROUTER_STORE) => {
+  d.meta.repository = { ...GH };
+  const node = d[collection].find((candidate) => candidate.id === first);
+  if (!node) throw new Error(`evidence golden: ${collection} has no ${first}`);
+  node.sources = structuredClone(sources);
+  return d;
+};
+const evidenceGoldens = EVIDENCE_TYPES.map(([type, collection, example, first]) => [type, `${type}.evidence`, withSources(ex(example), collection, first)]);
+// The compact-leading fallback (text-fit.mjs:80-96): a 27-unit label on the first state. At 12px it needs 194.4px, so the state hits
+// the 220px cap and keeps 142.4px between the step (35.6) and the source badge (178): the label moves below the decoration rail. Three
+// rows then end at 68.5 > height - 2 = 62, and compact leading ends at 60.7 <= 63.5. The probe below proves the branch is taken.
+const narrow = withSources(ex('agent-run.lifecycle.json'), 'states', 'queued');
+narrow.states[0].label = 'Queued awaiting worker slot';
+evidenceGoldens.push(['lifecycle', 'lifecycle.evidence-narrow', narrow]);
+// The per-type workflow and lifecycle goldens differ from their plain goldens only in the payload: their first labels fit beside the
+// badge. Two more pin the badge's geometry. preferredWidth (render-lifecycle.mjs:80): 'Queued job' needs 72 + 35.6 + 4 + 38 + 4,
+// so the state is 154px wide, 140 without the badge. The workflow rail (workflow-compiler.mjs:5413): holiday-planning's 92px `today`
+// already puts its label below the rail; with the badge its rows reach compact leading too (probed below).
+const widthDoc = withSources(ex('agent-run.lifecycle.json'), 'states', 'queued');
+widthDoc.states[0].label = 'Queued job';
+evidenceGoldens.push(['lifecycle', 'lifecycle.evidence-width', widthDoc], ['workflow', 'workflow.evidence-shift', withSources(ex('holiday-planning.workflow.json'), 'nodes', 'today')]);
+const evidenceRoot = evidenceRepo(GH_ORIGIN);
+for (const [type, name, diagram] of evidenceGoldens) {
+  write(`fixtures/diagrams/${name}.${type}.json`, diagram);
+  const golden = out(`goldens/${name}-rendered.html`);
+  renderEnv(type, out(`fixtures/diagrams/${name}.${type}.json`), golden, { ARCHIFY_REPO_ROOT: evidenceRoot });
+  const html = fs.readFileSync(golden, 'utf8');
+  if (!html.includes('<script id="archify-source-evidence-data" type="application/json">{')) throw new Error(`evidence golden ${name}: no payload`);
+  if (tmpSpellings.some((t) => html.toLowerCase().includes(t))) throw new Error(`evidence golden ${name}: the temp root leaked into the HTML`);
+  writeCheckerReport(golden);
+}
+// Coverage probe: text-fit.mjs with a tag call at the compact block and at its return, served by a resolve hook from a data: URL
+// (relative imports made absolute) to the real lifecycle renderer in a child node. Upstream is never modified.
+const tfPath = path.join(UP, 'renderers/shared/text-fit.mjs');
+const tfUrl = pathToFileURL(tfPath).href;
+let tfProbeSrc = fs.readFileSync(tfPath, 'utf8').replace(/\r\n/g, '\n').replace(/from '(\.[^']+)'/g, (_, rel) => `from '${new URL(rel, tfUrl).href}'`);
+for (const [tag, anchor, before] of [['compact-block', '  if (source) {\n', false], ['compact-return', '      result.ys = compactYs;\n', true]]) {
+  const count = tfProbeSrc.split(anchor).length - 1;
+  if (count !== 1) throw new Error(`text-fit probe anchor ${tag}: ${count} occurrences, expected 1`);
+  const tagCall = `globalThis.__tfcov['${tag}'] = (globalThis.__tfcov['${tag}'] ?? 0) + 1;\n`;
+  tfProbeSrc = tfProbeSrc.replace(anchor, () => (before ? tagCall + anchor : anchor + tagCall));
+}
+const tfProbeChild = String.raw`
+import { registerHooks } from 'node:module';
+const [tfUrl, dataUrl, renderer, input, output] = process.argv.slice(1);
+registerHooks({ resolve(specifier, context, next) { const r = next(specifier, context); return r.url === tfUrl ? { url: dataUrl, shortCircuit: true } : r; } });
+globalThis.__tfcov = {};
+process.argv = [process.argv[0], renderer, input, output];
+await import(renderer);
+process.stdout.write('\nTFCOV ' + JSON.stringify(globalThis.__tfcov) + '\n');`;
+const tfProbeOut = path.join(evidenceTemp(), 'probe.html');
+for (const [type, name] of [['lifecycle', 'lifecycle.evidence-narrow'], ['workflow', 'workflow.evidence-shift']]) {
+  const stdout = execFileSync(process.execPath, ['--input-type=module', '-e', tfProbeChild,
+    tfUrl, `data:text/javascript;base64,${Buffer.from(tfProbeSrc).toString('base64')}`, pathToFileURL(path.join(UP, `renderers/${type}/render-${type}.mjs`)).href,
+    out(`fixtures/diagrams/${name}.${type}.json`), tfProbeOut],
+  { encoding: 'utf8', env: { ...cleanEnv, ARCHIFY_REPO_ROOT: evidenceRoot }, stdio: ['ignore', 'pipe', 'inherit'] });
+  const tfCoverage = JSON.parse(/TFCOV (.*)/.exec(stdout)[1]);
+  if (!(tfCoverage['compact-return'] > 0)) throw new Error(`${name} misses the compact-leading return: ${JSON.stringify(tfCoverage)}`);
+  if (fs.readFileSync(tfProbeOut, 'utf8') !== fs.readFileSync(out(`goldens/${name}-rendered.html`), 'utf8')) throw new Error(`text-fit probe render of ${name} differs from the golden`);
+  console.log(`text-fit probe (${name}): ${JSON.stringify(tfCoverage)}`);
+}
+// A workflow fault whose node-overlap fixes are verified by recompiles (acceptsFix) while evidence is present: wf-node-overlap plus
+// meta.repository and a source on nodes[0]. Without both and a root, evidence fails first (repository-required / root-required).
+const overlapEvidence = withSources(JSON.parse(fs.readFileSync(out('fixtures/diagrams/wf-node-overlap.workflow.json'), 'utf8')), 'nodes', 'today',
+  [{ path: 'src/router.js', line: 1 }]);
+if (overlapEvidence.nodes[0].id !== 'today') throw new Error('wf-node-overlap: nodes[0] is no longer today');
+write('fixtures/diagrams/wf-node-overlap.evidence.workflow.json', overlapEvidence);
+let overlapReceipt;
+try {
+  execFileSync(process.execPath, [path.join(UP, 'renderers/workflow/render-workflow.mjs'), out('fixtures/diagrams/wf-node-overlap.evidence.workflow.json'), tfProbeOut],
+    { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json', ARCHIFY_REPO_ROOT: evidenceRoot }, stdio: ['ignore', 'pipe', 'pipe'] });
+} catch (e) { if (e.status !== 1 || !e.stderr) throw e; overlapReceipt = tokenise(JSON.parse(String(e.stderr)), evidenceRoot); }
+if (!overlapReceipt?.diagnostics?.some((x) => x.code === 'workflow/node-overlap' && x.supportedFixes.some((f) => f.includes('verified free column')))) {
+  throw new Error(`wf-node-overlap.evidence: expected workflow/node-overlap with a recompile-verified fix, got ${JSON.stringify(overlapReceipt)}`);
+}
+if (allStrings(overlapReceipt).some((s) => tmpSpellings.some((t) => s.toLowerCase().includes(t)))) throw new Error('wf-node-overlap.evidence: temp path in receipt');
+write('fixtures/diagrams/wf-node-overlap.evidence.workflow.expected.json', overlapReceipt);
 for (const d of evidenceTemps) fs.rmSync(d, { recursive: true, force: true });
 // --- Intl.Segmenter word granularity (label-capacity.mjs:32-33) on every string a phase-3 label can carry + a battery. `dictionary`
 // rows (Han/Kana/Thai/Lao/Khmer/Myanmar) are parity-exempt: C# asserts concatenation and per-grapheme splitting of those runs only. ---
@@ -1228,7 +1316,7 @@ const relationJson = (flow) => ({ id: flow.id, from: flow.from, to: flow.to,
   pins: Object.fromEntries(PIN_KEYS.filter((k) => flow[k] !== undefined).map((k) => [k, flow[k]])) });
 const jointLabel = (rect) => ({ ...labelJson(rect), relation: relationJson(rect.relation) });
 const jointRows = [];
-for (const f of fs.readdirSync(out('fixtures/diagrams')).filter((f) => /\.dataflow\.json$/.test(f)).sort()) {
+for (const f of fs.readdirSync(out('fixtures/diagrams')).filter((f) => /\.dataflow\.json$/.test(f) && !f.includes('.evidence')).sort()) {   // evidence inputs: Task 6 goldens, not repair scenes
   const d = JSON.parse(fs.readFileSync(out(`fixtures/diagrams/${f}`), 'utf8'));
   const calls = [];
   globalThis.__jlr = (fn, args) => {

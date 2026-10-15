@@ -42,13 +42,19 @@ internal sealed class GitRunner
         catch (Win32Exception error) { return new($"spawnSync git {ErrnoName(error.NativeErrorCode)}", -1, []); }
         using (process)
         {
-            // maxBuffer counts stdout and stderr together and trips only when strictly exceeded; the child is then killed.
+            // maxBuffer counts stdout and stderr together and trips only when strictly exceeded; the child is then killed, and what
+            // it still writes is drained and dropped. Kill races the child's own exit: every exception that race throws is ignored.
             long buffered = 0;
             var overflow = 0;
-            void Count(int length)
+            bool Count(int length)
             {
-                if (Interlocked.Add(ref buffered, length) <= maxBuffer || Interlocked.Exchange(ref overflow, 1) == 1) return;
-                try { process.Kill(entireProcessTree: true); } catch (InvalidOperationException) { }
+                if (Interlocked.Add(ref buffered, length) <= maxBuffer) return true;
+                if (Interlocked.Exchange(ref overflow, 1) == 0)
+                {
+                    try { process.Kill(entireProcessTree: true); }
+                    catch (Exception error) when (error is InvalidOperationException or Win32Exception or AggregateException) { }
+                }
+                return false;
             }
             // stdin runs beside the stdout read: `cat-file --batch` streams answers while it reads, so a large input would deadlock.
             var stdin = Task.Run(() =>
@@ -69,11 +75,11 @@ internal sealed class GitRunner
         }
     }
 
-    static void Drain(Stream from, MemoryStream? into, Action<int> count)
+    static void Drain(Stream from, MemoryStream? into, Func<int, bool> withinLimit)
     {
         var buffer = new byte[81920];
         int read;
-        while ((read = from.Read(buffer)) > 0) { into?.Write(buffer, 0, read); count(read); }
+        while ((read = from.Read(buffer)) > 0) if (withinLimit(read)) into?.Write(buffer, 0, read);
     }
 
     // libuv's names for the start failures a missing or unreadable git produces (ERROR_PATH_NOT_FOUND is ENOENT on Windows too).
