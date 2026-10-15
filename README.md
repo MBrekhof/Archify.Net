@@ -12,6 +12,7 @@ The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/
 - [Status](#status)
 - [Quick start](#quick-start)
 - [Library surface](#library-surface)
+- [Command-line tool](#command-line-tool)
 - [Diagram types](#diagram-types)
 - [Source evidence](#source-evidence)
 - [Build and test](#build-and-test)
@@ -32,7 +33,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 2 | erd/grid, sequence, lifecycle, class, tree, timeline, waterfall renderers | Done |
 | 3 | workflow and dataflow renderers | Done |
 | 4 | erd renderer and repository evidence | Done |
-| 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Planned |
+| 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Done |
 | 6 | MCP server and SKILL.md | Planned |
 
 Phase 1 parity results:
@@ -79,7 +80,21 @@ Phase 4 parity results:
 - `RepositoryLocation` equals `parseRepositoryRemote` on 213 fixture rows, and the Js URI helpers equal V8 on 71 rows
   (`js-uri.json`).
 
-The full suite (`dotnet test`) runs 2753 tests.
+Phase 5 parity results:
+
+- The `archify` CLI (`src/Archify.Net.Cli`) reproduces upstream's commands, messages, receipts and exit codes. Its expected values
+  are fixtures minted by running upstream's `bin/archify.mjs` (`tools/capture-cli-fixtures.mjs`), compared after masking
+  paths, receipt ids, timestamps and the Chromium executable path.
+- `browser-check` and `visual-check` run upstream's measurement scripts, embedded verbatim, in Playwright Chromium. The real-browser
+  receipts equal upstream's on all ten diagram types.
+- `finalize` (deliver, check, browser-check) was run on all 25 upstream examples at both quality profiles, 50 runs. The C# outcome
+  equals Node's on every run: exit code, `ok`, `failedStage`, gates, diagnostic codes and the artifact sha256.
+- **Upstream itself fails 4 of the 25 examples** (`async-job-roundtrip`, `event-stream`, `incident-response`, `release-delivery`).
+  At `--quality standard` they fail browser-check with `viewer/viewport-overflow`; at `--quality showcase` (the default) they fail
+  deliver with `composition/viewport-height`. The port fails them in the same places. So 21 of 25 pass at each quality, in C#
+  and in Node. This is tracked as card UPSTREAM-001 (CARD-2181).
+
+The full suite (`dotnet test`) runs 3681 tests: 2772 in `Archify.Net.Core.Tests` and 909 in `Archify.Net.Cli.Tests`.
 
 ## Quick start
 
@@ -123,12 +138,12 @@ return 0;
 
 `RenderOptions(Quality, RepoRoot)` selects the quality profile (`Standard` or `Showcase`, upstream's environment-driven
 profile as an option) and the repository root for evidence (see [Source evidence](#source-evidence)).
-`CheckOptions(RequireProvenance)` is reserved for phase 5.
+`CheckOptions(RequireProvenance)` is not implemented in the library: the provenance checks live in the CLI (`archify check --require-provenance`).
 
 Input and validation problems come back as `Diagnostic` records with upstream's codes, messages, subjects, evidence
 and supported fixes. Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names
 the exception type, as upstream's JSON-mode boundary does. All ten diagram types render. The facade throws only
-`NotSupportedException`, from `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
+`NotSupportedException`, from `Check` when `RequireProvenance` is set (use the CLI for provenance checks).
 
 The facade is named `ArchifyNet`, not `Archify`: a class of that name inside namespace `Archify.Net` cannot be named
 from consumer code.
@@ -170,6 +185,49 @@ var result = ArchifyNet.Render(DiagramType.Architecture, diagram, new RenderOpti
   tree and workflow diagrams.
 - Without `RepoRoot`, or for a diagram with no `meta.repository` and no sources, no `git` process starts.
 
+## Command-line tool
+
+`src/Archify.Net.Cli` is the `archify` dotnet tool (net10.0). It is a port of upstream's `bin/archify.mjs`, with the deviations
+listed under [Known deviations](#known-deviations-from-upstream).
+
+Install (there is no NuGet feed yet; pack it first):
+
+```
+dotnet pack src/Archify.Net.Cli -o nupkg
+dotnet tool install --global Archify.Net.Cli --add-source nupkg
+archify install-browser
+```
+
+`archify install-browser` downloads the pinned Playwright Chromium headless shell. Only `browser-check`, `visual-check` and
+`finalize` need it; `archify doctor` reports whether it is installed.
+
+Commands, each with one example (`<type>` is one of architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class,
+timeline, waterfall; `archify --help` prints the full usage):
+
+| Command | Example |
+|---|---|
+| `render` | `archify render architecture web-app.json web-app.html` |
+| `deliver` | `archify deliver architecture web-app.json web-app.html --json` |
+| `finalize` | `archify finalize architecture web-app.json web-app.html --receipt receipt.json` |
+| `validate` | `archify validate architecture web-app.json --layout-json` |
+| `inspect` | `archify inspect architecture web-app.json` |
+| `check` | `archify check web-app.html --require-provenance` |
+| `browser-check` | `archify browser-check web-app.html --summary` |
+| `visual-check` | `archify visual-check web-app.html --out-dir evidence` |
+| `guide` | `archify guide "payment flow" --lang en` |
+| `examples` | `archify examples` (writes the 25 example inputs to `./examples/`) |
+| `doctor` | `archify doctor` |
+| `install-browser` | `archify install-browser` |
+| `demo` | `archify demo demo-out` (writes `demo-out/archify-demo.html`) |
+
+`--quality standard|showcase` (default showcase) and `--repo-root <path>` are flags; the CLI reads no `ARCHIFY_*` environment variable.
+`deliver` writes the artifact plus a `<name>.delivery.json` provenance sidecar; `finalize` runs deliver, check and browser-check
+and writes a receipt.
+
+Exit codes, as upstream's: `0` success; `1` the command ran and failed (diagnostics, a failed gate, a crash); `2` the command
+could not run or was refused (usage and argument errors, an unknown command, an unsupported option, Chromium unavailable).
+`--json` prints the receipt on stdout; without it the diagnostics go to stderr.
+
 ## Build and test
 
 From the repo root:
@@ -177,6 +235,11 @@ From the repo root:
 ```
 dotnet test
 ```
+
+Tests in category `Browser` need Chromium (`archify install-browser`) and take about 2.5 minutes. `dotnet test --filter
+Category!=Browser` skips them. A test that needs git or Chromium fails loudly, naming the fix, when it is missing. The real-browser
+references were minted with Chromium headless shell 1243 on Windows fonts. The real-filesystem tests need Windows Developer Mode
+(file symlinks) and 8.3 short names enabled on `%TEMP%`.
 
 The parity suite reads the goldens and fixtures committed under `tests/` and `upstream/`. It needs no network and no Node.
 Warnings are errors (`Directory.Build.props`). The time-zone tests assume Windows with ICU (Windows 10 1903 or later);
@@ -214,12 +277,15 @@ src/Archify.Net.Core/        the library
   <Type>/                    one renderer per diagram type
   Erd/                       the erd renderer; Grid.cs, the banded grid, is shared with class
   Evidence/                  repository evidence verifier, remote URL parser, git runner
+src/Archify.Net.Cli/         the archify dotnet tool: dispatch, commands, delivery (lock, journal, sidecars), browser gates, finalize
 tests/Archify.Net.Core.Tests xUnit suite
+tests/Archify.Net.Cli.Tests  xUnit suite for the CLI (fixtures in tests/fixtures/cli)
 tests/goldens/               upstream-rendered HTML and checker reports
 tests/fixtures/              diagram inputs, receipts, layout reports, Js fixtures, checker probes
 upstream/                    verbatim copy of the upstream skill package files the port embeds or tests against
                              (schemas, locales, viewer, template, brand marks, references, examples)
 tools/capture-fixtures.mjs   dev-time fixture minting from upstream (Node)
+tools/capture-cli-fixtures.mjs  dev-time CLI fixture minting: runs upstream's bin/archify.mjs, records args, exit, stdout, stderr
 docs/superpowers/            design spec, phase plans, rulings and plan reviews
 ```
 
@@ -244,6 +310,7 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md`, plus its review.
 - Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`.
 - Phase 4 plan: `docs/superpowers/plans/2026-10-15-phase4-erd-evidence.md`.
+- Phase 5 plan: `docs/superpowers/plans/2026-10-15-phase5-cli.md`.
 - `SESSION_HANDOFF.md`: current state, carried items and the next phase.
 
 ## Known deviations from upstream
@@ -276,6 +343,77 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - *Evidence, `realRoot`:* the port resolves only the final link of `RepoRoot`. When the root is reached through a junctioned or symlinked parent directory, `repoRoot` in diagnostic subjects and the paths in the `not a Git repository` and `root-not-top-level` messages differ from Node's; the verdict is the same.
 - *Evidence, non-ASCII hosts:* the port rejects five hosts WHATWG URL accepts, because `IdnMapping` enforces the hyphen, label-length and non-empty-label rules. By input: `https://-bücher.example/x/y`, `https://bücher-.example/x/y`, `https://ü` + 70 `a` + `.example/x/y` (a 71-character label), `https://bücher..example/o/r` and `https://xn--bcher-kva..example/o/r` (empty label).
 - *Evidence tests:* the `subdirectory-root` receipt is Windows-only (its path separator).
+
+### CLI (phase 5)
+
+Commands and configuration:
+
+- The CLI reads no `ARCHIFY_*` environment variable (upstream honours `ARCHIFY_QUALITY_PROFILE`, `ARCHIFY_REPO_ROOT`,
+  `ARCHIFY_CHROME` and others). Use `--quality` and `--repo-root`.
+- `compare`, `brands`, `migrate` and `preview` are not ported. They answer `Unknown command` with exit 2.
+- Help is upstream's usage text minus those four commands, plus an `archify install-browser` line (a command upstream does not have).
+- `archify examples` writes to `./examples/` in the current directory (upstream writes into the installed skill folder). It checks
+  an example's `meta.output` against the current directory, where upstream checks against the skill root.
+- `archify doctor` checks the .NET runtime, the embedded resources, git on PATH and the Playwright Chromium install, in upstream's
+  `[ok|missing|invalid]` format. It looks for Chromium in Playwright's default location only and ignores `PLAYWRIGHT_BROWSERS_PATH`,
+  so it reports `[missing]` for a relocated browser store.
+- `deliver --open` does not open anything. It reports upstream's `unsupported` fallback (`{requested:true, status:"unsupported",
+  target, method:null}`) and its stderr notice.
+- No `update` block in the `deliver` and `finalize` receipts, and no update-notice lines.
+- Hand-ported dispatch, no System.CommandLine: messages, check order and exit codes are upstream's.
+
+Browser gates:
+
+- Pinned Playwright Chromium (headless shell) only; there is no system Chrome or Chromium fallback. Launch flags are Playwright's
+  defaults, not upstream's list (measured metrics are identical on the real-browser receipts). Timeouts are Playwright's defaults.
+- When Chromium is missing, `browser-check`, `visual-check` and `finalize` report upstream's "Chrome unavailable" result (status
+  `skipped`, exit 2, `viewer/chrome-unavailable`), but the error and fix text name `archify install-browser` where upstream names
+  `ARCHIFY_CHROME`. The receipt keeps upstream's `chrome{status,executable}` key names; `executable` is Playwright's path.
+- `visual-check` PNG bytes depend on the browser build and are not golden-compared.
+- Staged screenshots live in a private temp directory, not beside the evidence. An input failure outside `BrowserEvidenceException`,
+  `IOException` and `UnauthorizedAccessException` escapes as a crash (exit 1) where upstream makes a `viewer/<command>-input` receipt.
+
+Atomic output is not ported (all of upstream's `atomic-output.mjs`, `owned-temp-directory.mjs` and `recover-output.mjs`). Artifacts and
+sidecars are written to a temp file and swapped in with `File.Replace` or `File.Move`, with a short retry on sharing violations.
+The directory lock (`.archify-delivery-lock.json`) and the pending journal are kept. The visible effects:
+
+- A target, sidecar or lock replaced by another process during a delivery is not detected: the last writer wins (D1). The lock still
+  stops cooperating archify processes.
+- Hard-linked artifacts and sidecars are accepted, in `deliver`, in plain `check`, in `browser-check`, `visual-check` and `finalize`
+  (D2): `output/target-hardlinked` and `delivery/provenance-hardlink-unsupported` never occur. A replacement with identical bytes passes
+  the re-inspection.
+- `render`, `deliver` and `finalize` onto an existing directory report `output/write` or `delivery/commit`, where upstream reports
+  `output/target-not-regular-file` (D3).
+- No rollback recovery directories and no `*-recovery-required` codes (D4). A commit failure after the HTML was replaced leaves the
+  journal, so `check` fails closed, and the backup file is named in the `delivery/commit` evidence. A lock whose content write fails
+  is reported as `delivery/lock-acquire`; upstream records a failed lock initialisation.
+- `deliver` creates only the directory lock, not the legacy per-artifact lock (D5). `check` and `finalize` still read the legacy
+  `<name>.delivery-lock.json`. Legacy migration paths (raw-head and legacy-extension journals and sidecars) are not looked for.
+- Temp and backup files are `.archify-delivery-<guid>.tmp` and `.bak` in the target's directory (upstream: a staging directory, and
+  a dot-file beside the target) (D6). `render` writes `.archify-render-<pid>-<guid>.tmp` beside the target.
+- `visual-check` and `browser-check` publish evidence without a staging directory: no `committed-with-warning`,
+  `viewer/evidence-cleanup-incomplete` or `publication` key. Same-kind replacement of the evidence directory between preflight and
+  commit is not caught.
+- `finalize` stage records hold `command: ["archify", …args]` instead of upstream's `[node.exe, archify.mjs, …]`, the stages run in
+  process, a failed stage's `error.message` is `Command failed: archify <args>\n<stderr>`, and there is no `signal` key (D8).
+  `finalize/receipt-publication` cannot arise; a failed receipt write is `finalize/runtime`.
+- The `ARCHIFY_CHECK_MAX_BUFFER` case (`artifact/check-output-limit`) does not exist: the checker runs in process (D10).
+
+Diagnostics and messages:
+
+- A full-mode `internal/unclassified` diagnostic names the user's input in `subject.input`; upstream names its deleted temp snapshot.
+- A valid-JSON root that is not an object (`[]`, `null`) reports stage `input` in the CLI receipt; upstream reports stage `render`.
+- Messages that come from the OS or V8 are .NET's: `input/json-parse` reasons, `output/write`, `input/read` (Node's text is reproduced
+  for ENOENT, EISDIR and EACCES only). Tests compare them by code and subject.
+- A sidecar, journal or previous receipt with duplicate JSON keys fails as invalid with .NET's message; upstream keeps the last value.
+- A realpath failure other than ENOENT/ENOTDIR (EACCES, a symlink loop) in `check` crashes upstream with a stack; the port reports
+  `inspection-failed` or reads through (unverified against Node).
+- An input path such as `x.json.` (trailing dot or space) reports a trimmed `subject.input`.
+- Off Windows, hard-link alias detection is lost and file identity falls back to resolved-path equality. Only the build is checked
+  off Windows.
+
+The four upstream examples listed under Phase 5 parity results fail `finalize` in both implementations; this is card UPSTREAM-001
+(CARD-2181), not a port defect.
 
 ## Credits and license
 

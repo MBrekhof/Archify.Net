@@ -1,6 +1,6 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-15 (phase 4 closed).
+Updated 2026-10-15 (phase 5 closed).
 
 ## What this repo is
 
@@ -14,9 +14,56 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md` (+ Opus plan review)
 - Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`
 - Phase 4 plan: `docs/superpowers/plans/2026-10-15-phase4-erd-evidence.md`
+- Phase 5 plan: `docs/superpowers/plans/2026-10-15-phase5-cli.md`
 - Task state: **board-only**, ContextBoard project 46. Phase 1 is `PORT-001` (CARD-2166), phase 2 is `PORT-002`
   (CARD-2167), phase 3 is `PORT-003` (CARD-2168), phase 4 is `PORT-004` (CARD-2169); phases 5 and 6 are `PORT-005` and `PORT-006`. No `TODO.md` here.
 - `master`, remote `origin` = https://github.com/MBrekhof/Archify.Net (private, `gh` account `MBrekhof`).
+
+## State at end of phase 5
+
+- Phase 5 (`PORT-005`) is done: the `archify` dotnet tool, `src/Archify.Net.Cli` (13 commands: render, deliver, finalize, validate,
+  inspect, check, browser-check, visual-check, guide, examples, doctor, install-browser, demo). Tests: `tests/Archify.Net.Cli.Tests`.
+  Commits `7eb87b6` through `568906c` (Tasks 1 to 12), plus the docs commit that updates README and this file.
+- `dotnet test` from the repo root: 3681 passed, 0 failed, no warnings (Core 2772, Cli 909). This replaces phase 4's 2753, which was
+  stale: the Core suite was already 2772 after phase 5's Task 2. The Cli total includes the `Browser` category (needs
+  `archify install-browser`, about 2.5 min in all); `dotnet test --filter Category!=Browser` skips it.
+- Exit criterion: `finalize` on all 25 upstream examples at both quality profiles (50 runs) gives the same outcome in C# as in Node.
+  21 of 25 pass at each quality; upstream itself fails `async-job-roundtrip`, `event-stream`, `incident-response` and
+  `release-delivery` (at standard in browser-check, `viewer/viewport-overflow`; at showcase in deliver, `composition/viewport-height`).
+  Tracked as card UPSTREAM-001 (CARD-2181).
+- Packaging: `dotnet pack` failed at first because warnings-as-errors turned NU5111 (Microsoft.Playwright's `.ps1` helpers) into an
+  error; fixed with `<NoWarn>NU5111</NoWarn>` in `Archify.Net.Cli.csproj`. Then pack, `dotnet tool install --tool-path`, `--help`,
+  `demo`, `doctor` and `validate` all ran with exit 0.
+- Deviations: README, "Known deviations from upstream" > "CLI (phase 5)".
+- Reviews: implementers were Claude subagents (opus; Task 13 sonnet); task reviews by agy (Gemini). Task 12's agy review and the final
+  whole-branch review are the controller's. Ledger with every ruling: `.superpowers/sdd/2026-10-15-phase5-cli/progress.md`.
+
+### Final fix wave pending (from the phase-5 ledger)
+
+- Route the CLI's user-file `JsonNode.Parse` calls (DeliveryStore lock, receipt, `Deliver.cs`, sidecar and journal readers) through a new
+  public Core `ParseNode(string)` extracted from `DiagramLoader` lines 20-25 (JSON.parse semantics: duplicate keys keep the last value;
+  `JsonException` propagates; any root accepted). Closes the duplicate-key deviations of Tasks 9 and 10.
+- `DeliveryStore` `UuidV4` regex: `$` to `\z` (Tasks 8 and 9).
+- Task 8: `deliver` with an explicit empty third positional (`""`) collapses to null; upstream passes `""` to `resolveOutputPath`
+  (`output/native-path-syntax`, reason empty). Mint a Node fixture. Also add an end-to-end check-stage failure test and a
+  sharing-violation retry test.
+- Task 9: legacy lock paths (`.htm`, over 255 characters, dedupe unpinned) need a test.
+- Task 10: a test with a custom `PathSemantics(IPathFs)` where the evidence dir folds case and the source does not (T:670-769);
+  synthetic-receipt cases for `ownership-sidecar-path-mismatch`, `-evidence-digests-missing`, `-evidence-list-invalid` and
+  `viewer/evidence-write` with the evidence dir a regular file; a direct Core test for `Js.ToUpperCase` (ASCII, UpperExpansions, astral,
+  lone surrogate).
+- Task 11: `BrowserCheck.cs:82` catch is narrower than upstream's catch-all (a corrupt `browsers.json` `JsonException` in
+  `Doctor.HeadlessShell` escapes): drop the guard, keep `PersistFailure` outside the try. `BrowserCommandTests.Normalise` must assert
+  the PNG sha256 `^[0-9a-f]{64}$` and bytes > 0 before masking.
+- Task 7: lone-surrogate guide query makes `string.Normalize` throw (exit 1); `Doctor.GitOnPath` PATHEXT split keeps empty segments.
+- Task 4: `NativeFs` `PortableRealPath`/`PortableStat` should map FileNotFound/DirectoryNotFound to `NativeFsException(ENOENT)`;
+  `PathSemantics.DirName` advances `rootLength` past a doubled separator after a drive root.
+- Task 5: `OutputPaths.ResolveOutputPath` must resolve InputPaths/OtherOutputPaths against `request.Cwd` before `PathsAlias`;
+  `SidecarPath.DeliverySidecarPath` must route its initial `RealPath` through the injected `PathSemantics`.
+- Task 6: `CheckCommand.Unreadable` with a dangling file symlink on Windows reports `handle-inspection-failed`, not not-regular-file.
+- Task 2: the BOM/invalid-UTF-8 decode path is pinned only via sha256/bytes. Task 1: `capture-cli-fixtures.mjs` should `mkdir` the
+  dirname of a nested workdir file before `copyFileSync`.
+- Unresolved: whether validate's `OutputPathError` key order matches Node (carried to a card).
 
 ## State at end of phase 4
 
@@ -29,7 +76,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Parity: 16 erd goldens byte-identical, 16 erd layout reports and 11 erd failure receipts equal upstream's; 25 evidence scenarios
   plus the git-absent receipt equal upstream's, 13 evidence render rows byte-identical, `RepositoryLocation` 213 fixture rows, Js URI 71.
   The fixture repo is a git fast-import stream (`tests/fixtures/evidence/evidence-repo.fi`) with a pinned HEAD.
-- `dotnet test` from the repo root: 2753 passed, 0 failed, no warnings.
+- `dotnet test` from the repo root: 2772 passed, 0 failed, no warnings (phase 4's earlier note of 2753 was stale).
 - Task reviews were done by agy (Gemini); implementers were Claude subagents (opus, Task 7 sonnet). Fable was unavailable.
 
 ## Known deviations
@@ -105,7 +152,7 @@ The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-r
 
 ## Next phase
 
-`PORT-005`: the CLI, receipts, sidecars, lock and journal, and the Playwright browser and visual gates.
+Next phase: `PORT-006` (MCP server + SKILL.md). PORT-006 will be implemented by Gemini (agy) with Claude reviewing (Martin, 2026-10-15).
 
 ## Phase 4 closed (2026-10-15)
 

@@ -7,6 +7,8 @@
     <ToolCommandName>archify</ToolCommandName>
     <!-- [LibraryImport] stubs (Paths/NativeFs.cs) are generated unsafe code -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- Microsoft.Playwright ships .ps1 helpers (playwright.ps1, reinstall_msedge_*) that pack flags as NU5111; the tool never runs them (install-browser is in-process) -->
+    <NoWarn>$(NoWarn);NU5111</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Playwright" Version="1.63.0" />
