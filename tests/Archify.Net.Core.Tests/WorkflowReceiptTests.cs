@@ -38,6 +38,21 @@ public class WorkflowReceiptTests
     [InlineData("v1-700x400", "fixture:diagrams/v1-700x400.workflow.json")]
     [InlineData("v1-explicit-coordinates", "fixture:diagrams/v1-explicit-coordinates.workflow.json")]
     [InlineData("v1-baseline.agent-tool-call", "fixture:diagrams/v1-baseline.agent-tool-call.workflow.json")]
+    // Phase 3, task 8: the readable-v2 automatic rows.
+    [InlineData("holiday-planning", "upstream:examples/holiday-planning.workflow.json")]
+    [InlineData("dense-automatic", "fixture:diagrams/dense-automatic.workflow.json")]
+    [InlineData("fanin-label-recovery", "fixture:diagrams/fanin-label-recovery.workflow.json")]
+    [InlineData("free-space", "fixture:diagrams/free-space.workflow.json")]
+    [InlineData("return-arrival", "fixture:diagrams/return-arrival.workflow.json")]
+    [InlineData("routing-clarity", "fixture:diagrams/routing-clarity.workflow.json")]
+    [InlineData("first-draft.agent-tool-call", "fixture:diagrams/first-draft.agent-tool-call.workflow.json")]
+    [InlineData("first-draft.automatic-fanout", "fixture:diagrams/first-draft.automatic-fanout.workflow.json")]
+    [InlineData("first-draft.automatic-port-slot", "fixture:diagrams/first-draft.automatic-port-slot.workflow.json")]
+    [InlineData("first-draft.customer-refund", "fixture:diagrams/first-draft.customer-refund.workflow.json")]
+    [InlineData("first-draft.incident-response", "fixture:diagrams/first-draft.incident-response.workflow.json")]
+    [InlineData("viewport.order-overflow", "fixture:diagrams/viewport.order-overflow.workflow.json")]
+    [InlineData("viewport.order-reflow", "fixture:diagrams/viewport.order-reflow.workflow.json")]
+    [InlineData("viewport.three-lane-remainder", "fixture:diagrams/viewport.three-lane-remainder.workflow.json")]
     public void Workflow_receipt_equals_upstream_layout_json(string name, string input)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);

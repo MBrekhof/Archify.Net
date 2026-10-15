@@ -7,19 +7,15 @@ namespace Archify.Net;
 // readable pinned-geometry driver (H5, :2378-2692) is Task 10.
 internal sealed partial class WorkflowCompilation
 {
-    // validateReadableInputsBeforeRouting: v2-only typed input diagnostics with verified fixes.
+    // validateReadableInputsBeforeRouting: v2-only typed input diagnostics with verified fixes. It only throws on invalid input
+    // (duplicate lane/node ids, unknown endpoints or lanes, node overlaps), so a valid document passes through unchanged.
+    // Task 9: port workflow-compiler.mjs:3038-3258 here.
     void ValidateReadableInputsBeforeRouting()
     {
         if (workflow.SchemaVersion != 2) return;
-        throw new NotImplementedException("Task 9: validateReadableInputsBeforeRouting (workflow-compiler.mjs:3038-3258)");
     }
 
-    // validateReadablePinnedGeometry: the v2 routing driver (reserve pinned → straight → routeFirst → all edges → pin checks → pairwise).
-    void ValidateReadablePinnedGeometry()
-    {
-        if (workflow.SchemaVersion != 2) return;
-        throw new NotImplementedException("Task 10: validateReadablePinnedGeometry (workflow-compiler.mjs:2378-2692)");
-    }
+    // validateReadablePinnedGeometry (the v2 routing driver) is in WorkflowCompilation.Routing.cs.
 
     void ValidateWorkflow()
     {

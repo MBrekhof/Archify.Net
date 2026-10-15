@@ -1775,8 +1775,11 @@ public static class Geometry
             var from = relation.Str("from") is { } fromId ? boxes.Get(fromId) : null;
             var to = relation.Str("to") is { } toId ? boxes.Get(toId) : null;
             if (from is null || to is null) continue;
-            var fromSide = ChosenSide(relation.Str("fromSide"), Truthy(sideFor?.Invoke(relation, "source")) ? sideFor!(relation, "source")! : DefaultFromSide(from, to));
-            var toSide = ChosenSide(relation.Str("toSide"), Truthy(sideFor?.Invoke(relation, "target")) ? sideFor!(relation, "target")! : DefaultToSide(from, to));
+            // `sideFor?.(relation, end) || default…`: one call per endpoint (workflow's side selection has grid side effects).
+            var sourceSide = sideFor?.Invoke(relation, "source");
+            var fromSide = ChosenSide(relation.Str("fromSide"), Truthy(sourceSide) ? sourceSide! : DefaultFromSide(from, to));
+            var targetSide = sideFor?.Invoke(relation, "target");
+            var toSide = ChosenSide(relation.Str("toSide"), Truthy(targetSide) ? targetSide! : DefaultToSide(from, to));
             Add(relation, "from", from, fromSide, to);
             Add(relation, "to", to, toSide, from);
         }

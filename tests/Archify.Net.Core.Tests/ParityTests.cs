@@ -65,6 +65,21 @@ public class ParityTests
         ["workflow", Fixtures.Fixture("diagrams/v1-700x400.workflow.json"), Fixtures.Golden("v1-700x400-rendered.html")],   // no quality profile
         ["workflow", Fixtures.Fixture("diagrams/v1-explicit-coordinates.workflow.json"), Fixtures.Golden("v1-explicit-coordinates-rendered.html")],   // via/labelAt/channel pins
         ["workflow", Fixtures.Fixture("diagrams/v1-baseline.agent-tool-call.workflow.json"), Fixtures.Golden("v1-baseline.agent-tool-call-rendered.html")],   // presets, sides, label offsets
+        // Phase 3, task 8: workflow readable-v2 automatic routing — F readable, H2/H4/H5 skeleton, J3, K1/K2/K5/K6, L, M, O feedback.
+        ["workflow", Fixtures.Upstream("examples/holiday-planning.workflow.json"), Fixtures.Golden("holiday-planning-rendered.html")],   // zh-CN, authored legend
+        ["workflow", Fixtures.Fixture("diagrams/dense-automatic.workflow.json"), Fixtures.Golden("dense-automatic-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/fanin-label-recovery.workflow.json"), Fixtures.Golden("fanin-label-recovery-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/free-space.workflow.json"), Fixtures.Golden("free-space-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/return-arrival.workflow.json"), Fixtures.Golden("return-arrival-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/routing-clarity.workflow.json"), Fixtures.Golden("routing-clarity-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/first-draft.agent-tool-call.workflow.json"), Fixtures.Golden("first-draft.agent-tool-call-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/first-draft.automatic-fanout.workflow.json"), Fixtures.Golden("first-draft.automatic-fanout-rendered.html")],   // standard
+        ["workflow", Fixtures.Fixture("diagrams/first-draft.automatic-port-slot.workflow.json"), Fixtures.Golden("first-draft.automatic-port-slot-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/first-draft.customer-refund.workflow.json"), Fixtures.Golden("first-draft.customer-refund-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/first-draft.incident-response.workflow.json"), Fixtures.Golden("first-draft.incident-response-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/viewport.order-overflow.workflow.json"), Fixtures.Golden("viewport.order-overflow-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/viewport.order-reflow.workflow.json"), Fixtures.Golden("viewport.order-reflow-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/viewport.three-lane-remainder.workflow.json"), Fixtures.Golden("viewport.three-lane-remainder-rendered.html")],
     ];
 
     [Fact] public void Dataflow_quality_option_switches_the_automatic_layout_like_the_env_var()   // Review Focus 2
@@ -112,9 +127,12 @@ public class ParityTests
 
     // Workflow failure receipts (same capture, from the incident-response example with one fault each): validateWorkflow's
     // mainPath check with its verified repoint fixes (acceptsFix recompiles every candidate). wf-v1-column-capacity needs the
-    // migration recompile (Task 10).
+    // migration recompile (Task 10). Task 8: the readable-v2 canvas (finalizeReadableViewBox, both verified fixes recompile
+    // v2) and node-text (validateReadableNodeText after the sizing loop) failures.
     [Theory]
     [InlineData("wf-unknown-main-path")]
+    [InlineData("wf-viewbox-capacity")]
+    [InlineData("wf-sublabel-readability")]
     public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));
