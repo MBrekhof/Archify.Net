@@ -1,5 +1,12 @@
 # Archify.Net
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
+  <img alt="Agent Tool Call Workflow rendered by Archify.Net: four lanes (user interface, agent runtime, policy and recovery, tool execution) with an approval gate, retry path and evidence trail" src="docs/images/hero-light.png">
+</picture>
+
+<sub>`upstream/examples/agent-tool-call.workflow.json`, rendered by `archify render workflow`: the HTML is byte-identical to upstream's.</sub>
+
 A C# port of [archify](https://github.com/tt-a1i/archify) 3.1.0, pinned at upstream commit `c21c31ff`.
 It renders architecture diagrams from JSON into standalone HTML with inline SVG, and checks the result.
 The correctness bar is byte parity: the HTML it writes is byte-identical to upstream's for the same input.
