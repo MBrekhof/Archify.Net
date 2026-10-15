@@ -8797,6 +8797,226 @@
       ]
     },
     {
+      "value": "https://bücher..example/o/r",
+      "expectDeviation": true,
+      "results": [
+        {
+          "authored": false,
+          "provider": null,
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": false,
+          "provider": "github",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": false,
+          "provider": "gitee",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": false,
+          "provider": "gitlab",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"standard\",\"repository\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": "gitlab",
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "standard",
+            "pathKind": "repository"
+          }
+        },
+        {
+          "authored": true,
+          "provider": null,
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": true,
+          "provider": "github",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": true,
+          "provider": "gitee",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": true,
+          "provider": "gitlab",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"standard\",\"repository\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": "gitlab",
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "standard",
+            "pathKind": "repository"
+          }
+        }
+      ]
+    },
+    {
+      "value": "https://xn--bcher-kva..example/o/r",
+      "expectDeviation": true,
+      "results": [
+        {
+          "authored": false,
+          "provider": null,
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": false,
+          "provider": "github",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": false,
+          "provider": "gitee",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": false,
+          "provider": "gitlab",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"standard\",\"repository\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": "gitlab",
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "standard",
+            "pathKind": "repository"
+          }
+        },
+        {
+          "authored": true,
+          "provider": null,
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": true,
+          "provider": "github",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": true,
+          "provider": "gitee",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"https:443\",\"absolute\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": null,
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "https:443",
+            "pathKind": "absolute"
+          }
+        },
+        {
+          "authored": true,
+          "provider": "gitlab",
+          "result": {
+            "identity": "[\"xn--bcher-kva..example\",\"standard\",\"repository\",\"o/r\"]",
+            "url": "https://xn--bcher-kva..example/o/r",
+            "provider": "gitlab",
+            "protocol": "https:",
+            "path": "o/r",
+            "endpoint": "standard",
+            "pathKind": "repository"
+          }
+        }
+      ]
+    },
+    {
       "value": "https://127.1/team/repo",
       "results": [
         {
@@ -18503,6 +18723,14 @@
     {
       "value": "https://%C2%AD/x/y",
       "redacted": "https://%C2%AD/x/y"
+    },
+    {
+      "value": "https://bücher..example/o/r",
+      "redacted": "https://bücher..example/o/r"
+    },
+    {
+      "value": "https://xn--bcher-kva..example/o/r",
+      "redacted": "https://xn--bcher-kva..example/o/r"
     },
     {
       "value": "https://127.1/team/repo",

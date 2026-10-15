@@ -946,6 +946,7 @@ const rlValues = [
   'https://BÜCHER.example/team/repo', 'https://xn--bcher-kva.example/team/repo', 'https://ｇｉｔｈｕｂ.com/example/repo', 'https://github。com/example/repo',
   'https://github%2Ecom/example/repo', 'https://git%20hub.com/x/y', 'https://git%zzhub/x/y', 'https://git%25hub/x/y', 'https://-bücher.example/x/y',
   'https://bücher-.example/x/y', 'https://ab--ü.example/x/y', `https://ü${'a'.repeat(70)}.example/x/y`, 'https://-bucher.example/x/y', 'https://bü-cher.example/x/y', 'https://xn--zz.example/x/y', 'https://a\u200db.example/x/y', 'https://a\u00adb.example/x/y', 'https://%C2%AD/x/y',
+  'https://bücher..example/o/r', 'https://xn--bcher-kva..example/o/r',
   'https://127.1/team/repo', 'https://0x7f.1/x/y', 'https://0177.0.0.1/x/y', 'https://1.2.3.4.5/x/y', 'https://256.1.1.1/x/y', 'https://1.2.3.256/x/y',
   'https://4294967295/x/y', 'https://4294967296/x/y', 'https://github.com.1/x/y', 'https://1.2.3.4./x/y', 'https://0x/x/y', 'https://１２７.１/x/y',
   'https://github.com:443/example/repo', 'http://github.com:80/example/repo', 'https://github.com:80/example/repo', 'http://github.com/example/repo',
@@ -982,7 +983,9 @@ const rlParse = (value, authored, provider) => {
 // Rows the port cannot match (stated deviation, README): kept, flagged, and asserted to differ by the C# test. WHATWG runs UTS #46
 // with CheckHyphens and VerifyDnsLength off; IdnMapping always applies both, so a non-ASCII label with a leading or trailing hyphen,
 // or longer than 63 octets, parses in Node and is refused (null) by the port.
-const rlDeviations = new Set(['https://-bücher.example/x/y', 'https://bücher-.example/x/y', `https://ü${'a'.repeat(70)}.example/x/y`]);
+// IdnMapping.GetAscii also throws on an empty label, which WHATWG accepts: two more deviation rows.
+const rlDeviations = new Set(['https://-bücher.example/x/y', 'https://bücher-.example/x/y', `https://ü${'a'.repeat(70)}.example/x/y`,
+  'https://bücher..example/o/r', 'https://xn--bcher-kva..example/o/r']);
 for (const v of rlDeviations) if (!rlValues.includes(v) || !RL.parseRepositoryRemote(v)) throw new Error(`repository-location: deviation row ${v} is not a parsing row`);
 write('fixtures/js/repository-location.json', {
   parse: rlValues.map((value) => ({

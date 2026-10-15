@@ -174,12 +174,11 @@ internal static class RepositoryLocation
 
     // UTS #46 ToASCII as WHATWG calls it (beStrict false). An ASCII domain with no `xn--` label is just ASCII-lowercased (the spec's
     // own shortcut); anything else goes through IdnMapping (UTS #46, nontransitional).
-    static readonly IdnMapping Idn = new();
     static string? DomainToAscii(string domain)
     {
         if (domain.All(char.IsAscii) && !domain.Split('.').Any(l => l.StartsWith("xn--", StringComparison.OrdinalIgnoreCase)))
             return domain.ToLowerInvariant();
-        try { return Idn.GetAscii(domain); } catch (ArgumentException) { return null; }
+        try { return new IdnMapping().GetAscii(domain); } catch (ArgumentException) { return null; }
     }
 
     static bool EndsInNumber(string input)

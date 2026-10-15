@@ -27,7 +27,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   (Node-pinned), and repository source evidence via git (`RenderOptions.RepoRoot`, `RepositoryEvidence.Verify` in the load gates,
   git on PATH).
 - Parity: 16 erd goldens byte-identical, 16 erd layout reports and 11 erd failure receipts equal upstream's; 25 evidence scenarios
-  plus the git-absent receipt equal upstream's, 13 evidence render rows byte-identical, `RepositoryLocation` 211 fixture rows, Js URI 71.
+  plus the git-absent receipt equal upstream's, 13 evidence render rows byte-identical, `RepositoryLocation` 213 fixture rows, Js URI 71.
   The fixture repo is a git fast-import stream (`tests/fixtures/evidence/evidence-repo.fi`) with a pinned HEAD.
 - `dotnet test` from the repo root: 2753 passed, 0 failed, no warnings.
 - Task reviews were done by agy (Gemini); implementers were Claude subagents (opus, Task 7 sonnet). Fable was unavailable.
@@ -48,13 +48,17 @@ of `ArchifyNet.Render`:
   `Australia/Lord_Howe` in 1970).
 - `Date.parse` outside the timeline schema's timestamp shape is NaN; the schema gate makes it unreachable.
 - erd: an entity with neither `row`/`col` nor `pos` whose relationships carry labels fails with `internal/unclassified` as upstream
-  does, but the evidence names the .NET exception type where upstream names the JS `TypeError`.
+  does, but the message and evidence carry the .NET exception where upstream has `Cannot read properties of undefined (reading '0')` / `TypeError`.
 - Evidence: `repository-evidence/root-identity-indeterminate` is unreachable (root identity via `git rev-parse --show-prefix`).
 - Evidence: Node's spawn error strings are synthesised (`spawnSync git ENOENT`, `spawnSync git ENOBUFS`); an errno outside the
   port's table prints its number.
 - Evidence: the `root-unreadable` message names the whole requested root where Node names the first missing path component.
-- Evidence: three non-ASCII hosts WHATWG URL accepts are rejected (`IdnMapping` hyphen and label-length rules): a label starting
-  or ending with `-` after IDNA, and a label longer than 63 octets.
+- Evidence: `realRoot` resolves only the final link of `RepoRoot`; through a junctioned or symlinked parent, `repoRoot` in subjects
+  and the paths in the `not a Git repository` and `root-not-top-level` messages differ from Node's (same verdict).
+- Evidence: `Render` with `RepoRoot` runs git synchronously with no timeout (as upstream) and holds thread-pool threads per call.
+- Evidence: five non-ASCII hosts WHATWG URL accepts are rejected (`IdnMapping` hyphen, label-length, empty-label rules), by input:
+  `https://-bücher.example/x/y`, `https://bücher-.example/x/y`, `https://ü` + 70 `a` + `.example/x/y` (71-character label),
+  `https://bücher..example/o/r`, `https://xn--bcher-kva..example/o/r`.
 - Evidence tests: the `subdirectory-root` receipt is Windows-only (path separator).
 
 Zone acceptance differs by host as well: ids the OS ICU list or `TimeZoneInfo` cannot resolve are rejected
@@ -84,7 +88,7 @@ the Js static constructor throws in a host with `InvariantGlobalization` on.
   while the port's failure receipt (`WorkflowCompilation.Svg.cs:487-489`) has no `diagnostics` key: phase 5's `--layout-json` must
   follow upstream's order (card TEST-002 gains a standard-profile warning fixture).
 
-- **Phase-4 coverage gaps (card TEST-003, the controller mints it):**
+- **Phase-4 coverage gaps (card TEST-003 (CARD-2179)):**
   - Task 2: the erd trunk snap, the trunk bridge (`renderers/erd` :893-895) and the coordinate-undefined delete (:750-752) are
     reached by no input.
   - Task 3: erd validation branches reached by no fixture: duplicate attribute, non-finite width, entity overlap, unknown

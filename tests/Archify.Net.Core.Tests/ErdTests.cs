@@ -66,7 +66,8 @@ public class ErdTests
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/erd-unplaced-labelled.erd.json")));
         var r = ArchifyNet.Render(DiagramType.Erd, d);
         Assert.Equal("", r.Html);
-        Assert.Equal(["internal/unclassified"], r.Diagnostics.Select(x => x.Code));    }
+        Assert.Equal(["internal/unclassified"], r.Diagnostics.Select(x => x.Code));
+    }
 
     // Review Focus 5 (P1): the Showcase option pins gateProfile for the four profile-taking gates, as ARCHIFY_QUALITY_PROFILE does.
     [Fact] public void Erd_quality_option_reaches_the_gates_like_the_env_var()

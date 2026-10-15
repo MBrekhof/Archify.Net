@@ -47,13 +47,18 @@ public static class ArchifyNet
     /// <c>Date.parse</c> outside the timeline schema's timestamp shape is NaN in the port; the schema gate rejects such strings before
     /// any renderer runs.
     /// An erd entity with neither <c>row</c>/<c>col</c> nor <c>pos</c> whose relationships carry labels fails with <c>internal/unclassified</c>
-    /// as upstream does, but the evidence names the .NET exception type where upstream names the JS <c>TypeError</c>.
+    /// as upstream does, but the message and evidence carry the .NET exception where upstream has <c>Cannot read properties of undefined (reading '0')</c>
+    /// and the JS <c>TypeError</c>.
     /// Repository evidence (<c>RenderOptions.RepoRoot</c>): <c>repository-evidence/root-identity-indeterminate</c> is unreachable (the root is
     /// compared with <c>git rev-parse --show-prefix</c>; upstream reaches it only through a mocked stat); Node's spawn error strings are
     /// synthesised (<c>spawnSync git ENOENT</c>, <c>spawnSync git ENOBUFS</c>) and an errno outside the port's table prints its number;
-    /// <c>root-unreadable</c> names the whole requested root where Node names the first missing path component; and three non-ASCII hosts
-    /// WHATWG URL accepts are rejected because <c>IdnMapping</c> enforces the hyphen and label-length rules (a label starting or ending
-    /// with <c>-</c> after IDNA, a label longer than 63 octets).
+    /// <c>root-unreadable</c> names the whole requested root where Node names the first missing path component; the root is resolved only
+    /// through its final link (reached through a junctioned or symlinked parent, <c>repoRoot</c> in subjects and the paths in the
+    /// "not a Git repository" and <c>root-not-top-level</c> messages differ from Node's, the verdict is the same); <c>Render</c> with
+    /// <c>RepoRoot</c> runs git synchronously with no timeout, as upstream; and five non-ASCII hosts WHATWG URL accepts are rejected because
+    /// <c>IdnMapping</c> enforces the hyphen, label-length and non-empty-label rules, by input: <c>https://-bücher.example/x/y</c>,
+    /// <c>https://bücher-.example/x/y</c>, <c>https://ü</c> + 70 <c>a</c> + <c>.example/x/y</c> (a 71-character label),
+    /// <c>https://bücher..example/o/r</c> and <c>https://xn--bcher-kva..example/o/r</c>.
     /// </remarks>
     public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)
     {

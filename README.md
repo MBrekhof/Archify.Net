@@ -76,7 +76,7 @@ Phase 4 parity results:
   one HEAD), plus the git-absent receipt and 8 integration facts.
 - 13 evidence render rows (`ParityTests.Evidence_render_is_byte_identical_to_upstream`) cover per-type goldens with
   source badges and payloads, and one workflow failure receipt carries the evidence.
-- `RepositoryLocation` equals `parseRepositoryRemote` on 211 fixture rows, and the Js URI helpers equal V8 on 71 rows
+- `RepositoryLocation` equals `parseRepositoryRemote` on 213 fixture rows, and the Js URI helpers equal V8 on 71 rows
   (`js-uri.json`).
 
 The full suite (`dotnet test`) runs 2753 tests.
@@ -160,7 +160,9 @@ var result = ArchifyNet.Render(DiagramType.Architecture, diagram, new RenderOpti
 
 - The diagram needs `meta.repository` (`url` and a 40-hex `revision`, optionally `provider` and `link_mode`) and
   `sources` on its nodes.
-- `git` must be on PATH. The port runs it as a child process, as upstream does.
+- `git` must be on PATH. The port runs it as a child process, as upstream does. `Render` with `RepoRoot` runs git
+  synchronously with no timeout (as upstream), so it can block if git stalls (for example a repo on a stalled network
+  share), and each git call holds thread-pool threads while it runs.
 - Before rendering, the load gates verify the clone against the diagram: the origin remote identifies the same repository
   as `meta.repository.url`, the revision exists in the clone, and every cited file and line range exists at that revision.
   A failure comes back as a `repository-evidence/*` diagnostic with upstream's code and message.
@@ -211,6 +213,7 @@ src/Archify.Net.Core/        the library
   Js/                        V8-compatible number, string, sort, text segmentation and time helpers
   <Type>/                    one renderer per diagram type
   Erd/                       the erd renderer; Grid.cs, the banded grid, is shared with class
+  Evidence/                  repository evidence verifier, remote URL parser, git runner
 tests/Archify.Net.Core.Tests xUnit suite
 tests/goldens/               upstream-rendered HTML and checker reports
 tests/fixtures/              diagram inputs, receipts, layout reports, Js fixtures, checker probes
@@ -266,11 +269,12 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - A forwarded checker diagnostic without a message gets `""` as its message. Upstream omits the key.
 - The unpinned-URL hint text can differ from WHATWG `url.href` for IDN hosts, `|`, `%7e`, and backslashes in query or fragment.
 - `Check` hashes the UTF-8 encoding of the string it is given. A lone surrogate hashes differently from Node's raw file bytes.
-- *erd, unplaced entity:* an entity with neither `row`/`col` nor `pos` whose relationships carry labels fails with `internal/unclassified`, as upstream does. The evidence names the .NET exception type where upstream names the JS `TypeError`.
+- *erd, unplaced entity:* an entity with neither `row`/`col` nor `pos` whose relationships carry labels fails with `internal/unclassified`, as upstream does. The `internal/unclassified` message and evidence carry the .NET exception where upstream has `Cannot read properties of undefined (reading '0')` / `TypeError`.
 - *Evidence, root identity:* `repository-evidence/root-identity-indeterminate` is unreachable. The port compares the root with `git rev-parse --show-prefix`; upstream reaches that code only through a mocked stat.
 - *Evidence, spawn errors:* Node's spawn error strings are synthesised (`spawnSync git ENOENT`, `spawnSync git ENOBUFS`). An errno outside the port's table prints its number.
 - *Evidence, `root-unreadable`:* the message names the whole requested root where Node names the first missing path component.
-- *Evidence, non-ASCII hosts:* the port rejects three hosts WHATWG URL accepts, because `IdnMapping` enforces the hyphen and label-length rules: a label starting or ending with `-` after IDNA, and a label longer than 63 octets (`-bücher.example`, `bücher-.example`, a 70-character `ü` label).
+- *Evidence, `realRoot`:* the port resolves only the final link of `RepoRoot`. When the root is reached through a junctioned or symlinked parent directory, `repoRoot` in diagnostic subjects and the paths in the `not a Git repository` and `root-not-top-level` messages differ from Node's; the verdict is the same.
+- *Evidence, non-ASCII hosts:* the port rejects five hosts WHATWG URL accepts, because `IdnMapping` enforces the hyphen, label-length and non-empty-label rules. By input: `https://-bücher.example/x/y`, `https://bücher-.example/x/y`, `https://ü` + 70 `a` + `.example/x/y` (a 71-character label), `https://bücher..example/o/r` and `https://xn--bcher-kva..example/o/r` (empty label).
 - *Evidence tests:* the `subdirectory-root` receipt is Windows-only (its path separator).
 
 ## Credits and license
