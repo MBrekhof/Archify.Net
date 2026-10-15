@@ -1,0 +1,23 @@
+{
+  "args": [
+    "visual-check",
+    "out.html",
+    "--summary",
+    "--out-dir",
+    "evidence"
+  ],
+  "files": {
+    "out.html": "tests/fixtures/cli/inputs/delivered.html"
+  },
+  "exit": 2,
+  "stdout": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"ok\":false,\"status\":\"skipped\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"pending\",\"artifact\":{\"path\":\"<WORK>\\\\out.html\",\"sha256\":\"ab59807f516510575199f6c3b07b67e04a678a2647829c298ba47a7e50da7c6c\",\"bytes\":50},\"provenance\":\"unknown\",\"state\":{\"detail\":\"read\",\"motion\":\"still\"},\"chrome\":{\"status\":\"unavailable\",\"executable\":null},\"checks\":{\"containment\":\"skipped\",\"readability\":\"skipped\",\"viewerChrome\":\"skipped\",\"themeStates\":\"skipped\",\"captures\":\"skipped\"},\"error\":\"Chrome or Chromium is unavailable. Set ARCHIFY_CHROME to its executable path.\",\"diagnostics\":[{\"code\":\"viewer/chrome-unavailable\",\"severity\":\"warning\",\"message\":\"Chrome or Chromium is unavailable. Set ARCHIFY_CHROME to its executable path.\",\"subject\":{\"artifact\":\"<WORK>\\\\out.html\"},\"evidence\":{\"executable\":null},\"supportedFixes\":[\"set ARCHIFY_CHROME to a Chrome or Chromium executable and rerun visual-check\"]}],\"evidence\":{\"receipt\":\"<WORK>\\\\evidence\\\\out.visual-check.json\",\"screenshots\":[]}}\n",
+  "stderr": "",
+  "entries": [
+    "evidence",
+    "evidence\\out.visual-check.json",
+    "out.html"
+  ],
+  "evidence": {
+    "evidence\\out.visual-check.json": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"skipped\",\n  \"visualReview\": \"pending\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\",\n    \"sha256\": \"ab59807f516510575199f6c3b07b67e04a678a2647829c298ba47a7e50da7c6c\",\n    \"bytes\": 50\n  },\n  \"state\": {\n    \"detail\": \"read\",\n    \"motion\": \"still\"\n  },\n  \"chrome\": {\n    \"status\": \"unavailable\",\n    \"executable\": null\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/chrome-unavailable\",\n      \"severity\": \"warning\",\n      \"message\": \"Chrome or Chromium is unavailable. Set ARCHIFY_CHROME to its executable path.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\"\n      },\n      \"evidence\": {\n        \"executable\": null\n      },\n      \"supportedFixes\": [\n        \"set ARCHIFY_CHROME to a Chrome or Chromium executable and rerun visual-check\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"skipped\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"themeStates\": {\n    \"status\": \"skipped\",\n    \"viewports\": []\n  },\n  \"readability\": {\n    \"status\": \"skipped\",\n    \"minimumProjectedNodeTextPx\": 6,\n    \"viewports\": []\n  },\n  \"viewerChrome\": {\n    \"status\": \"skipped\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"skipped\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"directory\": \"<WORK>\\\\evidence\",\n    \"receipt\": \"out.visual-check.json\",\n    \"contactSheet\": \"out.visual-check.html\",\n    \"files\": []\n  },\n  \"error\": \"Chrome or Chromium is unavailable. Set ARCHIFY_CHROME to its executable path.\"\n}\n"
+  }
+}

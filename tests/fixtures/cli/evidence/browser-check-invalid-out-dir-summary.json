@@ -1,0 +1,19 @@
+{
+  "args": [
+    "browser-check",
+    "out.html",
+    "--summary",
+    "--out-dir",
+    "C:evidence"
+  ],
+  "files": {
+    "out.html": "tests/fixtures/cli/inputs/delivered.html"
+  },
+  "exit": 1,
+  "stdout": "{\"schemaVersion\":1,\"command\":\"browser-check\",\"ok\":false,\"status\":\"fail\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"not-requested\",\"artifact\":{\"path\":\"<WORK>\\\\out.html\"},\"checks\":{},\"error\":\"The output path is not a valid native filesystem path on this host.\",\"diagnostics\":[{\"severity\":\"error\",\"subject\":{\"output\":\"C:evidence\"},\"evidence\":{\"reason\":\"drive-relative\"},\"supportedFixes\":[\"choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components\"],\"code\":\"output/native-path-syntax\",\"message\":\"The output path is not a valid native filesystem path on this host.\"}],\"evidence\":{\"screenshots\":[]}}\n",
+  "stderr": "",
+  "entries": [
+    "out.html"
+  ],
+  "evidence": {}
+}

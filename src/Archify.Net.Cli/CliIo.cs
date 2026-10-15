@@ -23,6 +23,6 @@ public sealed record CliServices
     public Func<string?> HeadlessShell { get; init; } = Commands.DoctorCommand.HeadlessShell;
     // install-browser's in-process installer (Q4)
     public Func<string[], int> PlaywrightMain { get; init; } = Microsoft.Playwright.Program.Main;
-    // browser-check / visual-check (Q4). Null until Task 11 installs the Playwright Chromium factory as the default.
-    public Browser.IBrowserInspectorFactory? BrowserInspectors { get; init; }
+    // browser-check / visual-check (Q4): Playwright's pinned Chromium, the headless shell doctor probes for
+    public Browser.IBrowserInspectorFactory BrowserInspectors { get; init; } = new Browser.PlaywrightInspectorFactory(Commands.DoctorCommand.HeadlessShell);
 }

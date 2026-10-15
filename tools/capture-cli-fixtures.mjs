@@ -38,10 +38,15 @@ const cli = path.join(SKILL, 'bin', 'archify.mjs');
 const env = { ...process.env, ARCHIFY_UPDATE_CHECK_DISABLED: '1' };
 for (const k of Object.keys(env)) if (k.startsWith('ARCHIFY_') && k !== 'ARCHIFY_UPDATE_CHECK_DISABLED') delete env[k];
 
+// Q7/Q8: browser-gate fixtures drive upstream with ARCHIFY_CHROME (child env only) at the headless shell `archify install-browser`
+// installs, the binary the C# inspector launches; its path is <CHROME> in every fixture.
+const CHROME = path.join(process.env.LOCALAPPDATA ?? '', 'ms-playwright', 'chromium_headless_shell-1243', 'chrome-headless-shell-win64', 'chrome-headless-shell.exe');
+const chromeEnv = { ...env, ARCHIFY_CHROME: CHROME };
+
 const escaped = (p) => p.replaceAll('\\', '\\\\');
 function tokenise(text, work) {
   let t = text;
-  for (const [p, token] of [[work, '<WORK>'], [SKILL, '<SKILL>']]) t = t.replaceAll(escaped(p), token).replaceAll(p, token);
+  for (const [p, token] of [[work, '<WORK>'], [SKILL, '<SKILL>'], [CHROME, '<CHROME>']]) t = t.replaceAll(escaped(p), token).replaceAll(p, token);
   // Determinism guard: any temp path left over (an owned temp dir, a pid-named layout file) would make the fixture vary.
   if (t.includes(tmpRoot) || t.includes(escaped(tmpRoot)) || t.includes(path.basename(tmpRoot))) {
     throw new Error(`untokenised temp path in output:\n${t}`);
@@ -75,7 +80,7 @@ function applySetup(work, steps) {
   }
 }
 // `inspect(work, fixture)` runs before the workdir is removed (output-byte assertions).
-function mint(group, name, args, files = {}, inspect = () => {}, setup = undefined) {
+function mint(group, name, args, files = {}, inspect = () => {}, setup = undefined, childEnv = env) {
   const rel = `${CLI_FIX}/${group}/${name}.json`;
   if (minted.has(rel)) throw new Error(`duplicate fixture ${rel}`);
   const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
@@ -85,7 +90,7 @@ function mint(group, name, args, files = {}, inspect = () => {}, setup = undefin
       fs.copyFileSync(repo(src), path.join(work, dest));
     }
     if (setup) applySetup(work, setup);
-    const r = spawnSync(process.execPath, [cli, ...args], { cwd: work, env, encoding: 'utf8' });
+    const r = spawnSync(process.execPath, [cli, ...args], { cwd: work, env: childEnv, encoding: 'utf8' });
     if (r.error) throw r.error;
     const fixture = { args, files, ...(setup ? { setup } : {}), exit: r.status, stdout: tokenise(r.stdout, work), stderr: tokenise(r.stderr, work) };
     inspect(work, fixture);
@@ -890,5 +895,99 @@ for (const name of evidenceNames) {
 expect(evidenceTable.some((row) => row.pathHashed) && evidenceTable.some((row) => row.outDir && !row.pathHashed), 'both kinds of --out-dir name');
 expect(evidenceTable.every((row) => row.pathHashed === row.receipt.includes('<hash>')), 'exactly the path-hashed names are masked');
 writeJson(`${CLI_FIX}/paths/evidence-sidecar-names.json`, evidenceTable);
+
+// --- browser-check / visual-check commands (Task 11): T/cli.test.mjs:439-634, 4050, 4225, and receipts from real Chromium ---
+// A fixture gains `entries` (the workdir afterwards, sorted) and `evidence` (workdir path -> each evidence file: its text, or
+// `png <W>x<H>` from the IHDR of a real PNG). v4 ids are <uuid>. A capture's sha256 and size depend on the browser build (Q4):
+// receipts carry `<sha256>` and `<bytes>` for each PNG in sidecars.files.
+expect(fs.existsSync(CHROME), `the Playwright Chromium 1243 headless shell at ${CHROME}; run archify install-browser`);
+craft('delivered.html', '<!doctype html><html><body>delivered</body></html>');
+const EVIDENCE_NAME = /\.(?:visual|browser)-check\./u;
+function maskCaptures(text) {
+  if (!text.startsWith('{')) return text;
+  const receipt = JSON.parse(text);
+  const files = receipt.sidecars?.files ?? [];
+  if (!files.some((f) => f.file.endsWith('.png'))) return text;
+  for (const f of files) if (f.file.endsWith('.png')) Object.assign(f, { sha256: '<sha256>', bytes: '<bytes>' });
+  return `${JSON.stringify(receipt, null, 2)}\n`;
+}
+const normalise = (text) => maskCaptures(text.replace(UUID_V4, '<uuid>'));
+function evidenceFixture(group, name, args, files, setup, childEnv) {
+  return mint(group, name, args, files, (work, fixture) => {
+    fixture.stdout = normalise(fixture.stdout);
+    fixture.stderr = normalise(fixture.stderr);
+    fixture.entries = walk(work).sort();
+    fixture.evidence = Object.fromEntries(fixture.entries.filter((e) => EVIDENCE_NAME.test(path.basename(e)) && fs.statSync(path.join(work, e)).isFile())
+      .map((e) => {
+        const bytes = fs.readFileSync(path.join(work, e));
+        return [e, bytes.subarray(0, 8).equals(PNG) ? `png ${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}` : normalise(tokenise(bytes.toString('utf8'), work))];
+      }));
+  }, setup, childEnv).fixture;
+}
+
+// Without a browser: ARCHIFY_CHROME names a file that does not exist (upstream's "Chrome unavailable"; the C# tests use a factory
+// that reports none). The stale-evidence writes are T/cli.test.mjs:4050 and :4225.
+const noChrome = { ...env, ARCHIFY_CHROME: path.join(tmpRoot, 'missing-chrome', 'chrome.exe') };
+const deliveredHtml = { 'out.html': inputs['delivered.html'] };
+const stale = (base, screenshots) => [
+  { write: `${base}.json`, text: '{"sentinel":"stale receipt"}\n' },
+  { write: `${base}.html`, text: '<!doctype html><title>stale contact sheet</title>\n' },
+  ...screenshots.map((s) => ({ write: `${base}.${s}.png`, text: 'stale screenshot' })),
+];
+const allShots = ['1440x900.light', '1440x900.dark', '2048x1320.light', '2048x1320.dark'];
+const evidenceCases = [
+  // [name, args, files, setup, exit]
+  ['browser-check-skipped-json', ['browser-check', 'out.html', '--json'], deliveredHtml, undefined, 2],
+  ['visual-check-skipped-json', ['visual-check', 'out.html', '--json'], deliveredHtml, undefined, 2],
+  ['browser-check-skipped-human', ['browser-check', 'out.html'], deliveredHtml, undefined, 2],
+  ['visual-check-skipped-human', ['visual-check', 'out.html'], deliveredHtml, undefined, 2],
+  ['browser-check-skipped-summary', ['browser-check', 'out.html', '--summary'], deliveredHtml, undefined, 2],
+  ['visual-check-summary-out-dir', ['visual-check', 'out.html', '--summary', '--out-dir', 'evidence'], deliveredHtml, undefined, 2],
+  ['visual-check-out-dir-json', ['visual-check', 'out.html', '--json', '--out-dir', 'evidence'], deliveredHtml, undefined, 2],
+  ['visual-check-summary-missing', ['visual-check', 'missing.html', '--summary'], {}, undefined, 1],
+  ['visual-check-missing-human', ['visual-check', 'missing.html'], {}, undefined, 1],
+  ['browser-check-missing-human', ['browser-check', 'missing.html'], {}, undefined, 1],
+  ['visual-check-out-dir-provenance', ['visual-check', 'out.html', '--json', '--require-provenance', '--out-dir', 'evidence'], deliveredHtml, undefined, 1],
+  ['browser-check-provenance-human', ['browser-check', 'out.html', '--require-provenance'], deliveredHtml, undefined, 1],
+  ['visual-check-invalid-out-dir-json', ['visual-check', 'out.html', '--json', '--out-dir', 'C:evidence'], deliveredHtml, undefined, 1],
+  ['visual-check-invalid-out-dir-human', ['visual-check', 'out.html', '--out-dir', 'C:evidence'], deliveredHtml, undefined, 1],
+  ['browser-check-invalid-out-dir-summary', ['browser-check', 'out.html', '--summary', '--out-dir', 'C:evidence'], deliveredHtml, undefined, 1],
+  ['visual-check-input-missing-stale', ['visual-check', 'missing-visual.html', '--json'], {}, stale('missing-visual.visual-check', ['1440x900.light']), 1],
+  ['visual-check-input-txt-stale', ['visual-check', 'wrong-visual.txt', '--json'], {},
+    [{ write: 'wrong-visual.txt', text: '<html></html>' }, ...stale('wrong-visual.txt.visual-check', ['1440x900.light'])], 1],
+  ['visual-check-provenance-preflight-stale', ['visual-check', 'out.html', '--json', '--require-provenance'], withFailure,
+    [delivered, failedRedelivery, ...stale('out.visual-check', allShots)], 1],
+];
+for (const [name, args, files, setup, exit] of evidenceCases) {
+  const f = evidenceFixture('evidence', name, args, files, setup, noChrome);
+  expect(f.exit === exit, `evidence ${name}: exit ${f.exit}, expected ${exit}`);
+}
+for (const command of ['browser-check', 'visual-check']) {
+  mint('arguments', `${command}-no-args`, [command]);
+  mint('arguments', `${command}-extra-positional`, [command, 'a.html', 'b.html']);
+  mint('arguments', `${command}-unknown-option`, [command, 'out.html', '--bogus', '--other']);
+  mint('arguments', `${command}-out-dir-missing`, [command, 'out.html', '--out-dir']);
+  mint('arguments', `${command}-out-dir-empty`, [command, 'out.html', '--out-dir=']);
+}
+
+// With Chromium: one golden of each diagram type through browser-check (sidecar = stdout), plus human, summary, delivered
+// --require-provenance and visual-check runs. Every receipt must come from a launched browser.
+const TYPE_GOLDENS = ['web-app-rendered.html', 'workflow-agent-tool-call-rendered.html', 'sequence-cache-miss-request.html',
+  'dataflow-product-analytics.html', 'lifecycle-agent-run.html', 'erd-orders-rendered.html', 'tree-payment-platform-rendered.html',
+  'class-payments-rendered.html', 'timeline-payment-incident-rendered.html', 'waterfall-checkout-request-rendered.html'];
+const launched = (receipt) => receipt.chrome.status === 'available' && receipt.chrome.executable === '<CHROME>' && receipt.themeStates.viewports.length === 6;
+for (const g of TYPE_GOLDENS) {
+  const name = g.replace(/\.html$/u, '');
+  const f = evidenceFixture('browser-check', name, ['browser-check', g, '--json'], exFiles(g), undefined, chromeEnv);
+  expect(launched(JSON.parse(f.stdout)) && f.evidence[`${name}.browser-check.json`] === f.stdout, `browser-check ${g}: a launched run whose sidecar is stdout`);
+}
+evidenceFixture('browser-check', 'web-app-rendered-human', ['browser-check', 'web-app-rendered.html'], exFiles('web-app-rendered.html'), undefined, chromeEnv);
+evidenceFixture('browser-check', 'web-app-rendered-summary', ['browser-check', 'web-app-rendered.html', '--summary'], exFiles('web-app-rendered.html'), undefined, chromeEnv);
+const provenanceRun = evidenceFixture('browser-check', 'delivered-require-provenance', ['browser-check', 'out.html', '--json', '--require-provenance'],
+  exFiles(arch), [delivered], chromeEnv);
+expect(launched(JSON.parse(provenanceRun.stdout)) && JSON.parse(provenanceRun.stdout).provenance === 'current', 'browser-check on a delivered artifact: current');
+const visualRun = evidenceFixture('visual-check', 'web-app-rendered', ['visual-check', 'web-app-rendered.html', '--json'], exFiles('web-app-rendered.html'), undefined, chromeEnv);
+expect(launched(JSON.parse(visualRun.stdout)) && Object.values(visualRun.evidence).filter((v) => v.startsWith('png ')).length === 4, 'visual-check writes 4 PNGs');
+evidenceFixture('visual-check', 'web-app-rendered-human', ['visual-check', 'web-app-rendered.html'], exFiles('web-app-rendered.html'), undefined, chromeEnv);
 
 console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, ${engineCount} browser-engine cases, four path tables, and upstream/recipes/scenarios.json`);

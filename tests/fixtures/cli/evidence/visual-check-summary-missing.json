@@ -1,0 +1,13 @@
+{
+  "args": [
+    "visual-check",
+    "missing.html",
+    "--summary"
+  ],
+  "files": {},
+  "exit": 1,
+  "stdout": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"ok\":false,\"status\":\"fail\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"pending\",\"artifact\":{\"path\":\"<WORK>\\\\missing.html\"},\"provenance\":\"unknown\",\"checks\":{\"containment\":\"fail\",\"captures\":\"fail\"},\"error\":\"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\missing.visual-check.json\\\".\",\"diagnostics\":[{\"code\":\"input/artifact-unreadable\",\"severity\":\"error\",\"message\":\"Could not read the HTML artifact: The artifact is not a stable regular file (delivery-artifact-inspection-failed).\",\"subject\":{\"artifact\":\"<WORK>\\\\missing.html\"},\"evidence\":{\"reason\":\"The artifact is not a stable regular file (delivery-artifact-inspection-failed).\"},\"supportedFixes\":[\"provide an existing readable .html artifact, then rerun the checker\"]},{\"code\":\"viewer/evidence-path-conflict\",\"severity\":\"error\",\"message\":\"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\missing.visual-check.json\\\".\",\"subject\":{\"artifact\":\"<WORK>\\\\missing.html\",\"evidencePath\":\"<WORK>\\\\missing.visual-check.json\"},\"evidence\":{\"reason\":{\"code\":\"artifact-unreadable\"}},\"supportedFixes\":[\"move the conflicting file aside, or choose a separate --out-dir, then rerun visual-check\"]}],\"evidence\":{\"screenshots\":[]}}\n",
+  "stderr": "",
+  "entries": [],
+  "evidence": {}
+}

@@ -1,0 +1,20 @@
+{
+  "args": [
+    "browser-check",
+    "out.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "out.html": "tests/fixtures/cli/inputs/delivered.html"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "automated browser evidence failed: Delivery provenance is required, but the artifact has no .delivery.json sidecar.\n[delivery/provenance-required] Delivery provenance is required, but the artifact has no .delivery.json sidecar. Fix: rerun deliver for the current specification, then retry with --require-provenance.\nperceptual visual review not requested\n",
+  "entries": [
+    "out.browser-check.json",
+    "out.html"
+  ],
+  "evidence": {
+    "out.browser-check.json": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"browser-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"not-requested\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\",\n    \"sha256\": \"ab59807f516510575199f6c3b07b67e04a678a2647829c298ba47a7e50da7c6c\",\n    \"bytes\": 50\n  },\n  \"error\": \"Delivery provenance is required, but the artifact has no .delivery.json sidecar.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-required\",\n      \"severity\": \"error\",\n      \"message\": \"Delivery provenance is required, but the artifact has no .delivery.json sidecar.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"required\": true,\n        \"found\": false\n      },\n      \"supportedFixes\": [\n        \"rerun deliver for the current specification, then retry with --require-provenance\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"not-requested\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"out.browser-check.json\",\n    \"files\": []\n  }\n}\n"
+  }
+}

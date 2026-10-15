@@ -1,0 +1,12 @@
+{
+  "args": [
+    "browser-check",
+    "out.html",
+    "--bogus",
+    "--other"
+  ],
+  "files": {},
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Unknown browser-check option \"--bogus\".\n"
+}

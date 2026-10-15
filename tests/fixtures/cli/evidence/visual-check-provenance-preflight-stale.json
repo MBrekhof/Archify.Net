@@ -1,0 +1,82 @@
+{
+  "args": [
+    "visual-check",
+    "out.html",
+    "--json",
+    "--require-provenance"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json",
+    "schema-failure-output.architecture.json": "tests/fixtures/cli/inputs/schema-failure-output.architecture.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "schema-failure-output.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 1
+    },
+    {
+      "write": "out.visual-check.json",
+      "text": "{\"sentinel\":\"stale receipt\"}\n"
+    },
+    {
+      "write": "out.visual-check.html",
+      "text": "<!doctype html><title>stale contact sheet</title>\n"
+    },
+    {
+      "write": "out.visual-check.1440x900.light.png",
+      "text": "stale screenshot"
+    },
+    {
+      "write": "out.visual-check.1440x900.dark.png",
+      "text": "stale screenshot"
+    },
+    {
+      "write": "out.visual-check.2048x1320.light.png",
+      "text": "stale screenshot"
+    },
+    {
+      "write": "out.visual-check.2048x1320.dark.png",
+      "text": "stale screenshot"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"pending\",\n  \"provenance\": \"failed\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\",\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  },\n  \"error\": \"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\out.visual-check.json\\\".\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-failed\",\n      \"severity\": \"error\",\n      \"message\": \"A delivery attempt is unfinished or failed; complete a successful deliver before trusting this artifact.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"pendingJournal\": \"<WORK>\\\\out.delivery-pending.json\",\n        \"found\": true\n      },\n      \"supportedFixes\": [\n        \"finish any active delivery, then rerun deliver successfully; retain the pending journal until recovery succeeds\"\n      ]\n    },\n    {\n      \"code\": \"viewer/evidence-path-conflict\",\n      \"severity\": \"error\",\n      \"message\": \"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\out.visual-check.json\\\".\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"evidencePath\": \"<WORK>\\\\out.visual-check.json\"\n      },\n      \"evidence\": {\n        \"reason\": {\n          \"code\": \"ownership-receipt-schema-mismatch\"\n        }\n      },\n      \"supportedFixes\": [\n        \"move the conflicting file aside, or choose a separate --out-dir, then rerun visual-check\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"out.visual-check.json\",\n    \"contactSheet\": \"out.visual-check.html\",\n    \"files\": []\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "out.delivery-pending.json",
+    "out.delivery.json",
+    "out.html",
+    "out.visual-check.1440x900.dark.png",
+    "out.visual-check.1440x900.light.png",
+    "out.visual-check.2048x1320.dark.png",
+    "out.visual-check.2048x1320.light.png",
+    "out.visual-check.html",
+    "out.visual-check.json",
+    "schema-failure-output.architecture.json",
+    "web-app.architecture.json"
+  ],
+  "evidence": {
+    "out.visual-check.1440x900.dark.png": "stale screenshot",
+    "out.visual-check.1440x900.light.png": "stale screenshot",
+    "out.visual-check.2048x1320.dark.png": "stale screenshot",
+    "out.visual-check.2048x1320.light.png": "stale screenshot",
+    "out.visual-check.html": "<!doctype html><title>stale contact sheet</title>\n",
+    "out.visual-check.json": "{\"sentinel\":\"stale receipt\"}\n"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "args": [
+    "visual-check",
+    "wrong-visual.txt",
+    "--json"
+  ],
+  "files": {},
+  "setup": [
+    {
+      "write": "wrong-visual.txt",
+      "text": "<html></html>"
+    },
+    {
+      "write": "wrong-visual.txt.visual-check.json",
+      "text": "{\"sentinel\":\"stale receipt\"}\n"
+    },
+    {
+      "write": "wrong-visual.txt.visual-check.html",
+      "text": "<!doctype html><title>stale contact sheet</title>\n"
+    },
+    {
+      "write": "wrong-visual.txt.visual-check.1440x900.light.png",
+      "text": "stale screenshot"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"pending\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\wrong-visual.txt\",\n    \"sha256\": \"b633a587c652d02386c4f16f8c6f6aab7352d97f16367c3c40576214372dd628\",\n    \"bytes\": 13\n  },\n  \"error\": \"visual-check requires an .html artifact.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/visual-check-input\",\n      \"severity\": \"error\",\n      \"message\": \"visual-check could not read a valid HTML input or prepare its evidence files.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\wrong-visual.txt\"\n      },\n      \"evidence\": {\n        \"reason\": \"visual-check requires an .html artifact.\"\n      },\n      \"supportedFixes\": [\n        \"provide an existing readable .html artifact and a writable directory for evidence files\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"wrong-visual.txt.~archify-59cf04108d754664fadb3ba87164f536aef018cc3e1e8854ad3bf062071b97e3.visual-check.json\",\n    \"contactSheet\": \"wrong-visual.txt.~archify-59cf04108d754664fadb3ba87164f536aef018cc3e1e8854ad3bf062071b97e3.visual-check.html\",\n    \"files\": []\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "wrong-visual.txt",
+    "wrong-visual.txt.visual-check.1440x900.light.png",
+    "wrong-visual.txt.visual-check.html",
+    "wrong-visual.txt.visual-check.json",
+    "wrong-visual.txt.~archify-59cf04108d754664fadb3ba87164f536aef018cc3e1e8854ad3bf062071b97e3.visual-check.json"
+  ],
+  "evidence": {
+    "wrong-visual.txt.visual-check.1440x900.light.png": "stale screenshot",
+    "wrong-visual.txt.visual-check.html": "<!doctype html><title>stale contact sheet</title>\n",
+    "wrong-visual.txt.visual-check.json": "{\"sentinel\":\"stale receipt\"}\n",
+    "wrong-visual.txt.~archify-59cf04108d754664fadb3ba87164f536aef018cc3e1e8854ad3bf062071b97e3.visual-check.json": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"pending\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\wrong-visual.txt\",\n    \"sha256\": \"b633a587c652d02386c4f16f8c6f6aab7352d97f16367c3c40576214372dd628\",\n    \"bytes\": 13\n  },\n  \"error\": \"visual-check requires an .html artifact.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/visual-check-input\",\n      \"severity\": \"error\",\n      \"message\": \"visual-check could not read a valid HTML input or prepare its evidence files.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\wrong-visual.txt\"\n      },\n      \"evidence\": {\n        \"reason\": \"visual-check requires an .html artifact.\"\n      },\n      \"supportedFixes\": [\n        \"provide an existing readable .html artifact and a writable directory for evidence files\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"wrong-visual.txt.~archify-59cf04108d754664fadb3ba87164f536aef018cc3e1e8854ad3bf062071b97e3.visual-check.json\",\n    \"contactSheet\": \"wrong-visual.txt.~archify-59cf04108d754664fadb3ba87164f536aef018cc3e1e8854ad3bf062071b97e3.visual-check.html\",\n    \"files\": []\n  }\n}\n"
+  }
+}

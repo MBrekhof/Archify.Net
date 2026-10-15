@@ -1,0 +1,12 @@
+{
+  "args": [
+    "browser-check",
+    "missing.html"
+  ],
+  "files": {},
+  "exit": 1,
+  "stdout": "",
+  "stderr": "automated browser evidence failed: browser-check will not replace the existing unowned evidence path \"<WORK>\\missing.browser-check.json\".\n[input/artifact-unreadable] Could not read the HTML artifact: The artifact is not a stable regular file (delivery-artifact-inspection-failed). Fix: provide an existing readable .html artifact, then rerun the checker.\n[viewer/evidence-path-conflict] browser-check will not replace the existing unowned evidence path \"<WORK>\\missing.browser-check.json\". Fix: move the conflicting file aside, or choose a separate --out-dir, then rerun browser-check.\nperceptual visual review not requested\n",
+  "entries": [],
+  "evidence": {}
+}

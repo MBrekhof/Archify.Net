@@ -55,8 +55,8 @@ public static class Cli
                     }
                     return Commands.ValidateCommand.Run([.. args, "--layout-json"], io, "inspect");
                 case "check": return Commands.CheckCommand.Run(args, io);
-                case "visual-check": throw new NotImplementedException("Task 11");
-                case "browser-check": throw new NotImplementedException("Task 11");
+                case "visual-check": return Commands.BrowserEvidenceCommand.Run(args, io, "visual-check", capture: true);
+                case "browser-check": return Commands.BrowserEvidenceCommand.Run(args, io, "browser-check", capture: false);
                 case "guide": return Commands.GuideCommand.Run(args, io);
                 case "examples": return Commands.ExamplesCommand.Run(args, io);
                 case "doctor": return Commands.DoctorCommand.Run(args, io);
@@ -147,7 +147,7 @@ internal sealed record ArtifactFailure(string Command, string Stage, string Erro
         return receipt;
     }
 
-    static JsonObject SpreadJson(Diagnostic diagnostic)
+    internal static JsonObject SpreadJson(Diagnostic diagnostic)
     {
         var json = diagnostic.ToJson();
         var spread = new JsonObject();
