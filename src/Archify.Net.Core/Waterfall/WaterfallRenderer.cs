@@ -144,7 +144,7 @@ public sealed class WaterfallRenderer : IDiagramRenderer
             foreach (var row in rows) serviceOf.Set(row.Id, row.Service ?? (row.Parent is not null ? serviceOf.Get(row.Parent) : null));
 
             // ---- Geometry (:159-208) ----
-            labelW = Math.Ceiling(MaxOf(rows.Select(NameWidth).Prepend(140)));
+            labelW = Math.Ceiling(Js.MaxOf(rows.Select(NameWidth).Prepend(140)));
             axisX0 = Layout.Margin + labelW + Layout.ColumnGap;
             axisX1 = axisX0 + axisWidth;
             scale = wall > 0 ? axisWidth / wall : 0;
@@ -207,23 +207,12 @@ public sealed class WaterfallRenderer : IDiagramRenderer
                     presentStatuses),
             ];
             contentBottom = rowsTop + rows.Count * Layout.RowH + 8;
-            var labelRoom = Math.Ceiling(MaxOf(rows.Select(row => row.X1 + LABEL_GAP + row.LabelWidth)) - axisX1);
+            var labelRoom = Math.Ceiling(Js.MaxOf(rows.Select(row => row.X1 + LABEL_GAP + row.LabelWidth)) - axisX1);
             width = Math.Ceiling(axisX1 + Math.Max(24, labelRoom) + Layout.Margin);
             var footprint = Legend.LegendFootprint(legendEntries, width - Layout.Margin * 2, 11);
             height = Math.Ceiling(contentBottom + Layout.Margin + (legendEntries.Count > 0 ? 34 + footprint.ExtraHeight : 0));
         }
 
-        // Math.max(...xs): -Infinity for none, NaN if any is NaN.
-        static double MaxOf(IEnumerable<double> values)
-        {
-            var max = double.NegativeInfinity;
-            foreach (var value in values)
-            {
-                if (double.IsNaN(value)) return double.NaN;
-                max = Math.Max(max, value);
-            }
-            return max;
-        }
 
         static double ByStart(Row a, Row b) => a.Start - b.Start is var d && d != 0 && !double.IsNaN(d) ? d : a.Index - b.Index;
 

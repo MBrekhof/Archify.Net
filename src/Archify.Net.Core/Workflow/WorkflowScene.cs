@@ -43,7 +43,7 @@ internal sealed class WorkflowLaneGeometry
         var group = (w.Groups ?? []).FirstOrDefault(candidate => StrictEquals(candidate["lane"], node["lane"])
             && col >= candidate.Num("fromCol") && col <= candidate.Num("toCol"));
         var phase = (w.Phases ?? []).FirstOrDefault(candidate => col >= candidate.Num("fromCol") && col <= candidate.Num("toCol"));
-        var parts = new[] { LaneLabels.Get(IdKey(node["lane"])), group?["label"], phase?["label"] }.Where(part => part.Truthy()).Select(BrandMarks.JsString);
+        var parts = new[] { LaneLabels.Get(IdKey(node["lane"])), group?["label"], phase?["label"] }.Where(part => part.Truthy()).Select(Js.PrimitiveString);
         var context = string.Join(" › ", parts);
         return context.Length > 0 ? context : ctx.Locale.Translate(w.Meta.Str("locale"), "node.context.workflow");
     }
@@ -168,12 +168,12 @@ internal static class WorkflowScene
     {
         Box MeasureNode(JsonObject node)
         {
-            var width = Or(node.Num("width"), Or(w.SchemaVersion == 2 ? widths.Get(node) : null, layout.NodeW));
-            var height = Or(node.Num("height"), node["tag"].Truthy() ? 68 : layout.NodeH);
+            var width = Js.Or(node.Num("width"), Js.Or(w.SchemaVersion == 2 ? widths.Get(node) : null, layout.NodeW));
+            var height = Js.Or(node.Num("height"), node["tag"].Truthy() ? 68 : layout.NodeH);
             var cx = ColAt(layout.ColXs, node.Num("col"));
             var groupHeaderH = lanes.LaneGroupHeaderH(node["lane"]);
             var contentH = lanes.LaneHeight(node["lane"]) - layout.LaneTitleH - groupHeaderH - lanes.LaneGroupFooterH(node["lane"]);
-            var y = lanes.LaneTop(node["lane"]) + layout.LaneTitleH + groupHeaderH + (contentH - height) / 2 + Or(node.Num("yOffset"), 0);
+            var y = lanes.LaneTop(node["lane"]) + layout.LaneTitleH + groupHeaderH + (contentH - height) / 2 + Js.Or(node.Num("yOffset"), 0);
             return new Box
             {
                 Id = node.Str("id") ?? "undefined", Source = node, Brand = ctx.Brands.BrandMarkFor(node),

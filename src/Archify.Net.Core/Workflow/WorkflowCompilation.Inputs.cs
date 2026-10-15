@@ -131,7 +131,7 @@ internal sealed partial class WorkflowCompilation
                 var canonicalNodeIndex = workflow.Nodes.FindIndex(candidate => StrictEquals(candidate["id"], node.Source["id"]));
                 var supportedFixes = availableLaneIds.SelectMany(laneId =>
                     AcceptsFix(document => document.Nodes[canonicalNodeIndex]["lane"] = laneId?.DeepClone())
-                        ? (string[])[$"set /nodes/{N(nodeIndex)}/lane to verified lane id \"{BrandMarks.JsString(laneId)}\""]
+                        ? (string[])[$"set /nodes/{N(nodeIndex)}/lane to verified lane id \"{Js.PrimitiveString(laneId)}\""]
                         : []).ToList();
                 throw Fail(new("workflow/unknown-node-lane", Severity.Error, message,
                     new JsonObject { ["diagramType"] = "workflow", ["node"] = node.Source["id"]?.DeepClone(), ["path"] = $"/nodes/{N(nodeIndex)}/lane" },
@@ -197,7 +197,7 @@ internal sealed partial class WorkflowCompilation
                         : AcceptsFix(document => document.Nodes[canonicalNodeIndex]["col"] = col)
                             ? (string[])[$"set /nodes/{N(rightIndex)}/col to verified free column {N(col)}"]
                             : []).ToList();
-                    var message = $"Workflow nodes \"{leftNode.Id}\" and \"{rightNode.Id}\" are less than 8px apart in lane \"{BrandMarks.JsString(lane)}\".";
+                    var message = $"Workflow nodes \"{leftNode.Id}\" and \"{rightNode.Id}\" are less than 8px apart in lane \"{Js.PrimitiveString(lane)}\".";
                     static JsonObject Entry(Box node) => new()
                     {
                         ["id"] = node.Source["id"]?.DeepClone(),

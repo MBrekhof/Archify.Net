@@ -201,7 +201,7 @@ internal sealed partial class WorkflowCompilation
         var onlyPin = conflictingPins.FirstOrDefault() as JsonObject;
         string? pinPath = null;
         if (conflictingPins.Count == 1 && sourceEdges.Has(edge) && onlyPin?["field"].Truthy() == true)
-            pinPath = onlyPin["path"].Truthy() ? onlyPin.Str("path") : $"/edges/{N(sourceEdges.Get(edge))}/{BrandMarks.JsString(onlyPin["field"])}";
+            pinPath = onlyPin["path"].Truthy() ? onlyPin.Str("path") : $"/edges/{N(sourceEdges.Get(edge))}/{Js.PrimitiveString(onlyPin["field"])}";
         var subject = new JsonObject
         {
             ["diagramType"] = "workflow", ["edge"] = edge["id"]?.DeepClone(), ["from"] = edge["from"]?.DeepClone(), ["to"] = edge["to"]?.DeepClone(),
@@ -235,8 +235,8 @@ internal sealed partial class WorkflowCompilation
     List<string> VerifiedLabelAtAlternatives(JsonObject edge)
     {
         if (edge["labelAt"] is not JsonArray labelAt) return [];
-        var x = Coord(labelAt.Count > 0 ? labelAt[0] : null);
-        var y = Coord(labelAt.Count > 1 ? labelAt[1] : null);
+        var x = J.Coord(labelAt.Count > 0 ? labelAt[0] : null);
+        var y = J.Coord(labelAt.Count > 1 ? labelAt[1] : null);
         (double Dx, double Dy)[] offsets = [(0, 24), (0, -24), (24, 0), (-24, 0), (0, 48), (0, -48), (48, 0), (-48, 0)];
         return [.. offsets.Select(offset =>
         {
@@ -410,7 +410,7 @@ internal sealed partial class WorkflowCompilation
             }
         }
         var via = edge["via"].AsArrayOrEmpty().ToList();
-        var negativeViaIndex = via.FindIndex(point => PtOf(point) is var p && (p.X < 0 || p.Y < 0));
+        var negativeViaIndex = via.FindIndex(point => J.PtOf(point) is var p && (p.X < 0 || p.Y < 0));
         JsonObject? negativeRoutePin = negativeViaIndex >= 0
             ? new() { ["field"] = "via", ["path"] = $"/edges/{edgeIndex}/via/{N(negativeViaIndex)}", ["value"] = via[negativeViaIndex]?.DeepClone() }
             : edge.Num("channelX") < 0

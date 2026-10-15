@@ -105,7 +105,7 @@ internal static class RepositoryEvidence
 
     static string VerifiedSourcePath(DiagnosticSink sink, JsonNode? value, string where)
     {
-        var sourcePath = value.Truthy() ? BrandMarks.JsString(value) : "";   // String(value || '')
+        var sourcePath = value.Truthy() ? Js.PrimitiveString(value) : "";   // String(value || '')
         // path-contract-allow: git-path -- Git tree entries use repository-relative POSIX syntax.
         if (sourcePath.Length == 0 || sourcePath.StartsWith('/') || sourcePath.Contains('\\') || sourcePath.Any(c => c is < ' ' or '\u007f'))
             throw EvidenceFailure(sink, "repository-evidence/path-invalid", $"{where} must be a repo-relative POSIX path.",
@@ -149,7 +149,7 @@ internal static class RepositoryEvidence
             throw EvidenceFailure(sink, "repository-evidence/repository-required", "Repository evidence requires /meta/repository.",
                 new JsonObject { ["path"] = "/meta/repository", ["diagramType"] = type.Name(), ["collection"] = collection },
                 supportedFixes: [$"add the pinned repository metadata or remove /{collection} sources"]);
-        if (!FullSha.IsMatch(repository["revision"].Truthy() ? BrandMarks.JsString(repository["revision"]) : ""))
+        if (!FullSha.IsMatch(repository["revision"].Truthy() ? Js.PrimitiveString(repository["revision"]) : ""))
             throw EvidenceFailure(sink, "repository-evidence/revision-invalid", "/meta/repository/revision must be a full 40-character commit SHA.",
                 new JsonObject { ["path"] = "/meta/repository/revision" }, new JsonObject { ["revision"] = repository["revision"]?.DeepClone() },
                 ["pin one full 40-character commit SHA"]);
@@ -159,7 +159,7 @@ internal static class RepositoryEvidence
         {
             // A filesystem path is the common authoring mistake: the field carries the
             // remote origin identity, which `git remote get-url origin` reports.
-            var filesystemPath = FilesystemPath.IsMatch(repository["url"] is null ? "" : BrandMarks.JsString(repository["url"]));
+            var filesystemPath = FilesystemPath.IsMatch(repository["url"] is null ? "" : Js.PrimitiveString(repository["url"]));
             throw EvidenceFailure(sink, "repository-evidence/url-invalid",
                 "/meta/repository/url must be a credential-free HTTP(S) or Git SSH repository address without query, fragment, or dot segments.",
                 new JsonObject { ["path"] = "/meta/repository/url" },

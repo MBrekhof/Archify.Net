@@ -202,20 +202,6 @@ public sealed class LifecycleRenderer : IDiagramRenderer
 
         static string N(double v) => Js.Num(v);
         static bool Truthy(string? s) => !string.IsNullOrEmpty(s);
-        // JS `a || b` on numbers: 0, -0 and NaN fall through.
-        static double Or(double first, double second) => first == 0 || double.IsNaN(first) ? second : first;
-        static double MaxOf(IEnumerable<double> values, double seed = double.NegativeInfinity)
-        {
-            var max = seed;
-            foreach (var value in values) max = Math.Max(max, value);
-            return max;
-        }
-        static double MinOf(IEnumerable<double> values, double seed = double.PositiveInfinity)
-        {
-            var min = seed;
-            foreach (var value in values) min = Math.Min(min, value);
-            return min;
-        }
         static double Mean(IEnumerable<double> xs)
         {
             double sum = 0; var count = 0;
@@ -241,7 +227,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
             meta = ctx.Meta!;
             locale = meta.Str("locale");
             transitions = lifecycle["transitions"].AsArrayOrEmpty().Select((node, index) => new Transition { Source = (JsonObject)node!, Index = index }).ToList();
-            mainPath = lifecycle["mainPath"].AsArrayOrEmpty().Select(node => BrandMarks.JsString(node)).ToList();
+            mainPath = lifecycle["mainPath"].AsArrayOrEmpty().Select(node => Js.PrimitiveString(node)).ToList();
             authoredStates = lifecycle["states"].AsArrayOrEmpty().Select(node => (JsonObject)node!)
                 .Select(state => new State { Source = state, Id = state.Str("id") ?? "undefined", Brand = ctx.Brands.BrandMarkFor(state) }).ToList();
             foreach (var state in authoredStates) states.Set(state.Id, state);
@@ -255,7 +241,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 state.Width = PreferredWidth(state);
                 state.Height = Layout.STATE_H;
             }
-            smallestText = MinOf(states.Values.SelectMany(state =>
+            smallestText = Js.MinOf(states.Values.SelectMany(state =>
             {
                 var fitted = Fonts(state, state.Width);
                 return (double[])[fitted.Label, Truthy(state.Sublabel) ? fitted.Sublabel : double.PositiveInfinity];
@@ -301,7 +287,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 frontier = next;
             }
             foreach (var id in states.Keys.ToList()) if (!depth.Has(id)) depth.Set(id, 1);
-            rowCount = (int)Math.Max(0, MaxOf(depth.Values.Select(d => (double)d)) + 1);
+            rowCount = (int)Math.Max(0, Js.MaxOf(depth.Values.Select(d => (double)d)) + 1);
             rows = Enumerable.Range(0, rowCount).Select(row => row == 0
                 ? mainPath.Select(Get).ToList()
                 : states.Values.Where(state => DepthOf(state.Id) == row).ToList()).ToList();
@@ -484,12 +470,12 @@ public sealed class LifecycleRenderer : IDiagramRenderer
             for (var row = 1; row < rowCount; row += 1) PlaceRow(row, rowGap);
 
             // Shift horizontally so the leftmost element keeps the margin.
-            var minX = MinOf(states.Values.Select(state => state.X));
+            var minX = Js.MinOf(states.Values.Select(state => state.X));
             var dx = Layout.MARGIN_X - minX;
             foreach (var state in states.Values) { state.X += dx; state.Cx += dx; }
 
             var arcs = AssignArcLevels();
-            var maxLevel = (int)MaxOf(arcs.Select(arc => (double)arc.Level), 0);
+            var maxLevel = (int)Js.MaxOf(arcs.Select(arc => (double)arc.Level), 0);
             var arcLabelReserve = arcs.Any(arc => HasLabel(arc.Transition)) ? 12 : 0;
             var spineTop = Layout.MARGIN_TOP + (maxLevel != 0 ? Layout.ARC_BASE + (maxLevel - 1) * Layout.ARC_STEP + arcLabelReserve : 0);
 
@@ -571,8 +557,8 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 {
                     var heights = ordered.Select(transition => HasLabel(transition) ? LabelBox(transition).Height : 0).ToList();
                     step = Math.Max(step, Math.Max(
-                        MaxOf(heights.Select(height => height != 0 ? height / 2 + Layout.CLEARANCE : 0)),
-                        MaxOf(heights.Skip(1).Select((height, index) => height != 0 && heights[index] != 0 ? (height + heights[index]) / 2 + 4 : 0))));
+                        Js.MaxOf(heights.Select(height => height != 0 ? height / 2 + Layout.CLEARANCE : 0)),
+                        Js.MaxOf(heights.Skip(1).Select((height, index) => height != 0 && heights[index] != 0 ? (height + heights[index]) / 2 + 4 : 0))));
                     var row = DepthOf(ordered[0].From);
                     // Keep every side port eight pixels inside the rounded state corners.
                     rowHeights[row] = Math.Max(rowHeights[row], step * (ordered.Count - 1) + 16);
@@ -642,7 +628,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 {
                     var (from, to) = (connector.Transition!.From, connector.Transition.To);
                     var tops = new List<double> { PortOf(from, "bottom", $"{N(connector.Order)}:out")!.X, PortOf(to, "bottom", $"{N(connector.Order)}:in")!.X };
-                    return new Run { Connector = connector, Tops = tops, Bottoms = [], Lo = MinOf(tops), Hi = MaxOf(tops), Straight = false };
+                    return new Run { Connector = connector, Tops = tops, Bottoms = [], Lo = Js.MinOf(tops), Hi = Js.MaxOf(tops), Straight = false };
                 }
                 if (connector.Kind == "bracket")
                 {
@@ -650,7 +636,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                     var tops = sources.Select(id => PortOf(id, "bottom", connector)!.X).ToList();
                     var bottoms = targets.Select(id => PortOf(id, "top", connector)!.X).ToList();
                     var xs = tops.Concat(bottoms).ToList();
-                    return new Run { Connector = connector, Tops = tops, Bottoms = bottoms, Lo = MinOf(xs), Hi = MaxOf(xs), Straight = false };
+                    return new Run { Connector = connector, Tops = tops, Bottoms = bottoms, Lo = Js.MinOf(xs), Hi = Js.MaxOf(xs), Straight = false };
                 }
                 var top = connector.Kind == "frame" ? connector.ExitX!.Value : PortOf(connector.UpperId!, "bottom", connector)!.X;
                 var bottom = PortOf(connector.LowerId!, "top", connector)!.X;
@@ -762,13 +748,13 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 }
             }
 
-            var stateRight = MaxOf(states.Values.Select(state => state.X + state.Width));
+            var stateRight = Js.MaxOf(states.Values.Select(state => state.X + state.Width));
             var (placedLabels, unplacedLabels) = PlaceLabels(routes, stateRight);
             var boxes = states.Values.Select(state => state.Rect).Concat(placedLabels.Values.Select(placed => (Rect)placed)).ToList();
             var contentBottom = Math.Max(
-                MaxOf(boxes.Select(box => box.Y + box.Height)),
-                MaxOf(routes.Values.SelectMany(route => route.Points.Select(point => point.Y))));
-            var contentRight = MaxOf(boxes.Select(box => box.X + box.Width));
+                Js.MaxOf(boxes.Select(box => box.Y + box.Height)),
+                Js.MaxOf(routes.Values.SelectMany(route => route.Points.Select(point => point.Y))));
+            var contentRight = Js.MaxOf(boxes.Select(box => box.X + box.Width));
             return new Geometry2
             {
                 Ports = portMode, Routes = routes, Junctions = junctions, Frames = frames, ContentBottom = contentBottom, ContentRight = contentRight,
@@ -811,7 +797,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                     }
                     else if (delta < 16)
                     {
-                        connector.ExitX = ((double[])[target.X, exitX + Math.Sign(Or(exitX - target.X, 1)) * (16 - delta)]).Cast<double?>().FirstOrDefault(x => Free(x!.Value)) ?? exitX;
+                        connector.ExitX = ((double[])[target.X, exitX + Math.Sign(Js.Or(exitX - target.X, 1)) * (16 - delta)]).Cast<double?>().FirstOrDefault(x => Free(x!.Value)) ?? exitX;
                     }
                 }
             }
@@ -840,7 +826,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                     foreach (var id in bracket.Targets) ideal.Set(id, center);
                 }
             }
-            var fallback = MaxOf(mainPath.Select(id => Get(id).Cx)) + 1;
+            var fallback = Js.MaxOf(mainPath.Select(id => Get(id).Cx)) + 1;
             var blocks = new List<Block>();
             var grouped = new JsSet<string>();
             foreach (var state in members)
@@ -852,11 +838,11 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 blocks.Add(new Block { Members = list, Ideal = ideal.Has(state.Id) ? ideal.Get(state.Id) : fallback, Weight = ideal.Has(state.Id) ? list.Count : 0.05, Order = members.IndexOf(state) });
             }
             // Neighbours joined by a labelled transition keep room for its label.
-            double GapBetween(State left, State right) => MaxOf(transitions
+            double GapBetween(State left, State right) => Js.MaxOf(transitions
                 .Where(transition => HasLabel(transition) && ((transition.From == left.Id && transition.To == right.Id)
                     || (transition.From == right.Id && transition.To == left.Id)))
                 .Select(transition => LabelBox(transition).Width + 32), rowGap);
-            Js.Sort(blocks, (a, b) => Or(a.Ideal - b.Ideal, a.Order - b.Order));
+            Js.Sort(blocks, (a, b) => Js.Or(a.Ideal - b.Ideal, a.Order - b.Order));
             // Lay a cluster of blocks side by side and return each block's centre offset.
             (double Width, List<double> Offsets) Arrange(List<Block> list)
             {
@@ -925,13 +911,13 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                 return new Arc { Transition = transition, Key = $"arc{N(transition.Index)}", Lo = Math.Min(a, b), Hi = Math.Max(a, b), Index = index };
             }).ToList();
             var sorted = arcs.ToList();
-            Js.Sort(sorted, (left, right) => Or(Or((left.Hi - left.Lo) - (right.Hi - right.Lo), left.Lo - right.Lo), left.Index - right.Index));
+            Js.Sort(sorted, (left, right) => Js.Or(Js.Or((left.Hi - left.Lo) - (right.Hi - right.Lo), left.Lo - right.Lo), left.Index - right.Index));
             foreach (var arc in sorted)
             {
                 var blocking = sorted.Where(other => other != arc && other.Level != 0
                     && ((other.Lo < arc.Hi && arc.Lo < other.Hi) || (other.Lo == other.Hi && arc.Lo < other.Lo && other.Lo < arc.Hi)
                         || (other.Lo == arc.Lo && other.Hi == arc.Hi))).ToList();
-                arc.Level = 1 + (int)MaxOf(blocking.Select(other => (double)other.Level), 0);
+                arc.Level = 1 + (int)Js.MaxOf(blocking.Select(other => (double)other.Level), 0);
             }
             return arcs;
         }
@@ -973,7 +959,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                         // An outer arc's riser must stay outside every inner span it rises past.
                         return leftDirection < 0 ? ll - rl : rl - ll;
                     }
-                    return Or(left.OtherX - right.OtherX, left.Order - right.Order);
+                    return Js.Or(left.OtherX - right.OtherX, left.Order - right.Order);
                 });
                 var usable = state.Width - Layout.PORT_PAD * 2;
                 var step = list.Count > 1 ? Math.Min(Layout.PORT_STEP, usable / (list.Count - 1)) : 0;
@@ -1049,7 +1035,7 @@ public sealed class LifecycleRenderer : IDiagramRenderer
                         else if (Fits(connector.UpperId!, "bottom", upperPort, port.X)) upperPort.X = port.X;
                         else
                         {
-                            var away = Or(Math.Sign(port.X - upperPort.X), 1);
+                            var away = Js.Or(Math.Sign(port.X - upperPort.X), 1);
                             var pushed = ((double[])[upperPort.X + away * 16, upperPort.X - away * 16]).Cast<double?>().FirstOrDefault(x => Fits(lowerId, "top", port, x!.Value));
                             if (pushed is { } value) port.X = value;
                         }
@@ -1083,11 +1069,11 @@ public sealed class LifecycleRenderer : IDiagramRenderer
             }
             var orderings = new List<List<Run>>
             {
-                Sorted((a, b) => Or(Direction(b) - Direction(a), ByStart(a, b))),
-                Sorted((a, b) => Or(Direction(a) - Direction(b), ByStart(a, b))),
+                Sorted((a, b) => Js.Or(Direction(b) - Direction(a), ByStart(a, b))),
+                Sorted((a, b) => Js.Or(Direction(a) - Direction(b), ByStart(a, b))),
                 Sorted((a, b) => (a.Hi - a.Lo) - (b.Hi - b.Lo)),
-                Sorted((a, b) => Or(LoopsFirst(a, b), (a.Hi - a.Lo) - (b.Hi - b.Lo))),
-                Sorted((a, b) => Or(-LoopsFirst(a, b), (a.Hi - a.Lo) - (b.Hi - b.Lo))),
+                Sorted((a, b) => Js.Or(LoopsFirst(a, b), (a.Hi - a.Lo) - (b.Hi - b.Lo))),
+                Sorted((a, b) => Js.Or(-LoopsFirst(a, b), (a.Hi - a.Lo) - (b.Hi - b.Lo))),
             };
             (JsMap<Run, int> Assignment, int Crossings, int Count)? best = null;
             foreach (var ordering in orderings)

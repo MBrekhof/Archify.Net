@@ -98,7 +98,7 @@ internal static class WorkflowCompiler
     // feedbackFailure (:5646-5665)
     static WorkflowCompileResult FeedbackFailure(JsonObject request)
     {
-        var name = request["edge"].Truthy() ? BrandMarks.JsString(request["edge"]) : $"{Tpl(request, "from")}->{Tpl(request, "to")}";
+        var name = request["edge"].Truthy() ? Js.PrimitiveString(request["edge"]) : $"{Tpl(request, "from")}->{Tpl(request, "to")}";
         var message = $"Workflow edge \"{name}\" exhausted bounded readable-v2 layout feedback without a feasible automatic route.";
         Diagnostic[] diagnostics = [new("workflow/solver-budget-exhausted", Severity.Error, message,
             new JsonObject
@@ -221,7 +221,7 @@ internal static class WorkflowCompiler
             {
                 var request = error.Request;
                 JsonObject? nextFeedback = null;
-                var name = request["edge"].Truthy() ? BrandMarks.JsString(request["edge"]) : $"{Tpl(request, "from")}->{Tpl(request, "to")}";
+                var name = request["edge"].Truthy() ? Js.PrimitiveString(request["edge"]) : $"{Tpl(request, "from")}->{Tpl(request, "to")}";
                 var minimum = request.Num("minimum");
                 if (error.Kind == "rank-gap-minimum" && IntegerAt(request["fromCol"]) is { } fromCol && IntegerAt(request["toCol"]) is { } toCol
                     && minimum is { } rankMinimum && double.IsFinite(rankMinimum))
@@ -273,7 +273,7 @@ internal static class WorkflowCompiler
         {
             var errors = result.Diagnostics.Where(diagnostic => diagnostic.Severity != Severity.Warning).ToList();
             if (errors.Count == 0 || errors.Any(diagnostic => diagnostic.Code != "workflow/sublabel-readability")) break;
-            var minimum = MaxOf(errors.Select(diagnostic => diagnostic.Evidence.Num("requiredFontPx") ?? double.NaN), double.NegativeInfinity);
+            var minimum = Js.MaxOf(errors.Select(diagnostic => diagnostic.Evidence.Num("requiredFontPx") ?? double.NaN), double.NegativeInfinity);
             var maximum = errors.Select(diagnostic => diagnostic.Evidence.Num("maximumSlotFontPx") ?? double.NaN).Aggregate(double.PositiveInfinity, Math.Min);
             if (!double.IsFinite(minimum) || !double.IsFinite(maximum) || minimum > maximum) break;
             var tick = Js.Round(minimum * 10);

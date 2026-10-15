@@ -153,16 +153,6 @@ public static class BrandMarks
             + $"            <rect width=\"{s}\" height=\"{s}\" rx=\"4\" class=\"brand-mark-frame\"/>\n"
             + "          </g>";
     }
-
-    // JS String(value) for the primitive brand values that reach findBrandMark.
-    internal static string JsString(JsonNode? value) => value switch
-    {
-        null => "null",
-        JsonValue v when v.TryGetValue<string>(out var s) => s,
-        JsonValue v when v.TryGetValue<bool>(out var b) => b ? "true" : "false",
-        JsonValue v when v.GetValueKind() == JsonValueKind.Number => Js.Num(v.D()),
-        _ => Js.Stringify(value),
-    };
 }
 
 // Per-render replacement for upstream's RESOLVED_BY_NODE WeakMap and RESOLVED_MARK symbol: keyed by the authored node.
@@ -196,7 +186,7 @@ public sealed class BrandMarkResolver
                     + (pinned is null ? "invalid URL" : "remote capture is not available in Archify.Net.Core"));
                 continue;
             }
-            var value = BrandMarks.JsString(brand);
+            var value = Js.PrimitiveString(brand);
             var preset = BrandMarks.FindBrandMark(value);
             if (preset is not null)
             {

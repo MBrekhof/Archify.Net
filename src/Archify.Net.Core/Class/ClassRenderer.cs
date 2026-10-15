@@ -356,10 +356,10 @@ public sealed class ClassRenderer : IDiagramRenderer
             member["visibility"].Truthy() ? $"{VisibilityGlyph(S(member.Str("visibility"))) ?? "undefined"} " : "";   // template prints `undefined`
 
         static string AttributeText(JsonObject attribute) =>
-            $"{VisibilityPrefix(attribute)}{S(attribute.Str("name"))}{(attribute["type"].Truthy() ? $": {BrandMarks.JsString(attribute["type"])}" : "")}";
+            $"{VisibilityPrefix(attribute)}{S(attribute.Str("name"))}{(attribute["type"].Truthy() ? $": {Js.PrimitiveString(attribute["type"])}" : "")}";
 
         static string MethodText(JsonObject method) =>
-            $"{VisibilityPrefix(method)}{S(method.Str("name"))}({(method["parameters"] is { } parameters ? BrandMarks.JsString(parameters) : "")}){(method["returns"].Truthy() ? $": {BrandMarks.JsString(method["returns"])}" : "")}";
+            $"{VisibilityPrefix(method)}{S(method.Str("name"))}({(method["parameters"] is { } parameters ? Js.PrimitiveString(parameters) : "")}){(method["returns"].Truthy() ? $": {Js.PrimitiveString(method["returns"])}" : "")}";
 
         // Bold display text runs wider than the regular estimate.
         static double NameWidth(JsonObject type) => Utils.TextUnits(type.Str("label")) * Layout.NameFont * NodeTextFit.WidthFactor * 1.08;
@@ -763,7 +763,7 @@ public sealed class ClassRenderer : IDiagramRenderer
             for (var relationIndex = 0; relationIndex < relationships.Count; relationIndex++)
             {
                 var relationship = relationships[relationIndex];
-                var id = relationship["id"].Truthy() ? $" id \"{BrandMarks.JsString(relationship["id"])}\"" : "";
+                var id = relationship["id"].Truthy() ? $" id \"{Js.PrimitiveString(relationship["id"])}\"" : "";
                 var from = TypeOf(relationship.Str("from"));
                 var to = TypeOf(relationship.Str("to"));
                 if (from is null || to is null)
@@ -970,9 +970,9 @@ public sealed class ClassRenderer : IDiagramRenderer
 
         static (string Left, string? Right) MemberColumns(JsonObject member, string kind)
         {
-            if (kind == "attributes") return (Punctuated(member.Str("name")), member["type"].Truthy() ? BrandMarks.JsString(member["type"]) : null);
+            if (kind == "attributes") return (Punctuated(member.Str("name")), member["type"].Truthy() ? Js.PrimitiveString(member["type"]) : null);
             var parameters = member["parameters"].Truthy()
-                ? string.Concat(Js.SplitKeepingCommas(BrandMarks.JsString(member["parameters"])).Select(part =>
+                ? string.Concat(Js.SplitKeepingCommas(Js.PrimitiveString(member["parameters"])).Select(part =>
                 {
                     if (Js.IsCommaPart(part)) return "<tspan class=\"t-muted cl-punct\">,</tspan> ";
                     var pieces = part.Split(':');
@@ -982,7 +982,7 @@ public sealed class ClassRenderer : IDiagramRenderer
                 }))
                 : "";
             return ($"{Utils.Esc(member.Str("name"))}<tspan class=\"t-muted cl-punct\">(</tspan>{parameters}<tspan class=\"t-muted cl-punct\">)</tspan>",
-                member["returns"].Truthy() ? BrandMarks.JsString(member["returns"]) : null);
+                member["returns"].Truthy() ? Js.PrimitiveString(member["returns"]) : null);
         }
 
         static string RenderMembers(Box type)

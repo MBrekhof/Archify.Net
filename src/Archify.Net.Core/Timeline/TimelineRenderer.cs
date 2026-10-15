@@ -103,7 +103,7 @@ public sealed class TimelineRenderer : IDiagramRenderer
             hasLanes = lanesSource.Count > 0;
             // The lane column fits its longest label (13px bold), so a lane name never runs into the axis.
             laneLabelW = hasLanes
-                ? Math.Ceiling(MaxOf(lanesSource.Select(lane => Utils.TextUnits(lane.Str("label")) * 13 * NodeTextFit.WidthFactor * 1.06 + 24).Prepend(88)))
+                ? Math.Ceiling(Js.MaxOf(lanesSource.Select(lane => Utils.TextUnits(lane.Str("label")) * 13 * NodeTextFit.WidthFactor * 1.06 + 24).Prepend(88)))
                 : 0;
             axisWidth = tl.Obj("layout").Num("width") ?? 960;
 
@@ -303,17 +303,6 @@ public sealed class TimelineRenderer : IDiagramRenderer
             height = Math.Ceiling(contentBottom + Layout.Margin + (legendEntries.Count > 0 ? 34 + footprint.ExtraHeight : 0));
         }
 
-        // Math.max(...xs): -Infinity for none, NaN if any is NaN.
-        static double MaxOf(IEnumerable<double> values)
-        {
-            var max = double.NegativeInfinity;
-            foreach (var value in values)
-            {
-                if (double.IsNaN(value)) return double.NaN;
-                max = Math.Max(max, value);
-            }
-            return max;
-        }
 
         static double FloorMod(double a, double b) => a - Math.Floor(a / b) * b;
 

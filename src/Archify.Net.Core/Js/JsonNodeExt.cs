@@ -20,6 +20,10 @@ public static class J
     // A JS number is a double whatever CLR type backs the node: JsonValue.Create(3).GetValue<double>() throws.
     public static double D(this JsonNode n) => Js.ToDouble((JsonValue)n);
 
+    // An authored [x, y] point: NaN for a missing pair or a non-number coordinate.
+    public static Pt PtOf(JsonNode? point) => point is JsonArray a && a.Count >= 2 ? new(Coord(a[0]), Coord(a[1])) : new(double.NaN, double.NaN);
+    public static double Coord(JsonNode? value) => value is JsonValue v && v.GetValueKind() == JsonValueKind.Number ? v.D() : double.NaN;
+
     // JS truthiness of a property value (`relation.via`, `conn.labelAt`): missing/null, false, 0/NaN and "" are falsy;
     // every array and object — even an empty one — is truthy.
     public static bool Truthy(this JsonNode? n) => n switch

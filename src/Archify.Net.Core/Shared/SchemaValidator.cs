@@ -121,7 +121,7 @@ public static class SchemaValidator
                 JsonObject obj => obj[numeric ? Js.Num(Js.ToNumber(seg)) : seg],
                 _ => null,
             };
-            if (node is JsonObject element && (element["id"] ?? element["label"]) is { } tag) hint = JsString(tag);
+            if (node is JsonObject element && (element["id"] ?? element["label"]) is { } tag) hint = Js.String(tag);
         }
         return (instancePath, hint);
     }
@@ -134,16 +134,6 @@ public static class SchemaValidator
 
     static string FormatErrors(List<Error> errors, JsonNode data) => string.Join("\n", errors.Select(e =>
         $"  {AnnotatePath(e.InstancePath, data)} {e.Message}{(e.Params.Count > 0 ? " " + Js.Stringify(e.Params) : "")}"));
-
-    // String(value) for a JSON value.
-    static string JsString(JsonNode node) => node switch
-    {
-        JsonObject => "[object Object]",
-        JsonArray arr => string.Join(",", arr.Select(item => item is null ? "" : JsString(item))),
-        JsonValue v when v.TryGetValue<string>(out var s) => s,
-        JsonValue v when v.GetValueKind() == JsonValueKind.Number => Js.Num(v.D()),
-        _ => node.GetValueKind() == JsonValueKind.True ? "true" : "false",
-    };
 
     // ---- evaluator ----
 

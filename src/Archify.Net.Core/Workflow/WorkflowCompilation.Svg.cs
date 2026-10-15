@@ -41,7 +41,7 @@ internal sealed partial class WorkflowCompilation
             var edge = workflow.Edges[index];
             if (!Has(edge.Str("from")) || !Has(edge.Str("to"))) continue;
             var routed = pathCache.Get(edge)!;
-            var name = edge["id"].Truthy() ? BrandMarks.JsString(edge["id"]) : N(index);
+            var name = edge["id"].Truthy() ? Js.PrimitiveString(edge["id"]) : N(index);
             foreach (var point in routed.Points) IncludePoint(point, $"edge {name}");
             if (labelRectCache.Get(routed) is { } label) IncludeRect(label, $"edge {name} label mask");
         }
@@ -271,9 +271,9 @@ internal sealed partial class WorkflowCompilation
     {
         var (cls, marker) = ArrowClass(edge.Str("variant"));
         var routed = PathFor(edge);
-        var strokeWidth = Or(edge.Num("width"), edge.Str("variant") == "emphasis" ? 1.8 : 1.4);
+        var strokeWidth = Js.Or(edge.Num("width"), edge.Str("variant") == "emphasis" ? 1.8 : 1.4);
         var routing = IndependentAutomaticRoute(edge) ? " data-composition-routing=\"workflow-v2-auto\"" : "";
-        var role = V2 ? $" data-edge-role=\"{Utils.Esc(edge["role"].Truthy() ? BrandMarks.JsString(edge["role"]) : "")}\"" : "";
+        var role = V2 ? $" data-edge-role=\"{Utils.Esc(edge["role"].Truthy() ? Js.PrimitiveString(edge["role"]) : "")}\"" : "";
         double? step = steps.EdgeSteps.Has(edge) ? steps.EdgeSteps.Get(edge) : null;
         return $"        <path {SvgAttrs.FocusEdgeAttrs(Tpl(edge, "from"), Tpl(edge, "to"), edge.Str("label"), N(index), edge.Str("id"))}{routing}{role} data-composition-points=\"{Geometry.RoutePointsValue(routed.Points)}\" d=\"{RoundedWorkflowPath(routed.Points)}\" class=\"{cls}\"{SvgAttrs.AnimateAttr(workflow.Meta, "edge", step)} stroke-width=\"{N(strokeWidth)}\" marker-end=\"url(#{marker})\"/>";
     }
@@ -423,7 +423,7 @@ internal sealed partial class WorkflowCompilation
             if (authored.Num("width") is { } authoredWidth && double.IsFinite(authoredWidth)) continue;
             var node = NodeOf(authored.Str("id"));
             var automaticWidth = AutomaticNodeWidth(authored);
-            if (node is null || !WorkflowModel.Truthy(Or(automaticWidth, 0)) || automaticWidth <= node.Width) continue;
+            if (node is null || !WorkflowModel.Truthy(Js.Or(automaticWidth, 0)) || automaticWidth <= node.Width) continue;
             var problems = WorkflowScene.WorkflowNodeTextProblems(node.Source, node.Width, node.Brand);
             // Report only intrinsic text failures that automatic sizing would resolve.
             // Final-canvas readability still belongs to its later measured check.

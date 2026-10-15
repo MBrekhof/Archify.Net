@@ -85,8 +85,6 @@ internal sealed partial class WorkflowCompilation
     Box? NodeOf(JsonNode? id) => id is JsonValue v && v.TryGetValue<string>(out var s) ? nodes.Get(s) : null;
     bool Has(string? id) => id is not null && nodes.Has(id);
     bool Has(JsonNode? id) => NodeOf(id) is not null;
-    static Pt PtOf(JsonNode? point) => point is JsonArray a && a.Count >= 2 ? new(Coord(a[0]), Coord(a[1])) : new(double.NaN, double.NaN);
-    static double Coord(JsonNode? value) => value is JsonValue v && v.GetValueKind() == System.Text.Json.JsonValueKind.Number ? v.D() : double.NaN;
     static JsonArray PtJson(Pt p) => new(p.X, p.Y);
     bool V2 => workflow.SchemaVersion == 2;
     JsonNode? Lane(Box node) => node.Source["lane"];
@@ -329,7 +327,7 @@ internal sealed partial class WorkflowCompilation
         var occupied = nodes.Values.Where(node => StrictEquals(Lane(node), Lane(to)) && node.Id != to.Id).ToList();
         var toCol = Col(to);
         var candidates = layout.ColXs.Select((center, col) => (Center: center, Col: (double)col)).Where(candidate => candidate.Col != toCol).ToList();
-        Js.Sort(candidates, (a, b) => Lor(Math.Abs(a.Col - toCol) - Math.Abs(b.Col - toCol), a.Col - b.Col));
+        Js.Sort(candidates, (a, b) => Js.Or(Math.Abs(a.Col - toCol) - Math.Abs(b.Col - toCol), a.Col - b.Col));
         foreach (var candidate in candidates)
         {
             var candidateRect = new Rect(candidate.Center - to.Width / 2, to.Y, to.Width, to.Height);
@@ -365,7 +363,7 @@ internal sealed partial class WorkflowCompilation
             WorkflowDoc candidate;
             try
             {
-                candidate = WorkflowMigrationGeometry.CreateMappedWorkflowCandidate(workflow, LegacyColumnCenters, [.. columns.Select(Coord)]).Document;
+                candidate = WorkflowMigrationGeometry.CreateMappedWorkflowCandidate(workflow, LegacyColumnCenters, [.. columns.Select(J.Coord)]).Document;
             }
             catch (Exception)
             {
@@ -377,7 +375,7 @@ internal sealed partial class WorkflowCompilation
                 : null;
             if (!compiled.Ok && candidate.Meta["viewBox"] is JsonArray authored && requiredViewBox is not null)
             {
-                candidate.Meta["viewBox"] = new JsonArray(Math.Max(Coord(authored[0]), Coord(requiredViewBox[0])), Math.Max(Coord(authored[1]), Coord(requiredViewBox[1])));
+                candidate.Meta["viewBox"] = new JsonArray(Math.Max(J.Coord(authored[0]), J.Coord(requiredViewBox[0])), Math.Max(J.Coord(authored[1]), J.Coord(requiredViewBox[1])));
                 compiled = NestedCompile(candidate, migrationQualityProfile);
             }
             return compiled.Ok;
@@ -456,7 +454,7 @@ internal sealed partial class WorkflowCompilation
     }
 
     // `edge.route || 'auto'`
-    static string RouteOrAuto(JsonObject edge) => edge["route"].Truthy() ? BrandMarks.JsString(edge["route"]) : "auto";
+    static string RouteOrAuto(JsonObject edge) => edge["route"].Truthy() ? Js.PrimitiveString(edge["route"]) : "auto";
 
     // ---------------------------------------------------------------- F: automatic side selection (:1238-1359)
     Sides? LegacyAutomaticOneBendSides(JsonObject edge, Box from, Box to)
@@ -591,7 +589,7 @@ internal sealed partial class WorkflowCompilation
     // Returns `edge.via` itself (:4315): the same authored points, never mutated.
     List<Pt> RouteVia(JsonObject edge, Box from, Box to, Pt start, Pt end, string fromSide, string toSide, bool validateReadablePreset = true)
     {
-        if (edge["via"].Truthy()) return [.. edge["via"].AsArrayOrEmpty().Select(PtOf)];
+        if (edge["via"].Truthy()) return [.. edge["via"].AsArrayOrEmpty().Select(J.PtOf)];
         var hasCoordinatePins = edge.ContainsKey("channelX") || edge.ContainsKey("channelY");
         if (V2 && edge["route"].Truthy() && edge.Str("route") != "auto" && !hasCoordinatePins && validateReadablePreset)
             return ReadablePresetVia(edge, from, to, start, end, fromSide, toSide);
@@ -652,7 +650,7 @@ internal sealed partial class WorkflowCompilation
         var segmentIndex = Math.Min(points.Count - 2, Math.Max(0, labelSegment));
         var a = points[segmentIndex];
         var b = points[segmentIndex + 1];
-        return new((a.X + b.X) / 2 + Or(edge.Num("labelDx"), 0), (a.Y + b.Y) / 2 - 10 + Or(edge.Num("labelDy"), 0));
+        return new((a.X + b.X) / 2 + Js.Or(edge.Num("labelDx"), 0), (a.Y + b.Y) / 2 - 10 + Js.Or(edge.Num("labelDy"), 0));
     }
 
     Pt WorkflowEdgeLabelPoint(JsonObject edge, IReadOnlyList<Pt> points)
@@ -693,7 +691,7 @@ internal sealed partial class WorkflowCompilation
             Index: index,
             Horizontal: Math.Abs(points[index + 1].Y - points[index].Y) <= 0.0001,
             Length: Js.Hypot(points[index + 1].X - points[index].X, points[index + 1].Y - points[index].Y))).ToList();
-        Js.Sort(segments, (left, right) => Lor((right.Horizontal ? 1 : 0) - (left.Horizontal ? 1 : 0), Lor(right.Length - left.Length, left.Index - right.Index)));
+        Js.Sort(segments, (left, right) => Js.Or((right.Horizontal ? 1 : 0) - (left.Horizontal ? 1 : 0), Js.Or(right.Length - left.Length, left.Index - right.Index)));
         Pt PointOn(int labelSegment)
         {
             var point = LabelPointAt(edge, points, labelSegment);

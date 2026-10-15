@@ -55,7 +55,7 @@ internal static class WorkflowMigrationGeometry
             var projectedPairs = new JsSet<string>();
             foreach (var edge in planned.Edges) projectedPairs.Add($"{Tpl(edge, "from")}\u0000{Tpl(edge, "to")}");
             var projectionBreaksMainPath = mainPath.Select((from, index) => index < mainPath.Count - 1
-                && !projectedPairs.Has($"{BrandMarks.JsString(from)}\u0000{BrandMarks.JsString(mainPath[index + 1])}")).Any(breaks => breaks);
+                && !projectedPairs.Has($"{Js.PrimitiveString(from)}\u0000{Js.PrimitiveString(mainPath[index + 1])}")).Any(breaks => breaks);
             if (projectionBreaksMainPath) planned.MainPath = null;
         }
         return planned;

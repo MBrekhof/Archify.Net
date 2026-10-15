@@ -81,8 +81,8 @@ public static class ErdGrid
             if (!IsInteger(entity.Row) || !GridColumn(entity.Col)) continue;
             var col = entity.Col!.Value; var row = entity.Row!.Value;
             maxCol = Math.Max(maxCol, Math.Ceiling(col));
-            if (double.IsInteger(col)) widths.Set(col, Math.Max(Or(widths.Get(col), 0), ResolvedEntityWidth(entity, grid)));
-            heights.Set(row, Math.Max(Or(heights.Get(row), 0), entity.Height));
+            if (double.IsInteger(col)) widths.Set(col, Math.Max(Js.Or(widths.Get(col), 0), ResolvedEntityWidth(entity, grid)));
+            heights.Set(row, Math.Max(Js.Or(heights.Get(row), 0), entity.Height));
         }
 
         var columnX = new JsMap<double, double>();
@@ -91,7 +91,7 @@ public static class ErdGrid
         for (var col = 0d; col <= maxCol; col += 1)
         {
             columnX.Set(col, x);
-            x += Or(widths.Get(col), 0) + Math.Max(grid.GapX, columnGaps is null ? 0 : Or(columnGaps.Get(col), 0));
+            x += Js.Or(widths.Get(col), 0) + Math.Max(grid.GapX, columnGaps is null ? 0 : Js.Or(columnGaps.Get(col), 0));
         }
         // A half-column box may be wider than its empty neighbouring bands. Keep every grid box inside the left margin
         // without changing integer-only grids.
@@ -99,7 +99,7 @@ public static class ErdGrid
         foreach (var entity in entities)
         {
             if (!IsInteger(entity.Row) || !GridColumn(entity.Col) || IsInteger(entity.Col)) continue;
-            double Centre(double col) => Val(columnX, col) + Or(widths.Get(col), 0) / 2;
+            double Centre(double col) => Val(columnX, col) + Js.Or(widths.Get(col), 0) / 2;
             var midpoint = (Centre(Math.Floor(entity.Col!.Value)) + Centre(Math.Ceiling(entity.Col.Value))) / 2;
             leftInset = Math.Max(leftInset, grid.OriginX - midpoint + ResolvedEntityWidth(entity, grid) / 2);
         }
@@ -113,7 +113,7 @@ public static class ErdGrid
         for (var row = 0d; row <= maxRow; row += 1)
         {
             rowY.Set(row, y);
-            y += Or(heights.Get(row), 0) + grid.GapY;
+            y += Js.Or(heights.Get(row), 0) + grid.GapY;
         }
 
         return new Bands(columnX, rowY, widths, heights, x, y);
@@ -131,7 +131,7 @@ public static class ErdGrid
         var rowY = Val(bands.RowY, entity.Row!.Value);
         if (!double.IsInteger(col))
         {
-            double Centre(double c) => Val(bands.ColumnX, c) + Or(bands.Widths.Get(c), 0) / 2;
+            double Centre(double c) => Val(bands.ColumnX, c) + Js.Or(bands.Widths.Get(c), 0) / 2;
             var (left, right) = (Math.Floor(col), Math.Ceiling(col));
             if (!double.IsFinite(Val(bands.ColumnX, left)) || !double.IsFinite(Val(bands.ColumnX, right)) || !double.IsFinite(rowY)) return NaNPt;
             return new Pt((Centre(left) + Centre(right)) / 2 - width / 2, rowY);
@@ -139,7 +139,7 @@ public static class ErdGrid
         var columnX = Val(bands.ColumnX, col);
         if (!double.IsFinite(columnX) || !double.IsFinite(rowY)) return NaNPt;
         // Centre each box in its column so the gaps on both sides stay equal; the router reads those gaps as corridors.
-        var columnWidth = Or(bands.Widths.Get(col), width);
+        var columnWidth = Js.Or(bands.Widths.Get(col), width);
         return new Pt(columnX + (columnWidth - width) / 2, rowY);
     }
 
@@ -149,7 +149,7 @@ public static class ErdGrid
         foreach (var node in er["entities"].AsArrayOrEmpty())
         {
             var entity = (JsonObject)node!;
-            var id = entity.ContainsKey("id") ? BrandMarks.JsString(entity["id"]) : "undefined";   // `${entity.id}`
+            var id = entity.ContainsKey("id") ? Js.PrimitiveString(entity["id"]) : "undefined";   // `${entity.id}`
             var hasPos = entity["pos"] is JsonArray { Count: 2 };
             if (!hasPos && grid is null)
             {
@@ -180,8 +180,6 @@ public static class ErdGrid
 
     static bool IsInteger(double? v) => v is { } d && double.IsInteger(d);
     static bool IsFinite(double? v) => v is { } d && double.IsFinite(d);
-    // JS `value || alt` on a number: 0 and NaN fall through. JsMap.Get returns 0 for a missing key, which falls through too.
-    static double Or(double v, double alt) => v == 0 || double.IsNaN(v) ? alt : v;
     // JS `map.get(k)` in arithmetic: a missing key is undefined, i.e. NaN.
     static double Val(JsMap<double, double> m, double k) => m.Has(k) ? m.Get(k) : double.NaN;
     // A JS array element in arithmetic: anything but a number reads as NaN here (undefined, or a non-number that the

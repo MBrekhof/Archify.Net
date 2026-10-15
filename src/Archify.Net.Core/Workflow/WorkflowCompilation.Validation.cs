@@ -84,7 +84,7 @@ internal sealed partial class WorkflowCompilation
             if (estLabelW > width + 8)
                 problems.Add($"Phase label \"{Tpl(phase, "label")}\" (~{N(Js.Round(estLabelW))}px) is wider than its {N(Js.Round(width))}px span — shorten the label or widen the phase range.");
         }
-        Js.Sort(phaseRanges, (a, b) => Lor(a.Num("fromCol")!.Value - b.Num("fromCol")!.Value, a.Num("toCol")!.Value - b.Num("toCol")!.Value));
+        Js.Sort(phaseRanges, (a, b) => Js.Or(a.Num("fromCol")!.Value - b.Num("fromCol")!.Value, a.Num("toCol")!.Value - b.Num("toCol")!.Value));
         for (var i = 0; i < phaseRanges.Count; i++)
         {
             for (var j = i + 1; j < phaseRanges.Count; j++)
@@ -130,7 +130,7 @@ internal sealed partial class WorkflowCompilation
                 for (var j = i + 1; j < laneNodes.Count; j++)
                 {
                     if (Geometry.RectsOverlap(laneNodes[i], laneNodes[j], 8))
-                        problems.Add($"Nodes \"{laneNodes[i].Id}\" and \"{laneNodes[j].Id}\" are less than 8px apart in lane \"{BrandMarks.JsString(lane)}\" — move one to another col, adjust yOffset, or reduce width/height.");
+                        problems.Add($"Nodes \"{laneNodes[i].Id}\" and \"{laneNodes[j].Id}\" are less than 8px apart in lane \"{Js.PrimitiveString(lane)}\" — move one to another col, adjust yOffset, or reduce width/height.");
                 }
             }
         }
@@ -180,7 +180,7 @@ internal sealed partial class WorkflowCompilation
             {
                 // `{ ...relation, width: relation.width || (emphasis ? 1.8 : 1.4) }`
                 var copy = relation.DeepClone().AsObject();
-                copy["width"] = Or(relation.Num("width"), relation.Str("variant") == "emphasis" ? 1.8 : 1.4);
+                copy["width"] = Js.Or(relation.Num("width"), relation.Str("variant") == "emphasis" ? 1.8 : 1.4);
                 return new RoutedRelation(PathFor(relation).Points, copy, relationIndex);
             }).ToList();
             foreach (var hit in Geometry.CollectArrowheadCollisions(routedRelations, allowShortWorkflowTrunks: true))
@@ -208,7 +208,7 @@ internal sealed partial class WorkflowCompilation
             {
                 var id = mainPath[stepIndex];
                 if (Has(id)) continue;
-                var message = $"mainPath references unknown node \"{BrandMarks.JsString(id)}\".";
+                var message = $"mainPath references unknown node \"{Js.PrimitiveString(id)}\".";
                 problems.Add(message);
                 var candidates = nodes.Keys.ToList();
                 Js.Sort(candidates, StableCompare);
@@ -237,9 +237,9 @@ internal sealed partial class WorkflowCompilation
                 if (from is null || to is null) continue;
                 var linked = workflow.Edges.Any(edge => StrictEquals(edge["from"], fromId) && StrictEquals(edge["to"], toId));
                 if (!linked)
-                    problems.Add($"mainPath step \"{BrandMarks.JsString(fromId)}\" -> \"{BrandMarks.JsString(toId)}\" has no matching edge — add the edge or remove the pair from mainPath.");
+                    problems.Add($"mainPath step \"{Js.PrimitiveString(fromId)}\" -> \"{Js.PrimitiveString(toId)}\" has no matching edge — add the edge or remove the pair from mainPath.");
                 if (Col(to) < Col(from))
-                    problems.Add($"mainPath step \"{BrandMarks.JsString(fromId)}\" -> \"{BrandMarks.JsString(toId)}\" moves backward from col {Tpl(from.Source, "col")} to {Tpl(to.Source, "col")} — use a return edge outside mainPath for loops.");
+                    problems.Add($"mainPath step \"{Js.PrimitiveString(fromId)}\" -> \"{Js.PrimitiveString(toId)}\" moves backward from col {Tpl(from.Source, "col")} to {Tpl(to.Source, "col")} — use a return edge outside mainPath for loops.");
             }
         }
 

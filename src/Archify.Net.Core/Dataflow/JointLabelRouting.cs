@@ -40,8 +40,6 @@ internal static class JointLabelRouting
         .Count(t => Geometry.ProperSegmentIntersection(s.Start, s.End, t.Start, t.End) is not null));
     // `JSON.stringify(points)`: number arrays print as their Number strings.
     static string PointsKey(IReadOnlyList<Pt> points) => string.Join(";", points.Select(p => $"{Js.Num(p.X)},{Js.Num(p.Y)}"));
-    // JS `a || b` on numbers: 0 and NaN fall through.
-    static double Or(double a, double b) => a != 0 && !double.IsNaN(a) ? a : b;
     static Rect Inflate(Rect r, double by) => new(r.X - by, r.Y - by, r.Width + by * 2, r.Height + by * 2);
 
     sealed record Candidate(LabelRect Rect, List<Pt> Points, List<RoutedRelation> Blocked, double OwnDistance, double Move);
@@ -157,7 +155,7 @@ internal static class JointLabelRouting
                     }
                 }
             }
-            Js.Sort(candidates, (a, b) => Or(a.Blocked.Count - b.Blocked.Count, Or(a.OwnDistance - b.OwnDistance, a.Move - b.Move)));
+            Js.Sort(candidates, (a, b) => Js.Or(a.Blocked.Count - b.Blocked.Count, Js.Or(a.OwnDistance - b.OwnDistance, a.Move - b.Move)));
             var chosen = new List<Candidate>();
             // Avoid spending every search on virtually identical neighbouring slots.
             foreach (var c in candidates)

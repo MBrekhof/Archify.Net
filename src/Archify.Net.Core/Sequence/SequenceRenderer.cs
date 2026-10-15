@@ -132,19 +132,13 @@ public sealed class SequenceRenderer : IDiagramRenderer
         static string N(double v) => Js.Num(v);
         static string S(string? s) => s ?? "undefined";
         // `${node}` of a raw authored field.
-        static string T(JsonNode? n) => n is null ? "undefined" : BrandMarks.JsString(n);
+        static string T(JsonNode? n) => n is null ? "undefined" : Js.PrimitiveString(n);
         static bool Truthy(string? s) => !string.IsNullOrEmpty(s);
-        static double MaxOf(IEnumerable<double> values, double seed = double.NegativeInfinity)
-        {
-            var max = seed;
-            foreach (var value in values) max = Math.Max(max, value);
-            return max;
-        }
         static double Y(JsonObject message) => message.Num("y") ?? double.NaN;
         static bool HasY(JsonObject message) => message.Num("y") is not null;
         static double From(JsonObject item) => item.Num("from") ?? double.NaN;
         static double To(JsonObject item) => item.Num("to") ?? double.NaN;
-        static string? Note(JsonObject message) => message["note"].Truthy() ? BrandMarks.JsString(message["note"]) : null;
+        static string? Note(JsonObject message) => message["note"].Truthy() ? Js.PrimitiveString(message["note"]) : null;
         bool Has(string? id) => id is not null && participants.Has(id);
         Participant? Get(string? id) => id is null ? null : participants.Get(id);
         int? IndexOf(string? id) => id is not null && participantIndexById.Has(id) ? participantIndexById.Get(id) : null;
@@ -211,7 +205,7 @@ public sealed class SequenceRenderer : IDiagramRenderer
             foreach (var segment in segments) contentBottom = Math.Max(contentBottom, To(segment));
             // Timeline clearance is independent of legend visibility. Messages need 18px
             // before the lifeline bottom; notes, activations and frames need their footer.
-            var timelineRequiredHeight = MaxOf(messages.Select(message => Y(message) + 18 + 65), contentBottom + 65);
+            var timelineRequiredHeight = Js.MaxOf(messages.Select(message => Y(message) + 18 + 65), contentBottom + 65);
             // `legendRequiredHeight(automaticWidth)` with automaticWidth null: `null - 80` is -80.
             var automaticHeight = Math.Max(Math.Max(SEQUENCE_MIN_AUTO_HEIGHT, timelineRequiredHeight), LegendRequiredHeight(automaticWidth ?? 0));
             viewBox = meta["viewBox"].Truthy()
@@ -331,7 +325,7 @@ public sealed class SequenceRenderer : IDiagramRenderer
                 }
                 return 920;
             }
-            var needed = MaxOf(participantList.Select(participant => Math.Max(
+            var needed = Js.MaxOf(participantList.Select(participant => Math.Max(
                 Utils.TextUnits(participant.Str("label")) * 6.8 - 6,
                 Truthy(participant.Str("sublabel")) ? TextFit.MinimumNodeTextWidth(participant.Str("sublabel"), ParticipantTextFit.SublabelPreferred) + 86 - TextFit.AvailableNodeTextWidth(86) : 0)));
             return Math.Min(readableCanvasWidth, Math.Max(920, Math.Ceiling((Math.Min(190, needed) + 25) * count + 124)));
@@ -344,7 +338,7 @@ public sealed class SequenceRenderer : IDiagramRenderer
             // a failed primary label opens this bounded use of spare horizontal room.
             if (automaticWidth is null || columnFit != "spread"
                 || !participantList.Any(participant => Utils.TextUnits(participant.Str("label")) * 6.8 > nominal.Width + 6)) return nominal;
-            var required = Math.Ceiling(MaxOf(participantList.Select(participant => Math.Max(
+            var required = Math.Ceiling(Js.MaxOf(participantList.Select(participant => Math.Max(
                 Utils.TextUnits(participant.Str("label")) * 6.8 - 6,
                 Truthy(participant.Str("sublabel")) ? TextFit.MinimumNodeTextWidth(participant.Str("sublabel"), readableSublabelMinimum)
                     + nominal.Width - TextFit.AvailableNodeTextWidth(nominal.Width) : 0)), nominal.Width));
@@ -480,7 +474,7 @@ public sealed class SequenceRenderer : IDiagramRenderer
                     X = x,
                     Baseline = baseline,
                     Lines = lines,
-                    Width = MaxOf(lines.Select(NoteTextWidth)),
+                    Width = Js.MaxOf(lines.Select(NoteTextWidth)),
                     // Include fallback-font ascent in the same bounds used for title clearance.
                     Top = baseline - NOTE_FONT_SIZE * 1.2,
                     Bottom = Y(message) + 22 + (lines.Count - 1) * NOTE_LINE_HEIGHT,
@@ -585,7 +579,7 @@ public sealed class SequenceRenderer : IDiagramRenderer
             if (others.Any(other => From(other) <= From(segment)
                 || (From(other) < To(segment) && To(other) > From(segment)))) return label;
 
-            var candidate = label with { Y = MaxOf(coveredHeaders.Select(header => header.Y + header.Height)) + 2 };
+            var candidate = label with { Y = Js.MaxOf(coveredHeaders.Select(header => header.Y + header.Height)) + 2 };
             var bottom = candidate.Y + candidate.Height;
             // The badge must still touch its own top border, before the first message;
             // moving it deep into the phase would name the wrong part of the timeline.

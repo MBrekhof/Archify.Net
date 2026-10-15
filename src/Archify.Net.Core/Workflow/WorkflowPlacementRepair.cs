@@ -86,7 +86,7 @@ internal static class WorkflowPlacementRepair
         var moved = new JsMap<string, JsonObject>();
         foreach (var n in proposed.Nodes) moved.Set(Id(n), n);
         int? LaneOf(JsonObject n) => laneIndex.Has(IdKey(n["lane"])) ? laneIndex.Get(IdKey(n["lane"])) : null;
-        double Height(JsonObject n) => Or(n.Num("height"), 52);
+        double Height(JsonObject n) => Js.Or(n.Num("height"), 52);
         var col = start;
         for (var i = 0; i < main.Count; i++)
         {
@@ -102,12 +102,12 @@ internal static class WorkflowPlacementRepair
                 var n = moved.Get(id)!;
                 var parents = input.Edges.Where(e => IdKey(e["to"]) == id && mainIndex.Has(IdKey(e["from"]))).Select(e => moved.Get(IdKey(e["from"]))!).ToList();
                 n["col"] = component.Cyclic ? 0 : component.Ids.Count > 1 ? 5
-                    : Math.Min(end, MaxOf(parents.Select(p => p.Num("col")!.Value + 1), start));
+                    : Math.Min(end, Js.MaxOf(parents.Select(p => p.Num("col")!.Value + 1), start));
                 // Place same-lane failure branches below their main-path source row.
                 if (component.Cyclic && parents.Any(p => StrictEquals(p["lane"], n["lane"])))
                 {
                     var sameLane = main.Select(m => moved.Get(m)!).Where(m => StrictEquals(m["lane"], n["lane"]));
-                    n["yOffset"] = MaxOf(sameLane.Select(m => Or(m.Num("yOffset"), 0) + Height(m) / 2), double.NegativeInfinity) + Height(n) / 2 + 40;
+                    n["yOffset"] = Js.MaxOf(sameLane.Select(m => Js.Or(m.Num("yOffset"), 0) + Height(m) / 2), double.NegativeInfinity) + Height(n) / 2 + 40;
                 }
             }
         }
@@ -126,7 +126,7 @@ internal static class WorkflowPlacementRepair
         foreach (var group in groups.Values)
         {
             if (group.Count < 2) continue;
-            Js.Sort(group, (a, b) => Lor(Order(a) - Order(b), Js.LocaleCompare(a.Str("id") ?? "", b.Str("id") ?? "")));
+            Js.Sort(group, (a, b) => Js.Or(Order(a) - Order(b), Js.LocaleCompare(a.Str("id") ?? "", b.Str("id") ?? "")));
             double total = 0;
             foreach (var n in group) total += Height(n);
             total += 40 * (group.Count - 1);

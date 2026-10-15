@@ -664,7 +664,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
                 })
                 {
                     if (!value.Truthy()) continue;
-                    var text = value.Str0() ?? BrandMarks.JsString(value);
+                    var text = value.Str0() ?? Js.PrimitiveString(value);
                     var minimumW = TextFit.MinimumNodeTextWidth(text, minimum);
                     if (minimumW > availableTextW)
                     {
@@ -716,7 +716,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
                 foreach (var id in node?["wraps"].AsArrayOrEmpty() ?? [])
                 {
                     var wrapped = id.Str0();
-                    if (!Has(components, wrapped)) problems.Add($"Boundary \"{S(node.Str("label"))}\" wraps unknown component \"{(wrapped ?? BrandMarks.JsString(id))}\".");
+                    if (!Has(components, wrapped)) problems.Add($"Boundary \"{S(node.Str("label"))}\" wraps unknown component \"{(wrapped ?? Js.PrimitiveString(id))}\".");
                 }
             }
             var viewBoxRect = new Rect(0, 0, viewBox[0], viewBox[1]);
@@ -880,7 +880,7 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
                 foreach (var (field, endpoint) in new[] { ("from", "source"), ("to", "target") })
                 {
                     if (Has(components, conn.Str(field))) continue;
-                    var fieldValue = conn[field] is { } raw ? BrandMarks.JsString(raw) : "undefined";
+                    var fieldValue = conn[field] is { } raw ? Js.PrimitiveString(raw) : "undefined";
                     var named = conn["label"].Truthy() ? conn.Str("label")! : fieldValue;
                     var message = $"Connection \"{named}\" references unknown {endpoint} \"{fieldValue}\".";
                     var otherId = conn.Str(field == "from" ? "to" : "from");

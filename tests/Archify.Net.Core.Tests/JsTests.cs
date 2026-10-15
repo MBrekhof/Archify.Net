@@ -116,4 +116,62 @@ public class JsTests
         Assert.Equal("1", Js.Num(JsonNode.Parse("1.0")!.GetValue<double>()));
         Assert.Equal("100", Js.Num(JsonNode.Parse("1e2")!.GetValue<double>()));
     }
+
+    // Expected values from node: `x || 5`, Math.max/min, String(x).
+    [Fact] public void Or_is_js_or_on_numbers()
+    {
+        Assert.Equal(5, Js.Or(null, 5));
+        Assert.Equal(5, Js.Or(0, 5));
+        Assert.Equal(5, Js.Or(-0.0, 5));
+        Assert.Equal(5, Js.Or(double.NaN, 5));
+        Assert.Equal(-3, Js.Or(-3, 5));
+        Assert.Equal(2, Js.Or(2, 5));
+    }
+    [Fact] public void MaxOf_and_MinOf_match_Math_max_and_min()
+    {
+        Assert.Equal(double.NegativeInfinity, Js.MaxOf([]));
+        Assert.Equal(double.PositiveInfinity, Js.MinOf([]));
+        Assert.Equal(7, Js.MaxOf([], 7));
+        Assert.Equal(7, Js.MinOf([], 7));
+        Assert.Equal(9, Js.MaxOf([1, 9, 3], 7));
+        Assert.Equal(1, Js.MinOf([1, 9, 3], 7));
+        Assert.True(double.IsNaN(Js.MaxOf([1, double.NaN, 3])));
+        Assert.True(double.IsNaN(Js.MinOf([1, double.NaN, 3])));
+        // Math.max(-0, 0) and Math.max(0, -0) are 0; Math.min of the same pairs is -0, in either order.
+        Assert.False(double.IsNegative(Js.MaxOf([-0.0, 0.0])));
+        Assert.False(double.IsNegative(Js.MaxOf([0.0, -0.0])));
+        Assert.True(double.IsNegative(Js.MinOf([0.0, -0.0])));
+        Assert.True(double.IsNegative(Js.MinOf([-0.0, 0.0])));
+    }
+    [Fact] public void String_is_js_String_and_PrimitiveString_differs_only_on_arrays_and_objects()
+    {
+        foreach (var (json, expected) in new[] { ("true", "true"), ("false", "false"), ("1.5", "1.5"), ("1e21", "1e+21"), ("-0", "0"), ("\"a\"", "a") })
+        {
+            Assert.Equal(expected, Js.String(JsonNode.Parse(json)));
+            Assert.Equal(expected, Js.PrimitiveString(JsonNode.Parse(json)));
+        }
+        Assert.Equal("null", Js.String(null));
+        Assert.Equal("null", Js.PrimitiveString(null));
+        Assert.Equal("1,,b,2,3", Js.String(JsonNode.Parse("[1,null,\"b\",[2,3]]")));
+        Assert.Equal("", Js.String(JsonNode.Parse("[]")));
+        Assert.Equal("[object Object]", Js.String(JsonNode.Parse("{\"a\":1}")));
+        // PrimitiveString JSON-serialises non-primitives (BrandMarks' former JsString); callers rely on it.
+        Assert.Equal("[1,null,\"b\",[2,3]]", Js.PrimitiveString(JsonNode.Parse("[1,null,\"b\",[2,3]]")));
+        Assert.Equal("{\"a\":1}", Js.PrimitiveString(JsonNode.Parse("{\"a\":1}")));
+    }
+    [Fact] public void PtOf_reads_a_json_number_pair()
+    {
+        Assert.Equal(new Pt(1, 2.5), J.PtOf(JsonNode.Parse("[1,2.5,9]")));
+        var partial = J.PtOf(JsonNode.Parse("[\"1\",2]"));
+        Assert.True(double.IsNaN(partial.X));
+        Assert.Equal(2, partial.Y);
+        foreach (var json in new[] { "[1]", "null", "{\"x\":1}" })
+        {
+            var p = J.PtOf(JsonNode.Parse(json));
+            Assert.True(double.IsNaN(p.X) && double.IsNaN(p.Y));
+        }
+        Assert.Equal(3, J.Coord(JsonNode.Parse("3")));
+        Assert.True(double.IsNaN(J.Coord(JsonNode.Parse("\"3\""))));
+        Assert.True(double.IsNaN(J.Coord(null)));
+    }
 }

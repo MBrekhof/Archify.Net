@@ -451,7 +451,7 @@ public sealed class ArtifactChecker
                 ["segmentIndex"] = hit.SegmentIndex,
                 ["labelRect"] = RoundedRect(hit.Rect),
                 ["clearance"] = Round1(hit.Clearance),
-                ["intersectionLength"] = Round1(Or0(hit.IntersectionLength)),
+                ["intersectionLength"] = Round1(Js.Or(hit.IntersectionLength, 0)),
                 ["threshold"] = hit.Threshold,
                 ["from"] = PtR1Json(hit.Start),
                 ["to"] = PtR1Json(hit.End),
@@ -1144,7 +1144,7 @@ public sealed class ArtifactChecker
             foreach (var points in arrow.RouteSubpaths) foreach (var point in points) occupied.Add(point.Y);
         foreach (var label in labels) occupied.Add(label.Y);
         if (!occupied.All(double.IsFinite)) return evidence;
-        var occupiedTop = JsMin(occupied);
+        var occupiedTop = Js.MinOf(occupied);
         var gap = Math.Max(0, occupiedTop - originY);
         var heights = nodeRects.Select(node => node.Box[3]).ToList();
         Js.Sort(heights, (a, b) => a - b);
@@ -1225,7 +1225,7 @@ public sealed class ArtifactChecker
             }
         }
         if (!rightEdges.All(double.IsFinite)) return evidence;
-        var occupiedRight = JsMax(rightEdges);
+        var occupiedRight = Js.MaxOf(rightEdges);
         var gap = Math.Max(0, originX + width - occupiedRight);
         var ratio = gap / width;
         var widths = nodeRects.Select(node => node.Box[2]).ToList();
@@ -1300,10 +1300,10 @@ public sealed class ArtifactChecker
                 boxes.Add(box);
             }
             if (!supported || boxes.Count == 0) continue;
-            var noteX = JsMin(boxes.Select(b => b.X1));
-            var noteY = JsMin(boxes.Select(b => b.Y1));
-            var noteWidth = JsMax(boxes.Select(b => b.X2)) - noteX;
-            var noteHeight = JsMax(boxes.Select(b => b.Y2)) - noteY;
+            var noteX = Js.MinOf(boxes.Select(b => b.X1));
+            var noteY = Js.MinOf(boxes.Select(b => b.Y1));
+            var noteWidth = Js.MaxOf(boxes.Select(b => b.X2)) - noteX;
+            var noteHeight = Js.MaxOf(boxes.Select(b => b.Y2)) - noteY;
             var bottom = noteY + noteHeight;
             foreach (var frame in segments)
             {
@@ -1487,7 +1487,7 @@ public sealed class ArtifactChecker
                 SourceFontPx = fontSize,
             });
         }
-        var minimumSourceTextPx = entries.Count > 0 ? JsMin(entries.Select(entry => entry.SourceFontPx)) : double.NaN;
+        var minimumSourceTextPx = entries.Count > 0 ? Js.MinOf(entries.Select(entry => entry.SourceFontPx)) : double.NaN;
         var eligible = contract == DesktopReadability.DECLARED_WIDE_READER_CONTRACT
             && A(svgAttrs, "data-reader-fit") is "intrinsic-height" or "width-first"
             && double.IsFinite(requestedMinimumTextPx) && requestedMinimumTextPx > 0
@@ -1704,7 +1704,6 @@ public sealed class ArtifactChecker
     static bool T(string? s) => !string.IsNullOrEmpty(s);
     static string? Or(string? left, string? right) => T(left) ? left : right;   // JS `left || right` on strings
     static string S(string? s) => s ?? "undefined";
-    static double Or0(double? v) => v is { } x && x != 0 && !double.IsNaN(x) ? x : 0;   // `(v || 0)`
     static double Round1(double v) => Js.Round(v * 10) / 10;
     static JsonArray PtJson(Pt p) => new(p.X, p.Y);
     static JsonArray PtR1Json(Pt p) => new(Round1(p.X), Round1(p.Y));
@@ -1721,19 +1720,4 @@ public sealed class ArtifactChecker
     }
     static string? TagName(Match tag) => tag.Groups[2].Success ? tag.Groups[2].Value.ToLowerInvariant() : null;
     static bool Closing(Match tag) => tag.Groups[1].Success && tag.Groups[1].Length > 0;   // `tag[1]` is "/" or ""
-
-    // Math.min(...values) / Math.max(...values): ±Infinity when empty, NaN when any value is NaN.
-    static double JsMin(IEnumerable<double> values)
-    {
-        var result = double.PositiveInfinity;
-        foreach (var v in values) { if (double.IsNaN(v)) return double.NaN; if (v < result) result = v; }
-        return result;
-    }
-
-    static double JsMax(IEnumerable<double> values)
-    {
-        var result = double.NegativeInfinity;
-        foreach (var v in values) { if (double.IsNaN(v)) return double.NaN; if (v > result) result = v; }
-        return result;
-    }
 }

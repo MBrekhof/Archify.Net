@@ -46,18 +46,14 @@ internal static class WorkflowModel
     // ---------------------------------------------------------------- JS value semantics shared by the workflow files
     // ponytail: undefined and null collapse to C# null in these helpers; ids, lanes and endpoints are schema-required strings.
 
-    // JS `a || b` on a number read from JSON: missing, 0 and NaN fall through.
-    internal static double Or(double? first, double second) => first is { } f && f != 0 && !double.IsNaN(f) ? f : second;
-    // JS `x || y` where both are numbers: the first unless it is 0 or NaN (comparator chains).
-    internal static double Lor(double first, double second) => first != 0 && !double.IsNaN(first) ? first : second;
     internal static bool Truthy(double value) => value != 0 && !double.IsNaN(value);
     internal static bool IsInteger(double? value) => value is { } d && double.IsFinite(d) && d == Math.Floor(d);
     // `colXs[col]`: undefined (→ NaN in arithmetic) unless col is an index of the array.
     internal static double ColAt(IReadOnlyList<double> colXs, double? col) => IsInteger(col) && col >= 0 && col < colXs.Count ? colXs[(int)col!.Value] : double.NaN;
     // `${object.key}`: "undefined" for a missing key.
-    internal static string Tpl(JsonObject? o, string key) => o is not null && o.TryGetPropertyValue(key, out var value) ? BrandMarks.JsString(value) : "undefined";
+    internal static string Tpl(JsonObject? o, string key) => o is not null && o.TryGetPropertyValue(key, out var value) ? Js.PrimitiveString(value) : "undefined";
     // `a.x || a.y` on two text fields, rendered into a template.
-    internal static string TplOr(JsonObject o, string first, string second) => o[first].Truthy() ? BrandMarks.JsString(o[first]) : Tpl(o, second);
+    internal static string TplOr(JsonObject o, string first, string second) => o[first].Truthy() ? Js.PrimitiveString(o[first]) : Tpl(o, second);
     // A Map/Set key for a JSON id value: the string itself, a tagged form for anything else.
     internal static string IdKey(JsonNode? value) => value is JsonValue v && v.TryGetValue<string>(out var s) ? s : "\u0000" + Js.Stringify(value);
     // JS `===` on two JSON values.
@@ -80,16 +76,10 @@ internal static class WorkflowModel
             JsonValue v when v.GetValueKind() == System.Text.Json.JsonValueKind.Number => v.D(),
             _ => double.NaN,   // ponytail: objects/arrays; the schema types yOffset as a number
         };
-        return Or(number, 0);
-    }
-    internal static double MaxOf(IEnumerable<double> values, double seed)
-    {
-        var max = seed;
-        foreach (var value in values) max = Math.Max(max, value);
-        return max;
+        return Js.Or(number, 0);
     }
     internal static double Col(JsonObject node) => node.Num("col") ?? double.NaN;
-    static IEnumerable<string> StringsOf(JsonNode? value) => value.AsArrayOrEmpty().Select(BrandMarks.JsString);
+    static IEnumerable<string> StringsOf(JsonNode? value) => value.AsArrayOrEmpty().Select(Js.PrimitiveString);
 
     // ---------------------------------------------------------------- A (:108-231)
 
@@ -198,8 +188,8 @@ internal static class WorkflowModel
         for (var col = 0; col < columnCount - 1; col++) constraints.Add(new(col, col + 1, baselinePitch, []));
         // Object.entries(...).sort(): the default sort compares String([key, value]).
         var rankGapEntries = (feedback.Obj("rankGapMinimums") ?? []).Select(kv => (kv.Key, kv.Value)).ToList();
-        Js.Sort(rankGapEntries, (a, b) => string.CompareOrdinal(a.Key + "," + (a.Value is null ? "" : BrandMarks.JsString(a.Value)),
-            b.Key + "," + (b.Value is null ? "" : BrandMarks.JsString(b.Value))));
+        Js.Sort(rankGapEntries, (a, b) => string.CompareOrdinal(a.Key + "," + (a.Value is null ? "" : Js.PrimitiveString(a.Value)),
+            b.Key + "," + (b.Value is null ? "" : Js.PrimitiveString(b.Value))));
         foreach (var (key, value) in rankGapEntries)
         {
             var parts = key.Split(':');   // `key.split(':').map(Number)`; a missing `to` is undefined
@@ -299,7 +289,7 @@ internal static class WorkflowModel
             colProvenance = [.. Enumerable.Range(0, columnCount).Select(_ => new JsSet<string>())];
             var orderedConstraints = activeConstraints.Where(c => IsInteger(c.From) && IsInteger(c.To)
                 && c.From >= 0 && c.From < c.To && c.To < columnCount && double.IsFinite(c.Minimum)).ToList();
-            Js.Sort(orderedConstraints, (a, b) => Lor(a.To - b.To, Lor(a.From - b.From, a.Minimum - b.Minimum)));
+            Js.Sort(orderedConstraints, (a, b) => Js.Or(a.To - b.To, Js.Or(a.From - b.From, a.Minimum - b.Minimum)));
             for (var to = 1; to < columnCount; to++)
             {
                 foreach (var constraint in orderedConstraints)
@@ -323,7 +313,7 @@ internal static class WorkflowModel
         }
 
         var firstRankNodes = nodes.Where(node => node.Num("col") == 0).ToList();
-        var firstExtent = MaxOf(firstRankNodes.Select(node => W(node) / 2), 46);
+        var firstExtent = Js.MaxOf(firstRankNodes.Select(node => W(node) / 2), 46);
         const double leftInset = 8;
         var leftShift = Math.Max(0, 40 + leftInset + firstExtent - colXs[0]);
         if (Truthy(leftShift))
@@ -550,7 +540,7 @@ internal static class WorkflowModel
             groupFooterHeights.Add(Math.Max(0, footer));
         }
         var laneHeights = groupHeaderHeights.Select((header, index) => laneBaseHeights[index] + header + groupFooterHeights[index]).ToList();
-        var laneGap = Math.Max(20, Math.Ceiling(Or(feedback.Num("laneGapMin"), 0)));
+        var laneGap = Math.Max(20, Math.Ceiling(Js.Or(feedback.Num("laneGapMin"), 0)));
         for (var index = 0; index < groupHeaderHeights.Count; index++)
         {
             if (!Truthy(groupHeaderHeights[index])) continue;
@@ -588,14 +578,14 @@ internal static class WorkflowModel
     }
 
     // `edge.route || 'auto'`
-    static string RouteOrAuto(JsonObject edge) => edge["route"].Truthy() ? BrandMarks.JsString(edge["route"]) : "auto";
+    static string RouteOrAuto(JsonObject edge) => edge["route"].Truthy() ? Js.PrimitiveString(edge["route"]) : "auto";
 
     // ---------------------------------------------------------------- C (:672-856)
 
-    public static string WorkflowEdgeName(JsonObject edge) => edge["id"].Truthy() ? BrandMarks.JsString(edge["id"]) : $"{Tpl(edge, "from")}->{Tpl(edge, "to")}";
+    public static string WorkflowEdgeName(JsonObject edge) => edge["id"].Truthy() ? Js.PrimitiveString(edge["id"]) : $"{Tpl(edge, "from")}->{Tpl(edge, "to")}";
 
     // `value == null ? '' : String(value)`
-    static string StableText(JsonNode? value) => value is null ? "" : BrandMarks.JsString(value);
+    static string StableText(JsonNode? value) => value is null ? "" : Js.PrimitiveString(value);
     internal static double StableCompare(string a, string b) => Math.Sign(string.CompareOrdinal(a, b));
     internal static double StableCompare(JsonNode? a, JsonNode? b) => StableCompare(StableText(a), StableText(b));
 
@@ -623,7 +613,7 @@ internal static class WorkflowModel
         foreach (var node in w.Nodes)
         {
             var width = !WorkflowMigrationGeometry.PreservesWorkflowAbsoluteGeometry(w) && !(node.Num("width") is { } authored && double.IsFinite(authored))
-                ? Math.Max(Or(AutomaticNodeWidth(node), 0), Or(widthOverrides is not null && node.Str("id") is { } id && widthOverrides.Has(id) ? (double?)widthOverrides.Get(id) : null, 0))
+                ? Math.Max(Js.Or(AutomaticNodeWidth(node), 0), Js.Or(widthOverrides is not null && node.Str("id") is { } id && widthOverrides.Has(id) ? (double?)widthOverrides.Get(id) : null, 0))
                 : 0;
             if (Truthy(width)) widths.Set(node, width);
             else widths.Remove(node);
@@ -633,22 +623,22 @@ internal static class WorkflowModel
         double LaneOrder(JsonObject item) => laneOrder.Has(IdKey(item["lane"])) ? laneOrder.Get(IdKey(item["lane"])) : 9007199254740991;
         double Number(JsonObject item, string key) => item.Num(key) ?? double.NaN;
         var nodes = new List<JsonObject>(w.Nodes);
-        Js.Sort(nodes, (left, right) => Lor(LaneOrder(left) - LaneOrder(right), Lor(Col(left) - Col(right), StableCompare(left["id"], right["id"]))));
+        Js.Sort(nodes, (left, right) => Js.Or(LaneOrder(left) - LaneOrder(right), Js.Or(Col(left) - Col(right), StableCompare(left["id"], right["id"]))));
         var edges = new List<JsonObject>(w.Edges);
         Js.Sort(edges, CompareWorkflowEdges);
         List<JsonObject>? phases = null;
         if (w.Phases is not null)
         {
             phases = [.. w.Phases];
-            Js.Sort(phases, (left, right) => Lor(Number(left, "fromCol") - Number(right, "fromCol"),
-                Lor(Number(left, "toCol") - Number(right, "toCol"), StableCompare(left["id"], right["id"]))));
+            Js.Sort(phases, (left, right) => Js.Or(Number(left, "fromCol") - Number(right, "fromCol"),
+                Js.Or(Number(left, "toCol") - Number(right, "toCol"), StableCompare(left["id"], right["id"]))));
         }
         List<JsonObject>? groups = null;
         if (w.Groups is not null)
         {
             groups = [.. w.Groups];
-            Js.Sort(groups, (left, right) => Lor(LaneOrder(left) - LaneOrder(right), Lor(Number(left, "fromCol") - Number(right, "fromCol"),
-                Lor(Number(left, "toCol") - Number(right, "toCol"), StableCompare(left["id"], right["id"])))));
+            Js.Sort(groups, (left, right) => Js.Or(LaneOrder(left) - LaneOrder(right), Js.Or(Number(left, "fromCol") - Number(right, "fromCol"),
+                Js.Or(Number(left, "toCol") - Number(right, "toCol"), StableCompare(left["id"], right["id"])))));
         }
         var canonical = w.Spread();
         canonical.Nodes = nodes;
@@ -709,7 +699,7 @@ internal static class WorkflowModel
         foreach (var (id, path) in referencedNodes)
         {
             if (nodeIds.Has(IdKey(id))) continue;
-            var text = id is null ? "undefined" : BrandMarks.JsString(id);
+            var text = id is null ? "undefined" : Js.PrimitiveString(id);
             var subject = new JsonObject();
             if (id is not null) subject["node"] = id.DeepClone();
             subject["path"] = path;

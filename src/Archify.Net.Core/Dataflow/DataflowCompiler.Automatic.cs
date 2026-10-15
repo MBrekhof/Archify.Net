@@ -110,7 +110,7 @@ internal sealed partial class DataflowCompiler
         {
             // `{ ...node }` snapshots: neighbours are measured against the original bounds (and upstream's stored `cy`).
             var originalBoxes = nodes.Values.Select(node => (node.Id, node.X, node.Width, node.Cy, node.Height)).ToList();
-            var rowBudget = MinOf(Layout.RowYs.Skip(1).Select((y, index) => y - Layout.RowYs[index]), double.PositiveInfinity) - 10;
+            var rowBudget = Js.MinOf(Layout.RowYs.Skip(1).Select((y, index) => y - Layout.RowYs[index]), double.PositiveInfinity) - 10;
             foreach (var authored in authoredNodes)
             {
                 if (authored.ContainsKey("height") || authored.ContainsKey("yOffset")) continue;
@@ -128,10 +128,10 @@ internal sealed partial class DataflowCompiler
                     if (flow.Str("to") == node.Id) SideItems(toSide)?.Add(new(null, true, FlowStrokeWidth(flow)));
                 }
                 // Object.values(sides): left, then right.
-                var desired = MaxOf(new[] { left, right }.Where(items => items.Any(item => item.Incoming)).Select(PortSpan), node.Height);
+                var desired = Js.MaxOf(new[] { left, right }.Where(items => items.Any(item => item.Incoming)).Select(PortSpan), node.Height);
                 var neighbours = originalBoxes.Where(other => other.Id != node.Id
                     && other.X < node.X + node.Width + 10 && other.X + other.Width + 10 > node.X).ToList();
-                var height = MinOf(neighbours.Select(other =>
+                var height = Js.MinOf(neighbours.Select(other =>
                 {
                     var distance = Math.Abs(other.Cy - node.Cy);
                     // Split spare space with another growing box, and also respect a
@@ -199,7 +199,7 @@ internal sealed partial class DataflowCompiler
         {
             // The stage bottoms are fitted below the final routes and labels later.
             // Reserve the fixed tops/sides now, extending sides past the search area.
-            var routingBottom = MaxOf([.. nodes.Values.Select(node => node.Y + node.Height), .. routable.SelectMany(flow => PathFor(flow).Points.Select(point => point.Y))],
+            var routingBottom = Js.MaxOf([.. nodes.Values.Select(node => node.Y + node.Height), .. routable.SelectMany(flow => PathFor(flow).Points.Select(point => point.Y))],
                 viewBox[1]) + DETOUR_NODE_GAP + ENDPOINT_STUB;
             var routingFrames = stages.Select((stage, index) => StageFrame(stage, index) with { Height = routingBottom - Layout.StageY }).ToList();
             var stageBorders = routingFrames.SelectMany(frame => Geometry.FrameBorderSegments(frame).Where(border => border.Side != "bottom")).ToList();

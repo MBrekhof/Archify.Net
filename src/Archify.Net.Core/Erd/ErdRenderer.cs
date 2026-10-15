@@ -62,7 +62,7 @@ public sealed class ErdRenderer : IDiagramRenderer
         var key = attribute is JsonObject a ? a["key"] : null;
         IEnumerable<string> roles = key is JsonValue v && v.GetValueKind() == JsonValueKind.String
             ? [v.GetValue<string>()]
-            : key.AsArrayOrEmpty().Select(BrandMarks.JsString);
+            : key.AsArrayOrEmpty().Select(Js.PrimitiveString);
         var unique = new JsSet<string>();
         foreach (var role in roles) unique.Add(role);
         return [.. unique];
@@ -337,7 +337,7 @@ public sealed class ErdRenderer : IDiagramRenderer
                 foreach (var entity in entities.Values)
                 {
                     if (!entity.Source["tag"].Truthy()) continue;
-                    var tag = BrandMarks.JsString(entity.Source["tag"]);
+                    var tag = Js.PrimitiveString(entity.Source["tag"]);
                     if (!byTag.Has(tag)) byTag.Set(tag, []);
                     byTag.Get(tag)!.Add(entity);
                 }
@@ -355,7 +355,7 @@ public sealed class ErdRenderer : IDiagramRenderer
                 foreach (var entity in entities.Values)
                 {
                     if (!entity.Source["tag"].Truthy()) continue;
-                    var tag = BrandMarks.JsString(entity.Source["tag"]);
+                    var tag = Js.PrimitiveString(entity.Source["tag"]);
                     if (banded.Has(tag)) continue;
                     if (!byTag.Has(tag)) byTag.Set(tag, []);
                     byTag.Get(tag)!.Add(entity);
@@ -373,7 +373,7 @@ public sealed class ErdRenderer : IDiagramRenderer
             foreach (var entity in entities.Values)
             {
                 if (!entity.Source["tag"].Truthy()) continue;
-                var tag = BrandMarks.JsString(entity.Source["tag"]);
+                var tag = Js.PrimitiveString(entity.Source["tag"]);
                 if (!domainHue.Has(tag)) domainHue.Set(tag, DOMAIN_HUES[domainHue.Count % DOMAIN_HUES.Length]);
             }
 
@@ -784,7 +784,7 @@ public sealed class ErdRenderer : IDiagramRenderer
 
         // `${from}\0${to}\0${id || ''}`.
         static string LaneSortKey(JsonObject relationship) =>
-            $"{S(relationship.Str("from"))}\0{S(relationship.Str("to"))}\0{(relationship["id"].Truthy() ? BrandMarks.JsString(relationship["id"]) : "")}";
+            $"{S(relationship.Str("from"))}\0{S(relationship.Str("to"))}\0{(relationship["id"].Truthy() ? Js.PrimitiveString(relationship["id"]) : "")}";
 
         // ---- Trunks (:646-909) ---------------------------------------------------------
         bool RelationshipAutoRouted(JsonObject relationship) =>
@@ -1157,7 +1157,7 @@ public sealed class ErdRenderer : IDiagramRenderer
             for (var index = 0; index < relationships.Count; index++)
             {
                 var relationship = relationships[index];
-                var id = relationship["id"].Truthy() ? $" id \"{BrandMarks.JsString(relationship["id"])}\"" : "";
+                var id = relationship["id"].Truthy() ? $" id \"{Js.PrimitiveString(relationship["id"])}\"" : "";
                 var from = relationship.Str("from");
                 var to = relationship.Str("to");
                 if (EntityOf(from) is null)
@@ -1360,7 +1360,7 @@ public sealed class ErdRenderer : IDiagramRenderer
             var rows = RenderEntityColumnRows(entity);
             const double r = 8;
             var label = S(entity.Source.Str("label"));
-            var tag = entity.Source["tag"].Truthy() ? BrandMarks.JsString(entity.Source["tag"]) : null;
+            var tag = entity.Source["tag"].Truthy() ? Js.PrimitiveString(entity.Source["tag"]) : null;
             return $"        <g {SvgAttrs.FocusNodeAttrs(entity.Id, label, passport, locale, ctx)} class=\"{HueClassOf(tag)}\">\n"
                 + $"          {SvgAttrs.FocusNodeTitle(label, passport)}\n"
                 + $"          <rect x=\"{N(entity.X)}\" y=\"{N(entity.Y)}\" width=\"{N(entity.Width)}\" height=\"{N(entity.Height)}\" rx=\"{N(r)}\" class=\"c-mask\"/>\n"

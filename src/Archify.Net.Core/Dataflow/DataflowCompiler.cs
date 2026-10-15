@@ -95,20 +95,6 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
 
         static string N(double v) => Js.Num(v);
         static bool Truthy(string? s) => !string.IsNullOrEmpty(s);
-        // JS `a || b` on a number read from JSON: missing, 0 and NaN fall through.
-        static double Or(double? first, double second) => first is { } f && f != 0 && !double.IsNaN(f) ? f : second;
-        static double MaxOf(IEnumerable<double> values, double seed)
-        {
-            var max = seed;
-            foreach (var value in values) max = Math.Max(max, value);
-            return max;
-        }
-        static double MinOf(IEnumerable<double> values, double seed)
-        {
-            var min = seed;
-            foreach (var value in values) min = Math.Min(min, value);
-            return min;
-        }
         static string Pad2(int value) => Js.Num(value).PadLeft(2, '0');   // String(n).padStart(2, '0')
         static List<Segment> SegmentsOf(IReadOnlyList<Pt> points)
         {
@@ -116,8 +102,6 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
             for (var index = 1; index < points.Count; index++) segments.Add(new(points[index - 1], points[index]));
             return segments;
         }
-        static Pt PtOf(JsonNode? point) => point is JsonArray a && a.Count >= 2 ? new(Coord(a[0]), Coord(a[1])) : new(double.NaN, double.NaN);
-        static double Coord(JsonNode? value) => value is JsonValue v && v.GetValueKind() == System.Text.Json.JsonValueKind.Number ? v.D() : double.NaN;
         Box? NodeOf(string? id) => id is null ? null : nodes.Get(id);
         bool Has(string? id) => id is not null && nodes.Has(id);
         // sourceEvidence?.nodes?.[node.id]?.length — null until phase 4 ports repository evidence.
@@ -163,18 +147,18 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
                 && !meta.ContainsKey("viewBox")
                 && !authoredNodes.Any(node => node.ContainsKey("width"));
             var stageRight = StageX(stages.Count - 1) + Layout.StageW / 2;
-            var nodeRights = authoredNodes.Select(node => StageX(node.Num("stage") ?? double.NaN) + Or(node.Num("width"), Layout.NodeW) / 2)
+            var nodeRights = authoredNodes.Select(node => StageX(node.Num("stage") ?? double.NaN) + Js.Or(node.Num("width"), Layout.NodeW) / 2)
                 .Where(double.IsFinite).ToList();
             var pinnedLabelRights = flows
-                .Where(flow => Truthy(flow.Str("label")) && flow["labelAt"] is JsonArray at && Geometry.IsFinitePoint([.. at.Select(Coord)]))
-                .Select(flow => Coord(flow["labelAt"]![0]) + LabelCapacity.FlowLabelSize(flow).Width / 2).ToList();
+                .Where(flow => Truthy(flow.Str("label")) && flow["labelAt"] is JsonArray at && Geometry.IsFinitePoint([.. at.Select(J.Coord)]))
+                .Select(flow => J.Coord(flow["labelAt"]![0]) + LabelCapacity.FlowLabelSize(flow).Width / 2).ToList();
             // Automatic width fits stages/nodes with 24px right pad. The old 940px floor
             // left a blank third of the canvas on 2–3 stage drafts; five default stages
             // still measure ~1068 and stay unchanged. Height starts at 720 and is refit
             // by heightForLabels for automatic showcase.
-            var contentWidth = Math.Ceiling(MaxOf([stageRight, .. nodeRights, .. pinnedLabelRights, 0], double.NegativeInfinity) + 24);
+            var contentWidth = Math.Ceiling(Js.MaxOf([stageRight, .. nodeRights, .. pinnedLabelRights, 0], double.NegativeInfinity) + 24);
             viewBox = meta["viewBox"] is JsonArray authored
-                ? [.. authored.Select(Coord)]
+                ? [.. authored.Select(J.Coord)]
                 : [Math.Max(480, contentWidth), 720];
             contextFontMinimum = automaticShowcase
                 ? Math.Max(6, Math.Ceiling(DesktopReadability.MinimumReadableSourceTextPx(viewBox[0]) * 10) / 10)
@@ -202,13 +186,13 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
             // Expand only unpinned showcase nodes, within their existing stage budget.
             // Very long text still gets an actionable error instead of an unbounded
             // canvas/typography feedback loop.
-            var contextWidth = MaxOf(new[] { node.Str("sublabel"), node.Str("tag") }.Select(text =>
+            var contextWidth = Js.MaxOf(new[] { node.Str("sublabel"), node.Str("tag") }.Select(text =>
                 Truthy(text) ? TextFit.MinimumNodeTextWidth(text, Math.Max(7, contextFontMinimum)) + 8 : 0), 0);
-            var width = Or(node.Num("width"), automaticShowcase
+            var width = Js.Or(node.Num("width"), automaticShowcase
                 ? Math.Max(Layout.NodeW, Math.Min(Math.Min(Layout.StageW, (cx - 24) * 2), Math.Min((viewBox[0] - 24 - cx) * 2, Math.Ceiling(contextWidth))))
                 : Layout.NodeW);
-            var height = Or(node.Num("height"), Layout.NodeH);
-            var y = RowY(node.Num("row")) + Or(node.Num("yOffset"), 0);
+            var height = Js.Or(node.Num("height"), Layout.NodeH);
+            var y = RowY(node.Num("row")) + Js.Or(node.Num("yOffset"), 0);
             return new Box
             {
                 Id = node.Str("id") ?? "undefined", Source = node, Brand = ctx.Brands.BrandMarkFor(node),
@@ -223,7 +207,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
         // Arrowheads are seven stroke-width units tall. Reserve two units of
         // clear ink within the automatic spread's existing 18px spacing limit.
         static double PortSpan(IReadOnlyList<PortItem> items) => 32 + Math.Max(0, items.Count - 1) * Math.Min(18,
-            Math.Ceiling(MaxOf(items.Select(item => item.Width * (item.Incoming ? 7 : 1)), 0)) + 2);
+            Math.Ceiling(Js.MaxOf(items.Select(item => item.Width * (item.Incoming ? 7 : 1)), 0)) + 2);
 
         public string? Run()
         {
@@ -293,7 +277,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
             // width growth here does not recompute the measured nodes or cached routes.
             FitAutomaticWidthToLabels(initialLabelRects);
             if (automaticShowcase) viewBox[1] = HeightForLabels(initialLabelRects)
-                + MaxOf(initialLabelRects.Select(rect => rect.Height - Layout.LabelH), 0);
+                + Js.MaxOf(initialLabelRects.Select(rect => rect.Height - Layout.LabelH), 0);
             compositionFrames = stages.Select(StageFrame).ToList();
 
             resolvedLabelRects = (automaticShowcase ? PlaceInitialLabels(initialLabelRects) : initialLabelRects).Select(rect =>
@@ -426,7 +410,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
                     var message = $"Node \"{node.Id}\" starts above the readable diagram area — keep y at or above {N(diagramAreaTop)}.";
                     diagnostics.Add(new("dataflow/node-above-area", Severity.Error, message,
                         new JsonObject { ["diagramType"] = "dataflow", ["node"] = node.Id },
-                        new JsonObject { ["y"] = node.Y, ["areaTop"] = diagramAreaTop, ["yOffset"] = Or(node.Source.Num("yOffset"), 0) },
+                        new JsonObject { ["y"] = node.Y, ["areaTop"] = diagramAreaTop, ["yOffset"] = Js.Or(node.Source.Num("yOffset"), 0) },
                         [$"raise or remove the negative yOffset on node \"{node.Id}\""], null));
                     problems.Add(message);
                 }
@@ -635,7 +619,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
         }
 
         // `${node.stage}` of a value that failed `typeof === 'number'`.
-        static string RawValue(JsonObject node, string key) => node.ContainsKey(key) ? BrandMarks.JsString(node[key]) : "undefined";
+        static string RawValue(JsonObject node, string key) => node.ContainsKey(key) ? Js.PrimitiveString(node[key]) : "undefined";
 
         // ---------------------------------------------------------------- routing (:564-717)
         bool SupportsAutomaticCrossover(JsonObject flow) => automaticShowcase && !flow["via"].Truthy()
@@ -649,7 +633,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
 
         List<Pt> RouteVia(JsonObject flow, Box from, Box to, Pt start, Pt end)
         {
-            if (flow["via"].Truthy()) return flow["via"].AsArrayOrEmpty().Select(PtOf).ToList();
+            if (flow["via"].Truthy()) return flow["via"].AsArrayOrEmpty().Select(J.PtOf).ToList();
             var route = flow["route"].Truthy() ? flow.Str("route") : "auto";
             switch (route)
             {
@@ -825,15 +809,15 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
         // can determine height without another copy of routeVia's preset rules.
         double HeightForLabels(IReadOnlyList<LabelRect> labels)
         {
-            var geometryBottom = MaxOf([.. nodes.Values.Select(node => node.Y + node.Height), .. routable.SelectMany(flow => PathFor(flow).Points.Select(point => point.Y))], 0);
-            var contentBottom = MaxOf(labels.Select(rect => rect.Y + rect.Height), geometryBottom);
+            var geometryBottom = Js.MaxOf([.. nodes.Values.Select(node => node.Y + node.Height), .. routable.SelectMany(flow => PathFor(flow).Points.Select(point => point.Y))], 0);
+            var contentBottom = Js.MaxOf(labels.Select(rect => rect.Y + rect.Height), geometryBottom);
             return Math.Max(360, Math.Ceiling(contentBottom + 24 + Layout.StageBottomPad));
         }
 
         void FitAutomaticWidthToLabels(IReadOnlyList<LabelRect> labels)
         {
             if (meta["viewBox"].Truthy()) return;
-            var labelRight = MaxOf(labels.Select(rect => rect.X + rect.Width), 0);
+            var labelRight = Js.MaxOf(labels.Select(rect => rect.X + rect.Width), 0);
             viewBox[0] = Math.Max(viewBox[0], Math.Ceiling(labelRight + 24));
         }
 
@@ -865,7 +849,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
             if (line.Length > 0) lines.Add(line);
             // Explicit node geometry is authoritative. Do not turn an old horizontal
             // overflow into a new collision with nodes when the header area is packed.
-            var firstNodeY = MinOf(nodes.Values.Where(node => node.Source.Num("stage") == index).Select(node => node.Y), viewBox[1] - Layout.StageBottomPad);
+            var firstNodeY = Js.MinOf(nodes.Values.Where(node => node.Source.Num("stage") == index).Select(node => node.Y), viewBox[1] - Layout.StageBottomPad);
             var lastLineBottom = Layout.StageY + 22 + (lines.Count - 1) * (font + 4) + font * 0.3;
             if (lastLineBottom > firstNodeY - 4) return $"{open}{Utils.Esc(text)}</text>";
             var content = lines.Count == 1 ? Utils.Esc(text) : string.Concat(lines.Select((l, i) =>
@@ -927,7 +911,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
                 + "        </g>";
         }
 
-        static double FlowStrokeWidth(JsonObject flow) => Or(flow.Num("width"), flow.Str("variant") == "emphasis" ? 1.8 : 1.4);
+        static double FlowStrokeWidth(JsonObject flow) => Js.Or(flow.Num("width"), flow.Str("variant") == "emphasis" ? 1.8 : 1.4);
 
         string RenderFlowPath(JsonObject flow, int index)
         {
@@ -986,7 +970,7 @@ internal sealed partial class DataflowCompiler(RenderContext ctx, JsonObject dat
             if (entry.Kind == "database")
                 return $"<rect x=\"{N(entry.X)}\" y=\"{N(entry.Baseline - 8)}\" width=\"14\" height=\"9\" rx=\"2\" class=\"c-database\" stroke-width=\"1\"/>";
             var (className, marker, strokeWidth) = Swatches[entry.Kind];
-            return $"<path d=\"M {N(entry.X)} {N(entry.Baseline - 3)} L {N(entry.X + 34)} {N(entry.Baseline - 3)}\" class=\"{className}\" stroke-width=\"{N(Or(strokeWidth, 1.4))}\" marker-end=\"url(#{marker})\"/>";
+            return $"<path d=\"M {N(entry.X)} {N(entry.Baseline - 3)} L {N(entry.X + 34)} {N(entry.Baseline - 3)}\" class=\"{className}\" stroke-width=\"{N(Js.Or(strokeWidth, 1.4))}\" marker-end=\"url(#{marker})\"/>";
         }
 
         string RenderLegend() => Legend.RenderLegend(ctx, LegendEntries(), new LegendLayout(

@@ -150,8 +150,8 @@ public sealed class TreeRenderer : IDiagramRenderer
                 {
                     if (group.Stack is null) continue;
                     var members = group.Stack.Select(id => measured.Get(id)!).ToList();
-                    group.Width = MaxOf(members.Select(node => node.Width));
-                    group.RowH = MaxOf(members.Select(node => node.Height));
+                    group.Width = Js.MaxOf(members.Select(node => node.Width));
+                    group.RowH = Js.MaxOf(members.Select(node => node.Height));
                     foreach (var node in members) { node.Width = group.Width; node.Height = group.RowH; }
                 }
             }
@@ -159,7 +159,7 @@ public sealed class TreeRenderer : IDiagramRenderer
             // ---- Layout (:245-311) ----
             breadthGap = down ? gapX : gapY;
             depthGap = down ? gapY : gapX;
-            var maxDepth = (int)MaxOf(measured.Values.Select(node => (double)node.Depth));
+            var maxDepth = (int)Js.MaxOf(measured.Values.Select(node => (double)node.Depth));
             bandSize = new double[maxDepth + 1];
             foreach (var node in measured.Values) if (!node.Stacked) bandSize[node.Depth] = Math.Max(bandSize[node.Depth], DepthSize(node));
             bandStart = new double[maxDepth + 1];
@@ -182,8 +182,8 @@ public sealed class TreeRenderer : IDiagramRenderer
             all = nodes.Select(node => placed.Get(Id(node))!).ToList();
             viewBox = meta["viewBox"] is JsonArray authored ? [Elem(authored, 0), Elem(authored, 1)] :
             [
-                Math.Max(320, Math.Ceiling(MaxOf(all.Select(node => node.X + node.Width)) + Layout.Margin + (down ? 0 : Layout.ToggleR + 4))),
-                Math.Max(240, Math.Ceiling(MaxOf(all.Select(node => node.Y + node.Height)) + Layout.Margin + (down ? Layout.ToggleR + 4 : 0))),
+                Math.Max(320, Math.Ceiling(Js.MaxOf(all.Select(node => node.X + node.Width)) + Layout.Margin + (down ? 0 : Layout.ToggleR + 4))),
+                Math.Max(240, Math.Ceiling(Js.MaxOf(all.Select(node => node.Y + node.Height)) + Layout.Margin + (down ? Layout.ToggleR + 4 : 0))),
             ];
 
             edges = all.Where(node => node.Parent is not null)
@@ -214,17 +214,6 @@ public sealed class TreeRenderer : IDiagramRenderer
         static double Elem(JsonArray a, int i) => i < a.Count && a[i] is JsonValue v && v.GetValueKind() == JsonValueKind.Number ? v.D() : double.NaN;
         // Array.prototype.join: null/undefined become "", numbers print as JS numbers.
         static string JoinPart(JsonNode? v) => v is null ? "" : v is JsonValue jv && jv.GetValueKind() == JsonValueKind.Number ? Js.Num(jv.D()) : v.Str0() ?? Js.Stringify(v);
-        // Math.max(...xs): -Infinity for none.
-        static double MaxOf(IEnumerable<double> values)
-        {
-            var max = double.NegativeInfinity;
-            foreach (var value in values)
-            {
-                if (double.IsNaN(value)) return double.NaN;
-                max = Math.Max(max, value);
-            }
-            return max;
-        }
 
         // ---- Structure (:55-111) -----------------------------------------------------------
         string ValidateStructure()
@@ -352,7 +341,7 @@ public sealed class TreeRenderer : IDiagramRenderer
             var labelFont = isRoot ? Layout.RootLabelFont : Layout.LabelFont;
             var labelAdvance = labelFont * ADVANCE * 1.06;
             // Text wraps between words, never inside one: the longest single word may widen a node past nodeMaxW.
-            var longestWord = MaxOf(Js.SplitOnSpaces(label).Select(word => Utils.TextUnits(word) * labelAdvance));
+            var longestWord = Js.MaxOf(Js.SplitOnSpaces(label).Select(word => Utils.TextUnits(word) * labelAdvance));
             var floor = Math.Max(nodeW, Math.Ceiling(longestWord + Layout.PadX * 2 + 2));
             var cap = Math.Ceiling(Math.Min(nodeMaxW * 1.5, Math.Max(floor, nodeMaxW)));
             (List<string> Label, List<string> Sublabel) LinesAt(double width) => (

@@ -191,14 +191,14 @@ public static class CheckerDiagnostics
                 {
                     diagnostics.AddRange(pathDiagnostics.Select(item => new Diagnostic(item.Str("code")!, Severity.Error, item.Str("message") ?? "",
                         item.Obj("subject")?.DeepClone().AsObject() ?? new JsonObject(), item.Obj("evidence")?.DeepClone().AsObject() ?? new JsonObject(),
-                        [.. item.Arr("supportedFixes").AsArrayOrEmpty().Select(f => BrandMarks.JsString(f))], null)));
+                        [.. item.Arr("supportedFixes").AsArrayOrEmpty().Select(f => Js.PrimitiveString(f))], null)));
                     continue;
                 }
             }
             var details = node!["details"].Truthy() ? node["details"]!.DeepClone() : new JsonArray();
             var firstDetail = details.AsArrayOrEmpty().FirstOrDefault(d => d.Truthy());
             diagnostics.Add(new($"artifact/{name.Replace('_', '-')}", Severity.Error,
-                firstDetail is not null ? BrandMarks.JsString(firstDetail) : $"Final artifact failed {name}.",
+                firstDetail is not null ? Js.PrimitiveString(firstDetail) : $"Final artifact failed {name}.",
                 new JsonObject { ["check"] = name }, new JsonObject { ["details"] = details },
                 CHECK_FIXES.GetValueOrDefault(name) ?? [], null));
         }
@@ -212,7 +212,7 @@ public static class CheckerDiagnostics
         if (code == "composition/viewport-height")
         {
             // String(issue.detail || '').replace(/^\[[^\]]+\]\s*/, '')
-            var detail = issue["detail"].Truthy() ? BrandMarks.JsString(issue["detail"]) : "";
+            var detail = issue["detail"].Truthy() ? Js.PrimitiveString(issue["detail"]) : "";
             var close = detail.StartsWith('[') ? detail.IndexOf(']', 1) : -1;
             if (close > 1) { var at = close + 1; while (at < detail.Length && Js.IsSpace(detail[at])) at++; detail = detail[at..]; }
             return [detail];
@@ -246,5 +246,5 @@ public static class CheckerDiagnostics
     };
 
     // `${issue[key]}`: a missing key is undefined.
-    static string TemplateString(JsonObject issue, string key) => issue.TryGetPropertyValue(key, out var value) ? BrandMarks.JsString(value) : "undefined";
+    static string TemplateString(JsonObject issue, string key) => issue.TryGetPropertyValue(key, out var value) ? Js.PrimitiveString(value) : "undefined";
 }

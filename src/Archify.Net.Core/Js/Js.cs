@@ -144,6 +144,33 @@ public static partial class Js
         return Math.Sqrt(x * x + y * y) * max;
     }
 
+    // JS `x || y` on numbers: x when truthy (not undefined/null, 0, -0 or NaN), else y.
+    public static double Or(double? x, double y) => x is { } v && v != 0 && !double.IsNaN(v) ? v : y;
+    // Math.max(seed, ...values) / Math.min: NaN anywhere gives NaN, and -0 < 0 (Math.Max/Min follow IEEE 754-2019 as V8 does).
+    public static double MaxOf(IEnumerable<double> values, double seed = double.NegativeInfinity) { var m = seed; foreach (var v in values) m = Math.Max(m, v); return m; }
+    public static double MinOf(IEnumerable<double> values, double seed = double.PositiveInfinity) { var m = seed; foreach (var v in values) m = Math.Min(m, v); return m; }
+
+    // JS String(value) for a JSON value: "[object Object]" for objects, arrays comma-joined with null items as "".
+    public static string String(JsonNode? value) => value switch
+    {
+        null => "null",
+        JsonObject => "[object Object]",
+        JsonArray arr => string.Join(",", arr.Select(item => item is null ? "" : String(item))),
+        JsonValue v when v.TryGetValue<string>(out var s) => s,
+        JsonValue v when v.GetValueKind() == JsonValueKind.Number => Num(v.D()),
+        _ => value.GetValueKind() == JsonValueKind.True ? "true" : "false",
+    };
+    // JS String(value) for a value known to be primitive; arrays and objects come out as JSON, NOT as String() would print
+    // them. Callers that may see a non-primitive and want JS output use String.
+    public static string PrimitiveString(JsonNode? value) => value switch
+    {
+        null => "null",
+        JsonValue v when v.TryGetValue<string>(out var s) => s,
+        JsonValue v when v.TryGetValue<bool>(out var b) => b ? "true" : "false",
+        JsonValue v when v.GetValueKind() == JsonValueKind.Number => Num(v.D()),
+        _ => Stringify(value),
+    };
+
     public static void Sort<T>(List<T> list, Func<T, T, double> cmp)
     {   // ponytail: stable sort via OrderBy; equals V8 TimSort for every consistent comparator. Differs only when the
         // comparator returns NaN (inconsistent order) — schema-validated input gives finite keys. Port V8 TimSort

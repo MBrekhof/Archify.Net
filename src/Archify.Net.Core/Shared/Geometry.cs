@@ -900,13 +900,12 @@ public static class Geometry
 
     // edge.width || (variant === 'emphasis' ? 1.8 : 1.4)
     static string Variant(JsonObject edge) => Truthy(edge.Str("variant")) ? edge.Str("variant")! : "default";
-    static double Or(double? value, double fallback) => value is { } v && v != 0 && !double.IsNaN(v) ? v : fallback;
 
     static bool ShortWorkflowTrunk(Routed left, Routed right, int leftSegment, int rightSegment, double length)
     {
         if (length > 24 + 0.0001) return false;
         var a = left.Relation; var b = right.Relation;
-        static double Width(JsonObject edge) => Or(edge.Num("width"), Variant(edge) == "emphasis" ? 1.8 : 1.4);
+        static double Width(JsonObject edge) => Js.Or(edge.Num("width"), Variant(edge) == "emphasis" ? 1.8 : 1.4);
         if (Variant(a) != Variant(b) || Width(a) != Width(b) || (a.Str("role") ?? "") != (b.Str("role") ?? "")) return false;
         static bool Same(Pt p, Pt q) => Math.Abs(p.X - q.X) < 0.0001 && Math.Abs(p.Y - q.Y) < 0.0001;
         var source = left.SourceEndpoint && right.SourceEndpoint
@@ -937,7 +936,7 @@ public static class Geometry
             var vertical = Math.Abs(tip.X - previous.X) < 0.0001;
             var axis = vertical ? 0 : 1;
             var direction = Math.Sign(Coord(tip, 1 - axis) - Coord(previous, 1 - axis));
-            var halfWidth = 3.5 * Or(relation.Num("width"), relation.Str("variant") == "emphasis" ? 1.8 : 1.5);
+            var halfWidth = 3.5 * Js.Or(relation.Num("width"), relation.Str("variant") == "emphasis" ? 1.8 : 1.5);
             var key = (relation.Str("to")!, axis, direction);
             if (!incoming.TryGetValue(key, out var siblings)) siblings = [];
             var current = new ArrowheadEntry(relation, entry.Points, entry.SourceEndpoint, entry.TargetEndpoint, tip, halfWidth);
@@ -1490,7 +1489,7 @@ public static class Geometry
             return IsFinitePoint(start) && IsFinitePoint(end) ? [new("line", start, end)] : [];
         }
         if (!IsFinitePoint(frame.X, frame.Y, frame.Width, frame.Height) || frame.Width <= 0 || frame.Height <= 0) return [];
-        var radius = Math.Max(0, Math.Min(Math.Min(Or(frame.Radius, 0), frame.Width / 2), frame.Height / 2));
+        var radius = Math.Max(0, Math.Min(Math.Min(Js.Or(frame.Radius, 0), frame.Width / 2), frame.Height / 2));
         var left = frame.X;
         var right = frame.X + frame.Width;
         var top = frame.Y;

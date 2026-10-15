@@ -45,7 +45,7 @@ internal sealed partial class WorkflowCompilation
     static bool HasAny(JsonObject edge, params string[] fields) => fields.Any(edge.ContainsKey);
     bool SharesEndpoint(JsonObject edge, JsonObject other) =>
         ((JsonNode?[])[edge["from"], edge["to"]]).Any(id => StrictEquals(id, other["from"]) || StrictEquals(id, other["to"]));
-    static double StrokeWidth(JsonObject relation) => Or(relation.Num("width"), relation.Str("variant") == "emphasis" ? 1.8 : 1.4);
+    static double StrokeWidth(JsonObject relation) => Js.Or(relation.Num("width"), relation.Str("variant") == "emphasis" ? 1.8 : 1.4);
     static JsonObject ArrowRelation(JsonObject relation)
     {
         var copy = relation.DeepClone().AsObject();
@@ -532,7 +532,7 @@ internal sealed partial class WorkflowCompilation
         // Accumulate in the order the routes were registered, which is the order the
         // previous full scan used, so the floating-point sum is identical.
         var items = obstacleGrid.Query(queryBox).Where(item => item.Kind is "route" or "label").ToList();
-        Js.Sort(items, (left, right) => Lor(left.Sequence - right.Sequence, left.Kind == right.Kind ? 0 : left.Kind == "route" ? -1 : 1));
+        Js.Sort(items, (left, right) => Js.Or(left.Sequence - right.Sequence, left.Kind == right.Kind ? 0 : left.Kind == "route" ? -1 : 1));
         double deficit = 0;
         foreach (var item in items)
         {
@@ -914,8 +914,8 @@ internal sealed partial class WorkflowCompilation
     {
         for (var index = 0; index < left.V.Length; index++)
         {
-            var a = Or(left.V[index], 0);
-            var b = Or(right.V[index], 0);
+            var a = Js.Or(left.V[index], 0);
+            var b = Js.Or(right.V[index], 0);
             if (a != b) return a - b;
         }
         return 0;
@@ -1192,7 +1192,7 @@ internal sealed partial class WorkflowCompilation
                     }
                 }
                 var slotOffsets = slots.Select(slot => (slot.Start + slot.End) / 2 - Ax(selected.Points[endpointIndex], axis)).ToList();
-                Js.Sort(slotOffsets, (a, b) => Lor(Math.Abs(a) - Math.Abs(b), a - b));
+                Js.Sort(slotOffsets, (a, b) => Js.Or(Math.Abs(a) - Math.Abs(b), a - b));
                 offsets.AddRange(slotOffsets.Take(4));
             }
             foreach (var offset in offsets)
@@ -1254,7 +1254,7 @@ internal sealed partial class WorkflowCompilation
             trackSet.Add(node.X + node.Width + 8);
         }
         var tracks = trackSet.Where(x => x >= layout.LaneX + 4 && x <= layout.LaneX + layout.LaneW - 4).ToList();
-        Js.Sort(tracks, (a, b) => Lor(Math.Abs(a - midX) - Math.Abs(b - midX), a - b));
+        Js.Sort(tracks, (a, b) => Js.Or(Math.Abs(a - midX) - Math.Abs(b - midX), a - b));
         if (tracks.Count > 24) tracks.RemoveRange(24, tracks.Count - 24);
         var plans = new List<Plan>();
         foreach (var start in starts)
@@ -1510,7 +1510,7 @@ internal sealed partial class WorkflowCompilation
         }
 
         static double FeedbackPriority(WorkflowLayoutFeedback error) => error.Kind switch { "rank-gap-minimum" => 0, "lane-gap-minimum" => 1, _ => 99 };
-        Js.Sort(feedback, (left, right) => Lor(FeedbackPriority(left.Error) - FeedbackPriority(right.Error), left.PairOrdinal - right.PairOrdinal));
+        Js.Sort(feedback, (left, right) => Js.Or(FeedbackPriority(left.Error) - FeedbackPriority(right.Error), left.PairOrdinal - right.PairOrdinal));
         if (feedback.Count > 0) throw feedback[0].Error;
         List<string> authoredSideFields = [.. authoredFrom is not null ? ["fromSide"] : Array.Empty<string>(), .. authoredTo is not null ? ["toSide"] : Array.Empty<string>()];
         if (authoredSideFields.Count > 0) throw AuthoredSideRouteConflict(edge, from, to, primarySides, primaryPorts, authoredSideFields, firstFailure);
