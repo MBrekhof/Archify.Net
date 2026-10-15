@@ -86,6 +86,23 @@ public class ParityTests
         ["workflow", Fixtures.Fixture("diagrams/shared-trunks.workflow.json"), Fixtures.Golden("shared-trunks-rendered.html")],   // controlled routes
         // Phase 3, task 11: brand marks on a readable-v2 workflow (zh-CN).
         ["workflow", Fixtures.Fixture("diagrams/holiday-planning.brand.workflow.json"), Fixtures.Golden("holiday-planning.brand-rendered.html")],
+        // Phase 4: erd (both upstream examples and every Task 1 golden).
+        ["erd", Fixtures.Upstream("examples/orders.erd.json"), Fixtures.Upstream("examples/erd-orders-rendered.html")],
+        ["erd", Fixtures.Upstream("examples/subscription-billing.erd.json"), Fixtures.Upstream("examples/subscription-billing-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/first-draft.blog.erd.json"), Fixtures.Golden("first-draft.blog-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/first-draft.shop.erd.json"), Fixtures.Golden("first-draft.shop-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/first-draft.warehouse.erd.json"), Fixtures.Golden("first-draft.warehouse-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/label-capacity.erd.json"), Fixtures.Golden("label-capacity-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/label-capacity.showcase.erd.json"), Fixtures.Golden("label-capacity.showcase-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/label-capacity-vertical.erd.json"), Fixtures.Golden("label-capacity-vertical-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/i18n.en.erd.json"), Fixtures.Golden("i18n.en-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/i18n.zh-CN.erd.json"), Fixtures.Golden("i18n.zh-CN-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/i18n.zh-TW.erd.json"), Fixtures.Golden("i18n.zh-TW-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/i18n.es.erd.json"), Fixtures.Golden("i18n.es-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/i18n.ko.erd.json"), Fixtures.Golden("i18n.ko-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/orders.lanes.erd.json"), Fixtures.Golden("orders.lanes-rendered.html")],   // laneOffsets
+        ["erd", Fixtures.Fixture("diagrams/orders.seven-domains.erd.json"), Fixtures.Golden("orders.seven-domains-rendered.html")],   // 7th hue wraps
+        ["erd", Fixtures.Fixture("diagrams/orders.crossing-standard.erd.json"), Fixtures.Golden("orders.crossing-standard-rendered.html")],
     ];
 
     [Fact] public void Workflow_quality_option_reaches_every_gate_like_the_env_var()   // Review Focus 3
@@ -494,7 +511,15 @@ public class ParityTests
 
     [Fact] public void Validate_passes_every_architecture_target_and_fails_bad_input()
     {
-        foreach (var t in Targets()) Assert.DoesNotContain(ArchifyNet.Validate(DiagramTypes.Parse((string)t[0]), DiagramLoader.Parse(Fixtures.Lf((string)t[1]))), d => d.Severity == Severity.Error);
+        foreach (var t in Targets())
+        {
+            var diagnostics = ArchifyNet.Validate(DiagramTypes.Parse((string)t[0]), DiagramLoader.Parse(Fixtures.Lf((string)t[1])));
+            // The renderer gates crossings by profile and renders it under standard, but upstream's own checker fails the
+            // artifact (tests/goldens/checker/orders.crossing-standard-rendered.json: orthogonal_arrows false).
+            if (((string)t[2]).EndsWith("orders.crossing-standard-rendered.html"))
+                Assert.Equal(["artifact/orthogonal-arrows"], diagnostics.Where(d => d.Severity == Severity.Error).Select(d => d.Code));
+            else Assert.DoesNotContain(diagnostics, d => d.Severity == Severity.Error);
+        }
         var bad = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/web-app.architecture.json"))); bad["components"]![0]!["id"] = "1bad";
         Assert.Contains(ArchifyNet.Validate(DiagramType.Architecture, bad), d => d.Code == "schema/pattern");
     }
@@ -538,7 +563,7 @@ public class ParityTests
 
     // A failure receipt (upstream's ARCHIFY_DIAGNOSTIC_FORMAT=json stderr): no HTML, the same codes in order, then message,
     // severity, subject, evidence and fixes per index.
-    static void AssertReceipt(JsonNode expected, RenderResult r)
+    internal static void AssertReceipt(JsonNode expected, RenderResult r)
     {
         Assert.Equal("", r.Html);
         var upstream = expected["diagnostics"]!.AsArray();

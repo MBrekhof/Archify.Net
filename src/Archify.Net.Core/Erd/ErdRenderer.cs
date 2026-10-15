@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -983,8 +984,317 @@ public sealed class ErdRenderer : IDiagramRenderer
         bool RenderableRelationship(JsonObject relationship) =>
             EntityOf(relationship.Str("from")) is not null && EntityOf(relationship.Str("to")) is not null;
 
-        // Task 3 ports validateEr (:1052-1335).
-        public void ValidateEr() { }
+        static (double Name, double Type) RowTextWidths(JsonNode? attribute)
+        {
+            var name = Utils.TextUnits(attribute.Str("name")) * NodeTextFit.WidthFactor;
+            var type = attribute?["type"].Truthy() == true ? Utils.TextUnits(attribute.Str("type")) * NodeTextFit.WidthFactor : 0;
+            return (name, type);
+        }
+
+        sealed record EntityHeaderFit(bool Problem, double TitleWidth, double LabelFont = 0, double LabelY = 0, double LabelX = 0);
+
+        // The header carries one string: the table title. A domain that earns a band is named by the band, and a tagged
+        // table the renderer cannot band is refused outright, so nothing depends on the header to carry a name.
+        static EntityHeaderFit EntityHeader(Box entity)
+        {
+            const double titleInset = 30;
+            var label = entity.Source.Str("label");
+            var titleWidth = entity.Width - titleInset - Layout.PadX;
+            var labelFont = TextFit.FittedNodeFontSize(label, titleWidth + NodeTextFit.HorizontalPadding, Layout.HeaderFont, Layout.HeaderFontMinimum);
+            var labelWidth = Utils.TextUnits(label) * labelFont * NodeTextFit.WidthFactor;
+            if (labelWidth > titleWidth) return new(true, titleWidth);
+            // The title is centered on the table's own center line, held inside the interval between the sigil porch and
+            // the right padding.
+            var leftEdge = entity.X + titleInset;
+            var rightEdge = leftEdge + titleWidth;
+            var labelX = Js.Round(Math.Min(Math.Max(entity.X + entity.Width / 2, leftEdge + labelWidth / 2), rightEdge - labelWidth / 2) * 10) / 10;
+            return new(false, titleWidth, labelFont, 19, labelX);
+        }
+
+        List<Pt> PointsFor(JsonObject relationship) => router.PathFor(relationship).Points;
+
+        static JsonArray Ids(IEnumerable<string> ids) => new([.. ids.Select(id => (JsonNode?)id)]);
+
+        public void ValidateEr()
+        {
+            var problems = new List<string>();
+            // A self-relationship is reported once below; route checks skip it (index-preserving null) so they do not
+            // suggest side or route repairs for a line that is never drawn.
+            var routableRelationships = relationships.Select(relationship =>
+                (JsonNode?)(relationship.Str("from") == relationship.Str("to") ? null : relationship)).ToList();
+            var headerDetails = new List<Diagnostic>();
+            var domainDetails = new List<Diagnostic>();
+            var attributeDetails = new List<Diagnostic>();
+            foreach (var entity in entities.Values)
+            {
+                var header = EntityHeader(entity);
+                if (!header.Problem) continue;
+                var message = $"Entity \"{entity.Id}\" title does not fit the header at a readable size — widen the entity or shorten the title.";
+                problems.Add(message);
+                headerDetails.Add(new Diagnostic("erd/header-text-capacity", Severity.Error, message,
+                    new JsonObject { ["diagramType"] = "erd", ["entityId"] = entity.Id },
+                    new JsonObject { ["label"] = entity.Source["label"]?.DeepClone(), ["availableWidth"] = header.TitleWidth, ["headerHeight"] = metrics.HeaderH },
+                    ["Widen the entity.", "Shorten the title."], null));
+            }
+            foreach (var domain in unlabelableDomains)
+            {
+                // A shared cell is already reported by the grid placement check, with the pair that has to move.
+                if (domain.Reason == "shared-cell") continue;
+                var members = domain.Members.Select(entity => entity.Id).ToList();
+                var listed = string.Join(", ", members.Select(id => $"\"{id}\""));
+                var offGrid = string.Join(", ", domain.OffGrid.Select(id => $"\"{id}\""));
+                var message = domain.Reason == "no-grid"
+                    ? $"Domain \"{domain.Tag}\" is named but cannot be drawn: {offGrid} have no grid cells, and a band is measured from them. Give every member row/col cells, or drop the tag."
+                    : $"Domain \"{domain.Tag}\" is named but cannot be drawn: {listed} do not fill a solid rectangle of grid cells (a row, a column, or a filled block — not an L or diagonal), and a band around them would enclose cells the domain does not own. Move them into one block, or split the tag.";
+                problems.Add(message);
+                domainDetails.Add(new Diagnostic("erd/domain-not-drawn", Severity.Error, message,
+                    new JsonObject { ["diagramType"] = "erd", ["entityId"] = members[0], ["domain"] = domain.Tag },
+                    new JsonObject { ["domain"] = domain.Tag, ["entities"] = Ids(members), ["reason"] = domain.Reason, ["offGrid"] = Ids(domain.OffGrid) },
+                    domain.Reason == "no-grid"
+                        ? ["Give every domain member row/col cells.", "Drop the tag to group nothing."]
+                        : ["Give the domain members one solid rectangle of grid cells (a row, a column, or a filled block — not an L).", "Split the tag so each domain can be drawn as a band.", "Drop the tag to group nothing."],
+                    null));
+            }
+            // The band draws the domain name, so the caption is what has to land inside the canvas.
+            foreach (var (tag, members) in domainGroups)
+            {
+                var caption = DomainBandCaption(DomainBandBox(members));
+                if (caption.X >= 4 && caption.Y >= 4 && caption.Y <= viewBox[1] - 4 && caption.X <= viewBox[0] - 4) continue;
+                var listed = string.Join(", ", members.Select(entity => $"\"{entity.Id}\""));
+                var message = $"Domain \"{tag}\" is named but cannot be drawn: the canvas does not reach the band caption for {listed} at ({N(caption.X)}, {N(caption.Y)}). Move the domain clear of the canvas edge, or drop the tag.";
+                problems.Add(message);
+                domainDetails.Add(new Diagnostic("erd/domain-not-drawn", Severity.Error, message,
+                    new JsonObject { ["diagramType"] = "erd", ["entityId"] = members[0].Id, ["domain"] = tag },
+                    new JsonObject
+                    {
+                        ["domain"] = tag, ["entities"] = Ids(members.Select(entity => entity.Id)), ["reason"] = "off-canvas",
+                        ["caption"] = new JsonObject { ["x"] = caption.X, ["y"] = caption.Y },
+                        ["viewBox"] = meta["viewBox"] is JsonArray authored ? authored.DeepClone() : new JsonArray(viewBox[0], viewBox[1]),
+                    },
+                    ["Move the domain clear of the canvas edge.", "Drop the tag to group nothing."], null));
+            }
+            // A band claims the box it covers; with gaps smaller than the band padding it reaches a table the domain does
+            // not own.
+            foreach (var (tag, members) in domainGroups)
+            {
+                var memberIds = new JsSet<string>();
+                foreach (var entity in members) memberIds.Add(entity.Id);
+                var box = DomainBandBox(members);
+                var intruder = entities.Values.FirstOrDefault(entity => !memberIds.Has(entity.Id)
+                    && entity.X < box.X + box.Width && entity.X + entity.Width > box.X
+                    && entity.Y < box.Y + box.Height && entity.Y + entity.Height > box.Y);
+                if (intruder is null) continue;
+                var message = $"Domain \"{tag}\" is named but cannot be drawn: its band would cover the unrelated table \"{intruder.Id}\". Widen layout.gapX/gapY past the band padding, or split the tag.";
+                problems.Add(message);
+                domainDetails.Add(new Diagnostic("erd/domain-not-drawn", Severity.Error, message,
+                    new JsonObject { ["diagramType"] = "erd", ["entityId"] = members[0].Id, ["domain"] = tag },
+                    new JsonObject
+                    {
+                        ["domain"] = tag, ["entities"] = Ids(members.Select(entity => entity.Id)), ["reason"] = "band-covers-entity",
+                        ["band"] = new JsonObject { ["x"] = box.X, ["y"] = box.Y, ["width"] = box.Width, ["height"] = box.Height },
+                        ["coveredEntity"] = intruder.Id,
+                    },
+                    ["Widen layout.gapX/gapY past the band padding.", "Split the tag so each band covers only its own tables."], null));
+            }
+            ErdGrid.ValidateErGridPlacement(er, grid, bands, problems);
+
+            // The authored list (duplicates included), not the deduped Map.
+            var seenEntityIds = new JsSet<string>();
+            var authoredEntities = er["entities"].AsArrayOrEmpty().Select(node => (JsonObject)node!).ToList();
+            for (var entityIndex = 0; entityIndex < authoredEntities.Count; entityIndex++)
+            {
+                var entity = authoredEntities[entityIndex];
+                var entityId = S(entity.Str("id"));
+                if (seenEntityIds.Has(entityId)) problems.Add($"Entity ids must be unique; \"{entityId}\" is declared twice.");
+                seenEntityIds.Add(entityId);
+
+                if (!double.IsFinite(entity.Num("width") ?? double.NaN) && entity.ContainsKey("width"))
+                    problems.Add($"Entity \"{entityId}\" width must be a finite number.");
+                var seenColumns = new JsSet<string>();
+                var attributes = entity["attributes"].AsArrayOrEmpty().ToList();
+                for (var attributeIndex = 0; attributeIndex < attributes.Count; attributeIndex++)
+                {
+                    var attribute = attributes[attributeIndex];
+                    var attributeName = S(attribute.Str("name"));
+                    if (seenColumns.Has(attributeName)) problems.Add($"Entity \"{entityId}\" declares attribute \"{attributeName}\" twice.");
+                    seenColumns.Add(attributeName);
+                    var (nameUnits, typeUnits) = RowTextWidths(attribute);
+                    // validateEr sees the authored object, so the overflow check uses the resolved width.
+                    var available = EntityWidth(entity) - Layout.PadX * 2 - KeyColumnWidth(entity);
+                    var needed = nameUnits * Layout.RowFont + (typeUnits != 0 ? typeUnits * Layout.TypeFont + 8 : 0);
+                    if (!(needed > available)) continue;
+                    var requiredEntityWidth = Math.Ceiling(needed + Layout.PadX * 2 + KeyColumnWidth(entity));
+                    var fix = $"For this attribute row's text capacity, set entities[{N(entityIndex)}].width to at least {N(requiredEntityWidth)}px, preserving the attribute name, type and key roles.";
+                    var message = $"Entity \"{entityId}\" attribute {N(attributeIndex)} \"{attributeName}\" needs {N(Math.Ceiling(needed))}px of text but only {N(Math.Floor(available))}px is available — {fix}";
+                    problems.Add(message);
+                    attributeDetails.Add(new Diagnostic("erd/attribute-text-capacity", Severity.Error, message,
+                        new JsonObject
+                        {
+                            ["diagramType"] = "erd", ["entityId"] = entity["id"]?.DeepClone(), ["attributeIndex"] = attributeIndex,
+                            ["attributeName"] = attribute?["name"]?.DeepClone(),
+                        },
+                        new JsonObject
+                        {
+                            ["entityWidth"] = EntityWidth(entity), ["requiredEntityWidth"] = requiredEntityWidth,
+                            ["availableTextWidth"] = available, ["requiredTextWidth"] = needed,
+                            ["paddingWidth"] = Layout.PadX * 2, ["keyColumnWidth"] = KeyColumnWidth(entity),
+                            ["nameFontSize"] = Layout.RowFont, ["typeFontSize"] = Layout.TypeFont,
+                        },
+                        [fix], null));
+                }
+            }
+
+            foreach (var entity in entities.Values)
+            {
+                foreach (var other in entities.Values)
+                {
+                    if (string.CompareOrdinal(entity.Id, other.Id) >= 0) continue;
+                    if (!Geometry.RectsOverlap(entity, other, 0)) continue;
+                    problems.Add($"Entity \"{entity.Id}\" overlaps entity \"{other.Id}\".\n{Geometry.SuggestComponentSeparation(entity, other)}");
+                }
+            }
+
+            for (var index = 0; index < relationships.Count; index++)
+            {
+                var relationship = relationships[index];
+                var id = relationship["id"].Truthy() ? $" id \"{BrandMarks.JsString(relationship["id"])}\"" : "";
+                var from = relationship.Str("from");
+                var to = relationship.Str("to");
+                if (EntityOf(from) is null)
+                {
+                    problems.Add($"Relationship {N(index)}{id} references unknown source entity \"{S(from)}\".");
+                    continue;
+                }
+                if (EntityOf(to) is null)
+                {
+                    problems.Add($"Relationship {N(index)}{id} references unknown target entity \"{S(to)}\".");
+                    continue;
+                }
+                if (from == to)
+                {
+                    problems.Add($"Relationship {N(index)}{id} connects entity \"{S(from)}\" to itself — draw it between two entities or describe the self-reference in a card.");
+                    continue;
+                }
+                var points = PointsFor(relationship);
+                var (start, end) = (points[0], points[^1]);
+                var distance = Js.Hypot(end.X - start.X, end.Y - start.Y);
+                if (distance < Layout.MinRelationshipLength)
+                {
+                    problems.Add($"Relationship {N(index)}{id} \"{S(from)}\" -> \"{S(to)}\" is too short ({N(Js.Round(distance))}px; minimum {N(Layout.MinRelationshipLength)}px) — place the entities farther apart.");
+                }
+            }
+
+            foreach (var entity in authoredEntities)
+            {
+                var attributes = entity["attributes"].AsArrayOrEmpty().ToList();
+                for (var attributeIndex = 0; attributeIndex < attributes.Count; attributeIndex++)
+                {
+                    var attribute = attributes[attributeIndex];
+                    if (attribute?["references"] is not JsonValue reference || reference.GetValueKind() != JsonValueKind.String) continue;
+                    var references = reference.GetValue<string>();
+                    var parts = references.Split('.');
+                    var (targetId, targetColumn) = (parts[0], parts.Length > 1 ? parts[1] : null);
+                    var target = entities.Get(targetId);
+                    if (target is null)
+                    {
+                        problems.Add($"Entity \"{S(entity.Str("id"))}\" attribute {N(attributeIndex)} \"{S(attribute.Str("name"))}\" references unknown entity \"{targetId}\" in \"{references}\".");
+                        continue;
+                    }
+                    if (!target.Source["attributes"].AsArrayOrEmpty().Any(candidate => candidate.Str("name") == targetColumn))
+                    {
+                        problems.Add($"Entity \"{S(entity.Str("id"))}\" attribute {N(attributeIndex)} \"{S(attribute.Str("name"))}\" references unknown attribute \"{references}\" — \"{targetId}\" has no attribute \"{S(targetColumn)}\".");
+                    }
+                }
+            }
+
+            // A busy fan-in can leave less room than a glyph is tall: the router spreads a side by
+            // min(maxSpacing, (extent - 2 x gutter) / (n - 1)), so the renderer names it here.
+            var portSpacingDetails = new List<Diagnostic>();
+            foreach (var (entityId, entity) in entities.Entries)
+            {
+                var sides = new JsMap<string, double>();
+                foreach (var relationship in relationships)
+                {
+                    if (!RelationshipAutoRouted(relationship)) continue;
+                    var (fromSide, toSide) = router.InferredSides(relationship);
+                    if (relationship.Str("from") == entityId) sides.Set(fromSide, sides.Get(fromSide) + 1);   // `|| 0`
+                    if (relationship.Str("to") == entityId) sides.Set(toSide, sides.Get(toSide) + 1);
+                }
+                foreach (var (side, count) in sides.Entries)
+                {
+                    if (count < 2) continue;
+                    var extent = side is "left" or "right" ? entity.Height : entity.Width;
+                    var spacing = Math.Min(ERD_PORT_SPACING, Math.Max(0, extent - 32) / (count - 1));
+                    if (spacing >= MARKER_HEIGHT) continue;
+                    var message = $"Entity \"{entityId}\" shares its {side} side with {N(count)} relationship ends: their ports would sit {N(Js.Round(spacing))}px apart, under the {N(MARKER_HEIGHT)}px a cardinality glyph is tall, so the symbols overlap. Give the table more rows so that side is taller, spread the relationships across sides with room, or reduce the fan-in.";
+                    problems.Add(message);
+                    portSpacingDetails.Add(new Diagnostic("layout/marker-capacity", Severity.Error, message,
+                        // The path names the entity id, not its index.
+                        new JsonObject { ["diagramType"] = "erd", ["path"] = $"/entities/{entityId}" },
+                        new JsonObject
+                        {
+                            ["entity"] = entityId, ["side"] = side, ["relationshipEnds"] = count, ["spacingPx"] = Js.Round(spacing),
+                            ["markerHeightPx"] = MARKER_HEIGHT, ["sideExtentPx"] = extent,
+                        },
+                        [
+                            $"add fields to \"{entityId}\" so its {side} side is taller",
+                            "spread the relationships across the sides that have room",
+                            "reduce the fan-in by modelling the shared parent instead of pointing every child at this table",
+                        ], null));
+                }
+            }
+
+            var sink = ctx.Diagnostics;
+            JsSet<string> EndpointIds()
+            {
+                var ids = new JsSet<string>();
+                foreach (var key in entities.Keys) ids.Add(key);
+                return ids;
+            }
+            problems.AddRange(Geometry.CleanEndpointSideProblems(sink, routableRelationships, EndpointIds(), PointsFor, "erd", "relationships",
+                relationship => router.ConnectionEndpointSide(relationship, "source"),
+                relationship => router.ConnectionEndpointSide(relationship, "target"),
+                routeHint: "keep automatic routing so the renderer can use a side-aware bridge, or set truthful fromSide/toSide"));
+            problems.AddRange(Geometry.CleanFlowProblems(sink, routableRelationships, entities.Values, PointsFor, "erd", "relationships", "entity",
+                routeHint: "adjust fromSide/toSide, set route/via, or move the entity"));
+            // P1: the four profile-taking gates read gateProfile (the option, else meta.quality_profile).
+            problems.AddRange(Geometry.CleanCrossingProblems(sink, routableRelationships, EndpointIds(), PointsFor, "erd", "relationships",
+                profile: gateProfile,
+                routeHint: "move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle"));
+            problems.AddRange(Geometry.CleanAmbiguousCorridorProblems(sink, routableRelationships, EndpointIds(), PointsFor, "erd", "relationships",
+                profile: gateProfile, routeHint: "give the relationships different fromSide/toSide targets, or move an entity so their corridors differ"));
+            problems.AddRange(Geometry.CleanRouteRhythmProblems(sink, routableRelationships, EndpointIds(), PointsFor, "erd", "relationships",
+                gateProfile, routeHint: "widen the gap between bands so every turn has room to read"));
+
+            var labelRects = new List<LabelRect>();
+            for (var index = 0; index < relationships.Count; index++)
+            {
+                var relationship = relationships[index];
+                if (!relationship["label"].Truthy() || !RenderableRelationship(relationship)) continue;
+                var (lx, ly) = ErLabelPoint(relationship);
+                var box = RelationshipLabelBox(relationship);
+                labelRects.Add(new LabelRect
+                {
+                    Relation = relationship, RelationIndex = index, Label = relationship.Str("label"),
+                    X = box.X, Y = box.Y, Width = box.Width, Height = box.Height, Lx = lx, Ly = ly,
+                });
+            }
+            foreach (var rect in labelRects)
+            {
+                foreach (var entity in entities.Values)
+                {
+                    if (!Geometry.RectsOverlap(rect, entity, -2)) continue;
+                    problems.Add($"Label \"{S(rect.Label)}\" overlaps entity \"{entity.Id}\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n{Geometry.SuggestLabelObstacleFix(rect, rect.Lx!.Value, rect.Ly!.Value, entity, "entity")}");
+                }
+            }
+            problems.AddRange(Geometry.CleanLabelRouteClearanceProblems(sink, routableRelationships, labelRects, EndpointIds(), PointsFor, "erd", "relationships", gateProfile));
+
+            if (problems.Count > 0)
+            {
+                throw sink.ThrowDiagnosticProblems("Entity-relationship layout validation failed", problems, "layout/constraint",
+                    new JsonObject { ["diagramType"] = "erd" }, [.. headerDetails, .. domainDetails, .. portSpacingDetails, .. attributeDetails]);
+            }
+        }
 
         // ---- Report (:1337-1351) -------------------------------------------------------
         public JsonObject BuildLayoutReport() => new()
@@ -1006,6 +1316,192 @@ public sealed class ErdRenderer : IDiagramRenderer
         };
 
         // ---- Rendering (:1353-1551) ----------------------------------------------------
-        public string RenderSvg() => throw new NotImplementedException("Task 3");
+        string RenderEntityColumnRows(Box entity)
+        {
+            var keyColumn = KeyColumnWidth(entity.Source);
+            return string.Join("\n", entity.Source["attributes"].AsArrayOrEmpty().Select((attribute, index) =>
+            {
+                var rowTop = entity.Y + metrics.HeaderH + index * metrics.RowH;
+                var baseline = rowTop + metrics.RowH - 5;
+                // Each text repeats `data-detail="context"`: the Viewer's reader sizes the diagram from the texts that
+                // declare the level themselves.
+                var keyGlyph = RenderKeyGlyphs(attribute, entity.X + Layout.PadX, baseline);
+                var nameX = entity.X + Layout.PadX + keyColumn;
+                var hasType = attribute?["type"].Truthy() == true;
+                var typeSpace = hasType ? Math.Min(96, Utils.TextUnits(attribute.Str("type")) * Layout.TypeFont * NodeTextFit.WidthFactor) : 0;
+                var nameFontSize = TextFit.FittedNodeFontSize(attribute.Str("name"),
+                    Math.Max(40, entity.X + entity.Width - Layout.PadX - typeSpace - nameX), Layout.RowFont, Layout.RowFontMinimum);
+                var type = hasType
+                    ? $"<text data-detail=\"context\" x=\"{N(entity.X + entity.Width - Layout.PadX)}\" y=\"{N(baseline)}\" class=\"er-type\" font-size=\"{N(Layout.TypeFont)}\" text-anchor=\"end\">{Utils.Esc(attribute.Str("type"))}</text>"
+                    : "";
+                var zebra = index % 2 != 0
+                    ? $"<rect x=\"{N(entity.X + 4)}\" y=\"{N(rowTop + 1)}\" width=\"{N(entity.Width - 8)}\" height=\"{N(metrics.RowH - 2)}\" rx=\"4\" class=\"er-zebra\"/>"
+                    : "";
+                var primary = KeyRoles(attribute).Contains("pk");
+                return Utils.TrailingBlanks.Replace(
+                    $"          <g data-detail=\"context\" data-er-row=\"{N(index)}\">\n"
+                    + $"            <line x1=\"{N(entity.X)}\" y1=\"{N(rowTop)}\" x2=\"{N(entity.X + entity.Width)}\" y2=\"{N(rowTop)}\" class=\"c-grid er-row-rule\" stroke-width=\"0.5\"/>\n"
+                    + $"            {zebra}\n"
+                    + $"            {keyGlyph}\n"
+                    + $"            <text data-detail=\"context\" x=\"{N(nameX)}\" y=\"{N(baseline)}\" class=\"t-primary{(primary ? " er-name-pk" : "")}\" font-size=\"{N(nameFontSize)}\">{Utils.Esc(attribute.Str("name"))}</text>\n"
+                    + $"            {type}\n"
+                    + "          </g>", "");
+            }));
+        }
+
+        string RenderEntity(Box entity)
+        {
+            var header = entity.Y + metrics.HeaderH;
+            var fit = EntityHeader(entity);
+            var passport = new JsonObject { ["kind"] = "database" };
+            if (entity.Source["sublabel"] is { } sublabel) passport["sublabel"] = sublabel.DeepClone();
+            if (entity.Source["tag"] is { } tagNode) passport["tag"] = tagNode.DeepClone();
+            passport["context"] = ctx.Locale.Translate(locale, "node.context.erd");
+            var rows = RenderEntityColumnRows(entity);
+            const double r = 8;
+            var label = S(entity.Source.Str("label"));
+            var tag = entity.Source["tag"].Truthy() ? BrandMarks.JsString(entity.Source["tag"]) : null;
+            return $"        <g {SvgAttrs.FocusNodeAttrs(entity.Id, label, passport, locale, ctx)} class=\"{HueClassOf(tag)}\">\n"
+                + $"          {SvgAttrs.FocusNodeTitle(label, passport)}\n"
+                + $"          <rect x=\"{N(entity.X)}\" y=\"{N(entity.Y)}\" width=\"{N(entity.Width)}\" height=\"{N(entity.Height)}\" rx=\"{N(r)}\" class=\"c-mask\"/>\n"
+                + $"          <rect x=\"{N(entity.X)}\" y=\"{N(entity.Y)}\" width=\"{N(entity.Width)}\" height=\"{N(entity.Height)}\" rx=\"{N(r)}\" class=\"c-database er-table\"{SvgAttrs.AnimateAttr(meta, "node", entitySteps.Has(entity.Id) ? entitySteps.Get(entity.Id) : null)} stroke-width=\"1.2\"/>\n"
+                + $"          <path class=\"er-table-header\" d=\"M {N(entity.X + r)} {N(entity.Y)} H {N(entity.X + entity.Width - r)} A {N(r)} {N(r)} 0 0 1 {N(entity.X + entity.Width)} {N(entity.Y + r)} V {N(header)} H {N(entity.X)} V {N(entity.Y + r)} A {N(r)} {N(r)} 0 0 1 {N(entity.X + r)} {N(entity.Y)} Z\"/>\n"
+                + $"          <path class=\"er-table-cap\" d=\"M {N(entity.X + 12)} {N(entity.Y + 1.4)} H {N(entity.X + entity.Width - 12)}\" stroke-width=\"2.6\" stroke-linecap=\"round\" fill=\"none\"/>\n"
+                + $"          {Utils.RenderSemanticSigil("database", entity.X + 8, entity.Y + 7, 14)}\n"
+                + $"          <text data-node-label=\"\" x=\"{N(fit.LabelX)}\" y=\"{N(entity.Y + fit.LabelY)}\" class=\"t-primary er-title\" font-size=\"{N(fit.LabelFont)}\" font-weight=\"700\" text-anchor=\"middle\">{Utils.Esc(label)}</text>\n"
+                + $"          <line x1=\"{N(entity.X)}\" y1=\"{N(header)}\" x2=\"{N(entity.X + entity.Width)}\" y2=\"{N(header)}\" class=\"c-grid er-header-rule\" stroke-width=\"1\"/>\n"
+                + $"{rows}\n"
+                + "        </g>";
+        }
+
+        string RenderRelationshipPath(JsonObject relationship, int index)
+        {
+            // `arrowClassMap[k] || arrowClassMap.default`
+            var cls = (Geometry.ArrowClassMap.TryGetValue(MarkerStyleOf(relationship), out var mapped) ? mapped : Geometry.ArrowClassMap["default"]).Path;
+            var routed = router.PathFor(relationship);
+            var d = BundledRelationshipD(routed, RelationshipTrunkRuns(relationship));
+            var strokeWidth = relationship.Num("width") is { } width && double.IsFinite(width) ? width : 1.5;
+            return $"        <path {SvgAttrs.FocusEdgeAttrs(S(relationship.Str("from")), S(relationship.Str("to")), relationship.Str("label"), N(index), relationship.Str("id"))} data-er-ends=\"{string.Join(" ", RelationshipEnds(relationship))}\" data-composition-points=\"{Geometry.RoutePointsValue(routed.Points)}\" d=\"{d}\" class=\"{cls}\"{SvgAttrs.AnimateAttr(meta, "edge", index)} stroke-width=\"{N(strokeWidth)}\" marker-start=\"url(#{CardinalityMarkerId(relationship, "from")})\" marker-end=\"url(#{CardinalityMarkerId(relationship, "to")})\"/>";
+        }
+
+        string RenderRelationshipLabel(JsonObject relationship, int index)
+        {
+            if (!relationship["label"].Truthy()) return "";
+            var (lx, ly) = ErLabelPoint(relationship);
+            var box = RelationshipLabelBox(relationship);
+            return $"        <g data-detail=\"context\" {SvgAttrs.FocusEdgeAttrs(S(relationship.Str("from")), S(relationship.Str("to")), relationship.Str("label"), N(index), relationship.Str("id"))} data-er-ends=\"{string.Join(" ", RelationshipEnds(relationship))}\">\n"
+                + $"          <rect x=\"{N(box.X)}\" y=\"{N(box.Y)}\" width=\"{N(box.Width)}\" height=\"{N(box.Height)}\" rx=\"3\" class=\"c-mask\"/>\n"
+                + $"          <text x=\"{N(lx)}\" y=\"{N(ly)}\" class=\"{Geometry.VariantAccent(relationship.Str("variant"))}\" font-size=\"{N(RELATIONSHIP_LABEL_FONT)}\" text-anchor=\"middle\">{Utils.Esc(relationship.Str("label"))}</text>\n"
+                + "        </g>";
+        }
+
+        // A key swatch is the badge a field row draws; a relationship swatch is a short route meeting a table edge with
+        // the marker's own glyph, ink and weight.
+        static string LegendSwatch(LegendEntry entry)
+        {
+            var x = entry.X + entry.Lead;
+            var centerY = entry.Baseline - 4;
+            var hit = $"<rect class=\"er-legend-hit\" tabindex=\"0\" role=\"img\" aria-label=\"{Utils.Esc(entry.Label)}\" x=\"{N(x - 6)}\" y=\"{N(entry.Baseline - 15)}\" width=\"{N(entry.Width - entry.Lead + 12)}\" height=\"22\" rx=\"11\"/>";
+            var divider = entry.Lead != 0 && entry.X > Layout.Margin
+                ? $"<line x1=\"{N(entry.X - 4)}\" y1=\"{N(centerY - 8)}\" x2=\"{N(entry.X - 4)}\" y2=\"{N(centerY + 8)}\" class=\"er-legend-divider\" stroke-width=\"1\"/>"
+                : "";
+            if (KEY_KINDS.Contains(entry.Kind))
+            {
+                return $"{hit}<rect x=\"{N(x)}\" y=\"{N(entry.Baseline - 10)}\" width=\"{N(LEGEND_KEY_SWATCH)}\" height=\"13\" rx=\"3\" class=\"er-key-badge\" data-er-badge=\"{entry.Kind}\"/><text x=\"{N(x + LEGEND_KEY_SWATCH / 2)}\" y=\"{N(entry.Baseline)}\" class=\"{KeyAccent(entry.Kind)}\" text-anchor=\"middle\" font-size=\"{N(Layout.KeyFont)}\" font-weight=\"600\">{Utils.Esc(entry.Kind.ToUpperInvariant())}</text>";
+            }
+            var edgeX = x + LEGEND_END_SWATCH - 2;
+            var glyph = CardinalityGlyphParts(entry.Kind == "optional" ? null : entry.Kind, entry.Kind == "optional");
+            return $"{divider}{hit}<line x1=\"{N(x)}\" y1=\"{N(centerY)}\" x2=\"{N(edgeX)}\" y2=\"{N(centerY)}\" class=\"er-legend-route\" stroke-width=\"1.5\"/><line x1=\"{N(edgeX)}\" y1=\"{N(centerY - 7)}\" x2=\"{N(edgeX)}\" y2=\"{N(centerY + 7)}\" class=\"er-legend-edge\" stroke-width=\"2\"/><g class=\"er-legend-glyph\" transform=\"translate({N(edgeX - MARKER_TOE_X)} {N(centerY - 8)})\" style=\"stroke: var(--text-muted)\" stroke-width=\"1.75\" fill=\"none\">{string.Concat(glyph)}</g>";
+        }
+
+        // The ring a highlighted badge takes, in the ink of the role's own text (KEY_RING, :1453).
+        static readonly (string Kind, string Ring)[] KEY_RING = [("pk", "var(--database-stroke)"), ("fk", "var(--messagebus-stroke)"), ("uk", "var(--text-muted)")];
+
+        static readonly string LEGEND_HOVER_RULES = string.Join("\n", KEY_RING.Select(entry =>
+                $"          svg[data-erd-ui=\"cards\"]:has([data-legend-semantic-kind=\"{entry.Kind}\"]:is(:hover, :focus-within)) [data-er-row]:not(:has([data-er-badge=\"{entry.Kind}\"])) {{ opacity: .22; }}\n"
+                + $"          svg[data-erd-ui=\"cards\"]:has([data-legend-semantic-kind=\"{entry.Kind}\"]:is(:hover, :focus-within)) [data-er-row] [data-er-badge=\"{entry.Kind}\"] {{ stroke: {entry.Ring}; stroke-width: 1.25; }}")
+            // Most schemas carry one and many on every route, so the matching glyph itself takes the accent ink.
+            .Concat(new (string Kind, string Marker)[] { ("one", "[id^=\"er-one\"]"), ("many", "[id^=\"er-many\"]"), ("optional", "[id*=\"-optional\"]") }.Select(entry =>
+                $"          svg[data-erd-ui=\"cards\"]:has([data-legend-semantic-kind=\"{entry.Kind}\"]:is(:hover, :focus-within)) [data-er-ends]:not([data-er-ends~=\"{entry.Kind}\"]) {{ opacity: .12; }}\n"
+                + $"          svg[data-erd-ui=\"cards\"]:has([data-legend-semantic-kind=\"{entry.Kind}\"]:is(:hover, :focus-within)) marker{entry.Marker} {{ stroke: var(--database-stroke) !important; stroke-width: 2.25; }}")));
+
+        string RenderLegend()
+        {
+            var relationshipObstacles = Legend.RelationshipLegendObstacles(relationships.Cast<JsonNode?>(),
+                pointsFor: (relationship, _) => RenderableRelationship(relationship) ? PointsFor(relationship) : [],
+                labelRectFor: (relationship, _) => relationship["label"].Truthy() && RenderableRelationship(relationship) ? (Rect?)RelationshipLabelBox(relationship) : null);
+            return Legend.RenderLegend(ctx, legendEntries, LegendLayoutFor(viewBox[0], viewBox[1], relationshipObstacles), LegendSwatch, locale,
+                labelClass: "t-primary", labelWeight: 600);
+        }
+
+        public string RenderSvg()
+        {
+            // An automatic canvas declares its height as intrinsic so the reader scrolls instead of shrinking the tables;
+            // an authored meta.viewBox stays authoritative.
+            var readerFit = meta["viewBox"].Truthy() ? "" : " data-reader-fit=\"intrinsic-height\"";
+            var readerMinimumText = meta["viewBox"].Truthy() ? "" : " data-reader-min-text=\"7.5\"";
+            var sb = new StringBuilder();
+            sb.Append($"      <svg viewBox=\"0 0 {N(viewBox[0])} {N(viewBox[1])}\" {SvgAttrs.SvgRootAttrs(ctx)} data-erd-ui=\"cards\"{readerFit}{readerMinimumText}>\n");
+            sb.Append(SvgAttrs.SvgAccessibleText(ctx, "erd")).Append('\n');
+            sb.Append(Utils.RenderDefinitions(RenderCardinalityDefs())).Append('\n');
+            sb.Append("        <style>\n");
+            sb.Append(string.Join("\n", DOMAIN_HUES.Select(hue => $"          svg[data-erd-ui=\"cards\"] .er-hue-{hue} {{ --er-hue: var(--{hue}-stroke); --er-wash: var(--{hue}-fill); }}"))).Append('\n');
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-band { fill: color-mix(in srgb, var(--er-hue) 4%, transparent); stroke: color-mix(in srgb, var(--er-hue) 20%, transparent); stroke-dasharray: none; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-band-pill { fill: var(--er-wash); stroke: color-mix(in srgb, var(--er-hue) 30%, transparent); stroke-width: .8; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-band-label { fill: var(--er-hue); letter-spacing: .08em; text-transform: uppercase; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-table { fill: var(--mask); stroke: color-mix(in srgb, var(--er-hue) 34%, var(--lane-stroke)); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-table-header { fill: var(--er-wash); stroke: none; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-table-cap { stroke: var(--er-hue); pointer-events: none; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-header-rule { stroke: color-mix(in srgb, var(--er-hue) 30%, var(--lane-stroke)); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] [class*=\"er-hue-\"] .semantic-sigil { color: var(--er-hue); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-row-rule { stroke-opacity: 0; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-zebra { fill: color-mix(in srgb, var(--er-hue) 6%, transparent); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-name-pk { font-weight: 700; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-type { fill: var(--text-muted); opacity: .86; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-key-badge { fill: var(--database-fill); stroke: none; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-key-badge[data-er-badge=\"fk\"] { fill: var(--messagebus-fill); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-key-badge[data-er-badge=\"uk\"] { fill: none; stroke: var(--lane-stroke); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-key-badge + text { text-anchor: middle; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] [data-legend] text.t-primary { fill: var(--text); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] [data-legend] > text.t-primary { fill: var(--text-muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-legend-hit { fill: transparent; transition: fill .15s; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-legend-hit:focus { outline: none; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-legend-hit:focus-visible { stroke: var(--database-stroke); stroke-width: 1.5; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] [data-legend-semantic-kind]:is(:hover, :focus-within) .er-legend-hit { fill: var(--database-fill); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] [data-legend-semantic-kind]:is(:hover, :focus-within) .er-legend-glyph { stroke: var(--database-stroke) !important; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-legend-route { stroke: var(--text-muted); stroke-opacity: .55; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-legend-edge { stroke: var(--lane-stroke); stroke-linecap: round; }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] .er-legend-divider { stroke: var(--lane-stroke); }\n");
+            sb.Append("          svg[data-erd-ui=\"cards\"] [data-er-row], svg[data-erd-ui=\"cards\"] [data-er-ends] { transition: opacity .15s; }\n");
+            sb.Append(LEGEND_HOVER_RULES).Append('\n');
+            sb.Append("          @media (prefers-reduced-motion: reduce) { svg[data-erd-ui=\"cards\"] * { transition: none !important; } }\n");
+            sb.Append("        </style>\n");
+            sb.Append('\n');
+            sb.Append("        <!-- Background Grid -->\n");
+            sb.Append("        <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />\n");
+            sb.Append('\n');
+            sb.Append("        <!-- Domain bands (behind the routes so a channel is never washed out) -->\n");
+            sb.Append(RenderDomainBands()).Append('\n');
+            sb.Append('\n');
+            sb.Append("        <!-- Bundled relationship trunks (under the branches: a bus runs close\n");
+            sb.Append("             to the shared side, so a cardinality glyph that reaches further out\n");
+            sb.Append("             has to stay readable over it, and the ring's mask has to be able to\n");
+            sb.Append("             punch through) -->\n");
+            sb.Append(BundledTrunkPaths()).Append('\n');
+            sb.Append('\n');
+            sb.Append("        <!-- Relationship paths (before entities for correct z-order) -->\n");
+            sb.Append(string.Join("\n", relationships.Select((relationship, index) => RenderableRelationship(relationship) ? RenderRelationshipPath(relationship, index) : "").Where(Truthy))).Append('\n');
+            sb.Append('\n');
+            sb.Append("        <!-- Entities -->\n");
+            sb.Append(string.Join("\n\n", entities.Values.Select(RenderEntity))).Append('\n');
+            sb.Append('\n');
+            sb.Append("        <!-- Relationship labels -->\n");
+            sb.Append(string.Join("\n", relationships.Select((relationship, index) => RenderableRelationship(relationship) ? RenderRelationshipLabel(relationship, index) : "").Where(Truthy))).Append('\n');
+            sb.Append('\n');
+            sb.Append("        <!-- Legend -->\n");
+            sb.Append(RenderLegend()).Append('\n');
+            sb.Append("      </svg>");
+            return sb.ToString();
+        }
     }
 }
