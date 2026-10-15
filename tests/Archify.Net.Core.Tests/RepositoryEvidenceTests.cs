@@ -98,6 +98,21 @@ public class RepositoryEvidenceTests
         finally { EvidenceRepo.Delete(repo); }
     }
 
+    // PERF-001: the stdin writer and stderr drain block on pipes, so they run on dedicated threads, not the pool.
+    [Fact] public void Pipe_helpers_run_off_the_thread_pool()
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        var onPool = new System.Collections.Concurrent.ConcurrentBag<bool>();
+        try
+        {
+            GitRunner.OnHelperThread = onPool.Add;
+            Assert.Null(new GitRunner().Run(repo, ["rev-parse", "HEAD"], 1024).Error);
+            Assert.True(onPool.Count >= 2);   // other tests may add their own helpers; every one must be off the pool
+            Assert.DoesNotContain(true, onPool);
+        }
+        finally { GitRunner.OnHelperThread = null; EvidenceRepo.Delete(repo); }
+    }
+
     // T/repository-evidence-replacement.test.mjs: --no-replace-objects reads the pinned commit, not its replacement.
     [Fact] public void A_replace_ref_on_the_commit_does_not_change_the_verdict()
     {

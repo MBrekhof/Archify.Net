@@ -188,7 +188,7 @@ var result = ArchifyNet.Render(DiagramType.Architecture, diagram, new RenderOpti
   `sources` on its nodes.
 - `git` must be on PATH. The port runs it as a child process, as upstream does. `Render` with `RepoRoot` runs git
   synchronously with no timeout (as upstream), so it can block if git stalls (for example a repo on a stalled network
-  share), and each git call holds thread-pool threads while it runs.
+  share), and each git call holds dedicated threads (not thread-pool threads) while it runs.
 - Before rendering, the load gates verify the clone against the diagram: the origin remote identifies the same repository
   as `meta.repository.url`, the revision exists in the clone, and every cited file and line range exists at that revision.
   A failure comes back as a `repository-evidence/*` diagnostic with upstream's code and message.

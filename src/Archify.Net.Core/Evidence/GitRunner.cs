@@ -57,7 +57,9 @@ internal sealed class GitRunner
                 return false;
             }
             // stdin runs beside the stdout read: `cat-file --batch` streams answers while it reads, so a large input would deadlock.
-            var stdin = Task.Run(() =>
+            // The helpers block on pipes, so they get dedicated threads rather than pool threads (PERF-001).
+            // ponytail: the caller still blocks on stdout; an async API is the upgrade if a server needs one.
+            var stdin = StartBlocking(() =>
             {
                 try
                 {
@@ -66,7 +68,7 @@ internal sealed class GitRunner
                 }
                 catch (IOException) { }   // the child exited first (EPIPE), as Node ignores
             });
-            var stderr = Task.Run(() => Drain(process.StandardError.BaseStream, null, Count));
+            var stderr = StartBlocking(() => Drain(process.StandardError.BaseStream, null, Count));
             var stdout = new MemoryStream();
             Drain(process.StandardOutput.BaseStream, stdout, Count);
             Task.WaitAll(stdin, stderr);
@@ -74,6 +76,15 @@ internal sealed class GitRunner
             return overflow == 1 ? new("spawnSync git ENOBUFS", -1, []) : new(null, process.ExitCode, stdout.ToArray());
         }
     }
+
+    /// <summary>Test seam: told, from inside each started helper, whether it runs on a thread-pool thread.</summary>
+    internal static Action<bool>? OnHelperThread;
+
+    static Task StartBlocking(Action work) => Task.Factory.StartNew(() =>
+    {
+        OnHelperThread?.Invoke(Thread.CurrentThread.IsThreadPoolThread);
+        work();
+    }, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 
     static void Drain(Stream from, MemoryStream? into, Func<int, bool> withinLimit)
     {
