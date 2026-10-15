@@ -79,9 +79,10 @@ static class RenderCommand
     }
 
     // loadDiagram's read and parse (cli.mjs:52-78). The bytes decode as readFileSync(p, 'utf8') does: a BOM stays and fails the parse.
-    internal static JsonObject ReadDiagram(string inputPath)
+    internal static JsonObject ReadDiagram(string inputPath) => ReadDiagram(inputPath, out _);
+
+    internal static JsonObject ReadDiagram(string inputPath, out byte[] bytes)
     {
-        byte[] bytes;
         try { bytes = File.ReadAllBytes(inputPath); }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException)
         {

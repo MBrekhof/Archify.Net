@@ -44,7 +44,7 @@ public static class Cli
                 case "render": return Commands.RenderCommand.Run(args, io);
                 case "deliver": throw new NotImplementedException("Task 8");
                 case "finalize": throw new NotImplementedException("Task 12");
-                case "validate": throw new NotImplementedException("Task 6");
+                case "validate": return Commands.ValidateCommand.Run(args, io);
                 case "inspect":
                     if (args.ElementAtOrDefault(0) != "architecture")
                     {
@@ -53,9 +53,8 @@ public static class Cli
                         throw new CliArgumentException("inspect is currently supported for architecture diagrams only.", "cli/unsupported-option",
                             subject, supportedFixes: ["use an architecture diagram", "use validate <type> <input.json> --layout-json for workflow diagrams"]);
                     }
-                    // commandValidate([...args, '--layout-json'], {command: 'inspect'})
-                    throw new NotImplementedException("Task 6");
-                case "check": throw new NotImplementedException("Task 6");
+                    return Commands.ValidateCommand.Run([.. args, "--layout-json"], io, "inspect");
+                case "check": return Commands.CheckCommand.Run(args, io);
                 case "visual-check": throw new NotImplementedException("Task 11");
                 case "browser-check": throw new NotImplementedException("Task 11");
                 case "guide": throw new NotImplementedException("Task 7");
@@ -89,17 +88,59 @@ public static class Cli
         diagnostics.Count == 0 ? error : string.Join("\n", [error, .. diagnostics.Select(d =>
             $"[{d.Code}] {d.Message}{(d.SupportedFixes.Count > 0 ? $" Fix: {string.Join("; ", d.SupportedFixes)}." : "")}")]);
 
-    // reportArtifactArgumentFailure (A:4328-4344) through reportArtifactFailure's receipt (A:4251-4266): type and input are
-    // undefined, so dropped.
+    // reportArtifactFailure (A:4251-4273): the receipt on stdout, or formatDiagnostics on stderr; returns the exit status. The
+    // `update` notice is dropped (Q5).
+    internal static int ReportArtifactFailure(CliIo io, bool json, ArtifactFailure failure)
+    {
+        if (json) io.Out(Js.Stringify(failure.ToReceipt(), 2));
+        else io.Err(FormatDiagnostics(failure.Error, failure.Diagnostics));
+        return failure.Status;
+    }
+
+    // A renderer failure's diagnostics: the boundary's internal/unclassified fallback names the renderer's input
+    // (diagnostics.mjs:106-116), which the library cannot know.
+    internal static IReadOnlyList<Diagnostic> WithInput(IReadOnlyList<Diagnostic> diagnostics, string inputPath) =>
+        [.. diagnostics.Select(d => d.Code == "internal/unclassified" && d.Subject.Count == 0 ? d with { Subject = new JsonObject { ["input"] = inputPath } } : d)];
+
+    // stage: 'input' when any diagnostic is an input/* one, else 'render' (A:6872, :6906, :6937).
+    internal static string InputOrRender(IReadOnlyList<Diagnostic> diagnostics) =>
+        diagnostics.Any(d => d.Code.StartsWith("input/", StringComparison.Ordinal)) ? "input" : "render";
+
+    // reportArtifactArgumentFailure (A:4328-4344): type and input are undefined, so dropped.
     internal static JsonObject ArgumentReceipt(string command, CliArgumentException error)
     {
         var subject = new JsonObject { ["command"] = command };
         foreach (var (key, value) in error.Subject) subject[key] = value?.DeepClone();
         var diagnostic = new Diagnostic(error.Code, Severity.Error, error.Message, subject, error.Evidence, error.SupportedFixes, null);
-        return new JsonObject
-        {
-            ["schemaVersion"] = 1, ["ok"] = false, ["command"] = command, ["stage"] = "arguments", ["error"] = error.Message,
-            ["diagnostics"] = new JsonArray(diagnostic.ToJson()),
-        };
+        return new ArtifactFailure(command, "arguments", error.Message, [diagnostic]) { Status = 2 }.ToReceipt();
+    }
+}
+
+// reportArtifactFailure's arguments (A:4251). A key left unset is JS undefined and drops out of the receipt; `Output`, once set,
+// is present even when null (`output === undefined ? {} : { output }`).
+internal sealed record ArtifactFailure(string Command, string Stage, string Error, IReadOnlyList<Diagnostic> Diagnostics)
+{
+    public string? Type { get; init; }
+    public string? Input { get; init; }
+    public bool HasOutput { get; private init; }
+    public string? Output { get; init { field = value; HasOutput = true; } }
+    public string? ReceiptId { get; init; }
+    public string? Provenance { get; init; }
+    public JsonObject? Checker { get; init; }
+    public int Status { get; init; } = 1;
+
+    public JsonObject ToReceipt()
+    {
+        var receipt = new JsonObject { ["schemaVersion"] = 1, ["ok"] = false, ["command"] = Command };
+        if (!string.IsNullOrEmpty(ReceiptId)) receipt["receiptId"] = ReceiptId;
+        receipt["stage"] = Stage;
+        if (Type is not null) receipt["type"] = Type;
+        if (Input is not null) receipt["input"] = Input;
+        if (HasOutput) receipt["output"] = Output;
+        receipt["error"] = Error;
+        receipt["diagnostics"] = new JsonArray([.. Diagnostics.Select(d => (JsonNode)d.ToJson())]);
+        if (!string.IsNullOrEmpty(Provenance)) receipt["provenance"] = Provenance;
+        if (Checker is not null) receipt["checker"] = Checker.DeepClone();
+        return receipt;
     }
 }

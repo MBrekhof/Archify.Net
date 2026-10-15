@@ -268,6 +268,7 @@ for (const g of GOLDENS) {
 }
 mint('check', 'web-app-rendered-json', ['check', 'web-app-rendered.html', '--json'], exFiles('web-app-rendered.html'));
 mint('check', 'missing-artifact', ['check', 'missing.html']);
+mint('check', 'directory-artifact', ['check', '.']);   // the workdir itself: delivery-artifact-not-regular-file
 
 // --- guide: lists, T/guide.test.mjs batteries, language overrides ---
 mint('guide', 'list-en', ['guide']);
