@@ -2,10 +2,10 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
-  <img alt="Agent Tool Call Workflow rendered by Archify.Net: four lanes (user interface, agent runtime, policy and recovery, tool execution) with an approval gate, retry path and evidence trail" src="docs/images/hero-light.png">
+  <img alt="Archify.Net system overview rendered by Archify.Net: Claude Code reaches archify-mcp over MCP stdio, which calls the archify CLI in-process; the CLI, a developer shell or a .NET app drive the ArchifyNet facade, which runs load gates, the ten renderers and the TemplateWriter, with the artifact checker, repository evidence via git, and the delivered HTML checked in headless Chromium" src="docs/images/hero-light.png">
 </picture>
 
-<sub>`upstream/examples/agent-tool-call.workflow.json`, rendered by `archify render workflow`: the HTML is byte-identical to upstream's.</sub>
+<sub>Archify.Net drawing itself: [`docs/images/archify-net.architecture.json`](docs/images/archify-net.architecture.json), rendered by `archify finalize architecture` through the `archify-mcp` server.</sub>
 
 A C# port of [archify](https://github.com/tt-a1i/archify) 3.1.0, pinned at upstream commit `c21c31ff`.
 It renders architecture diagrams from JSON into standalone HTML with inline SVG, and checks the result.

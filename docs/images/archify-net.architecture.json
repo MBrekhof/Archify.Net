@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Archify.Net system overview",
+    "output": "archify-net.html",
+    "locale": "en"
+  },
+  "components": [
+    { "id": "agent", "type": "external", "label": "Claude Code", "sublabel": "MCP client", "pos": [40, 40], "size": [150, 64] },
+    { "id": "mcp", "type": "backend", "label": "archify-mcp", "sublabel": "Archify.Net.Mcp", "pos": [290, 40], "size": [150, 64], "tag": "4 tools" },
+    { "id": "shell", "type": "external", "label": "Developer shell", "sublabel": "archify <command>", "pos": [40, 180], "size": [150, 64] },
+    { "id": "cli", "type": "backend", "label": "archify CLI", "sublabel": "Archify.Net.Cli", "pos": [290, 180], "size": [150, 64], "tag": "13 commands" },
+    { "id": "artifact", "type": "database", "label": "HTML artifact", "sublabel": "+ .delivery.json sidecar", "pos": [540, 180], "size": [150, 64] },
+    { "id": "chromium", "type": "external", "label": "Chromium", "sublabel": "Playwright headless", "pos": [790, 180], "size": [150, 64] },
+    { "id": "app", "type": "external", "label": ".NET app", "sublabel": "library consumer", "pos": [40, 340], "size": [150, 64] },
+    { "id": "facade", "type": "backend", "label": "ArchifyNet", "sublabel": "Render / Check / Validate", "pos": [290, 340], "size": [150, 64] },
+    { "id": "gates", "type": "security", "label": "Load gates", "sublabel": "schema + loader", "pos": [540, 340], "size": [150, 64] },
+    { "id": "renderers", "type": "backend", "label": "Renderers", "sublabel": "10 diagram types", "pos": [790, 340], "size": [150, 64] },
+    { "id": "template", "type": "frontend", "label": "TemplateWriter", "sublabel": "embeds upstream viewer", "pos": [1040, 340], "size": [150, 64] },
+    { "id": "checker", "type": "security", "label": "ArtifactChecker", "sublabel": "upstream report parity", "pos": [290, 490], "size": [150, 64] },
+    { "id": "evidence", "type": "backend", "label": "Repo evidence", "sublabel": "sources at a revision", "pos": [540, 490], "size": [150, 64] },
+    { "id": "git", "type": "external", "label": "git", "sublabel": "child process", "pos": [540, 640], "size": [150, 64] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "dotnet global tools", "wraps": ["mcp", "cli"] },
+    { "kind": "region", "label": "Archify.Net.Core (no NuGet deps)", "wraps": ["facade", "gates", "renderers", "template", "checker", "evidence"] }
+  ],
+  "connections": [
+    { "id": "agent-to-mcp", "from": "agent", "to": "mcp", "label": "MCP stdio", "variant": "emphasis" },
+    { "id": "mcp-to-cli", "from": "mcp", "to": "cli", "label": "in-process", "labelDy": 24, "variant": "emphasis" },
+    { "id": "shell-to-cli", "from": "shell", "to": "cli", "label": "commands" },
+    { "id": "cli-to-artifact", "from": "cli", "to": "artifact", "label": "deliver" },
+    { "id": "artifact-to-chromium", "from": "artifact", "to": "chromium", "label": "browser gate" },
+    { "id": "cli-to-facade", "from": "cli", "to": "facade", "label": "render + check", "labelDy": 24, "variant": "emphasis" },
+    { "id": "app-to-facade", "from": "app", "to": "facade", "label": "Render()" },
+    { "id": "facade-to-gates", "from": "facade", "to": "gates", "label": "JSON spec", "variant": "emphasis" },
+    { "id": "gates-to-renderers", "from": "gates", "to": "renderers", "label": "valid spec", "variant": "emphasis" },
+    { "id": "renderers-to-template", "from": "renderers", "to": "template", "label": "SVG + cards", "variant": "emphasis" },
+    { "id": "facade-to-checker", "from": "facade", "to": "checker", "label": "Check()", "labelDy": 24 },
+    { "id": "gates-to-evidence", "from": "gates", "to": "evidence", "label": "RepoRoot set", "labelDy": 24, "variant": "dashed" },
+    { "id": "evidence-to-git", "from": "evidence", "to": "git", "label": "runs git", "labelDy": 24 }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Entry points", "items": ["archify-mcp: guide, validate, render, finalize", "archify CLI: port of upstream bin/archify.mjs", ".NET apps call the ArchifyNet facade directly"] },
+    { "dot": "emerald", "title": "Core library", "items": ["Byte-identical HTML to upstream archify 3.1.0", "Problems return as diagnostics, never exceptions", "Viewer JS embedded verbatim from upstream"] },
+    { "dot": "rose", "title": "Delivery gates", "items": ["finalize = deliver + check + browser-check", "Chromium runs upstream's measurement scripts", "Sidecar records provenance of each artifact"] }
+  ]
+}
