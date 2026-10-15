@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json.Nodes;
 
 namespace Archify.Net;
@@ -60,13 +61,38 @@ public static class ArchifyNet
     /// <c>https://bücher-.example/x/y</c>, <c>https://ü</c> + 70 <c>a</c> + <c>.example/x/y</c> (a 71-character label),
     /// <c>https://bücher..example/o/r</c> and <c>https://xn--bcher-kva..example/o/r</c>.
     /// </remarks>
-    public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)
+    public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null) =>
+        Run(type, diagram, options, (ctx, root) =>
+        {
+            var (svg, cards, layout) = Renderers.For(type).Render(ctx);
+            var meta = root["meta"]!.AsObject();
+            var cardsHtml = Utils.RenderCards(cards);
+            var html = TemplateWriter.Apply(Resources.Text("assets/template.html"), meta.Str("title")!, meta.Str("subtitle"), svg, cardsHtml,
+                meta.Str("locale"), string.IsNullOrEmpty(meta.Str("visual_preset")) ? "classic" : meta.Str("visual_preset")!, ctx.SourceEvidence, ctx.Locale);
+            return new RenderResult(html, svg, cardsHtml, ctx.Diagnostics.Recorded, layout, null, []);
+        }, (error, diagnostics, thrown) => new RenderResult("", "", "", diagnostics, null, error, thrown));
+
+    /// <summary><c>validate &lt;type&gt; &lt;input&gt; --layout-json</c>: the same gates as <see cref="Render"/>, then the layout
+    /// report without SVG or HTML. Architecture and workflow only, as upstream (A:6849-6855).</summary>
+    public static LayoutOutcome Layout(DiagramType type, JsonNode diagram, RenderOptions? options = null)
+    {
+        if (type is not (DiagramType.Architecture or DiagramType.Workflow))
+            throw new ArgumentOutOfRangeException(nameof(type), type, "--layout-json supports architecture and workflow only");
+        return Run(type, diagram, options,
+            (ctx, _) => type == DiagramType.Architecture ? ArchitectureRenderer.LayoutMode(ctx) : WorkflowRenderer.LayoutMode(ctx),
+            (error, diagnostics, _) => new LayoutOutcome(false, null, error, diagnostics));
+    }
+
+    // cli.mjs loadDiagramWithBrandMarks, then `body`; anything thrown becomes `failure(error, diagnostics, thrown)` as
+    // installRendererDiagnosticBoundary's rendererFailure does (an unclassified error becomes internal/unclassified).
+    static T Run<T>(DiagramType type, JsonNode diagram, RenderOptions? options, Func<RenderContext, JsonObject, T> body,
+        Func<string, IReadOnlyList<Diagnostic>, IReadOnlyList<Diagnostic>, T> failure)
     {
         // Ruling 3: a non-object root reports input/json-parse the way DiagramLoader.Parse does, never throws.
         if (diagram is not JsonObject)
         {
-            var failure = DiagramLoader.ParseFailure("the diagram root must be an object");
-            return new RenderResult("", "", "", failure.Diagnostics, null);
+            var parse = DiagramLoader.ParseFailure("the diagram root must be an object");
+            return failure(parse.Message, parse.Diagnostics, parse.Diagnostics);
         }
         var root = DiagramLoader.Normalize(diagram.DeepClone().AsObject());
         var ctx = new RenderContext(type, root, options ?? new RenderOptions());
@@ -74,29 +100,20 @@ public static class ArchifyNet
         {
             DiagramLoader.Load(type, root, ctx);                                   // cli.mjs loadDiagram gates
             ctx.Brands.PrepareDiagramBrandMarks(type, root, ctx.Diagnostics);      // loadDiagramWithBrandMarks
-            var renderer = Renderers.For(type);
-            var (svg, cards, layout) = renderer.Render(ctx);
-            var meta = root["meta"]!.AsObject();
-            var cardsHtml = Utils.RenderCards(cards);
-            var html = TemplateWriter.Apply(Resources.Text("assets/template.html"), meta.Str("title")!, meta.Str("subtitle"), svg, cardsHtml,
-                meta.Str("locale"), string.IsNullOrEmpty(meta.Str("visual_preset")) ? "classic" : meta.Str("visual_preset")!, ctx.SourceEvidence, ctx.Locale);
-            return new RenderResult(html, svg, cardsHtml, ctx.Diagnostics.Recorded, layout);
-        }
-        catch (ArchifyDiagnosticException ex)
-        {
-            var (_, diagnostics) = ctx.Diagnostics.RendererFailure(ex);
-            return new RenderResult("", "", "", diagnostics, null);
+            return body(ctx, root);
         }
         catch (Exception ex) when (ex is not NotSupportedException)
         {
-            // installRendererDiagnosticBoundary: any other uncaught error becomes internal/unclassified.
-            var (_, diagnostics) = ctx.Diagnostics.RendererFailure(ex);
-            return new RenderResult("", "", "", diagnostics, null);
+            var (error, diagnostics, thrown) = ctx.Diagnostics.RendererFailure(ex);
+            return failure(error, diagnostics, thrown);
         }
     }
 
     // scripts/check-render-output.mjs on an artifact's HTML: the report minus `file`.
-    public static CheckResult Check(string html, CheckOptions? options = null)
+    public static CheckResult Check(string html, CheckOptions? options = null) => Check(new UTF8Encoding(false).GetBytes(html), options);
+
+    // The artifact's bytes, as upstream reads the file: sha256 and length over the bytes, the scan over bytes.toString('utf8').
+    public static CheckResult Check(byte[] html, CheckOptions? options = null)
     {
         if (options?.RequireProvenance == true) throw new NotSupportedException("provenance sidecar checks land in phase 5");
         var report = ArtifactChecker.Check(html);

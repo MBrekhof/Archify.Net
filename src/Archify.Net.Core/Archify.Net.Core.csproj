@@ -10,6 +10,8 @@
     <EmbeddedResource Include="..\..\upstream\assets\template.html" LogicalName="assets/template.html" />
     <EmbeddedResource Include="..\..\upstream\generated-brand-marks.json" LogicalName="generated-brand-marks.json" />
     <EmbeddedResource Include="..\..\upstream\brand-marks\catalog.json" LogicalName="brand-marks/catalog.json" />
+    <EmbeddedResource Include="..\..\upstream\examples\*.json" LogicalName="examples/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\..\upstream\recipes\scenarios.json" LogicalName="recipes/scenarios.json" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Archify.Net.Core.Tests" />

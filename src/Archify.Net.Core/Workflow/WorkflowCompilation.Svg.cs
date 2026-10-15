@@ -485,6 +485,9 @@ internal sealed partial class WorkflowCompilation
                     if (required.All(double.IsFinite))
                     {
                         var receipt = MeasuredPlanReceipt(required);
+                        // `{ ...measuredPlanReceipt(diagnostics, …), ok: false }`: diagnostics before ok. WorkflowRenderer
+                        // fills the slot from the final result's diagnostics.
+                        receipt["diagnostics"] = null;
                         receipt["ok"] = false;
                         failure = failure with { Receipt = receipt };
                     }

@@ -9,6 +9,19 @@ public sealed record Diagnostic(string Code, Severity Severity, string Message, 
 {
     public string? Path => Subject["path"]?.GetValue<string>();
 
+    // {code, severity, message, subject, evidence, supportedFixes, [suppresses]}: the order of normalizedDiagnostic
+    // (diagnostics.mjs:16-30) and the CLI's diagnostic() (A:2399-2408); `suppresses` only when present.
+    public JsonObject ToJson()
+    {
+        var json = new JsonObject
+        {
+            ["code"] = Code, ["severity"] = Severity == Severity.Error ? "error" : "warning", ["message"] = Message,
+            ["subject"] = Subject.DeepClone(), ["evidence"] = Evidence.DeepClone(), ["supportedFixes"] = new JsonArray([.. SupportedFixes.Select(f => (JsonNode?)f)]),
+        };
+        if (Suppresses is not null) json["suppresses"] = new JsonArray([.. Suppresses.Select(c => (JsonNode?)c)]);
+        return json;
+    }
+
     // diagnostics.mjs:11-31 plainObject + normalizedDiagnostic. JsonObject has no `undefined`, so port authors omit a key JS
     // would leave undefined; explicit nulls (upstream's `x ?? null`) are kept. Subject/Evidence become fresh objects as
     // plainObject's do, which here also keeps one diagnostic recorded and thrown from sharing a JsonNode parent.
@@ -114,15 +127,17 @@ public sealed class DiagnosticSink
         return ThrowDiagnosticError($"{prefix}:\n- {string.Join("\n- ", messages)}", diagnostics);
     }
 
-    // rendererFailure without the { schemaVersion, ok, source } envelope; the facade adds it.
-    public (string error, IReadOnlyList<Diagnostic> diagnostics) RendererFailure(Exception error)
+    // rendererFailure without the { schemaVersion, ok, source } envelope; the facade adds it. `thrown` is what the human-mode
+    // boundary prints (diagnostics.mjs:159-176): the attached diagnostics, never the recorded ones. Upstream lets an error
+    // without any crash with a Node stack; the port keeps the internal/unclassified fallback there.
+    public (string error, IReadOnlyList<Diagnostic> diagnostics, IReadOnlyList<Diagnostic> thrown) RendererFailure(Exception error)
     {
         IReadOnlyList<Diagnostic> attached = error is ArchifyDiagnosticException carrier ? [.. carrier.Diagnostics.Select(Diagnostic.Normalize)] : [];
         // Earlier diagnostics do not classify a later, unrelated implementation error.
         IReadOnlyList<Diagnostic> diagnostics = attached.Count > 0
             ? (recorded.Count > 0 ? recorded : attached)
             : [FallbackDiagnostic(error)];
-        return (string.IsNullOrEmpty(error.Message) ? "Renderer failed without a diagnostic." : error.Message, diagnostics);
+        return (string.IsNullOrEmpty(error.Message) ? "Renderer failed without a diagnostic." : error.Message, diagnostics, attached.Count > 0 ? attached : diagnostics);
     }
 
     static Diagnostic FallbackDiagnostic(Exception error) => Diagnostic.Normalize(new(

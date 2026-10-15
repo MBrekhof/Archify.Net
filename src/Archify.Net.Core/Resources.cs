@@ -17,4 +17,7 @@ public static class Resources
         using var r = new StreamReader(s, Utf8NoBom, detectEncodingFromByteOrderMarks: false);
         return r.ReadToEnd();
     }
+
+    // upstream/examples/<name>, e.g. "web-app.architecture.json".
+    public static string Example(string name) => Text($"examples/{name}");
 }

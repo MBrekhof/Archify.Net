@@ -11,11 +11,15 @@ namespace Archify.Net;
 // Every JS regex goes through Rx(): ECMAScript mode (ASCII \w \d \b), JS `\s` spelled out, JS `$` (no m flag) as \z.
 public sealed class ArtifactChecker
 {
-    public static JsonObject Check(string html)
+    // check-render-output.mjs:29-33: hash the file bytes, scan bytes.toString('utf8'). Encoding.UTF8.GetString keeps a BOM
+    // and replaces each maximal invalid subpart with U+FFFD, as Node does.
+    public static JsonObject Check(byte[] bytes)
     {
-        ArgumentNullException.ThrowIfNull(html);
-        return new ArtifactChecker().Run(html);
+        ArgumentNullException.ThrowIfNull(bytes);
+        return new ArtifactChecker().Run(bytes, Encoding.UTF8.GetString(bytes));
     }
+
+    public static JsonObject Check(string html) => Check(new UTF8Encoding(false).GetBytes(html));
 
     // ---- regex plumbing -----------------------------------------------------------------------------------------------
     // JS \s: WhiteSpace + LineTerminator (TAB VT FF SP NBSP ZWNBSP, Zs, LF CR LS PS). .NET ECMAScript \s is ASCII only.
@@ -253,9 +257,8 @@ public sealed class ArtifactChecker
         ["issues"] = new JsonArray(),
     };
 
-    JsonObject Run(string html)
+    JsonObject Run(byte[] bytes, string html)
     {
-        var bytes = new UTF8Encoding(false).GetBytes(html);
         var artifact = new JsonObject { ["sha256"] = Convert.ToHexStringLower(SHA256.HashData(bytes)), ["bytes"] = bytes.Length };
         var readerContract = ReaderContractFromHtml(html);
         var composition = InitialComposition();

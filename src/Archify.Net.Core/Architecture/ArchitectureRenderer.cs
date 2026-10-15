@@ -15,6 +15,32 @@ public sealed class ArchitectureRenderer : IDiagramRenderer
         return (svg, ctx.Diagram.Arr("cards"), new LayoutReport(scene.BuildLayoutReport()));
     }
 
+    // layoutJsonMode (:1177-1189): no renderSvg. A diagnostic rejection inside validateArchitecture still returns the partial
+    // report as repair evidence; anything else, and everything thrown before (scene construction included), propagates to the
+    // renderer failure boundary.
+    internal static LayoutOutcome LayoutMode(RenderContext ctx)
+    {
+        var scene = new Scene(ctx);
+        try
+        {
+            scene.ValidateArchitecture();
+        }
+        catch (ArchifyDiagnosticException error) when (error.Diagnostics.Count > 0)
+        {
+            // { ...buildLayoutReport(), ...rendererFailure(error), contract }: `ok` keeps its slot at index 0.
+            var (message, diagnostics, _) = ctx.Diagnostics.RendererFailure(error);
+            var report = scene.BuildLayoutReport();
+            report["schemaVersion"] = 1;
+            report["ok"] = false;
+            report["source"] = "renderer";
+            report["error"] = message;
+            report["diagnostics"] = new JsonArray([.. diagnostics.Select(d => (JsonNode?)d.ToJson())]);
+            report["contract"] = "archify-architecture-layout-v1";
+            return new(false, report, message, diagnostics);
+        }
+        return new(true, scene.BuildLayoutReport(), null, ctx.Diagnostics.Recorded);
+    }
+
     static class Layout
     {
         public const double DefaultW = 120;
