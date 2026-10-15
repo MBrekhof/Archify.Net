@@ -110,7 +110,7 @@ public static class DiagramLoader
 
     static bool IsNumber(JsonNode? node) => node is JsonValue v && v.GetValueKind() == JsonValueKind.Number;
 
-    // cli.mjs:79-84, the validation gates of loadDiagram in upstream's order. Throws ArchifyDiagnosticException.
+    // cli.mjs:79-85, the validation gates of loadDiagram in upstream's order. Throws ArchifyDiagnosticException.
     public static void Load(DiagramType type, JsonObject diagram, RenderContext ctx)
     {
         var sink = ctx.Diagnostics;
@@ -120,6 +120,7 @@ public static class DiagramLoader
         ApplyLocaleTranslations(type, diagram, ctx);
         ValidateCrossCollectionContracts(type, diagram, sink);
         EngineeringProfiles.Validate(type, diagram, sink);
+        ctx.SourceEvidence = RepositoryEvidence.Verify(type, diagram, ctx.Options.RepoRoot, sink, ctx.Git);   // ARCHIFY_REPO_ROOT
     }
 
     // cli.mjs:32-42. Upstream also prints each warning on stderr outside JSON mode; a library only records them.

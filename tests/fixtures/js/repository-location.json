@@ -13005,6 +13005,51 @@
       ]
     },
     {
+      "value": "https://[[::1]]/x/y",
+      "results": [
+        {
+          "authored": false,
+          "provider": null,
+          "result": null
+        },
+        {
+          "authored": false,
+          "provider": "github",
+          "result": null
+        },
+        {
+          "authored": false,
+          "provider": "gitee",
+          "result": null
+        },
+        {
+          "authored": false,
+          "provider": "gitlab",
+          "result": null
+        },
+        {
+          "authored": true,
+          "provider": null,
+          "result": null
+        },
+        {
+          "authored": true,
+          "provider": "github",
+          "result": null
+        },
+        {
+          "authored": true,
+          "provider": "gitee",
+          "result": null
+        },
+        {
+          "authored": true,
+          "provider": "gitlab",
+          "result": null
+        }
+      ]
+    },
+    {
       "value": "https://github.com./example/repo",
       "results": [
         {
@@ -18650,6 +18695,10 @@
     {
       "value": "https://[:::1]/x/y",
       "redacted": "https://[:::1]/x/y"
+    },
+    {
+      "value": "https://[[::1]]/x/y",
+      "redacted": "https://[[::1]]/x/y"
     },
     {
       "value": "https://github.com./example/repo",

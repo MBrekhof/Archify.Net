@@ -1,0 +1,22 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/git-command",
+      "severity": "error",
+      "message": "Evidence root \"<ROOT>\" is not a Git repository.",
+      "subject": {
+        "surface": "repository-evidence"
+      },
+      "evidence": {
+        "gitArgs": [
+          "rev-parse",
+          "--show-toplevel"
+        ],
+        "exitCode": 128
+      },
+      "supportedFixes": [
+        "use the intended local Git repository and verify its origin and revision"
+      ]
+    }
+  ]
+}

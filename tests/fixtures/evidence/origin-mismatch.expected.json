@@ -1,0 +1,20 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/origin-mismatch",
+      "severity": "error",
+      "message": "Evidence repository origin \"git@github.com:example/other.git\" does not match \"https://github.com/example/evidence-repo\".",
+      "subject": {
+        "surface": "repository-evidence",
+        "repoRoot": "<ROOT>"
+      },
+      "evidence": {
+        "localOrigin": "git@github.com:example/other.git",
+        "authoredRepository": "https://github.com/example/evidence-repo"
+      },
+      "supportedFixes": [
+        "use the matching local checkout or correct the authored repository URL"
+      ]
+    }
+  ]
+}

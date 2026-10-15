@@ -1,0 +1,18 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/git-unavailable",
+      "severity": "error",
+      "message": "Could not run Git: spawnSync git ENOENT",
+      "subject": {
+        "surface": "repository-evidence"
+      },
+      "evidence": {
+        "reason": "spawnSync git ENOENT"
+      },
+      "supportedFixes": [
+        "install Git and ensure it is available on PATH"
+      ]
+    }
+  ]
+}

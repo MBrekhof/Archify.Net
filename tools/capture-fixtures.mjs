@@ -954,7 +954,7 @@ const rlValues = [
   'ssh://git@GitHub.com:22/Example/Repo.git', 'ssh://git@bücher.example/x/y', 'git@bücher.example:x/y', 'git@GitHub.com:Example/Repo.GIT',
   'ssh://git@git%41.internal/x/y', 'ssh://git@a<b/x/y', 'ssh://git@a^b/x/y', 'ssh://git@a|b/x/y', 'ssh://git@[::1]/x/y', 'ssh://git@[::1]:2222/x/y',
   'https://[::1]/team/repo', 'https://[::1]:443/x/y', 'https://[::1]:8443/x/y', 'https://[::FFFF:1.2.3.4]/x/y', 'https://[2001:DB8:0:0:1:0:0:1]/x/y',
-  'https://[2001:db8::1:0:0:1]/x/y', 'https://[1:0:0:2:0:0:0:3]/x/y', 'https://[::1%25eth0]/x/y', 'https://[::1/x/y', 'https://[::1]x/x/y', 'https://[:::1]/x/y',
+  'https://[2001:db8::1:0:0:1]/x/y', 'https://[1:0:0:2:0:0:0:3]/x/y', 'https://[::1%25eth0]/x/y', 'https://[::1/x/y', 'https://[::1]x/x/y', 'https://[:::1]/x/y', 'https://[[::1]]/x/y',
   'https://github.com./example/repo', 'https://gitlab.com./example/repo', 'https://hasOwnProperty/x/y', 'https://toString/x/y',
   // credentials and userinfo shapes
   'https://user:pw@github.com/x/y', 'https://user@github.com/x/y', 'https://:pw@github.com/x/y', 'https://@github.com/x/y', 'https://:@github.com/x/y',
@@ -1011,6 +1011,116 @@ write('fixtures/js/repository-location.json', {
     ['gitlab', 'https://gitlab.com/example/platform/evidence-repo'], [null, 'git@git.internal:Team/repo']]
     .map(([provider, url]) => ({ provider, url, revision: 'a'.repeat(40), href: RL.repositoryTreeHref(provider, url, 'a'.repeat(40)) })),
 });
+
+// --- phase 4: repository evidence (survey-evidence §1b, §5, §6). The repo is built from the checked-in fast-import stream the same way
+// the C# EvidenceRepo helper builds it (GIT_* scrubbed, no system/global config). Verification runs in a child node with
+// ARCHIFY_DIAGNOSTIC_FORMAT=json: diagnostics.mjs reads it once at import, and this process imported it long ago. Absolute temp roots
+// are replaced by <ROOT> in every parsed string value, in both the OS-separator and forward-slash (git) spellings; the C# test does
+// the same. scenarios.json carries each input; the outcome is `<name>.payload.json` or `<name>.expected.json` ({ diagnostics }).
+const EVIDENCE_HEAD = '77eb757055fa2c17900278114600cfe23c3957d1';   // EvidenceRepo.PinnedHead
+const gitEnv = Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.toUpperCase().startsWith('GIT_')));
+Object.assign(gitEnv, { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: process.platform === 'win32' ? 'NUL' : '/dev/null' });
+const evidenceTemps = [];
+const evidenceTemp = () => { const d = fs.mkdtempSync(path.join(os.tmpdir(), 'archify-evidence-')); evidenceTemps.push(d); return d; };
+function evidenceRepo(origin) {
+  const root = evidenceTemp();
+  const git = (args, input) => execFileSync('git', ['-C', root, ...args], { env: gitEnv, input, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] }).trim();
+  git(['init', '--quiet', '--template=', '--initial-branch=main']);
+  git(['fast-import', '--quiet'], fs.readFileSync(out('fixtures/evidence/evidence-repo.fi')));
+  if (origin) git(['remote', 'add', 'origin', origin]);
+  const head = git(['rev-parse', 'HEAD']);
+  if (head !== EVIDENCE_HEAD) throw new Error(`evidence-repo.fi builds ${head}, expected ${EVIDENCE_HEAD}`);
+  return root;
+}
+const GH = { url: 'https://github.com/example/evidence-repo', revision: EVIDENCE_HEAD };
+const GH_ORIGIN = 'git@github.com:example/evidence-repo.git';
+const GITLAB = { url: 'https://gitlab.com/example/platform/evidence-repo', revision: EVIDENCE_HEAD };
+const GITLAB_ORIGIN = 'git@gitlab.com:example/platform/evidence-repo.git';
+const ROUTER_STORE = [{ path: 'src/router.js', line: 1, end_line: 3, label: 'Request router' }, { path: 'src/store.js', line: 1 }];   // T/helpers fixture
+const webAppIds = ex('web-app.architecture.json').components.slice(0, 2).map(({ id }) => id);
+// An architecture doc reduced to what the verifier reads: meta.repository and the first two components' ids (plus sources).
+const evArch = (repository, first, second) => ({ meta: repository ? { repository } : {},
+  components: [first, second].map((sources, i) => ({ id: webAppIds[i], ...(sources ? { sources } : {}) })) });
+const evOne = (collection, id, repository, sources) => ({ meta: { repository }, [collection]: [{ id, sources }] });
+// [name, type, origin, root, diagram, expected]: root 'repo' | 'src' | 'empty' | 'missing' | ''; expected 'payload' or the code list.
+const evidenceScenarios = [
+  ['github-web', 'architecture', GH_ORIGIN, 'repo', evArch(GH, ROUTER_STORE), 'payload'],
+  // T/repository-evidence-types.test.mjs:261-302 provider rotation (gitee, gitlab, local-only), on three node collections
+  ['gitee-web', 'architecture', 'git@gitee.com:example/evidence-repo.git', 'repo',
+    evArch({ url: 'https://gitee.com/example/evidence-repo', provider: 'gitee', revision: EVIDENCE_HEAD }, ROUTER_STORE), 'payload'],
+  ['gitlab-nested-web', 'workflow', GITLAB_ORIGIN, 'repo', evOne('nodes', 'user', GITLAB, ROUTER_STORE), 'payload'],
+  ['local-only', 'sequence', 'http://git.internal:3000/Platform/evidence-repo', 'repo', evOne('participants', 'user',
+    { url: 'http://git.internal:3000/Platform/evidence-repo', link_mode: 'local-only', revision: EVIDENCE_HEAD }, ROUTER_STORE), 'payload'],
+  ['cjk-path', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src/中文 # router.js', line: 2 }]), 'payload'],   // T/…:465-482
+  ['md-gitlab-plain', 'erd', GITLAB_ORIGIN, 'repo', evOne('entities', 'customer', GITLAB, [{ path: 'docs/readme.md', line: 2 }]), 'payload'],
+  ['duplicate-citation', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src/store.js' }, { path: 'src/store.js', line: 1 }]), 'payload'],
+  ['repository-required', 'architecture', GH_ORIGIN, 'repo', evArch(null, ROUTER_STORE), ['repository-evidence/repository-required']],
+  ['root-required', 'architecture', GH_ORIGIN, '', evArch(GH, ROUTER_STORE), ['repository-evidence/root-required']],
+  ['url-invalid-local-path', 'architecture', GH_ORIGIN, 'repo', evArch({ url: 'C:\\Users\\x\\evidence-repo', revision: EVIDENCE_HEAD }, ROUTER_STORE),
+    ['repository-evidence/url-invalid']],
+  ['provider-invalid', 'architecture', GH_ORIGIN, 'repo', evArch({ ...GH, provider: 'gitlab' }, ROUTER_STORE), ['repository-evidence/provider-invalid']],
+  ['links-unsupported', 'architecture', GH_ORIGIN, 'repo', evArch({ url: 'http://git.internal:3000/Platform/evidence-repo', revision: EVIDENCE_HEAD }, ROUTER_STORE),
+    ['repository-evidence/links-unsupported']],
+  ['root-missing', 'architecture', GH_ORIGIN, 'missing', evArch(GH, ROUTER_STORE), ['repository-evidence/root-unreadable']],
+  ['not-a-repo', 'architecture', GH_ORIGIN, 'empty', evArch(GH, ROUTER_STORE), ['repository-evidence/git-command']],
+  ['subdirectory-root', 'architecture', GH_ORIGIN, 'src', evArch(GH, ROUTER_STORE), ['repository-evidence/root-not-top-level']],
+  ['no-origin', 'architecture', null, 'repo', evArch(GH, ROUTER_STORE), ['repository-evidence/git-command']],
+  ['origin-mismatch', 'architecture', 'git@github.com:example/other.git', 'repo', evArch(GH, ROUTER_STORE), ['repository-evidence/origin-mismatch']],
+  ['revision-unavailable', 'architecture', GH_ORIGIN, 'repo', evArch({ ...GH, revision: '0'.repeat(40) }, ROUTER_STORE), ['repository-evidence/revision-unavailable']],
+  ['missing-then-escape', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src/nope.js' }, { path: '../x' }]),   // T/…:37-49
+    ['repository-evidence/file-missing', 'repository-evidence/path-escape']],
+  ['two-out-of-range', 'architecture', GH_ORIGIN, 'repo',   // T/…:51-78
+    evArch(GH, [{ path: 'src/router.js', line: 1, end_line: 99 }], [{ path: 'src/store.js', line: 1, end_line: 9 }]),
+    ['repository-evidence/line-out-of-range', 'repository-evidence/line-out-of-range']],
+  ['path-invalid', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src\\router.js' }]), ['repository-evidence/path-invalid']],
+  ['directory-path', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src', line: 1 }]), ['repository-evidence/file-missing']],
+  ['line-required', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src/router.js', end_line: 2 }]), ['repository-evidence/line-required']],
+  ['line-range-invalid', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src/router.js', line: 3, end_line: 1 }]),
+    ['repository-evidence/line-range-invalid']],
+  ['source-required', 'architecture', GH_ORIGIN, 'repo', evArch(GH), ['repository-evidence/source-required']],
+];
+const evidenceJobs = evidenceScenarios.map(([, type, origin, rootKind, diagram]) => {
+  const repo = evidenceRepo(origin);
+  const empty = rootKind === 'empty' ? evidenceTemp() : null;
+  if (rootKind === 'src') fs.mkdirSync(path.join(repo, 'src'));
+  const root = { repo, src: path.join(repo, 'src'), empty, missing: `${repo}-missing`, '': '' }[rootKind];
+  return { type, diagram, root, base: empty ?? repo };
+});
+const evidenceChild = `
+import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
+const up = process.argv[1];
+const { verifyRepositoryEvidence } = await import(pathToFileURL(up + '/renderers/shared/repository-evidence.mjs').href);
+const { withIsolatedDiagnosticRecording } = await import(pathToFileURL(up + '/renderers/shared/diagnostics.mjs').href);
+const results = JSON.parse(fs.readFileSync(0, 'utf8')).map(({ type, diagram, root }) => {
+  try { return { payload: withIsolatedDiagnosticRecording(() => verifyRepositoryEvidence(type, diagram, root)) }; }
+  catch (e) { if (!e.archifyDiagnostics) throw e; return { diagnostics: e.archifyDiagnostics }; }
+});
+process.stdout.write(JSON.stringify(results));`;
+const evidenceResults = JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', evidenceChild, UP],
+  { input: JSON.stringify(evidenceJobs), encoding: 'utf8', env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, maxBuffer: 64 * 1024 * 1024 }));
+const tokenise = (v, base) => typeof v === 'string' ? v.replaceAll(base, '<ROOT>').replaceAll(base.replaceAll('\\', '/'), '<ROOT>')
+  : Array.isArray(v) ? v.map((x) => tokenise(x, base))
+  : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).map(([k, x]) => [k, tokenise(x, base)])) : v;
+const allStrings = (v) => typeof v === 'string' ? [v] : v && typeof v === 'object' ? Object.values(v).flatMap(allStrings) : [];
+const tmpSpellings = [os.tmpdir(), os.tmpdir().replaceAll('\\', '/')].map((s) => s.toLowerCase());
+evidenceScenarios.forEach(([name, , , , , expected], i) => {
+  const result = tokenise(evidenceResults[i], evidenceJobs[i].base);
+  const got = result.payload ? 'payload' : result.diagnostics.map(({ code }) => code);
+  if (JSON.stringify(got) !== JSON.stringify(expected)) throw new Error(`evidence ${name}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(got)}`);
+  if (allStrings(result).some((s) => tmpSpellings.some((t) => s.toLowerCase().includes(t)))) throw new Error(`evidence ${name}: an absolute temp path survived tokenisation`);
+  if (result.payload) write(`fixtures/evidence/${name}.payload.json`, result.payload);
+  else write(`fixtures/evidence/${name}.expected.json`, { diagnostics: result.diagnostics });
+});
+write('fixtures/evidence/scenarios.json', evidenceScenarios.map(([name, type, origin, root, diagram]) => ({ name, type, origin, root, diagram })));
+// git-absent: github-web again, its child's PATH reduced to node's own directory (C#: a GitRunner pointed at a missing executable).
+const noGitEnv = Object.fromEntries(Object.entries(cleanEnv).filter(([k]) => k.toUpperCase() !== 'PATH'));
+noGitEnv.PATH = path.dirname(process.execPath);
+const [absent] = JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', evidenceChild, UP],
+  { input: JSON.stringify([evidenceJobs[0]]), encoding: 'utf8', env: { ...noGitEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' } }));
+if (absent.diagnostics?.[0]?.evidence?.reason !== 'spawnSync git ENOENT') throw new Error(`evidence git-absent: ${JSON.stringify(absent)}`);
+write('fixtures/evidence/git-absent.expected.json', { diagnostics: tokenise(absent.diagnostics, evidenceJobs[0].base) });
+for (const d of evidenceTemps) fs.rmSync(d, { recursive: true, force: true });
 // --- Intl.Segmenter word granularity (label-capacity.mjs:32-33) on every string a phase-3 label can carry + a battery. `dictionary`
 // rows (Han/Kana/Thai/Lao/Khmer/Myanmar) are parity-exempt: C# asserts concatenation and per-grapheme splitting of those runs only. ---
 const wordSeg3 = new Intl.Segmenter(undefined, { granularity: 'word' });

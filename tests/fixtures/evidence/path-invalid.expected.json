@@ -1,0 +1,19 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/path-invalid",
+      "severity": "error",
+      "message": "/components/0/sources/0/path must be a repo-relative POSIX path.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/components/0/sources/0/path"
+      },
+      "evidence": {
+        "authoredPath": "src\\router.js"
+      },
+      "supportedFixes": [
+        "use a repository-relative path with forward slashes"
+      ]
+    }
+  ]
+}

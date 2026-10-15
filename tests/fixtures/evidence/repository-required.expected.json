@@ -1,0 +1,19 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/repository-required",
+      "severity": "error",
+      "message": "Repository evidence requires /meta/repository.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/meta/repository",
+        "diagramType": "architecture",
+        "collection": "components"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "add the pinned repository metadata or remove /components sources"
+      ]
+    }
+  ]
+}

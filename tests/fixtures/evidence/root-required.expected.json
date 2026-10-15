@@ -1,0 +1,17 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/root-required",
+      "severity": "error",
+      "message": "This diagram declares source evidence. Pass --repo-root <repository> so Archify can verify it before rendering.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/meta/repository"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "pass --repo-root with the matching local Git checkout"
+      ]
+    }
+  ]
+}

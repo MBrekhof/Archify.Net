@@ -1,0 +1,19 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/root-unreadable",
+      "severity": "error",
+      "message": "Could not resolve evidence repository root \"<ROOT>-missing\": ENOENT: no such file or directory, lstat '<ROOT>-missing'",
+      "subject": {
+        "surface": "repository-evidence",
+        "repoRoot": "<ROOT>-missing"
+      },
+      "evidence": {
+        "reason": "ENOENT: no such file or directory, lstat '<ROOT>-missing'"
+      },
+      "supportedFixes": [
+        "pass one readable local repository directory"
+      ]
+    }
+  ]
+}

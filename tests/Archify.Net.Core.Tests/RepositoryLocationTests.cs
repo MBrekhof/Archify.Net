@@ -20,15 +20,17 @@ public class RepositoryLocationTests
     public void Parse_matches_parseRepositoryRemote(int i, string value)
     {
         var row = Fx["parse"]![i]!;
+        var deviation = row["expectDeviation"]?.GetValue<bool>() == true;
         var diffs = new List<string>();
         foreach (var c in row["results"]!.AsArray())
         {
             var want = c!["result"] is JsonObject o ? Js.Stringify(o) : "null";
             var got = Show(RepositoryLocation.Parse(value, c["authored"]!.GetValue<bool>(), Str(c["provider"])));
-            if (want != got) diffs.Add($"authored={c["authored"]} provider={c["provider"]}: want {want} got {got}");
+            // A deviation row is exactly "Node parses, the port refuses" on every combination, not merely some difference.
+            if (deviation ? want == "null" || got != "null" : want != got)
+                diffs.Add($"authored={c["authored"]} provider={c["provider"]}: want {want} got {got}");
         }
-        if (row["expectDeviation"]?.GetValue<bool>() == true) Assert.NotEmpty(diffs);
-        else Assert.Empty(diffs);
+        Assert.Empty(diffs);
     }
 
     [Fact] public void Redact_matches_redactRepositoryRemote()

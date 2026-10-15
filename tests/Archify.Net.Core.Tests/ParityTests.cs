@@ -566,11 +566,16 @@ public class ParityTests
     internal static void AssertReceipt(JsonNode expected, RenderResult r)
     {
         Assert.Equal("", r.Html);
+        AssertReceipt(expected, r.Diagnostics);
+    }
+
+    internal static void AssertReceipt(JsonNode expected, IReadOnlyList<Diagnostic> diagnostics)
+    {
         var upstream = expected["diagnostics"]!.AsArray();
-        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), r.Diagnostics.Select(x => x.Code));
+        Assert.Equal(upstream.Select(x => x!["code"]!.GetValue<string>()), diagnostics.Select(x => x.Code));
         for (var i = 0; i < upstream.Count; i++)
         {
-            var (e, a) = (upstream[i]!, r.Diagnostics[i]);
+            var (e, a) = (upstream[i]!, diagnostics[i]);
             Assert.Equal(e["message"]!.GetValue<string>(), a.Message);
             Assert.Equal(e["severity"]!.GetValue<string>(), a.Severity == Severity.Error ? "error" : "warning");
             Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));

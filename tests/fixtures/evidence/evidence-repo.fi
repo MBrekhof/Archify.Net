@@ -1,0 +1,28 @@
+commit refs/heads/main
+author Archify Fixture <fixture@example.invalid> 1767225600 +0000
+committer Archify Fixture <fixture@example.invalid> 1767225600 +0000
+data 16
+evidence fixture
+M 100644 inline docs/readme.md
+data 86
+# Evidence fixture
+
+A small repository for source evidence tests.
+
+See src/router.js.
+
+M 100644 inline src/router.js
+data 54
+export function route(input) {
+  return input.kind;
+}
+
+M 100644 inline src/store.js
+data 32
+export const store = new Map();
+
+M 100644 inline src/中文 # router.js
+data 55
+export const 路由 = 'router';
+export default 路由;
+

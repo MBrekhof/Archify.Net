@@ -1,0 +1,20 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/url-invalid",
+      "severity": "error",
+      "message": "/meta/repository/url must be a credential-free HTTP(S) or Git SSH repository address without query, fragment, or dot segments.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/meta/repository/url"
+      },
+      "evidence": {
+        "authoredValueLooksLike": "local filesystem path; the expected value is the remote origin address"
+      },
+      "supportedFixes": [
+        "run `git remote get-url origin` inside --repo-root and declare that credential-free address",
+        "use link_mode: local-only for internal repositories"
+      ]
+    }
+  ]
+}

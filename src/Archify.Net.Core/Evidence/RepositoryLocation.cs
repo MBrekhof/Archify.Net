@@ -222,7 +222,8 @@ internal static class RepositoryLocation
     // WHATWG's (lowercase hex, first longest run of two or more zero pieces compressed, embedded IPv4 printed as hex).
     static string? Ipv6(string inner)
     {
-        if (inner.Contains('%') || !IPAddress.TryParse(inner, out var a) || a.AddressFamily != AddressFamily.InterNetworkV6) return null;
+        // TryParse also accepts a bracketed "[::1]", so `[[::1]]` would pass; WHATWG refuses any inner bracket.
+        if (inner.AsSpan().IndexOfAny("%[]") >= 0 || !IPAddress.TryParse(inner, out var a) || a.AddressFamily != AddressFamily.InterNetworkV6) return null;
         var b = a.GetAddressBytes();
         var pieces = Enumerable.Range(0, 8).Select(i => b[2 * i] << 8 | b[2 * i + 1]).ToArray();
         int compress = -1, best = 1;

@@ -1,0 +1,788 @@
+[
+  {
+    "name": "github-web",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "gitee-web",
+    "type": "architecture",
+    "origin": "git@gitee.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://gitee.com/example/evidence-repo",
+          "provider": "gitee",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "gitlab-nested-web",
+    "type": "workflow",
+    "origin": "git@gitlab.com:example/platform/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://gitlab.com/example/platform/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "nodes": [
+        {
+          "id": "user",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "local-only",
+    "type": "sequence",
+    "origin": "http://git.internal:3000/Platform/evidence-repo",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "http://git.internal:3000/Platform/evidence-repo",
+          "link_mode": "local-only",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "participants": [
+        {
+          "id": "user",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "cjk-path",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/中文 # router.js",
+              "line": 2
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "md-gitlab-plain",
+    "type": "erd",
+    "origin": "git@gitlab.com:example/platform/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://gitlab.com/example/platform/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "entities": [
+        {
+          "id": "customer",
+          "sources": [
+            {
+              "path": "docs/readme.md",
+              "line": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "duplicate-citation",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/store.js"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "repository-required",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {},
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "root-required",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "url-invalid-local-path",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "C:\\Users\\x\\evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "provider-invalid",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1",
+          "provider": "gitlab"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "links-unsupported",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "http://git.internal:3000/Platform/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "root-missing",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "missing",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "not-a-repo",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "empty",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "subdirectory-root",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "src",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "no-origin",
+    "type": "architecture",
+    "origin": null,
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "origin-mismatch",
+    "type": "architecture",
+    "origin": "git@github.com:example/other.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "revision-unavailable",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "0000000000000000000000000000000000000000"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 3,
+              "label": "Request router"
+            },
+            {
+              "path": "src/store.js",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "missing-then-escape",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/nope.js"
+            },
+            {
+              "path": "../x"
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "two-out-of-range",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 1,
+              "end_line": 99
+            }
+          ]
+        },
+        {
+          "id": "auth",
+          "sources": [
+            {
+              "path": "src/store.js",
+              "line": 1,
+              "end_line": 9
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "path-invalid",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src\\router.js"
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "directory-path",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "line-required",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "end_line": 2
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "line-range-invalid",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users",
+          "sources": [
+            {
+              "path": "src/router.js",
+              "line": 3,
+              "end_line": 1
+            }
+          ]
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  },
+  {
+    "name": "source-required",
+    "type": "architecture",
+    "origin": "git@github.com:example/evidence-repo.git",
+    "root": "repo",
+    "diagram": {
+      "meta": {
+        "repository": {
+          "url": "https://github.com/example/evidence-repo",
+          "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+        }
+      },
+      "components": [
+        {
+          "id": "users"
+        },
+        {
+          "id": "auth"
+        }
+      ]
+    }
+  }
+]

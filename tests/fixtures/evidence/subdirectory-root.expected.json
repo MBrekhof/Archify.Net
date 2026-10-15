@@ -1,0 +1,19 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/root-not-top-level",
+      "severity": "error",
+      "message": "Evidence root must be the Git top-level directory: <ROOT>",
+      "subject": {
+        "surface": "repository-evidence",
+        "repoRoot": "<ROOT>\\src"
+      },
+      "evidence": {
+        "gitTopLevel": "<ROOT>"
+      },
+      "supportedFixes": [
+        "pass --repo-root <ROOT>"
+      ]
+    }
+  ]
+}

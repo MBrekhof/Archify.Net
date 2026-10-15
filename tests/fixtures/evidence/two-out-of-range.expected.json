@@ -1,0 +1,48 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/line-out-of-range",
+      "severity": "error",
+      "message": "/components/0/sources/0 requests line 99, but src/router.js has 3 lines at revision 77eb757055fa2c17900278114600cfe23c3957d1.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/components/0/sources/0",
+        "diagramType": "architecture",
+        "collection": "components",
+        "nodeId": "users",
+        "componentId": "users"
+      },
+      "evidence": {
+        "sourcePath": "src/router.js",
+        "requestedLine": 99,
+        "lineCount": 3,
+        "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+      },
+      "supportedFixes": [
+        "use a line range that exists at the pinned revision"
+      ]
+    },
+    {
+      "code": "repository-evidence/line-out-of-range",
+      "severity": "error",
+      "message": "/components/1/sources/0 requests line 9, but src/store.js has 1 lines at revision 77eb757055fa2c17900278114600cfe23c3957d1.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/components/1/sources/0",
+        "diagramType": "architecture",
+        "collection": "components",
+        "nodeId": "auth",
+        "componentId": "auth"
+      },
+      "evidence": {
+        "sourcePath": "src/store.js",
+        "requestedLine": 9,
+        "lineCount": 1,
+        "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+      },
+      "supportedFixes": [
+        "use a line range that exists at the pinned revision"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/file-missing",
+      "severity": "error",
+      "message": "/components/0/sources/0/path does not identify a file at revision 77eb757055fa2c17900278114600cfe23c3957d1.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/components/0/sources/0/path",
+        "diagramType": "architecture",
+        "collection": "components",
+        "nodeId": "users",
+        "componentId": "users"
+      },
+      "evidence": {
+        "sourcePath": "src",
+        "revision": "77eb757055fa2c17900278114600cfe23c3957d1"
+      },
+      "supportedFixes": [
+        "use a file path that exists at the pinned revision"
+      ]
+    }
+  ]
+}

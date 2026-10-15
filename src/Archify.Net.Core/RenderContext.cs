@@ -12,5 +12,6 @@ public sealed class RenderContext(DiagramType type, JsonObject diagram, RenderOp
     public LocaleCatalog Locale { get; } = new();
     public BrandMarkResolver Brands { get; } = new();
     public RenderOptions Options { get; } = options;
-    public JsonNode? SourceEvidence { get; }   // verifyRepositoryEvidence's result; null until phase 4 ports repository evidence
+    public JsonNode? SourceEvidence { get; internal set; }   // verifyRepositoryEvidence's result, set by DiagramLoader.Load
+    internal GitRunner Git { get; init; } = new();
 }

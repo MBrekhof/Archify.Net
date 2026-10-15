@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "verified": true,
+  "repository": {
+    "url": "https://github.com/example/evidence-repo",
+    "revision": "77eb757055fa2c17900278114600cfe23c3957d1",
+    "shortRevision": "77eb757",
+    "label": "example/evidence-repo",
+    "href": "https://github.com/example/evidence-repo/tree/77eb757055fa2c17900278114600cfe23c3957d1"
+  },
+  "referenceCount": 1,
+  "nodes": {
+    "users": [
+      {
+        "path": "src/中文 # router.js",
+        "line": 2,
+        "href": "https://github.com/example/evidence-repo/blob/77eb757055fa2c17900278114600cfe23c3957d1/src/%E4%B8%AD%E6%96%87%20%23%20router.js#L2"
+      }
+    ]
+  }
+}

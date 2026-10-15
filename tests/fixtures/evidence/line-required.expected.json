@@ -1,0 +1,21 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/line-required",
+      "severity": "error",
+      "message": "/components/0/sources/0/end_line requires line.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/components/0/sources/0/end_line",
+        "diagramType": "architecture",
+        "collection": "components",
+        "nodeId": "users",
+        "componentId": "users"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "add line or remove end_line"
+      ]
+    }
+  ]
+}

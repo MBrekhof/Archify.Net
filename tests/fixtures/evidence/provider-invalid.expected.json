@@ -1,0 +1,17 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/provider-invalid",
+      "severity": "error",
+      "message": "Repository provider must match its supported public host (github.com, gitee.com or gitlab.com); gitlab also names a self-managed GitLab host.",
+      "subject": {
+        "surface": "repository-evidence",
+        "path": "/meta/repository/provider"
+      },
+      "evidence": {},
+      "supportedFixes": [
+        "use the matching provider or omit provider and select link_mode: local-only"
+      ]
+    }
+  ]
+}

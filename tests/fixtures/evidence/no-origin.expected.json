@@ -1,0 +1,23 @@
+{
+  "diagnostics": [
+    {
+      "code": "repository-evidence/git-command",
+      "severity": "error",
+      "message": "Evidence repository must have an origin remote.",
+      "subject": {
+        "surface": "repository-evidence"
+      },
+      "evidence": {
+        "gitArgs": [
+          "remote",
+          "get-url",
+          "origin"
+        ],
+        "exitCode": 2
+      },
+      "supportedFixes": [
+        "use the intended local Git repository and verify its origin and revision"
+      ]
+    }
+  ]
+}
