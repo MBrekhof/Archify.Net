@@ -1,0 +1,918 @@
+[
+  {
+    "example": "agent-run.lifecycle.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "50ab6a0f8c8ff6e93f81ac79e54ad063c4999f5c6212e4e26e82c40391816143",
+      "bytes": 825171
+    }
+  },
+  {
+    "example": "agent-run.lifecycle.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "7952d024d3f7605ba28cac10dff1883c6efb57788ba650b26cd1afd87459b042",
+      "bytes": 825171
+    }
+  },
+  {
+    "example": "agent-tool-call.workflow.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "5f16ef1e68134db633edfe5556aaae597e9402a16778e34141bf478817ce51bd",
+      "bytes": 828788
+    }
+  },
+  {
+    "example": "agent-tool-call.workflow.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "6a30f19e88a722c6fab02a6e9d95b64ef109799597fb94509321257754ac3703",
+      "bytes": 828788
+    }
+  },
+  {
+    "example": "archify-dev-activity.timeline.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "dd7f40dc3f0aa631b5bab903f1376b0a9947846e0903d406a1c2b38cdc6aaf3f",
+      "bytes": 844018
+    }
+  },
+  {
+    "example": "archify-dev-activity.timeline.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "f8e63121681496338e7b10c4110075c957141d88b391eb110888b6f5e0a4b30a",
+      "bytes": 844018
+    }
+  },
+  {
+    "example": "archify-repository.tree.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "b465552d218cf5ab9d404a00e58d442c72d6e4bff5895953d0bce2e3dc9b888c",
+      "bytes": 854868
+    }
+  },
+  {
+    "example": "archify-repository.tree.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "8e8519d01535924c314d49f28b0f80f5777696ff2d9b411ef7ec28b7389f779f",
+      "bytes": 854868
+    }
+  },
+  {
+    "example": "async-job-roundtrip.sequence.json",
+    "quality": "standard",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "browser-check",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "fail"
+    },
+    "codes": [
+      "viewer/viewport-overflow"
+    ],
+    "artifact": {
+      "sha256": "aaade003fcb1d63350221c1ededc785dc79732f57680d638b50dade0d4b3ee38",
+      "bytes": 819422
+    }
+  },
+  {
+    "example": "async-job-roundtrip.sequence.json",
+    "quality": "showcase",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "deliver",
+    "gates": {
+      "validate": "not-run",
+      "deliver": "fail",
+      "check": "not-run",
+      "browser-check": "not-run"
+    },
+    "codes": [
+      "composition/viewport-height"
+    ],
+    "artifact": {
+      "sha256": "d2ac49c55ce2f947289ac9829d122fe25458d4793383249fb23680a8f09e4008",
+      "bytes": 819422
+    }
+  },
+  {
+    "example": "brand-aware-delivery.architecture.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "e49e101454ab4b5fb882065e480ed8c78214569964116b029f260df9a4d34d96",
+      "bytes": 834609
+    }
+  },
+  {
+    "example": "brand-aware-delivery.architecture.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "aaa317c16a81cd7720be309feaa3b74e7c1153ecf78ca127a54b95c25fb0538d",
+      "bytes": 834609
+    }
+  },
+  {
+    "example": "cache-miss-request.sequence.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "3d2d7ce533c322b3d186f11391c2c54a5623117540affa558c5c9f38bf9facc1",
+      "bytes": 819076
+    }
+  },
+  {
+    "example": "cache-miss-request.sequence.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "0acc3f1f239d8dae8088538a5b245e5aff0d9c6f68268cfd16b66b3d6a6c9772",
+      "bytes": 819076
+    }
+  },
+  {
+    "example": "checkout-platform.base.architecture.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "cc6c4f1ce6a7da32b1d2ab6046699ba658900ae598a7849264ecba1933d45a4c",
+      "bytes": 818583
+    }
+  },
+  {
+    "example": "checkout-platform.base.architecture.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "4cd8fd9a9272982d5f88c9c4b8f4875264dc01cff31ec16b4bab148be4cbbe0d",
+      "bytes": 818583
+    }
+  },
+  {
+    "example": "checkout-platform.head.architecture.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "302d1aabc0a5426d2cfeac59ed5f9f770d635a9738d9ba533aa1a30586a0fc98",
+      "bytes": 819094
+    }
+  },
+  {
+    "example": "checkout-platform.head.architecture.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "cb413a8a0ae1359b9098d348d0e8d9cc4001e40d03e36a9aac5a916f2c75781e",
+      "bytes": 819094
+    }
+  },
+  {
+    "example": "checkout-request.waterfall.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "208b91e97c16bc8b7064a98ae2195812adc1b983cb57c2962f238d7c72d1bed0",
+      "bytes": 810894
+    }
+  },
+  {
+    "example": "checkout-request.waterfall.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "a8f9bfc4651b172a4b927fa8365be3dec5a749690d6628d7ffcf7d595ee0e375",
+      "bytes": 810894
+    }
+  },
+  {
+    "example": "deployment-release.lifecycle.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "83ccc5579384d6efdcbfe5cde7cc186413907b9a1842cc9328de4fbe29075285",
+      "bytes": 832196
+    }
+  },
+  {
+    "example": "deployment-release.lifecycle.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "857e85d2b67365737ab237ed1a0a22153a433fdf418eb7a6b8238e9035b66864",
+      "bytes": 832196
+    }
+  },
+  {
+    "example": "event-stream.dataflow.json",
+    "quality": "standard",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "browser-check",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "fail"
+    },
+    "codes": [
+      "viewer/viewport-overflow"
+    ],
+    "artifact": {
+      "sha256": "cb55228a30cb2ce83f825656ca157edc6f369b109f03c5b72af13f9101f7eb54",
+      "bytes": 825283
+    }
+  },
+  {
+    "example": "event-stream.dataflow.json",
+    "quality": "showcase",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "deliver",
+    "gates": {
+      "validate": "not-run",
+      "deliver": "fail",
+      "check": "not-run",
+      "browser-check": "not-run"
+    },
+    "codes": [
+      "composition/viewport-height"
+    ],
+    "artifact": {
+      "sha256": "c68b9833d4269ee875f4084e931d7db4316701f9b56953cc10eb14d3d519bd83",
+      "bytes": 825283
+    }
+  },
+  {
+    "example": "example-rebuild.waterfall.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "038cee617840d64628362bdffb90bd43565c57d936cbe5ec43f14721fe200de2",
+      "bytes": 840712
+    }
+  },
+  {
+    "example": "example-rebuild.waterfall.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "735f695685053c6095292647cb80c788e32064bcc411697bed8b12c1c7b0b053",
+      "bytes": 840712
+    }
+  },
+  {
+    "example": "holiday-planning.workflow.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "a016ab8809fbc9b4bf476f0fee68cb61ef04c497dc81954629c1ce5221c3c4f6",
+      "bytes": 810935
+    }
+  },
+  {
+    "example": "holiday-planning.workflow.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "dca997f9ae7d210d7ba45876ffaa990bd9e5594930434b3e745c51048226190f",
+      "bytes": 810935
+    }
+  },
+  {
+    "example": "incident-response.workflow.json",
+    "quality": "standard",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "browser-check",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "fail"
+    },
+    "codes": [
+      "viewer/viewport-overflow"
+    ],
+    "artifact": {
+      "sha256": "9c8d104121a016832aa9066d9711432c429c026939a1ed06f24352c39852d4d8",
+      "bytes": 821748
+    }
+  },
+  {
+    "example": "incident-response.workflow.json",
+    "quality": "showcase",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "deliver",
+    "gates": {
+      "validate": "not-run",
+      "deliver": "fail",
+      "check": "not-run",
+      "browser-check": "not-run"
+    },
+    "codes": [
+      "composition/viewport-height"
+    ],
+    "artifact": {
+      "sha256": "a009ae9684eb3fa487a8b8dfd5eef14a240cae4a2b427c96fa415701479b08ff",
+      "bytes": 821748
+    }
+  },
+  {
+    "example": "orders.erd.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "a7d307878a1af09d4fbab4f4c810ba0a3fe7c88806e25e3433420005e26c7904",
+      "bytes": 838767
+    }
+  },
+  {
+    "example": "orders.erd.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "d6f13c5e6254ef3522294255a740e7aef78554058cbb29ac15e7e4149568c122",
+      "bytes": 838767
+    }
+  },
+  {
+    "example": "payment-incident.timeline.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "f42a8eb07287b3b9cbb6a5e2e731be9e0a5b825e983ab8b5214aca33013e7ffa",
+      "bytes": 811605
+    }
+  },
+  {
+    "example": "payment-incident.timeline.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "b8b33ee1c76992d472edf30ab726974e493ebbe966daacd2051a88ffd77be6ea",
+      "bytes": 811605
+    }
+  },
+  {
+    "example": "payment-platform.tree.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "9ba9fd688004a4534efa3aa81b109b1653a84fc622e4137b5c9daadbcd56e6e7",
+      "bytes": 817227
+    }
+  },
+  {
+    "example": "payment-platform.tree.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "f64e8a5ffd3ae82ae6bf6f28cc8f716c0b437c1fa1c3bba74bf7c33e962b7bd3",
+      "bytes": 817227
+    }
+  },
+  {
+    "example": "payment-processors.class.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "229888f19d0c7a4264f6fe387bcbe6cfba1a526d6fafcafc00ddaf37484fd3dd",
+      "bytes": 852544
+    }
+  },
+  {
+    "example": "payment-processors.class.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "12240a8db8fdf6bb91e92dc71916c1dcef4873e7d3b1ba351b8bc00d9489d48b",
+      "bytes": 852544
+    }
+  },
+  {
+    "example": "payments.class.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "9eb066a770e08af652e4fad032eb9442b2c98cafed86be9eb0d27c8e55cb2ef9",
+      "bytes": 818283
+    }
+  },
+  {
+    "example": "payments.class.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "5b11c66ccaef1177e69ea28e8a04ee9d8ba5964e7476e1a1e57ce1fe36b4c53c",
+      "bytes": 818283
+    }
+  },
+  {
+    "example": "product-analytics.dataflow.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "617240f414cae9cb76d3407f77b60653ec79cfa7b59aec866b8f36dc9ae8ca2e",
+      "bytes": 821363
+    }
+  },
+  {
+    "example": "product-analytics.dataflow.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "8577ad3f6800a87c8b4074427ae942b729d582c6b2d5d19a4b23cfffc5e57bb9",
+      "bytes": 821363
+    }
+  },
+  {
+    "example": "production-deployment.architecture.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "2ce6dc066c3132eabf03cd011e70e2ea6e4291dd1ecc250d382c3280be775382",
+      "bytes": 831166
+    }
+  },
+  {
+    "example": "production-deployment.architecture.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "d983d2bcb533f3432c65c8bb567fb713701781759bf86f30f04e7c9a41d9d68a",
+      "bytes": 831166
+    }
+  },
+  {
+    "example": "release-delivery.workflow.json",
+    "quality": "standard",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "browser-check",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "fail"
+    },
+    "codes": [
+      "viewer/viewport-overflow"
+    ],
+    "artifact": {
+      "sha256": "0847f09151dacf642ac133d3b5d02e8d2640eb926826c4a7a3461b56a3601f93",
+      "bytes": 824348
+    }
+  },
+  {
+    "example": "release-delivery.workflow.json",
+    "quality": "showcase",
+    "exit": 1,
+    "ok": false,
+    "failedStage": "deliver",
+    "gates": {
+      "validate": "not-run",
+      "deliver": "fail",
+      "check": "not-run",
+      "browser-check": "not-run"
+    },
+    "codes": [
+      "composition/viewport-height"
+    ],
+    "artifact": {
+      "sha256": "5714744a20cbbd6686a1e1f88f74d978e5e81088ea99a3335166339fbfe9dda3",
+      "bytes": 824348
+    }
+  },
+  {
+    "example": "subscription-billing.erd.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "bf3a6c94a9d2ef3302cc4fbbbf7f937275e7b13dbe47bdb83c0ecbdffdca02d4",
+      "bytes": 861720
+    }
+  },
+  {
+    "example": "subscription-billing.erd.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "93e24ec18c465ed8ffd1d070fbb8a7db73d7510f09d770c869c79b254bd7a893",
+      "bytes": 861720
+    }
+  },
+  {
+    "example": "web-app.architecture.json",
+    "quality": "standard",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "cbcc3d7c70dbedae1aca47863f125c15c5a08fb6cff327448b16d073b85168f7",
+      "bytes": 823705
+    }
+  },
+  {
+    "example": "web-app.architecture.json",
+    "quality": "showcase",
+    "exit": 0,
+    "ok": true,
+    "failedStage": null,
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "codes": [],
+    "artifact": {
+      "sha256": "48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc",
+      "bytes": 823705
+    }
+  }
+]

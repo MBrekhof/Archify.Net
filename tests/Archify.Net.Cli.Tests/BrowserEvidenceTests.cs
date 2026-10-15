@@ -106,7 +106,7 @@ public sealed partial class BrowserEvidenceTests
     }
 
     // The capture script's engineBrowser: T/visual-check.test.mjs:72-145 fakeBrowser with declarative `WxH:theme` lists.
-    sealed class FakeBrowsers(JsonObject? config, string? mode = null) : IBrowserInspectorFactory
+    internal sealed class FakeBrowsers(JsonObject? config, string? mode = null) : IBrowserInspectorFactory
     {
         public JsonArray Calls { get; } = [];
         public bool Launched { get; private set; }

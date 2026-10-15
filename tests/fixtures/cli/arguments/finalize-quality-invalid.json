@@ -1,0 +1,16 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--quality",
+    "hero"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown quality profile \"hero\". Expected standard or showcase.\n"
+}

@@ -1,0 +1,16 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--json",
+    "--receipt"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"finalize\",\n  \"stage\": \"arguments\",\n  \"error\": \"--receipt requires a JSON output path.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/missing-option-value\",\n      \"severity\": \"error\",\n      \"message\": \"--receipt requires a JSON output path.\",\n      \"subject\": {\n        \"command\": \"finalize\",\n        \"option\": \"--receipt\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"provide one .json path after --receipt\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

@@ -20,7 +20,7 @@ static class BrowserEvidenceCommand
             io.Out(summary ? Js.Stringify(BrowserReceipt.Summarize(receipt, published)) : Js.Stringify(receipt, 2));
         void PrintFailure(JsonObject receipt, string review)
         {
-            io.Err(FormatDiagnostics($"automated browser evidence failed: {receipt["error"]?.GetValue<string>()}", receipt["diagnostics"]!.AsArray()));
+            io.Err(Cli.FormatDiagnostics($"automated browser evidence failed: {receipt["error"]?.GetValue<string>()}", receipt["diagnostics"]!.AsArray()));
             io.Err($"perceptual visual review {review}");
         }
         if (args.FirstOrDefault(arg => arg.StartsWith("--", StringComparison.Ordinal) && !KnownOptions.Contains(arg)) is { } unknown)
@@ -107,12 +107,4 @@ static class BrowserEvidenceCommand
         failure["artifact"] = new JsonObject { ["path"] = artifactPath };
         return failure;
     }
-
-    // formatDiagnostics (A:2749-2758) over a receipt's diagnostics.
-    static string FormatDiagnostics(string error, JsonArray diagnostics) =>
-        diagnostics.Count == 0 ? error : string.Join("\n", [error, .. diagnostics.Select(d =>
-        {
-            var fixes = d!["supportedFixes"] as JsonArray ?? [];
-            return $"[{d["code"]}] {d["message"]}{(fixes.Count > 0 ? $" Fix: {string.Join("; ", fixes.Select(f => f!.GetValue<string>()))}." : "")}";
-        })]);
 }

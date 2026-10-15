@@ -1,0 +1,15 @@
+{
+  "args": [
+    "finalize",
+    "bogus",
+    "web-app.architecture.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"finalize\",\n  \"stage\": \"arguments\",\n  \"error\": \"Unknown diagram type \\\"bogus\\\". Expected one of: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unknown-diagram-type\",\n      \"severity\": \"error\",\n      \"message\": \"Unknown diagram type \\\"bogus\\\". Expected one of: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\",\n      \"subject\": {\n        \"command\": \"finalize\",\n        \"type\": \"bogus\"\n      },\n      \"evidence\": {\n        \"supportedTypes\": [\n          \"architecture\",\n          \"workflow\",\n          \"sequence\",\n          \"dataflow\",\n          \"lifecycle\",\n          \"erd\",\n          \"tree\",\n          \"class\",\n          \"timeline\",\n          \"waterfall\"\n        ]\n      },\n      \"supportedFixes\": [\n        \"use one of: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

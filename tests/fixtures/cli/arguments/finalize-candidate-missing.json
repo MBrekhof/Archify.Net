@@ -1,0 +1,15 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--candidate-sha256"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--candidate-sha256 requires a SHA-256 digest.\n"
+}

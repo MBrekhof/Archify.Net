@@ -990,4 +990,119 @@ const visualRun = evidenceFixture('visual-check', 'web-app-rendered', ['visual-c
 expect(launched(JSON.parse(visualRun.stdout)) && Object.values(visualRun.evidence).filter((v) => v.startsWith('png ')).length === 4, 'visual-check writes 4 PNGs');
 evidenceFixture('visual-check', 'web-app-rendered-human', ['visual-check', 'web-app-rendered.html'], exFiles('web-app-rendered.html'), undefined, chromeEnv);
 
+// --- finalize (Task 12): commandFinalize (A:5706-5863) over runFinalize (finalize.mjs:706-1009) ---
+// Receipts are scrubbed of what varies between runs (Q8, the brief): startedAt, finishedAt, every durationMs, each stage's command
+// (D8) and stderr, the update blocks (D7), and v4 ids -> <uuid>. A scrubbed JSON keeps its layout (one line or indent 2).
+function scrubFinalize(text) {
+  const t = text.replace(UUID_V4, '<uuid>');
+  if (!t.startsWith('{')) return t;
+  const value = JSON.parse(t);
+  for (const key of ['startedAt', 'finishedAt', 'durationMs', 'update']) delete value[key];
+  for (const stage of Object.values(value.stages ?? {})) {
+    for (const key of ['durationMs', 'command', 'stderr']) delete stage[key];
+    if (stage.receipt && typeof stage.receipt === 'object') delete stage.receipt.update;
+  }
+  return `${JSON.stringify(value, null, t.includes('\n  ') ? 2 : undefined)}\n`;
+}
+// A fixture gains `entries` (the workdir afterwards) and `sidecars` (workdir path -> scrubbed text of each finalize receipt, summary,
+// delivery sidecar and browser-check receipt left behind).
+const FINALIZE_SIDECAR = /(\.finalize\.json|-summary\.json|\.delivery\.json|\.delivery-pending\.json|\.browser-check\.json|^\.archify-delivery-lock\.json)$/u;
+function finalizeFixture(group, name, args, files, childEnv) {
+  return mint(group, name, args, files, (work, fixture) => {
+    fixture.stdout = scrubFinalize(fixture.stdout);
+    fixture.stderr = fixture.stderr.replace(UUID_V4, '<uuid>');
+    fixture.entries = walk(work).sort();
+    fixture.sidecars = Object.fromEntries(fixture.entries.filter((e) => FINALIZE_SIDECAR.test(path.basename(e)) && fs.statSync(path.join(work, e)).isFile())
+      .map((e) => [e, scrubFinalize(tokenise(fs.readFileSync(path.join(work, e), 'utf8'), work))]));
+  }, undefined, childEnv).fixture;
+}
+// Argument errors (A:5706-5800): a receipt with --json (A:7133), else stderr; a missing --out-dir value is fail() either way.
+const finalizeArgs = [
+  ['finalize-usage-no-args', ['finalize', '--json']],
+  ['finalize-missing-output', ['finalize', 'architecture', arch, '--json']],
+  ['finalize-extra-positional', ['finalize', 'architecture', arch, 'out.html', 'extra.html', '--json']],
+  ['finalize-unknown-option', ['finalize', 'architecture', arch, 'out.html', '--bogus', '--json']],
+  ['finalize-unknown-type', ['finalize', 'bogus', arch, 'out.html', '--json']],
+  ['finalize-quality-invalid', ['finalize', 'architecture', arch, 'out.html', '--quality', 'hero', '--json']],
+  ['finalize-receipt-missing', ['finalize', 'architecture', arch, 'out.html', '--json', '--receipt']],
+  ['finalize-receipt-empty', ['finalize', 'architecture', arch, 'out.html', '--receipt=', '--json']],
+  ['finalize-candidate-missing', ['finalize', 'architecture', arch, 'out.html', '--json', '--candidate-sha256']],
+  ['finalize-candidate-invalid', ['finalize', 'architecture', arch, 'out.html', '--candidate-sha256', 'ABC', '--json']],
+];
+for (const [name, args] of finalizeArgs) {
+  const { fixture } = mint('arguments', `${name}-json`, args, filesFor(args));
+  expect(fixture.exit === 2 && fixture.stderr === '' && JSON.parse(fixture.stdout).stage === 'arguments', `${name}-json receipt`);
+  const human = args.filter((a) => a !== '--json');
+  expect(mint('arguments', name, human, filesFor(human)).fixture.exit === 2, `${name} human`);
+}
+mint('arguments', 'finalize-out-dir-missing-json', ['finalize', 'architecture', arch, 'out.html', '--json', '--out-dir'], exFiles(arch));
+
+// Without a browser (ARCHIFY_CHROME at a missing file; the C# tests use a factory that reports none): runs that stop before the
+// browser gate, and the skipped gate itself (exit 2).
+const finalizeCases = [
+  // [name, args, files, exit]
+  ['skipped-json', ['finalize', 'architecture', arch, 'out.html', '--json'], exFiles(arch), 2],
+  ['skipped-human', ['finalize', 'architecture', arch, 'out.html'], exFiles(arch), 2],
+  ['skipped-standard-json', ['finalize', 'architecture', arch, 'out.html', '--quality', 'standard', '--json'], exFiles(arch), 2],
+  ['skipped-out-dir-json', ['finalize', 'architecture', arch, 'out.html', '--out-dir', 'evidence', '--json'], exFiles(arch), 2],
+  ['skipped-custom-receipt-json', ['finalize', 'architecture', arch, 'out.html', '--receipt', 'reports/final.json', '--json'], exFiles(arch), 2],
+  // T/finalize-paths.test.mjs:25-40: a 78-character CJK name; every delivery and evidence name is bounded.
+  ['long-output-json', ['finalize', 'architecture', arch, `${'审'.repeat(78)}.html`, '--quality', 'showcase', '--json'], exFiles(arch), 2],
+  // A deliver failure at stage input is a failed validate gate (finalize.mjs:923-934) with nextAction.
+  ['deliver-input-failure-json', ['finalize', 'workflow', 'broken.workflow.json', 'out.html', '--json'], broken, 1],
+  ['deliver-input-failure-human', ['finalize', 'workflow', 'broken.workflow.json', 'out.html'], broken, 1],
+  // Showcase promotes composition warnings to a failed deliver gate (finalize.mjs:880-891).
+  ['showcase-warning-json', ['finalize', 'workflow', 'incident-response.workflow.json', 'out.html', '--json'], exFiles('incident-response.workflow.json'), 1],
+  ['showcase-warning-human', ['finalize', 'workflow', 'incident-response.workflow.json', 'out.html'], exFiles('incident-response.workflow.json'), 1],
+  // "could not start" (A:5826-5847): candidate digest, --out-dir syntax (an OutputPathError's diagnostics, spread).
+  ['candidate-changed-json', ['finalize', 'architecture', arch, 'out.html', '--candidate-sha256', '0'.repeat(64), '--json'], exFiles(arch), 1],
+  ['candidate-changed-human', ['finalize', 'architecture', arch, 'out.html', '--candidate-sha256', '0'.repeat(64)], exFiles(arch), 1],
+  ['invalid-out-dir-json', ['finalize', 'architecture', arch, 'out.html', '--out-dir', 'C:evidence', '--json'], exFiles(arch), 1],
+  ['receipt-collision-human', ['finalize', 'architecture', arch, 'diagram.html', '--receipt', 'diagram.delivery.json'], exFiles(arch), 1],
+];
+// T/finalize-paths.test.mjs:42-53: a receipt path that would replace a delivery sidecar or the directory lock; nothing is written.
+for (const name of ['diagram.delivery.json', 'diagram.delivery-pending.json', 'diagram.delivery-lock.json', '.archify-delivery-lock.json']) {
+  finalizeCases.push([`receipt-collision-${name.replace(/^\./u, '').replace(/\.json$/u, '')}-json`,
+    ['finalize', 'architecture', arch, 'diagram.html', '--quality', 'showcase', '--json', '--receipt', name], exFiles(arch), 1]);
+}
+for (const [name, args, files, exit] of finalizeCases) {
+  const f = finalizeFixture('finalize', name, args, files, noChrome);
+  expect(f.exit === exit, `finalize ${name}: exit ${f.exit}, expected ${exit}`);
+  if (name.startsWith('receipt-collision')) expect(f.entries.length === 1 && (f.stdout + f.stderr).includes('distinct'), `finalize ${name} writes nothing`);
+  if (name === 'long-output-json') expect(f.entries.every((e) => Buffer.byteLength(e) <= 255), 'bounded names');
+}
+
+// With Chromium: the web-app run whose summary, full receipt and sidecars the C# run must equal after scrubbing.
+for (const [name, args] of [['web-app-json', ['finalize', 'architecture', arch, 'out.html', '--json']], ['web-app-human', ['finalize', 'architecture', arch, 'out.html']]]) {
+  const f = finalizeFixture('finalize-chromium', name, args, exFiles(arch), chromeEnv);
+  expect(f.exit === 0 && f.sidecars['out.browser-check.json'].includes('"executable": "<CHROME>"'), `finalize ${name}: a launched, passing run`);
+}
+
+// The phase exit (plan "Exit"): upstream finalize on every example at both qualities, as {exit, ok, failedStage, gates, codes (the full
+// receipt's diagnostics), artifact identity}.
+const outcomes = [];
+for (const f of EXAMPLES) {
+  for (const quality of ['standard', 'showcase']) {
+    const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
+    try {
+      fs.copyFileSync(repo(`${EX}/${f}`), path.join(work, f));
+      const r = spawnSync(process.execPath, [cli, 'finalize', typeOf(f), f, 'out.html', '--quality', quality, '--json'], { cwd: work, env: chromeEnv, encoding: 'utf8' });
+      if (r.error) throw r.error;
+      const summary = JSON.parse(r.stdout);
+      const full = JSON.parse(fs.readFileSync(summary.evidence.receipt, 'utf8'));
+      expect(full.stages['browser-check']?.receipt?.chrome?.status !== 'unavailable', `finalize ${f} ${quality}: never a skipped browser`);
+      outcomes.push({
+        example: f, quality, exit: r.status, ok: summary.ok, failedStage: summary.failedStage ?? null, gates: summary.gates,
+        codes: full.diagnostics.map((d) => d.code), artifact: { sha256: summary.artifact.sha256 ?? null, bytes: summary.artifact.bytes ?? null },
+      });
+    } finally {
+      fs.rmSync(work, { recursive: true, force: true });
+    }
+  }
+}
+writeJson(`${CLI_FIX}/finalize-exit/outcomes.json`, outcomes);
+// Upstream itself does not pass every example: four fail at standard (browser-check, viewer/viewport-overflow) and at showcase
+// (deliver, composition/viewport-height). The table, not an all-pass assertion, is the reference.
+for (const o of outcomes.filter((x) => !x.ok)) console.log(`upstream finalize fails: ${o.example} --quality ${o.quality} at ${o.failedStage}: ${o.codes.join(', ')}`);
+
 console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, ${engineCount} browser-engine cases, four path tables, and upstream/recipes/scenarios.json`);

@@ -10,7 +10,7 @@ public sealed record CliIo(TextWriter Stdout, TextWriter Stderr, string Cwd, Cli
     public void Err(string text) => Stderr.Write(text + "\n");
 }
 
-// The seams tests replace. ponytail: the finalize stage runner (Task 12) joins as an init property when its type exists.
+// The seams tests replace.
 public sealed record CliServices
 {
     public static readonly CliServices Default = new();
@@ -25,4 +25,6 @@ public sealed record CliServices
     public Func<string[], int> PlaywrightMain { get; init; } = Microsoft.Playwright.Program.Main;
     // browser-check / visual-check (Q4): Playwright's pinned Chromium, the headless shell doctor probes for
     public Browser.IBrowserInspectorFactory BrowserInspectors { get; init; } = new Browser.PlaywrightInspectorFactory(Commands.DoctorCommand.HeadlessShell);
+    // finalize's stages (Q2, Q5): deliver and check in process, browser-check through the browser gate
+    public Finalize.IStageRunner StageRunner { get; init; } = new Finalize.StageRunner();
 }

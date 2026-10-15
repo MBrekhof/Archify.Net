@@ -1,0 +1,14 @@
+{
+  "args": [
+    "finalize",
+    "bogus",
+    "web-app.architecture.json",
+    "out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Unknown diagram type \"bogus\". Expected one of: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\n"
+}

@@ -1,0 +1,20 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "diagram.html",
+    "--receipt",
+    "diagram.delivery.json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "finalize could not start\n[finalize/runtime] The finalize receipt must be distinct from the specification, artifact, and gate sidecars: \"<WORK>\\diagram.delivery.json\".\n",
+  "entries": [
+    "web-app.architecture.json"
+  ],
+  "sidecars": {}
+}

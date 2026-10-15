@@ -1,0 +1,16 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--json",
+    "--out-dir"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--out-dir requires a directory path.\n"
+}

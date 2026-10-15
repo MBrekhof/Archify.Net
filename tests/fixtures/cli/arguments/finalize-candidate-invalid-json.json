@@ -1,0 +1,17 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--candidate-sha256",
+    "ABC",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"finalize\",\n  \"stage\": \"arguments\",\n  \"error\": \"--candidate-sha256 must be 64 lowercase hexadecimal characters.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/invalid-option-value\",\n      \"severity\": \"error\",\n      \"message\": \"--candidate-sha256 must be 64 lowercase hexadecimal characters.\",\n      \"subject\": {\n        \"command\": \"finalize\",\n        \"option\": \"--candidate-sha256\"\n      },\n      \"evidence\": {\n        \"value\": \"ABC\"\n      },\n      \"supportedFixes\": [\n        \"copy candidate.sha256 from the passing validate receipt without modification\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

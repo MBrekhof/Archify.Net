@@ -1,0 +1,16 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--bogus",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"finalize\",\n  \"stage\": \"arguments\",\n  \"error\": \"Unknown finalize option \\\"--bogus\\\".\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unknown-option\",\n      \"severity\": \"error\",\n      \"message\": \"Unknown finalize option \\\"--bogus\\\".\",\n      \"subject\": {\n        \"command\": \"finalize\",\n        \"option\": \"--bogus\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"remove the unknown option and retry\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

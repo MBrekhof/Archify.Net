@@ -43,7 +43,7 @@ public static class Cli
                     return 0;
                 case "render": return Commands.RenderCommand.Run(args, io);
                 case "deliver": return Commands.DeliverCommand.Run(args, io);
-                case "finalize": throw new NotImplementedException("Task 12");
+                case "finalize": return Commands.FinalizeCommand.Run(args, io);
                 case "validate": return Commands.ValidateCommand.Run(args, io);
                 case "inspect":
                     if (args.ElementAtOrDefault(0) != "architecture")
@@ -87,6 +87,14 @@ public static class Cli
     internal static string FormatDiagnostics(string error, IReadOnlyList<Diagnostic> diagnostics) =>
         diagnostics.Count == 0 ? error : string.Join("\n", [error, .. diagnostics.Select(d =>
             $"[{d.Code}] {d.Message}{(d.SupportedFixes.Count > 0 ? $" Fix: {string.Join("; ", d.SupportedFixes)}." : "")}")]);
+
+    // formatDiagnostics over a receipt's diagnostics, as JSON.
+    internal static string FormatDiagnostics(string error, JsonArray diagnostics) =>
+        diagnostics.Count == 0 ? error : string.Join("\n", [error, .. diagnostics.Select(d =>
+        {
+            var fixes = d!["supportedFixes"] as JsonArray ?? [];
+            return $"[{d["code"]}] {d["message"]}{(fixes.Count > 0 ? $" Fix: {string.Join("; ", fixes.Select(f => f!.GetValue<string>()))}." : "")}";
+        })]);
 
     // reportArtifactFailure (A:4251-4273): the receipt on stdout, or formatDiagnostics on stderr; returns the exit status. The
     // `update` notice is dropped (Q5).

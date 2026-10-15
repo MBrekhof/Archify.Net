@@ -1,0 +1,17 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--quality",
+    "hero",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"finalize\",\n  \"stage\": \"arguments\",\n  \"error\": \"Unknown quality profile \\\"hero\\\". Expected standard or showcase.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/invalid-option-value\",\n      \"severity\": \"error\",\n      \"message\": \"Unknown quality profile \\\"hero\\\". Expected standard or showcase.\",\n      \"subject\": {\n        \"command\": \"finalize\",\n        \"option\": \"--quality\"\n      },\n      \"evidence\": {\n        \"value\": \"hero\",\n        \"supportedValues\": [\n          \"standard\",\n          \"showcase\"\n        ]\n      },\n      \"supportedFixes\": [\n        \"use --quality standard or --quality showcase\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

@@ -1,0 +1,16 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--json",
+    "--candidate-sha256"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"finalize\",\n  \"stage\": \"arguments\",\n  \"error\": \"--candidate-sha256 requires a SHA-256 digest.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/missing-option-value\",\n      \"severity\": \"error\",\n      \"message\": \"--candidate-sha256 requires a SHA-256 digest.\",\n      \"subject\": {\n        \"command\": \"finalize\",\n        \"option\": \"--candidate-sha256\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"provide the candidate sha256 from the passing validate receipt\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

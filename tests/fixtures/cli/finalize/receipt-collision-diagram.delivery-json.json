@@ -1,0 +1,23 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "diagram.html",
+    "--quality",
+    "showcase",
+    "--json",
+    "--receipt",
+    "diagram.delivery.json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\"schemaVersion\":1,\"ok\":false,\"command\":\"finalize\",\"status\":\"fail\",\"type\":\"architecture\",\"quality\":\"showcase\",\"specification\":{\"path\":\"<WORK>\\\\web-app.architecture.json\"},\"artifact\":{\"path\":\"<WORK>\\\\diagram.html\"},\"gates\":{\"validate\":\"not-run\",\"deliver\":\"not-run\",\"check\":\"not-run\",\"browser-check\":\"not-run\"},\"diagnostics\":[{\"code\":\"finalize/runtime\",\"severity\":\"error\",\"message\":\"The finalize receipt must be distinct from the specification, artifact, and gate sidecars: \\\"<WORK>\\\\diagram.delivery.json\\\".\"}],\"visualReview\":\"not-requested\"}\n",
+  "stderr": "",
+  "entries": [
+    "web-app.architecture.json"
+  ],
+  "sidecars": {}
+}
