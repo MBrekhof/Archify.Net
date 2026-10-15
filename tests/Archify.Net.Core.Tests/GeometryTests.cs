@@ -17,6 +17,24 @@ public class GeometryTests
     [Fact] public void PolylinePath_bytes() { foreach (var c in Fx["polylinePath"]!.AsArray()) Assert.Equal(c![1]!.GetValue<string>(), Geometry.PolylinePath(Poly(c[0]!))); }
     [Fact] public void RoundedPath_bytes() { foreach (var c in Fx["roundedPath"]!.AsArray()) Assert.Equal(c![2]!.GetValue<string>(), Geometry.RoundedPath(Poly(c[0]!), c[1]!.D())); }
     [Fact] public void NormalizeRoutePoints() { foreach (var c in Fx["normalizeRoutePoints"]!.AsArray()) Assert.Equal(Js.Stringify(c![1]), Js.Stringify(Geometry.NormalizeRoutePoints(Poly(c[0]!)).ToJson())); }
+    [Fact] public void JoinRoutePoints_output_is_a_fixed_point_of_NormalizeRoutePoints()
+    {   // makes upstream's identity memo (geometry.mjs:1327-1374) unobservable: normalising a joined route never changes it
+        Pt s = new(0, 0), e = new(100, 100);
+        var cases = new (Pt Start, Pt[]? Via, Pt End)[]
+        {
+            (s, null, e),                                              // straight, no via
+            (s, [new(100, 0)], e),                                     // one bend
+            (s, [new(50, 0), new(100, 0)], e),                         // collinear middle point, popped
+            (s, [s], e),                                               // via duplicates the start
+            (s, [e], e),                                               // via duplicates the end
+            (s, [new(0, 40), new(60, 40), new(60, 100)], e),           // two-bend corridor
+        };
+        foreach (var (start, via, end) in cases)
+        {
+            var joined = Geometry.JoinRoutePoints(start, via, end);
+            Assert.Equal(joined, Geometry.NormalizeRoutePoints(joined));
+        }
+    }
     [Fact] public void RoutePointsValue() { foreach (var c in Fx["routePointsValue"]!.AsArray()) Assert.Equal(c![1]!.GetValue<string>(), Geometry.RoutePointsValue(Poly(c[0]!))); }
     [Fact] public void LabelPoint_matches_upstream_rules()
     {   // geometry.mjs:1868-1880, ported literally; no fixture needed, the arithmetic is the spec

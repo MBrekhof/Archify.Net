@@ -1,6 +1,6 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-14 (phase 2 closed).
+Updated 2026-10-15 (phase 3 closed).
 
 ## What this repo is
 
@@ -12,45 +12,40 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Phase 1 plan: `docs/superpowers/plans/2026-10-13-phase1-foundation-architecture.md` (+ Opus plan review);
   phase-1 rulings: `docs/superpowers/plans/2026-10-13-phase1-rulings.md`
 - Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md` (+ Opus plan review)
+- Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`
 - Task state: **board-only**, ContextBoard project 46. Phase 1 is `PORT-001` (CARD-2166), phase 2 is `PORT-002`
-  (CARD-2167); phases 3 to 6 are `PORT-003` to `PORT-006`. No `TODO.md` here.
+  (CARD-2167), phase 3 is `PORT-003` (CARD-2168); phases 4 to 6 are `PORT-004` to `PORT-006`. No `TODO.md` here.
 - `master`, remote `origin` = https://github.com/MBrekhof/Archify.Net (private, `gh` account `MBrekhof`).
 
-## State at end of phase 2
+## State at end of phase 3
 
-- Phase 2 ran as 11 tasks: commits `d6c41e7` through `43d9c40`, plus the docs commit that updates README and this
-  file. The phase-1 facade rename `23de573` and rulings doc `bbc8aa1` land in between.
-- `ArchifyNet.Render` now covers architecture, sequence, lifecycle, class, tree, timeline and waterfall
-  (`src/Archify.Net.Core/Archify.cs`). Workflow, dataflow and erd throw `NotSupportedException` (phases 3 and 4).
-- Shared in phase 2: the erd banded grid (`src/Archify.Net.Core/Erd/Grid.cs`, used by class, reused by erd in
-  phase 4), the Js text helpers (graphemes, Han tokenizers, splits) and the Js time layer (`Js/JsTime.cs`).
-- Parity, 26 phase-2 rows of `ParityTests.Render_is_byte_identical_to_upstream`, all byte-identical:
-  - 10 upstream goldens: sequence and lifecycle 1 each; tree, class, timeline and waterfall 2 each.
-  - 2 Node-minted example goldens: `async-job-roundtrip`, `deployment-release`.
-  - 14 fixture goldens: `note-wrap`, `brand-participants`, `deployment-release.notes`, `payment-platform.right`,
-    `payment-platform.wrap` (added in Task 8 for the CJK/Hangul and in-word cut branches), `dst-new-york`,
-    `payment-incident.zh-CN`, `incomplete-trace`, and six fallback-site goldens from the final fix wave (TEST-001):
-    `incomplete-trace.no-unit`, `checkout-request.width`, `payment-incident.no-timezone`,
-    `payment-incident.minus-half`, `agent-run.no-sublabel-tag`, `payments.no-sublabel`.
-- Checker: the 16 new goldens each have `tests/goldens/checker/<name>.json`; `ArtifactCheckerTests` enumerates
-  all 36 and every report equals upstream's.
-- Failure receipts equal upstream's diagnostics: sequence 9, lifecycle 9, class 7, tree 5, timeline 7, waterfall 6.
-  Layout reports equal upstream's `--layout-json` for class 2, tree 3, timeline 4, waterfall 3.
-- Fixtures under `tests/fixtures/js`: `segmenter.json`, `text-wrap.json`, `dates.json`, `time-zones.json`,
-  `waterfall-number.json`, `erd-grid.json` (`JsTextTests` 9, `JsTimeTests` 11, `ErdGridTests` 5, all green).
-  Diagram fixtures, receipts and layout JSONs are under `tests/fixtures/diagrams`.
-- Pinned facts: one renderer-level diagnostic code per type, the nine golden.mjs schema cases, the Windows zone
-  id rejection, historical years in UTC, both 2026 `America/New_York` DST transitions (repeated 01:30 hour included).
-- `dotnet test` from the repo root with the phase-2 final fix wave applied: 364 passed, 0 failed, no warnings.
-- Task reviews from Task 9 on were done by agy (Google Antigravity CLI, Gemini) instead of Opus.
+- Phase 3 ran as 12 tasks: commits `b1b1539` through `962b18c`, plus the docs commit that updates README and this file.
+- `ArchifyNet.Render` now covers every type except erd (`src/Archify.Net.Core/Archify.cs`). Erd throws
+  `NotSupportedException` (phase 4).
+- Added in phase 3: the dataflow compiler (`src/Archify.Net.Core/Dataflow`, authored-viewBox and automatic-showcase layouts,
+  label capacity and joint label routing), the workflow compiler (`src/Archify.Net.Core/Workflow`, schema v1 and readable-v2
+  automatic routing, typed input diagnostics with verified fixes, pins, route presets, conflict diagnostics, repair hints,
+  brand marks), and `Js.WordBreaks` (UAX #29 word segmentation measured against V8).
+- A workflow render returns the compiler receipt as `RenderResult.Layout` (upstream's `--layout-json`; phase 5's CLI needs it).
+  Dataflow returns `null`.
+- Parity: 38 phase-3 rows of `ParityTests.Render_is_byte_identical_to_upstream` (14 dataflow, 24 workflow), all
+  byte-identical except `first-draft.mixed-port-recovery`, which differs only in one Han label's word break (pinned by its own
+  fact). 24 workflow receipts equal upstream's `--layout-json`; 20 failure receipts (14 `wf-*`, 6 `df-*`) equal upstream's
+  diagnostics. Fixtures against Node: `word-breaks` 1601 rows, `label-capacity` 24, `joint-label-routing` 9, `workflow-model` 220.
+- `dotnet test` from the repo root: 2348 passed, 0 failed, no warnings.
+- Task reviews were done by agy (Google Antigravity CLI, Gemini); implementers were Claude subagents. Fable hit its limit at
+  Task 8, so Tasks 8 and 10 ran on opus.
 
 ## Known deviations
 
-Listed in `README.md` under "Known deviations from upstream". Phase 2 adds three, also restated in the XML remarks
+Listed in `README.md` under "Known deviations from upstream". Phases 2 and 3 add three, also restated in the XML remarks
 of `ArchifyNet.Render`:
 
-- CJK word breaks in sequence notes: Han runs break per grapheme, not by ICU's word dictionary. Only a sequence
-  `note` containing Han is affected.
+- Word breaks: `Js.WordBreaks` matches V8's `Intl.Segmenter` word granularity except that Han, Hiragana, Katakana, Thai,
+  Lao, Khmer and Myanmar runs split per grapheme (ICU uses a dictionary; visible in sequence notes and wrapped
+  automatic-showcase dataflow labels); V8 splits inside some grapheme clusters the port keeps whole (Arabic number sign U+0600,
+  a jamo next to a Hangul syllable, a ZWJ before an emoji after a non-emoji); and a non-POSIX host locale is assumed (under
+  `LANG=C` V8 splits `api.example.com` at the dots).
 - Time zones use the OS zone table: base offset before a zone's first transition (`Asia/Shanghai` at year 1 is
   `UTC+08:00`, upstream `UTC+08:06`), and the first adjustment rule extrapolated backwards (`Pacific/Chatham`,
   `Australia/Lord_Howe` in 1970).
@@ -62,30 +57,32 @@ the Js static constructor throws in a host with `InvariantGlobalization` on.
 
 ## Carried into later phases
 
-- **`joinRoutePoints` identity memo → phase 3.** Its only callers are in `renderers/workflow/workflow-compiler.mjs`
-  (lines 39, 2267, 3892, 4022, 4240, 4621, 4779, 4802). No phase-2 renderer calls it, so the memo is unobservable
-  until workflow lands. The phase-3 plan ports it with a fixture.
+- **`joinRoutePoints` identity memo: closed.** Upstream's memo (geometry.mjs:1327-1374) is unobservable in workflow and
+  dataflow, and `GeometryTests.JoinRoutePoints_output_is_a_fixed_point_of_NormalizeRoutePoints` pins the property that makes it so.
 - **`gateProfile` sites are review-checked only.** No phase-2 fixture makes a shared geometry gate fail, so a
   meta-only port would pass the same goldens. The phase-2 plan's Tasks 5 (sequence) and 7 (class) list the sites.
 - **Erd entity width → phase 4.** `ErdGrid.ResolvedEntityWidth` takes a `GridEntity` only; the erd renderer needs
   `GridEntity.From(entity, 0)` there.
+- **Phase-3 coverage gaps (card TEST-002):**
+  - Task 8: internal-detour plans, route-order retries, layout-feedback rounds and the sublabel sizing loop are reached by
+    no workflow row (probe: 0 hits, mutations stay green); tie-break offsets (`pairOrdinal*9`, outside-right growth) are unpinned.
+  - Task 10: most H1/H5 pin-conflict throwers (label-route, label-label, H2 crossing/corridor, `labelAt`, negative pins,
+    pinned-route checks, placed-label/rhythm evidence, authored-side failure) have no Node receipt; they are verified by reading only.
+  - Task 11: `addVerifiedCrossingRepair` and `addVerifiedPlacementRepair` are reached by no captured input (no route-order
+    code in any fixture).
 
 ## Dev-time tooling
 
 `tools/capture-fixtures.mjs` mints fixtures from upstream. It needs Node 24 and the upstream repo `C:\projects\archify` at
 `c21c31ff`; it reads the skill package root `C:\projects\archify\archify`. CI never runs it; the test suite only reads what it committed.
-The SDD ledger for phase 2 (git-ignored, on disk) is `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`:
-every ruling and the deferred minors that go to the phase-2 final review.
+The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md` and
+`.superpowers/sdd/2026-10-14-phase3-workflow-dataflow/progress.md`: every ruling and the deferred minors.
 
 ## Next phase
 
-`PORT-003`: workflow and dataflow renderers, including the `joinRoutePoints` memo above. `PORT-004`: the erd renderer,
-which reuses `ErdGrid`, and repository evidence.
+`PORT-004`: the erd renderer, which reuses `ErdGrid`, and repository evidence.
 
-## Phase 2 closed (2026-10-14)
+## Phase 3 closed (2026-10-15)
 
-- The final review's fix wave `47d59b0` was re-reviewed by agy: Approved, no findings. PORT-002 is completed on the
-  board; the README was rewritten (`30e74e3`) and the repo was pushed to GitHub (private).
-- TEST-001 (CARD-2176) keeps the ten remaining untested inputs.
-- **Next step:** plan PORT-003 (workflow and dataflow, including the `joinRoutePoints` memo above).
-- The phase-2 ledger with every ruling: `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`.
+- All 12 phase-3 tasks passed their agy reviews. The final whole-branch review and the push are the controller's.
+- The phase-3 ledger with every ruling: `.superpowers/sdd/2026-10-14-phase3-workflow-dataflow/progress.md`.

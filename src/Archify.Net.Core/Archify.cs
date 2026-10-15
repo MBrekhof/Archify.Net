@@ -21,7 +21,7 @@ internal static class Renderers
         DiagramType.Timeline => new TimelineRenderer(),
         DiagramType.Waterfall => new WaterfallRenderer(),
         DiagramType.Workflow => new WorkflowRenderer(),
-        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phases 3–4"),   // erd
+        _ => throw new NotSupportedException($"{type.Name()} renderer lands in phase 4"),   // erd
     };
 }
 
@@ -30,11 +30,15 @@ internal static class Renderers
 public static class ArchifyNet
 {
     /// <summary>Runs the load gates and the typed renderer; problems come back as diagnostics, never as exceptions.</summary>
-    /// <exception cref="NotSupportedException">The diagram type lands in phases 3–4 (workflow, dataflow, erd).</exception>
+    /// <exception cref="NotSupportedException">The diagram type lands in phase 4 (erd).</exception>
     /// <remarks>
     /// Known deviations from upstream (full list in README.md, "Known deviations from upstream"):
-    /// CJK word breaks in sequence notes: upstream segments Han runs with ICU's word dictionary, the port breaks them per grapheme;
-    /// every other text path, zh-CN included, is byte-exact.
+    /// Word breaks: <c>Js.WordBreaks</c> matches V8's <c>Intl.Segmenter</c> word granularity except that Han, Hiragana, Katakana, Thai, Lao,
+    /// Khmer and Myanmar runs split per grapheme (ICU uses a dictionary; visible in sequence notes and wrapped automatic-showcase dataflow
+    /// labels), V8 splits inside some grapheme clusters the port keeps whole (Arabic number sign U+0600, a jamo next to a Hangul syllable,
+    /// a ZWJ before an emoji after a non-emoji), and a non-POSIX host locale is assumed (under <c>LANG=C</c> V8 splits <c>api.example.com</c>
+    /// at the dots). Every other text path, zh-CN included, is byte-exact.
+    /// A workflow render returns the compiler receipt (upstream's <c>--layout-json</c>) as <c>Layout</c>; dataflow returns null.
     /// Time zones use the operating system's zone table, not Node's tzdata: before a zone's first transition the port shows the base
     /// offset (an <c>Asia/Shanghai</c> event at <c>0001-01-01T00:00:00Z</c> is <c>UTC+08:06</c> upstream, <c>UTC+08:00</c> here), and before
     /// the table's first adjustment rule that rule is extrapolated backwards (<c>Pacific/Chatham</c> and <c>Australia/Lord_Howe</c> in 1970
@@ -56,7 +60,7 @@ public static class ArchifyNet
         {
             DiagramLoader.Load(type, root, ctx);                                   // cli.mjs loadDiagram gates
             ctx.Brands.PrepareDiagramBrandMarks(type, root, ctx.Diagnostics);      // loadDiagramWithBrandMarks
-            var renderer = Renderers.For(type);                                    // workflow, dataflow, erd throw (phases 3–4)
+            var renderer = Renderers.For(type);                                    // erd throws (phase 4)
             var (svg, cards, layout) = renderer.Render(ctx);
             var meta = root["meta"]!.AsObject();
             var cardsHtml = Utils.RenderCards(cards);

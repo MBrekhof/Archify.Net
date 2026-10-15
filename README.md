@@ -29,7 +29,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 |---|---|---|
 | 1 | Foundation, validation gates, architecture renderer, artifact checker | Done |
 | 2 | erd/grid, sequence, lifecycle, class, tree, timeline, waterfall renderers | Done |
-| 3 | workflow and dataflow renderers | Planned |
+| 3 | workflow and dataflow renderers | Done |
 | 4 | erd renderer and repository evidence | Planned |
 | 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Planned |
 | 6 | MCP server and SKILL.md | Planned |
@@ -48,7 +48,21 @@ Phase 2 parity results:
 - Every phase-2 renderer's failure receipts equal upstream's diagnostics.
 - The class, tree, timeline and waterfall layout reports equal upstream's `--layout-json`, and the nine golden.mjs schema cases pass.
 
-The full suite (`dotnet test`) runs 364 tests.
+Phase 3 parity results:
+
+- 38 phase-3 rows of `ParityTests.Render_is_byte_identical_to_upstream` (14 dataflow, 24 workflow), 70 rows in all. Every
+  phase-3 golden is byte-identical to upstream's except `first-draft.mixed-port-recovery`, which differs only in one Han
+  label's word break (see the word-break deviation below). That case is a separate fact that pins the difference.
+- Among them are the two upstream goldens (`dataflow-product-analytics.html`, `workflow-agent-tool-call-rendered.html`)
+  and the Node-minted `event-stream`, `holiday-planning` (zh-CN), `incident-response` and `release-delivery`.
+- 24 workflow receipts equal upstream's `--layout-json` (`WorkflowReceiptTests`), plus one for the quality option.
+- 20 failure receipts equal upstream's diagnostics: 14 workflow (`wf-*`) and 6 dataflow (`df-*`), supported fixes included.
+- Fixtures against Node: `word-breaks` 1601 rows, `label-capacity` 24 (14 label sizes, 10 blocked-label wraps),
+  `joint-label-routing` 9 (plus the unchanged-input fact) and `workflow-model` 220 rows over the workflow model functions.
+- A workflow render returns the compiler receipt as `RenderResult.Layout`, which is upstream's `--layout-json` output.
+  A dataflow render returns `null` there.
+
+The full suite (`dotnet test`) runs 2348 tests.
 
 ## Quick start
 
@@ -97,7 +111,7 @@ Input and validation problems come back as `Diagnostic` records with upstream's 
 and supported fixes. Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names
 the exception type, as upstream's JSON-mode boundary does. The facade throws only `NotSupportedException`:
 
-- From `Render` and `Validate` for a diagram type that lands in phases 3 and 4: workflow, dataflow and erd.
+- From `Render` and `Validate` for a diagram type that lands in phase 4: erd.
 - From `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
 
 The facade is named `ArchifyNet`, not `Archify`: a class of that name inside namespace `Archify.Net` cannot be named
@@ -114,8 +128,8 @@ from consumer code.
 | tree | `renderers/tree` | `src/Archify.Net.Core/Tree` | 2 |
 | timeline | `renderers/timeline` | `src/Archify.Net.Core/Timeline` | 2 |
 | waterfall | `renderers/waterfall` | `src/Archify.Net.Core/Waterfall` | 2 |
-| workflow | `renderers/workflow` | not yet | 3 |
-| dataflow | `renderers/dataflow` | not yet | 3 |
+| workflow | `renderers/workflow` | `src/Archify.Net.Core/Workflow` | 3 |
+| dataflow | `renderers/dataflow` | `src/Archify.Net.Core/Dataflow` | 3 |
 | erd | `renderers/erd` | banded grid only (`src/Archify.Net.Core/Erd/Grid.cs`) | 4 |
 
 ## Build and test
@@ -186,11 +200,12 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - Phase 1 plan: `docs/superpowers/plans/2026-10-13-phase1-foundation-architecture.md`, plus its review and the
   phase-1 rulings (`2026-10-13-phase1-rulings.md`).
 - Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md`, plus its review.
+- Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`.
 - `SESSION_HANDOFF.md`: current state, carried items and the next phase.
 
 ## Known deviations from upstream
 
-- `Render` throws `NotSupportedException` for the three diagram types that land in phases 3 and 4: workflow, dataflow and erd. `Validate` throws it too once the input passes the load gates.
+- `Render` throws `NotSupportedException` for the one diagram type that lands in phase 4: erd. `Validate` throws it too once the input passes the load gates.
 - `Check` throws `NotSupportedException` when `RequireProvenance` is set.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
@@ -198,7 +213,7 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - A URL with whitespace in its userinfo part is treated as no URL. WHATWG percent-encodes the whitespace instead.
 - `DiagramLoader.Parse` stops at nesting depth 64. `JSON.parse` has no limit.
 - A raw lone surrogate inside a C# input string becomes U+FFFD. The escaped form `\udXXX` survives parsing, but rendering it fails with `internal/unclassified`.
-- *CJK word breaks in sequence notes:* upstream segments Han runs with ICU's dictionary (`Intl.Segmenter` word granularity); the port breaks per grapheme. Only a sequence `note` containing Han is affected; every other text path (tree, class, timeline wrapping; zh-CN locale) is byte-exact.
+- *Word breaks:* `Js.WordBreaks` matches V8's `Intl.Segmenter` word granularity (UAX #29) except in three places. (a) Han, Hiragana, Katakana, Thai, Lao, Khmer and Myanmar runs split per grapheme, where ICU uses a dictionary. This shows in sequence notes and in wrapped dataflow labels of the automatic showcase layout; `first-draft.mixed-port-recovery` differs from upstream in exactly one such label. (b) V8 splits inside some grapheme clusters that the port keeps whole: an Arabic number sign (U+0600, Prepend), a jamo next to a Hangul syllable, and a ZWJ before an emoji that follows a non-emoji. (c) The port assumes a non-POSIX host locale; under a POSIX/`LANG=C` default V8 splits `api.example.com` at the dots. Every other text path (tree, class, timeline wrapping; zh-CN locale) is byte-exact.
 - *Time zones before the OS zone table's history:* conversions use the operating system's zone data, not Node's bundled tzdata. (a) Before a zone's first tzdata transition (local mean time, roughly pre-1900) the port shows the base offset — a `Asia/Shanghai` event at `0001-01-01T00:00:00Z` is labelled `UTC+08:06` by upstream and `UTC+08:00` by the port. (b) Before the OS table's first adjustment rule the rule is extrapolated backwards — `Pacific/Chatham`/`Australia/Lord_Howe` in 1970 read +13:45/+11:00 instead of +12:45/+10:00. UTC and fixed offsets are exact for every year; named zones are exact from the table's history onward (2026 transitions pinned by fixture).
 - *`Date.parse` outside the schema shape:* strings the timeline schema rejects (`2026-10-01 10:00:00Z`, offset-less timestamps) are `NaN` in the port; unreachable through `Render` because the schema gate runs first.
 - *Time zone ids the OS cannot resolve:* `meta.timezone` ids that V8's ICU accepts but the host's ICU list or `TimeZoneInfo` cannot resolve are rejected with `timeline/invalid-timezone`. The set varies with the OS build. On Windows with ICU 72.1 it includes `CET`, `EET`, `MET`, `WET`, `America/Ciudad_Juarez`, `Antarctica/Troll`, `Asia/Urumqi`, `Asia/Kashgar`, `Antarctica/Vostok`, `America/Coyhaique` and the `SystemV/*` legacy ids (card TZ-001).
