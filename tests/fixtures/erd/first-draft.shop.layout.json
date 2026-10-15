@@ -1,0 +1,318 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    987,
+    614
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "customers",
+      "label": "customers",
+      "x": 32,
+      "y": 40,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "id",
+        "email",
+        "name",
+        "created_at"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "addresses",
+      "label": "addresses",
+      "x": 32,
+      "y": 240,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "customer_id",
+        "line1",
+        "city",
+        "postcode"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "orders",
+      "label": "orders",
+      "x": 389,
+      "y": 40,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "customer_id",
+        "shipping_address_id",
+        "status",
+        "total",
+        "placed_at"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "order_items",
+      "label": "order_items",
+      "x": 389,
+      "y": 240,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "order_id",
+        "product_id",
+        "quantity",
+        "unit_price"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "payments",
+      "label": "payments",
+      "x": 389,
+      "y": 420,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "order_id",
+        "provider",
+        "amount",
+        "paid_at"
+      ],
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "products",
+      "label": "products",
+      "x": 723,
+      "y": 40,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "sku",
+        "category_id",
+        "name",
+        "price"
+      ],
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "categories",
+      "label": "categories",
+      "x": 723,
+      "y": 240,
+      "width": 240,
+      "height": 96,
+      "attributes": [
+        "id",
+        "parent_id",
+        "name"
+      ],
+      "row": 1,
+      "col": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "addresses",
+      "to": "customers",
+      "label": "belongs to",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          152,
+          240
+        ],
+        [
+          152,
+          156
+        ]
+      ],
+      "labelAt": [
+        113,
+        201
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "orders",
+      "to": "customers",
+      "label": "placed by",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          389,
+          106
+        ],
+        [
+          272,
+          106
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "orders",
+      "to": "addresses",
+      "label": "ships to",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          389,
+          130
+        ],
+        [
+          373,
+          130
+        ],
+        [
+          373,
+          308
+        ],
+        [
+          272,
+          308
+        ]
+      ],
+      "labelAt": [
+        323,
+        290
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "order_items",
+      "to": "orders",
+      "label": "line of",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          497,
+          240
+        ],
+        [
+          497,
+          196
+        ]
+      ],
+      "labelAt": [
+        458,
+        221
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "order_items",
+      "to": "products",
+      "label": "sells",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          629,
+          298
+        ],
+        [
+          676,
+          298
+        ],
+        [
+          676,
+          108
+        ],
+        [
+          723,
+          108
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "payments",
+      "to": "orders",
+      "label": "pays",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          389,
+          488
+        ],
+        [
+          365,
+          488
+        ],
+        [
+          365,
+          118
+        ],
+        [
+          389,
+          118
+        ]
+      ],
+      "labelAt": [
+        343,
+        399
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "products",
+      "to": "categories",
+      "label": "in category",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          843,
+          176
+        ],
+        [
+          843,
+          240
+        ]
+      ],
+      "labelAt": [
+        793,
+        211
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

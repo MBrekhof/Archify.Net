@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Entity \"customer\" attribute 1 \"primary_verified_contact_email_address\" needs 335px of text but only 186px is available — For this attribute row's text capacity, set entities[0].width to at least 389px, preserving the attribute name, type and key roles.",
+  "diagnostics": [
+    {
+      "code": "erd/attribute-text-capacity",
+      "severity": "error",
+      "message": "Entity \"customer\" attribute 1 \"primary_verified_contact_email_address\" needs 335px of text but only 186px is available — For this attribute row's text capacity, set entities[0].width to at least 389px, preserving the attribute name, type and key roles.",
+      "subject": {
+        "diagramType": "erd",
+        "entityId": "customer",
+        "attributeIndex": 1,
+        "attributeName": "primary_verified_contact_email_address"
+      },
+      "evidence": {
+        "entityWidth": 240,
+        "requiredEntityWidth": 389,
+        "availableTextWidth": 186,
+        "requiredTextWidth": 334.4,
+        "paddingWidth": 24,
+        "keyColumnWidth": 30,
+        "nameFontSize": 11,
+        "typeFontSize": 10.5
+      },
+      "supportedFixes": [
+        "For this attribute row's text capacity, set entities[0].width to at least 389px, preserving the attribute name, type and key roles."
+      ]
+    }
+  ]
+}

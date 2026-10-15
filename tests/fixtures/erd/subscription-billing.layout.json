@@ -1,0 +1,462 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    1230,
+    678
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "tenant",
+      "label": "tenant",
+      "x": 37,
+      "y": 40,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "slug",
+        "name",
+        "status",
+        "created_at"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "user_account",
+      "label": "user_account",
+      "x": 37,
+      "y": 242,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "email",
+        "display_name",
+        "locale",
+        "mfa_enabled",
+        "created_at"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "membership",
+      "label": "membership",
+      "x": 32,
+      "y": 464,
+      "width": 250,
+      "height": 136,
+      "attributes": [
+        "id",
+        "tenant_id",
+        "user_id",
+        "role",
+        "joined_at"
+      ],
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "plan",
+      "label": "plan",
+      "x": 662,
+      "y": 40,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "name",
+        "billing_interval",
+        "seat_based",
+        "active"
+      ],
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "price",
+      "label": "price",
+      "x": 662,
+      "y": 242,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "plan_id",
+        "currency",
+        "unit_amount",
+        "effective_from"
+      ],
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "subscription",
+      "label": "subscription",
+      "x": 352,
+      "y": 40,
+      "width": 240,
+      "height": 176,
+      "attributes": [
+        "id",
+        "tenant_id",
+        "price_id",
+        "status",
+        "seats",
+        "started_at",
+        "canceled_at"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "invoice",
+      "label": "invoice",
+      "x": 346,
+      "y": 242,
+      "width": 252,
+      "height": 196,
+      "attributes": [
+        "id",
+        "subscription_id",
+        "number",
+        "status",
+        "subtotal_amount",
+        "tax_amount",
+        "total_amount",
+        "issued_at"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "invoice_line",
+      "label": "invoice_line",
+      "x": 347,
+      "y": 464,
+      "width": 250,
+      "height": 156,
+      "attributes": [
+        "id",
+        "invoice_id",
+        "description",
+        "quantity",
+        "unit_amount",
+        "amount"
+      ],
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "payment_method",
+      "label": "payment_method",
+      "x": 966,
+      "y": 40,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "tenant_id",
+        "kind",
+        "last4",
+        "expires_at",
+        "is_default"
+      ],
+      "row": 0,
+      "col": 3
+    },
+    {
+      "id": "payment",
+      "label": "payment",
+      "x": 966,
+      "y": 242,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "invoice_id",
+        "payment_method_id",
+        "amount",
+        "status",
+        "captured_at"
+      ],
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "refund",
+      "label": "refund",
+      "x": 966,
+      "y": 464,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "payment_id",
+        "amount",
+        "reason",
+        "created_at"
+      ],
+      "row": 2,
+      "col": 3
+    }
+  ],
+  "relationships": [
+    {
+      "from": "membership",
+      "to": "tenant",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          282,
+          532
+        ],
+        [
+          306,
+          532
+        ],
+        [
+          306,
+          108
+        ],
+        [
+          277,
+          108
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "membership",
+      "to": "user_account",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          169,
+          464
+        ],
+        [
+          169,
+          398
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "price",
+      "to": "plan",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          782,
+          242
+        ],
+        [
+          782,
+          176
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "subscription",
+      "to": "tenant",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          352,
+          120
+        ],
+        [
+          277,
+          120
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "subscription",
+      "to": "price",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          592,
+          200
+        ],
+        [
+          678,
+          200
+        ],
+        [
+          678,
+          242
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "invoice",
+      "to": "subscription",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          472,
+          242
+        ],
+        [
+          472,
+          216
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "invoice_line",
+      "to": "invoice",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          472,
+          464
+        ],
+        [
+          472,
+          438
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "payment_method",
+      "to": "tenant",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          966,
+          118
+        ],
+        [
+          942,
+          118
+        ],
+        [
+          942,
+          27
+        ],
+        [
+          301,
+          27
+        ],
+        [
+          301,
+          96
+        ],
+        [
+          277,
+          96
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "payment",
+      "to": "invoice",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          982,
+          398
+        ],
+        [
+          982,
+          422
+        ],
+        [
+          598,
+          422
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "payment",
+      "to": "payment_method",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          1086,
+          242
+        ],
+        [
+          1086,
+          196
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "refund",
+      "to": "payment",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          1086,
+          464
+        ],
+        [
+          1086,
+          398
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

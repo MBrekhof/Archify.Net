@@ -1,0 +1,116 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    346,
+    466
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "parent",
+      "label": "Parent",
+      "x": 47,
+      "y": 40,
+      "width": 260,
+      "height": 96,
+      "attributes": [
+        "field_0",
+        "field_1",
+        "field_2"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "category",
+      "label": "Category",
+      "x": 47,
+      "y": 312,
+      "width": 260,
+      "height": 96,
+      "attributes": [
+        "field_0",
+        "field_1",
+        "field_2"
+      ],
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "item",
+      "label": "Item",
+      "x": 32,
+      "y": 176,
+      "width": 290,
+      "height": 96,
+      "attributes": [
+        "field_0",
+        "field_1",
+        "field_2"
+      ],
+      "row": 1,
+      "col": 0
+    }
+  ],
+  "relationships": [
+    {
+      "from": "parent",
+      "to": "item",
+      "label": "parentId",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          177,
+          136
+        ],
+        [
+          177,
+          176
+        ]
+      ],
+      "labelAt": [
+        136,
+        159
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "item",
+      "to": "category",
+      "label": "categoryId",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          177,
+          272
+        ],
+        [
+          177,
+          312
+        ]
+      ],
+      "labelAt": [
+        130,
+        295
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

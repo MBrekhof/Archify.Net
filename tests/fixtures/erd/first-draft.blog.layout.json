@@ -1,0 +1,265 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    954,
+    434
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "users",
+      "label": "users",
+      "x": 32,
+      "y": 40,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "id",
+        "email",
+        "display_name",
+        "created_at"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "profiles",
+      "label": "profiles",
+      "x": 32,
+      "y": 240,
+      "width": 240,
+      "height": 96,
+      "attributes": [
+        "user_id",
+        "bio",
+        "avatar_url"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "posts",
+      "label": "posts",
+      "x": 394,
+      "y": 40,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "author_id",
+        "slug",
+        "title",
+        "body",
+        "published_at"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "comments",
+      "label": "comments",
+      "x": 394,
+      "y": 240,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "post_id",
+        "author_id",
+        "body",
+        "created_at"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "tags",
+      "label": "tags",
+      "x": 690,
+      "y": 40,
+      "width": 240,
+      "height": 76,
+      "attributes": [
+        "id",
+        "name"
+      ],
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "post_tags",
+      "label": "post_tags",
+      "x": 690,
+      "y": 240,
+      "width": 240,
+      "height": 76,
+      "attributes": [
+        "post_id",
+        "tag_id"
+      ],
+      "row": 1,
+      "col": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "profiles",
+      "to": "users",
+      "label": "extends",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          152,
+          240
+        ],
+        [
+          152,
+          156
+        ]
+      ],
+      "labelAt": [
+        121,
+        201
+      ],
+      "fromCardinality": "one",
+      "toCardinality": "one"
+    },
+    {
+      "from": "posts",
+      "to": "users",
+      "label": "written by",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          394,
+          118
+        ],
+        [
+          288,
+          118
+        ],
+        [
+          288,
+          86
+        ],
+        [
+          272,
+          86
+        ]
+      ],
+      "labelAt": [
+        341,
+        100
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "comments",
+      "to": "posts",
+      "label": "on",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          514,
+          240
+        ],
+        [
+          514,
+          196
+        ]
+      ],
+      "labelAt": [
+        485,
+        221
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "comments",
+      "to": "users",
+      "label": "by",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          394,
+          308
+        ],
+        [
+          288,
+          308
+        ],
+        [
+          288,
+          110
+        ],
+        [
+          272,
+          110
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "post_tags",
+      "to": "posts",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          706,
+          240
+        ],
+        [
+          706,
+          180
+        ],
+        [
+          634,
+          180
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "post_tags",
+      "to": "tags",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          810,
+          240
+        ],
+        [
+          810,
+          116
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

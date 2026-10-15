@@ -1,0 +1,302 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    954,
+    488
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "customer",
+      "label": "customer",
+      "x": 32,
+      "y": 40,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "id",
+        "email",
+        "display_name",
+        "created_at"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "order",
+      "label": "order",
+      "x": 344,
+      "y": 40,
+      "width": 260,
+      "height": 176,
+      "attributes": [
+        "id",
+        "customer_id",
+        "status",
+        "total_amount",
+        "currency",
+        "placed_at",
+        "updated_at"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "order_item",
+      "label": "order_item",
+      "x": 676,
+      "y": 254,
+      "width": 254,
+      "height": 156,
+      "attributes": [
+        "id",
+        "order_id",
+        "product_id",
+        "quantity",
+        "unit_price",
+        "discount_amount"
+      ],
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "product",
+      "label": "product",
+      "x": 354,
+      "y": 254,
+      "width": 240,
+      "height": 176,
+      "attributes": [
+        "id",
+        "sku",
+        "name",
+        "price",
+        "cost_amount",
+        "active",
+        "created_at"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "inventory",
+      "label": "inventory",
+      "x": 34,
+      "y": 254,
+      "width": 236,
+      "height": 156,
+      "attributes": [
+        "id",
+        "product_id",
+        "warehouse_code",
+        "quantity",
+        "reserved_quantity",
+        "updated_at"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "payment",
+      "label": "payment",
+      "x": 683,
+      "y": 40,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "order_id",
+        "method",
+        "amount",
+        "paid_at",
+        "external_ref"
+      ],
+      "row": 0,
+      "col": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "order",
+      "to": "customer",
+      "label": "placed by",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          344,
+          128
+        ],
+        [
+          308,
+          128
+        ],
+        [
+          308,
+          98
+        ],
+        [
+          272,
+          98
+        ]
+      ],
+      "labelAt": [
+        308,
+        75
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "payment",
+      "to": "order",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          683,
+          116
+        ],
+        [
+          604,
+          116
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "order_item",
+      "to": "order",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          676,
+          320
+        ],
+        [
+          660,
+          320
+        ],
+        [
+          660,
+          140
+        ],
+        [
+          604,
+          140
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "order_item",
+      "to": "product",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          676,
+          344
+        ],
+        [
+          594,
+          344
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "inventory",
+      "to": "product",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          270,
+          332
+        ],
+        [
+          354,
+          332
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "customer",
+      "to": "product",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          272,
+          98
+        ],
+        [
+          330,
+          120
+        ],
+        [
+          330,
+          260
+        ],
+        [
+          354,
+          342
+        ]
+      ],
+      "fromCardinality": "one",
+      "toCardinality": "many"
+    },
+    {
+      "from": "inventory",
+      "to": "order",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          270,
+          332
+        ],
+        [
+          200,
+          226
+        ],
+        [
+          450,
+          226
+        ],
+        [
+          344,
+          128
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

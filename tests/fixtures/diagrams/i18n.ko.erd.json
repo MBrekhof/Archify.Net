@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Authored data model",
+    "locale": "ko",
+    "output": "diagram.html"
+  },
+  "entities": [
+    {
+      "id": "users",
+      "label": "Authored users",
+      "pos": [
+        80,
+        80
+      ],
+      "attributes": [
+        {
+          "name": "user_id",
+          "type": "int",
+          "key": "pk"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Domain \"catalog\" is named but cannot be drawn: its band would cover the unrelated table \"order\". Widen layout.gapX/gapY past the band padding, or split the tag.",
+  "diagnostics": [
+    {
+      "code": "erd/domain-not-drawn",
+      "severity": "error",
+      "message": "Domain \"catalog\" is named but cannot be drawn: its band would cover the unrelated table \"order\". Widen layout.gapX/gapY past the band padding, or split the tag.",
+      "subject": {
+        "diagramType": "erd",
+        "entityId": "product",
+        "domain": "catalog"
+      },
+      "evidence": {
+        "domain": "catalog",
+        "entities": [
+          "product",
+          "inventory"
+        ],
+        "reason": "band-covers-entity",
+        "band": {
+          "x": 22,
+          "y": 214,
+          "width": 629,
+          "height": 202
+        },
+        "coveredEntity": "order"
+      },
+      "supportedFixes": [
+        "Widen layout.gapX/gapY past the band padding.",
+        "Split the tag so each band covers only its own tables."
+      ]
+    }
+  ]
+}

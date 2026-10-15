@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Entity ids must be unique; \"customer\" is declared twice.\n- [composition/proper-crossing] showcase erd relationships[0] id \"order_customer\" \"order\" -> \"customer\" crosses relationships[4] id \"inventory_product\" \"inventory\" -> \"product\" at [330.5, 332] (segments 1 and 0) — move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle.",
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "error",
+      "message": "[composition/proper-crossing] showcase erd relationships[0] id \"order_customer\" \"order\" -> \"customer\" crosses relationships[4] id \"inventory_product\" \"inventory\" -> \"product\" at [330.5, 332] (segments 1 and 0) — move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle.",
+      "subject": {
+        "diagramType": "erd",
+        "collection": "relationships",
+        "index": 0,
+        "id": "order_customer",
+        "from": "order",
+        "to": "customer"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "erd",
+          "collection": "relationships",
+          "index": 4,
+          "id": "inventory_product",
+          "from": "inventory",
+          "to": "product"
+        },
+        "point": [
+          330.5,
+          332
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 0
+      },
+      "supportedFixes": [
+        "move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle"
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Entity ids must be unique; \"customer\" is declared twice.",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

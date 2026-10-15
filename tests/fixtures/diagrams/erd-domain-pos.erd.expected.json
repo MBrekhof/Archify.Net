@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Domain \"checkout\" is named but cannot be drawn: \"payment\" have no grid cells, and a band is measured from them. Give every member row/col cells, or drop the tag.",
+  "diagnostics": [
+    {
+      "code": "erd/domain-not-drawn",
+      "severity": "error",
+      "message": "Domain \"checkout\" is named but cannot be drawn: \"payment\" have no grid cells, and a band is measured from them. Give every member row/col cells, or drop the tag.",
+      "subject": {
+        "diagramType": "erd",
+        "entityId": "order",
+        "domain": "checkout"
+      },
+      "evidence": {
+        "domain": "checkout",
+        "entities": [
+          "order",
+          "payment"
+        ],
+        "reason": "no-grid",
+        "offGrid": [
+          "payment"
+        ]
+      },
+      "supportedFixes": [
+        "Give every domain member row/col cells.",
+        "Drop the tag to group nothing."
+      ]
+    }
+  ]
+}

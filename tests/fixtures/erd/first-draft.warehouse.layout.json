@@ -1,0 +1,290 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    982,
+    554
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "suppliers",
+      "label": "suppliers",
+      "x": 32,
+      "y": 40,
+      "width": 240,
+      "height": 96,
+      "attributes": [
+        "id",
+        "name",
+        "country"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "purchase_orders",
+      "label": "purchase_orders",
+      "x": 32,
+      "y": 200,
+      "width": 240,
+      "height": 136,
+      "attributes": [
+        "id",
+        "supplier_id",
+        "warehouse_id",
+        "ordered_at",
+        "status"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "po_lines",
+      "label": "po_lines",
+      "x": 32,
+      "y": 380,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "po_id",
+        "product_id",
+        "qty",
+        "unit_cost"
+      ],
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "products",
+      "label": "products",
+      "x": 372,
+      "y": 40,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "id",
+        "sku",
+        "name",
+        "uom"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "stock_levels",
+      "label": "stock_levels",
+      "x": 372,
+      "y": 200,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "warehouse_id",
+        "product_id",
+        "on_hand",
+        "reserved"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "warehouses",
+      "label": "warehouses",
+      "x": 718,
+      "y": 40,
+      "width": 240,
+      "height": 96,
+      "attributes": [
+        "id",
+        "code",
+        "city"
+      ],
+      "row": 0,
+      "col": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "purchase_orders",
+      "to": "suppliers",
+      "label": "from supplier",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          152,
+          200
+        ],
+        [
+          152,
+          136
+        ]
+      ],
+      "labelAt": [
+        97,
+        171
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "purchase_orders",
+      "to": "warehouses",
+      "label": "deliver to",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          272,
+          268
+        ],
+        [
+          314,
+          268
+        ],
+        [
+          314,
+          27
+        ],
+        [
+          694,
+          27
+        ],
+        [
+          694,
+          100
+        ],
+        [
+          718,
+          100
+        ]
+      ],
+      "labelAt": [
+        275,
+        151
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "po_lines",
+      "to": "purchase_orders",
+      "label": "line of",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          152,
+          380
+        ],
+        [
+          152,
+          336
+        ]
+      ],
+      "labelAt": [
+        113,
+        361
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "po_lines",
+      "to": "products",
+      "label": "orders",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          272,
+          438
+        ],
+        [
+          322,
+          438
+        ],
+        [
+          322,
+          98
+        ],
+        [
+          372,
+          98
+        ]
+      ],
+      "labelAt": [
+        297,
+        420
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "stock_levels",
+      "to": "products",
+      "label": "stock of",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          492,
+          200
+        ],
+        [
+          492,
+          156
+        ]
+      ],
+      "labelAt": [
+        451,
+        181
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "stock_levels",
+      "to": "warehouses",
+      "label": "held at",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          612,
+          258
+        ],
+        [
+          702,
+          258
+        ],
+        [
+          702,
+          76
+        ],
+        [
+          718,
+          76
+        ]
+      ],
+      "labelAt": [
+        657,
+        240
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Branch labels",
+    "locale": "en",
+    "quality_profile": "standard"
+  },
+  "layout": {
+    "mode": "grid",
+    "gapX": 72,
+    "gapY": 40,
+    "entityW": 260
+  },
+  "entities": [
+    {
+      "id": "parent",
+      "label": "Parent",
+      "row": 0,
+      "col": 0,
+      "attributes": [
+        {
+          "name": "field_0",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_2",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "id": "category",
+      "label": "Category",
+      "row": 2,
+      "col": 0,
+      "attributes": [
+        {
+          "name": "field_0",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_2",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "id": "item",
+      "label": "Item",
+      "row": 1,
+      "col": 0,
+      "width": 290,
+      "attributes": [
+        {
+          "name": "field_0",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_2",
+          "type": "TEXT"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "parent_link",
+      "from": "parent",
+      "to": "item",
+      "label": "parentId",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "category_link",
+      "from": "item",
+      "to": "category",
+      "label": "categoryId",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

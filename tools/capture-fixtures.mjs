@@ -455,6 +455,78 @@ const p3Targets = [
   p3('dataflow', 'product-analytics.brand'), p3('workflow', 'holiday-planning.brand'),
 ];
 targets.push(...p3Targets);
+// --- phase 4: erd inputs. Upstream first-draft fixtures copied verbatim; inline scenes from upstream tests; documented edits of orders.erd.json. ---
+const erdNames = [];   // every clean erd input written below, by its fixture name (golden `<name>-rendered.html`, layout report `<name>.layout.json`)
+for (const n of ['blog', 'shop', 'warehouse']) {
+  fs.copyFileSync(path.join(TF, `erd-first-draft/${n}.erd.json`), out(`fixtures/diagrams/first-draft.${n}.erd.json`));
+  erdNames.push(`first-draft.${n}`);
+}
+// rows(), fixture() and verticalFixture() verbatim from T/erd-label-capacity.test.mjs:13-41.
+const rows = count => Array.from({ length: count }, (_, index) => ({ name: `field_${index}`, type: 'TEXT' }));
+function fixture(quality = 'standard') {
+  return {
+    schema_version: 1, diagram_type: 'erd', meta: { title: 'Branch labels', locale: 'en', quality_profile: quality },
+    layout: { mode: 'grid', gapX: 72, gapY: 40, entityW: 260 },
+    entities: [
+      { id: 'parent', label: 'Parent', row: 1, col: 0, attributes: rows(9) },
+      { id: 'category', label: 'Category', row: 3, col: 0, attributes: rows(12) },
+      { id: 'item', label: 'Item', row: 0, col: 1, width: 290, attributes: rows(28) },
+    ],
+    relationships: [
+      { id: 'parent_link', from: 'item', to: 'parent', label: 'parentId', fromCardinality: 'many', toCardinality: 'one' },
+      { id: 'category_link', from: 'item', to: 'category', label: 'categoryId', fromCardinality: 'many', toCardinality: 'one' },
+    ],
+  };
+}
+function verticalFixture(quality = 'standard') {
+  const document = fixture(quality);
+  document.entities = [
+    { id: 'parent', label: 'Parent', row: 0, col: 0, attributes: rows(3) },
+    { id: 'category', label: 'Category', row: 2, col: 0, attributes: rows(3) },
+    { id: 'item', label: 'Item', row: 1, col: 0, width: 290, attributes: rows(3) },
+  ];
+  document.relationships[0].from = 'parent';
+  document.relationships[0].to = 'item';
+  return document;
+}
+// i18n fixture() verbatim from T/erd-i18n.test.mjs:12-25, called as its locale loop does (:77-78, `fixture(undefined, locale)`).
+function i18nFixture(translations, locale = 'zh-CN') {
+  return {
+    schema_version: 1,
+    diagram_type: 'erd',
+    meta: {
+      title: 'Authored data model', locale, output: 'diagram.html',
+      ...(translations === undefined ? {} : { translations }),
+    },
+    entities: [{
+      id: 'users', label: 'Authored users', pos: [80, 80],
+      attributes: [{ name: 'user_id', type: 'int', key: 'pk' }],
+    }],
+  };
+}
+const erdWrite = (name, d) => { write(`fixtures/diagrams/${name}.erd.json`, d); erdNames.push(name); };
+erdWrite('label-capacity', fixture());
+erdWrite('label-capacity.showcase', fixture('showcase'));   // the tests' `for (const quality of ['standard', 'showcase'])`
+erdWrite('label-capacity-vertical', verticalFixture());
+for (const locale of ['en', 'zh-CN', 'zh-TW', 'es', 'ko']) erdWrite(`i18n.${locale}`, i18nFixture(undefined, locale));
+// Derived from orders.erd.json; each reaches a branch no clean upstream input does (survey-erd §8).
+const orders = () => ex('orders.erd.json');
+const erdCrossing = (d) => {   // two authored `via` routes that cross: clean under standard, composition/proper-crossing under showcase
+  d.meta.quality_profile = 'standard';
+  d.relationships.push({ id: 'cross_a', from: 'customer', to: 'product', fromCardinality: 'one', toCardinality: 'many', via: [[330, 120], [330, 260]] },
+    { id: 'cross_b', from: 'inventory', to: 'order', fromCardinality: 'many', toCardinality: 'one', via: [[200, 226], [450, 226]] });
+};
+const lanesDoc = orders();   // a second customer->order link with another marker style: laneOffsets.size 2
+lanesDoc.relationships.push({ id: 'customer_primary_order', from: 'customer', to: 'order', fromCardinality: 'one', toCardinality: 'one', toOptional: true, identifying: false, variant: 'dashed' });
+erdWrite('orders.lanes', lanesDoc);
+const sevenDoc = orders(); delete sevenDoc.meta.views;   // 4 tags + d3..d5 = 7 domains: the 7th hue wraps to `database`
+for (let i = 3; i <= 5; i++) for (const [s, col] of [['a', 0], ['b', 1]]) {
+  sevenDoc.entities.push({ id: `d${i}_${s}`, label: `d${i}_${s}`, tag: `d${i}`, row: i - 1, col, attributes: [{ name: 'id', type: 'bigint', key: 'pk' }] });
+}
+erdWrite('orders.seven-domains', sevenDoc);
+const crossingDoc = orders(); erdCrossing(crossingDoc);
+erdWrite('orders.crossing-standard', crossingDoc);
+targets.push(...erdNames.map((name) => p3('erd', name)));
 // Quality-option goldens: minted with the env var upstream reads; C# renders the same input with RenderOptions.
 const renderEnv = (type, input, output, env) => execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), input, output], { stdio: 'inherit', env: { ...cleanEnv, ...env } });
 const optionGoldens = [   // [type, input, golden, quality]
@@ -464,10 +536,18 @@ const optionGoldens = [   // [type, input, golden, quality]
 for (const [type, input, golden, quality] of optionGoldens) renderEnv(type, input, out(`goldens/${golden}`), { ARCHIFY_QUALITY_PROFILE: quality });
 for (const [type, input, golden] of targets) render(type, input, out(`goldens/${golden}`));
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
+// The renderer gates crossings by profile, the checker does not: the standard-profile crossing golden renders and its report fails.
+const checkerFails = new Set(['orders.crossing-standard-rendered']);
 const upstreamGoldens = fs.readdirSync(EX).filter((f) => f.endsWith('.html')).map((f) => path.join(EX, f));
 for (const html of [...upstreamGoldens, ...[...targets, ...optionGoldens].map(([, , g]) => out(`goldens/${g}`))]) {
-  const res = JSON.parse(execFileSync(process.execPath, [path.join(UP, 'scripts/check-render-output.mjs'), html],
-    { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: cleanEnv, maxBuffer: 64 * 1024 * 1024 }));   // upstream's checker buffer
+  const expectFail = checkerFails.has(path.basename(html, '.html'));
+  let stdout;
+  try {
+    stdout = execFileSync(process.execPath, [path.join(UP, 'scripts/check-render-output.mjs'), html],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], env: cleanEnv, maxBuffer: 64 * 1024 * 1024 });   // upstream's checker buffer
+  } catch (e) { if (!expectFail || e.status !== 1 || !e.stdout) throw e; stdout = e.stdout; }
+  const res = JSON.parse(stdout);
+  if (res.ok === expectFail) throw new Error(`checker ${path.basename(html)}: ok ${res.ok}, expected ${!expectFail}`);
   delete res.file;
   write(`goldens/checker/${path.basename(html, '.html')}.json`, res);
 }
@@ -760,6 +840,55 @@ for (const [type, source, name, code, edit] of p3Faults) {
 const belowFits = (name) => p3FaultReceipts.get(name).diagnostics.find((x) => x.code === 'dataflow/node-below-area').evidence?.requiredViewBoxFitsViewport;
 if (belowFits('df-node-below-area') !== false || belowFits('df-node-below-area-raised') !== true) {
   throw new Error(`node-below-area: requiredViewBoxFitsViewport ${belowFits('df-node-below-area')}/${belowFits('df-node-below-area-raised')}, expected false/true`);
+}
+// Phase-4 erd failure receipts: orders.erd.json with one edit each (agy's Node probe, plan review 2026-10-15). Upstream must FAIL with
+// every target [code, evidence.reason?] in its receipt or the script throws. entities: 0 customer, 5 payment (tag checkout).
+const erdFaults = [   // [name, targets, edit, env]
+  ['erd-domain-scattered', [['erd/domain-not-drawn', 'scattered']], (d) => { d.entities[5].row = 1; d.entities[5].col = 3; }],
+  ['erd-domain-pos', [['erd/domain-not-drawn', 'no-grid']], (d) => { delete d.entities[5].row; delete d.entities[5].col; d.entities[5].pos = [760, 44]; }],
+  ['erd-domain-off-canvas', [['erd/domain-not-drawn', 'off-canvas']], (d) => { d.layout.origin = [5, 44]; }],
+  ['erd-domain-band-covers', [['erd/domain-not-drawn', 'band-covers-entity']], (d) => { d.layout.gapY = 16; }],
+  ['erd-header-capacity', [['erd/header-text-capacity']], (d) => { d.entities[0].label = 'CUSTOMER_ACCOUNT_DIRECTORY_RECORD_LONG'; }],
+  ['erd-attribute-capacity', [['erd/attribute-text-capacity']], (d) => { d.entities[0].attributes[1].name = 'primary_verified_contact_email_address'; }],
+  ['erd-marker-capacity', [['layout/marker-capacity']], (d) => {
+    d.entities[0].attributes = [{ name: 'id', type: 'bigint', key: 'pk' }];
+    for (let i = 0; i < 4; i++) d.relationships.push({ id: 'extra_' + i, from: 'order', to: 'customer', fromCardinality: 'many', toCardinality: 'one' });
+  }],
+  ['erd-duplicate-entity', [['layout/constraint']], (d) => { d.entities.push({ ...structuredClone(d.entities[0]), row: 2 }); }],
+  ['erd-self-loop', [['layout/constraint']], (d) => { d.relationships.push({ from: 'customer', to: 'customer', fromCardinality: 'one', toCardinality: 'many' }); }],
+  ['erd-legend-overflow', [['legend/vertical-overflow']], (d) => { d.meta.viewBox = [980, 480]; }],
+  // customer is an endpoint of the one labelled relationship (`placed by`): NaN geometry reaches labelPoint -> JS TypeError (P2).
+  ['erd-unplaced-labelled', [['internal/unclassified']], (d) => { delete d.entities[0].row; delete d.entities[0].col; }],
+  // Same without labels: no crash, NaN comparisons give the grid problem plus no-grid / off-canvas domains (pinned in full).
+  ['erd-unplaced-unlabelled', [['layout/constraint'], ['erd/domain-not-drawn', 'no-grid'], ['erd/domain-not-drawn', 'off-canvas']],
+    (d) => { delete d.entities[0].row; delete d.entities[0].col; for (const r of d.relationships) delete r.label; }],
+  // orders.crossing-standard's edit under the showcase option (upstream reads ARCHIFY_QUALITY_PROFILE in the gate path).
+  ['erd-crossing-showcase', [['composition/proper-crossing']], erdCrossing, { ARCHIFY_QUALITY_PROFILE: 'showcase' }],
+];
+for (const [name, want, edit, env] of erdFaults) {
+  const diagram = orders();
+  edit(diagram);
+  write(`fixtures/diagrams/${name}.erd.json`, diagram);
+  let receipt;
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/erd/render-erd.mjs'), out(`fixtures/diagrams/${name}.erd.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json', ...env }, stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; receipt = JSON.parse(String(e.stderr)); }
+  if (!receipt) { fs.rmSync(out(`goldens/${name}.html`), { force: true }); throw new Error(`fault ${name}: rendered, expected ${want}`); }
+  for (const [code, reason] of want) {
+    if (!receipt.diagnostics?.some((x) => x.code === code && (reason === undefined || x.evidence?.reason === reason))) throw new Error(`fault ${name}: expected ${code} ${reason ?? ''}`);
+  }
+  // internal/unclassified names the absolute input path; make it repo-relative so the fixture is machine-independent.
+  for (const x of receipt.diagnostics) if (x.subject?.input === out(`fixtures/diagrams/${name}.erd.json`)) x.subject.input = `tests/fixtures/diagrams/${name}.erd.json`;
+  write(`fixtures/diagrams/${name}.erd.expected.json`, receipt);
+}
+// Erd layout reports (`--layout-json` stdout) for both upstream erd examples and every clean phase-4 input.
+fs.mkdirSync(out('fixtures/erd'), { recursive: true });
+for (const [name, input] of [['orders', path.join(EX, 'orders.erd.json')], ['subscription-billing', path.join(EX, 'subscription-billing.erd.json')],
+  ...erdNames.map((n) => [n, out(`fixtures/diagrams/${n}.erd.json`)])]) {
+  const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/erd/render-erd.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
+    { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
+  fs.writeFileSync(out(`fixtures/erd/${name}.layout.json`), stdout);
 }
 // --- Intl.Segmenter word granularity (label-capacity.mjs:32-33) on every string a phase-3 label can carry + a battery. `dictionary`
 // rows (Han/Kana/Thai/Lao/Khmer/Myanmar) are parity-exempt: C# asserts concatenation and per-grapheme splitting of those runs only. ---

@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Branch labels",
+    "locale": "en",
+    "quality_profile": "standard"
+  },
+  "layout": {
+    "mode": "grid",
+    "gapX": 72,
+    "gapY": 40,
+    "entityW": 260
+  },
+  "entities": [
+    {
+      "id": "parent",
+      "label": "Parent",
+      "row": 1,
+      "col": 0,
+      "attributes": [
+        {
+          "name": "field_0",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_3",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_4",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_5",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_6",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_7",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_8",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "id": "category",
+      "label": "Category",
+      "row": 3,
+      "col": 0,
+      "attributes": [
+        {
+          "name": "field_0",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_3",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_4",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_5",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_6",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_7",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_8",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_9",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_10",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_11",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "id": "item",
+      "label": "Item",
+      "row": 0,
+      "col": 1,
+      "width": 290,
+      "attributes": [
+        {
+          "name": "field_0",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_3",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_4",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_5",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_6",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_7",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_8",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_9",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_10",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_11",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_12",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_13",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_14",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_15",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_16",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_17",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_18",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_19",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_20",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_21",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_22",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_23",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_24",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_25",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_26",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_27",
+          "type": "TEXT"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "parent_link",
+      "from": "item",
+      "to": "parent",
+      "label": "parentId",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "category_link",
+      "from": "item",
+      "to": "category",
+      "label": "categoryId",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

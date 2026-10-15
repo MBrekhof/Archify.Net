@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- [composition/proper-crossing] showcase erd relationships[5] id \"cross_a\" \"customer\" -> \"product\" crosses relationships[6] id \"cross_b\" \"inventory\" -> \"order\" at [330, 226] (segments 1 and 1) — if the authored via are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle.",
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "error",
+      "message": "[composition/proper-crossing] showcase erd relationships[5] id \"cross_a\" \"customer\" -> \"product\" crosses relationships[6] id \"cross_b\" \"inventory\" -> \"order\" at [330, 226] (segments 1 and 1) — if the authored via are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle.",
+      "subject": {
+        "diagramType": "erd",
+        "collection": "relationships",
+        "index": 5,
+        "id": "cross_a",
+        "from": "customer",
+        "to": "product"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "erd",
+          "collection": "relationships",
+          "index": 6,
+          "id": "cross_b",
+          "from": "inventory",
+          "to": "order"
+        },
+        "point": [
+          330,
+          226
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "if the authored via are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and move the entities so unrelated relationships use separate corridors — put a junction beside both parents inside one solid domain rectangle"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    344,
+    194
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "users",
+      "label": "Authored users",
+      "x": 80,
+      "y": 80,
+      "width": 240,
+      "height": 56,
+      "attributes": [
+        "user_id"
+      ],
+      "pos": [
+        80,
+        80
+      ]
+    }
+  ],
+  "relationships": []
+}

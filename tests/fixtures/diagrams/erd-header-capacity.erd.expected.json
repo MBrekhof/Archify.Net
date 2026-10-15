@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Entity \"customer\" title does not fit the header at a readable size — widen the entity or shorten the title.",
+  "diagnostics": [
+    {
+      "code": "erd/header-text-capacity",
+      "severity": "error",
+      "message": "Entity \"customer\" title does not fit the header at a readable size — widen the entity or shorten the title.",
+      "subject": {
+        "diagramType": "erd",
+        "entityId": "customer"
+      },
+      "evidence": {
+        "label": "CUSTOMER_ACCOUNT_DIRECTORY_RECORD_LONG",
+        "availableWidth": 198,
+        "headerHeight": 30
+      },
+      "supportedFixes": [
+        "Widen the entity.",
+        "Shorten the title."
+      ]
+    }
+  ]
+}

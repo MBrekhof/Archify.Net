@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Entity \"customer\" shares its right side with 5 relationship ends: their ports would sit 6px apart, under the 14px a cardinality glyph is tall, so the symbols overlap. Give the table more rows so that side is taller, spread the relationships across sides with room, or reduce the fan-in.",
+  "diagnostics": [
+    {
+      "code": "layout/marker-capacity",
+      "severity": "error",
+      "message": "Entity \"customer\" shares its right side with 5 relationship ends: their ports would sit 6px apart, under the 14px a cardinality glyph is tall, so the symbols overlap. Give the table more rows so that side is taller, spread the relationships across sides with room, or reduce the fan-in.",
+      "subject": {
+        "diagramType": "erd",
+        "path": "/entities/customer"
+      },
+      "evidence": {
+        "entity": "customer",
+        "side": "right",
+        "relationshipEnds": 5,
+        "spacingPx": 6,
+        "markerHeightPx": 14,
+        "sideExtentPx": 56
+      },
+      "supportedFixes": [
+        "add fields to \"customer\" so its right side is taller",
+        "spread the relationships across the sides that have room",
+        "reduce the fan-in by modelling the shared parent instead of pointing every child at this table"
+      ]
+    }
+  ]
+}

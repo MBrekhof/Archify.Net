@@ -1,0 +1,169 @@
+{
+  "ok": false,
+  "artifact": {
+    "sha256": "fcf5e36b82a0fb7ffb83ea0bd7eb1da1fafaf40ab12b8e76eb62dfd4bd35efc9",
+    "bytes": 840226
+  },
+  "checks": [
+    {
+      "name": "single_svg",
+      "ok": true,
+      "details": [
+        "found 1 <svg> block(s)"
+      ]
+    },
+    {
+      "name": "finite_svg",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "orthogonal_arrows",
+      "ok": false,
+      "details": [
+        "path 6 segment 1: expected an orthogonal segment or an explicitly authored direct straight route; <path data-edge-from=\"customer\" data-edge-to=\"product\" data-edge-key=\"5\" data-edge-id=\"cross_a\" data-er-ends=\"one many\" data-composition-points=\"272,98;330,120;330,260;354,342\" d=\"M 272 98 L 322.5200197894577 117.1627661270357 Q 330 120 330 128 L 330 252 Q 330 260 332.2471900261657 267.67789925606615 L 354 342\" class=\"a-default\" data-animate=\"edge\" style=\"--step:5\" stroke-width=\"1.5\" marker-start=\"url(#er-one-start)\" marker-end=\"url(#er-many-end)\"/>",
+        "path 6 segment 3: expected an orthogonal segment or an explicitly authored direct straight route; <path data-edge-from=\"customer\" data-edge-to=\"product\" data-edge-key=\"5\" data-edge-id=\"cross_a\" data-er-ends=\"one many\" data-composition-points=\"272,98;330,120;330,260;354,342\" d=\"M 272 98 L 322.5200197894577 117.1627661270357 Q 330 120 330 128 L 330 252 Q 330 260 332.2471900261657 267.67789925606615 L 354 342\" class=\"a-default\" data-animate=\"edge\" style=\"--step:5\" stroke-width=\"1.5\" marker-start=\"url(#er-one-start)\" marker-end=\"url(#er-many-end)\"/>",
+        "path 7 segment 1: expected an orthogonal segment or an explicitly authored direct straight route; <path data-edge-from=\"inventory\" data-edge-to=\"order\" data-edge-key=\"6\" data-edge-id=\"cross_b\" data-er-ends=\"many one\" data-composition-points=\"270,332;200,226;450,226;344,128\" d=\"M 270 332 L 204.40849227793368 232.67571687801387 Q 200 226 208 226 L 442 226 Q 450 226 444.12582345379633 220.5691575327551 L 344 128\" class=\"a-default\" data-animate=\"edge\" style=\"--step:6\" stroke-width=\"1.5\" marker-start=\"url(#er-many-start)\" marker-end=\"url(#er-one-end)\"/>",
+        "path 7 segment 3: expected an orthogonal segment or an explicitly authored direct straight route; <path data-edge-from=\"inventory\" data-edge-to=\"order\" data-edge-key=\"6\" data-edge-id=\"cross_b\" data-er-ends=\"many one\" data-composition-points=\"270,332;200,226;450,226;344,128\" d=\"M 270 332 L 204.40849227793368 232.67571687801387 Q 200 226 208 226 L 442 226 Q 450 226 444.12582345379633 220.5691575327551 L 344 128\" class=\"a-default\" data-animate=\"edge\" style=\"--step:6\" stroke-width=\"1.5\" marker-start=\"url(#er-many-start)\" marker-end=\"url(#er-one-end)\"/>"
+      ]
+    },
+    {
+      "name": "label_route_clearance",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "relationship_crossings",
+      "ok": true,
+      "details": [
+        "[composition/proper-crossing] standard relationship id \"cross_a\" (\"customer\" -> \"product\") crosses relationship id \"cross_b\" (\"inventory\" -> \"order\") at [330, 226]"
+      ]
+    },
+    {
+      "name": "relationship_corridors",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "container_border_runs",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "route_rhythm",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "legend_clearance",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "pass",
+    "summary": {
+      "errors": 0,
+      "warnings": 1
+    },
+    "metrics": {
+      "properCrossings": 1,
+      "resolvedCrossovers": 0,
+      "ambiguousCorridors": 0,
+      "arrowheadCollisions": 0,
+      "containerBorderRuns": 0,
+      "labelRouteClearanceIssues": 0,
+      "labelCanvasOverflowIssues": 0,
+      "minLabelRouteClearance": 19.9,
+      "desktopReadabilityIssues": 0,
+      "viewportHeightIssues": 0,
+      "minProjectedNodeTextPx": 8.773584905660378,
+      "maxBends": 2,
+      "routesOverSuggestedBends": 0,
+      "maxStretch": 2.266,
+      "routesOverSuggestedStretch": 1,
+      "minSegmentPx": 16,
+      "minInteriorSegmentPx": 30,
+      "shortSegmentCount": 0,
+      "shortEndpointSegmentCount": 0,
+      "shortInteriorSegmentCount": 0,
+      "microSegmentCount": 0
+    },
+    "suggestedLimits": {
+      "bendsPerRelationship": 2,
+      "stretch": 1.35,
+      "segmentPx": 16,
+      "microSegmentPx": 8
+    },
+    "routeReview": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "id": "cross_b",
+            "from": "inventory",
+            "to": "order",
+            "label": "",
+            "collectionIndex": 6,
+            "artifactIndex": 7
+          },
+          "bends": 2,
+          "stretch": 2.266
+        }
+      ]
+    },
+    "leadingSpace": {
+      "measured": false,
+      "reviewSuggested": false
+    },
+    "desktopReadability": {
+      "budgetBasis": "recognized-declared-wide",
+      "readerContract": "declared-wide-v1",
+      "availableDiagramWidth": 930,
+      "actualBudgetPx": 930,
+      "actualReaderWidth": 960,
+      "desiredReaderWidth": 960,
+      "viewportCap": 1376,
+      "limit": "source-size",
+      "requestedTargetPx": 7.5,
+      "requestedTargetMet": true,
+      "hardFloorPx": 6,
+      "hardFloorMet": true,
+      "minimumOwner": {
+        "kind": "node",
+        "id": "customer"
+      },
+      "minimumSourceTextPx": 9,
+      "minimumProjectedTextPx": 8.773584905660378,
+      "semanticTextCount": 92
+    },
+    "issues": [
+      {
+        "severity": "warning",
+        "code": "composition/proper-crossing",
+        "relationship": {
+          "id": "cross_a",
+          "from": "customer",
+          "to": "product",
+          "label": "",
+          "collectionIndex": 5,
+          "artifactIndex": 6
+        },
+        "otherRelationship": {
+          "id": "cross_b",
+          "from": "inventory",
+          "to": "order",
+          "label": "",
+          "collectionIndex": 6,
+          "artifactIndex": 7
+        },
+        "point": [
+          330,
+          226
+        ]
+      }
+    ]
+  }
+}

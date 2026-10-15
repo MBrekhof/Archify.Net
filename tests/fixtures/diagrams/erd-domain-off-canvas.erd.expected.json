@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Domain \"accounts\" is named but cannot be drawn: the canvas does not reach the band caption for \"customer\" at (3, 39). Move the domain clear of the canvas edge, or drop the tag.",
+  "diagnostics": [
+    {
+      "code": "erd/domain-not-drawn",
+      "severity": "error",
+      "message": "Domain \"accounts\" is named but cannot be drawn: the canvas does not reach the band caption for \"customer\" at (3, 39). Move the domain clear of the canvas edge, or drop the tag.",
+      "subject": {
+        "diagramType": "erd",
+        "entityId": "customer",
+        "domain": "accounts"
+      },
+      "evidence": {
+        "domain": "accounts",
+        "entities": [
+          "customer"
+        ],
+        "reason": "off-canvas",
+        "caption": {
+          "x": 3,
+          "y": 39
+        },
+        "viewBox": [
+          972,
+          492
+        ]
+      },
+      "supportedFixes": [
+        "Move the domain clear of the canvas edge.",
+        "Drop the tag to group nothing."
+      ]
+    }
+  ]
+}

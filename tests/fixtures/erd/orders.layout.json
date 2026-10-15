@@ -1,0 +1,244 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    999,
+    488
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "customer",
+      "label": "customer",
+      "x": 32,
+      "y": 40,
+      "width": 240,
+      "height": 116,
+      "attributes": [
+        "id",
+        "email",
+        "display_name",
+        "created_at"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "order",
+      "label": "order",
+      "x": 389,
+      "y": 40,
+      "width": 260,
+      "height": 176,
+      "attributes": [
+        "id",
+        "customer_id",
+        "status",
+        "total_amount",
+        "currency",
+        "placed_at",
+        "updated_at"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "order_item",
+      "label": "order_item",
+      "x": 721,
+      "y": 254,
+      "width": 254,
+      "height": 156,
+      "attributes": [
+        "id",
+        "order_id",
+        "product_id",
+        "quantity",
+        "unit_price",
+        "discount_amount"
+      ],
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "product",
+      "label": "product",
+      "x": 399,
+      "y": 254,
+      "width": 240,
+      "height": 176,
+      "attributes": [
+        "id",
+        "sku",
+        "name",
+        "price",
+        "cost_amount",
+        "active",
+        "created_at"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "inventory",
+      "label": "inventory",
+      "x": 34,
+      "y": 254,
+      "width": 236,
+      "height": 156,
+      "attributes": [
+        "id",
+        "product_id",
+        "warehouse_code",
+        "quantity",
+        "reserved_quantity",
+        "updated_at"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "payment",
+      "label": "payment",
+      "x": 728,
+      "y": 40,
+      "width": 240,
+      "height": 156,
+      "attributes": [
+        "id",
+        "order_id",
+        "method",
+        "amount",
+        "paid_at",
+        "external_ref"
+      ],
+      "row": 0,
+      "col": 2
+    }
+  ],
+  "relationships": [
+    {
+      "from": "order",
+      "to": "customer",
+      "label": "placed by",
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          389,
+          128
+        ],
+        [
+          330.5,
+          128
+        ],
+        [
+          330.5,
+          98
+        ],
+        [
+          272,
+          98
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "payment",
+      "to": "order",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          728,
+          116
+        ],
+        [
+          649,
+          116
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "order_item",
+      "to": "order",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          721,
+          320
+        ],
+        [
+          705,
+          320
+        ],
+        [
+          705,
+          140
+        ],
+        [
+          649,
+          140
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "order_item",
+      "to": "product",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          721,
+          344
+        ],
+        [
+          639,
+          344
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "inventory",
+      "to": "product",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          270,
+          332
+        ],
+        [
+          399,
+          332
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Cannot read properties of undefined (reading '0')",
+  "diagnostics": [
+    {
+      "code": "internal/unclassified",
+      "severity": "error",
+      "message": "Cannot read properties of undefined (reading '0')",
+      "subject": {
+        "input": "tests/fixtures/diagrams/erd-unplaced-labelled.erd.json"
+      },
+      "evidence": {
+        "errorName": "TypeError"
+      },
+      "supportedFixes": []
+    }
+  ]
+}

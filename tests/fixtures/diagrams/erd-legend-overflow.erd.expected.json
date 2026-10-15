@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "[legend/vertical-overflow] erd legend needs 1 rows, which would start at y=434 above the available legend band at y=438.",
+  "diagnostics": [
+    {
+      "code": "legend/vertical-overflow",
+      "severity": "error",
+      "message": "[legend/vertical-overflow] erd legend needs 1 rows, which would start at y=434 above the available legend band at y=438.",
+      "subject": {
+        "diagramType": "erd",
+        "path": "/meta/legend"
+      },
+      "evidence": {
+        "rowCount": 1,
+        "requiredTopY": 434,
+        "availableTopY": 438
+      },
+      "supportedFixes": [
+        "shorten legend labels, hide nonessential entries, or use a wider viewBox"
+      ]
+    }
+  ]
+}
