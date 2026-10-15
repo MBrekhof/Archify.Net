@@ -53,6 +53,10 @@ public class WorkflowReceiptTests
     [InlineData("viewport.order-overflow", "fixture:diagrams/viewport.order-overflow.workflow.json")]
     [InlineData("viewport.order-reflow", "fixture:diagrams/viewport.order-reflow.workflow.json")]
     [InlineData("viewport.three-lane-remainder", "fixture:diagrams/viewport.three-lane-remainder.workflow.json")]
+    // Phase 3, task 10: pins, presets and controlled routes.
+    [InlineData("agent-tool-call", "upstream:examples/agent-tool-call.workflow.json")]
+    [InlineData("route-text-recovery", "fixture:diagrams/route-text-recovery.workflow.json")]
+    [InlineData("shared-trunks", "fixture:diagrams/shared-trunks.workflow.json")]
     public void Workflow_receipt_equals_upstream_layout_json(string name, string input)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);

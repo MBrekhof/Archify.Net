@@ -8,8 +8,9 @@ namespace Archify.Net;
 // E (legacy column-capacity repair), F legacy (one-bend sides), J1/J2 (route primitives, caches), K3 routeVia, K4 (label
 // point, edgeSides, automaticPorts) and K8 (registerRouted, pathFor, labelRectFor). Validation is in WorkflowCompilation.Validation.cs,
 // canvas measurement, SVG and the receipt in WorkflowCompilation.Svg.cs, readable-v2 automatic routing (F readable, H2/H4/H5,
-// J3, K1/K2/K5/K6) in WorkflowCompilation.Routing.cs, the typed input diagnostics (I2) in WorkflowCompilation.Inputs.cs. The
-// pin/preset conflict paths (H1 throwers, K3 readablePresetVia, K7 readableControlledRoute, Task 10) are still stubs.
+// J3, K1/K2/K5/K6) in WorkflowCompilation.Routing.cs, the typed input diagnostics (I2) in WorkflowCompilation.Inputs.cs, the
+// pin/preset conflict paths (H1 verifiers and throwers, H5 per-edge pin checks, K3 readablePresetVia, K7 readableControlledRoute)
+// in WorkflowCompilation.Pins.cs.
 internal sealed partial class WorkflowCompilation
 {
     // `{ d, points }` (:5094, :5124). A class, not a record: LABEL_RECT_CACHE keys on the routed object (R9).
@@ -586,11 +587,7 @@ internal sealed partial class WorkflowCompilation
         && (!edge["fromSide"].Truthy() || edge.Str("fromSide") == "auto")
         && (!edge["toSide"].Truthy() || edge.Str("toSide") == "auto");
 
-    // ---------------------------------------------------------------- K3 readablePresetVia (:4205-4303) — Task 10; K2 is in .Routing.cs
-    List<Pt> ReadablePresetVia(JsonObject edge, Box from, Box to, Pt start, Pt end, string fromSide, string toSide) =>
-        throw new NotImplementedException("Task 10: readablePresetVia (workflow-compiler.mjs:4205-4303)");
-
-    // ---------------------------------------------------------------- K3: routeVia (:4305-4364)
+    // ---------------------------------------------------------------- K3: routeVia (:4305-4364); readablePresetVia is in .Pins.cs, K2 in .Routing.cs
     // Returns `edge.via` itself (:4315): the same authored points, never mutated.
     List<Pt> RouteVia(JsonObject edge, Box from, Box to, Pt start, Pt end, string fromSide, string toSide, bool validateReadablePreset = true)
     {
@@ -775,15 +772,19 @@ internal sealed partial class WorkflowCompilation
         return routed;
     }
 
-    // pathFor(edge, automaticPlan = null): the readable branches (:5087-5114) take Task 10's controlled route and the automatic
-    // plan (a reserved straight preview, or readableAutomaticRoute); the non-readable branch (:5115-5125) routes v1 and pinned v2 edges.
+    // pathFor(edge, automaticPlan = null): the readable branches (:5087-5114) take the controlled route (K7, .Pins.cs) and the
+    // automatic plan (a reserved straight preview, or readableAutomaticRoute); the non-readable branch (:5115-5125) routes v1 edges
+    // and any controlled v2 edge readableControlledRoute returns null for.
     RoutedPath PathFor(JsonObject edge, Plan? automaticPlan = null)
     {
         if (pathCache.Get(edge) is { } cached) return cached;
         var from = NodeOf(edge.Str("from"));
         var to = NodeOf(edge.Str("to"));
-        if (IsReadableControlledRoute(edge))
-            throw new NotImplementedException("Task 10: readableControlledRoute (workflow-compiler.mjs:4945-5057, pathFor :5087-5097)");
+        if (IsReadableControlledRoute(edge) && ReadableControlledRoute(edge, from!, to!) is { } controlled)
+        {
+            readableSideCache.Set(edge, new(controlled.FromSide, controlled.ToSide));
+            return RegisterRouted(edge, new RoutedPath(Geometry.PolylinePath(controlled.Points), controlled.Points));
+        }
         var ports = automaticPorts.Get(edge);
         var (fromSide, toSide) = EdgeSides(edge);
         if (IsReadableAutomaticRoute(edge))

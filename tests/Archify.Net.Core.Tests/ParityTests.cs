@@ -80,6 +80,10 @@ public class ParityTests
         ["workflow", Fixtures.Fixture("diagrams/viewport.order-overflow.workflow.json"), Fixtures.Golden("viewport.order-overflow-rendered.html")],
         ["workflow", Fixtures.Fixture("diagrams/viewport.order-reflow.workflow.json"), Fixtures.Golden("viewport.order-reflow-rendered.html")],
         ["workflow", Fixtures.Fixture("diagrams/viewport.three-lane-remainder.workflow.json"), Fixtures.Golden("viewport.three-lane-remainder-rendered.html")],
+        // Phase 3, task 10: pins, route presets, pin conflicts — H1/H3/H5 rest, K3 readablePresetVia, K7 controlled routes, N.
+        ["workflow", Fixtures.Upstream("examples/agent-tool-call.workflow.json"), Fixtures.Upstream("examples/workflow-agent-tool-call-rendered.html")],   // 2 presets, 4 sides, label offset
+        ["workflow", Fixtures.Fixture("diagrams/route-text-recovery.workflow.json"), Fixtures.Golden("route-text-recovery-rendered.html")],   // zh-CN, sizing loop
+        ["workflow", Fixtures.Fixture("diagrams/shared-trunks.workflow.json"), Fixtures.Golden("shared-trunks-rendered.html")],   // controlled routes
     ];
 
     [Fact] public void Dataflow_quality_option_switches_the_automatic_layout_like_the_env_var()   // Review Focus 2
@@ -141,6 +145,12 @@ public class ParityTests
     [InlineData("wf-node-overlap")]
     [InlineData("wf-semantic-reference")]
     [InlineData("wf-required-edge")]
+    // Task 10: the preset conflict (readablePresetVia with verified fixes), the single-pin `subject.path` rule, the legacy
+    // column-capacity throw (migration recompile, `suppresses`) and the release-luna node overlaps.
+    [InlineData("wf-preset-conflict")]
+    [InlineData("wf-single-pin-conflict")]
+    [InlineData("wf-v1-column-capacity")]
+    [InlineData("wf-release-luna")]
     public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));
@@ -532,6 +542,8 @@ public class ParityTests
             Assert.Equal(Js.Stringify(e["subject"]), Js.Stringify(a.Subject));
             Assert.Equal(Js.Stringify(e["evidence"]), Js.Stringify(a.Evidence));
             Assert.Equal(e["supportedFixes"]!.AsArray().Select(x => x!.GetValue<string>()), a.SupportedFixes);
+            if (e["suppresses"] is JsonArray suppresses) Assert.Equal(suppresses.Select(x => x!.GetValue<string>()), a.Suppresses!);
+            else Assert.Null(a.Suppresses);
         }
     }
 

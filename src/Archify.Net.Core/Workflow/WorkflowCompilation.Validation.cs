@@ -5,7 +5,7 @@ namespace Archify.Net;
 
 // workflow-compiler.mjs cluster I: validateWorkflow (:2693-3036). The readable-v2 input gate (I2, :3038-3258) is in
 // WorkflowCompilation.Inputs.cs; the readable pinned-geometry driver (H5, :2378-2692) is in WorkflowCompilation.Routing.cs,
-// where only its pin-conflict branches remain Task 10 stubs.
+// its per-edge pin checks in WorkflowCompilation.Pins.cs.
 internal sealed partial class WorkflowCompilation
 {
 

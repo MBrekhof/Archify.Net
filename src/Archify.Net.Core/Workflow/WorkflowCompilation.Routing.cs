@@ -7,8 +7,8 @@ namespace Archify.Net;
 // validateReadablePairwisePinConflicts (:2060-2192), H4 clearStraightAutomaticPlan (:2336-2377), the H5 driver
 // validateReadablePinnedGeometry (:2378-2691), J3 feasibility (:3402-3706), K1 cost and candidate set (:3750-4040), K2
 // readableAutomaticVia (:4042-4203), K5 port candidates, endpoint repairs, internal detours, free space (:4470-4691) and K6
-// readableAutomaticRoute (:4693-4934). Every pin-conflict thrower stays a `NotImplementedException("Task 10")`: only an
-// authored pin (labelAt, via, channelX/Y, a non-auto route or side) reaches one.
+// readableAutomaticRoute (:4693-4934). The pin-conflict throwers these reach (only an authored pin — labelAt, via,
+// channelX/Y, a non-auto route or side — does) are in WorkflowCompilation.Pins.cs.
 internal sealed partial class WorkflowCompilation
 {
     // A cost record (:3947-3966) as its 15 dimensions in READABLE_CANDIDATE_COST_PRIORITY order.
@@ -52,7 +52,6 @@ internal sealed partial class WorkflowCompilation
         copy["width"] = StrokeWidth(relation);
         return copy;
     }
-    static Exception Task10(string what) => new NotImplementedException($"Task 10: {what}");
 
     // ---------------------------------------------------------------- F: readableAutomaticSides (:1267-1352)
     Sides? ReadableAutomaticSides(JsonObject edge, Box from, Box to)
@@ -146,7 +145,7 @@ internal sealed partial class WorkflowCompilation
         var allowedPins = ReadablePresetPinFields.GetValueOrDefault(preset) ?? [];
         var conflictingPins = channelPins.Where(field => !allowedPins.Contains(field)).ToList();
         if (conflictingPins.Count == 0) return;
-        throw Task10("validateReadableRouteControls conflict (verifiedPinReferenceAlternatives, throwExplicitPinConflict; workflow-compiler.mjs:2213-2222)");
+        throw RouteControlsConflict(edge, preset, allowedPins, conflictingPins);
     }
 
     static string SegmentOrientation(Pt start, Pt end) =>
@@ -259,21 +258,7 @@ internal sealed partial class WorkflowCompilation
         return insideHorizontal && insideVertical ? point : null;
     }
 
-    // The pin-conflict throwers (:1942-2010) return false when no authored pin is involved; with one they are Task 10's.
-    bool ThrowReadableLabelRoutePinConflict(LabelClearanceHit hit)
-    {
-        var labelPinned = hit.LabelRelation["labelAt"] is JsonArray;
-        var routePinned = HasAuthoredRouteAssertions(hit.OtherRelation);
-        if (!labelPinned && !routePinned) return false;
-        throw Task10("throwReadableLabelRoutePinConflict (workflow-compiler.mjs:1942-1988)");
-    }
-
-    bool ThrowReadableLabelLabelPinConflict(LabelRect left, LabelRect right)
-    {
-        if (left.Relation["labelAt"] is not JsonArray && right.Relation["labelAt"] is not JsonArray) return false;
-        throw Task10("throwReadableLabelLabelPinConflict (workflow-compiler.mjs:1990-2010)");
-    }
-
+    // The pin-conflict throwers (:1942-2010) are in WorkflowCompilation.Pins.cs.
     // classifyFailedAutomaticCandidatePins (:2012-2058): only reached when an edge carries labelAt or an absolute route pin.
     void ClassifyFailedAutomaticCandidatePins(JsonObject edge, List<Plan> rawCandidates)
     {
@@ -298,11 +283,15 @@ internal sealed partial class WorkflowCompilation
 
                 var labelRouteHit = Geometry.CollectLabelRouteClearance([candidateLabel], priorRoutes, 4)
                     .FirstOrDefault(hit => edge["labelAt"] is JsonArray || HasAbsoluteRoutePins(hit.OtherRelation));
-                if (labelRouteHit is not null) ThrowReadableLabelRoutePinConflict(labelRouteHit);
+                if (labelRouteHit is not null)
+                {
+                    var collidedRoute = priorRoutes.FirstOrDefault(route => ReferenceEquals(route.Relation, labelRouteHit.OtherRelation));
+                    ThrowReadableLabelRoutePinConflict(labelRouteHit, collidedRoute?.Points);
+                }
             }
             var reverseHit = Geometry.CollectLabelRouteClearance(priorLabels, [new RoutedRelation(raw.Points, edge, relationIndex)], 4)
                 .FirstOrDefault(hit => hit.LabelRelation["labelAt"] is JsonArray);
-            if (reverseHit is not null) ThrowReadableLabelRoutePinConflict(reverseHit);
+            if (reverseHit is not null) ThrowReadableLabelRoutePinConflict(reverseHit, raw.Points);
         }
     }
 
@@ -345,8 +334,8 @@ internal sealed partial class WorkflowCompilation
                 {
                     foreach (var rightSegment in Geometry.ForwardCollinearAnalysisSegments(right.Points))
                     {
-                        if (ProperOrthogonalIntersection(leftSegment.Start, leftSegment.End, rightSegment.Start, rightSegment.End) is null) continue;
-                        throw Task10("explicit route-route crossing (workflow-compiler.mjs:2111-2140)");
+                        if (ProperOrthogonalIntersection(leftSegment.Start, leftSegment.End, rightSegment.Start, rightSegment.End) is not { } point) continue;
+                        throw RouteRouteCrossingConflict(left, right, leftSegment, rightSegment, point);
                     }
                 }
             }
@@ -354,7 +343,7 @@ internal sealed partial class WorkflowCompilation
 
         var corridorHit = Geometry.CollectAmbiguousCorridors(routedRelations, 8)
             .FirstOrDefault(hit => HasAuthoredRouteAssertions(hit.Left.Relation) || HasAuthoredRouteAssertions(hit.Right.Relation));
-        if (corridorHit is not null) throw Task10("explicit route-route corridor clearance (workflow-compiler.mjs:2153-2190)");
+        if (corridorHit is not null) throw RouteRouteCorridorConflict(corridorHit);
     }
 
     // ---------------------------------------------------------------- H4: clearStraightAutomaticPlan (:2336-2377)
@@ -451,25 +440,8 @@ internal sealed partial class WorkflowCompilation
         {
             if (!Has(edge["from"]) || !Has(edge["to"])) continue;
             ValidateReadableRouteControls(edge);
-            if (edge["labelAt"] is JsonArray)
-            {
-                var rect = LabelRectFor(edge, workflow.Edges.IndexOf(edge));
-                if (rect is not null && (rect.X < 0 || rect.Y < 0)) throw Task10("labelAt viewBox-origin containment (workflow-compiler.mjs:2426-2437)");
-            }
-            var negativeVia = edge["via"].AsArrayOrEmpty().Any(point => PtOf(point) is var p && (p.X < 0 || p.Y < 0));
-            if (negativeVia || edge.Num("channelX") < 0 || edge.Num("channelY") < 0)
-                throw Task10("route pin viewBox-origin containment (workflow-compiler.mjs:2439-2459)");
-            var hasPinnedRoute = edge["via"] is JsonArray || edge.ContainsKey("channelX") || edge.ContainsKey("channelY");
-            PathFor(edge);
-            if (hasPinnedRoute) throw Task10("pinned route checks (workflow-compiler.mjs:2464-2641)");
-
-            if (edge["labelAt"].Truthy())
-            {
-                var rect = LabelRectFor(edge, workflow.Edges.IndexOf(edge));
-                if (rect is not null && nodes.Values.Any(node => Geometry.RectsOverlap(rect, node, -2))) throw Task10("edge-label node clearance (workflow-compiler.mjs:2645-2657)");
-                if (rect is not null && WorkflowLegendRects().Any(legend => Geometry.RectsOverlap(rect, legend.Rect))) throw Task10("edge-label legend clearance (workflow-compiler.mjs:2658-2672)");
-                if (rect is not null && WorkflowSceneLabelObstacles().Any(candidate => Geometry.RectsOverlap(rect, RectOf(candidate)))) throw Task10("edge-label lane/phase/group clearance (workflow-compiler.mjs:2673-2687)");
-            }
+            // labelAt origin, negative route pins, the pinned-route checks and labelAt clearance (:2422-2688), in Pins.cs.
+            ValidateReadableEdgePins(edge);
         }
         ValidateReadablePairwisePinConflicts();
     }
@@ -586,9 +558,14 @@ internal sealed partial class WorkflowCompilation
         return deficit;
     }
 
-    // ponytail: the `evidence` out-parameter (placedLabelConflictEvidence, :3516-3545) serves readablePresetRejection only — Task 10.
-    bool RouteClearsPlacedLabels(JsonObject edge, IReadOnlyList<Pt> points)
+    // `evidence` (readablePresetRejection only) receives placedLabelConflictEvidence (:3516-3545, in Pins.cs) for the first conflict.
+    bool RouteClearsPlacedLabels(JsonObject edge, IReadOnlyList<Pt> points, JsonObject? evidence = null)
     {
+        void Assign(JsonObject conflict)
+        {
+            if (evidence is null) return;
+            foreach (var (key, value) in conflict.ToList()) { conflict.Remove(key); evidence[key] = value; }
+        }
         var candidateLabel = CandidateLabelRect(edge, points);
         var extent = RouteBounds(points);
         double minX = extent.MinX - 4, minY = extent.MinY - 4, maxX = extent.MaxX + 4, maxY = extent.MaxY + 4;
@@ -604,14 +581,22 @@ internal sealed partial class WorkflowCompilation
             // A label may sit far from the route it annotates, so both boxes are queried.
             if (item.Kind == "label")
             {
-                if (candidateLabel is { } own && Geometry.RectsOverlap(own, item.Rect!, -2)) return false;
+                if (candidateLabel is { } own && Geometry.RectsOverlap(own, item.Rect!, -2))
+                {
+                    if (evidence is not null) Assign(PlacedLabelConflictEvidence(edge, candidateLabel, item, "label-label"));
+                    return false;
+                }
                 Rect rect = item.Rect!;
                 // Either axis further than the minimum clearance means no segment can reach it.
                 if (Math.Max(rect.X - extent.MaxX, extent.MinX - (rect.X + rect.Width)) >= 4
                     || Math.Max(rect.Y - extent.MaxY, extent.MinY - (rect.Y + rect.Height)) >= 4) continue;
                 for (var index = 0; index < points.Count - 1; index++)
                 {
-                    if (Geometry.SegmentRectClearance(new(points[index], points[index + 1]), rect) is { } clearance && clearance + 0.0001 < 4) return false;
+                    if (Geometry.SegmentRectClearance(new(points[index], points[index + 1]), rect) is { } clearance && clearance + 0.0001 < 4)
+                    {
+                        if (evidence is not null) Assign(PlacedLabelConflictEvidence(edge, candidateLabel, item, "route-label", [.. points], index, clearance));
+                        return false;
+                    }
                 }
             }
             else if (item.Kind == "route" && candidateLabel is { } own)
@@ -622,7 +607,11 @@ internal sealed partial class WorkflowCompilation
                 var otherPoints = item.Routed!.Points;
                 for (var index = 0; index < otherPoints.Count - 1; index++)
                 {
-                    if (Geometry.SegmentRectClearance(new(otherPoints[index], otherPoints[index + 1]), own) is { } clearance && clearance + 0.0001 < 4) return false;
+                    if (Geometry.SegmentRectClearance(new(otherPoints[index], otherPoints[index + 1]), own) is { } clearance && clearance + 0.0001 < 4)
+                    {
+                        if (evidence is not null) Assign(PlacedLabelConflictEvidence(edge, candidateLabel, item, "label-route", otherPoints, index, clearance));
+                        return false;
+                    }
                 }
             }
         }
@@ -1523,8 +1512,8 @@ internal sealed partial class WorkflowCompilation
         static double FeedbackPriority(WorkflowLayoutFeedback error) => error.Kind switch { "rank-gap-minimum" => 0, "lane-gap-minimum" => 1, _ => 99 };
         Js.Sort(feedback, (left, right) => Lor(FeedbackPriority(left.Error) - FeedbackPriority(right.Error), left.PairOrdinal - right.PairOrdinal));
         if (feedback.Count > 0) throw feedback[0].Error;
-        if (authoredFrom is not null || authoredTo is not null)
-            throw Task10("readable route feasibility with authored endpoint sides (verifiedPinRemovalAlternatives, throwExplicitPinConflict; workflow-compiler.mjs:4899-4931)");
+        List<string> authoredSideFields = [.. authoredFrom is not null ? ["fromSide"] : Array.Empty<string>(), .. authoredTo is not null ? ["toSide"] : Array.Empty<string>()];
+        if (authoredSideFields.Count > 0) throw AuthoredSideRouteConflict(edge, from, to, primarySides, primaryPorts, authoredSideFields, firstFailure);
         if (firstFailure is not null) throw firstFailure;
         throw new InvalidOperationException("readable-v2 automatic route enumeration produced no result");
     }
