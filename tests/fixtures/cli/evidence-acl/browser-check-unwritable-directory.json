@@ -1,0 +1,28 @@
+{
+  "args": [
+    "browser-check",
+    "locked/plain.html",
+    "--json"
+  ],
+  "files": {},
+  "setup": [
+    {
+      "mkdir": "locked"
+    },
+    {
+      "write": "locked/plain.html",
+      "text": "<!doctype html><html><body>plain</body></html>\n"
+    },
+    {
+      "denyCreate": "locked"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"browser-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"not-requested\",\n  \"provenance\": \"unknown\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\locked\\\\plain.html\",\n    \"sha256\": \"e4f7027f7305a330bdcafb57e9623649d37fd5b0365a95e06560583eb01f4991\",\n    \"bytes\": 47\n  },\n  \"state\": {\n    \"detail\": \"read\",\n    \"motion\": \"still\"\n  },\n  \"chrome\": {\n    \"status\": \"not-checked\",\n    \"executable\": null\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/evidence-write\",\n      \"severity\": \"error\",\n      \"message\": \"visual-check could not create a private evidence staging directory.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\locked\\\\plain.html\"\n      },\n      \"evidence\": {\n        \"errors\": [\n          {\n            \"file\": \"<WORK>\\\\locked\",\n            \"reason\": \"<REASON>\"\n          }\n        ]\n      },\n      \"supportedFixes\": [\n        \"restore write access to the evidence directory and rerun visual-check\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"themeStates\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"readability\": {\n    \"status\": \"fail\",\n    \"minimumProjectedNodeTextPx\": 6,\n    \"viewports\": []\n  },\n  \"viewerChrome\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"not-requested\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"plain.browser-check.json\",\n    \"files\": []\n  },\n  \"error\": \"visual-check could not create a private evidence staging directory.\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "locked",
+    "locked\\plain.html"
+  ],
+  "evidence": {}
+}

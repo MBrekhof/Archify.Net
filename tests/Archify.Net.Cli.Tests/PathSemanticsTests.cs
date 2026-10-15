@@ -21,6 +21,24 @@ public partial class PathSemanticsTests
         if (code is not null) Assert.Equal(code, value.Reason["code"]!.GetValue<string>());
     }
 
+    // path.win32.toNamespacedPath (Node v24) from MAX_PATH on: `\\?\` for a drive path (resolved first), `\\?\UNC\` for a share, an
+    // already namespaced or device path unchanged. Shorter and relative paths keep their spelling (Win32 parses those itself).
+    [Fact]
+    public void Long_paths_are_namespaced_as_node_does()
+    {
+        var a = new string('a', 300);
+        Assert.Equal($@"\\?\C:\{a}\x.html", NativeFs.NamespacedPath($@"C:\{a}\x.html"));
+        Assert.Equal($@"\\?\C:\{a}\x.html", NativeFs.NamespacedPath($"C:/{a}/../{a}/x.html"));
+        Assert.Equal($@"\\?\UNC\server\share\{a}", NativeFs.NamespacedPath($@"\\server\share\{a}"));
+        Assert.Equal($@"\\?\C:\{a}", NativeFs.NamespacedPath($@"\\?\C:\{a}"));
+        Assert.Equal($@"\\.\pipe\{a}", NativeFs.NamespacedPath($@"\\.\pipe\{a}"));
+        Assert.Equal($@"rel\{a}", NativeFs.NamespacedPath($@"rel\{a}"));
+        Assert.Equal(@"C:\short\x.html", NativeFs.NamespacedPath(@"C:\short\x.html"));
+        var under = @"C:\" + new string('b', 256);
+        Assert.Equal((259, under), (under.Length, NativeFs.NamespacedPath(under)));
+        Assert.Equal(@"\\?\" + under + "c", NativeFs.NamespacedPath(under + "c"));
+    }
+
     // ---- T/path-semantics.test.mjs, mocked Windows filesystem (mockWindowsFilesystem :27-120) ----
 
     [Fact]

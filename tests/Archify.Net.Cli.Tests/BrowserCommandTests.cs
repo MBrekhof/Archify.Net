@@ -80,6 +80,53 @@ public sealed partial class BrowserCommandTests
         Assert.Equal($"[\"run archify install-browser, then rerun {command}\"]", Js.Stringify(diagnostic["supportedFixes"]));
     }
 
+    // A:5592 catches whatever the engine throws, not only filesystem errors: a browser lookup that fails on a corrupt browsers.json
+    // (JsonException) is the viewer/<command>-input receipt, persisted beside the artifact, exit 1.
+    [Theory, InlineData("browser-check", false), InlineData("visual-check", true)]
+    public void Any_engine_exception_is_the_input_receipt(string command, bool capture)
+    {
+        var services = CliServices.Default with { BrowserInspectors = new CorruptBrowsersJson() };
+        string[] entries = [];
+        var (exit, stdout, stderr) = CliTestHost.Run([command, "out.html", "--json"],
+            new Dictionary<string, string> { ["out.html"] = "tests/fixtures/cli/inputs/delivered.html" }, services,
+            inspect: work => entries = [.. Directory.GetFileSystemEntries(work).Select(Path.GetFileName).Order(StringComparer.Ordinal)!]);
+        Assert.Equal((1, ""), (exit, stderr));
+        var receipt = JsonNode.Parse(stdout)!;
+        Assert.Equal(("fail", "corrupt browsers.json", capture ? "pending" : "not-requested"),
+            ((string?)receipt["status"], (string?)receipt["error"], (string?)receipt["visualReview"]));
+        var diagnostic = Assert.Single(receipt["diagnostics"]!.AsArray())!;
+        Assert.Equal($"viewer/{command}-input", (string?)diagnostic["code"]);
+        Assert.Equal("""{"reason":"corrupt browsers.json"}""", Js.Stringify(diagnostic["evidence"]));
+        Assert.Equal(new[] { "out.html", $"out.{command}.json" }.Order(StringComparer.Ordinal), entries);
+    }
+
+    sealed class CorruptBrowsersJson : IBrowserInspectorFactory
+    {
+        public string? ResolveExecutable() => throw new System.Text.Json.JsonException("corrupt browsers.json");
+        public Task<IBrowserInspector> LaunchAsync(string executable) => throw new InvalidOperationException("never launched");
+    }
+
+    // VC:772-788: an evidence directory where nothing can be created refuses before the browser (chrome not-checked, every gate
+    // failed, nothing written), against Node with the same ACL. The OS reason is compared as <REASON> (Q8).
+    [Fact]
+    public void An_unwritable_evidence_directory_is_refused_before_the_browser()
+    {
+        var browsers = new NoChromium();
+        var fixture = JsonNode.Parse(CliTestHost.ReadLf(Path.Combine(CliTestHost.FixtureRoot, "evidence-acl", "browser-check-unwritable-directory.json")))!.AsObject();
+        var recorded = CliTestHost.Fixture("evidence-acl/browser-check-unwritable-directory");
+        string[] entries = [];
+        var (exit, stdout, stderr) = CliTestHost.Run(recorded.Args, recorded.Files, CliServices.Default with { BrowserInspectors = browsers }, setup: recorded.Setup,
+            inspect: work => entries = [.. Directory.EnumerateFileSystemEntries(work, "*", SearchOption.AllDirectories).Select(e => Path.GetRelativePath(work, e)).Order(StringComparer.Ordinal)]);
+        var receipt = JsonNode.Parse(stdout)!;
+        var error = receipt["diagnostics"]![0]!["evidence"]!["errors"]![0]!;
+        Assert.StartsWith("Access to the path", error["reason"]!.GetValue<string>());
+        error["reason"] = "<REASON>";
+        Assert.Equal(recorded.Stdout, Js.Stringify(receipt, 2) + "\n");
+        Assert.Equal((recorded.Stderr, recorded.Exit), (stderr, exit));
+        Assert.Equal(Js.Stringify(fixture["entries"]), Js.Stringify(new JsonArray([.. entries.Select(e => (JsonNode?)e)])));
+        Assert.False(browsers.Resolved);
+    }
+
     // Runs a fixture and compares everything it recorded; returns the fixture.
     static JsonObject AssertMatches(string name, CliServices services)
     {
@@ -121,7 +168,12 @@ public sealed partial class BrowserCommandTests
         if (!text.StartsWith('{')) return text;
         static bool IsPng(JsonNode? file) => file!["file"]!.GetValue<string>().EndsWith(".png", StringComparison.Ordinal);
         if (JsonNode.Parse(text)!.AsObject() is not { } receipt || receipt["sidecars"]?["files"] is not JsonArray files || !files.Any(IsPng)) return text;
-        foreach (var file in files.Where(IsPng)) (file!["sha256"], file["bytes"]) = ("<sha256>", "<bytes>");
+        foreach (var file in files.Where(IsPng))
+        {
+            Assert.Matches(@"\A[0-9a-f]{64}\z", file!["sha256"]!.GetValue<string>());
+            Assert.True(file["bytes"]!.GetValue<double>() > 0, $"{file["file"]} has no bytes");
+            (file["sha256"], file["bytes"]) = ("<sha256>", "<bytes>");
+        }
         return Js.Stringify(receipt, 2) + "\n";
     }
 

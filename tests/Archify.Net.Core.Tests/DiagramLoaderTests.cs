@@ -9,6 +9,16 @@ public class DiagramLoaderTests
         var o = DiagramLoader.Parse("{\"meta\":{\"title\":\"a\",\"title\":\"b\"}}");
         Assert.Equal("b", o["meta"]!["title"]!.GetValue<string>());
     }
+    // JSON.parse for the CLI's user files: any root, the last duplicate key, and the reader's own JsonException on bad syntax.
+    [Fact] public void ParseNode_is_json_parse_on_any_root()
+    {
+        Assert.Null(DiagramLoader.ParseNode("null\n"));
+        Assert.Equal("[1,\"x\"]", Js.Stringify(DiagramLoader.ParseNode("[1,\"x\"]")));
+        Assert.Equal("{\"a\":2,\"b\":3}", Js.Stringify(DiagramLoader.ParseNode("{\"a\":1,\"b\":3,\"a\":2}")));
+        Assert.Equal("\ud800", DiagramLoader.ParseNode("\"\\ud800\"")!.GetValue<string>());
+        Assert.ThrowsAny<System.Text.Json.JsonException>(() => DiagramLoader.ParseNode("not json\n"));
+        Assert.ThrowsAny<System.Text.Json.JsonException>(() => DiagramLoader.ParseNode("{} {}"));
+    }
     [Fact] public void Numbers_normalised_to_double_text()
     {
         var o = DiagramLoader.Parse("{\"size\":[1.0,1e2],\"n\":-0,\"big\":1e21}");

@@ -69,10 +69,13 @@ static class DoctorCommand
         Resources.Exists(name) || typeof(DoctorCommand).Assembly.GetManifestResourceInfo(name) is not null;
 
     // A `git` executable in a PATH directory (PATHEXT extensions on Windows); nothing is run.
-    internal static bool GitOnPath()
+    internal static bool GitOnPath() => GitOnPath(Environment.GetEnvironmentVariable("PATH"), Environment.GetEnvironmentVariable("PATHEXT"));
+
+    // An empty PATHEXT entry (";;" or a trailing ";") is no extension: an extensionless `git` file is not a Windows command.
+    internal static bool GitOnPath(string? path, string? pathExt)
     {
-        string[] extensions = OperatingSystem.IsWindows() ? (Environment.GetEnvironmentVariable("PATHEXT") ?? ".EXE").Split(';') : [""];
-        return (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+        string[] extensions = OperatingSystem.IsWindows() ? (pathExt ?? ".EXE").Split(';', StringSplitOptions.RemoveEmptyEntries) : [""];
+        return (path ?? "").Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
             .Any(dir => extensions.Any(ext => File.Exists(Path.Join(dir.Trim('"'), "git" + ext))));
     }
 

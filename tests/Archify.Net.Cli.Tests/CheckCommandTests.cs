@@ -46,6 +46,19 @@ public partial class CheckCommandTests
         return receipt.Replace(Js.Stringify(JsonValue.Create(reason))[1..^1], "<REASON>");
     }
 
+    // legacyDeliveryLockPaths (A:118-134): `.html` and `.htm` (any case) give way to `.delivery-lock.json`; a lock name over 255
+    // UTF-16 units cannot exist and is skipped; the artifact as given and its realpath share one entry when they agree.
+    [Fact]
+    public void Legacy_lock_paths_follow_upstream()
+    {
+        Assert.Equal([@"C:\w\out.delivery-lock.json"], DeliveryStore.LegacyLockPaths(@"C:\w\out.html", @"C:\w\out.html"));
+        Assert.Equal([@"C:\w\report.delivery-lock.json", @"C:\w\Report.delivery-lock.json"],
+            DeliveryStore.LegacyLockPaths(@"C:\w\report.htm", @"C:\w\Report.HTM"));
+        Assert.Equal([@"C:\w\page.txt.delivery-lock.json"], DeliveryStore.LegacyLockPaths(@"C:\w\page.txt"));
+        var longest = new string('a', 255 - ".delivery-lock.json".Length);
+        Assert.Equal([$@"C:\w\{longest}.delivery-lock.json"], DeliveryStore.LegacyLockPaths($@"C:\w\{longest}.html", $@"C:\w\{longest}a.html"));
+    }
+
     // verifyDeliveryUnchanged (A:5426-5448): after the checker, the artifact and its sidecar must still be the bytes first inspected,
     // and the checked bytes those of the provenance.
     [Fact]

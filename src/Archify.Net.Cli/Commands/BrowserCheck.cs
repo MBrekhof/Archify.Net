@@ -79,7 +79,7 @@ static class BrowserEvidenceCommand
                 OutDir = outDir, DeliveryProvenance = provenance, VerifyArtifact = BrowserEvidence.DeliveryVerifier(artifactPath, provenance),
             }, browsers), false);
         }
-        catch (Exception error) when (error is BrowserEvidenceException or IOException or UnauthorizedAccessException)
+        catch (Exception error)   // A:5592 catches everything the engine throws
         {
             var failure = Failure(command, capture, artifactPath, provenance);
             failure["error"] = error.Message;

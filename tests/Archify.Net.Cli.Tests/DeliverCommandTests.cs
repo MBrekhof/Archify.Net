@@ -243,6 +243,89 @@ public partial class DeliverCommandTests
         Assert.Equal("absent", JsonNode.Parse(stdout)!["provenance"]!.GetValue<string>());
     }
 
+    // Q5 commit: a reader holding the previous artifact without sharing (a scanner, a viewer) makes the swap fail with a sharing
+    // violation; the commit retries until it is released. The hold starts when the swap does and ends 200 ms later.
+    [Fact]
+    public void A_held_target_is_retried_until_released()
+    {
+        FileStream? holder = null;
+        Task? release = null;
+        var waited = TimeSpan.Zero;
+        var store = new DeliveryStore
+        {
+            Publish = (target, bytes, backup) =>
+            {
+                if (target.EndsWith("out.html", StringComparison.Ordinal))
+                {
+                    holder = new FileStream(target, FileMode.Open, FileAccess.Read, FileShare.None);
+                    release = Task.Delay(200).ContinueWith(_ => holder.Dispose(), TaskScheduler.Default);
+                }
+                var started = System.Diagnostics.Stopwatch.GetTimestamp();
+                DeliveryStore.PublishFile(target, bytes, backup);
+                if (target.EndsWith("out.html", StringComparison.Ordinal)) waited = System.Diagnostics.Stopwatch.GetElapsedTime(started);
+            },
+        };
+        var seed = new Dictionary<string, string>
+        {
+            ["web-app.architecture.json"] = Upstream + "web-app.architecture.json",
+            ["out.html"] = Upstream + "sequence-cache-miss-request.html",
+        };
+        try
+        {
+            var (exit, stdout, stderr, entries, _) = Deliver(["deliver", "architecture", "web-app.architecture.json", "out.html", "--json"], seed, store,
+                inspect: work => AssertSameBytes(Upstream + "web-app-rendered.html", Path.Join(work, "out.html")));
+            Assert.Equal((0, ""), (exit, stderr));
+            Assert.True(JsonNode.Parse(stdout)!["ok"]!.GetValue<bool>());
+            Assert.Equal(["out.delivery.json", "out.html", "web-app.architecture.json"], entries);
+            Assert.True(waited >= TimeSpan.FromMilliseconds(150), $"the swap returned after {waited.TotalMilliseconds} ms, before the hold was released");
+        }
+        finally
+        {
+            release?.Wait();
+            holder?.Dispose();
+        }
+    }
+
+    // A:4847-4884, the check stage end to end: the final artifact check fails on the bytes about to be committed. Nothing is
+    // committed, the previous artifact stays, the journal stays and a failed marker names stage check, so check fails closed. No real
+    // input renders and then fails the checker, so the check seam returns the checker's report on a second <svg> block.
+    [Fact]
+    public void A_failed_final_check_keeps_the_previous_artifact_and_records_the_attempt()
+    {
+        var failing = new DeliveryStore { Check = bytes => ArchifyNet.Check([.. bytes, .. Encoding.UTF8.GetBytes("<svg></svg>")]) };
+        var seed = new Dictionary<string, string>
+        {
+            ["web-app.architecture.json"] = Upstream + "web-app.architecture.json",
+            ["out.html"] = Upstream + "sequence-cache-miss-request.html",
+        };
+        var checkExit = -1;
+        var checkStdout = "";
+        var (exit, stdout, stderr, entries, sidecars) = Deliver(["deliver", "architecture", "web-app.architecture.json", "out.html", "--json"], seed, failing,
+            inspect: work =>
+            {
+                AssertSameBytes(Upstream + "sequence-cache-miss-request.html", Path.Join(work, "out.html"));
+                var output = new StringWriter();
+                checkExit = Cli.Run(["check", "out.html", "--json"], new CliIo(output, new StringWriter(), work, CliServices.Default));
+                checkStdout = output.ToString();
+            });
+        Assert.Equal((1, ""), (exit, stderr));
+        Assert.Equal(["out.delivery-pending.json", "out.delivery.json", "out.html", "web-app.architecture.json"], entries);
+        var receipt = JsonNode.Parse(stdout)!;
+        Assert.Equal(("check", "failed", "Final artifact check failed; the previous artifact was preserved."),
+            ((string?)receipt["stage"], (string?)receipt["provenance"], (string?)receipt["error"]));
+        var checker = receipt["checker"]!.AsObject();
+        Assert.Equal(["ok", "file"], checker.Select(p => p.Key).Take(2));
+        Assert.Equal(("<WORK>\\out.html", false), ((string?)checker["file"], checker["ok"]!.GetValue<bool>()));
+        Assert.Contains(checker["checks"]!.AsArray(), c => (string?)c!["name"] == "single_svg" && !c["ok"]!.GetValue<bool>());
+        Assert.NotEmpty(receipt["diagnostics"]!.AsArray());
+        var marker = JsonNode.Parse(sidecars["out.delivery.json"])!;
+        Assert.Equal(("failed", "check"), ((string?)marker["status"], (string?)marker["stage"]));
+        var previous = File.ReadAllBytes(Path.Join(CliTestHost.RepoRoot, Upstream, "sequence-cache-miss-request.html"));
+        Assert.Equal(Convert.ToHexStringLower(SHA256.HashData(previous)), (string?)marker["artifact"]!["sha256"]);
+        Assert.Equal("pending", (string?)JsonNode.Parse(sidecars["out.delivery-pending.json"])!["status"]);
+        Assert.Equal((1, "failed"), (checkExit, (string?)JsonNode.Parse(checkStdout)!["provenance"]));
+    }
+
     // Q5/D9: --open never launches anything; the receipt carries upstream's fallback and stderr its notice (A:5173-5188).
     [Fact]
     public void Open_reports_the_unsupported_fallback()

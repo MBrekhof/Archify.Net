@@ -1,0 +1,18 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    ""
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "The output path is not a valid native filesystem path on this host.\n[output/native-path-syntax] The output path is not a valid native filesystem path on this host. Fix: choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components.\n",
+  "entries": [
+    "web-app.architecture.json"
+  ],
+  "sidecars": {}
+}

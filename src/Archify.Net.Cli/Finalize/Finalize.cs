@@ -9,6 +9,7 @@ using Archify.Net.Cli.Browser;
 using Archify.Net.Cli.Commands;
 using Archify.Net.Cli.Delivery;
 using Archify.Net.Cli.Paths;
+using static Archify.Net.Cli.Receipts;
 
 namespace Archify.Net.Cli.Finalize;
 
@@ -43,7 +44,7 @@ public sealed class StageRunner : IStageRunner
         catch (Exception error)
         {
             // a child that crashes: Program.Main prints the stack and exits 1
-            stderr.Write(error + "\n");
+            stderr.Write(error.ToString().ReplaceLineEndings("\n") + "\n");
             status = 1;
         }
         var err = stderr.ToString();
@@ -125,12 +126,6 @@ internal static partial class FinalizeGate
     static readonly UTF8Encoding Utf8 = new(false);
     static OutputPaths Paths => OutputPaths.Native;
 
-    [GeneratedRegex(@"^[0-9a-f]{64}\z")]
-    private static partial Regex Sha256Hex();
-
-    [GeneratedRegex(@"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex UuidV4();
-
     [GeneratedRegex(@"^\[[^\]]+\]\s*")]
     private static partial Regex DetailCode();
 
@@ -142,11 +137,9 @@ internal static partial class FinalizeGate
 
     static JsonNode? P(JsonNode? node, string key) => node is JsonObject o && o.TryGetPropertyValue(key, out var value) ? value : null;
     static bool Has(JsonNode? node, string key) => node is JsonObject o && o.ContainsKey(key);
-    static string? S(JsonNode? node) => node is JsonValue v && v.GetValueKind() == JsonValueKind.String ? v.GetValue<string>() : null;
-    static double? N(JsonNode? node) => node is JsonValue v && v.GetValueKind() == JsonValueKind.Number ? v.D() : null;
     static bool IsTrue(JsonNode? node) => node is JsonValue v && v.GetValueKind() == JsonValueKind.True;
-    static bool Is(JsonNode? node, string text) => S(node) == text;
-    static bool Is(JsonNode? node, double number) => N(node) == number;
+    static bool Is(JsonNode? node, string text) => Text(node) == text;
+    static bool Is(JsonNode? node, double number) => Number(node) == number;
     static bool IsInteger(double value) => double.IsFinite(value) && Math.Floor(value) == value;
     static bool IsSafeInteger(double value) => IsInteger(value) && Math.Abs(value) <= 9007199254740991;
 
@@ -156,8 +149,8 @@ internal static partial class FinalizeGate
         null => "null",
         JsonObject => "[object Object]",
         JsonArray array => string.Join(",", array.Select(item => item is null ? "" : Template(item))),
-        _ when S(value) is { } text => text,
-        _ when N(value) is { } number => Js.Num(number),
+        _ when Text(value) is { } text => text,
+        _ when Number(value) is { } number => Js.Num(number),
         _ => IsTrue(value) ? "true" : "false",
     };
 
@@ -193,12 +186,12 @@ internal static partial class FinalizeGate
     }
 
     static bool ValidIdentity(JsonNode? value) =>
-        value is JsonObject && S(P(value, "sha256")) is { } sha && Sha256Hex().IsMatch(sha) && N(P(value, "bytes")) is { } bytes && IsSafeInteger(bytes) && bytes >= 0;
+        value is JsonObject && Text(P(value, "sha256")) is { } sha && Sha256Hex().IsMatch(sha) && Number(P(value, "bytes")) is { } bytes && IsSafeInteger(bytes) && bytes >= 0;
 
     static bool IdentitiesMatch(JsonNode? left, JsonNode? right) =>
-        ValidIdentity(left) && ValidIdentity(right) && S(P(left, "sha256")) == S(P(right, "sha256")) && N(P(left, "bytes")) == N(P(right, "bytes"));
+        ValidIdentity(left) && ValidIdentity(right) && Text(P(left, "sha256")) == Text(P(right, "sha256")) && Number(P(left, "bytes")) == Number(P(right, "bytes"));
 
-    static bool ValidReceiptId(JsonNode? value) => S(value) is { } id && UuidV4().IsMatch(id);
+    static bool ValidReceiptId(JsonNode? value) => Text(value) is { } id && UuidV4().IsMatch(id);
 
     static bool AllChecksPassed(JsonNode? checks) => checks is JsonArray array && array.Count > 0 && array.All(check => check is JsonObject && IsTrue(P(check, "ok")));
 
@@ -235,8 +228,8 @@ internal static partial class FinalizeGate
     static bool ValidDeliveryValidation(JsonNode? receipt, string quality, bool allowShowcaseWarnings)
     {
         var validation = P(receipt, "validation");
-        return validation is JsonObject && N(P(validation, "checkCount")) is { } count && IsInteger(count) && count > 0
-            && N(P(validation, "checksPassed")) == count && Is(P(validation, "compositionStatus"), "pass") && Is(P(validation, "errors"), 0)
+        return validation is JsonObject && Number(P(validation, "checkCount")) is { } count && IsInteger(count) && count > 0
+            && Number(P(validation, "checksPassed")) == count && Is(P(validation, "compositionStatus"), "pass") && Is(P(validation, "errors"), 0)
             && Is(P(validation, "compositionProfile"), quality) && (quality != "showcase" || allowShowcaseWarnings || Is(P(validation, "warnings"), 0));
     }
 
@@ -284,10 +277,10 @@ internal static partial class FinalizeGate
     static List<JsonNode?> ShowcaseWarningDiagnostics(JsonNode receipt)
     {
         var issues = P(P(receipt, "validation"), "compositionIssues");
-        var warnings = N(P(P(receipt, "validation"), "warnings"))!.Value;
+        var warnings = Number(P(P(receipt, "validation"), "warnings"))!.Value;
         if (issues is not JsonArray list || list.Count != warnings || !list.All(issue => issue is JsonObject && Is(P(issue, "severity"), "warning")
-                && S(P(issue, "code")) is { } code && code.StartsWith("composition/", StringComparison.Ordinal)
-                && S(P(issue, "detail")) is { } detail && Js.Trim(detail).Length > 0))
+                && Text(P(issue, "code")) is { } code && code.StartsWith("composition/", StringComparison.Ordinal)
+                && Text(P(issue, "detail")) is { } detail && Js.Trim(detail).Length > 0))
         {
             return [Diagnostic("finalize/showcase-warnings",
                 $"Showcase delivery reported {Js.Num(warnings)} composition warning(s), but did not provide matching issue details.",
@@ -297,14 +290,14 @@ internal static partial class FinalizeGate
         }
         return [.. list.Select(issue =>
         {
-            var code = S(P(issue, "code"))!;
+            var code = Text(P(issue, "code"))!;
             var evidence = new JsonObject { ["reportedSeverity"] = P(issue, "severity")!.DeepClone() };
             foreach (var (key, value) in issue!.AsObject())
                 if (key is not ("code" or "severity" or "detail")) evidence[key] = value?.DeepClone();
             var subject = new JsonObject { ["stage"] = "deliver", ["check"] = "composition" };
             if (P(issue, "nodeId").Truthy()) subject["nodeId"] = P(issue, "nodeId")!.DeepClone();
             return (JsonNode?)Diagnostic(code, $"Showcase delivery reported {code}; zero warnings are required.", subject, evidence,
-                DetailCode().Replace(S(P(issue, "detail"))!, "", 1));
+                DetailCode().Replace(Text(P(issue, "detail"))!, "", 1));
         })];
     }
 
@@ -332,12 +325,12 @@ internal static partial class FinalizeGate
                     new JsonObject { ["stage"] = "validate", ["candidate"] = specification["path"]!.DeepClone() }, evidence,
                     "restore the frozen candidate and rerun finalize");
             }
-            if (S(P(receipt, "output")) is not { Length: > 0 } recorded || !Paths.PathsAlias(recorded, output) || !IdentitiesMatch(P(receipt, "artifact"), identity(output)))
+            if (Text(P(receipt, "output")) is not { Length: > 0 } recorded || !Paths.PathsAlias(recorded, output) || !IdentitiesMatch(P(receipt, "artifact"), identity(output)))
                 return IdentityMismatch(stage, output, P(receipt, "artifact"), identity(output), P(receipt, "receiptId"), null);
             return null;
         }
         var checks = P(receipt, "checks") as JsonArray;
-        if (stage == "check" && N(P(deliveryValidation, "checkCount")) != checks!.Count)
+        if (stage == "check" && Number(P(deliveryValidation, "checkCount")) != checks!.Count)
         {
             var evidence = new JsonObject();
             CopyIfPresent(evidence, "deliveryCheckCount", deliveryValidation, "checkCount");
@@ -347,9 +340,9 @@ internal static partial class FinalizeGate
                 new JsonObject { ["stage"] = "check", ["artifact"] = output }, evidence,
                 "restore the complete delivery validation receipt and rerun finalize from the frozen candidate");
         }
-        var path = stage == "check" ? S(P(receipt, "file")) : S(P(P(receipt, "artifact"), "path"));
+        var path = stage == "check" ? Text(P(receipt, "file")) : Text(P(P(receipt, "artifact"), "path"));
         if (path is null || !Paths.PathsAlias(path, output) || !IdentitiesMatch(P(receipt, "artifact"), expectedArtifact)
-            || S(P(receipt, "deliveryReceiptId")) != S(expectedReceiptId))
+            || Text(P(receipt, "deliveryReceiptId")) != Text(expectedReceiptId))
             return IdentityMismatch(stage, output, expectedArtifact, P(receipt, "artifact"), expectedReceiptId, P(receipt, "deliveryReceiptId"));
         return null;
     }
@@ -405,7 +398,7 @@ internal static partial class FinalizeGate
         {
             var first = overflow[0];
             var viewports = overflow.Select(entry => P(P(entry, "subject"), "viewport")).Where(viewport => viewport.Truthy()).ToList();
-            static double Area(JsonNode? viewport) => (N(P(viewport, "width")) ?? double.NaN) * (N(P(viewport, "height")) ?? double.NaN);
+            static double Area(JsonNode? viewport) => (Number(P(viewport, "width")) ?? double.NaN) * (Number(P(viewport, "height")) ?? double.NaN);
             Js.Sort(viewports, (a, b) => Area(a) - Area(b));
             var tightest = viewports.FirstOrDefault();
             var fixes = tightest is not null
@@ -497,7 +490,7 @@ internal static partial class FinalizeGate
     public static DeliveryPaths DefaultDeliveryPaths(string output)
     {
         var artifact = Paths.CanonicalFuturePath(output);
-        var delivery = Regex.Replace(artifact, @"\.html?\z", ".delivery.json", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        var delivery = HtmlExtension().Replace(artifact, ".delivery.json");
         var stem = delivery.EndsWith(".json", StringComparison.OrdinalIgnoreCase) ? delivery[..^".json".Length] : null;
         return new(delivery, stem is null ? delivery : stem + "-pending.json", stem is null ? delivery : stem + "-lock.json",
             Path.Join(Path.GetDirectoryName(artifact), DeliveryStore.DirectoryLockName));
@@ -529,12 +522,12 @@ internal static partial class FinalizeGate
         var resolvedOutput = Paths.ResolveOutputPath(new OutputRequest(cwd, request.Output, null) { InputPaths = [resolvedInput] }).OutputPath;
         var resolvedOutDir = request.OutDir is null ? null : OutputPaths.ResolveNativeOutputDirectory(request.OutDir, cwd);
         var specification = Identity(resolvedInput);
-        if (request.CandidateSha256 is { Length: > 0 } candidate && S(specification["sha256"]) != candidate)
+        if (request.CandidateSha256 is { Length: > 0 } candidate && Text(specification["sha256"]) != candidate)
         {
             var evidence = new JsonObject { ["candidate"] = resolvedInput, ["expectedSha256"] = candidate };
             CopyIfPresent(evidence, "actualSha256", specification, "sha256");
             throw new FinalizeException(
-                $"The candidate changed after validation: expected sha256 {candidate}, found {S(specification["sha256"]) ?? "unreadable"}.", "finalize/candidate-changed", evidence);
+                $"The candidate changed after validation: expected sha256 {candidate}, found {Text(specification["sha256"]) ?? "unreadable"}.", "finalize/candidate-changed", evidence);
         }
         // Raw native CLI paths are validated before any directory is created.
         if (request.ReceiptPath is not null)
@@ -597,7 +590,7 @@ internal static partial class FinalizeGate
                         P(deliveryReceipt, "validation"), Identity) is { } binding)
                     stageDiagnostics = [binding];
             }
-            else if (stage == "deliver" && code == 0 && quality == "showcase" && N(P(P(stageReceipt, "validation"), "warnings")) is { } warnings
+            else if (stage == "deliver" && code == 0 && quality == "showcase" && Number(P(P(stageReceipt, "validation"), "warnings")) is { } warnings
                 && IsSafeInteger(warnings) && warnings > 0 && ValidStageReceipt(stage, stageReceipt, quality, allowShowcaseWarnings: true))
             {
                 stageDiagnostics = StageBindingDiagnostic(stage, stageReceipt, null, null, resolvedOutput, specification, type, null, Identity) is { } binding
@@ -626,7 +619,7 @@ internal static partial class FinalizeGate
             else if (stage == "deliver")
             {
                 var validationFailed = stageDiagnostics?.Any(d => Is(P(d, "code"), "finalize/candidate-changed-during-delivery")) == true
-                    || S(P(stageReceipt, "stage")) is "input" or "render" or "check";
+                    || Text(P(stageReceipt, "stage")) is "input" or "render" or "check";
                 if (validationFailed)
                 {
                     var validate = Spread(new JsonObject(), stageEntry);
@@ -652,9 +645,9 @@ internal static partial class FinalizeGate
                 if (stageReceipt.Truthy() && P(P(stageReceipt, "sidecars"), "receipt").Truthy())
                 {
                     var directory = P(P(stageReceipt, "sidecars"), "directory").Truthy()
-                        ? NodePath.Resolve(cwd, S(P(P(stageReceipt, "sidecars"), "directory")) ?? "")
+                        ? NodePath.Resolve(cwd, Text(P(P(stageReceipt, "sidecars"), "directory")) ?? "")
                         : Path.GetDirectoryName(resolvedOutput)!;
-                    evidence["browserCheckReceipt"] = NodePath.Resolve(directory, S(P(P(stageReceipt, "sidecars"), "receipt")) ?? "");
+                    evidence["browserCheckReceipt"] = NodePath.Resolve(directory, Text(P(P(stageReceipt, "sidecars"), "receipt")) ?? "");
                 }
                 receipt["evidence"] = evidence;
             }
@@ -704,18 +697,18 @@ internal static partial class FinalizeGate
     static JsonObject? FinalArtifactDiagnostic(FinalizeRequest request, string output, JsonNode? expectedArtifact, JsonNode? expectedReceiptId,
         Func<string, JsonObject> identity)
     {
-        if (request.InspectDelivery?.Invoke(output) is { } provenance && (!provenance.Ok || provenance.ReceiptId != S(expectedReceiptId)))
+        if (request.InspectDelivery?.Invoke(output) is { } provenance && (!provenance.Ok || provenance.ReceiptId != Text(expectedReceiptId)))
         {
             return provenance.Diagnostics.Count > 0 ? provenance.Diagnostics[0].ToJson()
                 : IdentityMismatch("finalize", output, expectedArtifact, null, expectedReceiptId, provenance.ReceiptId);
         }
         var currentArtifact = identity(output);
         JsonNode? delivery;
-        try { delivery = JsonNode.Parse(Utf8.GetString(request.ReadFile(request.DeliveryPaths(output).Provenance))); }
+        try { delivery = DiagramLoader.ParseNode(Utf8.GetString(request.ReadFile(request.DeliveryPaths(output).Provenance))); }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or JsonException) { delivery = null; }
         if (IdentitiesMatch(currentArtifact, expectedArtifact) && Is(P(delivery, "schemaVersion"), 1) && Is(P(delivery, "command"), "deliver")
-            && Is(P(delivery, "status"), "current") && S(P(delivery, "receiptId")) == S(expectedReceiptId) && Is(P(delivery, "type"), request.Type)
-            && S(P(delivery, "output")) is { } recorded && Paths.PathsAlias(recorded, output) && IdentitiesMatch(P(delivery, "artifact"), expectedArtifact))
+            && Is(P(delivery, "status"), "current") && Text(P(delivery, "receiptId")) == Text(expectedReceiptId) && Is(P(delivery, "type"), request.Type)
+            && Text(P(delivery, "output")) is { } recorded && Paths.PathsAlias(recorded, output) && IdentitiesMatch(P(delivery, "artifact"), expectedArtifact))
             return null;
         var evidence = new JsonObject
         {
@@ -740,7 +733,7 @@ internal static partial class FinalizeGate
         var hints = new List<string>();
         foreach (var side in P(routeReview, "crowdedSides").AsArrayOrEmpty())
         {
-            var ports = Math.Max(1, Math.Floor(((N(P(side, "sidePx")) ?? double.NaN) - 32) / 14) + 1);
+            var ports = Math.Max(1, Math.Floor(((Number(P(side, "sidePx")) ?? double.NaN) - 32) / 14) + 1);
             hints.Add($"{T(side, "node")} has {T(side, "relationships")} relationships facing its {T(side, "side")} side, which fits {Js.Num(ports)} ports: " +
                 $"make that side at least {T(side, "neededPx")}px, or move some of those neighbours so they face another side of {T(side, "node")}.");
         }
@@ -754,7 +747,7 @@ internal static partial class FinalizeGate
         }
         foreach (var detour in P(routeReview, "detours").AsArrayOrEmpty())
         {
-            if (P(detour, "directCorridorBlockers") is JsonArray { Count: > 0 } || S(P(detour, "directCorridorBlockers")) is { Length: > 0 }) continue;
+            if (P(detour, "directCorridorBlockers") is JsonArray { Count: > 0 } || Text(P(detour, "directCorridorBlockers")) is { Length: > 0 }) continue;
             var relationship = P(detour, "relationship");
             hints.Add($"{Name(relationship)} needs {T(detour, "bends")} bends: move node {T(relationship, "from")} or {T(relationship, "to")} so they share a row or column with matching centers, or sit diagonally with a clear corner.");
         }
@@ -768,7 +761,7 @@ internal static partial class FinalizeGate
     {
         var subject = P(entry, "subject");
         if (!subject.Truthy()) return null;
-        if (S(subject) is { } text) return text;
+        if (Text(subject) is { } text) return text;
         if (subject is not JsonObject o) return Js.Stringify(subject);
         foreach (var key in new[] { "id", "edge", "connection", "relationship", "component", "node", "path", "stage" })
             if (o.TryGetPropertyValue(key, out var value)) return $"{key}:{Js.Stringify(value)}";
@@ -779,7 +772,7 @@ internal static partial class FinalizeGate
     {
         JsonObject o => o.Count > 0,
         JsonArray a => a.Count > 0,
-        _ => S(value) is { Length: > 0 },
+        _ => Text(value) is { Length: > 0 },
     };
 
     public static JsonObject Compact(JsonObject receipt)
@@ -846,7 +839,7 @@ internal static partial class FinalizeGate
         var composition = P(P(P(P(receipt, "stages"), "check"), "receipt"), "composition");
         var signals = new JsonObject();
         foreach (var key in new[] { "resolvedCrossovers", "routesOverSuggestedBends", "routesOverSuggestedStretch" })
-            if (N(P(P(composition, "metrics"), key)) is { } value && double.IsFinite(value) && value > 0) signals[key] = value;
+            if (Number(P(P(composition, "metrics"), key)) is { } value && double.IsFinite(value) && value > 0) signals[key] = value;
         if (ok && signals.Count > 0)
         {
             var routeReview = P(composition, "routeReview");
@@ -893,7 +886,7 @@ internal static partial class FinalizeGate
         {
             var nextAction = new JsonObject { ["action"] = "edit-in-place" };
             CopyIfPresent(nextAction, "candidate", P(receipt, "specification"), "path");
-            nextAction["constraint"] = Is(type, "architecture") && all.Any(entry => RouteDiagnostic().IsMatch(S(P(entry, "code")) ?? ""))
+            nextAction["constraint"] = Is(type, "architecture") && all.Any(entry => RouteDiagnostic().IsMatch(Text(P(entry, "code")) ?? ""))
                 ? "Preserve all semantics and user-fixed geometry. Use references/architecture-layout-repair.md to choose a local repair or connected-scene reflow; edit the existing candidate."
                 : "Preserve unaffected semantics and geometry; apply each diagnostic's supportedFixes, or the fix its message names, and do not replace the whole candidate.";
             nextAction["then"] = "finalize-once";

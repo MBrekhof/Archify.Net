@@ -58,8 +58,10 @@ fs.rmSync(repo(CLI_FIX), { recursive: true, force: true });
 const minted = new Set();
 // `setup` steps run in the workdir after seeding and before the recorded command; a C# test replays the same list. Each step is
 // one of {run: args, exit} (a CLI run that must exit so), {copy: from, to}, {delete: p}, {append: p, text}, {write: p, text},
-// {set: p, key, value} (a JSON file rewritten as indent 2 + "\n"; "<WORK>" in a string value is the workdir), {mkdir: p} or
-// {symlink: p, target} (a file symbolic link to a workdir-relative target). Paths are workdir-relative.
+// {set: p, key, value} (a JSON file rewritten as indent 2 + "\n"; "<WORK>" in a string value is the workdir), {mkdir: p},
+// {symlink: p, target} (a file symbolic link to a workdir-relative target), {replace: p, from, to} (the one occurrence of `from` in a
+// text file) or {denyCreate: p} (a directory where Everyone is denied creating files and subdirectories: icacls (WD,AD)). Paths are
+// workdir-relative.
 function applySetup(work, steps) {
   const at = (p) => path.join(work, p);
   for (const step of steps) {
@@ -76,7 +78,14 @@ function applySetup(work, steps) {
       fs.writeFileSync(at(step.set), `${JSON.stringify({ ...JSON.parse(fs.readFileSync(at(step.set), 'utf8')), [step.key]: value }, null, 2)}\n`);
     } else if (step.mkdir) fs.mkdirSync(at(step.mkdir));
     else if (step.symlink) fs.symlinkSync(step.target, at(step.symlink), 'file');
-    else throw new Error(`unknown setup step ${JSON.stringify(step)}`);
+    else if (step.replace) {
+      const text = fs.readFileSync(at(step.replace), 'utf8');
+      expect(text.split(step.from).length === 2, `setup replace: one ${JSON.stringify(step.from)} in ${step.replace}`);
+      fs.writeFileSync(at(step.replace), text.replace(step.from, step.to));
+    } else if (step.denyCreate) {
+      const r = spawnSync('icacls', [at(step.denyCreate), '/deny', '*S-1-1-0:(WD,AD)'], { encoding: 'utf8' });
+      expect(r.status === 0, `setup denyCreate ${step.denyCreate}: ${r.stdout}${r.stderr}`);
+    } else throw new Error(`unknown setup step ${JSON.stringify(step)}`);
   }
 }
 // `inspect(work, fixture)` runs before the workdir is removed (output-byte assertions).
@@ -302,6 +311,18 @@ for (const g of GOLDENS) {
 mint('check', 'web-app-rendered-json', ['check', 'web-app-rendered.html', '--json'], exFiles('web-app-rendered.html'));
 mint('check', 'missing-artifact', ['check', 'missing.html']);
 mint('check', 'directory-artifact', ['check', '.']);   // the workdir itself: delivery-artifact-not-regular-file
+// check-render-output.mjs:31-33 hashes the bytes and scans bytes.toString('utf8'): a BOM, and invalid UTF-8 inside a scanned SVG
+// attribute, whose U+FFFD replacements then appear in the finite_svg detail.
+{
+  const golden = fs.readFileSync(repo(`${EX}/web-app-rendered.html`));
+  const svgOpen = golden.indexOf('>', golden.indexOf('<svg')) + 1;
+  craft('decode-invalid-utf8.html', Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), golden.subarray(0, svgOpen),
+    Buffer.from('<rect x="'), Buffer.from([0xc3, 0x28, 0xe2, 0x82]), Buffer.from('NaN" y="0" width="1" height="1"/>'), golden.subarray(svgOpen),
+    Buffer.from([0xc3, 0x28, 0xe2, 0x82])]));
+  const { fixture } = mint('check', 'decode-invalid-utf8-json', ['check', 'decode-invalid-utf8.html', '--json'],
+    { 'decode-invalid-utf8.html': inputs['decode-invalid-utf8.html'] });
+  expect(fixture.exit === 1 && fixture.stdout.includes('rect x=\\"\ufffd(\ufffdNaN\\"'), 'check decodes invalid UTF-8 inside the SVG to U+FFFD');
+}
 
 // --- guide: lists, T/guide.test.mjs batteries, language overrides ---
 mint('guide', 'list-en', ['guide']);
@@ -336,6 +357,8 @@ for (const lang of ['en', 'zh']) {
 }
 guideQuery('override-via-waypoints-zh-assignment', ['how', 'do', 'via', 'waypoints', 'work', '--lang=zh']);
 guideQuery('repair-combined-zh', ['视口溢出，标签重叠，修复顺序']);
+// A lone surrogate in argv: the child's UTF-16 command line reaches process.argv through UTF-8, so the query holds U+FFFD there.
+guideQuery('lone-surrogate', ['viewport \ud800 overflow']);
 
 // --- render / demo / examples: stdout lines; their HTML must equal the checked-in goldens ---
 const golden = (g) => repo(`${EX}/${g}`);
@@ -482,6 +505,15 @@ expect(deliverFixture('lock-path-conflict-json', ['deliver', 'architecture', '.a
   .stdout.includes('delivery/lock-path-conflict'), 'lock-path-conflict');
 expect(deliverFixture('lock-invalid-json',['deliver', 'architecture', arch, 'out.html', '--json'], lockedFiles('invalid.archify-delivery-lock.json'),
   untouched('invalid.archify-delivery-lock.json')).stdout.includes('delivery/lock-invalid'), 'lock-invalid');
+// A receipt id with a trailing "\n": JS `$` does not match before it, so the lock is unrecognised, not stale (A:197).
+craft('uuid-newline.archify-delivery-lock.json', '{"schemaVersion":1,"receiptId":"11111111-2222-4333-8444-555555555555\\n","pid":999999}\n');
+expect(deliverFixture('lock-uuid-newline-json', ['deliver', 'architecture', arch, 'out.html', '--json'], lockedFiles('uuid-newline.archify-delivery-lock.json'),
+  untouched('uuid-newline.archify-delivery-lock.json')).stdout.includes('delivery/lock-invalid'), 'lock-uuid-newline');
+// An explicit empty output argument reaches resolveOutputPath (A:4376): output/native-path-syntax, reason empty, nothing written.
+for (const suffix of ['json', 'human']) {
+  const f = deliverFixture(`empty-output-${suffix}`, ['deliver', 'architecture', arch, '', ...(suffix === 'json' ? ['--json'] : [])], exFiles(arch));
+  expect(f.exit === 1 && (f.stdout + f.stderr).includes('output/native-path-syntax') && f.entries.length === 1, `empty-output-${suffix}`);
+}
 
 // --- provenance: check's delivery gate (A:1903-2178, :5309-5468), every state from a real deliver plus documented edits ---
 // The deliveryReceiptId is a v4 uuid -> <uuid>.
@@ -508,6 +540,11 @@ const provenanceCases = [
   ['mismatch-plain', exFiles(arch), [delivered, { append: 'out.html', text: '\n' }], plain, 1, 'mismatch', 'delivery/provenance-mismatch'],
   ['invalid-json', exFiles(arch), [delivered, { write: 'out.delivery.json', text: 'not json\n' }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
   ['invalid-null', exFiles(arch), [delivered, { write: 'out.delivery.json', text: 'null\n' }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
+  // JSON.parse keeps the last of duplicate keys: a valid last value is current, an invalid one fails the schema.
+  ['current-duplicate-key', exFiles(arch), [delivered, { replace: 'out.delivery.json', from: '"schemaVersion": 1,', to: '"schemaVersion": 999,\n  "schemaVersion": 1,' }],
+    strict, 0, 'current'],
+  ['invalid-duplicate-key', exFiles(arch), [delivered, { replace: 'out.delivery.json', from: '"status": "current",', to: '"status": "current",\n  "status": "stale",' }],
+    strict, 1, 'invalid', 'delivery/provenance-invalid'],
   ['invalid-schema', exFiles(arch), [delivered, { set: 'out.delivery.json', key: 'schemaVersion', value: 999 }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
   ['invalid-other-output', exFiles(arch), [{ run: ['deliver', 'architecture', arch, 'a.html', '--json'], exit: 0 },
     { copy: 'a.html', to: 'out.html' }, { copy: 'a.delivery.json', to: 'out.delivery.json' }], strict, 1, 'invalid', 'delivery/provenance-invalid'],
@@ -783,6 +820,17 @@ const engineScenarios = {
   'visual-check-foreign-schema': { command: 'visual-check', before: [{ write: 'diagram.visual-check.json', text: '{"schemaVersion":2,"command":"visual-check"}\n' }] },
   'visual-check-tampered-capture': { command: 'visual-check', before: [{ pass: true }, { write: 'diagram.visual-check.2048x1320.dark.png', text: 'tampered\n' }] },
   'visual-check-missing-capture': { command: 'visual-check', before: [{ pass: true }, { delete: 'diagram.visual-check.1440x900.dark.png' }] },
+  // The remaining ownership refusals of beginVisualEvidenceWrite (VC:644-762): a receipt that names no absolute directory, and a
+  // passing receipt edited to drop or break its evidence list. `edit` rewrites a JSON file (indent 2) with `key` set to `value`,
+  // or deleted when there is no `value`.
+  'visual-check-ownership-sidecar-path-mismatch': { command: 'visual-check', before: [{ write: 'diagram.visual-check.json',
+    text: '{"schemaVersion":1,"command":"visual-check","sidecars":{"receipt":"diagram.visual-check.json","contactSheet":"diagram.visual-check.html"}}\n' }] },
+  'visual-check-ownership-digests-missing': { command: 'visual-check', before: [{ pass: true }, { edit: 'diagram.visual-check.json', key: ['sidecars', 'files'] }] },
+  'visual-check-ownership-list-invalid': { command: 'visual-check', before: [{ pass: true },
+    { edit: 'diagram.visual-check.json', key: ['sidecars', 'files'], value: ['not an evidence entry'] }] },
+  // An --out-dir that is a regular file is no evidence-write failure: the target sidecar namespace cannot be established, and that
+  // input error escapes the engine (`throws` records its message and code).
+  'browser-check-out-dir-file': { command: 'browser-check', outDir: 'evidence-file', before: [{ write: 'evidence-file', text: 'not a directory\n' }], throws: true },
 };
 const untoken = (value, work) => JSON.parse(JSON.stringify(value).replaceAll('<WORK>', escaped(work)));
 let engineCount = 0;
@@ -802,6 +850,22 @@ for (const [name, scenario] of Object.entries(engineScenarios)) {
       } else if (step.write) fs.writeFileSync(path.join(work, step.write), step.text);
       else if (step.mkdir) fs.mkdirSync(path.join(work, step.mkdir));
       else if (step.delete) fs.rmSync(path.join(work, step.delete));
+      else if (step.edit) {
+        const file = path.join(work, step.edit);
+        const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+        const parent = step.key.slice(0, -1).reduce((node, key) => node[key], value);
+        if ('value' in step) parent[step.key.at(-1)] = step.value;
+        else delete parent[step.key.at(-1)];
+        fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
+      } else throw new Error(`${name}: unknown before step ${JSON.stringify(step)}`);
+    }
+    if (scenario.throws) {
+      const error = await run({ artifactPath: artifact, outDir, chromePath: '/fake/chrome', browserFactory: async () => engineBrowser() })
+        .then(() => null, (thrown) => thrown);
+      expect(error, `${name}: the engine throws`);
+      writeJson(`${CLI_FIX}/browser-engine/${name}.json`, { scenario, throws: { message: tokenise(error.message, work), code: error.code ?? null }, entries: walk(work).sort() });
+      engineCount += 1;
+      continue;
     }
     const calls = [];
     let launched = false;
@@ -961,6 +1025,20 @@ const evidenceCases = [
 for (const [name, args, files, setup, exit] of evidenceCases) {
   const f = evidenceFixture('evidence', name, args, files, setup, noChrome);
   expect(f.exit === exit, `evidence ${name}: exit ${f.exit}, expected ${exit}`);
+}
+// An evidence directory where files cannot be created: refused before any browser, when the staging directory cannot be made
+// (VC:772-788). Its reason is the OS's mkdtemp error with a random suffix, so the fixture keeps `<REASON>` (Q8: compared by code
+// and subject).
+{
+  const f = evidenceFixture('evidence-acl', 'browser-check-unwritable-directory', ['browser-check', 'locked/plain.html', '--json'], {},
+    [{ mkdir: 'locked' }, { write: 'locked/plain.html', text: '<!doctype html><html><body>plain</body></html>\n' }, { denyCreate: 'locked' }], noChrome);
+  const receipt = JSON.parse(f.stdout);
+  const errors = receipt.diagnostics[0].evidence.errors;
+  expect(f.exit === 1 && receipt.chrome.status === 'not-checked' && receipt.diagnostics[0].code === 'viewer/evidence-write' && errors.length === 1
+    && errors[0].reason.startsWith('EPERM'), 'unwritable evidence directory: refused before the browser');
+  errors[0].reason = '<REASON>';
+  f.stdout = `${JSON.stringify(receipt, null, 2)}\n`;
+  writeJson(`${CLI_FIX}/evidence-acl/browser-check-unwritable-directory.json`, f);
 }
 for (const command of ['browser-check', 'visual-check']) {
   mint('arguments', `${command}-no-args`, [command]);

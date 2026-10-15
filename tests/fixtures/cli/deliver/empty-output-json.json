@@ -1,0 +1,19 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    "",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"prepare\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\web-app-rendered.html\",\n  \"error\": \"The output path is not a valid native filesystem path on this host.\",\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"subject\": {\n        \"output\": \"\"\n      },\n      \"evidence\": {\n        \"reason\": \"empty\"\n      },\n      \"supportedFixes\": [\n        \"choose an ordinary filesystem path without device names, alternate data streams, trailing dots or spaces, or overlong components\"\n      ],\n      \"code\": \"output/native-path-syntax\",\n      \"message\": \"The output path is not a valid native filesystem path on this host.\"\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "web-app.architecture.json"
+  ],
+  "sidecars": {}
+}

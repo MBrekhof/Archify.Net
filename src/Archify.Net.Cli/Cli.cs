@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json.Nodes;
 
 namespace Archify.Net.Cli;
@@ -30,6 +31,8 @@ public static class Cli
     // The dispatch of A:7059-7138. Returns the exit code; a non-argument exception escapes (Program.Main: stack, exit 1).
     public static int Run(string[] argv, CliIo io)
     {
+        // Node's process.argv: the UTF-16 command line passes through UTF-8, so a lone surrogate arrives as U+FFFD.
+        argv = [.. argv.Select(arg => Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(arg)))];
         var command = argv.Length > 0 ? argv[0] : null;
         var args = argv.Skip(1).ToArray();
         // Only the sole --help form bypasses command argument parsing (A:7062-7063).

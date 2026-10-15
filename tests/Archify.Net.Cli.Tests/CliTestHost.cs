@@ -1,3 +1,5 @@
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Text.Json.Nodes;
 using Xunit;
@@ -23,11 +25,12 @@ public static class CliTestHost
     // "help/help" -> tests/fixtures/cli/help/help.json
     public static CliFixture Fixture(string rel)
     {
-        var json = JsonNode.Parse(ReadLf(Path.Combine(FixtureRoot, rel.Replace('/', Path.DirectorySeparatorChar) + ".json")))!.AsObject();
+        // JSON.parse: an escaped lone surrogate in `args` (guide/lone-surrogate) stays one.
+        var json = DiagramLoader.ParseNode(ReadLf(Path.Combine(FixtureRoot, rel.Replace('/', Path.DirectorySeparatorChar) + ".json")))!.AsObject();
         return new CliFixture(rel,
             [.. json["args"]!.AsArray().Select(a => a!.GetValue<string>())],
             json["files"]!.AsObject().ToDictionary(kv => kv.Key, kv => kv.Value!.GetValue<string>()),
-            json["exit"]!.GetValue<int>(), json["stdout"]!.GetValue<string>(), json["stderr"]!.GetValue<string>(), json["setup"]?.AsArray());
+            (int)json["exit"]!.GetValue<double>(), json["stdout"]!.GetValue<string>(), json["stderr"]!.GetValue<string>(), json["setup"]?.AsArray());
     }
 
     // The capture script's applySetup, step for step: CLI runs go through Cli.Run in the workdir.
@@ -41,7 +44,7 @@ public static class CliTestHost
             {
                 var output = new StringWriter();
                 var exit = Cli.Run([.. run.Select(a => a!.GetValue<string>())], new CliIo(output, output, work, CliServices.Default));
-                Assert.True(step["exit"]!.GetValue<int>() == exit, $"setup {Js.Stringify(run)} exited {exit}: {output}");
+                Assert.True(step["exit"]!.GetValue<double>() == exit, $"setup {Js.Stringify(run)} exited {exit}: {output}");
             }
             else if (step.ContainsKey("copy")) File.Copy(At(Text(step, "copy")), At(Text(step, "to")), overwrite: true);
             else if (step.ContainsKey("delete")) File.Delete(At(Text(step, "delete")));
@@ -57,8 +60,28 @@ public static class CliTestHost
             }
             else if (step.ContainsKey("mkdir")) Directory.CreateDirectory(At(Text(step, "mkdir")));
             else if (step.ContainsKey("symlink")) PathSemanticsTests.FileSymlink(At(Text(step, "symlink")), Text(step, "target"));
+            else if (step.ContainsKey("replace"))
+            {
+                var target = At(Text(step, "replace"));
+                var text = ReadLf(target);
+                Assert.Equal(2, text.Split(Text(step, "from")).Length);
+                File.WriteAllText(target, text.Replace(Text(step, "from"), Text(step, "to")), new UTF8Encoding(false));
+            }
+            else if (step.ContainsKey("denyCreate")) DenyCreate(At(Text(step, "denyCreate")));
             else throw new InvalidOperationException($"unknown setup step {Js.Stringify(step)}");
         }
+    }
+
+    // icacls <dir> /deny *S-1-1-0:(WD,AD): Everyone may not create files or subdirectories in this directory (not inherited). Owning
+    // the directory is enough; no elevation.
+    public static void DenyCreate(string directory)
+    {
+        if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("denyCreate is a Windows ACL");
+        var info = new DirectoryInfo(directory);
+        var security = info.GetAccessControl();
+        security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null),
+            FileSystemRights.CreateFiles | FileSystemRights.CreateDirectories, AccessControlType.Deny));
+        info.SetAccessControl(security);
     }
 
     // Fixture names ("help/x") in a group, optionally only those whose file name starts with a prefix.

@@ -14,5 +14,5 @@ public sealed record LayoutOutcome(bool Ok, JsonObject? Report, string? Error, I
 
 public sealed record CheckResult(bool Ok, JsonObject Report);
 
-// `--require-provenance` (sidecar verification) lands in phase 5; until then it must stay false.
+// Provenance sidecars are verified by the archify CLI (`check --require-provenance`); the library check takes none, so this stays false.
 public sealed record CheckOptions(bool RequireProvenance = false);

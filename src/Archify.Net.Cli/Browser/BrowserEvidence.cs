@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
 using Archify.Net.Cli.Delivery;
 using Archify.Net.Cli.Paths;
+using static Archify.Net.Cli.Receipts;
 
 namespace Archify.Net.Cli.Browser;
 
@@ -37,7 +37,7 @@ internal sealed record EvidenceOutputs(string Command, bool Capture, string Rece
 // committed-with-warning cleanup report. What stays is upstream's ownership contract: evidence is written only over evidence an
 // earlier receipt of this command proves it wrote for these bytes, a target that changed kind during the run is a conflict, and a
 // publication replaces the whole owned set (stale captures are removed).
-internal static partial class BrowserEvidence
+internal static class BrowserEvidence
 {
     // VISUAL_CHECK_VIEWPORTS, CAPTURE_VIEWPORTS and THEMES (VC:34-45)
     public static readonly IReadOnlyList<(int Width, int Height)> VisualCheckViewports = [(1440, 900), (1600, 1000), (1920, 1080), (2048, 1320)];
@@ -49,9 +49,6 @@ internal static partial class BrowserEvidence
     // Q4: the browser is Playwright's pinned Chromium, so the one fix is the install command (upstream: set ARCHIFY_CHROME).
     public const string ChromeUnavailableError = "Chromium is unavailable. Run archify install-browser to install it.";
     public static string ChromeUnavailableFix(string command) => $"run archify install-browser, then rerun {command}";
-
-    [GeneratedRegex(@"\.html?\z", RegexOptions.IgnoreCase)]
-    private static partial Regex HtmlArtifact();
 
     // --- sidecar paths ---
 
@@ -174,6 +171,18 @@ internal static partial class BrowserEvidence
         }
         var existing = outputs.Targets.Where(target => kinds[target] == "file").ToList();
         if (existing.Count > 0 && Unowned(artifactPath, artifactBytes, outputs, kinds, existing, semantics) is { } refused) return (null, refused);
+        // Upstream's staging directory (VC:772-788), cut with D1, is what refuses an unwritable directory before any browser runs: one
+        // exclusive probe file stands in for it.
+        try
+        {
+            var probe = Path.Join(directory, $".archify-evidence-{Guid.NewGuid():N}.tmp");
+            new FileStream(probe, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1, FileOptions.DeleteOnClose).Dispose();
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            return (null, WriteFailure(artifactPath, "visual-check could not create a private evidence staging directory.",
+                new JsonObject { ["file"] = directory, ["reason"] = error.Message }));
+        }
         return (new Ownership(kinds), null);
     }
 
@@ -189,8 +198,7 @@ internal static partial class BrowserEvidence
             return Conflict(artifactPath, outputs, outputs.Receipt, reason);
         }
         JsonNode? parsed;
-        // ponytail: JsonNode.Parse, not JSON.parse: a receipt with duplicate keys counts as invalid here (upstream keeps the last value).
-        try { parsed = JsonNode.Parse(Encoding.UTF8.GetString(receiptBytes)); }
+        try { parsed = DiagramLoader.ParseNode(Encoding.UTF8.GetString(receiptBytes)); }
         catch (Exception error) when (error is JsonException or ArgumentException) { return Refuse(outputs.Receipt, "ownership-receipt-invalid"); }
         var previous = parsed as JsonObject;
         if (!IsNumber(previous?["schemaVersion"], 1) || Text(previous!["command"]) != outputs.Command) return Refuse(outputs.Receipt, "ownership-receipt-schema-mismatch");
@@ -208,7 +216,7 @@ internal static partial class BrowserEvidence
             || semantics.SameLocation(Path.Join(recordedDirectory, receiptName), outputs.Receipt).Status != "match"
             || (outputs.Capture && semantics.SameLocation(Path.Join(recordedDirectory, contactName), outputs.ContactSheet).Status != "match"))
             return Refuse(outputs.Receipt, "ownership-sidecar-path-mismatch");
-        var identity = DeliveryStore.Identity(artifactBytes);
+        var identity = Identity(artifactBytes);
         if (previousPath is null || !IsAbsolute(previousPath) || semantics.SameEntry(previousPath, artifactPath).Status != "match"
             || Text(previousArtifact!["sha256"]) != identity["sha256"]!.GetValue<string>() || !IsNumber(previousArtifact["bytes"], artifactBytes.Length))
             return Refuse(outputs.Receipt, "ownership-artifact-mismatch");
@@ -240,15 +248,14 @@ internal static partial class BrowserEvidence
                 if (systemCode is not null) reason["systemCode"] = systemCode;
                 return Conflict(artifactPath, outputs, file, reason);
             }
-            var actual = DeliveryStore.Identity(content);
+            var actual = Identity(content);
             if (Text(expected["sha256"]) != actual["sha256"]!.GetValue<string>() || !IsNumber(expected["bytes"], content.Length))
                 return Refuse(file, "ownership-evidence-digest-mismatch");
         }
         return null;
     }
 
-    static string? Text(JsonNode? node) => node is JsonValue value && value.TryGetValue<string>(out var text) ? text : null;
-    static bool IsNumber(JsonNode? node, double expected) => node is JsonValue value && value.GetValueKind() == JsonValueKind.Number && value.D() == expected;
+    static bool IsNumber(JsonNode? node, double expected) => Number(node) == expected;
 
     // path.isAbsolute: on Windows a rooted path (`\x`, `C:\x`, UNC) but not a drive-relative one (`C:x`).
     static bool IsAbsolute(string path) => OperatingSystem.IsWindows()
@@ -354,7 +361,7 @@ internal static partial class BrowserEvidence
         var (command, capture, semantics) = (request.Command, request.Capture, request.Semantics);
         if (string.IsNullOrEmpty(request.ArtifactPath)) throw new BrowserEvidenceException($"{command} requires one delivered HTML artifact.");
         var artifact = Path.GetFullPath(request.ArtifactPath);
-        if (!HtmlArtifact().IsMatch(artifact)) throw new BrowserEvidenceException($"{command} requires an .html artifact.");
+        if (!HtmlExtension().IsMatch(artifact)) throw new BrowserEvidenceException($"{command} requires an .html artifact.");
         if (DeliveryStore.RegularFile(artifact, "visual-check-artifact", null, out var artifactBytes, out var systemCode) is { } unreadable)
             throw new BrowserEvidenceException($"The visual-check artifact could not be read safely ({unreadable}).") { Code = systemCode };
         var outputs = SidecarPaths(artifact, request.OutDir, command, capture, semantics);
@@ -499,7 +506,7 @@ internal static partial class BrowserEvidence
                 // recordVisualEvidenceFiles (VC:785-797): {sha256, bytes, file} of the sheet and each capture
                 receipt["sidecars"]!["files"] = new JsonArray([.. desired.Select(d =>
                 {
-                    var file = DeliveryStore.Identity(d.Bytes);
+                    var file = Identity(d.Bytes);
                     file["file"] = Path.GetFileName(d.Path);
                     return (JsonNode)file;
                 })]);
@@ -570,7 +577,7 @@ internal static partial class BrowserEvidence
     // executeBrowserEvidence's verifyArtifact (A:5571-5585): check's verifyDeliveryUnchanged against the inspected bytes.
     public static Action<byte[]> DeliveryVerifier(string artifactPath, Provenance provenance) => bytes =>
     {
-        var verified = DeliveryStore.VerifyUnchanged(artifactPath, provenance, DeliveryStore.Identity(bytes));
+        var verified = DeliveryStore.VerifyUnchanged(artifactPath, provenance, Identity(bytes));
         if (!verified.Ok)
             throw new BrowserEvidenceException(verified.Diagnostics[0].Message) { ProvenanceStatus = verified.Status, Diagnostics = verified.Diagnostics };
     };

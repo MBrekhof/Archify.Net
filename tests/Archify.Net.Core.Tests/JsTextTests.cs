@@ -101,4 +101,18 @@ public class JsTextTests
         Assert.Equal(["clickstream", " ", "events"], Js.WordBreaks("clickstream events"));
         Assert.Equal(["Archify", "로"], Js.WordBreaks("Archify로"));   // Hangul never joins Latin (ICU tailoring)
     }
+
+    // String.prototype.toUpperCase as printed by Node v24: ASCII, SpecialCasing expansions (ß, ligatures, Greek with
+    // ypogegrammeni, ŉ ǰ և), an astral pair, lone surrogates kept, and ı -> I.
+    [Theory]
+    [InlineData("abc XYZ 09 {}~", "ABC XYZ 09 {}~")]
+    [InlineData("straße", "STRASSE")]
+    [InlineData("ﬃ ﬁ", "FFI FI")]
+    [InlineData("ᾳ ΐ ῷ", "ΑΙ Ϊ́ Ω͂Ι")]
+    [InlineData("ŉ ǰ և", "ʼN J̌ ԵՒ")]
+    [InlineData("𐐨𐐩", "𐐀𐐁")]
+    [InlineData("\uD800x", "\uD800X")]
+    [InlineData("a\uDC00b", "A\uDC00B")]
+    [InlineData("éı", "ÉI")]
+    public void ToUpperCase_matches_V8(string s, string upper) => Assert.Equal(upper, Js.ToUpperCase(s));
 }

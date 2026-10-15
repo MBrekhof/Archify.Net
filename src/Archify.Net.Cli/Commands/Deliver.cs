@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
@@ -28,7 +27,10 @@ static partial class DeliverCommand
             throw new CliArgumentException(Cli.Usage(), "cli/usage", supportedFixes: ["use: archify deliver <type> <input.json> [output.html] [options]"]);
         var typeName = positional[0];
         var type = Args.DiagramType(typeName);
-        var requestedOutput = positional.Length == 3 && positional[2].Length > 0 ? positional[2] : null;   // `requestedOutput || …`
+        // An explicit "" reaches resolveOutputPath (A:4376: output/native-path-syntax, reason empty); the attempted-output spellings
+        // read it as `requestedOutput || …`.
+        var requestedOutput = positional.Length == 3 ? positional[2] : null;
+        var attemptedOutput = string.IsNullOrEmpty(requestedOutput) ? null : requestedOutput;
         var receiptId = io.Services.NewGuid().ToString();
         var inputPath = NodePath.Resolve(io.Cwd, positional[1]);
         DeliveryAttempt? attempt = null;
@@ -67,7 +69,7 @@ static partial class DeliverCommand
             catch (ArchifyDiagnosticException error)
             {
                 var reason = error.Diagnostics[0].Evidence["reason"]!.GetValue<string>();
-                return ReportDelivery(Failure("input", NodePath.Resolve(io.Cwd, requestedOutput ?? $"{typeName}.html"),
+                return ReportDelivery(Failure("input", NodePath.Resolve(io.Cwd, attemptedOutput ?? $"{typeName}.html"),
                     $"Could not read delivery input \"{inputPath}\": {reason}", error.Diagnostics));
             }
 
@@ -83,7 +85,7 @@ static partial class DeliverCommand
             }
             catch (Exception error)
             {
-                var attempted = NodePath.Resolve(io.Cwd, requestedOutput ?? (string.IsNullOrEmpty(authoredText) ? $"{typeName}.html" : authoredText));
+                var attempted = NodePath.Resolve(io.Cwd, attemptedOutput ?? (string.IsNullOrEmpty(authoredText) ? $"{typeName}.html" : authoredText));
                 var (diagnostics, spread) = PathDiagnostics(attempted, error, request.HasAuthoredOutput);
                 var failure = Failure("prepare", attempted, error.Message, diagnostics) with { SpreadOrdered = spread };
                 return outputPath is null ? ReportPrepared(failure) : ReportDelivery(failure);
@@ -112,7 +114,7 @@ static partial class DeliverCommand
             }
             catch (Exception error)
             {
-                var attempted = NodePath.Resolve(io.Cwd, requestedOutput ?? authoredText ?? $"{typeName}.html");
+                var attempted = NodePath.Resolve(io.Cwd, attemptedOutput ?? (string.IsNullOrEmpty(authoredText) ? $"{typeName}.html" : authoredText));
                 var (diagnostics, spread) = PathDiagnostics(attempted, error, authoredDefined: true);
                 var failure = Failure("prepare", attempted, error.Message, diagnostics) with { SpreadOrdered = spread };
                 return error is SidecarNamespaceException ? ReportPrepared(failure) : ReportDelivery(failure);
@@ -145,7 +147,7 @@ static partial class DeliverCommand
 
             // 6. check, on the bytes to be committed.
             var artifact = new UTF8Encoding(false).GetBytes(result.Html);
-            var check = ArchifyNet.Check(artifact);
+            var check = store.Check(artifact);
             if (!check.Ok)
             {
                 var checker = check.Report;
@@ -260,7 +262,7 @@ static partial class DeliverCommand
         var receipt = new JsonObject
         {
             ["schemaVersion"] = 1, ["receiptId"] = receiptId, ["ok"] = true, ["command"] = "deliver", ["type"] = type, ["input"] = input, ["output"] = output,
-            ["specification"] = Identity(specification), ["artifact"] = Identity(artifact), ["validation"] = validation,
+            ["specification"] = Receipts.Identity(specification), ["artifact"] = Receipts.Identity(artifact), ["validation"] = validation,
         };
         if (sourceEvidence is not null)
         {
@@ -277,8 +279,6 @@ static partial class DeliverCommand
         return receipt;
     }
 
-    static JsonObject Identity(byte[] bytes) => new() { ["sha256"] = Convert.ToHexStringLower(SHA256.HashData(bytes)), ["bytes"] = bytes.Length };
-
     [GeneratedRegex("""<script id="archify-source-evidence-data" type="application/json">([\s\S]*?)</script>""")]
     private static partial Regex SourceEvidenceData();
 
@@ -287,7 +287,7 @@ static partial class DeliverCommand
     {
         var match = SourceEvidenceData().Match(html);
         if (!match.Success) return null;
-        var evidence = JsonNode.Parse(match.Groups[1].Value) as JsonObject;
+        var evidence = DiagramLoader.ParseNode(match.Groups[1].Value) as JsonObject;
         var repository = evidence?["repository"] as JsonObject;
         var verified = evidence?["verified"] is JsonValue flag && flag.TryGetValue<bool>(out var value) && value;
         var referenceCount = evidence?["referenceCount"] is JsonValue count && count.GetValueKind() == System.Text.Json.JsonValueKind.Number

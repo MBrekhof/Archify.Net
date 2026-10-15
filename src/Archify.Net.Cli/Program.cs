@@ -17,7 +17,7 @@ static class Program
         catch (Exception e)
         {
             // A non-argument error escapes upstream's top-level catch (A:7132): Node prints the stack and exits 1.
-            stderr.Write(e + "\n");
+            stderr.Write(e.ToString().ReplaceLineEndings("\n") + "\n");
             return 1;
         }
     }

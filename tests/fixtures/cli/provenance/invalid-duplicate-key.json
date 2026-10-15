@@ -1,0 +1,30 @@
+{
+  "args": [
+    "check",
+    "out.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "architecture",
+        "web-app.architecture.json",
+        "out.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "replace": "out.delivery.json",
+      "from": "\"status\": \"current\",",
+      "to": "\"status\": \"current\",\n  \"status\": \"stale\","
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"check\",\n  \"provenance\": \"invalid\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\out.html\"\n  },\n  \"error\": \"Could not read delivery provenance: Delivery provenance does not conform to the supported receipt schema.\",\n  \"file\": \"<WORK>\\\\out.html\",\n  \"diagnostic\": \"Could not read delivery provenance: Delivery provenance does not conform to the supported receipt schema.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-invalid\",\n      \"severity\": \"error\",\n      \"message\": \"Could not read delivery provenance: Delivery provenance does not conform to the supported receipt schema.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\out.html\",\n        \"provenance\": \"<WORK>\\\\out.delivery.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Delivery provenance does not conform to the supported receipt schema.\"\n      },\n      \"supportedFixes\": [\n        \"rerun deliver to replace the invalid provenance sidecar\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

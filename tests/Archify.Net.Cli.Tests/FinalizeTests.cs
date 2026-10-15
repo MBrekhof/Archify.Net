@@ -1049,6 +1049,25 @@ public sealed class FinalizeTests
         }, runner, browsers);
     }
 
+    // A stage that crashes in process prints its stack the way Program.Main does: LF only, as every CLI line (Q2).
+    [Fact]
+    public async Task A_crashed_stage_leaves_no_carriage_return_in_the_receipt()
+    {
+        using var w = new Workspace();
+        var (input, output, _) = WebApp(w);
+        var crashing = CliServices.Default with
+        {
+            StageRunner = new StageRunner(), BrowserInspectors = new BrowserEvidenceTests.FakeBrowsers(null),
+            NewGuid = () => throw new InvalidOperationException("synthetic crash"),
+        };
+        var finalized = await FinalizeGate.RunAsync(new FinalizeRequest("architecture", input, output, w.Root), crashing);
+        Assert.Equal(1, finalized.ExitCode);
+        var stderr = finalized.Receipt["stages"]!["deliver"]!["stderr"]!.GetValue<string>();
+        Assert.StartsWith("System.InvalidOperationException: synthetic crash\n   at ", stderr);
+        Assert.DoesNotContain('\r', stderr);
+        Assert.DoesNotContain(@"\r", Js.Stringify(finalized.Receipt));
+    }
+
     // L:152
     [Fact]
     public async Task Finalize_launches_the_browser_only_after_delivery_and_strict_artifact_checks_pass()

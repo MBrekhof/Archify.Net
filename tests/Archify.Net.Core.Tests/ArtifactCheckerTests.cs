@@ -35,9 +35,10 @@ public class ArtifactCheckerTests
     }
 
     [Fact]
-    public void Provenance_sidecars_are_phase_5()
+    public void Provenance_sidecars_are_the_clis()
     {
-        Assert.Throws<NotSupportedException>(() => ArchifyNet.Check("<svg></svg>", new CheckOptions(RequireProvenance: true)));
+        var error = Assert.Throws<NotSupportedException>(() => ArchifyNet.Check("<svg></svg>", new CheckOptions(RequireProvenance: true)));
+        Assert.Equal("provenance checks are in the archify CLI (check --require-provenance)", error.Message);
     }
 
     // `node scripts/check-render-output.mjs empty.html` on a zero-byte file: no <svg>, so only single_svg runs and the

@@ -1,10 +1,8 @@
 using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
 using Archify.Net.Cli.Paths;
+using static Archify.Net.Cli.Receipts;
 
 namespace Archify.Net.Cli.Delivery;
 
@@ -53,13 +51,16 @@ internal sealed record Provenance(bool Ok, string Status, string? ReceiptId = nu
 // The delivery sidecars (Q5): the directory lock, the pending journal, success and failure provenance, and the pair commit.
 // Cut (survey-delivery §3, D1-D10): atomic-output bindings, lock/journal identity re-checks, quarantine and recovery directories,
 // creating the legacy per-artifact lock.
-internal sealed partial class DeliveryStore
+internal sealed class DeliveryStore
 {
     public const string DirectoryLockName = ".archify-delivery-lock.json";
     public static DeliveryStore Native { get; } = new();
 
     // The write seam: every sidecar and the artifact go through it as (target, bytes, backup path or null).
     public Action<string, byte[], string?> Publish { get; init; } = PublishFile;
+
+    // The check seam: deliver's final artifact check (A:4847) on the bytes to be committed.
+    public Func<byte[], CheckResult> Check { get; init; } = bytes => ArchifyNet.Check(bytes);
 
     static OutputPaths Paths => OutputPaths.Native;
 
@@ -160,9 +161,6 @@ internal sealed partial class DeliveryStore
         return Paths.PathsAlias(Path.GetDirectoryName(comparableLeft)!, Path.GetDirectoryName(comparableRight)!) && Paths.PathsAlias(comparableLeft, comparableRight);
     }
 
-    [GeneratedRegex("^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", RegexOptions.IgnoreCase)]
-    private static partial Regex UuidV4();
-
     // rejectExistingDeliveryLock (A:176-216): a readable {schemaVersion:1, receiptId:<v4>, pid:<safe integer>} names its owner.
     static DeliveryLockException RejectExistingLock(string lockPath, string output)
     {
@@ -173,7 +171,7 @@ internal sealed partial class DeliveryStore
             using var reader = new FileStream(lockPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
             using var buffer = new MemoryStream();
             reader.CopyTo(buffer);
-            var lockJson = JsonNode.Parse(new UTF8Encoding(false).GetString(buffer.ToArray())) as JsonObject;
+            var lockJson = DiagramLoader.ParseNode(new UTF8Encoding(false).GetString(buffer.ToArray())) as JsonObject;
             var schemaVersion = Number(lockJson?["schemaVersion"]);
             var pidValue = Number(lockJson?["pid"]);
             receiptId = Text(lockJson?["receiptId"]) ?? "";
@@ -187,9 +185,6 @@ internal sealed partial class DeliveryStore
         return new("delivery/lock-stale", lockPath, $"A stale delivery lock remains at \"{lockPath}\"; recover it serially before retrying.",
             new JsonObject { ["pid"] = pid, ["receiptId"] = receiptId });
     }
-
-    static double? Number(JsonNode? node) => node is JsonValue value && value.GetValueKind() == JsonValueKind.Number ? node.D() : null;
-    static string? Text(JsonNode? node) => node is JsonValue value && value.GetValueKind() == JsonValueKind.String ? value.GetValue<string>() : null;
 
     // processIsRunning (A:218-226): alive unless the pid is gone (ESRCH); a process we may not open still counts as alive, as EPERM
     // does upstream. libuv maps OpenProcess's invalid-parameter answer for an impossible pid to ESRCH as well. ponytail: Windows
@@ -208,8 +203,6 @@ internal sealed partial class DeliveryStore
     // --- the journal and provenance ---
 
     static byte[] Sidecar(JsonObject value) => new UTF8Encoding(false).GetBytes(Js.Stringify(value, 2) + "\n");
-
-    internal static JsonObject Identity(byte[] bytes) => new() { ["sha256"] = Convert.ToHexStringLower(SHA256.HashData(bytes)), ["bytes"] = bytes.Length };
 
     // beginDeliveryAttempt (A:985-1007): written before render; only a successful commit removes it.
     public void BeginJournal(DeliveryAttempt attempt, string input)
@@ -231,9 +224,6 @@ internal sealed partial class DeliveryStore
         ["type"] = receipt["type"]!.DeepClone(), ["input"] = receipt["input"]!.DeepClone(), ["output"] = receipt["output"]!.DeepClone(),
         ["specification"] = receipt["specification"]!.DeepClone(), ["artifact"] = receipt["artifact"]!.DeepClone(),
     });
-
-    [GeneratedRegex(@"\.html?\z", RegexOptions.IgnoreCase)]
-    private static partial Regex HtmlExtension();
 
     // recordDeliveryFailure (A:1607-1872) minus the target snapshot: the lock (acquired here when the attempt holds none), the
     // journal (created if missing), then the failed marker when an artifact exists ('absent' otherwise), then the lock released.
@@ -550,7 +540,7 @@ internal sealed partial class DeliveryStore
             ["restore access to the delivery records, then rerun deliver successfully"], null));
 
     // legacyDeliveryLockPaths (A:118-134): `<artifact minus .htm(l)>.delivery-lock.json`, read only (D5: deliver never creates one).
-    static IEnumerable<string> LegacyLockPaths(params string[] artifacts) =>
+    internal static IEnumerable<string> LegacyLockPaths(params string[] artifacts) =>
         artifacts.Select(artifact => HtmlExtension().Replace(NodePath.Resolve(artifact), "") + ".delivery-lock.json")
             .Where(lockPath => OperatingSystem.IsWindows() ? Path.GetFileName(lockPath).Length <= 255 : Encoding.UTF8.GetByteCount(Path.GetFileName(lockPath)) <= 255)
             .Distinct(StringComparer.Ordinal);
@@ -592,11 +582,7 @@ internal sealed partial class DeliveryStore
         return expected is null || content.AsSpan().SequenceEqual(expected) ? null : $"{subject}-content-changed";
     }
 
-    [GeneratedRegex("^[0-9a-f]{64}\\z")]
-    private static partial Regex Sha256Hex();
-
     // A:2046-2060: the sidecar's UTF-8 text through JSON.parse, then the schema of a current or failed receipt.
-    // ponytail: a sidecar with duplicate keys fails here with .NET's message where JSON.parse keeps the last; deliver never writes one.
     static JsonObject SupportedReceipt(byte[] bytes)
     {
         static bool Absolute(string? path) => path is { Length: > 0 } && (OperatingSystem.IsWindows()
@@ -605,7 +591,7 @@ internal sealed partial class DeliveryStore
         static bool IdentityValid(JsonNode? value) => value is JsonObject identity && Text(identity["sha256"]) is { } sha256 && Sha256Hex().IsMatch(sha256)
             && Number(identity["bytes"]) is double bytes && bytes == Math.Floor(bytes) && bytes >= 0 && bytes <= 9007199254740991;
 
-        var receipt = JsonNode.Parse(Encoding.UTF8.GetString(bytes)) as JsonObject;
+        var receipt = DiagramLoader.ParseNode(Encoding.UTF8.GetString(bytes)) as JsonObject;
         var status = Text(receipt?["status"]);
         if (receipt is null || Number(receipt["schemaVersion"]) != 1 || Text(receipt["command"]) != "deliver"
             || Text(receipt["receiptId"]) is not { } receiptId || !UuidV4().IsMatch(receiptId)

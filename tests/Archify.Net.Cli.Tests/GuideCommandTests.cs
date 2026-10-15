@@ -32,6 +32,16 @@ public class GuideCommandTests
         Assert.Empty(result["alternatives"]!.AsArray());
     }
 
+    // A Windows command line can carry a lone surrogate; Node's process.argv receives it as U+FFFD (it passes through UTF-8), so
+    // upstream's guide answers for "viewport � overflow". Guide_matches_node runs these fixtures with the lone surrogate itself.
+    [Fact]
+    public void A_lone_surrogate_in_argv_reads_as_node_reads_it()
+    {
+        var fixture = CliTestHost.Fixture("guide/lone-surrogate-json");
+        Assert.Contains("viewport \uD800 overflow", fixture.Args);
+        Assert.Contains("viewport � overflow", fixture.Stdout);
+    }
+
     [Fact]
     public void Language_detection_is_the_cjk_range()
     {

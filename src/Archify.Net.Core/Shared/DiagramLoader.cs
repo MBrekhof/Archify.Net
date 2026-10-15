@@ -16,16 +16,21 @@ public static class DiagramLoader
     public static JsonObject Parse(string json)
     {
         JsonNode? root;
-        try
-        {
-            var reader = new Utf8JsonReader(Encoding.UTF8.GetBytes(json), ReaderOptions);
-            reader.Read();
-            root = Value(ref reader);
-            reader.Read();   // throws on anything after the root value
-        }
+        try { root = ParseNode(json); }
         catch (JsonException error) { throw ParseFailure(error.Message); }
         // Upstream parses any JSON value and lets schema validation reject a non-object root; this API returns the diagram object.
         return root as JsonObject ?? throw ParseFailure("the diagram root must be an object");
+    }
+
+    // JSON.parse itself: any root (`null` is null), duplicate keys keep the last value, lone surrogate escapes survive. A syntax
+    // error is the reader's JsonException.
+    public static JsonNode? ParseNode(string json)
+    {
+        var reader = new Utf8JsonReader(Encoding.UTF8.GetBytes(json), ReaderOptions);
+        reader.Read();
+        var root = Value(ref reader);
+        reader.Read();   // throws on anything after the root value
+        return root;
     }
 
     internal static ArchifyDiagnosticException ParseFailure(string reason)

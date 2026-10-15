@@ -59,7 +59,6 @@ internal static partial class NativeFs
     const uint VolumeNameDos = 0;
 
     // fs.realpathSync.native: every link, 8.3 alias and case spelling resolved; `\\?\` and `\\?\UNC\` stripped as libuv does.
-    // ponytail: paths are passed to CreateFileW as given (no `\\?\` added), as libuv does; beyond MAX_PATH that needs LongPathsEnabled.
     public static string RealPath(string path)
     {
         if (!OperatingSystem.IsWindows()) return PortableRealPath(path);
@@ -133,11 +132,21 @@ internal static partial class NativeFs
     static SafeFileHandle Open(string path, bool followLinks, string operation)
     {
         var flags = FileFlagBackupSemantics | (followLinks ? 0 : FileFlagOpenReparsePoint);
-        var handle = CreateFileW(path, FileReadAttributes, FileShareAll, 0, OpenExisting, flags, 0);
+        var handle = CreateFileW(NamespacedPath(path), FileReadAttributes, FileShareAll, 0, OpenExisting, flags, 0);
         if (!handle.IsInvalid) return handle;
         var error = Marshal.GetLastPInvokeError();
         handle.Dispose();
         throw Error(error, operation, path);
+    }
+
+    // path.toNamespacedPath, which Node's fs calls apply: a fully qualified path gets `\\?\` (`\\?\UNC\` for a share), so it can exceed
+    // MAX_PATH without LongPathsEnabled. ponytail: only from MAX_PATH (260) on; below it the plain spelling keeps Win32's own parsing.
+    internal static string NamespacedPath(string path)
+    {
+        if (path.Length < 260 || !Path.IsPathFullyQualified(path) || path.StartsWith(@"\\?\", StringComparison.Ordinal) || path.StartsWith(@"\\.\", StringComparison.Ordinal))
+            return path;
+        var resolved = NodePath.Resolve(path);
+        return resolved.StartsWith(@"\\", StringComparison.Ordinal) ? @"\\?\UNC\" + resolved[2..] : @"\\?\" + resolved;
     }
 
     static FsStat StatHandle(string path, bool followLinks)

@@ -118,7 +118,7 @@ public static class ArchifyNet
     // The artifact's bytes, as upstream reads the file: sha256 and length over the bytes, the scan over bytes.toString('utf8').
     public static CheckResult Check(byte[] html, CheckOptions? options = null)
     {
-        if (options?.RequireProvenance == true) throw new NotSupportedException("provenance sidecar checks land in phase 5");
+        if (options?.RequireProvenance == true) throw new NotSupportedException("provenance checks are in the archify CLI (check --require-provenance)");
         var report = ArtifactChecker.Check(html);
         return new CheckResult(report["ok"]!.GetValue<bool>(), report);
     }

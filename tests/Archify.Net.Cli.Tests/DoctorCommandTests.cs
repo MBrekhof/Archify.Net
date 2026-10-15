@@ -93,6 +93,27 @@ public class DoctorCommandTests
         Assert.Equal((2, "", UsageEdit.Edited + "\n"), CliTestHost.Run(["install-browser", "extra"], services: services));
     }
 
+    // An empty PATHEXT entry adds no "" extension: an extensionless `git` file is not a command on Windows.
+    [Fact]
+    public void Empty_pathext_entries_are_no_extension()
+    {
+        var bare = Directory.CreateTempSubdirectory("archify-git-").FullName;
+        var exe = Directory.CreateTempSubdirectory("archify-git-").FullName;
+        try
+        {
+            File.WriteAllText(Path.Join(bare, "git"), "");
+            File.WriteAllText(Path.Join(exe, "git.exe"), "");
+            Assert.False(DoctorCommand.GitOnPath(bare, ".COM;;.EXE;"));
+            Assert.True(DoctorCommand.GitOnPath($"{bare};\"{exe}\"", ".COM;;.EXE;"));
+            Assert.False(DoctorCommand.GitOnPath(exe, ".COM"));
+        }
+        finally
+        {
+            Directory.Delete(bare, recursive: true);
+            Directory.Delete(exe, recursive: true);
+        }
+    }
+
     // Q9: the embedded scripts are the verbatim upstream/viewer-gate copies (VC:1603-1633, VC:1635-1799).
     [Theory]
     [InlineData("settle")]
