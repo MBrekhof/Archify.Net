@@ -29,8 +29,16 @@ are the requirements. Three surveys back this plan, all in the git-ignored works
   - UTF-8 without BOM, LF;
   - diagnostics are returned, not thrown;
   - commits use `git commit -F` with an exact `git add` list.
-- **No existing fixture or golden changes**, except `tests/fixtures/js/time-zones.json` in Task 1. Run the capture, then check
-  `git status --porcelain tests/`: only new files (and that one file in Task 1) may appear.
+- **No existing fixture or golden changes.** Run the capture, then check `git status --porcelain tests/`: only new files may
+  appear, plus the aggregate files listed below.
+  - **Amendment (agy plan review, blocker 2):** a few aggregate files are rewritten whole from the row arrays, so new rows
+    modify them:
+    - `tests/fixtures/js/time-zones.json` (Task 1);
+    - `tests/fixtures/evidence/scenarios.json` (Task 3);
+    - `tests/fixtures/diagrams/phase3-manifest.json`, `tests/fixtures/js/word-breaks.json` and
+      `tests/fixtures/js/workflow-model.json` (Task 4).
+  - For each of these files, `git diff` must show **only added entries**: no existing entry may change, move or disappear.
+    Paste the diff stat and the result of that check into the report.
 - **The capture runs twice per task**, and the two runs must be byte-identical (hash the `tests/` tree).
 - The full `dotnet test` (Browser included) stays green with zero warnings.
 - No environment variables as configuration. `ARCHIFY_*` variables in the *capture script's Node children* are the existing
@@ -80,6 +88,8 @@ are the requirements. Three surveys back this plan, all in the git-ignored works
   - Record the failing rows in the report.
 - [ ] **Step 3, the fix.** Replace `ZoneOffsetMs`'s ternary with the clamp. Update its `ponytail:` comment to say that the
   offset is clamped into the `DateTime` range, and that past `MaxValue` the last rule continues as V8's does.
+  - Rename `JsTimeTests.cs:64` `ZoneWall_past_DateTime_MaxValue_takes_the_base_offset` to say what it now pins (the
+    clamped offset), and update its comment.
 - [ ] **Step 4: run the full `dotnet test`.**
   - The JsTime tests are green.
   - No timeline golden changes: none uses a year past 9999.
@@ -117,7 +127,11 @@ and the survey's base. Each row then makes the survey's edit (§2).
 | `erd-ref-unknown-attribute` | `layout/constraint` | `entities[1].attributes[1].references = 'customer.nope'` |
 | `erd-too-short` | `layout/constraint` | `d.layout.gapX = 10` (17px and 20px: real distances) |
 | `erd-entity-overlap` | `layout/constraint`, `erd/domain-not-drawn` | `e = entities[1]`: delete `row`, `col`, `tag`; `e.pos = [60, 100]` |
-| `erd-label-over-entity` | `layout/constraint` | replace the whole doc with survey §2's label-corridor scene, verbatim |
+| `erd-label-over-entity` | `layout/constraint` | replace the whole doc with survey §2's label-corridor scene, verbatim (see below) |
+
+**Amendment (agy should-fix 1):** the loop (`:892-895`) mutates `orders()` in place and ignores the edit's return value. So
+`erd-label-over-entity`'s edit must first delete every key of `d`, including the top-level `cards`, and then
+`Object.assign(d, scene)`. The capture asserts that the written file has no `cards` and no `views`.
 
 **Width-infinite (schema parity):** survey §3 shows the renderer check is dead upstream.
 - Pin the schema gate instead. Write `erd-width-infinite.erd.json` as **raw text**: `orders.erd.json` with
@@ -142,7 +156,7 @@ and the survey's base. Each row then makes the survey's edit (§2).
   revert it. Each change must turn at least one row red. Record which row.
   1. `ErdRenderer.cs:533-538`: make the snap use `candidate` always.
   2. `ErdRenderer.cs:541-546`: skip the delete.
-  3. `ErdRenderer.cs:943`: skip `last.high = segment.high`.
+  3. `ErdRenderer.cs:943`: skip `last.High = Math.Max(last.High, segment.High)`.
 - [ ] **Step 5:** run the full `dotnet test`.
 - [ ] **Commit:** `test(core): Node-pinned inputs for the erd trunk and validateEr branches (TEST-003)`.
 
@@ -174,9 +188,20 @@ object file can be damaged directly. The router blob is `9e396e4ede13a17cccc016b
   already handle read-only files.
 
 **Tokenising:** the receipts may name the clone's root. Tokenise against the root the scenario passes (for `partial`, the
-clone), and check that the existing absolute-temp-path check (`:1120`) still passes.
+clone), and check that the existing absolute-temp-path check (`:1137`) still passes.
 
-**Scenarios:** these go into `evidenceScenarios` (`:1067`). `GH_ORIGIN`, the architecture type and the expected codes come from
+**Amendment (agy should-fix 2):** two places need the clone as well as the source repo, or the clone leaks and receipts
+tokenise against the wrong root:
+- C#: `Verify_matches_upstream` tokenises against `empty ?? repo` and deletes only `repo` and `empty`
+  (`RepositoryEvidenceTests.cs:58-61`).
+- Capture: `evidenceJobs` sets `base: empty ?? repo` (`:1108-1114`).
+
+Track the clone like `empty`, on both sides:
+- `partial ?? empty ?? repo` for the tokenise base;
+- delete the clone in `finally`;
+- push the clone through `evidenceTemp` in the capture.
+
+**Scenarios:** these go into `evidenceScenarios` (`:1072-1107`). `evidenceJobs` is at `:1108-1114`. `GH_ORIGIN`, the architecture type and the expected codes come from
 the survey.
 
 | name | root | sources (`evArch(GH, …)`) | expected |
@@ -193,8 +218,11 @@ the survey.
 - **The 70 MiB `ENOBUFS` content-batch recipe (§4c.3), as a fixture.** Pin it instead as a **C#-only fact** beside
   `A_blob_over_16_MiB_is_ENOBUFS_and_stops_the_loop` (`RepositoryEvidenceTests.cs:71`), with the survey's upstream outcome as the
   expected value (exit 0, payload). Build the repo with `git add` and `commit`, as that fact does: one 14 MiB file of `'a'`
-  with a newline every 80 bytes, committed at 5 paths `a.txt`…`e.txt`. Cite `{path, line: 1}` for all five, split 3 + 2 over
+  with a newline every 80 bytes, committed at 5 paths `a.txt`…`e.txt`. Cite `{path, line: 2}` for all five, split 3 + 2 over
   `components[0]` and `components[1]`. Assert the verdict is a payload with 5 verified sources.
+  - **Amendment (agy should-fix 3):** use `line: 2`, not `line: 1`. `SourceLineCount("")` is 1, so `line: 1` would also pass
+    if the fallback returned empty content. Upstream's outcome for `line: 2` is the same clean pass: every line of the 14 MiB
+    file is 80 bytes, so line 2 exists.
   - **Why not Node-minted:** the result is a clean payload whose content is the C# port's own reading of 5 files the test
     itself wrote. The upstream oracle adds nothing beyond "exit 0", which the survey recorded.
 
@@ -212,7 +240,9 @@ the survey.
 - [ ] **Step 4:** add the `ENOBUFS` content-batch fact.
 - [ ] **Step 5: mutation check.** Make each change temporarily, run the new rows, and revert. Each change must turn a row red.
   1. Make `RepositoryEvidence.cs`'s prefetch ignore a null batch result: treat it as "all present".
-  2. Make the per-file `show` fallback after a null content batch return "no content".
+  2. Make the per-file `show` fallback after a null content batch (`RepositoryEvidence.cs:307-315`) return `(true, "")`.
+     The `ENOBUFS` fact's `line: 2` must go red. Then try `(false, "")`: `content-batch-fallback` must gain a second
+     `file-unreadable`, on store.js.
 - [ ] **Step 6:** run the full `dotnet test`.
 - [ ] **Commit:** `test(core): Node-pinned evidence receipts for object-unavailable and both per-file fallbacks (TEST-003)`.
 
@@ -238,6 +268,12 @@ crafting, and are not derivable from a bundled example.
 - The survey ran 11 inputs at `--quality showcase` and 12 at `--quality standard` (survey-test2 "Every input runs with…").
 - Give each fixture that profile as `meta.quality_profile`. The fixture then compiles at that profile on both sides with no
   option plumbing.
+- **Amendment (agy should-fix 4):**
+  - The survey's showcase list names some inputs by the name of the dropped twin (`label-label`, `preset-placed`) or by a
+    wildcard (`labelroute*`, `placed-*`). Map each name to the copy that is kept.
+  - Every kept showcase input already carries `"quality_profile": "showcase"` in its meta, except `t2-xrep` and `t2-prep`.
+    Both need `"showcase"` added. Without it they render clean (agy probe: `xrep standard ok=true`).
+  - The standard-profile inputs get `"quality_profile": "standard"` added.
 - **After the capture, check each receipt's outcome against the survey's table** (code plus check name). If moving the
   profile into meta changes an outcome, use the `erdFaults`-style env column (`ARCHIFY_QUALITY_PROFILE`) for that row instead.
   On the C# side that means `RenderOptions`, as `Workflow_fault_*` rows already do where needed.
@@ -265,14 +301,23 @@ crafting, and are not derivable from a bundled example.
 **Mechanics:**
 - **Faults** go through a new array beside `p3Faults` (`:819`), with the same loop shape: the upstream renderer with
   `ARCHIFY_DIAGNOSTIC_FORMAT=json`.
-  - The capture asserts each target code **and** the check name in the message or evidence. Read one receipt for the field
-    that carries `[...]`, then assert on that field.
+  - The capture asserts each target code and the field that names the branch. These fields were confirmed by agy's probe
+    (should-fix 5):
+    - pin and preset conflicts: `evidence.invariant`, which holds the survey's bracketed check name without the brackets;
+    - `t2-placed-*`: also `evidence.conflictType`;
+    - `t2-xrep` and `t2-prep`: `evidence.verifiedRepair` is present, and for `t2-prep` its `kind` is
+      `optional-node-placement`;
+    - `t2-fb-exhaust`: the code alone.
   - Receipts: `tests/fixtures/diagrams/<name>.workflow.expected.json`.
   - C#: `InlineData` on `Workflow_fault_diagnostics_match_upstream_receipt` (`ParityTests.cs:192`).
-- **Clean** inputs: append them to `p3Rows` (`:789`). That gives a golden, a checker report, and
-  `fixtures/workflow/<name>.receipt.json`. Then add `ParityTests.Targets()` rows and the receipt rows the existing
-  `WorkflowReceiptTests` uses.
-  - Check how `p3Rows` is enumerated by the manifest test: a new row may need an owning-task value. Use `"TEST-002"`.
+- **Clean** inputs.
+  - **Amendment (agy blocker 1):** add them to **`p3Targets` (`:469-478`)**, not to `p3Rows`. `p3Targets` flows into
+    `targets`, so each input gets:
+    - its render (`:558`);
+    - its checker report (`:576`);
+    - `p3Rows` (`:789`), and through that its `fixtures/workflow/<name>.receipt.json` (`:812`).
+  - Keep `p3Rows`'s computed `task` number as the code computes it (`:799-803`). There is no C# manifest test to satisfy.
+  - Then add the `ParityTests.Targets()` rows and the receipt rows that `WorkflowReceiptTests` uses.
 - **`t2-fin-wide-1e308`**: its evidence serialises non-finite coordinates. A mismatch here is a real parity finding about
   Infinity/null serialisation, not a fixture problem. If it cannot be matched without a design change, take the row out,
   report it, and the controller puts it on a card.
@@ -280,9 +325,10 @@ crafting, and are not derivable from a bundled example.
 **The card's other items:**
 - **Non-empty `Layout.Report.diagnostics`.** Find one standard-profile v2 workflow that renders with warnings in its success
   receipt.
-  - Try first: `t2-xrep` and `t2-route-crossing` at `quality_profile: "standard"`, as separate clean rows named `-standard`.
-  - Keep the first input whose receipt has `"diagnostics": [` with at least one entry, as a clean row.
-  - If none of them works within 5 tries, report it; do not search further.
+  - **Amendment (agy nice-to-have 3):** agy's probe found that `xrep` at `"standard"` renders with one
+    `composition/proper-crossing` warning in its receipt (`route-crossing` still fails at standard).
+  - Add `t2-xrep-standard` as a clean row in `p3Targets`.
+  - Add a C# fact that asserts its receipt's `diagnostics` is non-empty, so the row cannot pass vacuously.
 - **Out of scope, for the controller to card:**
   - the route-order-retry feedback catch (upstream :5732, C# `WorkflowCompiler.cs:198`), "not found" by the survey;
   - the `16px interior turn` arm of :2514;
