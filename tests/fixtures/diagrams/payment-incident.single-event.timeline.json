@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "diagram_type": "timeline",
+  "meta": {
+    "title": "Payment failure incident",
+    "subtitle": "Illustrative incident: release, monitoring, and response events on one clock.",
+    "output": "payment-incident.single-event.html",
+    "evidence": "illustrative",
+    "timezone": "Asia/Shanghai",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "release",
+      "label": "Release"
+    },
+    {
+      "id": "monitoring",
+      "label": "Monitoring"
+    },
+    {
+      "id": "response",
+      "label": "Response"
+    }
+  ],
+  "events": [
+    {
+      "id": "deploy",
+      "at": "2026-10-01T10:00:00+08:00",
+      "title": "Deploy v2.4",
+      "detail": "New version starts serving payment requests.",
+      "lane": "release",
+      "kind": "change"
+    }
+  ]
+}

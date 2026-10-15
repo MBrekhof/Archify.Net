@@ -41,6 +41,18 @@ public class ParityTests
         ["timeline", Fixtures.Fixture("diagrams/payment-incident.minus-half.timeline.json"), Fixtures.Golden("payment-incident.minus-half-rendered.html")],     // fixed offset -05:30
         ["lifecycle", Fixtures.Fixture("diagrams/agent-run.no-sublabel-tag.lifecycle.json"), Fixtures.Golden("agent-run.no-sublabel-tag-rendered.html")],
         ["class", Fixtures.Fixture("diagrams/payments.no-sublabel.class.json"), Fixtures.Golden("payments.no-sublabel-rendered.html")],
+        // TEST-001 batch 2: the remaining phase-2 probe-only cases (task-11 report "P only" rows).
+        ["lifecycle", Fixtures.Fixture("diagrams/agent-run.no-cards.lifecycle.json"), Fixtures.Golden("agent-run.no-cards-rendered.html")],
+        ["class", Fixtures.Fixture("diagrams/payments.no-members.class.json"), Fixtures.Golden("payments.no-members-rendered.html")],               // no methods, no attributes
+        ["class", Fixtures.Fixture("diagrams/payments.no-relationships.class.json"), Fixtures.Golden("payments.no-relationships-rendered.html")],
+        ["tree", Fixtures.Fixture("diagrams/payment-platform.single-node.tree.json"), Fixtures.Golden("payment-platform.single-node-rendered.html")],   // `Math.max` over one
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.plus.timeline.json"), Fixtures.Golden("payment-incident.plus-rendered.html")],         // fixed offset +08:00
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.compact.timeline.json"), Fixtures.Golden("payment-incident.compact-rendered.html")],   // fixed offset +08
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.no-lanes.timeline.json"), Fixtures.Golden("payment-incident.no-lanes-rendered.html")],
+        ["timeline", Fixtures.Fixture("diagrams/payment-incident.single-event.timeline.json"), Fixtures.Golden("payment-incident.single-event-rendered.html")],
+        ["waterfall", Fixtures.Fixture("diagrams/checkout-request.unit-s.waterfall.json"), Fixtures.Golden("checkout-request.unit-s-rendered.html")],
+        ["waterfall", Fixtures.Fixture("diagrams/checkout-request.no-service.waterfall.json"), Fixtures.Golden("checkout-request.no-service-rendered.html")],
+        ["waterfall", Fixtures.Fixture("diagrams/checkout-request.single-span.waterfall.json"), Fixtures.Golden("checkout-request.single-span-rendered.html")],   // `Math.min/max` over one
         // Phase 3, task 4: dataflow with authored viewBox (automaticShowcase false). Rows from tests/fixtures/diagrams/phase3-manifest.json.
         ["dataflow", Fixtures.Upstream("examples/product-analytics.dataflow.json"), Fixtures.Upstream("examples/dataflow-product-analytics.html")],
         ["dataflow", Fixtures.Upstream("examples/event-stream.dataflow.json"), Fixtures.Golden("event-stream-rendered.html")],   // reaches the two-line repair
@@ -432,6 +444,7 @@ public class ParityTests
     [InlineData("marker-capacity")]
     [InlineData("unknown-type")]
     [InlineData("unplaced-type")]
+    [InlineData("duplicate-type-id")]
     public void Class_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.class.json")));

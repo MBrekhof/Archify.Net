@@ -329,6 +329,26 @@ for (const s of lcBare.states) { delete s.sublabel; delete s.tag; }
 write('fixtures/diagrams/agent-run.no-sublabel-tag.lifecycle.json', lcBare);
 const clBare = ex('payments.class.json'); clBare.meta.output = 'payments.no-sublabel.html'; for (const t of clBare.types) delete t.sublabel;
 write('fixtures/diagrams/payments.no-sublabel.class.json', clBare);
+// TEST-001 batch 2: the remaining phase-2 "P only" probes, with the probe script's edits (task-11 report).
+const probeGoldens = [   // [type, example, mutation, edit]
+  ['lifecycle', 'agent-run.lifecycle.json', 'no-cards', (d) => { delete d.cards; }],
+  ['class', 'payments.class.json', 'no-members', (d) => { for (const t of d.types) { delete t.methods; delete t.attributes; } }],
+  ['class', 'payments.class.json', 'no-relationships', (d) => { delete d.relationships; }],
+  ['tree', 'payment-platform.tree.json', 'single-node', (d) => { d.nodes = [d.nodes.find((n) => n.parent === undefined)]; }],   // `Math.max` over one
+  ['timeline', 'payment-incident.timeline.json', 'plus', (d) => { d.meta.timezone = '+08:00'; }],
+  ['timeline', 'payment-incident.timeline.json', 'compact', (d) => { d.meta.timezone = '+08'; }],
+  ['timeline', 'payment-incident.timeline.json', 'no-lanes', (d) => { delete d.lanes; for (const e of d.events) delete e.lane; }],
+  ['timeline', 'payment-incident.timeline.json', 'single-event', (d) => { d.events = [d.events[0]]; }],
+  ['waterfall', 'checkout-request.waterfall.json', 'unit-s', (d) => { d.meta.unit = 's'; }],
+  ['waterfall', 'checkout-request.waterfall.json', 'no-service', (d) => { for (const s of d.spans) delete s.service; }],
+  ['waterfall', 'checkout-request.waterfall.json', 'single-span', (d) => { d.spans = [d.spans[0]]; }],   // `Math.min/max` over one
+];
+const probeName = (type, example, mutation) => `${example.slice(0, -`.${type}.json`.length)}.${mutation}`;   // payments.no-members
+for (const [type, example, mutation, edit] of probeGoldens) {
+  const d = ex(example); const name = probeName(type, example, mutation);
+  d.meta.output = `${name}.html`; edit(d);
+  write(`fixtures/diagrams/${name}.${type}.json`, d);
+}
 // Phase-2 golden targets (appended to the phase-1 array so the checker loop covers them)
 targets.push(
   ['sequence', path.join(EX, 'async-job-roundtrip.sequence.json'), 'async-job-roundtrip-rendered.html'],
@@ -347,6 +367,7 @@ targets.push(
   ['timeline', out('fixtures/diagrams/payment-incident.minus-half.timeline.json'), 'payment-incident.minus-half-rendered.html'],
   ['lifecycle', out('fixtures/diagrams/agent-run.no-sublabel-tag.lifecycle.json'), 'agent-run.no-sublabel-tag-rendered.html'],
   ['class', out('fixtures/diagrams/payments.no-sublabel.class.json'), 'payments.no-sublabel-rendered.html'],
+  ...probeGoldens.map(([type, example, mutation]) => [type, out(`fixtures/diagrams/${probeName(type, example, mutation)}.${type}.json`), `${probeName(type, example, mutation)}-rendered.html`]),
 );
 // --- phase 3: upstream regression inputs (C:\projects\archify\test\fixtures), copied verbatim, renamed by folder ---
 const TF = 'C:/projects/archify/test/fixtures';
@@ -621,6 +642,7 @@ const classFaults = [
   ['marker-capacity', (d) => { for (let i = 0; i < 4; i += 1) d.relationships.push({ from: 'order', to: 'card_gateway', kind: 'dependency' }); }],
   ['unknown-type', (d) => { d.relationships[0].to = 'ghost'; }],
   ['unplaced-type', (d) => { delete d.types[0].row; }],
+  ['duplicate-type-id', (d) => { d.types[4].id = d.types[3].id; d.relationships = d.relationships.filter((r) => r.from !== d.types[4].id && r.to !== d.types[4].id); }],   // probe cl-dup-type-id (TEST-001)
 ];
 for (const [name, fault] of classFaults) {
   const diagram = JSON.parse(fs.readFileSync(path.join(EX, 'payments.class.json'), 'utf8'));

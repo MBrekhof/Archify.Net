@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Class diagram validation failed:\n- Type ids must be unique; \"card_gateway\" is declared twice.\n- Relationship 2 id \"wallet_implements\" references unknown type \"wallet_gateway\".",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Type ids must be unique; \"card_gateway\" is declared twice.",
+      "subject": {
+        "diagramType": "class"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Relationship 2 id \"wallet_implements\" references unknown type \"wallet_gateway\".",
+      "subject": {
+        "diagramType": "class"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

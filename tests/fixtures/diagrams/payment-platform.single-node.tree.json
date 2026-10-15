@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "diagram_type": "tree",
+  "meta": {
+    "title": "Payment platform capabilities",
+    "subtitle": "Illustrative decomposition: each capability belongs to exactly one parent. Links show containment, not calls.",
+    "output": "payment-platform.single-node.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "platform",
+      "label": "Payment platform",
+      "sublabel": "Decomposed by capability"
+    }
+  ]
+}
