@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -31,7 +30,6 @@ internal sealed partial class PathSemantics(IPathFs fs)
     const int RecentProbeNameLimit = 128;
     static readonly bool Windows = OperatingSystem.IsWindows();
     static readonly char Sep = Windows ? '\\' : '/';
-    static readonly CultureInfo EnUs = CultureInfo.GetCultureInfo("en-US");
     // Module state upstream: one set per process, oldest name evicted first.
     static readonly HashSet<string> RecentProbeNames = [];
     static readonly Queue<string> RecentProbeOrder = new();
@@ -354,11 +352,7 @@ internal sealed partial class PathSemantics(IPathFs fs)
         catch (ArgumentException) { return value; }
     }
 
-    // toLocaleUpperCase('en-US'). ponytail: simple case mapping, no SpecialCasing (ß → SS, ligatures), like PortablePath's
-    // envelope; a candidate V8 would form only by an expansion is never probed, which changes nothing on filesystems that do not
-    // fold ß with ss (NTFS does not).
-    static string ToLocaleUpper(string value) => value.ToUpper(EnUs);
-
+    // toLocale{Lower,Upper}Case('en-US') below are Js.ToLowerCase/ToUpperCase: equal for every code point (Node v24).
     static HashSet<string>? SemanticNameEnvelope(string name)
     {
         var names = new HashSet<string> { name };
@@ -368,7 +362,7 @@ internal sealed partial class PathSemantics(IPathFs fs)
             var current = pending.Dequeue();
             foreach (var candidate in new[]
             {
-                Normalize(current, NormalizationForm.FormC), Normalize(current, NormalizationForm.FormD), Js.ToLowerCase(current), ToLocaleUpper(current),
+                Normalize(current, NormalizationForm.FormC), Normalize(current, NormalizationForm.FormD), Js.ToLowerCase(current), Js.ToUpperCase(current),
             })
                 if (names.Add(candidate)) pending.Enqueue(candidate);
         }
@@ -489,7 +483,7 @@ internal sealed partial class PathSemantics(IPathFs fs)
 
     // The candidate is accepted only after the containing filesystem confirms that the original grapheme and this spelling name
     // the same entry.
-    static string SidecarCaseKey(string component) => Js.ToLowerCase(ToLocaleUpper(component));
+    static string SidecarCaseKey(string component) => Js.ToLowerCase(Js.ToUpperCase(component));
 
     // portableSidecarComponentKey (visual-check.mjs:164-170): the collision envelope of a target directory that cannot be probed yet,
     // with V8's full uppercasing (ß → SS), since the key decides a sidecar name rather than a probe.

@@ -525,6 +525,34 @@ public partial class PathSemanticsTests
             key.Reason.ToJsonString());
     }
 
+    // GLOB-001: toLocaleUpperCase('en-US') expands ß to SS, so ß and ss share a semantic envelope (path-semantics.mjs:517-518).
+    // Node on this volume (UP @ c21c31ff) for straße.html vs STRASSE.html: a direct probe at segment 0, a semantic-envelope
+    // overlap below a future directory.
+    [Fact]
+    public void SameLocation_puts_sharp_s_and_ss_in_one_semantic_envelope()
+    {
+        using var scratch = new Scratch();
+        var direct = Native.SameLocation(scratch.Path("straße.html"), scratch.Path("STRASSE.html"));
+        Assert.Equal("different", direct.Status);
+        Assert.Equal("""{"code":"future-name-different","method":"filesystem-probe","operation":"same-location","segmentIndex":0}""", direct.Reason.ToJsonString());
+        var nested = Native.SameLocation(scratch.Path("future-parent\\straße.html"), scratch.Path("future-parent\\STRASSE.html"));
+        Assert.Equal("unknown", nested.Status);
+        Assert.Equal("""{"code":"future-descendant-semantics-indeterminate","method":"unmaterialized-directory","operation":"same-location","segmentIndex":1}""",
+            nested.Reason.ToJsonString());
+    }
+
+    // GLOB-001: sidecarCaseKey (path-semantics.mjs:688) is toLocaleUpperCase then toLocaleLowerCase, so ß becomes "ss" (Node) and is
+    // probed against it; NTFS keeps them apart and the key stays ß (Node: "ß.html").
+    [Fact]
+    public void Sidecar_case_key_probes_sharp_s_against_its_full_case_mapping()
+    {
+        using var scratch = new Scratch();
+        var fs = new RecordingFs();
+        var key = new PathSemantics(fs).SidecarNamespaceComponentKey(scratch.Root, "ß.html");
+        Assert.Equal(("resolved", "ß.html"), (key.Status, key.ComponentKey));
+        Assert.EndsWith("-ß", Path.GetFileName(Assert.Single(fs.Created)));
+    }
+
     // ---- Windows path identity facts (NativeFs) ----
 
     // path.win32.dirname on doubled separators, as Node v24 prints it: a drive root keeps one separator; a UNC root gains one.

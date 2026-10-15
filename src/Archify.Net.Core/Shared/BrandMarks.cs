@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -16,7 +15,6 @@ public sealed record ResolvedBrand(BrandMark Mark, string SourceUrl, string Kind
 // ported: Core never touches the network, so a digest-pinned brand object reports brand/capture-unavailable.
 public static class BrandMarks
 {
-    static readonly CultureInfo EnUs = CultureInfo.GetCultureInfo("en-US");
     static readonly List<BrandMark> Marks = [.. JsonNode.Parse(Resources.Text("generated-brand-marks.json"))!.AsArray().Select(n => new BrandMark(
         n.Str("id")!, n.Str("title")!, n.Str("category")!,
         [.. n.Arr("aliases")!.Select(a => a!.GetValue<string>())], [.. n.Arr("domains")!.Select(a => a!.GetValue<string>())],
@@ -34,14 +32,11 @@ public static class BrandMarks
         }
     }
 
-    // ponytail: .NET has simple case mapping only; V8's toLocaleLowerCase('en-US') also applies SpecialCasing (İ → i̇,
-    // final sigma). The catalog is ASCII, so only an authored value hinging on those characters could resolve differently.
-    internal static string LowerEnUs(string value) => value.ToLower(EnUs);
-
-    // [raw, raw.replace(/[\s_]+/g, '-'), raw.replace(/[\s_.-]+/g, '')], deduplicated in order.
+    // [raw, raw.replace(/[\s_]+/g, '-'), raw.replace(/[\s_.-]+/g, '')], deduplicated in order. toLocaleLowerCase('en-US') equals
+    // toLowerCase for every code point (Node v24), hence Js.ToLowerCase here and in DomainMark.
     static List<string> LookupForms(string value)
     {
-        var raw = LowerEnUs(Js.Trim(value));
+        var raw = Js.ToLowerCase(Js.Trim(value));
         if (raw.Length == 0) return [];
         var forms = new List<string> { raw };
         foreach (var form in (string[])[CollapseRuns(raw, c => Js.IsSpace(c) || c == '_', "-"), CollapseRuns(raw, c => Js.IsSpace(c) || c is '_' or '.' or '-', "")])
@@ -86,7 +81,7 @@ public static class BrandMarks
 
     static BrandMark? DomainMark(string hostname)
     {
-        var host = LowerEnUs(hostname);
+        var host = Js.ToLowerCase(hostname);
         if (host.EndsWith('.')) host = host[..^1];
         var candidates = MarkByDomain.Entries.Where(e => host == e.Key || host.EndsWith($".{e.Key}", StringComparison.Ordinal)).ToList();
         Js.Sort(candidates, (left, right) => right.Key.Length - left.Key.Length);

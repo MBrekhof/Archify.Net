@@ -188,8 +188,9 @@ public static partial class Js
         var v = double.Parse(t[start..i], NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent, CultureInfo.InvariantCulture);
         return (neg ? -v : v, i);
     }
-    static readonly CompareInfo En = CultureInfo.GetCultureInfo("en").CompareInfo;
-    public static int LocaleCompare(string a, string b) => En.Compare(a, b, CompareOptions.None);
+    // String.prototype.localeCompare under V8's default `en`: ICU's `en` collation is CLDR root, which the invariant CompareInfo
+    // also uses under ICU (sign-checked by test). With InvariantGlobalization on it compares ordinally (stated deviation, GLOB-001).
+    public static int LocaleCompare(string a, string b) => CultureInfo.InvariantCulture.CompareInfo.Compare(a, b, CompareOptions.None);
 
     public static string Stringify(JsonNode? v, int indent = 0) { var sb = new StringBuilder(); Write(sb, v, indent, 0); return sb.ToString(); }
     static void Write(StringBuilder sb, JsonNode? v, int indent, int depth)

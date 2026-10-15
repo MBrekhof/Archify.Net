@@ -38,6 +38,14 @@ public class BrandMarkTests
     [InlineData("HTTPS://GITHUB.COM.", "github")] [InlineData("https://example.com", null)] [InlineData("ftp://github.com", null)]
     public void Lookup_forms_and_domain_suffix_match_upstream(string value, string? id) => Assert.Equal(id, BrandMarks.FindBrandMark(value)?.Id);
 
+    // GLOB-001: toLocaleLowerCase('en-US') (brand-marks.mjs:28) maps İ to "i̇", so "GİTHUB" is not github. Node: findBrandMark → null,
+    // and suggestions (:575) fall back to localeCompare order.
+    [Fact] public void Lookup_forms_use_full_lowercasing()
+    {
+        Assert.Null(BrandMarks.FindBrandMark("GİTHUB"));
+        Assert.Equal(["airtable", "alibaba-cloud", "angular", "ansible", "anthropic"], BrandMarks.Suggestions("GİTHUB"));
+    }
+
     // WHATWG URL edge cases, outcome per upstream prepareDiagramBrandMarks on components[1]: a mark id, or code + message.
     [Theory]
     [InlineData("https:github.com", "github", null, null)]

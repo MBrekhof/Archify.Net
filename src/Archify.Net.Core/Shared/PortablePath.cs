@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -36,7 +35,6 @@ public static class PortablePath
     static readonly Regex WindowsShortName = new(@"~[1-9][0-9]*(?:\.|\z)", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
     static readonly Regex UriScheme = new(@"^[A-Za-z][A-Za-z0-9+.-]*:", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
     const int MaxSemanticVariants = 32;
-    static readonly CultureInfo EnUs = CultureInfo.GetCultureInfo("en-US");
 
     static PortablePathException PathError(string? value, string? profile, string reason, string message) =>
         new(reason, message) { Value = value, Profile = profile };
@@ -123,9 +121,7 @@ public static class PortablePath
             CollisionKind = collisionKind, Semantics = semantics, PathPart = pathPart, ConflictPathPart = conflictPathPart,
         };
 
-    // ponytail: .NET has simple case mapping only; V8's toLocale{Lower,Upper}Case('en-US') applies SpecialCasing (ß → SS,
-    // ligatures, İ → i̇). Collisions that hinge on those few characters go undetected. Port SpecialCasing.txt's
-    // unconditional rows when an archive caller (phase 5) needs them.
+    // toLocale{Lower,Upper}Case('en-US') equal toLowerCase/toUpperCase for every code point (Node v24): Js's full case mapping.
     static List<string> SemanticEnvelope(string value, string profile, int index)
     {
         var variants = new List<string> { value };
@@ -134,8 +130,8 @@ public static class PortablePath
         [
             c => c.Normalize(NormalizationForm.FormC),
             c => c.Normalize(NormalizationForm.FormD),
-            c => c.ToLower(EnUs),
-            c => c.ToUpper(EnUs),
+            Js.ToLowerCase,
+            Js.ToUpperCase,
         ];
         for (var cursor = 0; cursor < variants.Count; cursor++)
             foreach (var transform in transforms)
@@ -155,8 +151,8 @@ public static class PortablePath
     {
         if (value == conflictValue) return "exact";
         if (value.Normalize(NormalizationForm.FormC) == conflictValue.Normalize(NormalizationForm.FormC)) return "normalization";
-        var directLowerMatch = value.ToLower(EnUs) == conflictValue.ToLower(EnUs);
-        var directUpperMatch = value.ToUpper(EnUs) == conflictValue.ToUpper(EnUs);
+        var directLowerMatch = Js.ToLowerCase(value) == Js.ToLowerCase(conflictValue);
+        var directUpperMatch = Js.ToUpperCase(value) == Js.ToUpperCase(conflictValue);
         return directLowerMatch || directUpperMatch ? "case" : "case-and-normalization";
     }
 

@@ -49,6 +49,29 @@ public class JsTests
         for (var i = 0; i < words.Length; i++) for (var j = 0; j < words.Length; j++)
             Assert.Equal(Math.Sign(m[i]![j]!.GetValue<int>()), Math.Sign(Js.LocaleCompare(words[i], words[j])));
     }
+    // GLOB-001: LocaleCompare uses the invariant CompareInfo, which under ICU is CLDR root, as `en` is. Pinned over the strings that
+    // reach it: architecture component ids (ArchitectureRenderer), workflow node ids (WorkflowPlacementRepair), brand ids (Suggestions).
+    [Fact] public void LocaleCompare_agrees_in_sign_with_en_over_the_ids_it_sees()
+    {
+        var en = System.Globalization.CultureInfo.GetCultureInfo("en").CompareInfo;
+        var words = new List<string> { "a", "A", "b", "B", "z", "Z", "aa", "aB", "Ab", "0", "1", "9", "10", "a1", "a10", "a2", "-", "_", ".",
+            "a-b", "a_b", "a.b", "ab", "a-", "_a", ".a", "é", "É", "e", "E", "f", "ø", "Ø", "o", "p", "café", "cafe", "cafë", "中", "文", "日本",
+            "中文", "한국", "ア", "a中" };
+        static void Ids(JsonNode? n, List<string> into)
+        {
+            if (n is JsonObject o) foreach (var (k, v) in o) { if (k == "id" && v is JsonValue s && s.TryGetValue<string>(out var id)) into.Add(id); else Ids(v, into); }
+            else if (n is JsonArray a) foreach (var v in a) Ids(v, into);
+        }
+        foreach (var file in Directory.GetFiles(Fixtures.Upstream("examples"), "*.json").Where(f => f.EndsWith(".architecture.json") || f.EndsWith(".workflow.json")))
+            Ids(JsonNode.Parse(File.ReadAllText(file)), words);
+        words.AddRange(BrandMarks.ListBrandMarks().Select(m => m.Id));
+        words = [.. words.Distinct()];
+        Assert.True(words.Count > 250, $"{words.Count} strings");   // 288 at c21c31ff: the examples and the catalog were found
+        var mismatches = new List<string>();
+        foreach (var a in words) foreach (var b in words)
+            if (Math.Sign(en.Compare(a, b, System.Globalization.CompareOptions.None)) != Math.Sign(Js.LocaleCompare(a, b))) mismatches.Add($"{a} vs {b}");
+        Assert.Empty(mismatches);
+    }
     [Fact] public void Stringify_matches_V8()
     {
         foreach (var e in Load("stringify.json"))

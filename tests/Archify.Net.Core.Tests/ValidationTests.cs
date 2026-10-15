@@ -233,6 +233,9 @@ public class ValidationTests
         Assert.Equal(("tree-file", 1, 0, "tree-file"), Collide("a", "a/b"));
         Assert.Equal(("tree-file", 1, 0, "tree-file"), Collide("a/b", "a"));
         Assert.Equal(("directory-case", 1, 0, "directory-spelling"), Collide("A/x", "a/y"));
+        // Full case mapping (GLOB-001), Node: ß uppercases to SS (portable-path.mjs:244, :274), İ lowercases to i̇ (:242, :272).
+        Assert.Equal(("case", 1, 0, "entry"), Collide("straße", "STRASSE"));
+        Assert.Equal(("case", 1, 0, "entry"), Collide("İ.txt", "i̇.txt"));
         Assert.Null(Collide("a/x", "a/y", "b"));
     }
 

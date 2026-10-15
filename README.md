@@ -394,7 +394,7 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - *`Date.parse` outside the schema shape:* strings the timeline schema rejects (`2026-10-01 10:00:00Z`, offset-less timestamps) are `NaN` in the port; unreachable through `Render` because the schema gate runs first.
 - *Time zone ids the OS cannot resolve:* `meta.timezone` ids that V8's ICU accepts but the host's ICU list or `TimeZoneInfo` cannot resolve are rejected with `timeline/invalid-timezone`. The set varies with the OS build. On Windows with ICU 72.1 it includes `CET`, `EET`, `MET`, `WET`, `America/Ciudad_Juarez`, `Antarctica/Troll`, `Asia/Urumqi`, `Asia/Kashgar`, `Antarctica/Vostok`, `America/Coyhaique` and the `SystemV/*` legacy ids (card TZ-001).
 - *Time zones by host:* Windows with `icu.dll` matches IANA ids case-insensitively, as V8 does. Off Windows only exact-case IANA ids are accepted. On Windows without ICU (before Windows 10 1903, Server 2019, or `System.Globalization.UseNls=true`) only UTC and fixed offsets are accepted (card TZ-002).
-- A host with `InvariantGlobalization` on cannot use the library: the `Js` static constructor throws (card GLOB-001).
+- With `InvariantGlobalization` on, `localeCompare` orderings (unknown-component suggestions, brand suggestions, workflow placement repair ties) compare ordinally instead of by ICU root collation (card GLOB-001).
 - A valid-JSON root that is not an object reports `input/json-parse`. Upstream reports `schema/type` at `/`.
 - `Js.Sort` equals V8 only for consistent comparators. A comparator that returns NaN diverges.
 - The remote brand form `{url, sha256}` reports `brand/capture-unavailable` and makes no network call.
