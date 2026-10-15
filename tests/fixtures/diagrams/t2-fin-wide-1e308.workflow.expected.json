@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"write\" has explicit geometry that violates finite route coordinates.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"write\" has explicit geometry that violates finite route coordinates.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "write",
+        "from": "save",
+        "to": "prepare"
+      },
+      "evidence": {
+        "invariant": "finite route coordinates",
+        "conflictingPins": [
+          {
+            "edge": "write",
+            "field": "via",
+            "path": "/edges/0/via",
+            "value": [
+              [
+                100,
+                33
+              ]
+            ]
+          },
+          {
+            "edge": "write",
+            "field": "fromSide",
+            "path": "/edges/0/fromSide",
+            "value": "right"
+          },
+          {
+            "edge": "write",
+            "field": "toSide",
+            "path": "/edges/0/toSide",
+            "value": "left"
+          }
+        ],
+        "pointIndex": 0,
+        "point": [
+          null,
+          119
+        ]
+      },
+      "supportedFixes": []
+    }
+  ]
+}

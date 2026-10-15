@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"write\" has explicit geometry that violates non-zero route segments.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"write\" has explicit geometry that violates non-zero route segments.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "write",
+        "from": "prepare",
+        "to": "save",
+        "path": "/edges/0/channelX"
+      },
+      "evidence": {
+        "invariant": "non-zero route segments",
+        "conflictingPins": [
+          {
+            "edge": "write",
+            "field": "channelX",
+            "path": "/edges/0/channelX",
+            "value": 1.7976931348623157e+308
+          }
+        ],
+        "segmentIndex": 1,
+        "from": [
+          1.7976931348623157e+308,
+          119
+        ],
+        "to": [
+          1.7976931348623157e+308,
+          119
+        ]
+      },
+      "supportedFixes": [
+        "remove channelX from edge \"write\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

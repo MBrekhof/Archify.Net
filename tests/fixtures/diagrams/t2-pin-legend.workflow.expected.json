@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates legend clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates legend clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/channelY"
+      },
+      "evidence": {
+        "invariant": "legend clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "channelY",
+            "path": "/edges/0/channelY",
+            "value": 200
+          }
+        ],
+        "points": [
+          [
+            94,
+            145
+          ],
+          [
+            94,
+            200
+          ],
+          [
+            334,
+            200
+          ],
+          [
+            334,
+            145
+          ]
+        ],
+        "legendObstacle": {
+          "kind": "backend",
+          "x": 82,
+          "y": 190,
+          "width": 95,
+          "height": 14
+        }
+      },
+      "supportedFixes": [
+        "remove channelY from edge \"ab\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

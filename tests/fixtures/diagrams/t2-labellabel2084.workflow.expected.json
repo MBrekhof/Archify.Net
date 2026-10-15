@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"one\" has explicit geometry that violates explicit label-label clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"one\" has explicit geometry that violates explicit label-label clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "one",
+        "from": "a",
+        "to": "b"
+      },
+      "evidence": {
+        "invariant": "explicit label-label clearance",
+        "conflictingPins": [
+          {
+            "edge": "one",
+            "field": "labelAt",
+            "path": "/edges/0/labelAt",
+            "value": [
+              214,
+              80
+            ]
+          },
+          {
+            "edge": "two",
+            "field": "labelAt",
+            "path": "/edges/1/labelAt",
+            "value": [
+              214,
+              80
+            ]
+          }
+        ],
+        "labelRects": [
+          {
+            "edge": "one",
+            "x": 199,
+            "y": 70,
+            "width": 30,
+            "height": 14
+          },
+          {
+            "edge": "two",
+            "x": 199,
+            "y": 70,
+            "width": 30,
+            "height": 14
+          }
+        ],
+        "minimumGapPx": -2
+      },
+      "supportedFixes": [
+        "set labelAt on edge \"one\" to [214, 104]",
+        "set labelAt on edge \"one\" to [214, 56]",
+        "set labelAt on edge \"one\" to [214, 32]",
+        "set labelAt on edge \"one\" to [262, 80]",
+        "set labelAt on edge \"one\" to [166, 80]",
+        "set labelAt on edge \"two\" to [214, 104]",
+        "set labelAt on edge \"two\" to [214, 56]",
+        "set labelAt on edge \"two\" to [214, 32]",
+        "set labelAt on edge \"two\" to [262, 80]",
+        "set labelAt on edge \"two\" to [166, 80]"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates node clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates node clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/via"
+      },
+      "evidence": {
+        "invariant": "node clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "via",
+            "path": "/edges/0/via",
+            "value": [
+              [
+                200,
+                119
+              ],
+              [
+                260,
+                119
+              ]
+            ]
+          }
+        ],
+        "obstacleNode": "obstacle",
+        "obstacleRole": "unrelated",
+        "segmentIndex": 0,
+        "from": [
+          140,
+          119
+        ],
+        "to": [
+          200,
+          119
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "remove via from edge \"ab\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

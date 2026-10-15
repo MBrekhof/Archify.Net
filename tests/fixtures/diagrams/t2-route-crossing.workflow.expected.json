@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"z-side\" has explicit geometry that violates explicit route-route crossing.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"z-side\" has explicit geometry that violates explicit route-route crossing.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "z-side",
+        "from": "n02",
+        "to": "n11"
+      },
+      "evidence": {
+        "invariant": "explicit route-route crossing",
+        "conflictingPins": [
+          {
+            "edge": "z-side",
+            "field": "fromSide",
+            "path": "/edges/1/fromSide",
+            "value": "top"
+          },
+          {
+            "edge": "z-side",
+            "field": "toSide",
+            "path": "/edges/1/toSide",
+            "value": "left"
+          }
+        ],
+        "point": [
+          156,
+          119
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 2,
+        "routeSegments": [
+          {
+            "edge": "a-auto",
+            "from": [
+              140,
+              119
+            ],
+            "to": [
+              172,
+              119
+            ]
+          },
+          {
+            "edge": "z-side",
+            "from": [
+              156,
+              36
+            ],
+            "to": [
+              156,
+              243
+            ]
+          }
+        ],
+        "sourceRouteSegments": [
+          {
+            "edge": "a-auto",
+            "from": [
+              140,
+              119
+            ],
+            "to": [
+              172,
+              119
+            ]
+          },
+          {
+            "edge": "z-side",
+            "from": [
+              156,
+              36
+            ],
+            "to": [
+              156,
+              243
+            ]
+          }
+        ]
+      },
+      "supportedFixes": [
+        "remove fromSide from edge \"z-side\" so readable-v2 can replan the remaining authored route assertions",
+        "remove toSide from edge \"z-side\" so readable-v2 can replan the remaining authored route assertions"
+      ]
+    }
+  ]
+}

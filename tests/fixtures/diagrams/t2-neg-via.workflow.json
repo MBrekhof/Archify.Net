@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Negative via",
+    "output": "neg-via.html"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Main"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prepare",
+      "lane": "main",
+      "col": 0,
+      "type": "backend",
+      "label": "Prepare"
+    },
+    {
+      "id": "save",
+      "lane": "main",
+      "col": 1,
+      "type": "database",
+      "label": "Save"
+    }
+  ],
+  "edges": [
+    {
+      "id": "write",
+      "from": "prepare",
+      "to": "save",
+      "via": [
+        [
+          -10,
+          33
+        ]
+      ]
+    }
+  ]
+}

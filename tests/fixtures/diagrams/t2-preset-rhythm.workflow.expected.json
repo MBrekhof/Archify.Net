@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" cannot satisfy route preset \"drop\": candidate violates readable segment rhythm.",
+  "diagnostics": [
+    {
+      "code": "workflow/route-preset-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" cannot satisfy route preset \"drop\": candidate violates readable segment rhythm.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "route": "drop"
+      },
+      "evidence": {
+        "invariant": "readable segment rhythm",
+        "segmentIndex": 0,
+        "actualSegmentPx": 7.999799999999993,
+        "requiredSegmentPx": 8,
+        "attemptedCandidateFamily": "drop",
+        "points": [
+          [
+            94,
+            123.9998
+          ],
+          [
+            94,
+            116
+          ],
+          [
+            334,
+            116
+          ],
+          [
+            334,
+            123.9998
+          ]
+        ],
+        "fromSide": "top",
+        "toSide": "top",
+        "requiredEndpointStubPx": 8,
+        "requiredInteriorSegmentPx": 16,
+        "requiredDirectClearancePx": 28
+      },
+      "supportedFixes": [
+        "set edge \"ab\" route to verified preset \"up-channel\"",
+        "remove route from edge \"ab\" so readable-v2 can use its verified automatic candidate"
+      ]
+    }
+  ]
+}

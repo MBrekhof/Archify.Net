@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"z-candidate\" cannot satisfy route preset \"straight\": candidate violates placed edge-label clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/route-preset-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"z-candidate\" cannot satisfy route preset \"straight\": candidate violates placed edge-label clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "z-candidate",
+        "from": "c",
+        "to": "d",
+        "route": "straight"
+      },
+      "evidence": {
+        "invariant": "placed edge-label clearance",
+        "conflictType": "label-route",
+        "candidateEdge": {
+          "edge": "z-candidate",
+          "from": "c",
+          "to": "d",
+          "path": "/edges/0"
+        },
+        "otherEdge": {
+          "edge": null,
+          "from": "a",
+          "to": "b",
+          "path": "/edges/1"
+        },
+        "candidateLabel": {
+          "label": "Candidate",
+          "rect": {
+            "x": 187.4,
+            "y": 113,
+            "width": 53.199999999999996,
+            "height": 14
+          }
+        },
+        "segment": {
+          "edge": "other",
+          "index": 0,
+          "from": [
+            140,
+            119
+          ],
+          "to": [
+            288,
+            119
+          ]
+        },
+        "measuredClearancePx": 0,
+        "requiredClearancePx": 4,
+        "attemptedCandidateFamily": "straight",
+        "points": [
+          [
+            140,
+            243
+          ],
+          [
+            288,
+            243
+          ]
+        ],
+        "fromSide": "right",
+        "toSide": "left",
+        "requiredEndpointStubPx": 8,
+        "requiredInteriorSegmentPx": 16,
+        "requiredDirectClearancePx": 28
+      },
+      "supportedFixes": [
+        "set edge \"z-candidate\" route to verified preset \"bottom-channel\"",
+        "remove route from edge \"z-candidate\" so readable-v2 can use its verified automatic candidate"
+      ]
+    }
+  ]
+}

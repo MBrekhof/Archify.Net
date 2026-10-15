@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Pin search",
+    "output": "pin-search.html"
+  },
+  "lanes": [
+    {
+      "id": "top",
+      "label": "Top"
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "lane": "top",
+      "col": 1,
+      "type": "backend",
+      "label": "A"
+    },
+    {
+      "id": "b",
+      "lane": "bottom",
+      "col": 3,
+      "type": "backend",
+      "label": "B"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ab",
+      "from": "a",
+      "to": "b",
+      "channelY": 0
+    }
+  ],
+  "phases": [
+    {
+      "id": "p",
+      "fromCol": 0,
+      "toCol": 2,
+      "label": "Phase one"
+    }
+  ]
+}

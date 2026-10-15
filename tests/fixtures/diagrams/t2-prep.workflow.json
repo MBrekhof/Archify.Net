@@ -1,0 +1,334 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Retry and expiry",
+    "output": "retry-expiry.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "buyer",
+      "label": "buyer"
+    },
+    {
+      "id": "order",
+      "label": "order"
+    },
+    {
+      "id": "stock",
+      "label": "stock"
+    },
+    {
+      "id": "payment",
+      "label": "payment"
+    },
+    {
+      "id": "confirmation",
+      "label": "confirmation"
+    },
+    {
+      "id": "warehouse",
+      "label": "warehouse"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "submit",
+      "lane": "buyer",
+      "col": 0,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "submit",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "retry",
+      "lane": "buyer",
+      "col": 3,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "retry",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "validate",
+      "lane": "order",
+      "col": 0,
+      "yOffset": -50,
+      "type": "backend",
+      "label": "validate",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "pending",
+      "lane": "order",
+      "col": 1,
+      "yOffset": 50,
+      "type": "backend",
+      "label": "pending",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "rejected",
+      "lane": "order",
+      "col": 3,
+      "yOffset": -50,
+      "type": "backend",
+      "label": "rejected",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "reserve",
+      "lane": "stock",
+      "col": 0,
+      "yOffset": -50,
+      "type": "backend",
+      "label": "reserve",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "release",
+      "lane": "stock",
+      "col": 4,
+      "yOffset": 50,
+      "type": "backend",
+      "label": "release",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "pay",
+      "lane": "payment",
+      "col": 1,
+      "yOffset": -50,
+      "type": "backend",
+      "label": "pay",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "result",
+      "lane": "payment",
+      "col": 2,
+      "yOffset": -50,
+      "type": "backend",
+      "label": "result",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "failed",
+      "lane": "payment",
+      "col": 3,
+      "yOffset": -50,
+      "type": "backend",
+      "label": "failed",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "deadline",
+      "lane": "payment",
+      "col": 4,
+      "yOffset": 50,
+      "type": "backend",
+      "label": "deadline",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "paid",
+      "lane": "confirmation",
+      "col": 2,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "paid",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "event",
+      "lane": "confirmation",
+      "col": 3,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "event",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "close",
+      "lane": "confirmation",
+      "col": 4,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "close",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "pick",
+      "lane": "warehouse",
+      "col": 3,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "pick",
+      "width": 152,
+      "height": 60
+    },
+    {
+      "id": "ship",
+      "lane": "warehouse",
+      "col": 4,
+      "yOffset": 0,
+      "type": "backend",
+      "label": "ship",
+      "width": 152,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "submit-validate",
+      "from": "submit",
+      "to": "validate",
+      "label": ""
+    },
+    {
+      "id": "validate-reserve",
+      "from": "validate",
+      "to": "reserve",
+      "label": "Valid"
+    },
+    {
+      "id": "reserve-pending",
+      "from": "reserve",
+      "to": "pending",
+      "label": "Held"
+    },
+    {
+      "id": "reserve-rejected",
+      "from": "reserve",
+      "to": "rejected",
+      "label": "Empty",
+      "role": "error"
+    },
+    {
+      "id": "pending-pay",
+      "from": "pending",
+      "to": "pay",
+      "label": ""
+    },
+    {
+      "id": "pay-result",
+      "from": "pay",
+      "to": "result",
+      "label": ""
+    },
+    {
+      "id": "result-paid",
+      "from": "result",
+      "to": "paid",
+      "label": "Yes"
+    },
+    {
+      "id": "result-failed",
+      "from": "result",
+      "to": "failed",
+      "label": "No",
+      "role": "error"
+    },
+    {
+      "id": "failed-retry",
+      "from": "failed",
+      "to": "retry",
+      "label": "Retry",
+      "role": "return"
+    },
+    {
+      "id": "retry-pay",
+      "from": "retry",
+      "to": "pay",
+      "label": "In time",
+      "role": "return"
+    },
+    {
+      "id": "pending-deadline",
+      "from": "pending",
+      "to": "deadline",
+      "label": "Wait",
+      "role": "branch"
+    },
+    {
+      "id": "deadline-close",
+      "from": "deadline",
+      "to": "close",
+      "label": "Yes",
+      "role": "error"
+    },
+    {
+      "id": "paid-event",
+      "from": "paid",
+      "to": "event",
+      "label": ""
+    },
+    {
+      "id": "event-pick",
+      "from": "event",
+      "to": "pick",
+      "label": "Paid",
+      "role": "async"
+    },
+    {
+      "id": "pick-ship",
+      "from": "pick",
+      "to": "ship",
+      "label": ""
+    },
+    {
+      "id": "close-release",
+      "from": "close",
+      "to": "release",
+      "label": "Release"
+    }
+  ],
+  "mainPath": [
+    "submit",
+    "validate",
+    "reserve",
+    "pending",
+    "pay",
+    "result",
+    "paid",
+    "event",
+    "pick",
+    "ship"
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "submit"
+    ],
+    "allowedTerminals": [
+      "rejected",
+      "release",
+      "ship"
+    ],
+    "requiredPaths": [
+      {
+        "from": "failed",
+        "to": "pay"
+      },
+      {
+        "from": "pending",
+        "to": "release"
+      }
+    ]
+  }
+}

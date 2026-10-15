@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow layout validation failed:\n- [composition/proper-crossing] showcase workflow edges[8] id \"failed-retry\" \"failed\" -> \"retry\" crosses edges[10] id \"pending-deadline\" \"pending\" -> \"deadline\" at [618, 587] (segments 0 and 1) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "error",
+      "message": "[composition/proper-crossing] showcase workflow edges[8] id \"failed-retry\" \"failed\" -> \"retry\" crosses edges[10] id \"pending-deadline\" \"pending\" -> \"deadline\" at [618, 587] (segments 0 and 1) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 8,
+        "id": "failed-retry",
+        "from": "failed",
+        "to": "retry"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 10,
+          "id": "pending-deadline",
+          "from": "pending",
+          "to": "deadline"
+        },
+        "point": [
+          618,
+          587
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 1,
+        "verifiedRepair": {
+          "scope": "complete-workflow-compile",
+          "kind": "optional-node-placement",
+          "changes": [
+            {
+              "op": "replace",
+              "path": "/nodes/0/col",
+              "value": 1
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/1/col",
+              "value": 0
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/2/col",
+              "value": 1
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/3/col",
+              "value": 2
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/4/col",
+              "value": 2
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/5/col",
+              "value": 1
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/6/col",
+              "value": 5
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/7/col",
+              "value": 2
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/8/col",
+              "value": 3
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/9/col",
+              "value": 0
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/9/yOffset",
+              "value": 50
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/10/col",
+              "value": 5
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/11/col",
+              "value": 3
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/12/col",
+              "value": 4
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/13/col",
+              "value": 5
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/14/col",
+              "value": 4
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/14/yOffset",
+              "value": -50
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/15/yOffset",
+              "value": 50
+            }
+          ]
+        }
+      },
+      "supportedFixes": [
+        "if node columns and row offsets are flexible, apply the complete optional-node-placement changes in evidence.verifiedRepair together; this workflow then passes compilation with every node, relationship, lane, condition and mainPath preserved (browser verification and visual review still required)",
+        "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+      ]
+    }
+  ]
+}

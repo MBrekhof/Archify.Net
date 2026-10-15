@@ -1,0 +1,75 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Workflow compiler hard-contract fixture",
+    "output": "workflow-hard-contract.html",
+    "legend": {
+      "mode": "hidden"
+    },
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "top",
+      "label": "Top"
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "lane": "top",
+      "col": 0,
+      "type": "backend",
+      "label": "A"
+    },
+    {
+      "id": "b",
+      "lane": "top",
+      "col": 4,
+      "type": "backend",
+      "label": "B"
+    },
+    {
+      "id": "c",
+      "lane": "bottom",
+      "col": 0,
+      "type": "backend",
+      "label": "C"
+    },
+    {
+      "id": "d",
+      "lane": "bottom",
+      "col": 4,
+      "type": "backend",
+      "label": "D"
+    }
+  ],
+  "edges": [
+    {
+      "id": "z-route",
+      "from": "c",
+      "to": "d",
+      "via": [
+        [
+          334,
+          243
+        ]
+      ]
+    },
+    {
+      "id": "a-label",
+      "from": "a",
+      "to": "b",
+      "label": "PIN",
+      "labelAt": [
+        334,
+        243
+      ]
+    }
+  ]
+}

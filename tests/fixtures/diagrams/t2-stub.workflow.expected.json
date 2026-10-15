@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates 8px endpoint stub clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates 8px endpoint stub clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/via"
+      },
+      "evidence": {
+        "invariant": "8px endpoint stub clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "via",
+            "path": "/edges/0/via",
+            "value": [
+              [
+                144,
+                119
+              ],
+              [
+                144,
+                160
+              ],
+              [
+                288,
+                160
+              ]
+            ]
+          }
+        ],
+        "segmentIndex": 0,
+        "position": "source-stub",
+        "from": [
+          140,
+          119
+        ],
+        "to": [
+          144,
+          119
+        ],
+        "lengthPx": 4,
+        "minimumPx": 8
+      },
+      "supportedFixes": [
+        "remove via from edge \"ab\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

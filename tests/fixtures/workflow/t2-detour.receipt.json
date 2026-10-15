@@ -1,0 +1,140 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    772,
+    652
+  ],
+  "requiredViewBox": [
+    772,
+    652
+  ],
+  "columns": [
+    94,
+    214,
+    338,
+    458,
+    578,
+    698
+  ],
+  "nodes": [
+    {
+      "id": "above",
+      "lane": "top",
+      "col": 2,
+      "x": 292,
+      "y": 93,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "left",
+      "lane": "middle",
+      "col": 0,
+      "x": 48,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "right",
+      "lane": "middle",
+      "col": 4,
+      "x": 532,
+      "y": 217,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "below",
+      "lane": "bottom",
+      "col": 2,
+      "x": 292,
+      "y": 341,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "a",
+      "lane": "issue",
+      "col": 1,
+      "x": 168,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "b",
+      "lane": "issue",
+      "col": 2,
+      "x": 292,
+      "y": 465,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "ab",
+      "from": "a",
+      "to": "b",
+      "points": [
+        [
+          260,
+          491
+        ],
+        [
+          292,
+          491
+        ]
+      ]
+    },
+    {
+      "id": "horizontal",
+      "from": "left",
+      "to": "right",
+      "points": [
+        [
+          140,
+          243
+        ],
+        [
+          532,
+          243
+        ]
+      ]
+    },
+    {
+      "id": "vertical",
+      "from": "above",
+      "to": "below",
+      "points": [
+        [
+          338,
+          145
+        ],
+        [
+          338,
+          161
+        ],
+        [
+          632,
+          161
+        ],
+        [
+          632,
+          325
+        ],
+        [
+          338,
+          325
+        ],
+        [
+          338,
+          341
+        ]
+      ]
+    }
+  ],
+  "labels": [],
+  "diagnostics": []
+}

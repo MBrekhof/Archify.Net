@@ -1,0 +1,176 @@
+{
+  "contract": "readable-v2",
+  "viewBox": [
+    768,
+    856
+  ],
+  "requiredViewBox": [
+    768,
+    856
+  ],
+  "columns": [
+    94,
+    214,
+    334,
+    454,
+    574,
+    694
+  ],
+  "nodes": [
+    {
+      "id": "reply",
+      "lane": "caller",
+      "col": 2,
+      "x": 288,
+      "y": 206,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "pending",
+      "lane": "query",
+      "col": 0,
+      "x": 48,
+      "y": 596,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "error",
+      "lane": "query",
+      "col": 1,
+      "x": 168,
+      "y": 436,
+      "width": 92,
+      "height": 52
+    },
+    {
+      "id": "result",
+      "lane": "query",
+      "col": 2,
+      "x": 288,
+      "y": 676,
+      "width": 92,
+      "height": 52
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-pending-result",
+      "from": "pending",
+      "to": "result",
+      "points": [
+        [
+          140,
+          622
+        ],
+        [
+          214,
+          622
+        ],
+        [
+          214,
+          702
+        ],
+        [
+          288,
+          702
+        ]
+      ]
+    },
+    {
+      "id": "a0-return",
+      "from": "result",
+      "to": "reply",
+      "points": [
+        [
+          334,
+          676
+        ],
+        [
+          334,
+          258
+        ]
+      ]
+    },
+    {
+      "id": "b-error-result",
+      "from": "error",
+      "to": "result",
+      "points": [
+        [
+          260,
+          462
+        ],
+        [
+          276,
+          462
+        ],
+        [
+          276,
+          748
+        ],
+        [
+          334,
+          748
+        ],
+        [
+          334,
+          728
+        ]
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "edge": "a0-return",
+      "label": "Return to caller",
+      "x": 334,
+      "y": 467,
+      "width": 86.8,
+      "height": 14
+    },
+    {
+      "edge": "b-error-result",
+      "label": "Error result",
+      "x": 305,
+      "y": 738,
+      "width": 67.6,
+      "height": 14
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "warning",
+      "message": "[composition/proper-crossing] standard workflow edges[0] id \"a-pending-result\" \"pending\" -> \"result\" crosses edges[1] id \"b-error-result\" \"error\" -> \"result\" at [276, 702] (segments 2 and 1) — if the authored fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 0,
+        "id": "a-pending-result",
+        "from": "pending",
+        "to": "result"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 1,
+          "id": "b-error-result",
+          "from": "error",
+          "to": "result"
+        },
+        "point": [
+          276,
+          702
+        ],
+        "segmentIndex": 2,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "if the authored fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+      ]
+    }
+  ]
+}

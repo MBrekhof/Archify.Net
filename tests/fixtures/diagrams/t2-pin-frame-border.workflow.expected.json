@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates structural-frame border clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates structural-frame border clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/channelY"
+      },
+      "evidence": {
+        "invariant": "structural-frame border clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "channelY",
+            "path": "/edges/0/channelY",
+            "value": 52
+          }
+        ],
+        "points": [
+          [
+            214,
+            93
+          ],
+          [
+            214,
+            52
+          ],
+          [
+            454,
+            52
+          ],
+          [
+            454,
+            217
+          ]
+        ],
+        "frame": "lane-0",
+        "side": "top",
+        "overlapLengthPx": 240
+      },
+      "supportedFixes": [
+        "remove channelY from edge \"ab\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

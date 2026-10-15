@@ -1,0 +1,38 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Negative channel",
+    "output": "neg-channel.html"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Main"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prepare",
+      "lane": "main",
+      "col": 0,
+      "type": "backend",
+      "label": "Prepare"
+    },
+    {
+      "id": "save",
+      "lane": "main",
+      "col": 1,
+      "type": "database",
+      "label": "Save"
+    }
+  ],
+  "edges": [
+    {
+      "id": "write",
+      "from": "prepare",
+      "to": "save",
+      "channelY": -5
+    }
+  ]
+}

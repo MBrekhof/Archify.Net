@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"eligible\" has explicit geometry that violates edge-label node clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"eligible\" has explicit geometry that violates edge-label node clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "eligible",
+        "from": "verify",
+        "to": "lend",
+        "path": "/edges/0/labelAt"
+      },
+      "evidence": {
+        "invariant": "edge-label node clearance",
+        "conflictingPins": [
+          {
+            "edge": "eligible",
+            "field": "labelAt",
+            "path": "/edges/0/labelAt",
+            "value": [
+              200,
+              100
+            ]
+          }
+        ],
+        "labelAt": [
+          200,
+          100
+        ],
+        "labelRect": {
+          "x": 175.8,
+          "y": 90,
+          "width": 48.4,
+          "height": 14
+        },
+        "obstacleNode": "lend"
+      },
+      "supportedFixes": [
+        "remove labelAt so readable-v2 can use its verified automatic label placement"
+      ]
+    }
+  ]
+}

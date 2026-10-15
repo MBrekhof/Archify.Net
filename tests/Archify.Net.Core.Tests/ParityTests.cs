@@ -98,6 +98,10 @@ public class ParityTests
         ["workflow", Fixtures.Fixture("diagrams/shared-trunks.workflow.json"), Fixtures.Golden("shared-trunks-rendered.html")],   // controlled routes
         // Phase 3, task 11: brand marks on a readable-v2 workflow (zh-CN).
         ["workflow", Fixtures.Fixture("diagrams/holiday-planning.brand.workflow.json"), Fixtures.Golden("holiday-planning.brand-rendered.html")],
+        // TEST-002: layout feedback (rank-gap round), an internal-detour plan, and a standard-profile success whose receipt carries a warning.
+        ["workflow", Fixtures.Fixture("diagrams/t2-rg-100.workflow.json"), Fixtures.Golden("t2-rg-100-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/t2-detour.workflow.json"), Fixtures.Golden("t2-detour-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/t2-xrep-standard.workflow.json"), Fixtures.Golden("t2-xrep-standard-rendered.html")],
         // Phase 4: erd (both upstream examples and every Task 1 golden).
         ["erd", Fixtures.Upstream("examples/orders.erd.json"), Fixtures.Upstream("examples/erd-orders-rendered.html")],
         ["erd", Fixtures.Upstream("examples/subscription-billing.erd.json"), Fixtures.Upstream("examples/subscription-billing-rendered.html")],
@@ -193,6 +197,37 @@ public class ParityTests
     [InlineData("wf-single-pin-conflict")]
     [InlineData("wf-v1-column-capacity")]
     [InlineData("wf-release-luna")]
+    // TEST-002 (survey-test2): feedback rounds, authored-pin invariants, preset conflicts and verified repairs.
+    [InlineData("t2-lg6")]
+    [InlineData("t2-fb-exhaust")]
+    [InlineData("t2-labelroute2077")]
+    [InlineData("t2-labellabel2036")]
+    [InlineData("t2-labellabel2084")]
+    [InlineData("t2-route-crossing")]
+    [InlineData("t2-route-corridor")]
+    [InlineData("t2-labelat-origin")]
+    [InlineData("t2-labelat-node")]
+    [InlineData("t2-labelat-legend")]
+    [InlineData("t2-labelat-scene")]
+    [InlineData("t2-neg-via")]
+    [InlineData("t2-neg-channel")]
+    [InlineData("t2-fin-wide-1e308")]
+    [InlineData("t2-nonzero")]
+    [InlineData("t2-stub")]
+    [InlineData("t2-channel")]
+    [InlineData("t2-preset2562")]
+    [InlineData("t2-preset2218")]
+    [InlineData("t2-perpendicular")]
+    [InlineData("t2-pin-node")]
+    [InlineData("t2-pin-legend")]
+    [InlineData("t2-pin-scene-label")]
+    [InlineData("t2-pin-frame-border")]
+    [InlineData("t2-placed-label-label")]
+    [InlineData("t2-placed-route-label")]
+    [InlineData("t2-placed-label-route")]
+    [InlineData("t2-preset-rhythm")]
+    [InlineData("t2-xrep")]
+    [InlineData("t2-prep")]
     public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));

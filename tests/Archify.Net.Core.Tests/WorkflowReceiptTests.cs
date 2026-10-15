@@ -59,6 +59,10 @@ public class WorkflowReceiptTests
     [InlineData("shared-trunks", "fixture:diagrams/shared-trunks.workflow.json")]
     // Phase 3, task 11: brand marks.
     [InlineData("holiday-planning.brand", "fixture:diagrams/holiday-planning.brand.workflow.json")]
+    // TEST-002: rank-gap feedback round, internal-detour plan, standard-profile receipt with a warning.
+    [InlineData("t2-rg-100", "fixture:diagrams/t2-rg-100.workflow.json")]
+    [InlineData("t2-detour", "fixture:diagrams/t2-detour.workflow.json")]
+    [InlineData("t2-xrep-standard", "fixture:diagrams/t2-xrep-standard.workflow.json")]
     public void Workflow_receipt_equals_upstream_layout_json(string name, string input)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
@@ -68,6 +72,14 @@ public class WorkflowReceiptTests
         // R5: the facade's layout report is the receipt itself, diagnostics included — what `--layout-json` prints (render-workflow.mjs:33).
         var r = ArchifyNet.Render(DiagramType.Workflow, DiagramLoader.Parse(Fixtures.Lf(path)));
         Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"workflow/{name}.receipt.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
+    }
+
+    // TEST-002: the row above must not pass vacuously — its receipt really carries the composition warning (Layout.Report.diagnostics).
+    [Fact] public void Workflow_standard_warning_receipt_has_diagnostics()
+    {
+        var r = ArchifyNet.Render(DiagramType.Workflow, DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture("diagrams/t2-xrep-standard.workflow.json"))));
+        Assert.NotEmpty(r.Layout!.Report["diagnostics"]!.AsArray());
+        Assert.Contains(r.Layout!.Report["diagnostics"]!.AsArray(), x => x!["code"]!.GetValue<string>() == "composition/proper-crossing" && x["severity"]!.GetValue<string>() == "warning");
     }
 
     // Phase 3, task 11: RenderOptions.Quality standard on a showcase example, captured with ARCHIFY_QUALITY_PROFILE=standard (R4).

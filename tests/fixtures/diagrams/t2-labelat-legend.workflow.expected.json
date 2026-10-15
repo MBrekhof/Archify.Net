@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates edge-label legend clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates edge-label legend clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/labelAt"
+      },
+      "evidence": {
+        "invariant": "edge-label legend clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "labelAt",
+            "path": "/edges/0/labelAt",
+            "value": [
+              30,
+              292
+            ]
+          }
+        ],
+        "labelAt": [
+          30,
+          292
+        ],
+        "labelRect": {
+          "x": 8.2,
+          "y": 282,
+          "width": 43.6,
+          "height": 14
+        },
+        "legendObstacle": {
+          "kind": "title",
+          "x": 20,
+          "y": 294,
+          "width": 48,
+          "height": 14
+        }
+      },
+      "supportedFixes": [
+        "remove labelAt so readable-v2 can use its verified automatic label placement"
+      ]
+    }
+  ]
+}

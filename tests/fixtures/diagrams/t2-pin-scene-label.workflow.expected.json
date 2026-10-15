@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates lane/phase/group label clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates lane/phase/group label clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/channelY"
+      },
+      "evidence": {
+        "invariant": "lane/phase/group label clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "channelY",
+            "path": "/edges/0/channelY",
+            "value": 0
+          }
+        ],
+        "points": [
+          [
+            214,
+            93
+          ],
+          [
+            214,
+            0
+          ],
+          [
+            454,
+            0
+          ],
+          [
+            454,
+            217
+          ]
+        ],
+        "compositionObstacle": {
+          "kind": "phase-header",
+          "id": "p",
+          "x": 48,
+          "y": 27,
+          "width": 332,
+          "height": 16
+        }
+      },
+      "supportedFixes": [
+        "remove channelY from edge \"ab\" so readable-v2 can replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

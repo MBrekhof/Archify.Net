@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"a-label\" has explicit geometry that violates explicit label-route clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"a-label\" has explicit geometry that violates explicit label-route clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "a-label",
+        "from": "a",
+        "to": "b"
+      },
+      "evidence": {
+        "invariant": "explicit label-route clearance",
+        "conflictingPins": [
+          {
+            "edge": "a-label",
+            "field": "labelAt",
+            "path": "/edges/1/labelAt",
+            "value": [
+              334,
+              243
+            ]
+          },
+          {
+            "edge": "z-route",
+            "field": "via",
+            "path": "/edges/0/via",
+            "value": [
+              [
+                334,
+                243
+              ]
+            ]
+          }
+        ],
+        "labelAt": [
+          334,
+          243
+        ],
+        "labelRect": {
+          "x": 319,
+          "y": 233,
+          "width": 30,
+          "height": 14
+        },
+        "collidedRoute": {
+          "edge": "z-route",
+          "from": "c",
+          "to": "d",
+          "points": [
+            [
+              140,
+              243
+            ],
+            [
+              334,
+              243
+            ],
+            [
+              528,
+              243
+            ]
+          ]
+        },
+        "routeSegmentIndex": 0,
+        "routeSegment": {
+          "from": [
+            140,
+            243
+          ],
+          "to": [
+            528,
+            243
+          ]
+        },
+        "clearancePx": 0,
+        "minimumPx": 4
+      },
+      "supportedFixes": [
+        "set labelAt on edge \"a-label\" to [334, 267]",
+        "set labelAt on edge \"a-label\" to [334, 219]",
+        "set labelAt on edge \"a-label\" to [334, 291]",
+        "set labelAt on edge \"a-label\" to [334, 195]",
+        "remove via from edge \"z-route\" so readable-v2 can replan the remaining authored label-route pins"
+      ]
+    }
+  ]
+}

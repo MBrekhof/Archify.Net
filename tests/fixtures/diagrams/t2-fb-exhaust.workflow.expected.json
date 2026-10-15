@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"e34\" exhausted bounded readable-v2 layout feedback without a feasible automatic route.",
+  "diagnostics": [
+    {
+      "code": "workflow/solver-budget-exhausted",
+      "severity": "error",
+      "message": "Workflow edge \"e34\" exhausted bounded readable-v2 layout feedback without a feasible automatic route.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "e34",
+        "from": "n3",
+        "to": "n4"
+      },
+      "evidence": {
+        "attemptedCandidateFamilies": [
+          "facing-straight",
+          "horizontal-then-vertical",
+          "vertical-then-horizontal",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "outside-left",
+          "outside-right",
+          "top-corridor",
+          "bottom-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor"
+        ],
+        "candidateCount": 17
+      },
+      "supportedFixes": []
+    }
+  ]
+}

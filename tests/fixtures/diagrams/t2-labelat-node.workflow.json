@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Library lending",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "output": "library-lending.html"
+  },
+  "lanes": [
+    {
+      "id": "desk",
+      "label": "Library lending: verify the borrower record, confirm membership is current, check borrowing limits, and approve available books for loan"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "verify",
+      "lane": "desk",
+      "col": 0,
+      "type": "backend",
+      "label": "Verify",
+      "sublabel": "Review borrower records"
+    },
+    {
+      "id": "lend",
+      "lane": "desk",
+      "col": 1,
+      "type": "backend",
+      "label": "Lend"
+    }
+  ],
+  "edges": [
+    {
+      "id": "eligible",
+      "from": "verify",
+      "to": "lend",
+      "label": "eligible",
+      "labelAt": [
+        200,
+        100
+      ]
+    }
+  ]
+}

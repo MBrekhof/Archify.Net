@@ -1,0 +1,47 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "T",
+    "output": "t.html"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Main"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prepare",
+      "lane": "main",
+      "col": 0,
+      "type": "backend",
+      "label": "Prepare",
+      "width": 1e+308
+    },
+    {
+      "id": "save",
+      "lane": "main",
+      "col": 1,
+      "type": "database",
+      "label": "Save",
+      "width": 1e+308
+    }
+  ],
+  "edges": [
+    {
+      "id": "write",
+      "from": "save",
+      "to": "prepare",
+      "fromSide": "right",
+      "toSide": "left",
+      "via": [
+        [
+          100,
+          33
+        ]
+      ]
+    }
+  ]
+}

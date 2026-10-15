@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Vertical handoff",
+    "output": "vertical.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "top",
+      "label": "Top"
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "lane": "top",
+      "col": 0,
+      "type": "backend",
+      "label": "A"
+    },
+    {
+      "id": "b",
+      "lane": "bottom",
+      "col": 0,
+      "type": "backend",
+      "label": "B"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ab",
+      "from": "a",
+      "to": "b",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "label": "handoff",
+      "labelSegment": 0
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Rank gap",
+    "output": "rank-gap.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "top",
+      "label": "Top"
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "lane": "top",
+      "col": 0,
+      "type": "backend",
+      "label": "A",
+      "width": 100
+    },
+    {
+      "id": "b",
+      "lane": "bottom",
+      "col": 1,
+      "type": "backend",
+      "label": "B",
+      "width": 100
+    }
+  ],
+  "edges": [
+    {
+      "id": "ab",
+      "from": "a",
+      "to": "b",
+      "fromSide": "right",
+      "toSide": "left"
+    }
+  ]
+}

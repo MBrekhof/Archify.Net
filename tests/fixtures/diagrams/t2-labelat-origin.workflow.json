@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Subscription setup",
+    "output": "subscription.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Subscription"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "save",
+      "lane": "main",
+      "col": 1,
+      "type": "database",
+      "label": "Save"
+    },
+    {
+      "id": "prepare",
+      "lane": "main",
+      "col": 0,
+      "type": "backend",
+      "label": "Prepare subscription"
+    }
+  ],
+  "edges": [
+    {
+      "id": "write",
+      "from": "prepare",
+      "to": "save",
+      "label": "write",
+      "labelAt": [
+        0,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"write\" has explicit geometry that violates viewBox-origin containment.\nPreserving absolute workflow geometry disables automatic node widening: 1 node(s) with omitted widths also have text-fit problems. Explicit widths can preserve their full text, but changing widths moves endpoints, so route coordinates must be remeasured. The reported automatic widths resolve these intrinsic text checks only; they are not a verified whole-diagram repair.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"write\" has explicit geometry that violates viewBox-origin containment.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "write",
+        "from": "prepare",
+        "to": "save",
+        "path": "/edges/0/labelAt"
+      },
+      "evidence": {
+        "invariant": "viewBox-origin containment",
+        "conflictingPins": [
+          {
+            "edge": "write",
+            "field": "labelAt",
+            "path": "/edges/0/labelAt",
+            "value": [
+              0,
+              0
+            ]
+          }
+        ],
+        "offendingRect": {
+          "x": -17,
+          "y": -10,
+          "width": 34,
+          "height": 14
+        },
+        "minimumCoordinate": 0
+      },
+      "supportedFixes": [
+        "remove labelAt from edge \"write\" so readable-v2 can use verified automatic label placement"
+      ]
+    },
+    {
+      "code": "workflow/absolute-geometry-sizing",
+      "severity": "warning",
+      "message": "Preserving absolute workflow geometry disables automatic node widening: 1 node(s) with omitted widths also have text-fit problems. Explicit widths can preserve their full text, but changing widths moves endpoints, so route coordinates must be remeasured. The reported automatic widths resolve these intrinsic text checks only; they are not a verified whole-diagram repair.",
+      "subject": {
+        "diagramType": "workflow"
+      },
+      "evidence": {
+        "absoluteConstraints": [
+          {
+            "path": "/edges/0/labelAt",
+            "value": [
+              0,
+              0
+            ]
+          }
+        ],
+        "affectedNodes": [
+          {
+            "node": "prepare",
+            "path": "/nodes/1/width",
+            "currentWidthPx": 92,
+            "automaticWidthPx": 132,
+            "problems": [
+              "Label \"Prepare subscription\" (~136px) is wider than component \"prepare\" (92px) — shorten the label or increase node.width."
+            ]
+          }
+        ]
+      },
+      "supportedFixes": []
+    }
+  ]
+}

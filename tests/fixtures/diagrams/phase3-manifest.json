@@ -584,6 +584,58 @@
       "task": 11
     },
     {
+      "name": "t2-rg-100",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/t2-rg-100.workflow.json",
+      "golden": "tests/goldens/t2-rg-100-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": true,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 10
+    },
+    {
+      "name": "t2-detour",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/t2-detour.workflow.json",
+      "golden": "tests/goldens/t2-detour-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "showcase",
+      "locale": null,
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
+      "name": "t2-xrep-standard",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/t2-xrep-standard.workflow.json",
+      "golden": "tests/goldens/t2-xrep-standard-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": "standard",
+      "locale": null,
+      "pins": true,
+      "coverage": [
+        "controlled",
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 10
+    },
+    {
       "name": "five-stage.option-showcase",
       "type": "dataflow",
       "input": "tests/fixtures/diagrams/five-stage.dataflow.json",

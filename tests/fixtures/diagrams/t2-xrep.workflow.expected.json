@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow layout validation failed:\n- [composition/proper-crossing] showcase workflow edges[0] id \"a-pending-result\" \"pending\" -> \"result\" crosses edges[1] id \"b-error-result\" \"error\" -> \"result\" at [276, 702] (segments 2 and 1) — if the authored fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "error",
+      "message": "[composition/proper-crossing] showcase workflow edges[0] id \"a-pending-result\" \"pending\" -> \"result\" crosses edges[1] id \"b-error-result\" \"error\" -> \"result\" at [276, 702] (segments 2 and 1) — if the authored fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 0,
+        "id": "a-pending-result",
+        "from": "pending",
+        "to": "result"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 1,
+          "id": "b-error-result",
+          "from": "error",
+          "to": "result"
+        },
+        "point": [
+          276,
+          702
+        ],
+        "segmentIndex": 2,
+        "otherSegmentIndex": 1,
+        "verifiedRepair": {
+          "scope": "complete-workflow-compile",
+          "changes": [
+            {
+              "op": "remove",
+              "path": "/edges/1/fromSide"
+            },
+            {
+              "op": "remove",
+              "path": "/edges/1/toSide"
+            }
+          ]
+        }
+      },
+      "supportedFixes": [
+        "if these endpoint sides and route presets are optional, remove /edges/1/fromSide, /edges/1/toSide together; this complete workflow passes compilation with those edits (browser verification still required)",
+        "if the authored fromSide/toSide are not required by the user, remove them so the renderer can re-plan; otherwise preserve that intent and adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+      ]
+    }
+  ]
+}

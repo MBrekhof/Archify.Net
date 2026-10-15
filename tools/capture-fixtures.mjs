@@ -475,6 +475,8 @@ const p3Targets = [
   ...phase3Copies.map(([type, , to]) => p3(type, to.replace(`.${type}.json`, ''))),
   p3('dataflow', 'five-stage'), p3('dataflow', 'pipeline'), p3('dataflow', 'legacy-narrow'),
   p3('dataflow', 'product-analytics.brand'), p3('workflow', 'holiday-planning.brand'),
+  // TEST-002 (survey-test2): committed inputs; t2-xrep-standard is the standard-profile success whose receipt carries a warning.
+  p3('workflow', 't2-rg-100'), p3('workflow', 't2-detour'), p3('workflow', 't2-xrep-standard'),
 ];
 targets.push(...p3Targets);
 // --- phase 4: erd inputs. Upstream first-draft fixtures copied verbatim; inline scenes from upstream tests; documented edits of orders.erd.json. ---
@@ -905,6 +907,54 @@ for (const [type, source, name, code, edit] of p3Faults) {
 const belowFits = (name) => p3FaultReceipts.get(name).diagnostics.find((x) => x.code === 'dataflow/node-below-area').evidence?.requiredViewBoxFitsViewport;
 if (belowFits('df-node-below-area') !== false || belowFits('df-node-below-area-raised') !== true) {
   throw new Error(`node-below-area: requiredViewBoxFitsViewport ${belowFits('df-node-below-area')}/${belowFits('df-node-below-area-raised')}, expected false/true`);
+}
+// TEST-002 failure receipts (survey-test2 "Path table"): the committed t2-*.workflow.json inputs, never rewritten here. Upstream must FAIL
+// with the code and the field that names the branch (evidence.invariant, bracketed name in the survey; conflictType; verifiedRepair).
+const PIN = 'workflow/explicit-pin-conflict', PRESET = 'workflow/route-preset-conflict', CROSS = 'composition/proper-crossing';
+const inv = (code, invariant, extra = {}) => ({ code, test: (e) => e?.invariant === invariant && Object.entries(extra).every(([k, v]) => e[k] === v) });
+const t2Faults = [   // [name, target]
+  ['t2-lg6', inv(PIN, 'readable route feasibility with authored endpoint sides')],
+  ['t2-fb-exhaust', { code: 'workflow/solver-budget-exhausted' }],
+  ['t2-labelroute2077', inv(PIN, 'explicit label-route clearance')],
+  ['t2-labellabel2036', inv(PIN, 'explicit label-label clearance')],
+  ['t2-labellabel2084', inv(PIN, 'explicit label-label clearance')],
+  ['t2-route-crossing', inv(PIN, 'explicit route-route crossing')],
+  ['t2-route-corridor', inv(PIN, 'explicit route-route corridor clearance')],
+  ['t2-labelat-origin', inv(PIN, 'viewBox-origin containment')],
+  ['t2-labelat-node', inv(PIN, 'edge-label node clearance')],
+  ['t2-labelat-legend', inv(PIN, 'edge-label legend clearance')],
+  ['t2-labelat-scene', inv(PIN, 'edge-label lane/phase/group clearance')],
+  ['t2-neg-via', inv(PIN, 'viewBox-origin containment')],
+  ['t2-neg-channel', inv(PIN, 'viewBox-origin containment')],
+  ['t2-fin-wide-1e308', inv(PIN, 'finite route coordinates')],
+  ['t2-nonzero', inv(PIN, 'non-zero route segments')],
+  ['t2-stub', inv(PIN, '8px endpoint stub clearance')],
+  ['t2-channel', inv(PIN, 'channel pin preservation')],
+  ['t2-preset2562', inv(PIN, 'route preset compatibility')],
+  ['t2-preset2218', inv(PIN, 'route preset compatibility')],
+  ['t2-perpendicular', inv(PIN, 'perpendicular endpoint-side direction')],
+  ['t2-pin-node', inv(PIN, 'node clearance')],
+  ['t2-pin-legend', inv(PIN, 'legend clearance')],
+  ['t2-pin-scene-label', inv(PIN, 'lane/phase/group label clearance')],
+  ['t2-pin-frame-border', inv(PIN, 'structural-frame border clearance')],
+  ['t2-placed-label-label', inv(PRESET, 'placed edge-label clearance', { conflictType: 'label-label' })],
+  ['t2-placed-route-label', inv(PRESET, 'placed edge-label clearance', { conflictType: 'route-label' })],
+  ['t2-placed-label-route', inv(PRESET, 'placed edge-label clearance', { conflictType: 'label-route' })],
+  ['t2-preset-rhythm', inv(PRESET, 'readable segment rhythm')],
+  ['t2-xrep', { code: CROSS, test: (e) => e?.verifiedRepair !== undefined }],
+  ['t2-prep', { code: CROSS, test: (e) => e?.verifiedRepair?.kind === 'optional-node-placement' }],
+];
+for (const [name, target] of t2Faults) {
+  let receipt;
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/workflow/render-workflow.mjs'), out(`fixtures/diagrams/${name}.workflow.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; receipt = JSON.parse(String(e.stderr)); }
+  if (!receipt) { fs.rmSync(out(`goldens/${name}.html`), { force: true }); throw new Error(`t2 fault ${name}: rendered, expected ${target.code}`); }
+  if (!receipt.diagnostics?.some((x) => x.code === target.code && (target.test === undefined || target.test(x.evidence)))) {
+    throw new Error(`t2 fault ${name}: expected ${target.code} with the named branch; got ${JSON.stringify(receipt.diagnostics?.map((x) => [x.code, x.evidence?.invariant, x.evidence?.conflictType]))}`);
+  }
+  write(`fixtures/diagrams/${name}.workflow.expected.json`, receipt);
 }
 // Phase-4 erd failure receipts: orders.erd.json with one edit each (agy's Node probe, plan review 2026-10-15). Upstream must FAIL with
 // every target [code, evidence.reason?] in its receipt or the script throws. entities: 0 customer, 5 payment (tag checkout).

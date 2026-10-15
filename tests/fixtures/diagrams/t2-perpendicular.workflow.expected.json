@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates perpendicular endpoint-side direction.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates perpendicular endpoint-side direction.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b"
+      },
+      "evidence": {
+        "invariant": "perpendicular endpoint-side direction",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "fromSide",
+            "path": "/edges/0/fromSide",
+            "value": "right"
+          },
+          {
+            "edge": "ab",
+            "field": "via",
+            "path": "/edges/0/via",
+            "value": [
+              [
+                20,
+                119
+              ],
+              [
+                20,
+                50
+              ],
+              [
+                334,
+                50
+              ]
+            ]
+          }
+        ],
+        "points": [
+          [
+            140,
+            119
+          ],
+          [
+            20,
+            119
+          ],
+          [
+            20,
+            50
+          ],
+          [
+            334,
+            50
+          ],
+          [
+            334,
+            93
+          ]
+        ],
+        "fromSide": "right",
+        "toSide": "top"
+      },
+      "supportedFixes": [
+        "remove fromSide from edge \"ab\" and replan the remaining explicit pins",
+        "remove via from edge \"ab\" and replan the remaining explicit pins"
+      ]
+    }
+  ]
+}

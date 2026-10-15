@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates readable route feasibility with authored endpoint sides.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates readable route feasibility with authored endpoint sides.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b"
+      },
+      "evidence": {
+        "invariant": "readable route feasibility with authored endpoint sides",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "fromSide",
+            "path": "/edges/0/fromSide",
+            "value": "bottom"
+          },
+          {
+            "edge": "ab",
+            "field": "toSide",
+            "path": "/edges/0/toSide",
+            "value": "top"
+          }
+        ],
+        "actualCoordinates": {
+          "sourceAnchor": [
+            124.2,
+            145
+          ],
+          "targetAnchor": [
+            124.2,
+            229
+          ]
+        },
+        "fromSide": "bottom",
+        "toSide": "top",
+        "attemptedCandidateFamilies": [
+          "facing-straight",
+          "horizontal-then-vertical",
+          "vertical-then-horizontal",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "outside-left",
+          "outside-right",
+          "top-corridor",
+          "bottom-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor",
+          "lane-gap-corridor",
+          "column-gap-corridor"
+        ],
+        "candidateCount": 17
+      },
+      "supportedFixes": [
+        "remove fromSide from edge \"ab\" so readable-v2 can replan the remaining endpoint-side pins",
+        "remove toSide from edge \"ab\" so readable-v2 can replan the remaining endpoint-side pins"
+      ]
+    }
+  ]
+}

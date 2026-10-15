@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"write\" has explicit geometry that violates viewBox-origin containment.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"write\" has explicit geometry that violates viewBox-origin containment.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "write",
+        "from": "prepare",
+        "to": "save",
+        "path": "/edges/0/via/0"
+      },
+      "evidence": {
+        "invariant": "viewBox-origin containment",
+        "conflictingPins": [
+          {
+            "edge": "write",
+            "field": "via",
+            "path": "/edges/0/via/0",
+            "value": [
+              -10,
+              33
+            ]
+          }
+        ],
+        "minimumCoordinate": 0
+      },
+      "supportedFixes": [
+        "remove explicit route geometry from edge \"write\" so readable-v2 can use its verified automatic candidate",
+        "remove explicit route geometry and endpoint sides from edge \"write\" so readable-v2 can use its verified automatic candidate"
+      ]
+    }
+  ]
+}

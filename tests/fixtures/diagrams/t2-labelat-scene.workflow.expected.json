@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates edge-label lane/phase/group clearance.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates edge-label lane/phase/group clearance.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/labelAt"
+      },
+      "evidence": {
+        "invariant": "edge-label lane/phase/group clearance",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "labelAt",
+            "path": "/edges/0/labelAt",
+            "value": [
+              30,
+              24
+            ]
+          }
+        ],
+        "labelAt": [
+          30,
+          24
+        ],
+        "labelRect": {
+          "x": 8.2,
+          "y": 14,
+          "width": 43.6,
+          "height": 14
+        },
+        "compositionObstacle": {
+          "kind": "phase-header",
+          "id": "p",
+          "x": 48,
+          "y": 27,
+          "width": 332,
+          "height": 16
+        }
+      },
+      "supportedFixes": [
+        "remove labelAt from edge \"ab\" so readable-v2 can use its verified automatic label placement"
+      ]
+    }
+  ]
+}

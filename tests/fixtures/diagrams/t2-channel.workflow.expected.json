@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates channel pin preservation.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates channel pin preservation.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b"
+      },
+      "evidence": {
+        "invariant": "channel pin preservation",
+        "route": "auto",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "via",
+            "path": "/edges/0/via",
+            "value": [
+              [
+                94,
+                77
+              ],
+              [
+                334,
+                77
+              ]
+            ]
+          },
+          {
+            "edge": "ab",
+            "field": "channelY",
+            "path": "/edges/0/channelY",
+            "value": 200
+          }
+        ],
+        "points": [
+          [
+            94,
+            93
+          ],
+          [
+            94,
+            77
+          ],
+          [
+            334,
+            77
+          ],
+          [
+            334,
+            93
+          ]
+        ]
+      },
+      "supportedFixes": [
+        "remove via from edge \"ab\" and replan the remaining explicit route assertions",
+        "remove channelY from edge \"ab\" and replan the remaining explicit route assertions"
+      ]
+    }
+  ]
+}

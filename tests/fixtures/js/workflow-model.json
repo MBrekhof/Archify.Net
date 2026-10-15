@@ -8208,6 +8208,654 @@
       }
     },
     {
+      "name": "t2-rg-100",
+      "input": "tests/fixtures/diagrams/t2-rg-100.workflow.json",
+      "canonical": {
+        "lanes": [
+          "top",
+          "bottom"
+        ],
+        "nodes": [
+          "a",
+          "b"
+        ],
+        "edges": [
+          "{\"from\":\"a\",\"fromSide\":\"right\",\"id\":\"ab\",\"to\":\"b\",\"toSide\":\"left\"}"
+        ],
+        "phases": null,
+        "groups": null,
+        "widths": [
+          100,
+          100
+        ],
+        "automatic": [
+          null,
+          null
+        ],
+        "absolutePins": false,
+        "verticalStack": false,
+        "independent": false,
+        "preserves": false
+      },
+      "semantic": [],
+      "layout": {
+        "none": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 716,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104
+          ],
+          "laneGap": 20,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0
+          ],
+          "colXs": [
+            98,
+            218,
+            338,
+            458,
+            578,
+            698
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 772,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "node a width 100px"
+          ],
+          "heightContributors": []
+        },
+        "feedback": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 767,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104
+          ],
+          "laneGap": 32,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0
+          ],
+          "colXs": [
+            98,
+            248.25,
+            368.25,
+            508.75,
+            628.75,
+            748.75
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 823,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "edge x route",
+            "node a width 100px",
+            "rank 0→1 route clearance",
+            "rank 1→3 route clearance"
+          ],
+          "heightContributors": [
+            "edge y lane-gap route clearance"
+          ]
+        }
+      },
+      "measured": {
+        "legend": {
+          "entries": [],
+          "present": [
+            "backend"
+          ],
+          "packingWidth": 732,
+          "rows": 0,
+          "extraHeight": 0,
+          "minimumCanvasWidth": 772
+        },
+        "autoHeight": 404,
+        "initialViewBox": [
+          772,
+          404
+        ],
+        "laneTops": [
+          52,
+          176
+        ],
+        "laneHeights": [
+          104,
+          104
+        ],
+        "lastLaneBottom": 280,
+        "legendY": 324,
+        "nodes": [
+          {
+            "id": "a",
+            "x": 48,
+            "y": 93,
+            "width": 100,
+            "height": 52,
+            "cx": 98,
+            "cy": 119,
+            "context": "Top",
+            "problems": []
+          },
+          {
+            "id": "b",
+            "x": 168,
+            "y": 217,
+            "width": 100,
+            "height": 52,
+            "cx": 218,
+            "cy": 243,
+            "context": "Bottom",
+            "problems": []
+          }
+        ]
+      },
+      "steps": {
+        "edges": [
+          0
+        ],
+        "nodes": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "name": "t2-detour",
+      "input": "tests/fixtures/diagrams/t2-detour.workflow.json",
+      "canonical": {
+        "lanes": [
+          "top",
+          "middle",
+          "bottom",
+          "issue"
+        ],
+        "nodes": [
+          "above",
+          "left",
+          "right",
+          "below",
+          "a",
+          "b"
+        ],
+        "edges": [
+          "{\"from\":\"a\",\"id\":\"ab\",\"to\":\"b\"}",
+          "{\"from\":\"left\",\"id\":\"horizontal\",\"to\":\"right\"}",
+          "{\"from\":\"above\",\"id\":\"vertical\",\"to\":\"below\"}"
+        ],
+        "phases": null,
+        "groups": null,
+        "widths": [
+          92,
+          92,
+          92,
+          92,
+          92,
+          92
+        ],
+        "automatic": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "absolutePins": false,
+        "verticalStack": false,
+        "independent": false,
+        "preserves": false
+      },
+      "semantic": [],
+      "layout": {
+        "none": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 716,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104,
+            104,
+            104
+          ],
+          "laneGap": 20,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "colXs": [
+            94,
+            214,
+            338,
+            458,
+            578,
+            698
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 772,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "node a width 92px",
+            "node b width 92px",
+            "rank 1→2 node width clearance"
+          ],
+          "heightContributors": []
+        },
+        "feedback": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 763,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104,
+            104,
+            104
+          ],
+          "laneGap": 32,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "colXs": [
+            94,
+            244.25,
+            368.25,
+            504.75,
+            624.75,
+            744.75
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 819,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "edge x route",
+            "rank 0→1 route clearance",
+            "rank 1→3 route clearance"
+          ],
+          "heightContributors": [
+            "edge y lane-gap route clearance"
+          ]
+        }
+      },
+      "measured": {
+        "legend": {
+          "entries": [],
+          "present": [
+            "backend"
+          ],
+          "packingWidth": 732,
+          "rows": 0,
+          "extraHeight": 0,
+          "minimumCanvasWidth": 772
+        },
+        "autoHeight": 652,
+        "initialViewBox": [
+          772,
+          652
+        ],
+        "laneTops": [
+          52,
+          176,
+          300,
+          424
+        ],
+        "laneHeights": [
+          104,
+          104,
+          104,
+          104
+        ],
+        "lastLaneBottom": 528,
+        "legendY": 572,
+        "nodes": [
+          {
+            "id": "above",
+            "x": 292,
+            "y": 93,
+            "width": 92,
+            "height": 52,
+            "cx": 338,
+            "cy": 119,
+            "context": "Top",
+            "problems": []
+          },
+          {
+            "id": "left",
+            "x": 48,
+            "y": 217,
+            "width": 92,
+            "height": 52,
+            "cx": 94,
+            "cy": 243,
+            "context": "Middle",
+            "problems": []
+          },
+          {
+            "id": "right",
+            "x": 532,
+            "y": 217,
+            "width": 92,
+            "height": 52,
+            "cx": 578,
+            "cy": 243,
+            "context": "Middle",
+            "problems": []
+          },
+          {
+            "id": "below",
+            "x": 292,
+            "y": 341,
+            "width": 92,
+            "height": 52,
+            "cx": 338,
+            "cy": 367,
+            "context": "Bottom",
+            "problems": []
+          },
+          {
+            "id": "a",
+            "x": 168,
+            "y": 465,
+            "width": 92,
+            "height": 52,
+            "cx": 214,
+            "cy": 491,
+            "context": "Issue",
+            "problems": []
+          },
+          {
+            "id": "b",
+            "x": 292,
+            "y": 465,
+            "width": 92,
+            "height": 52,
+            "cx": 338,
+            "cy": 491,
+            "context": "Issue",
+            "problems": []
+          }
+        ]
+      },
+      "steps": {
+        "edges": [
+          0,
+          1,
+          2
+        ],
+        "nodes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "name": "t2-xrep-standard",
+      "input": "tests/fixtures/diagrams/t2-xrep-standard.workflow.json",
+      "canonical": {
+        "lanes": [
+          "caller",
+          "query"
+        ],
+        "nodes": [
+          "reply",
+          "pending",
+          "error",
+          "result"
+        ],
+        "edges": [
+          "{\"from\":\"pending\",\"fromSide\":\"right\",\"id\":\"a-pending-result\",\"to\":\"result\",\"toSide\":\"left\"}",
+          "{\"from\":\"result\",\"fromSide\":\"top\",\"id\":\"a0-return\",\"label\":\"Return to caller\",\"route\":\"straight\",\"to\":\"reply\",\"toSide\":\"bottom\"}",
+          "{\"from\":\"error\",\"fromSide\":\"right\",\"id\":\"b-error-result\",\"label\":\"Error result\",\"to\":\"result\",\"toSide\":\"bottom\"}"
+        ],
+        "phases": null,
+        "groups": null,
+        "widths": [
+          92,
+          92,
+          92,
+          92
+        ],
+        "automatic": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "absolutePins": false,
+        "verticalStack": false,
+        "independent": false,
+        "preserves": false
+      },
+      "semantic": [],
+      "layout": {
+        "none": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 712,
+          "laneH": 330,
+          "laneHeights": [
+            330,
+            330
+          ],
+          "laneGap": 20,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0
+          ],
+          "colXs": [
+            94,
+            214,
+            334,
+            454,
+            574,
+            694
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 768,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [],
+          "heightContributors": [
+            "node error height 52px with yOffset -120px",
+            "node result height 52px with yOffset 120px"
+          ]
+        },
+        "feedback": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 763,
+          "laneH": 330,
+          "laneHeights": [
+            330,
+            330
+          ],
+          "laneGap": 32,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0
+          ],
+          "colXs": [
+            94,
+            244.25,
+            364.25,
+            504.75,
+            624.75,
+            744.75
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 819,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "edge x route",
+            "rank 0→1 route clearance",
+            "rank 1→3 route clearance"
+          ],
+          "heightContributors": [
+            "edge y lane-gap route clearance",
+            "node error height 52px with yOffset -120px",
+            "node result height 52px with yOffset 120px"
+          ]
+        }
+      },
+      "measured": {
+        "legend": {
+          "entries": [
+            [
+              "backend",
+              "Agent logic"
+            ],
+            [
+              "security",
+              "Policy"
+            ]
+          ],
+          "present": [
+            "backend",
+            "security"
+          ],
+          "packingWidth": 728,
+          "rows": 1,
+          "extraHeight": 0,
+          "minimumCanvasWidth": 768
+        },
+        "autoHeight": 856,
+        "initialViewBox": [
+          768,
+          856
+        ],
+        "laneTops": [
+          52,
+          402
+        ],
+        "laneHeights": [
+          330,
+          330
+        ],
+        "lastLaneBottom": 732,
+        "legendY": 776,
+        "nodes": [
+          {
+            "id": "reply",
+            "x": 288,
+            "y": 206,
+            "width": 92,
+            "height": 52,
+            "cx": 334,
+            "cy": 232,
+            "context": "Caller",
+            "problems": []
+          },
+          {
+            "id": "pending",
+            "x": 48,
+            "y": 596,
+            "width": 92,
+            "height": 52,
+            "cx": 94,
+            "cy": 622,
+            "context": "Query",
+            "problems": []
+          },
+          {
+            "id": "error",
+            "x": 168,
+            "y": 436,
+            "width": 92,
+            "height": 52,
+            "cx": 214,
+            "cy": 462,
+            "context": "Query",
+            "problems": []
+          },
+          {
+            "id": "result",
+            "x": 288,
+            "y": 676,
+            "width": 92,
+            "height": 52,
+            "cx": 334,
+            "cy": 702,
+            "context": "Query",
+            "problems": []
+          }
+        ]
+      },
+      "steps": {
+        "edges": [
+          0,
+          1,
+          2
+        ],
+        "nodes": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
       "name": "wf-unknown-node-lane",
       "input": "tests/fixtures/diagrams/wf-unknown-node-lane.workflow.json",
       "canonical": {
@@ -17532,6 +18180,27 @@
       "result": {
         "eligible": false,
         "reason": "No return cycle connected to the main path."
+      }
+    },
+    {
+      "name": "t2-rg-100",
+      "result": {
+        "eligible": false,
+        "reason": "Needs unpinned v2, complete mainPath, no authored regions, <=64 nodes."
+      }
+    },
+    {
+      "name": "t2-detour",
+      "result": {
+        "eligible": false,
+        "reason": "Needs unpinned v2, complete mainPath, no authored regions, <=64 nodes."
+      }
+    },
+    {
+      "name": "t2-xrep-standard",
+      "result": {
+        "eligible": false,
+        "reason": "Needs unpinned v2, complete mainPath, no authored regions, <=64 nodes."
       }
     },
     {

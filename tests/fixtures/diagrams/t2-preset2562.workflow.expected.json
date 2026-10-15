@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow edge \"ab\" has explicit geometry that violates route preset compatibility.",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"ab\" has explicit geometry that violates route preset compatibility.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "ab",
+        "from": "a",
+        "to": "b",
+        "path": "/edges/0/route"
+      },
+      "evidence": {
+        "invariant": "route preset compatibility",
+        "route": "drop",
+        "conflictingPins": [
+          {
+            "edge": "ab",
+            "field": "route",
+            "path": "/edges/0/route",
+            "value": "drop"
+          }
+        ],
+        "points": [
+          [
+            94,
+            93
+          ],
+          [
+            94,
+            20
+          ],
+          [
+            334,
+            20
+          ],
+          [
+            334,
+            93
+          ]
+        ]
+      },
+      "supportedFixes": [
+        "remove route from edge \"ab\" and keep the remaining verified route assertions"
+      ]
+    }
+  ]
+}
