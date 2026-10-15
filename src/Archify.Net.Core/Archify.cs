@@ -46,6 +46,14 @@ public static class ArchifyNet
     /// read +13:45/+11:00 instead of +12:45/+10:00). UTC and fixed offsets are exact for every year.
     /// <c>Date.parse</c> outside the timeline schema's timestamp shape is NaN in the port; the schema gate rejects such strings before
     /// any renderer runs.
+    /// An erd entity with neither <c>row</c>/<c>col</c> nor <c>pos</c> whose relationships carry labels fails with <c>internal/unclassified</c>
+    /// as upstream does, but the evidence names the .NET exception type where upstream names the JS <c>TypeError</c>.
+    /// Repository evidence (<c>RenderOptions.RepoRoot</c>): <c>repository-evidence/root-identity-indeterminate</c> is unreachable (the root is
+    /// compared with <c>git rev-parse --show-prefix</c>; upstream reaches it only through a mocked stat); Node's spawn error strings are
+    /// synthesised (<c>spawnSync git ENOENT</c>, <c>spawnSync git ENOBUFS</c>) and an errno outside the port's table prints its number;
+    /// <c>root-unreadable</c> names the whole requested root where Node names the first missing path component; and three non-ASCII hosts
+    /// WHATWG URL accepts are rejected because <c>IdnMapping</c> enforces the hyphen and label-length rules (a label starting or ending
+    /// with <c>-</c> after IDNA, a label longer than 63 octets).
     /// </remarks>
     public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null)
     {

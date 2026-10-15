@@ -13,6 +13,7 @@ The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/
 - [Quick start](#quick-start)
 - [Library surface](#library-surface)
 - [Diagram types](#diagram-types)
+- [Source evidence](#source-evidence)
 - [Build and test](#build-and-test)
 - [How parity is tested](#how-parity-is-tested)
 - [Repository layout](#repository-layout)
@@ -30,7 +31,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 1 | Foundation, validation gates, architecture renderer, artifact checker | Done |
 | 2 | erd/grid, sequence, lifecycle, class, tree, timeline, waterfall renderers | Done |
 | 3 | workflow and dataflow renderers | Done |
-| 4 | erd renderer and repository evidence | Planned |
+| 4 | erd renderer and repository evidence | Done |
 | 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Planned |
 | 6 | MCP server and SKILL.md | Planned |
 
@@ -62,7 +63,23 @@ Phase 3 parity results:
 - A workflow render returns the compiler receipt as `RenderResult.Layout`, which is upstream's `--layout-json` output.
   A dataflow render returns `null` there.
 
-The full suite (`dotnet test`) runs 2348 tests.
+Phase 4 parity results:
+
+- 16 erd rows of `ParityTests.Render_is_byte_identical_to_upstream` are byte-identical: the two upstream examples
+  (`erd-orders`, `subscription-billing`) and 14 Node-minted goldens (three first-draft diagrams, i18n in five locales,
+  three label-capacity variants, and `orders` with lanes, seven domains and the standard crossing profile).
+- 16 erd layout reports equal upstream's `--layout-json` (`ErdTests`).
+- 11 erd failure receipts equal upstream's diagnostics. An entity left unplaced by a labelled relationship fails with
+  `internal/unclassified`; that one is pinned by code only (see the erd deviation below).
+- Repository evidence: 25 scenarios (`RepositoryEvidenceTests.Verify_matches_upstream`) equal the receipts and payloads
+  Node produced against the fixture repo (`tests/fixtures/evidence/evidence-repo.fi`, a git fast-import stream pinned to
+  one HEAD), plus the git-absent receipt and 8 integration facts.
+- 13 evidence render rows (`ParityTests.Evidence_render_is_byte_identical_to_upstream`) cover per-type goldens with
+  source badges and payloads, and one workflow failure receipt carries the evidence.
+- `RepositoryLocation` equals `parseRepositoryRemote` on 211 fixture rows, and the Js URI helpers equal V8 on 71 rows
+  (`js-uri.json`).
+
+The full suite (`dotnet test`) runs 2753 tests.
 
 ## Quick start
 
@@ -105,14 +122,13 @@ return 0;
 - `Validate(type, diagram, options)` renders, checks, and returns the render diagnostics followed by the checker's.
 
 `RenderOptions(Quality, RepoRoot)` selects the quality profile (`Standard` or `Showcase`, upstream's environment-driven
-profile as an option) and the repository root for evidence. `CheckOptions(RequireProvenance)` is reserved for phase 5.
+profile as an option) and the repository root for evidence (see [Source evidence](#source-evidence)).
+`CheckOptions(RequireProvenance)` is reserved for phase 5.
 
 Input and validation problems come back as `Diagnostic` records with upstream's codes, messages, subjects, evidence
 and supported fixes. Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names
-the exception type, as upstream's JSON-mode boundary does. The facade throws only `NotSupportedException`:
-
-- From `Render` and `Validate` for a diagram type that lands in phase 4: erd.
-- From `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
+the exception type, as upstream's JSON-mode boundary does. All ten diagram types render. The facade throws only
+`NotSupportedException`, from `Check` when `RequireProvenance` is set. Provenance checks land in phase 5.
 
 The facade is named `ArchifyNet`, not `Archify`: a class of that name inside namespace `Archify.Net` cannot be named
 from consumer code.
@@ -130,7 +146,27 @@ from consumer code.
 | waterfall | `renderers/waterfall` | `src/Archify.Net.Core/Waterfall` | 2 |
 | workflow | `renderers/workflow` | `src/Archify.Net.Core/Workflow` | 3 |
 | dataflow | `renderers/dataflow` | `src/Archify.Net.Core/Dataflow` | 3 |
-| erd | `renderers/erd` | banded grid only (`src/Archify.Net.Core/Erd/Grid.cs`) | 4 |
+| erd | `renderers/erd` | `src/Archify.Net.Core/Erd` | 4 |
+
+All ten types are ported.
+
+## Source evidence
+
+A diagram can cite the code it describes. Pass the root of a local clone:
+
+```csharp
+var result = ArchifyNet.Render(DiagramType.Architecture, diagram, new RenderOptions(RepoRoot: @"C:\src\my-repo"));
+```
+
+- The diagram needs `meta.repository` (`url` and a 40-hex `revision`, optionally `provider` and `link_mode`) and
+  `sources` on its nodes.
+- `git` must be on PATH. The port runs it as a child process, as upstream does.
+- Before rendering, the load gates verify the clone against the diagram: the origin remote identifies the same repository
+  as `meta.repository.url`, the revision exists in the clone, and every cited file and line range exists at that revision.
+  A failure comes back as a `repository-evidence/*` diagnostic with upstream's code and message.
+- The verified payload lands in the HTML template. The SVG changes only by the source badges in dataflow, lifecycle,
+  tree and workflow diagrams.
+- Without `RepoRoot`, or for a diagram with no `meta.repository` and no sources, no `git` process starts.
 
 ## Build and test
 
@@ -174,7 +210,7 @@ src/Archify.Net.Core/        the library
   Shared/                    loader, validation gates, diagnostics, geometry, routing, brand marks, i18n, template writer, checker
   Js/                        V8-compatible number, string, sort, text segmentation and time helpers
   <Type>/                    one renderer per diagram type
-  Erd/Grid.cs                the erd banded grid, shared by class now and erd in phase 4
+  Erd/                       the erd renderer; Grid.cs, the banded grid, is shared with class
 tests/Archify.Net.Core.Tests xUnit suite
 tests/goldens/               upstream-rendered HTML and checker reports
 tests/fixtures/              diagram inputs, receipts, layout reports, Js fixtures, checker probes
@@ -204,11 +240,11 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
   phase-1 rulings (`2026-10-13-phase1-rulings.md`).
 - Phase 2 plan: `docs/superpowers/plans/2026-10-14-phase2-renderers.md`, plus its review.
 - Phase 3 plan: `docs/superpowers/plans/2026-10-14-phase3-workflow-dataflow.md`.
+- Phase 4 plan: `docs/superpowers/plans/2026-10-15-phase4-erd-evidence.md`.
 - `SESSION_HANDOFF.md`: current state, carried items and the next phase.
 
 ## Known deviations from upstream
 
-- `Render` throws `NotSupportedException` for the one diagram type that lands in phase 4: erd. `Validate` throws it too once the input passes the load gates.
 - `Check` throws `NotSupportedException` when `RequireProvenance` is set.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
@@ -230,6 +266,12 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - A forwarded checker diagnostic without a message gets `""` as its message. Upstream omits the key.
 - The unpinned-URL hint text can differ from WHATWG `url.href` for IDN hosts, `|`, `%7e`, and backslashes in query or fragment.
 - `Check` hashes the UTF-8 encoding of the string it is given. A lone surrogate hashes differently from Node's raw file bytes.
+- *erd, unplaced entity:* an entity with neither `row`/`col` nor `pos` whose relationships carry labels fails with `internal/unclassified`, as upstream does. The evidence names the .NET exception type where upstream names the JS `TypeError`.
+- *Evidence, root identity:* `repository-evidence/root-identity-indeterminate` is unreachable. The port compares the root with `git rev-parse --show-prefix`; upstream reaches that code only through a mocked stat.
+- *Evidence, spawn errors:* Node's spawn error strings are synthesised (`spawnSync git ENOENT`, `spawnSync git ENOBUFS`). An errno outside the port's table prints its number.
+- *Evidence, `root-unreadable`:* the message names the whole requested root where Node names the first missing path component.
+- *Evidence, non-ASCII hosts:* the port rejects three hosts WHATWG URL accepts, because `IdnMapping` enforces the hyphen and label-length rules: a label starting or ending with `-` after IDNA, and a label longer than 63 octets (`-bücher.example`, `bücher-.example`, a 70-character `ü` label).
+- *Evidence tests:* the `subdirectory-root` receipt is Windows-only (its path separator).
 
 ## Credits and license
 
