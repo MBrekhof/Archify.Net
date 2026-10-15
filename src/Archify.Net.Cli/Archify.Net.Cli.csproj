@@ -15,6 +15,10 @@
     <ProjectReference Include="..\Archify.Net.Core\Archify.Net.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Q9: the upstream viewer-gate page scripts, verbatim; logical names "viewer-gate/settle.js", "viewer-gate/metrics.js" -->
+    <EmbeddedResource Include="..\..\upstream\viewer-gate\*.js" LogicalName="viewer-gate/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
     <InternalsVisibleTo Include="Archify.Net.Cli.Tests" />
   </ItemGroup>
 </Project>

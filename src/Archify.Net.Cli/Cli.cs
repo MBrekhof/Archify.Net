@@ -57,10 +57,10 @@ public static class Cli
                 case "check": return Commands.CheckCommand.Run(args, io);
                 case "visual-check": throw new NotImplementedException("Task 11");
                 case "browser-check": throw new NotImplementedException("Task 11");
-                case "guide": throw new NotImplementedException("Task 7");
+                case "guide": return Commands.GuideCommand.Run(args, io);
                 case "examples": return Commands.ExamplesCommand.Run(args, io);
-                case "doctor": throw new NotImplementedException("Task 7");
-                case "install-browser": throw new NotImplementedException("Task 7");
+                case "doctor": return Commands.DoctorCommand.Run(args, io);
+                case "install-browser": return Commands.InstallBrowserCommand.Run(args, io);
                 case "demo": return Commands.DemoCommand.Run(args, io);
                 default:
                     throw new CliFailException($"Unknown command \"{command}\".\n\n{Usage()}");

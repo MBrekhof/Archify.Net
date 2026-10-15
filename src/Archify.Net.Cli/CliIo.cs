@@ -18,4 +18,10 @@ public sealed record CliServices
     // randomUUID() for receipt ids
     public Func<Guid> NewGuid { get; init; } = Guid.NewGuid;
     public Func<DateTimeOffset> Now { get; init; } = () => DateTimeOffset.UtcNow;
+    // doctor's lookups and probes (Q3)
+    public Func<string, bool> HasResource { get; init; } = Commands.DoctorCommand.HasResource;
+    public Func<bool> GitOnPath { get; init; } = Commands.DoctorCommand.GitOnPath;
+    public Func<string?> HeadlessShell { get; init; } = Commands.DoctorCommand.HeadlessShell;
+    // install-browser's in-process installer (Q4)
+    public Func<string[], int> PlaywrightMain { get; init; } = Microsoft.Playwright.Program.Main;
 }
