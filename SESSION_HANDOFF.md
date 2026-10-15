@@ -24,8 +24,8 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Phase 5 (`PORT-005`) is done: the `archify` dotnet tool, `src/Archify.Net.Cli` (13 commands: render, deliver, finalize, validate,
   inspect, check, browser-check, visual-check, guide, examples, doctor, install-browser, demo). Tests: `tests/Archify.Net.Cli.Tests`.
   Commits `7eb87b6` through `568906c` (Tasks 1 to 12), plus the docs commit that updates README and this file.
-- `dotnet test` from the repo root: 3681 passed, 0 failed, no warnings (Core 2772, Cli 909). This replaces phase 4's 2753, which was
-  stale: the Core suite was already 2772 after phase 5's Task 2. The Cli total includes the `Browser` category (needs
+- `dotnet test` from the repo root after the final fix wave: 3714 passed, 0 failed, no warnings (Core 2782, Cli 932; before the
+  wave 3681 = 2772 + 909). The Cli total includes the `Browser` category (needs
   `archify install-browser`, about 2.5 min in all); `dotnet test --filter Category!=Browser` skips it.
 - Exit criterion: `finalize` on all 25 upstream examples at both quality profiles (50 runs) gives the same outcome in C# as in Node.
   21 of 25 pass at each quality; upstream itself fails `async-job-roundtrip`, `event-stream`, `incident-response` and
@@ -38,32 +38,19 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Reviews: implementers were Claude subagents (opus; Task 13 sonnet); task reviews by agy (Gemini). Task 12's agy review and the final
   whole-branch review are the controller's. Ledger with every ruling: `.superpowers/sdd/2026-10-15-phase5-cli/progress.md`.
 
-### Final fix wave pending (from the phase-5 ledger)
+### Final fix wave (done)
 
-- Route the CLI's user-file `JsonNode.Parse` calls (DeliveryStore lock, receipt, `Deliver.cs`, sidecar and journal readers) through a new
-  public Core `ParseNode(string)` extracted from `DiagramLoader` lines 20-25 (JSON.parse semantics: duplicate keys keep the last value;
-  `JsonException` propagates; any root accepted). Closes the duplicate-key deviations of Tasks 9 and 10.
-- `DeliveryStore` `UuidV4` regex: `$` to `\z` (Tasks 8 and 9).
-- Task 8: `deliver` with an explicit empty third positional (`""`) collapses to null; upstream passes `""` to `resolveOutputPath`
-  (`output/native-path-syntax`, reason empty). Mint a Node fixture. Also add an end-to-end check-stage failure test and a
-  sharing-violation retry test.
-- Task 9: legacy lock paths (`.htm`, over 255 characters, dedupe unpinned) need a test.
-- Task 10: a test with a custom `PathSemantics(IPathFs)` where the evidence dir folds case and the source does not (T:670-769);
-  synthetic-receipt cases for `ownership-sidecar-path-mismatch`, `-evidence-digests-missing`, `-evidence-list-invalid` and
-  `viewer/evidence-write` with the evidence dir a regular file; a direct Core test for `Js.ToUpperCase` (ASCII, UpperExpansions, astral,
-  lone surrogate).
-- Task 11: `BrowserCheck.cs:82` catch is narrower than upstream's catch-all (a corrupt `browsers.json` `JsonException` in
-  `Doctor.HeadlessShell` escapes): drop the guard, keep `PersistFailure` outside the try. `BrowserCommandTests.Normalise` must assert
-  the PNG sha256 `^[0-9a-f]{64}$` and bytes > 0 before masking.
-- Task 7: lone-surrogate guide query makes `string.Normalize` throw (exit 1); `Doctor.GitOnPath` PATHEXT split keeps empty segments.
-- Task 4: `NativeFs` `PortableRealPath`/`PortableStat` should map FileNotFound/DirectoryNotFound to `NativeFsException(ENOENT)`;
-  `PathSemantics.DirName` advances `rootLength` past a doubled separator after a drive root.
-- Task 5: `OutputPaths.ResolveOutputPath` must resolve InputPaths/OtherOutputPaths against `request.Cwd` before `PathsAlias`;
-  `SidecarPath.DeliverySidecarPath` must route its initial `RealPath` through the injected `PathSemantics`.
-- Task 6: `CheckCommand.Unreadable` with a dangling file symlink on Windows reports `handle-inspection-failed`, not not-regular-file.
-- Task 2: the BOM/invalid-UTF-8 decode path is pinned only via sha256/bytes. Task 1: `capture-cli-fixtures.mjs` should `mkdir` the
-  dirname of a nested workdir file before `copyFileSync`.
-- Unresolved: whether validate's `OutputPathError` key order matches Node (carried to a card).
+The wave's 21 items and their outcome: `.superpowers/sdd/2026-10-15-phase5-cli/final-fix-wave-report.md`. In short:
+
+- Fixed, each with a test: deliver with an explicit `""` output; one shared `Receipts` class for the UUID v4, sha256 and `.html?`
+  patterns, the identity and the JSON readers (the UUID pattern now ends in `\z`); JSON.parse semantics for user files through Core's
+  `DiagramLoader.ParseNode`; the browser gates' catch-all; an unwritable evidence directory refused before the browser; LF-only crash
+  text; `Args.RepoRoot`; the Core provenance message; a lone surrogate in argv read as Node reads it (U+FFFD); `GitOnPath`'s PATHEXT;
+  `\\?\` for long native paths; and the test gaps of Tasks 2, 8, 9, 10 and 11.
+- Found wrong: an `--out-dir` that is a regular file is not upstream's `viewer/evidence-write`. Upstream throws an indeterminate
+  target sidecar namespace (a crash on the command line, like final review m7); the port does the same, now pinned by a Node fixture.
+- Card candidates from the final review: m7 (an indeterminate sidecar namespace crashes `check`/`browser-check` in a read-only
+  directory, as upstream does).
 
 ## State at end of phase 4
 
@@ -130,10 +117,8 @@ the Js static constructor throws in a host with `InvariantGlobalization` on.
     pinned-route checks, placed-label/rhythm evidence, authored-side failure) have no Node receipt; they are verified by reading only.
   - Task 11: `addVerifiedCrossingRepair` and `addVerifiedPlacementRepair` are reached by no captured input (no route-order
     code in any fixture).
-- **Non-empty `Layout.Report.diagnostics` is unpinned (phase 5).** No fixture pins its JSON form (all success receipts have `[]`;
-  `WorkflowRenderer.cs:27-32` rebuilds six keys, never `suppresses`). Upstream's failure receipt order is `{…, diagnostics, ok:false}`
-  while the port's failure receipt (`WorkflowCompilation.Svg.cs:487-489`) has no `diagnostics` key: phase 5's `--layout-json` must
-  follow upstream's order (card TEST-002 gains a standard-profile warning fixture).
+- **Non-empty `Layout.Report.diagnostics`: closed.** Phase 5 pins it: the `tests/fixtures/cli/layout` failure fixtures carry
+  non-empty `diagnostics`, and `workflow-measured-failure` pins upstream's `{…, diagnostics, ok:false}` order.
 
 - **Phase-4 coverage gaps (card TEST-003 (CARD-2179)):**
   - Task 2: the erd trunk snap, the trunk bridge (`renderers/erd` :893-895) and the coordinate-undefined delete (:750-752) are

@@ -215,17 +215,21 @@ timeline, waterfall; `archify --help` prints the full usage):
 | `browser-check` | `archify browser-check web-app.html --summary` |
 | `visual-check` | `archify visual-check web-app.html --out-dir evidence` |
 | `guide` | `archify guide "payment flow" --lang en` |
-| `examples` | `archify examples` (writes the 25 example inputs to `./examples/`) |
+| `examples` | `archify examples` (renders 15 example diagrams to HTML in `./examples/`) |
 | `doctor` | `archify doctor` |
 | `install-browser` | `archify install-browser` |
 | `demo` | `archify demo demo-out` (writes `demo-out/archify-demo.html`) |
 
-`--quality standard|showcase` (default showcase) and `--repo-root <path>` are flags; the CLI reads no `ARCHIFY_*` environment variable.
+`--quality standard|showcase` overrides the diagram's `meta.quality_profile`. Without it, `finalize` uses showcase; every other
+command uses the diagram's `meta.quality_profile`, else standard. `--repo-root <path>` is the other flag; the CLI reads no
+`ARCHIFY_*` environment variable.
 `deliver` writes the artifact plus a `<name>.delivery.json` provenance sidecar; `finalize` runs deliver, check and browser-check
 and writes a receipt.
 
 Exit codes, as upstream's: `0` success; `1` the command ran and failed (diagnostics, a failed gate, a crash); `2` the command
 could not run or was refused (usage and argument errors, an unknown command, an unsupported option, Chromium unavailable).
+One exception, as upstream (A:5633-5635): `browser-check` and `visual-check` exit `1` on an unknown option or a wrong number of
+arguments (`--out-dir` without a value still exits `2`).
 `--json` prints the receipt on stdout; without it the diagnostics go to stderr.
 
 ## Build and test
@@ -315,7 +319,7 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 
 ## Known deviations from upstream
 
-- `Check` throws `NotSupportedException` when `RequireProvenance` is set.
+- `Check` throws `NotSupportedException` when `RequireProvenance` is set: provenance is checked by `archify check --require-provenance`.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
 - Brand diagnostics come in a different order when a brand is pinned as `{url, sha256}`. Upstream appends capture failures after the synchronous problems. The set is the same.
@@ -370,8 +374,9 @@ Browser gates:
   `skipped`, exit 2, `viewer/chrome-unavailable`), but the error and fix text name `archify install-browser` where upstream names
   `ARCHIFY_CHROME`. The receipt keeps upstream's `chrome{status,executable}` key names; `executable` is Playwright's path.
 - `visual-check` PNG bytes depend on the browser build and are not golden-compared.
-- Staged screenshots live in a private temp directory, not beside the evidence. An input failure outside `BrowserEvidenceException`,
-  `IOException` and `UnauthorizedAccessException` escapes as a crash (exit 1) where upstream makes a `viewer/<command>-input` receipt.
+- Staged screenshots live in a private temp directory, not beside the evidence. In place of upstream's staging directory, an
+  exclusive probe file `.archify-evidence-<guid>.tmp` is created and deleted in the evidence directory before the browser starts, so
+  a directory where files cannot be created is refused there, as upstream refuses it.
 
 Atomic output is not ported (all of upstream's `atomic-output.mjs`, `owned-temp-directory.mjs` and `recover-output.mjs`). Artifacts and
 sidecars are written to a temp file and swapped in with `File.Replace` or `File.Move`, with a short retry on sharing violations.
@@ -405,12 +410,19 @@ Diagnostics and messages:
 - A valid-JSON root that is not an object (`[]`, `null`) reports stage `input` in the CLI receipt; upstream reports stage `render`.
 - Messages that come from the OS or V8 are .NET's: `input/json-parse` reasons, `output/write`, `input/read` (Node's text is reproduced
   for ENOENT, EISDIR and EACCES only). Tests compare them by code and subject.
-- A sidecar, journal or previous receipt with duplicate JSON keys fails as invalid with .NET's message; upstream keeps the last value.
 - A realpath failure other than ENOENT/ENOTDIR (EACCES, a symlink loop) in `check` crashes upstream with a stack; the port reports
   `inspection-failed` or reads through (unverified against Node).
 - An input path such as `x.json.` (trailing dot or space) reports a trimmed `subject.input`.
 - Off Windows, hard-link alias detection is lost and file identity falls back to resolved-path equality. Only the build is checked
   off Windows.
+
+Windows path ceilings:
+
+- A volume mount point (a junction to `\\?\Volume{…}`) counts as a link, and path semantics rejects its target as
+  `windows-namespace-unsupported`; upstream's libuv treats a mount point as a directory.
+- The native path calls (realpath, stat, lstat) give a fully qualified path of 260 characters or more the `\\?\` (or `\\?\UNC\`)
+  prefix, as Node's `toNamespacedPath` does, so they work beyond MAX_PATH without `LongPathsEnabled`. Shorter paths keep their plain
+  spelling, where Node namespaces every path. Unverified end to end: the development machine has `LongPathsEnabled=1`.
 
 The four upstream examples listed under Phase 5 parity results fail `finalize` in both implementations; this is card UPSTREAM-001
 (CARD-2181), not a port defect.
