@@ -27,6 +27,17 @@ public class ValidationTests
     [Fact] public void Node_id_starting_with_digit() { var d = Example("agent-tool-call.workflow.json"); d["nodes"]![0]!["id"] = "1bad"; var codes = Fails(DiagramType.Workflow, d).Diagnostics.Select(x => x.Code).ToList(); Assert.Contains("schema/pattern", codes); }
     [Fact] public void Zero_component_width() { var d = Example("web-app.architecture.json"); d["components"]![0]!["size"] = new JsonArray(0, 60); Assert.Contains("schema/exclusiveMinimum", Fails(DiagramType.Architecture, d).Diagnostics.Select(x => x.Code)); }
     [Fact] public void Card_dot_outside_enum() { var d = Example("agent-tool-call.workflow.json"); d["cards"]![0]!["dot"] = "purple"; Assert.Contains("schema/enum", Fails(DiagramType.Workflow, d).Diagnostics.Select(x => x.Code)); }
+    [Fact] public void Legacy_meta_views_accepted_and_ignored()
+    {   // golden.mjs:135-146: retired guided views still render, without guided-view UI — byte for byte the example's golden
+        var d = Example("agent-tool-call.workflow.json");
+        d["meta"]!["views"] = new JsonArray(new JsonObject { ["id"] = "v", ["label"] = "Legacy view", ["focus"] = new JsonArray(d["nodes"]![0]!["id"]!.DeepClone()) });
+        Assert.Equal(Fixtures.Lf(Fixtures.Upstream("examples/workflow-agent-tool-call-rendered.html")), ArchifyNet.Render(DiagramType.Workflow, d).Html);
+    }
+    [Fact] public void Workflow_column_beyond_layout_maximum()
+    {   // golden.mjs:147
+        var d = Example("agent-tool-call.workflow.json"); d["nodes"]![0]!["col"] = 7;
+        Assert.Contains(Fails(DiagramType.Workflow, d).Diagnostics, x => x.Code == "schema/maximum" && x.Path == "/nodes/0/col" && x.Message.Contains("<= 5"));
+    }
     [Fact] public void Duplicate_relationship_id_rejected()
     {
         var d = Example("web-app.architecture.json"); var conns = d["connections"]!.AsArray();

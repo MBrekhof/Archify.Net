@@ -84,7 +84,16 @@ public class ParityTests
         ["workflow", Fixtures.Upstream("examples/agent-tool-call.workflow.json"), Fixtures.Upstream("examples/workflow-agent-tool-call-rendered.html")],   // 2 presets, 4 sides, label offset
         ["workflow", Fixtures.Fixture("diagrams/route-text-recovery.workflow.json"), Fixtures.Golden("route-text-recovery-rendered.html")],   // zh-CN, sizing loop
         ["workflow", Fixtures.Fixture("diagrams/shared-trunks.workflow.json"), Fixtures.Golden("shared-trunks-rendered.html")],   // controlled routes
+        // Phase 3, task 11: brand marks on a readable-v2 workflow (zh-CN).
+        ["workflow", Fixtures.Fixture("diagrams/holiday-planning.brand.workflow.json"), Fixtures.Golden("holiday-planning.brand-rendered.html")],
     ];
+
+    [Fact] public void Workflow_quality_option_reaches_every_gate_like_the_env_var()   // Review Focus 3
+    {
+        var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Upstream("examples/agent-tool-call.workflow.json")));
+        var r = ArchifyNet.Render(DiagramType.Workflow, d, new RenderOptions(Quality: QualityProfile.Standard));
+        Assert.Equal(Fixtures.Lf(Fixtures.Golden("agent-tool-call.option-standard-rendered.html")), r.Html);
+    }
 
     [Fact] public void Dataflow_quality_option_switches_the_automatic_layout_like_the_env_var()   // Review Focus 2
     {

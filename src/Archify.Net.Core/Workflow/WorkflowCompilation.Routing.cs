@@ -262,9 +262,9 @@ internal sealed partial class WorkflowCompilation
     // classifyFailedAutomaticCandidatePins (:2012-2058): only reached when an edge carries labelAt or an absolute route pin.
     void ClassifyFailedAutomaticCandidatePins(JsonObject edge, List<Plan> rawCandidates)
     {
-        var relationIndex = workflow.Edges.IndexOf(edge);
+        var relationIndex = CanonicalIndex(edge);
         var priorRoutes = pathCache.Entries.Where(entry => !ReferenceEquals(entry.Key, edge))
-            .Select(entry => new RoutedRelation(entry.Value.Points, entry.Key, workflow.Edges.IndexOf(entry.Key))).ToList();
+            .Select(entry => new RoutedRelation(entry.Value.Points, entry.Key, CanonicalIndex(entry.Key))).ToList();
         if (priorRoutes.Count == 0) return;
         var priorLabels = priorRoutes.Select(route => LabelRectFor(route.Relation!, route.RelationIndex!.Value)).OfType<LabelRect>().ToList();
 

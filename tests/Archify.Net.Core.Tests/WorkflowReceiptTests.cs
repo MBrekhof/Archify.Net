@@ -57,6 +57,8 @@ public class WorkflowReceiptTests
     [InlineData("agent-tool-call", "upstream:examples/agent-tool-call.workflow.json")]
     [InlineData("route-text-recovery", "fixture:diagrams/route-text-recovery.workflow.json")]
     [InlineData("shared-trunks", "fixture:diagrams/shared-trunks.workflow.json")]
+    // Phase 3, task 11: brand marks.
+    [InlineData("holiday-planning.brand", "fixture:diagrams/holiday-planning.brand.workflow.json")]
     public void Workflow_receipt_equals_upstream_layout_json(string name, string input)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);
@@ -66,5 +68,17 @@ public class WorkflowReceiptTests
         // R5: the facade's layout report is the receipt itself, diagnostics included — what `--layout-json` prints (render-workflow.mjs:33).
         var r = ArchifyNet.Render(DiagramType.Workflow, DiagramLoader.Parse(Fixtures.Lf(path)));
         Assert.Equal(Fixtures.Lf(Fixtures.Fixture($"workflow/{name}.receipt.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
+    }
+
+    // Phase 3, task 11: RenderOptions.Quality standard on a showcase example, captured with ARCHIFY_QUALITY_PROFILE=standard (R4).
+    [Fact] public void Workflow_quality_option_receipt_equals_upstream_layout_json()
+    {
+        var options = new RenderOptions(Quality: QualityProfile.Standard);
+        var path = Fixtures.Upstream("examples/agent-tool-call.workflow.json");
+        var result = CompileFixture(path, options);
+        Assert.True(result.Ok, result.Error);
+        AssertReceiptEquals("agent-tool-call.option-standard", result);
+        var r = ArchifyNet.Render(DiagramType.Workflow, DiagramLoader.Parse(Fixtures.Lf(path)), options);
+        Assert.Equal(Fixtures.Lf(Fixtures.Fixture("workflow/agent-tool-call.option-standard.receipt.json")), Js.Stringify(r.Layout!.Report, 2) + "\n");
     }
 }

@@ -14,12 +14,81 @@ internal sealed record WorkflowCompileOptions(WorkflowDoc Workflow, string? Qual
 // workflow-compiler.mjs cluster O: the public entry (:5917-5920) and the feedback wrappers around compileWorkflowInternal (:5646-5848).
 internal static class WorkflowCompiler
 {
-    // compileWorkflow (:5917). The crossing/placement repair wrappers (:5850-5915, Task 11) only act on route-order failures;
-    // every successful compile and every other failure passes through them unchanged.
+    // compileWorkflow (:5917-5920). The crossing/placement repair wrappers only act on route-order failures; every successful
+    // compile and every other failure passes through them unchanged.
     public static WorkflowCompileResult Compile(RenderContext ctx, WorkflowDoc workflow, string? qualityProfile, JsonObject? sourceEvidence)
     {
         var options = new WorkflowCompileOptions(workflow, qualityProfile, sourceEvidence, new WorkflowWidths());
-        return CompileWorkflowWithFeedback(ctx, options);
+        return AddVerifiedPlacementRepair(ctx, AddVerifiedCrossingRepair(ctx, CompileWorkflowWithFeedback(ctx, options), options), options);
+    }
+
+    // Upstream mutates `diagnostic.evidence`/`.supportedFixes` in place; compilerFailure's receipt shares the array (:663-669) and
+    // the port derives the receipt's diagnostics from `Diagnostics`, so replacing the one element there updates both.
+    static WorkflowCompileResult WithRepair(WorkflowCompileResult result, Diagnostic diagnostic, JsonObject verifiedRepair, string fix)
+    {
+        var repaired = diagnostic with
+        {
+            Evidence = Spread(diagnostic.Evidence, ("verifiedRepair", verifiedRepair)),
+            SupportedFixes = [fix, .. diagnostic.SupportedFixes],
+        };
+        List<Diagnostic> diagnostics = [.. result.Diagnostics];
+        diagnostics[diagnostics.FindIndex(candidate => ReferenceEquals(candidate, diagnostic))] = repaired;
+        return result with { Diagnostics = diagnostics };
+    }
+
+    // addVerifiedCrossingRepair (:5850-5886)
+    static WorkflowCompileResult AddVerifiedCrossingRepair(RenderContext ctx, WorkflowCompileResult result, WorkflowCompileOptions options)
+    {
+        var workflow = options.Workflow;
+        if (result.Ok || workflow.SchemaVersion != 2 || WorkflowMigrationGeometry.PreservesWorkflowAbsoluteGeometry(workflow)) return result;
+        var errors = result.Diagnostics.Where(diagnostic => diagnostic.Severity != Severity.Warning).ToList();
+        if (errors.Count == 0 || errors.Any(diagnostic => diagnostic.Code != "composition/proper-crossing")) return result;
+        var diagnostic = errors[0];
+        var indexes = new List<int>();
+        foreach (var value in (JsonNode?[])[diagnostic.Subject["index"], diagnostic.Evidence["otherRelationship"]?["index"]])
+        {
+            if (IntegerAt(value) is not { } index || index < 0 || index >= workflow.Edges.Count) return result;
+            indexes.Add((int)index);
+        }
+        var groups = indexes.Select(index => ((string[])["fromSide", "toSide", "route"])
+            .Where(field => workflow.Edges[index][field].Truthy() && !StrictEquals(workflow.Edges[index][field], "auto"))
+            .Select(field => (Index: index, Field: field)).ToList()).ToList();
+        // Try each complete set of optional side/preset constraints, then the pair.
+        // At most three full compiler probes; do not search every field combination.
+        var seen = new JsSet<string>();
+        foreach (var removals in (List<(int Index, string Field)>[])[.. groups, [.. groups.SelectMany(group => group)]])
+        {
+            var key = string.Join(",", removals.Select(removal => $"{removal.Index}/{removal.Field}"));   // JSON.stringify(removals)
+            if (removals.Count == 0 || seen.Has(key)) continue;
+            seen.Add(key);
+            var candidate = workflow.Clone();
+            candidate.AbsoluteGeometryPolicy = workflow.AbsoluteGeometryPolicy;   // the own Symbols (:5870)
+            foreach (var (index, field) in removals) candidate.Edges[index].Remove(field);
+            var verified = ctx.Diagnostics.WithRecordingSuppressed(() => CompileWorkflowWithFeedback(ctx, options with { Workflow = candidate, DiscoverFixes = false }));
+            if (!verified.Ok) continue;
+            var paths = removals.Select(removal => $"/edges/{removal.Index}/{removal.Field}").ToList();
+            var changes = new JsonArray([.. paths.Select(path => (JsonNode)new JsonObject { ["op"] = "remove", ["path"] = path })]);
+            var fix = $"if these endpoint sides and route presets are optional, remove {string.Join(", ", paths)} together; this complete workflow passes compilation with those edits (browser verification still required)";
+            return WithRepair(result, diagnostic, new JsonObject { ["scope"] = "complete-workflow-compile", ["changes"] = changes }, fix);
+        }
+        return result;
+    }
+
+    // addVerifiedPlacementRepair (:5888-5915)
+    static WorkflowCompileResult AddVerifiedPlacementRepair(RenderContext ctx, WorkflowCompileResult result, WorkflowCompileOptions options)
+    {
+        var workflow = options.Workflow;
+        var profile = !string.IsNullOrEmpty(options.QualityProfile) ? options.QualityProfile : workflow.Meta.Str("quality_profile");
+        if (result.Ok || workflow.SchemaVersion != 2 || profile != "showcase" || WorkflowMigrationGeometry.PreservesWorkflowAbsoluteGeometry(workflow)) return result;
+        var errors = result.Diagnostics.Where(diagnostic => diagnostic.Severity != Severity.Warning).ToList();
+        if (errors.Count == 0 || errors.Any(diagnostic => !RouteOrderCodes.Contains(diagnostic.Code) || diagnostic.Evidence["verifiedRepair"].Truthy())) return result;
+        var proposal = WorkflowPlacementRepair.ProposeWorkflowPlacement(workflow);
+        if (!proposal.Eligible || proposal.Changes!.Count == 0) return result;
+        var verified = ctx.Diagnostics.WithRecordingSuppressed(() => CompileWorkflowWithFeedback(ctx, options with { Workflow = proposal.Proposed!, DiscoverFixes = false }));
+        if (!verified.Ok) return result;
+        var changes = new JsonArray([.. proposal.Changes.Select(change => (JsonNode)new JsonObject { ["op"] = change.Op, ["path"] = change.Path, ["value"] = change.Value })]);
+        return WithRepair(result, errors[0], new JsonObject { ["scope"] = "complete-workflow-compile", ["kind"] = "optional-node-placement", ["changes"] = changes },
+            "if node columns and row offsets are flexible, apply the complete optional-node-placement changes in evidence.verifiedRepair together; this workflow then passes compilation with every node, relationship, lane, condition and mainPath preserved (browser verification and visual review still required)");
     }
 
     // compilerFailure (:663-671)
