@@ -1010,7 +1010,10 @@ for (const [name, want, edit, env] of erdFaults) {
   const raw = edit(diagram);   // an edit may return raw JSON text for inputs JSON.stringify cannot produce
   if (typeof raw === 'string') fs.writeFileSync(out(`fixtures/diagrams/${name}.erd.json`), raw);
   else write(`fixtures/diagrams/${name}.erd.json`, diagram);
-  if (name === 'erd-label-over-entity' && ('cards' in diagram || 'views' in diagram.meta)) throw new Error('erd-label-over-entity: cards/views survived');
+  if (name === 'erd-label-over-entity') {   // the written file, not the in-memory doc
+    const written = JSON.parse(fs.readFileSync(out(`fixtures/diagrams/${name}.erd.json`), 'utf8'));
+    if ('cards' in written || 'views' in written.meta) throw new Error('erd-label-over-entity: cards/views survived');
+  }
   let receipt;
   try {
     execFileSync(process.execPath, [path.join(UP, 'renderers/erd/render-erd.mjs'), out(`fixtures/diagrams/${name}.erd.json`), out(`goldens/${name}.html`)],

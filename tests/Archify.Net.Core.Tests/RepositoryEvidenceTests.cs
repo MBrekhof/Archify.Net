@@ -68,9 +68,13 @@ public class RepositoryEvidenceTests
     [Fact] public void Partial_clone_holds_no_blob()
     {
         var (repo, _) = EvidenceRepo.Create(GithubOrigin);
-        var clone = EvidenceRepo.MakePartialClone(repo, GithubOrigin);
-        try { Assert.DoesNotContain(" blob ", EvidenceRepo.Git(clone, "cat-file", "--batch-all-objects", "--batch-check")); }
-        finally { EvidenceRepo.Delete(repo); EvidenceRepo.Delete(clone); }
+        string? clone = null;
+        try
+        {
+            clone = EvidenceRepo.MakePartialClone(repo, GithubOrigin);
+            Assert.DoesNotContain(" blob ", EvidenceRepo.Git(clone, "cat-file", "--batch-all-objects", "--batch-check"));
+        }
+        finally { EvidenceRepo.Delete(repo); if (clone is not null) EvidenceRepo.Delete(clone); }
     }
 
     [Fact] public void Bad_type_blob_is_not_readable_by_cat_file()

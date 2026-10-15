@@ -68,6 +68,8 @@ public class JsTimeTests
             var w = Js.ZoneWall("UTC", Js.DateParse(s)); Assert.Equal(("10000", "01", "01", "00", "00", "00"), (w.Y, w.Mo, w.D, w.H, w.Mi, w.S));
         }
         Assert.Equal("10000", Js.ZoneWall("Asia/Shanghai", Js.DateParse("9999-12-31T24:00Z")).Y);   // named zone: no throw
+        var sydney = Js.ZoneWall("Australia/Sydney", Js.DateParse("9999-12-31T24:00Z"));   // DST kept (+11), as time-zones.json's year-10000 row
+        Assert.Equal(("10000", "01", "01", "11", "00", "00"), (sydney.Y, sydney.Mo, sydney.D, sydney.H, sydney.Mi, sydney.S));
     }
     [Fact] public void Civil_round_trip() { foreach (var z in new long[] { -719468, -1, 0, 1, 19999, 2932896 }) { var (y, m, d) = Js.CivilFromDays(z); Assert.Equal(z, Js.DaysFromCivil(y, m, d)); } }
 }

@@ -140,24 +140,17 @@ Zone acceptance differs by host as well: ids the OS ICU list or `TimeZoneInfo` c
   meta-only port would pass the same goldens. The phase-2 plan's Tasks 5 (sequence) and 7 (class) list the sites.
 - **Erd entity width: closed.** `ErdGrid.ResolvedEntityWidth` takes a `GridEntity` only; the erd renderer uses
   `GridEntity.From(entity, 0)` there, and 16 erd goldens and layout reports confirm it.
-- **Phase-3 coverage gaps (card TEST-002):**
-  - Task 8: route-order retries and the sizing loop ARE pinned (`route-text-recovery`: 2 route-order retries + 1 sizing recompile
-    in its top-level compile; golden and receipt byte-identical). Still reached by no workflow row: layout-feedback rounds,
-    internal-detour plans and the tie-break offsets (`pairOrdinal*9`, outside-right growth), plus the pin-conflict throwers and
-    repair hints listed below.
-  - Task 10: most H1/H5 pin-conflict throwers (label-route, label-label, H2 crossing/corridor, `labelAt`, negative pins,
-    pinned-route checks, placed-label/rhythm evidence, authored-side failure) have no Node receipt; they are verified by reading only.
-  - Task 11: `addVerifiedCrossingRepair` and `addVerifiedPlacementRepair` are reached by no captured input (no route-order
-    code in any fixture).
+- **Phase-3/4 coverage gaps: closed by cleanup batch 2** (TEST-002 `3563f82`, TEST-003 `0ce0060` + `4c57360`):
+  - 33 `t2-*` workflow inputs pin the layout-feedback rounds, internal detours, pin-conflict throwers, placed-label and rhythm
+    evidence, and both verified repairs. `pairOrdinal*9` and outside-right growth were already pinned by older goldens.
+  - The erd trunk snap, bridge and delete, and every `validateEr` branch, are pinned. The non-finite-width check is dead
+    upstream (the schema rejects it first), so `erd-width-infinite` pins the schema gate instead.
+  - The evidence `object-unavailable` (partial clone) and both per-file fallbacks are pinned through damaged fixture repos
+    (`EvidenceRepo.MakePartialClone`/`MakeBadType`/`MakeTruncated`).
+  - What no input reaches yet is on TEST-004 (CARD-2185).
 - **Non-empty `Layout.Report.diagnostics`: closed.** Phase 5 pins it: the `tests/fixtures/cli/layout` failure fixtures carry
-  non-empty `diagnostics`, and `workflow-measured-failure` pins upstream's `{…, diagnostics, ok:false}` order.
-
-- **Phase-4 coverage gaps (card TEST-003 (CARD-2179)):**
-  - Task 2: the erd trunk snap, the trunk bridge (`renderers/erd` :893-895) and the coordinate-undefined delete (:750-752) are
-    reached by no input.
-  - Task 3: erd validation branches reached by no fixture: duplicate attribute, non-finite width, entity overlap, unknown
-    source/target endpoint, too short, both references messages, label over entity.
-  - Task 5: the per-file fallback after a failed `cat-file` batch, and `object-unavailable` (partial clone), are ported and untested.
+  non-empty `diagnostics`, and `workflow-measured-failure` pins upstream's `{…, diagnostics, ok:false}` order. `t2-xrep-standard`
+  pins a success receipt with a warning.
 
 ## Dev-time tooling
 
@@ -167,7 +160,8 @@ The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-r
 `.superpowers/sdd/2026-10-14-phase3-workflow-dataflow/progress.md`,
 `.superpowers/sdd/2026-10-15-phase4-erd-evidence/progress.md`,
 `.superpowers/sdd/2026-10-15-phase5-cli/progress.md` and
-`.superpowers/sdd/2026-10-15-phase6-mcp/`: every ruling and the deferred minors.
+`.superpowers/sdd/2026-10-15-phase6-mcp/`, `.superpowers/sdd/2026-10-15-cleanup-batch1/` and
+`.superpowers/sdd/2026-10-15-cleanup-batch2/` (with the TZ, TEST-002 and TEST-003 surveys): every ruling and the deferred minors.
 
 ## Next
 
@@ -179,12 +173,27 @@ All six port phases are done. The open cards on the board (project 46) are:
     upstream. Report it upstream, diverge, or keep parity?
   - PERF-002: an optional GitRunner timeout. It would be a new deviation from upstream, so it needs a decision on the
     diagnostic code.
+  - TZ-001: the 19 ids V8 accepts and the port rejects. A survey found that ICU `ucal_*` P/Invoke against Windows' `icu.dll` would fix
+    them plus LMT and history. But Windows' ICU zone data is frozen at tzdata 2022g, so Africa/Cairo 2023+, America/Nuuk 2024+ and
+    America/Asuncion 2025+ would go wrong, while Chihuahua, Ojinaga and Casablanca would go right. Options on the card:
+    - (a) ICU on Windows;
+    - (b) hybrid;
+    - (c) keep as a stated deviation.
+
+    Linux keeps `TimeZoneInfo` either way. Survey:
+    `.superpowers/sdd/2026-10-15-cleanup-batch2/survey-tz.md`.
+- **Parked:** TZ-002 (pre-1903 Windows / Server 2019 only; TZ-001's ICU route would cover `UseNls`). Revisit when a user
+  runs such a host.
 - **Done in cleanup batch 1** (plan `docs/superpowers/plans/2026-10-15-cleanup-batch1.md`, all four reviewed by agy):
   - GLOB-001 `9f70132`;
   - CLEAN-001 `2ee032b`;
   - PERF-001 `19a178f` (thread use only);
   - TEST-001 `ac72624` (12 more Node goldens and receipts).
-- **Ready to work:** TZ-001, TZ-002, TEST-002 and TEST-003.
+- **Done in cleanup batch 2** (plan `docs/superpowers/plans/2026-10-15-cleanup-batch2.md`, each task reviewed by agy):
+  - TZ-003 `5ab0465` (ZoneWall keeps DST past `DateTime.MaxValue`);
+  - TEST-003 `0ce0060` (erd) and `4c57360` (evidence);
+  - TEST-002 `3563f82` (workflow).
+- **Ready to work:** TEST-004 (paths no input reaches yet; each needs a crafted input or a written unreachability argument).
 
 ## Phase 4 closed (2026-10-15)
 
