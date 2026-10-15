@@ -536,7 +536,8 @@ const optionGoldens = [   // [type, input, golden, quality]
 for (const [type, input, golden, quality] of optionGoldens) renderEnv(type, input, out(`goldens/${golden}`), { ARCHIFY_QUALITY_PROFILE: quality });
 for (const [type, input, golden] of targets) render(type, input, out(`goldens/${golden}`));
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
-// The renderer gates crossings by profile, the checker does not: the standard-profile crossing golden renders and its report fails.
+// The standard-profile crossing golden renders, but its report fails `orthogonal_arrows`: the authored `via` routes leave and
+// enter their ports on diagonal segments. `relationship_crossings` passes.
 const checkerFails = new Set(['orders.crossing-standard-rendered']);
 const upstreamGoldens = fs.readdirSync(EX).filter((f) => f.endsWith('.html')).map((f) => path.join(EX, f));
 for (const html of [...upstreamGoldens, ...[...targets, ...optionGoldens].map(([, , g]) => out(`goldens/${g}`))]) {
@@ -890,6 +891,126 @@ for (const [name, input] of [['orders', path.join(EX, 'orders.erd.json')], ['sub
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/erd/${name}.layout.json`), stdout);
 }
+// --- phase 4: repository-location.mjs (pure, imported directly) and the JS URI built-ins it relies on (survey-evidence §1c, §7). ---
+// js-uri.json: encodeURIComponent / decodeURIComponent / toLowerCase on one battery; a throw is recorded as null. Lone surrogates
+// cannot travel through JSON to System.Text.Json, so those rows carry UTF-16 `units` instead of `s`.
+const uriBattery = [
+  '', 'plain', ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~', '\u0000\u001f\u007f\u0080',
+  "src/(x)!'*~.js", '中文 # router.js', '😀👍🏽', 'é', '\u00e9\u0301', '\u0130', 'İstanbul', 'ß', 'ẞ', '\u01c5', '\u01c4\u01c6', 'ﬀ', 'Ⅷ', 'ＡＢＣ', '𐐀𐐨',
+  'ΟΔΟΣ', 'ΟΔΟΣ ΟΔΟΣ', 'Σ', 'AΣ', 'AΣB', '1Σ', 'AΣ.', "AΣ'B", 'AΣ\u0301', 'A\u0301Σ', 'Σ\u0301A', 'ΑΣ1', 'ᾼ', 'Ꭰ', 'ꭰ', '\u212a', 'Å',
+  '%41', '%e4%b8%ad', '%E4%B8%AD', '%zz', '%', '%4', '%2F', '%25', '%2e%2e', '%C0%AF', '%E0%80%AF', '%F0%80%80%AF', '%ED%A0%80', '%ED%BF%BF',
+  '%F4%90%80%80', '%F4%8F%BF%BF', '%F0%9F%98%80', '%80', '%BF', '%C3', '%C3%28', '%C3%', '%C3%A', '%FF', '%FE', '%F8%88%80%80%80', '%C2%A0',
+  'a%20b', '%u0041', '%%41', '%4G', '%EF%BB%BF', '100%', 'x%E4%B8', 'repo%41',
+];
+const uriSafe = (f, s) => { try { return f(s); } catch { return null; } };
+const uriRows = uriBattery.map((s) => ({ s, encode: uriSafe(encodeURIComponent, s), decode: uriSafe(decodeURIComponent, s), lower: s.toLowerCase() }));
+if (!uriRows.some((r) => r.decode === null)) throw new Error('js-uri: no throwing decode row');
+write('fixtures/js/js-uri.json', {
+  rows: uriRows,
+  encodeUnits: [[0xd800], [0x61, 0xdc00], [0xdbff, 0x62], [0xd83d, 0xde00, 0xd83d]].map((units) =>
+    ({ units, encode: uriSafe(encodeURIComponent, String.fromCharCode(...units)) })),
+});
+
+// repository-location.json: parseRepositoryRemote under authored true/false and every provider hint; `pathKind` is identity[2]
+// (the C# record carries it). URLs: every spelling in T/repository-evidence.test.mjs:147-482, then the survey §7 WHATWG probes.
+const RL = await imp('renderers/shared/repository-location.mjs');
+const rlValues = [
+  // T/repository-evidence.test.mjs
+  'https://github.com/example/evidence-repo', 'not a url at all', 'C:\\Users\\x\\evidence-repo', '/tmp/evidence-repo', './evidence-repo',
+  'https://gitee.com/example/evidence-repo', 'https://gitee.com/example/evidence-repo.git/', 'git@gitee.com:example/evidence-repo.git',
+  'ssh://git@gitee.com/example/evidence-repo.git', 'https://gitlab.com/example/platform/evidence-repo',
+  'https://gitlab.com/example/platform/evidence-repo.git/', 'https://oauth2:not-a-real-token@gitlab.com/example/platform/evidence-repo.git',
+  'git@gitlab.com:example/platform/evidence-repo.git', 'ssh://git@gitlab.com/example/platform/evidence-repo', 'git@gitlab.com:Example/Platform/evidence-repo.git',
+  'https://git.example.internal/Platform/Services/evidence-repo', 'git@git.example.internal:Platform/Services/evidence-repo.git',
+  'https://constructor/Platform/evidence-repo', 'https://__proto__/Platform/evidence-repo', 'http://git.example.internal/Platform/evidence-repo',
+  'ssh://git@git.example.internal:2222/Platform/Services/evidence-repo.git', 'git@ssh.example.internal:Platform/Services/evidence-repo.git',
+  'http://git.example.internal:3000/Platform/Services/evidence-repo',
+  'https://git.internal/Platform/Services/repo.git', 'https://git.internal:443/Platform/Services/repo.git', 'ssh://git@git.internal/Platform/Services/repo',
+  'ssh://git@git.internal:22/Platform/Services/repo', 'ssh://git@git.internal:2222/Platform/repo.git', 'git@git.internal:Platform/repo',
+  'git@git.internal:/Platform/repo', 'ssh://git@git.internal/Platform/repo', 'http://git.internal:3000/Platform/repo.git',
+  'http://user:SYNTHETIC_TOKEN@git.internal:3000/Platform/repo.git', 'https://git.internal/Platform/repo.git',
+  'https://user:SYNTHETIC_TOKEN@git.internal/Platform/repo.git', 'git@git.internal:Platform/repo%41', 'ssh://git@git.internal/Platform/repo%41',
+  'ssh://git@git.internal/Platform/repoA', 'ssh://git@git.internal/Team/repo', 'git@git.internal:Team/repo', 'git@git.internal:Team/repoA',
+  'git@git.internal:Team/repo%41', 'https://git.internal/Team/repo', 'https://other.internal/Team/repo', 'https://git.internal/Team/other',
+  'https://git.internal/team/repo', 'http://git.internal/Team/repo', 'https://git.internal:8443/Team/repo', 'ssh://git@git.internal:2222/Team/repo',
+  'ssh://git@git.internal:2223/Team/repo', 'https://git.internal:2222/Team/repo', 'git@ssh-alias:Team/repo', 'https://git.internal/scm/Team/repo',
+  'https://git.internal/Team/ignored/../repo', 'git@git.internal:Team/repo.git', 'http://git.internal/Team/repo.git', 'http://git.internal/team/repo',
+  'https://gitee.com/team/repo', 'https://user:SYNTHETIC_TOKEN@gitee.com/team/repo', 'https://gitee.com/team/repo?token=SYNTHETIC_TOKEN',
+  'https://gitee.com/team/repo#SYNTHETIC_TOKEN', 'https://gitee.com/team/%2e%2e/repo', 'https://gitee.com/team%2Frepo', 'file:///tmp/repo',
+  'javascript:alert(1)', 'http://user:SYNTHETIC_TOKEN@git.internal/Team/other', 'http://git.internal/Team/repo?token=SYNTHETIC_TOKEN',
+  'https://user:SYNTHETIC_TOKEN@git.internal/Team/repo', 'https://github.com/example/evidence-repo.git/', 'git@github.com:example/evidence-repo.git',
+  'https://gitee.com/example/evidence-repo.git/',
+  // §7 probes: scheme and host case, IDNA, IPv4 shorthand, default and invalid ports, the ssh opaque host, IPv6, trailing dot
+  'HTTPS://GitHub.COM/Example/Repo.GIT', 'https://gitee.com/example/Repo.GIT', 'https://gitlab.com/example/Repo.GIT', 'https://bücher.example/team/repo',
+  'https://BÜCHER.example/team/repo', 'https://xn--bcher-kva.example/team/repo', 'https://ｇｉｔｈｕｂ.com/example/repo', 'https://github。com/example/repo',
+  'https://github%2Ecom/example/repo', 'https://git%20hub.com/x/y', 'https://git%zzhub/x/y', 'https://git%25hub/x/y', 'https://-bücher.example/x/y',
+  'https://bücher-.example/x/y', 'https://ab--ü.example/x/y', `https://ü${'a'.repeat(70)}.example/x/y`, 'https://-bucher.example/x/y', 'https://bü-cher.example/x/y', 'https://xn--zz.example/x/y', 'https://a\u200db.example/x/y', 'https://a\u00adb.example/x/y', 'https://%C2%AD/x/y',
+  'https://127.1/team/repo', 'https://0x7f.1/x/y', 'https://0177.0.0.1/x/y', 'https://1.2.3.4.5/x/y', 'https://256.1.1.1/x/y', 'https://1.2.3.256/x/y',
+  'https://4294967295/x/y', 'https://4294967296/x/y', 'https://github.com.1/x/y', 'https://1.2.3.4./x/y', 'https://0x/x/y', 'https://１２７.１/x/y',
+  'https://github.com:443/example/repo', 'http://github.com:80/example/repo', 'https://github.com:80/example/repo', 'http://github.com/example/repo',
+  'https://github.com:0443/example/repo', 'https://github.com:/example/repo', 'https://github.com:abc/example/repo', 'https://github.com:65535/x/y',
+  'https://github.com:65536/x/y', 'https://github.com:99999999999999999999/x/y', 'https://github.com:-1/x/y',
+  'ssh://git@github.com:22/example/repo', 'ssh://git@github.com:022/example/repo', 'ssh://git@github.com:/example/repo', 'ssh://git@GitHub.com/example/repo',
+  'ssh://git@GitHub.com:22/Example/Repo.git', 'ssh://git@bücher.example/x/y', 'git@bücher.example:x/y', 'git@GitHub.com:Example/Repo.GIT',
+  'ssh://git@git%41.internal/x/y', 'ssh://git@a<b/x/y', 'ssh://git@a^b/x/y', 'ssh://git@a|b/x/y', 'ssh://git@[::1]/x/y', 'ssh://git@[::1]:2222/x/y',
+  'https://[::1]/team/repo', 'https://[::1]:443/x/y', 'https://[::1]:8443/x/y', 'https://[::FFFF:1.2.3.4]/x/y', 'https://[2001:DB8:0:0:1:0:0:1]/x/y',
+  'https://[2001:db8::1:0:0:1]/x/y', 'https://[1:0:0:2:0:0:0:3]/x/y', 'https://[::1%25eth0]/x/y', 'https://[::1/x/y', 'https://[::1]x/x/y', 'https://[:::1]/x/y',
+  'https://github.com./example/repo', 'https://gitlab.com./example/repo', 'https://hasOwnProperty/x/y', 'https://toString/x/y',
+  // credentials and userinfo shapes
+  'https://user:pw@github.com/x/y', 'https://user@github.com/x/y', 'https://:pw@github.com/x/y', 'https://@github.com/x/y', 'https://:@github.com/x/y',
+  'https://a@b@github.com/x/y', 'ssh://git:pw@github.com/x/y', 'ssh://git:@github.com/x/y', 'ssh://user@github.com/x/y', 'ssh://github.com/x/y',
+  'ssh://GIT@github.com/x/y', 'ssh://%67it@github.com/x/y', 'ssh://a@git@github.com/x/y', 'ssh://git@/x/y', 'https://user@/x/y', 'git@host@x:y/z',
+  'git@github.com:/x/y', 'git@github.com:x', 'git@:x/y', 'https://git@github.com/x/y',
+  // trimming, path segments and decoding
+  '  https://github.com/x/y  ', '\ufeffhttps://github.com/x/y', 'https://github.com/x/y\n', '\u00a0https://github.com/x/y', 'https://github.com/x/y\u3000',
+  'https://github.com/', 'https://github.com', 'https://github.com/x/y/', 'https://github.com/x/y//', 'https://github.com/x//y', 'https://github.com/x/./y',
+  'https://github.com/x/.git', 'https://github.com/x/..git', 'https://github.com/x/y.git.git', 'https://github.com/x/%2Egit', 'https://gitee.com/x/.git',
+  'https://git.internal/x/.git', 'https://git.internal/team/%zz', 'https://git.internal/team%2Frepo', 'https://git.internal/team%5Crepo',
+  'https://git.internal/a/b%20c', 'https://git.internal/a/%E2%80%A8', 'https://git.internal/a/b%3Fc', 'https://git.internal/a/b%23c', 'https://git.internal/a/%00',
+  'https://git.internal/a/%C0%AF', 'https://git.internal/a/%ED%A0%80', 'https://git.internal/a/%F0%9F%98%80', "https://git.internal/a/b'c(d)!*~",
+  'https://git.internal/中文/仓库', 'https://git.internal/%E4%B8%AD%e6%96%87/repo', 'https://git.internal/a/%2e', 'https://git.internal/a/%2E%2E',
+  'git@git.internal:a/%2e%2e', 'git@git.internal:a/b%20c', 'git@git.internal:中文/仓库', 'https://github.com/İstanbul/Repo',
+  'https://gitlab.com/ΟΔΟΣ/Repo', 'https://github.com/A%CE%A3/x', 'https://git.internal/ΟΔΟΣ/Repo', 'ftp://github.com/x/y', 'HTTP://git.internal/x/y',
+  'Ssh://git@git.internal/x/y', 'git@git.internal:x/y.GIT', 'GIT@github.com:x/y',
+];
+const rlHints = [undefined, 'github', 'gitee', 'gitlab'];
+const rlParse = (value, authored, provider) => {
+  const r = RL.parseRepositoryRemote(value, { authored, provider });
+  return r && { ...r, pathKind: JSON.parse(r.identity)[2] };
+};
+// Rows the port cannot match (stated deviation, README): kept, flagged, and asserted to differ by the C# test. WHATWG runs UTS #46
+// with CheckHyphens and VerifyDnsLength off; IdnMapping always applies both, so a non-ASCII label with a leading or trailing hyphen,
+// or longer than 63 octets, parses in Node and is refused (null) by the port.
+const rlDeviations = new Set(['https://-bücher.example/x/y', 'https://bücher-.example/x/y', `https://ü${'a'.repeat(70)}.example/x/y`]);
+for (const v of rlDeviations) if (!rlValues.includes(v) || !RL.parseRepositoryRemote(v)) throw new Error(`repository-location: deviation row ${v} is not a parsing row`);
+write('fixtures/js/repository-location.json', {
+  parse: rlValues.map((value) => ({
+    value, ...(rlDeviations.has(value) ? { expectDeviation: true } : {}),
+    results: [false, true].flatMap((authored) => rlHints.map((provider) => ({ authored, provider: provider ?? null, result: rlParse(value, authored, provider) }))),
+  })),
+  redact: [null, '', ...rlValues, 'https://u:p@h/x@y/z', 'HTTPS://u@h/x', 'https://h/x?a#b', 'https://h/x#a\nb', 'https://h/x?\n', 'git@h:x?y',
+    'ssh://@h/x', 'ftp://u@h/x', 'https://u@h'].map((value) => ({ value, redacted: RL.redactRepositoryRemote(value) })),
+  sourceHref: [
+    ['github', 'https://github.com/example/evidence-repo', { path: 'src/router.js', line: 1, endLine: 3 }],
+    ['github', 'https://github.com/example/evidence-repo', { path: 'src/store.js', line: 1 }],
+    ['github', 'https://github.com/example/evidence-repo', { path: 'src/store.js' }],
+    ['github', 'https://github.com/example/evidence-repo', { path: 'src/store.js', line: 2, endLine: 2 }],
+    ['github', 'https://github.com/example/evidence-repo', { path: 'src/中文 # router.js', line: 1, endLine: 2 }],
+    ['gitee', 'https://gitee.com/example/evidence-repo', { path: 'src/中文 # router.js', line: 1, endLine: 2 }],
+    ['gitee', 'https://gitee.com/example/evidence-repo', { path: 'src/router.js', line: 1, endLine: 3 }],
+    ['gitee', 'https://gitee.com/example/evidence-repo', { path: "src/(x)!'*~.js" }],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo', { path: 'src/router.js', line: 1, endLine: 3 }],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo', { path: 'docs/guide.md', line: 1, endLine: 3 }],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo', { path: 'docs/guide.md' }],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo', { path: 'docs/GUIDE.Markdown', line: 4 }],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo', { path: 'docs/guide.md', line: 5, endLine: 5 }],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo', { path: 'docs/guide.mdx', line: 1 }],
+    ['gitlab', 'https://git.example.internal/Platform/Services/evidence-repo', { path: 'src/a b%.js', line: 1, endLine: 3 }],
+  ].map(([provider, url, source]) => ({ provider, url, revision: 'f'.repeat(40), source, href: RL.repositorySourceHref(provider, url, 'f'.repeat(40), source) })),
+  treeHref: [['github', 'https://github.com/example/evidence-repo'], ['gitee', 'https://gitee.com/example/evidence-repo'],
+    ['gitlab', 'https://gitlab.com/example/platform/evidence-repo'], [null, 'git@git.internal:Team/repo']]
+    .map(([provider, url]) => ({ provider, url, revision: 'a'.repeat(40), href: RL.repositoryTreeHref(provider, url, 'a'.repeat(40)) })),
+});
 // --- Intl.Segmenter word granularity (label-capacity.mjs:32-33) on every string a phase-3 label can carry + a battery. `dictionary`
 // rows (Han/Kana/Thai/Lao/Khmer/Myanmar) are parity-exempt: C# asserts concatenation and per-grapheme splitting of those runs only. ---
 const wordSeg3 = new Intl.Segmenter(undefined, { granularity: 'word' });

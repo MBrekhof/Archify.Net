@@ -1,0 +1,460 @@
+{
+  "rows": [
+    {
+      "s": "",
+      "encode": "",
+      "decode": "",
+      "lower": ""
+    },
+    {
+      "s": "plain",
+      "encode": "plain",
+      "decode": "plain",
+      "lower": "plain"
+    },
+    {
+      "s": " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
+      "encode": "%20!%22%23%24%25%26'()*%2B%2C-.%2F0123456789%3A%3B%3C%3D%3E%3F%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~",
+      "decode": null,
+      "lower": " !\"#$%&'()*+,-./0123456789:;<=>?@abcdefghijklmnopqrstuvwxyz[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+    },
+    {
+      "s": "\u0000\u001f",
+      "encode": "%00%1F%7F%C2%80",
+      "decode": "\u0000\u001f",
+      "lower": "\u0000\u001f"
+    },
+    {
+      "s": "src/(x)!'*~.js",
+      "encode": "src%2F(x)!'*~.js",
+      "decode": "src/(x)!'*~.js",
+      "lower": "src/(x)!'*~.js"
+    },
+    {
+      "s": "中文 # router.js",
+      "encode": "%E4%B8%AD%E6%96%87%20%23%20router.js",
+      "decode": "中文 # router.js",
+      "lower": "中文 # router.js"
+    },
+    {
+      "s": "😀👍🏽",
+      "encode": "%F0%9F%98%80%F0%9F%91%8D%F0%9F%8F%BD",
+      "decode": "😀👍🏽",
+      "lower": "😀👍🏽"
+    },
+    {
+      "s": "é",
+      "encode": "%C3%A9",
+      "decode": "é",
+      "lower": "é"
+    },
+    {
+      "s": "é́",
+      "encode": "%C3%A9%CC%81",
+      "decode": "é́",
+      "lower": "é́"
+    },
+    {
+      "s": "İ",
+      "encode": "%C4%B0",
+      "decode": "İ",
+      "lower": "i̇"
+    },
+    {
+      "s": "İstanbul",
+      "encode": "%C4%B0stanbul",
+      "decode": "İstanbul",
+      "lower": "i̇stanbul"
+    },
+    {
+      "s": "ß",
+      "encode": "%C3%9F",
+      "decode": "ß",
+      "lower": "ß"
+    },
+    {
+      "s": "ẞ",
+      "encode": "%E1%BA%9E",
+      "decode": "ẞ",
+      "lower": "ß"
+    },
+    {
+      "s": "ǅ",
+      "encode": "%C7%85",
+      "decode": "ǅ",
+      "lower": "ǆ"
+    },
+    {
+      "s": "Ǆǆ",
+      "encode": "%C7%84%C7%86",
+      "decode": "Ǆǆ",
+      "lower": "ǆǆ"
+    },
+    {
+      "s": "ﬀ",
+      "encode": "%EF%AC%80",
+      "decode": "ﬀ",
+      "lower": "ﬀ"
+    },
+    {
+      "s": "Ⅷ",
+      "encode": "%E2%85%A7",
+      "decode": "Ⅷ",
+      "lower": "ⅷ"
+    },
+    {
+      "s": "ＡＢＣ",
+      "encode": "%EF%BC%A1%EF%BC%A2%EF%BC%A3",
+      "decode": "ＡＢＣ",
+      "lower": "ａｂｃ"
+    },
+    {
+      "s": "𐐀𐐨",
+      "encode": "%F0%90%90%80%F0%90%90%A8",
+      "decode": "𐐀𐐨",
+      "lower": "𐐨𐐨"
+    },
+    {
+      "s": "ΟΔΟΣ",
+      "encode": "%CE%9F%CE%94%CE%9F%CE%A3",
+      "decode": "ΟΔΟΣ",
+      "lower": "οδος"
+    },
+    {
+      "s": "ΟΔΟΣ ΟΔΟΣ",
+      "encode": "%CE%9F%CE%94%CE%9F%CE%A3%20%CE%9F%CE%94%CE%9F%CE%A3",
+      "decode": "ΟΔΟΣ ΟΔΟΣ",
+      "lower": "οδος οδος"
+    },
+    {
+      "s": "Σ",
+      "encode": "%CE%A3",
+      "decode": "Σ",
+      "lower": "σ"
+    },
+    {
+      "s": "AΣ",
+      "encode": "A%CE%A3",
+      "decode": "AΣ",
+      "lower": "aς"
+    },
+    {
+      "s": "AΣB",
+      "encode": "A%CE%A3B",
+      "decode": "AΣB",
+      "lower": "aσb"
+    },
+    {
+      "s": "1Σ",
+      "encode": "1%CE%A3",
+      "decode": "1Σ",
+      "lower": "1σ"
+    },
+    {
+      "s": "AΣ.",
+      "encode": "A%CE%A3.",
+      "decode": "AΣ.",
+      "lower": "aς."
+    },
+    {
+      "s": "AΣ'B",
+      "encode": "A%CE%A3'B",
+      "decode": "AΣ'B",
+      "lower": "aσ'b"
+    },
+    {
+      "s": "AΣ́",
+      "encode": "A%CE%A3%CC%81",
+      "decode": "AΣ́",
+      "lower": "aς́"
+    },
+    {
+      "s": "ÁΣ",
+      "encode": "A%CC%81%CE%A3",
+      "decode": "ÁΣ",
+      "lower": "áς"
+    },
+    {
+      "s": "Σ́A",
+      "encode": "%CE%A3%CC%81A",
+      "decode": "Σ́A",
+      "lower": "σ́a"
+    },
+    {
+      "s": "ΑΣ1",
+      "encode": "%CE%91%CE%A31",
+      "decode": "ΑΣ1",
+      "lower": "ας1"
+    },
+    {
+      "s": "ᾼ",
+      "encode": "%E1%BE%BC",
+      "decode": "ᾼ",
+      "lower": "ᾳ"
+    },
+    {
+      "s": "Ꭰ",
+      "encode": "%E1%8E%A0",
+      "decode": "Ꭰ",
+      "lower": "ꭰ"
+    },
+    {
+      "s": "ꭰ",
+      "encode": "%EA%AD%B0",
+      "decode": "ꭰ",
+      "lower": "ꭰ"
+    },
+    {
+      "s": "K",
+      "encode": "%E2%84%AA",
+      "decode": "K",
+      "lower": "k"
+    },
+    {
+      "s": "Å",
+      "encode": "%C3%85",
+      "decode": "Å",
+      "lower": "å"
+    },
+    {
+      "s": "%41",
+      "encode": "%2541",
+      "decode": "A",
+      "lower": "%41"
+    },
+    {
+      "s": "%e4%b8%ad",
+      "encode": "%25e4%25b8%25ad",
+      "decode": "中",
+      "lower": "%e4%b8%ad"
+    },
+    {
+      "s": "%E4%B8%AD",
+      "encode": "%25E4%25B8%25AD",
+      "decode": "中",
+      "lower": "%e4%b8%ad"
+    },
+    {
+      "s": "%zz",
+      "encode": "%25zz",
+      "decode": null,
+      "lower": "%zz"
+    },
+    {
+      "s": "%",
+      "encode": "%25",
+      "decode": null,
+      "lower": "%"
+    },
+    {
+      "s": "%4",
+      "encode": "%254",
+      "decode": null,
+      "lower": "%4"
+    },
+    {
+      "s": "%2F",
+      "encode": "%252F",
+      "decode": "/",
+      "lower": "%2f"
+    },
+    {
+      "s": "%25",
+      "encode": "%2525",
+      "decode": "%",
+      "lower": "%25"
+    },
+    {
+      "s": "%2e%2e",
+      "encode": "%252e%252e",
+      "decode": "..",
+      "lower": "%2e%2e"
+    },
+    {
+      "s": "%C0%AF",
+      "encode": "%25C0%25AF",
+      "decode": null,
+      "lower": "%c0%af"
+    },
+    {
+      "s": "%E0%80%AF",
+      "encode": "%25E0%2580%25AF",
+      "decode": null,
+      "lower": "%e0%80%af"
+    },
+    {
+      "s": "%F0%80%80%AF",
+      "encode": "%25F0%2580%2580%25AF",
+      "decode": null,
+      "lower": "%f0%80%80%af"
+    },
+    {
+      "s": "%ED%A0%80",
+      "encode": "%25ED%25A0%2580",
+      "decode": null,
+      "lower": "%ed%a0%80"
+    },
+    {
+      "s": "%ED%BF%BF",
+      "encode": "%25ED%25BF%25BF",
+      "decode": null,
+      "lower": "%ed%bf%bf"
+    },
+    {
+      "s": "%F4%90%80%80",
+      "encode": "%25F4%2590%2580%2580",
+      "decode": null,
+      "lower": "%f4%90%80%80"
+    },
+    {
+      "s": "%F4%8F%BF%BF",
+      "encode": "%25F4%258F%25BF%25BF",
+      "decode": "􏿿",
+      "lower": "%f4%8f%bf%bf"
+    },
+    {
+      "s": "%F0%9F%98%80",
+      "encode": "%25F0%259F%2598%2580",
+      "decode": "😀",
+      "lower": "%f0%9f%98%80"
+    },
+    {
+      "s": "%80",
+      "encode": "%2580",
+      "decode": null,
+      "lower": "%80"
+    },
+    {
+      "s": "%BF",
+      "encode": "%25BF",
+      "decode": null,
+      "lower": "%bf"
+    },
+    {
+      "s": "%C3",
+      "encode": "%25C3",
+      "decode": null,
+      "lower": "%c3"
+    },
+    {
+      "s": "%C3%28",
+      "encode": "%25C3%2528",
+      "decode": null,
+      "lower": "%c3%28"
+    },
+    {
+      "s": "%C3%",
+      "encode": "%25C3%25",
+      "decode": null,
+      "lower": "%c3%"
+    },
+    {
+      "s": "%C3%A",
+      "encode": "%25C3%25A",
+      "decode": null,
+      "lower": "%c3%a"
+    },
+    {
+      "s": "%FF",
+      "encode": "%25FF",
+      "decode": null,
+      "lower": "%ff"
+    },
+    {
+      "s": "%FE",
+      "encode": "%25FE",
+      "decode": null,
+      "lower": "%fe"
+    },
+    {
+      "s": "%F8%88%80%80%80",
+      "encode": "%25F8%2588%2580%2580%2580",
+      "decode": null,
+      "lower": "%f8%88%80%80%80"
+    },
+    {
+      "s": "%C2%A0",
+      "encode": "%25C2%25A0",
+      "decode": " ",
+      "lower": "%c2%a0"
+    },
+    {
+      "s": "a%20b",
+      "encode": "a%2520b",
+      "decode": "a b",
+      "lower": "a%20b"
+    },
+    {
+      "s": "%u0041",
+      "encode": "%25u0041",
+      "decode": null,
+      "lower": "%u0041"
+    },
+    {
+      "s": "%%41",
+      "encode": "%25%2541",
+      "decode": null,
+      "lower": "%%41"
+    },
+    {
+      "s": "%4G",
+      "encode": "%254G",
+      "decode": null,
+      "lower": "%4g"
+    },
+    {
+      "s": "%EF%BB%BF",
+      "encode": "%25EF%25BB%25BF",
+      "decode": "﻿",
+      "lower": "%ef%bb%bf"
+    },
+    {
+      "s": "100%",
+      "encode": "100%25",
+      "decode": null,
+      "lower": "100%"
+    },
+    {
+      "s": "x%E4%B8",
+      "encode": "x%25E4%25B8",
+      "decode": null,
+      "lower": "x%e4%b8"
+    },
+    {
+      "s": "repo%41",
+      "encode": "repo%2541",
+      "decode": "repoA",
+      "lower": "repo%41"
+    }
+  ],
+  "encodeUnits": [
+    {
+      "units": [
+        55296
+      ],
+      "encode": null
+    },
+    {
+      "units": [
+        97,
+        56320
+      ],
+      "encode": null
+    },
+    {
+      "units": [
+        56319,
+        98
+      ],
+      "encode": null
+    },
+    {
+      "units": [
+        55357,
+        56832,
+        55357
+      ],
+      "encode": null
+    }
+  ]
+}
