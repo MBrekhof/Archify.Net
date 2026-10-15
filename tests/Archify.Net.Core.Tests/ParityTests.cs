@@ -138,7 +138,7 @@ public class ParityTests
         AssertReceipt(expected, r);
     }
 
-    // Workflow failure receipts (same capture, from the incident-response example with one fault each): validateWorkflow's
+    // Workflow failure receipts (same capture, mostly from the holiday-planning example with one fault each, plus incident-response, agent-tool-call, v1-explicit-coordinates and release-luna): validateWorkflow's
     // mainPath check with its verified repoint fixes (acceptsFix recompiles every candidate). wf-v1-column-capacity needs the
     // migration recompile (Task 10). Task 8: the readable-v2 canvas (finalizeReadableViewBox, both verified fixes recompile
     // v2) and node-text (validateReadableNodeText after the sizing loop) failures. Task 9: the typed input gate

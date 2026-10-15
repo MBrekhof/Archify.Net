@@ -43,8 +43,9 @@ of `ArchifyNet.Render`:
 
 - Word breaks: `Js.WordBreaks` matches V8's `Intl.Segmenter` word granularity except that Han, Hiragana, Katakana, Thai,
   Lao, Khmer and Myanmar runs split per grapheme (ICU uses a dictionary; visible in sequence notes and wrapped
-  automatic-showcase dataflow labels); V8 splits inside some grapheme clusters the port keeps whole (Arabic number sign U+0600,
-  a jamo next to a Hangul syllable, a ZWJ before an emoji after a non-emoji); and a non-POSIX host locale is assumed (under
+  automatic-showcase dataflow labels); V8 splits inside grapheme clusters the port keeps whole (a Prepend such as U+0600 before a space,
+  a jamo next to a Hangul syllable) while the port splits across clusters V8 joins (a ZWJ before a pictograph after a letter,
+  UAX #29 WB3c: `"a‍😀"` is one word in V8, two in the port; a Format/Prepend-led cluster after a letter: `"a؀b"`); and a non-POSIX host locale is assumed (under
   `LANG=C` V8 splits `api.example.com` at the dots).
 - Time zones use the OS zone table: base offset before a zone's first transition (`Asia/Shanghai` at year 1 is
   `UTC+08:00`, upstream `UTC+08:06`), and the first adjustment rule extrapolated backwards (`Pacific/Chatham`,
@@ -58,18 +59,25 @@ the Js static constructor throws in a host with `InvariantGlobalization` on.
 ## Carried into later phases
 
 - **`joinRoutePoints` identity memo: closed.** Upstream's memo (geometry.mjs:1327-1374) is unobservable in workflow and
-  dataflow, and `GeometryTests.JoinRoutePoints_output_is_a_fixed_point_of_NormalizeRoutePoints` pins the property that makes it so.
+  dataflow, and `GeometryTests.JoinRoutePoints_output_is_a_fixed_point_of_NormalizeRoutePoints` pins the property that makes it so
+  on 6 hand-built shapes (the plan asked for 17 candidate shapes); the closure rests on no code comparing normalised arrays by identity.
 - **`gateProfile` sites are review-checked only.** No phase-2 fixture makes a shared geometry gate fail, so a
   meta-only port would pass the same goldens. The phase-2 plan's Tasks 5 (sequence) and 7 (class) list the sites.
 - **Erd entity width → phase 4.** `ErdGrid.ResolvedEntityWidth` takes a `GridEntity` only; the erd renderer needs
   `GridEntity.From(entity, 0)` there.
 - **Phase-3 coverage gaps (card TEST-002):**
-  - Task 8: internal-detour plans, route-order retries, layout-feedback rounds and the sublabel sizing loop are reached by
-    no workflow row (probe: 0 hits, mutations stay green); tie-break offsets (`pairOrdinal*9`, outside-right growth) are unpinned.
+  - Task 8: route-order retries and the sizing loop ARE pinned (`route-text-recovery`: 2 route-order retries + 1 sizing recompile
+    in its top-level compile; golden and receipt byte-identical). Still reached by no workflow row: layout-feedback rounds,
+    internal-detour plans and the tie-break offsets (`pairOrdinal*9`, outside-right growth), plus the pin-conflict throwers and
+    repair hints listed below.
   - Task 10: most H1/H5 pin-conflict throwers (label-route, label-label, H2 crossing/corridor, `labelAt`, negative pins,
     pinned-route checks, placed-label/rhythm evidence, authored-side failure) have no Node receipt; they are verified by reading only.
   - Task 11: `addVerifiedCrossingRepair` and `addVerifiedPlacementRepair` are reached by no captured input (no route-order
     code in any fixture).
+- **Non-empty `Layout.Report.diagnostics` is unpinned (phase 5).** No fixture pins its JSON form (all success receipts have `[]`;
+  `WorkflowRenderer.cs:27-32` rebuilds six keys, never `suppresses`). Upstream's failure receipt order is `{…, diagnostics, ok:false}`
+  while the port's failure receipt (`WorkflowCompilation.Svg.cs:487-489`) has no `diagnostics` key: phase 5's `--layout-json` must
+  follow upstream's order (card TEST-002 gains a standard-profile warning fixture).
 
 ## Dev-time tooling
 

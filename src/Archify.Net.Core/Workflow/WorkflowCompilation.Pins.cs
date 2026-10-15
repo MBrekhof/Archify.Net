@@ -855,6 +855,7 @@ internal sealed partial class WorkflowCompilation
         // alternative search) when exhaustive side inference found no valid plan.
         var fallback = materializedCandidates.FirstOrDefault();
         if (fallback is null) return null;
+        // The success branch of ReadablePresetVia is unreachable here: this fallback recomputes geometry that already failed (Task 10 report), so no fixture exists for it.
         var fallbackVia = ReadablePresetVia(edge, from, to, fallback.Points[0], fallback.Points[^1], fallback.FromSide, fallback.ToSide);
         return new Plan { Points = Geometry.NormalizeRoutePoints([fallback.Points[0], .. fallbackVia, fallback.Points[^1]]), FromSide = fallback.FromSide, ToSide = fallback.ToSide };
     }

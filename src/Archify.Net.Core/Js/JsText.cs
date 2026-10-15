@@ -24,8 +24,9 @@ public static partial class Js
     // Intl.Segmenter word granularity (label-capacity.mjs:32-33) as WB3–WB13b over Graphemes, classed by first code point. Port of
     // uax29proto.mjs with three V8-measured corrections: WB4 attaches every Extend/Format-only cluster except after a Newline, WB3d and
     // the Hangul run look at the previous cluster's last code point, and only syllables form ICU's Hangul run (jamo are ALetter).
-    // No regional-indicator rule: Graphemes already pairs flags. Ceiling: a grapheme that V8 splits at word level (Prepend U+0600,
-    // jamo next to a syllable) or WB3c (ZWJ × pictograph after a non-pictograph) is not reproduced; ubrk_* from icu.dll if that matters.
+    // No regional-indicator rule: Graphemes already pairs flags. Ceiling, both directions: V8 splits inside a grapheme at word level (Prepend U+0600 before a space,
+    // jamo next to a syllable) that the port keeps whole; the port splits across graphemes V8 joins (WB3c: ZWJ × pictograph after a letter;
+    // a Format/Prepend-led grapheme after a letter); ubrk_* from icu.dll if that matters.
     public static List<string> WordBreaks(string s)
     {
         var cs = new List<(string S, Wb First, Wb Last)>();

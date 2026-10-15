@@ -35,8 +35,9 @@ public static class ArchifyNet
     /// Known deviations from upstream (full list in README.md, "Known deviations from upstream"):
     /// Word breaks: <c>Js.WordBreaks</c> matches V8's <c>Intl.Segmenter</c> word granularity except that Han, Hiragana, Katakana, Thai, Lao,
     /// Khmer and Myanmar runs split per grapheme (ICU uses a dictionary; visible in sequence notes and wrapped automatic-showcase dataflow
-    /// labels), V8 splits inside some grapheme clusters the port keeps whole (Arabic number sign U+0600, a jamo next to a Hangul syllable,
-    /// a ZWJ before an emoji after a non-emoji), and a non-POSIX host locale is assumed (under <c>LANG=C</c> V8 splits <c>api.example.com</c>
+    /// labels), V8 splits inside grapheme clusters the port keeps whole (a Prepend such as U+0600 before a space, a jamo next to a Hangul
+    /// syllable) while the port splits across clusters V8 joins (a ZWJ before a pictograph after a letter, UAX #29 WB3c; a Format/Prepend-led
+    /// cluster after a letter), and a non-POSIX host locale is assumed (under <c>LANG=C</c> V8 splits <c>api.example.com</c>
     /// at the dots). Every other text path, zh-CN included, is byte-exact.
     /// A workflow render returns the compiler receipt (upstream's <c>--layout-json</c>) as <c>Layout</c>; dataflow returns null.
     /// Time zones use the operating system's zone table, not Node's tzdata: before a zone's first transition the port shows the base

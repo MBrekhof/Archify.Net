@@ -23,7 +23,7 @@ public sealed class WorkflowRenderer : IDiagramRenderer
             throw;
         }
         // :35-36 — a failed compile re-records its diagnostics and throws; a successful one publishes none (R11).
-        if (!compiled.Ok) throw ctx.Diagnostics.ThrowDiagnosticError(compiled.Error ?? "Workflow compilation failed.", compiled.Diagnostics);
+        if (!compiled.Ok) throw ctx.Diagnostics.ThrowDiagnosticError(string.IsNullOrEmpty(compiled.Error) ? "Workflow compilation failed." : compiled.Error, compiled.Diagnostics);
         var report = compiled.Receipt.DeepClone().AsObject();
         report["diagnostics"] = new JsonArray([.. compiled.Diagnostics.Select(d => (JsonNode?)new JsonObject
         {
