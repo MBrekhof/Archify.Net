@@ -1,6 +1,6 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-15 (phase 6 implemented — exit demonstration pending).
+Updated 2026-10-15 (phase 6 done: exit demonstration passed).
 
 ## What this repo is
 
@@ -22,7 +22,12 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 
 ## State at end of phase 6
 
-- Phase 6 (`PORT-006`) status: **Implemented — exit demonstration pending**.
+- Phase 6 (`PORT-006`) status: **Done**. Claude ran the exit demonstration headless in Claude Code against the packed tools; the record is
+  `.superpowers/sdd/2026-10-15-phase6-mcp/task-6-exit-report.md`.
+  - Run 1: a `claude -p` session with `--mcp-config` called `archify_render` on `web-app.architecture.json`. The HTML is
+    byte-identical to `upstream/examples/web-app-rendered.html`.
+  - Run 2: a fresh session that followed `skill/archify/SKILL.md` wrote a leave-approval workflow and called
+    `archify_finalize` once. Every gate passed at showcase, with 0 diagnostics.
   - `src/Archify.Net.Mcp` (`archify-mcp` dotnet tool, `ModelContextProtocol` 2.2.0) exposes the 4 tools `archify_guide`,
     `archify_validate`, `archify_render` and `archify_finalize` in-process over `Archify.Net.Cli`.
   - `skill/archify/` is the self-contained agent skill package (`SKILL.md` with `## Archify.Net differences`, the 6 supported
@@ -36,7 +41,8 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   - `17abea8 feat(mcp): Archify.Net.Mcp server with the 4-tool catalog (validate, render, finalize, guide)`
   - `85f158f test(mcp): end-to-end render, finalize (Chromium and no-Chromium) and stdio subprocess tests`
   - `8ec3691 feat(skill): self-contained skill/archify package (SKILL.md, references, schemas, examples) with parity tests`
-  - plus the Task 5 docs commit (`docs: phase 6 — MCP server and skill (exit demonstration pending)`).
+  - `11d20ea docs: phase 6 — MCP server and skill (exit demonstration pending)`
+  - plus the docs commit that records the exit demonstration.
 - Test totals (`dotnet test Archify.Net.sln` from the repo root, including the `Browser` category): **3727 passed, 0 failed,
   0 skipped, 0 warnings**:
   - `Archify.Net.Core.Tests`: 2782 passed
@@ -165,7 +171,13 @@ The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-r
 
 ## Next
 
-Next: the `PORT-006` exit-demonstration step (Task 6 of `docs/superpowers/plans/2026-10-15-phase6-mcp.md`), run by Claude in a headless Claude Code session against packed `archify` and `archify-mcp` tools and `skill/archify/SKILL.md`.
+All six port phases are done. The open cards on the board (project 46) are:
+
+- **Waiting on Martin:**
+  - UPSTREAM-001: four upstream examples fail upstream's own gates. Report it upstream, or fix our copies of the examples?
+  - UPSTREAM-002: `check` and `browser-check` crash in an uncreatable or non-directory sidecar location, faithful to
+    upstream. Report it upstream, diverge, or keep parity?
+- **Ready to work:** TZ-001, TZ-002, GLOB-001, TEST-001, TEST-002, TEST-003, CLEAN-001 and PERF-001.
 
 ## Phase 4 closed (2026-10-15)
 

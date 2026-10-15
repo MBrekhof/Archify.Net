@@ -35,7 +35,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 3 | workflow and dataflow renderers | Done |
 | 4 | erd renderer and repository evidence | Done |
 | 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Done |
-| 6 | MCP server and SKILL.md | Implemented — exit demonstration pending |
+| 6 | MCP server and SKILL.md | Done |
 
 Phase 1 parity results:
 
