@@ -6,6 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import zlib from 'node:zlib';
 
 const UP = 'C:/projects/archify/archify';
 const ROOT = path.resolve(fileURLToPath(import.meta.url), '..', '..');
@@ -1171,13 +1172,45 @@ const evidenceScenarios = [
   ['line-range-invalid', 'architecture', GH_ORIGIN, 'repo', evArch(GH, [{ path: 'src/router.js', line: 3, end_line: 1 }]),
     ['repository-evidence/line-range-invalid']],
   ['source-required', 'architecture', GH_ORIGIN, 'repo', evArch(GH), ['repository-evidence/source-required']],
+  // TEST-003 (survey-test3 §4): the per-file fallbacks and object-unavailable, through damaged or partial repos.
+  ['object-unavailable-partial', 'architecture', GH_ORIGIN, 'partial', evArch(GH, ROUTER_STORE),
+    ['repository-evidence/object-unavailable', 'repository-evidence/object-unavailable']],
+  ['object-unavailable-path-only', 'architecture', GH_ORIGIN, 'partial', evArch(GH, [{ path: 'src/router.js' }]), ['repository-evidence/object-unavailable']],
+  ['batch-check-fallback', 'architecture', GH_ORIGIN, 'bad-type', evArch(GH, [{ path: 'src/router.js' }, { path: 'src/store.js', line: 9 }]),
+    ['repository-evidence/object-unavailable', 'repository-evidence/line-out-of-range']],
+  ['content-batch-fallback', 'architecture', GH_ORIGIN, 'truncated', evArch(GH, ROUTER_STORE), ['repository-evidence/file-unreadable']],
+  ['content-batch-path-only', 'architecture', GH_ORIGIN, 'truncated', evArch(GH, [{ path: 'src/router.js' }]), 'payload'],
 ];
+// Per-file fallback roots (TEST-003, survey-test3 §4). fast-import wrote loose objects, so one object file can be damaged in place.
+const ROUTER_BLOB = '.git/objects/9e/396e4ede13a17cccc016bf524c97bd8e2efee4';
+function damageRouterBlob(repo, damage) {
+  const file = path.join(repo, ROUTER_BLOB);
+  const inflated = zlib.inflateSync(fs.readFileSync(file));   // "blob 54\0" + 54 content bytes
+  fs.chmodSync(file, 0o666);   // git writes loose objects read-only
+  fs.writeFileSync(file, damage(inflated));
+}
+// Header type changed to an unknown one: cat-file --batch-check dies with "invalid object type".
+const badTypeRoot = (repo) => damageRouterBlob(repo, (b) => zlib.deflateSync(Buffer.concat([Buffer.from('bogus'), b.subarray(4)])));
+// A hand-built zlib stored stream (78 01, final stored block 01 LEN ~LEN) cut after 10 content bytes: the size is readable, the body is not.
+const truncatedRoot = (repo) => damageRouterBlob(repo, (b) => Buffer.concat([Buffer.from([0x78, 0x01, 0x01, b.length & 255, b.length >> 8, ~b.length & 255, (~b.length >> 8) & 255]), b]).subarray(0, 2 + 5 + 9 + 10));
+// Blobs filtered out of a clone of the repo: every cited object is unavailable (uploadpack.allowFilter must be set on the source).
+function partialRoot(repo, origin) {
+  const git = (cwd, args) => execFileSync('git', ['-C', cwd, ...args], { env: gitEnv, encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+  git(repo, ['config', 'uploadpack.allowFilter', 'true']);
+  const clone = evidenceTemp();
+  git(clone, ['clone', '--quiet', '--filter=blob:none', '--no-checkout', pathToFileURL(repo).href, clone]);
+  git(clone, ['remote', 'set-url', 'origin', origin]);
+  return clone;
+}
 const evidenceJobs = evidenceScenarios.map(([, type, origin, rootKind, diagram]) => {
   const repo = evidenceRepo(origin);
   const empty = rootKind === 'empty' ? evidenceTemp() : null;
+  const partial = rootKind === 'partial' ? partialRoot(repo, origin) : null;
   if (rootKind === 'src') fs.mkdirSync(path.join(repo, 'src'));
-  const root = { repo, src: path.join(repo, 'src'), empty, missing: `${repo}-missing`, '': '' }[rootKind];
-  return { type, diagram, root, base: empty ?? repo };
+  if (rootKind === 'bad-type') badTypeRoot(repo);
+  if (rootKind === 'truncated') truncatedRoot(repo);
+  const root = { repo, src: path.join(repo, 'src'), empty, partial, missing: `${repo}-missing`, '': '' }[rootKind] ?? repo;
+  return { type, diagram, root, base: partial ?? empty ?? repo };
 });
 const evidenceChild = `
 import fs from 'node:fs';

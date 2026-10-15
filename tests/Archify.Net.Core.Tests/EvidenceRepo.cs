@@ -21,6 +21,46 @@ internal static class EvidenceRepo
         return (root, head);
     }
 
+    // Per-file fallback roots (TEST-003): fast-import wrote loose objects, so the router blob can be damaged in place.
+    const string RouterBlob = ".git/objects/9e/396e4ede13a17cccc016bf524c97bd8e2efee4";
+    public const string RouterBlobId = "9e396e4ede13a17cccc016bf524c97bd8e2efee4";
+
+    static void DamageRouterBlob(string repo, Func<byte[], byte[]> damage)
+    {
+        var file = Path.Combine(repo, RouterBlob);
+        var inflated = new MemoryStream();
+        using (var read = new System.IO.Compression.ZLibStream(File.OpenRead(file), System.IO.Compression.CompressionMode.Decompress))
+            read.CopyTo(inflated);
+        File.SetAttributes(file, FileAttributes.Normal);   // git writes loose objects read-only
+        File.WriteAllBytes(file, damage(inflated.ToArray()));
+    }
+
+    // Header type changed to an unknown one: cat-file --batch-check dies with "invalid object type".
+    public static void MakeBadType(string repo) => DamageRouterBlob(repo, b =>
+    {
+        using var deflated = new MemoryStream();
+        using (var z = new System.IO.Compression.ZLibStream(deflated, System.IO.Compression.CompressionLevel.Optimal, leaveOpen: true))
+            z.Write([.. "bogus"u8, .. b.AsSpan(4)]);
+        return deflated.ToArray();
+    });
+
+    // A hand-built zlib stored stream (78 01, final stored block 01 LEN ~LEN) cut after 10 content bytes: the size is readable, the body is not.
+    public static void MakeTruncated(string repo) => DamageRouterBlob(repo, b =>
+    {
+        byte[] stream = [0x78, 0x01, 0x01, (byte)b.Length, (byte)(b.Length >> 8), (byte)~b.Length, (byte)(~b.Length >> 8), .. b];
+        return stream[..(2 + 5 + 9 + 10)];
+    });
+
+    // Blobs filtered out of a clone of repo: every cited object is unavailable (uploadpack.allowFilter must be set on the source).
+    public static string MakePartialClone(string repo, string origin)
+    {
+        Git(repo, "config", "uploadpack.allowFilter", "true");
+        var clone = Directory.CreateTempSubdirectory("archify-evidence-").FullName;
+        Git(clone, "clone", "--quiet", "--filter=blob:none", "--no-checkout", new Uri(repo).AbsoluteUri, clone);
+        Git(clone, "remote", "set-url", "origin", origin);
+        return clone;
+    }
+
     public static string Git(string root, params string[] args) => Git(root, null, args);
 
     public static string Git(string root, byte[]? input, params string[] args)

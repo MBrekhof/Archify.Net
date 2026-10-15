@@ -40,15 +40,18 @@ public class RepositoryEvidenceTests
     {
         var scenario = Scenario(name);
         var (repo, _) = EvidenceRepo.Create(scenario.Str("origin"));
-        string? empty = null;
+        string? empty = null, partial = null;
         try
         {
             var kind = scenario.Str("root")!;
             if (kind == "empty") empty = Directory.CreateTempSubdirectory("archify-evidence-").FullName;
+            if (kind == "partial") partial = EvidenceRepo.MakePartialClone(repo, scenario.Str("origin")!);
+            if (kind == "bad-type") EvidenceRepo.MakeBadType(repo);
+            if (kind == "truncated") EvidenceRepo.MakeTruncated(repo);
             var root = kind switch
             {
-                "repo" => repo, "src" => Directory.CreateDirectory(Path.Combine(repo, "src")).FullName, "empty" => empty,
-                "missing" => repo + "-missing", "" => "", _ => throw new ArgumentException(kind),
+                "repo" or "bad-type" or "truncated" => repo, "src" => Directory.CreateDirectory(Path.Combine(repo, "src")).FullName, "empty" => empty,
+                "partial" => partial, "missing" => repo + "-missing", "" => "", _ => throw new ArgumentException(kind),
             };
             var type = DiagramTypes.Parse(scenario.Str("type")!);
             var payloadFile = Fixtures.Fixture($"evidence/{name}.payload.json");
@@ -56,9 +59,59 @@ public class RepositoryEvidenceTests
                 Assert.Equal(Payload(name), Js.Stringify(RepositoryEvidence.Verify(type, Diagram(name), root, new DiagnosticSink())));
             else
                 ParityTests.AssertReceipt(Expected($"{name}.expected.json"),
-                    Failure(() => RepositoryEvidence.Verify(type, Diagram(name), root, new DiagnosticSink()), empty ?? repo));
+                    Failure(() => RepositoryEvidence.Verify(type, Diagram(name), root, new DiagnosticSink()), partial ?? empty ?? repo));
         }
-        finally { EvidenceRepo.Delete(repo); if (empty is not null) EvidenceRepo.Delete(empty); }
+        finally { EvidenceRepo.Delete(repo); if (empty is not null) EvidenceRepo.Delete(empty); if (partial is not null) EvidenceRepo.Delete(partial); }
+    }
+
+    // The damage itself took (otherwise the scenarios above would pass for the wrong reason).
+    [Fact] public void Partial_clone_holds_no_blob()
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        var clone = EvidenceRepo.MakePartialClone(repo, GithubOrigin);
+        try { Assert.DoesNotContain(" blob ", EvidenceRepo.Git(clone, "cat-file", "--batch-all-objects", "--batch-check")); }
+        finally { EvidenceRepo.Delete(repo); EvidenceRepo.Delete(clone); }
+    }
+
+    [Fact] public void Bad_type_blob_is_not_readable_by_cat_file()
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        try { EvidenceRepo.MakeBadType(repo); Assert.Throws<InvalidOperationException>(() => EvidenceRepo.Git(repo, "cat-file", "-t", EvidenceRepo.RouterBlobId)); }
+        finally { EvidenceRepo.Delete(repo); }
+    }
+
+    [Fact] public void Truncated_blob_is_not_readable_by_cat_file()
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        try { EvidenceRepo.MakeTruncated(repo); Assert.Throws<InvalidOperationException>(() => EvidenceRepo.Git(repo, "cat-file", "-p", EvidenceRepo.RouterBlobId)); }
+        finally { EvidenceRepo.Delete(repo); }
+    }
+
+    // Survey-test3 §4c.3 (C#-only: the result is a clean payload, so Node adds only "exit 0"): the content batch overflows maxBuffer,
+    // and the per-file show fallback reads all five paths. line: 2 fails if the fallback returns empty content (SourceLineCount("") is 1).
+    [Fact] public void A_content_batch_over_maxBuffer_falls_back_to_per_file_show()
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        try
+        {
+            EvidenceRepo.Git(repo, "read-tree", "HEAD");
+            var line = Enumerable.Repeat((byte)'a', 79).Append((byte)'\n').ToArray();
+            var content = Enumerable.Range(0, 14 * 1024 * 1024 / 80).SelectMany(_ => line).ToArray();
+            string[] names = ["a.txt", "b.txt", "c.txt", "d.txt", "e.txt"];
+            foreach (var n in names) File.WriteAllBytes(Path.Combine(repo, n), content);
+            EvidenceRepo.Git(repo, ["add", .. names]);
+            EvidenceRepo.Git(repo, "-c", "user.name=Archify Fixture", "-c", "user.email=fixture@example.invalid", "commit", "--quiet", "-m", "big fixture");
+            var head = EvidenceRepo.Git(repo, "rev-parse", "HEAD");
+
+            var diagram = Diagram("github-web");
+            diagram["meta"]!["repository"]!["revision"] = head;
+            JsonArray Cite(IEnumerable<string> paths) => new([.. paths.Select(p => (JsonNode)new JsonObject { ["path"] = p, ["line"] = 2 })]);
+            diagram["components"]![0]!["sources"] = Cite(names[..3]);
+            diagram["components"]![1]!["sources"] = Cite(names[3..]);
+            var payload = RepositoryEvidence.Verify(DiagramType.Architecture, DiagramLoader.Normalize(diagram), repo, new DiagnosticSink());
+            Assert.Equal(5, payload!["referenceCount"]!.GetValue<int>());
+        }
+        finally { EvidenceRepo.Delete(repo); }
     }
 
     [Fact] public void A_null_root_is_root_required_like_an_empty_one()
