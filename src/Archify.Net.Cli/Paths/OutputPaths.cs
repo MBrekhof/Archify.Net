@@ -93,7 +93,7 @@ internal sealed partial class OutputPaths(PathSemantics semantics)
             throw Failure("meta.output must resolve to an .html file.", "output/meta-resolved-extension",
                 "meta.output must resolve to an .html file after symbolic links are followed.", new JsonObject { ["output"] = raw }, null,
                 "remove the symbolic-link alias or point it to an .html target inside the current working directory");
-        if (!PathIsInside(cwd, outputPath))
+        if (!PathIsInside(NodePath.Resolve(cwd, "."), outputPath))
             throw Failure("meta.output must stay inside the current working directory.", "output/meta-outside-cwd",
                 "meta.output must stay inside the current working directory after symbolic links are resolved.",
                 new JsonObject { ["output"] = raw, ["cwd"] = NodePath.Resolve(cwd, ".") },
@@ -113,20 +113,20 @@ internal sealed partial class OutputPaths(PathSemantics semantics)
         };
         if (source != "meta") ValidateNativeOutputPath(rawOutput, request.Platform);
         var outputPath = NodePath.Resolve(request.Cwd, rawOutput);
-        foreach (var inputPath in request.InputPaths)
+        foreach (var inputPath in request.InputPaths.Select(p => NodePath.Resolve(request.Cwd, p)))
         {
             if (!PathsAlias(outputPath, inputPath)) continue;
             var message = $"Output must not replace {request.InputDescription}, including through a symbolic-link or future-path alias.";
             throw Failure($"Output must not replace {request.InputDescription}.", "output/input-alias", message,
-                new JsonObject { ["output"] = outputPath, ["input"] = NodePath.Resolve(request.Cwd, inputPath) }, null,
+                new JsonObject { ["output"] = outputPath, ["input"] = inputPath }, null,
                 "choose an output path that is distinct from every input path");
         }
-        foreach (var otherOutputPath in request.OtherOutputPaths)
+        foreach (var otherOutputPath in request.OtherOutputPaths.Select(p => NodePath.Resolve(request.Cwd, p)))
         {
             if (!PathsAlias(outputPath, otherOutputPath)) continue;
             throw Failure("Output targets must use distinct paths.", "output/target-alias",
                 "Output targets must use distinct paths, including symbolic-link and future-path aliases.",
-                new JsonObject { ["output"] = outputPath, ["conflictingOutput"] = NodePath.Resolve(request.Cwd, otherOutputPath) }, null,
+                new JsonObject { ["output"] = outputPath, ["conflictingOutput"] = otherOutputPath }, null,
                 "choose distinct paths for every generated output");
         }
 

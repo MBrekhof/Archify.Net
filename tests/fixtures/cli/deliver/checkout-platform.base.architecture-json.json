@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "checkout-platform.base.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "checkout-platform.base.architecture.json": "upstream/examples/checkout-platform.base.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\checkout-platform.base.architecture.json\",\n  \"output\": \"<WORK>\\\\checkout-platform.base.html\",\n  \"specification\": {\n    \"sha256\": \"81d55a2e86fc39f6473b32dfba986a12d3b7a705a95821844865b1dc831c9fe7\",\n    \"bytes\": 2279\n  },\n  \"artifact\": {\n    \"sha256\": \"d1571119933593b621a847ec24ff651d51dbf35ba961233dfe1cb5a895d0177f\",\n    \"bytes\": 818613\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"standard\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "checkout-platform.base.architecture.json",
+    "checkout-platform.base.delivery.json",
+    "checkout-platform.base.html"
+  ],
+  "sidecars": {
+    "checkout-platform.base.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\checkout-platform.base.architecture.json\",\n  \"output\": \"<WORK>\\\\checkout-platform.base.html\",\n  \"specification\": {\n    \"sha256\": \"81d55a2e86fc39f6473b32dfba986a12d3b7a705a95821844865b1dc831c9fe7\",\n    \"bytes\": 2279\n  },\n  \"artifact\": {\n    \"sha256\": \"d1571119933593b621a847ec24ff651d51dbf35ba961233dfe1cb5a895d0177f\",\n    \"bytes\": 818613\n  }\n}\n"
+  }
+}

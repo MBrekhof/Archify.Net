@@ -509,6 +509,34 @@ public partial class PathSemanticsTests
 
     // ---- Windows path identity facts (NativeFs) ----
 
+    // path.win32.dirname on doubled separators, as Node v24 prints it: a drive root keeps one separator; a UNC root gains one.
+    [Theory]
+    [InlineData(@"C:\\foo.html", @"C:\")]
+    [InlineData(@"C:\foo.html", @"C:\")]
+    [InlineData(@"\\server\share\\foo.html", @"\\server\share\")]
+    [InlineData(@"\\server\share\foo", @"\\server\share\")]
+    public void DirName_keeps_a_drive_root_through_a_doubled_separator(string path, string expected) =>
+        Assert.Equal(expected, PathSemantics.DirName(path));
+
+    // The non-Windows fallbacks (Q6) report a missing path or parent as Node's ENOENT, and a path through a file as ENOENT or
+    // ENOTDIR, always as NativeFsException like the P/Invoke path (callers branch on those two codes).
+    [Fact]
+    public void Portable_fallbacks_report_missing_entries_as_enoent()
+    {
+        using var scratch = new Scratch();
+        var file = scratch.File("file.txt", "x");
+        foreach (var missing in new[] { scratch.Path("missing"), scratch.Path(@"missing\child") })
+        {
+            Assert.Equal("ENOENT", Assert.Throws<NativeFsException>(() => NativeFs.PortableRealPath(missing)).Code);
+            Assert.Equal("ENOENT", Assert.Throws<NativeFsException>(() => NativeFs.PortableStat(missing, followLinks: true)).Code);
+            Assert.Equal("ENOENT", Assert.Throws<NativeFsException>(() => NativeFs.PortableStat(missing, followLinks: false)).Code);
+        }
+        var throughFile = Path.Join(file, "child");
+        Assert.Contains(Assert.Throws<NativeFsException>(() => NativeFs.PortableRealPath(throughFile)).Code, new[] { "ENOENT", "ENOTDIR" });
+        Assert.Contains(Assert.Throws<NativeFsException>(() => NativeFs.PortableStat(throughFile, followLinks: true)).Code, new[] { "ENOENT", "ENOTDIR" });
+        Assert.Contains(Assert.Throws<NativeFsException>(() => NativeFs.PortableStat(throughFile, followLinks: false)).Code, new[] { "ENOENT", "ENOTDIR" });
+    }
+
     [Fact]
     public void RealPath_strips_the_extended_prefix_and_restores_canonical_case()
     {

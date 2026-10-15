@@ -1,0 +1,26 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "schema-failure-output.architecture.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "schema-failure-output.architecture.json": "tests/fixtures/cli/inputs/schema-failure-output.architecture.json",
+    "out.html": "upstream/examples/web-app-rendered.html"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"render\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\schema-failure-output.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"error\": \"architecture schema validation failed:\\n  /components/0 (id/label: \\\"users\\\") must NOT have additional properties {\\\"additionalProperty\\\":\\\"colour\\\"}\",\n  \"diagnostics\": [\n    {\n      \"code\": \"schema/additionalProperties\",\n      \"severity\": \"error\",\n      \"message\": \"/components/0 (id/label: \\\"users\\\") must NOT have additional properties\",\n      \"subject\": {\n        \"diagramType\": \"architecture\",\n        \"path\": \"/components/0\",\n        \"identity\": \"users\"\n      },\n      \"evidence\": {\n        \"keyword\": \"additionalProperties\",\n        \"additionalProperty\": \"colour\"\n      },\n      \"supportedFixes\": [\n        \"remove unsupported property \\\"colour\\\"\"\n      ]\n    }\n  ],\n  \"provenance\": \"failed\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "out.delivery-pending.json",
+    "out.delivery.json",
+    "out.html",
+    "schema-failure-output.architecture.json"
+  ],
+  "sidecars": {
+    "out.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"<WORK>\\\\schema-failure-output.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\"\n}\n",
+    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"failed\",\n  \"command\": \"deliver\",\n  \"stage\": \"render\",\n  \"input\": \"<WORK>\\\\schema-failure-output.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"artifact\": {\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  },\n  \"error\": \"architecture schema validation failed:\\n  /components/0 (id/label: \\\"users\\\") must NOT have additional properties {\\\"additionalProperty\\\":\\\"colour\\\"}\"\n}\n"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json",
+    ".archify-delivery-lock.json": "tests/fixtures/cli/inputs/invalid.archify-delivery-lock.json",
+    "out.html": "upstream/examples/sequence-cache-miss-request.html",
+    "out.delivery.json": "tests/fixtures/cli/inputs/current.delivery.json",
+    "out.delivery-pending.json": "tests/fixtures/cli/inputs/pending.delivery-pending.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"prepare\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"error\": \"Could not start delivery for \\\"<WORK>\\\\out.html\\\": Unrecognized delivery lock at \\\"<WORK>\\\\.archify-delivery-lock.json\\\"; inspect the existing entry before retrying.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/lock-invalid\",\n      \"severity\": \"error\",\n      \"message\": \"Could not start delivery for \\\"<WORK>\\\\out.html\\\": Unrecognized delivery lock at \\\"<WORK>\\\\.archify-delivery-lock.json\\\"; inspect the existing entry before retrying.\",\n      \"subject\": {\n        \"output\": \"<WORK>\\\\out.html\",\n        \"lock\": \"<WORK>\\\\.archify-delivery-lock.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Unrecognized delivery lock at \\\"<WORK>\\\\.archify-delivery-lock.json\\\"; inspect the existing entry before retrying.\"\n      },\n      \"supportedFixes\": [\n        \"inspect and preserve the unrecognized lock entry, or choose another output path\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    ".archify-delivery-lock.json",
+    "out.delivery-pending.json",
+    "out.delivery.json",
+    "out.html",
+    "web-app.architecture.json"
+  ],
+  "sidecars": {
+    ".archify-delivery-lock.json": "not a delivery lock\n",
+    "out.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"seeded\",\n  \"output\": \"seeded\"\n}\n",
+    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"sequence\"\n}\n"
+  }
+}

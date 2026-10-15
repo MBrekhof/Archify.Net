@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "timeline",
+    "archify-dev-activity.timeline.json",
+    "--json"
+  ],
+  "files": {
+    "archify-dev-activity.timeline.json": "upstream/examples/archify-dev-activity.timeline.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"timeline\",\n  \"input\": \"<WORK>\\\\archify-dev-activity.timeline.json\",\n  \"output\": \"<WORK>\\\\archify-dev-activity-timeline.html\",\n  \"specification\": {\n    \"sha256\": \"e9c8d76528e8c38a68d9a8df2499c462f6b9633292ea43bf33350546ef2fd3a3\",\n    \"bytes\": 4460\n  },\n  \"artifact\": {\n    \"sha256\": \"f8e63121681496338e7b10c4110075c957141d88b391eb110888b6f5e0a4b30a\",\n    \"bytes\": 844018\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "archify-dev-activity-timeline.delivery.json",
+    "archify-dev-activity-timeline.html",
+    "archify-dev-activity.timeline.json"
+  ],
+  "sidecars": {
+    "archify-dev-activity-timeline.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"timeline\",\n  \"input\": \"<WORK>\\\\archify-dev-activity.timeline.json\",\n  \"output\": \"<WORK>\\\\archify-dev-activity-timeline.html\",\n  \"specification\": {\n    \"sha256\": \"e9c8d76528e8c38a68d9a8df2499c462f6b9633292ea43bf33350546ef2fd3a3\",\n    \"bytes\": 4460\n  },\n  \"artifact\": {\n    \"sha256\": \"f8e63121681496338e7b10c4110075c957141d88b391eb110888b6f5e0a4b30a\",\n    \"bytes\": 844018\n  }\n}\n"
+  }
+}

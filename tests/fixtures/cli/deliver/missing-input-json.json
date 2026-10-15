@@ -1,0 +1,18 @@
+{
+  "args": [
+    "deliver",
+    "workflow",
+    "missing.json",
+    "--json"
+  ],
+  "files": {},
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"input\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\missing.json\",\n  \"output\": \"<WORK>\\\\workflow.html\",\n  \"error\": \"Could not read delivery input \\\"<WORK>\\\\missing.json\\\": ENOENT: no such file or directory, open '<WORK>\\\\missing.json'\",\n  \"diagnostics\": [\n    {\n      \"code\": \"input/read\",\n      \"severity\": \"error\",\n      \"message\": \"Input could not be read: ENOENT: no such file or directory, open '<WORK>\\\\missing.json'\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\missing.json\"\n      },\n      \"evidence\": {\n        \"systemCode\": \"ENOENT\",\n        \"reason\": \"ENOENT: no such file or directory, open '<WORK>\\\\missing.json'\"\n      },\n      \"supportedFixes\": [\n        \"provide one readable JSON input file\"\n      ]\n    }\n  ],\n  \"provenance\": \"absent\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "workflow.delivery-pending.json"
+  ],
+  "sidecars": {
+    "workflow.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"<WORK>\\\\missing.json\",\n  \"output\": \"<WORK>\\\\workflow.html\"\n}\n"
+  }
+}

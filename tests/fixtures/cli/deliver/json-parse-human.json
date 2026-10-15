@@ -1,0 +1,20 @@
+{
+  "args": [
+    "deliver",
+    "workflow",
+    "broken.workflow.json"
+  ],
+  "files": {
+    "broken.workflow.json": "tests/fixtures/cli/inputs/broken.workflow.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Could not read delivery input \"<WORK>\\broken.workflow.json\": Unexpected end of JSON input\n[input/json-parse] Input JSON could not be parsed: Unexpected end of JSON input Fix: repair the JSON syntax and run validation again.\n",
+  "entries": [
+    "broken.workflow.json",
+    "workflow.delivery-pending.json"
+  ],
+  "sidecars": {
+    "workflow.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"<WORK>\\\\broken.workflow.json\",\n  \"output\": \"<WORK>\\\\workflow.html\"\n}\n"
+  }
+}

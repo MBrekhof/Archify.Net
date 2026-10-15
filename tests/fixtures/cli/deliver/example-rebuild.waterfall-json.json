@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "waterfall",
+    "example-rebuild.waterfall.json",
+    "--json"
+  ],
+  "files": {
+    "example-rebuild.waterfall.json": "upstream/examples/example-rebuild.waterfall.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"waterfall\",\n  \"input\": \"<WORK>\\\\example-rebuild.waterfall.json\",\n  \"output\": \"<WORK>\\\\example-rebuild-waterfall.html\",\n  \"specification\": {\n    \"sha256\": \"77d610013a5aab031df739c207b66ebc26e1740371b51da06956ecf06b5e9929\",\n    \"bytes\": 4617\n  },\n  \"artifact\": {\n    \"sha256\": \"735f695685053c6095292647cb80c788e32064bcc411697bed8b12c1c7b0b053\",\n    \"bytes\": 840712\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "example-rebuild-waterfall.delivery.json",
+    "example-rebuild-waterfall.html",
+    "example-rebuild.waterfall.json"
+  ],
+  "sidecars": {
+    "example-rebuild-waterfall.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"waterfall\",\n  \"input\": \"<WORK>\\\\example-rebuild.waterfall.json\",\n  \"output\": \"<WORK>\\\\example-rebuild-waterfall.html\",\n  \"specification\": {\n    \"sha256\": \"77d610013a5aab031df739c207b66ebc26e1740371b51da06956ecf06b5e9929\",\n    \"bytes\": 4617\n  },\n  \"artifact\": {\n    \"sha256\": \"735f695685053c6095292647cb80c788e32064bcc411697bed8b12c1c7b0b053\",\n    \"bytes\": 840712\n  }\n}\n"
+  }
+}

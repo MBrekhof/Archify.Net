@@ -1,0 +1,23 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "production-deployment.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "production-deployment.architecture.json": "upstream/examples/production-deployment.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\production-deployment.architecture.json\",\n  \"output\": \"<WORK>\\\\examples\\\\production-deployment.html\",\n  \"specification\": {\n    \"sha256\": \"610a5614667e8f108bdcf1769c9d7af5c3ce0fb62be3ea50550b10eb752e4bda\",\n    \"bytes\": 4734\n  },\n  \"artifact\": {\n    \"sha256\": \"d983d2bcb533f3432c65c8bb567fb713701781759bf86f30f04e7c9a41d9d68a\",\n    \"bytes\": 831166\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"engineeringProfile\": \"deployment-ownership\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "examples",
+    "examples\\production-deployment.delivery.json",
+    "examples\\production-deployment.html",
+    "production-deployment.architecture.json"
+  ],
+  "sidecars": {
+    "examples\\production-deployment.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\production-deployment.architecture.json\",\n  \"output\": \"<WORK>\\\\examples\\\\production-deployment.html\",\n  \"specification\": {\n    \"sha256\": \"610a5614667e8f108bdcf1769c9d7af5c3ce0fb62be3ea50550b10eb752e4bda\",\n    \"bytes\": 4734\n  },\n  \"artifact\": {\n    \"sha256\": \"d983d2bcb533f3432c65c8bb567fb713701781759bf86f30f04e7c9a41d9d68a\",\n    \"bytes\": 831166\n  }\n}\n"
+  }
+}

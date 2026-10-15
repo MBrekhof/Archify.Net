@@ -42,7 +42,7 @@ public static class Cli
                     io.Out(Usage());
                     return 0;
                 case "render": return Commands.RenderCommand.Run(args, io);
-                case "deliver": throw new NotImplementedException("Task 8");
+                case "deliver": return Commands.DeliverCommand.Run(args, io);
                 case "finalize": throw new NotImplementedException("Task 12");
                 case "validate": return Commands.ValidateCommand.Run(args, io);
                 case "inspect":
@@ -128,6 +128,9 @@ internal sealed record ArtifactFailure(string Command, string Stage, string Erro
     public string? Provenance { get; init; }
     public JsonObject? Checker { get; init; }
     public int Status { get; init; } = 1;
+    // Diagnostics (by reference) that arrive as an OutputPathError's archifyDiagnostics: output-path.mjs:359-370 spreads them over
+    // {severity, subject, evidence, supportedFixes}, so their keys serialise in that order, then code and message.
+    public IReadOnlyCollection<Diagnostic> SpreadOrdered { get; init; } = [];
 
     public JsonObject ToReceipt()
     {
@@ -138,9 +141,22 @@ internal sealed record ArtifactFailure(string Command, string Stage, string Erro
         if (Input is not null) receipt["input"] = Input;
         if (HasOutput) receipt["output"] = Output;
         receipt["error"] = Error;
-        receipt["diagnostics"] = new JsonArray([.. Diagnostics.Select(d => (JsonNode)d.ToJson())]);
+        receipt["diagnostics"] = new JsonArray([.. Diagnostics.Select(d => (JsonNode)(SpreadOrdered.Any(s => ReferenceEquals(s, d)) ? SpreadJson(d) : d.ToJson()))]);
         if (!string.IsNullOrEmpty(Provenance)) receipt["provenance"] = Provenance;
         if (Checker is not null) receipt["checker"] = Checker.DeepClone();
         return receipt;
+    }
+
+    static JsonObject SpreadJson(Diagnostic diagnostic)
+    {
+        var json = diagnostic.ToJson();
+        var spread = new JsonObject();
+        foreach (var key in new[] { "severity", "subject", "evidence", "supportedFixes", "code", "message" })
+        {
+            var value = json[key];
+            json.Remove(key);
+            spread[key] = value;
+        }
+        return spread;
     }
 }

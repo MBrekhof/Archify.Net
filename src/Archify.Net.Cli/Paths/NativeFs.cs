@@ -158,25 +158,40 @@ internal static partial class NativeFs
 
     // ponytail: off Windows (stated deviation, Q6) — GetFullPath collapses `..` lexically before links are resolved, and each
     // component's link is resolved once with ResolveLinkTarget. libc realpath/stat via P/Invoke if Linux ever matters.
-    static string PortableRealPath(string path)
+    internal static string PortableRealPath(string path)
     {
-        var full = Path.GetFullPath(path);
-        var root = Path.GetPathRoot(full) ?? "";
-        var current = root;
-        foreach (var part in full[root.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+        var missing = new NativeFsException("ENOENT", $"ENOENT: no such file or directory, realpath '{path}'");
+        try
         {
-            current = Path.Join(current, part);
-            if (new FileInfo(current).ResolveLinkTarget(returnFinalTarget: true) is { } target) current = target.FullName;
+            var full = Path.GetFullPath(path);
+            var root = Path.GetPathRoot(full) ?? "";
+            var current = root;
+            foreach (var part in full[root.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+            {
+                current = Path.Join(current, part);
+                if (new FileInfo(current).ResolveLinkTarget(returnFinalTarget: true) is { } target) current = target.FullName;
+            }
+            return Path.Exists(current) ? current : throw missing;
         }
-        return Path.Exists(current) ? current : throw new NativeFsException("ENOENT", $"ENOENT: no such file or directory, realpath '{path}'");
+        catch (IOException error) when (error is not NativeFsException) { throw Coded(error, missing); }
     }
 
-    static FsStat PortableStat(string path, bool followLinks)
+    // The fallbacks' System.IO errors as Node codes: not-found is ENOENT; a path through a file reads ENOTDIR, as libuv maps it.
+    static NativeFsException Coded(IOException error, NativeFsException missing) =>
+        error is FileNotFoundException or DirectoryNotFoundException || ErrorCode(error) is not { } code || code == "ENOENT" ? missing
+            : new NativeFsException(code, error.Message);
+
+    internal static FsStat PortableStat(string path, bool followLinks)
     {
-        if (!followLinks && new FileInfo(path).LinkTarget is not null) return new FsStat(false, true, null);
-        if (Directory.Exists(path)) return new FsStat(true, false, null);
-        if (File.Exists(path)) return new FsStat(false, false, null);
-        throw new NativeFsException("ENOENT", $"ENOENT: no such file or directory, {(followLinks ? "stat" : "lstat")} '{path}'");
+        var missing = new NativeFsException("ENOENT", $"ENOENT: no such file or directory, {(followLinks ? "stat" : "lstat")} '{path}'");
+        try
+        {
+            if (!followLinks && new FileInfo(path).LinkTarget is not null) return new FsStat(false, true, null);
+            if (Directory.Exists(path)) return new FsStat(true, false, null);
+            if (File.Exists(path)) return new FsStat(false, false, null);
+        }
+        catch (IOException error) { throw Coded(error, missing); }
+        throw missing;
     }
 
     [StructLayout(LayoutKind.Sequential)]

@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "delivered architecture <WORK>\\out.html\n9/9 artifact checks; composition showcase: pass; sha256 48b8012b0bfe\n",
+  "stderr": "",
+  "entries": [
+    "out.delivery.json",
+    "out.html",
+    "web-app.architecture.json"
+  ],
+  "sidecars": {
+    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"95e051b27a9e4a3307e194c0f666fca4af51470be7e2228d400ff48aea5b353b\",\n    \"bytes\": 3197\n  },\n  \"artifact\": {\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  }\n}\n"
+  }
+}

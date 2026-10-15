@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "tree",
+    "archify-repository.tree.json",
+    "--json"
+  ],
+  "files": {
+    "archify-repository.tree.json": "upstream/examples/archify-repository.tree.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"tree\",\n  \"input\": \"<WORK>\\\\archify-repository.tree.json\",\n  \"output\": \"<WORK>\\\\archify-repository-tree.html\",\n  \"specification\": {\n    \"sha256\": \"970617ee844ecfb1bb792c677aa8b85688abfd2cf8ab2365dc03ea9e26e6b9c7\",\n    \"bytes\": 4368\n  },\n  \"artifact\": {\n    \"sha256\": \"8e8519d01535924c314d49f28b0f80f5777696ff2d9b411ef7ec28b7389f779f\",\n    \"bytes\": 854868\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "archify-repository-tree.delivery.json",
+    "archify-repository-tree.html",
+    "archify-repository.tree.json"
+  ],
+  "sidecars": {
+    "archify-repository-tree.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"tree\",\n  \"input\": \"<WORK>\\\\archify-repository.tree.json\",\n  \"output\": \"<WORK>\\\\archify-repository-tree.html\",\n  \"specification\": {\n    \"sha256\": \"970617ee844ecfb1bb792c677aa8b85688abfd2cf8ab2365dc03ea9e26e6b9c7\",\n    \"bytes\": 4368\n  },\n  \"artifact\": {\n    \"sha256\": \"8e8519d01535924c314d49f28b0f80f5777696ff2d9b411ef7ec28b7389f779f\",\n    \"bytes\": 854868\n  }\n}\n"
+  }
+}

@@ -365,6 +365,91 @@ mint('render', 'render-input-directory', ['render', 'architecture', 'specs', 'ou
 mint('render', 'render-nested-output',['render', 'architecture', arch, 'nested/deeper/out.html'], exFiles(arch),
   (work) => expect(sameBytes(path.join(work, 'nested', 'deeper', 'out.html'), golden('web-app-rendered.html')), 'nested render equals golden'));
 
+// --- deliver (Q5, Q8): receipts without `update`, every v4 uuid as <uuid>; the workdir's entries and delivery sidecars ---
+// A fixture gains `entries` (every workdir path, sorted, `\`-separated) and `sidecars` (workdir path -> normalised content of each
+// .delivery.json, .delivery-pending.json and directory lock left behind).
+const UUID_V4 = /[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/giu;
+const dropUpdate = (stdout) => {
+  if (!stdout.startsWith('{')) return stdout;
+  const receipt = JSON.parse(stdout);
+  delete receipt.update;
+  return `${JSON.stringify(receipt, null, 2)}\n`;
+};
+const walk = (dir, base = dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+  const full = path.join(dir, e.name);
+  return [path.relative(base, full), ...(e.isDirectory() ? walk(full, base) : [])];
+});
+const SIDECAR = /(\.delivery\.json|\.delivery-pending\.json|^\.archify-delivery-lock\.json)$/u;
+function deliverFixture(name, args, files = {}, inspect = () => {}) {
+  return mint('deliver', name, args, files, (work, fixture) => {
+    fixture.stdout = dropUpdate(fixture.stdout).replace(UUID_V4, '<uuid>');
+    fixture.stderr = fixture.stderr.replace(UUID_V4, '<uuid>');
+    fixture.entries = walk(work).sort();
+    fixture.sidecars = Object.fromEntries(fixture.entries.filter((e) => SIDECAR.test(path.basename(e)))
+      .map((e) => [e, tokenise(fs.readFileSync(path.join(work, e), 'utf8'), work).replace(UUID_V4, '<uuid>')]));
+    inspect(work, fixture);
+  }).fixture;
+}
+craft('stale.archify-delivery-lock.json', '{"schemaVersion":1,"receiptId":"11111111-2222-4333-8444-555555555555","pid":999999}\n');
+craft('invalid.archify-delivery-lock.json', 'not a delivery lock\n');
+craft('pending.delivery-pending.json', `${JSON.stringify({ schemaVersion: 1, command: 'deliver', status: 'pending', receiptId: '11111111-2222-4333-8444-555555555555', input: 'seeded', output: 'seeded' }, null, 2)}\n`);
+craft('current.delivery.json', `${JSON.stringify({ schemaVersion: 1, receiptId: '11111111-2222-4333-8444-555555555555', status: 'current', command: 'deliver', type: 'sequence' }, null, 2)}\n`);
+for (const f of EXAMPLES) {
+  const fixture = deliverFixture(`${stem(f)}-json`, ['deliver', typeOf(f), f, '--json'], exFiles(f));
+  const receipt = JSON.parse(fixture.stdout);
+  expect(fixture.exit === 0 && receipt.ok && !('update' in receipt), `deliver ${f} passes`);
+  expect(fixture.entries.some((e) => e.endsWith('.delivery.json')) && !fixture.entries.some((e) => /pending|lock/u.test(e)), `deliver ${f} leaves only provenance`);
+}
+deliverFixture('web-app-human', ['deliver', 'architecture', arch, 'out.html'], exFiles(arch));
+// Locale warnings print as `archify: …` and stay in the receipt's `diagnostics`.
+expect(deliverFixture('locale-warning-json', ['deliver', 'architecture', 'locale-warning.architecture.json', 'out.html', '--json'],
+  { 'locale-warning.architecture.json': inputs['locale-warning.architecture.json'] }).stderr.startsWith('archify: '), 'deliver locale warning');
+// A redelivery replaces an existing artifact and its stale provenance in place.
+deliverFixture('replace-existing-json', ['deliver', 'architecture', arch, 'out.html', '--json'],
+  { ...exFiles(arch), 'out.html': `${EX}/sequence-cache-miss-request.html`, 'out.delivery.json': inputs['current.delivery.json'] },
+  (work) => expect(sameBytes(path.join(work, 'out.html'), golden('web-app-rendered.html')), 'redelivery equals golden'));
+// Failures after the output is known record the attempt: the journal stays, a failed marker only beside an existing artifact.
+const broken = { 'broken.workflow.json': inputs['broken.workflow.json'] };
+for (const suffix of ['json', 'human']) {
+  const f = deliverFixture(`json-parse-${suffix}`, ['deliver', 'workflow', 'broken.workflow.json', ...(suffix === 'json' ? ['--json'] : [])], broken);
+  expect(f.exit === 1 && 'workflow.delivery-pending.json' in f.sidecars && !f.entries.includes('workflow.delivery.json'), `json-parse-${suffix} journal only`);
+}
+expect('workflow.delivery.json' in deliverFixture('json-parse-existing-artifact-json', ['deliver', 'workflow', 'broken.workflow.json', '--json'],
+  { ...broken, 'workflow.html': `${EX}/web-app-rendered.html` }, (work) => expect(sameBytes(path.join(work, 'workflow.html'), golden('web-app-rendered.html')), 'artifact kept')).sidecars,
+  'failed marker beside the kept artifact');
+const schemaOut = { 'schema-failure-output.architecture.json': inputs['schema-failure-output.architecture.json'], 'out.html': `${EX}/web-app-rendered.html` };
+for (const suffix of ['json', 'human']) {
+  const f = deliverFixture(`schema-render-failure-${suffix}`, ['deliver', 'architecture', 'schema-failure-output.architecture.json', 'out.html',
+    ...(suffix === 'json' ? ['--json'] : [])], schemaOut, (work) => expect(sameBytes(path.join(work, 'out.html'), golden('web-app-rendered.html')), 'previous artifact kept'));
+  expect(f.exit === 1 && 'out.delivery.json' in f.sidecars && f.stdout + f.stderr !== '' && (f.stdout + f.stderr).includes('schema/'), `schema-render-failure-${suffix}`);
+}
+// input/read keeps Node's ENOENT text; with an output directory that does not exist, recording the attempt cannot take the lock
+// (A:1633-1643): delivery/lock-acquire follows the input diagnostic and no provenance status is claimed.
+deliverFixture('missing-input-json', ['deliver', 'workflow', 'missing.json', '--json']);
+deliverFixture('missing-input-missing-directory-json', ['deliver', 'workflow', 'missing.json', 'nested/out.html', '--json']);
+deliverFixture('cli-extension-json', ['deliver', 'architecture', arch, 'out.htm', '--json'], exFiles(arch));
+deliverFixture('input-alias-json', ['deliver', 'architecture', arch, arch, '--json'], exFiles(arch));
+// deliver validates meta.output even when it is absent (A:4461): a diagram without one fails before any output is resolved.
+deliverFixture('no-meta-output-json', ['deliver', 'architecture', 'schema-failure.architecture.json', 'out.html', '--json'],
+  { 'schema-failure.architecture.json': inputs['schema-failure.architecture.json'] });
+// Lock owners: a dead pid is stale and is never taken over; every seeded file stays byte-identical (T/cli.test.mjs:1569-1654).
+const lockedFiles = (lock) => ({ ...exFiles(arch), '.archify-delivery-lock.json': inputs[lock], 'out.html': `${EX}/sequence-cache-miss-request.html`,
+  'out.delivery.json': inputs['current.delivery.json'], 'out.delivery-pending.json': inputs['pending.delivery-pending.json'] });
+const untouched = (lock) => (work) => {
+  for (const [dest, src] of Object.entries(lockedFiles(lock))) expect(sameBytes(path.join(work, dest), repo(src)), `${dest} untouched`);
+};
+for (const suffix of ['json', 'human']) {
+  const f = deliverFixture(`lock-stale-${suffix}`, ['deliver', 'architecture', arch, 'out.html', ...(suffix === 'json' ? ['--json'] : [])],
+    lockedFiles('stale.archify-delivery-lock.json'), untouched('stale.archify-delivery-lock.json'));
+  expect(f.exit === 1 && (f.stdout + f.stderr).includes('delivery/lock-stale'), `lock-stale-${suffix}`);
+}
+// The input itself sits at the directory lock's path (A:574-581).
+expect(deliverFixture('lock-path-conflict-json', ['deliver', 'architecture', '.archify-delivery-lock.json', 'out.html', '--json'],
+  { '.archify-delivery-lock.json': `${EX}/${arch}` }, (work) => expect(sameBytes(path.join(work, '.archify-delivery-lock.json'), golden(arch)), 'input untouched'))
+  .stdout.includes('delivery/lock-path-conflict'), 'lock-path-conflict');
+expect(deliverFixture('lock-invalid-json',['deliver', 'architecture', arch, 'out.html', '--json'], lockedFiles('invalid.archify-delivery-lock.json'),
+  untouched('invalid.archify-delivery-lock.json')).stdout.includes('delivery/lock-invalid'), 'lock-invalid');
+
 // --- paths: output-path.mjs and sidecar-path.mjs, called directly (pure, or on a real temp directory of this volume) ---
 const outputPath = await import(pathToFileURL(path.join(SKILL, 'renderers/shared/output-path.mjs')).href);
 const sidecarPath = await import(pathToFileURL(path.join(SKILL, 'renderers/shared/sidecar-path.mjs')).href);

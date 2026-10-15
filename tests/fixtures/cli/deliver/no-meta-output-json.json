@@ -1,0 +1,19 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "schema-failure.architecture.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "schema-failure.architecture.json": "tests/fixtures/cli/inputs/schema-failure.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"prepare\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\schema-failure.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"error\": \"meta.output must be a portable POSIX-relative path.\",\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"subject\": {\n        \"path\": \"/meta/output\"\n      },\n      \"evidence\": {\n        \"reason\": \"type\"\n      },\n      \"supportedFixes\": [\n        \"set meta.output to a portable relative .html path such as reports/diagram.html\"\n      ],\n      \"code\": \"output/meta-path-syntax\",\n      \"message\": \"meta.output must be a portable POSIX-relative path.\"\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "schema-failure.architecture.json"
+  ],
+  "sidecars": {}
+}

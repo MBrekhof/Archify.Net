@@ -1,0 +1,23 @@
+{
+  "args": [
+    "deliver",
+    "dataflow",
+    "product-analytics.dataflow.json",
+    "--json"
+  ],
+  "files": {
+    "product-analytics.dataflow.json": "upstream/examples/product-analytics.dataflow.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"dataflow\",\n  \"input\": \"<WORK>\\\\product-analytics.dataflow.json\",\n  \"output\": \"<WORK>\\\\examples\\\\dataflow-product-analytics.html\",\n  \"specification\": {\n    \"sha256\": \"8a635db9e51a5b1a8d2955b9d66f5b9a450e0a298432ce8f2e2f0be11f372e05\",\n    \"bytes\": 5035\n  },\n  \"artifact\": {\n    \"sha256\": \"8577ad3f6800a87c8b4074427ae942b729d582c6b2d5d19a4b23cfffc5e57bb9\",\n    \"bytes\": 821363\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "examples",
+    "examples\\dataflow-product-analytics.delivery.json",
+    "examples\\dataflow-product-analytics.html",
+    "product-analytics.dataflow.json"
+  ],
+  "sidecars": {
+    "examples\\dataflow-product-analytics.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"dataflow\",\n  \"input\": \"<WORK>\\\\product-analytics.dataflow.json\",\n  \"output\": \"<WORK>\\\\examples\\\\dataflow-product-analytics.html\",\n  \"specification\": {\n    \"sha256\": \"8a635db9e51a5b1a8d2955b9d66f5b9a450e0a298432ce8f2e2f0be11f372e05\",\n    \"bytes\": 5035\n  },\n  \"artifact\": {\n    \"sha256\": \"8577ad3f6800a87c8b4074427ae942b729d582c6b2d5d19a4b23cfffc5e57bb9\",\n    \"bytes\": 821363\n  }\n}\n"
+  }
+}

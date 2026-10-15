@@ -50,10 +50,11 @@ internal static partial class SidecarPath
     // case and normalization semantics for the name, then a bounded stem. `artifactPath` must be absolute.
     public static string DeliverySidecarPath(string artifactPath, string suffix, PathSemantics? semantics = null)
     {
+        semantics ??= PathSemantics.Native;
         var artifact = artifactPath;
-        try { artifact = NativeFs.RealPath(artifactPath); }
+        try { artifact = semantics.RealPath(artifactPath); }
         catch (Exception error) when (NativeFs.ErrorCode(error) is "ENOENT" or "ENOTDIR") { }
-        var key = (semantics ?? PathSemantics.Native).SidecarNamespaceComponentKey(Path.GetDirectoryName(artifact) ?? artifact, Path.GetFileName(artifact));
+        var key = semantics.SidecarNamespaceComponentKey(Path.GetDirectoryName(artifact) ?? artifact, Path.GetFileName(artifact));
         if (key.Status != "resolved") throw new SidecarNamespaceException(key.Reason);
         var (stem, force, hashDomain) = StemFromComponent(key.ComponentKey!);
         return Path.Join(key.DirectoryPath, BoundedSidecarStem(stem, DeliverySuffixes, force, hashDomain) + suffix);

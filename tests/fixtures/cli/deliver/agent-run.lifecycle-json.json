@@ -1,0 +1,23 @@
+{
+  "args": [
+    "deliver",
+    "lifecycle",
+    "agent-run.lifecycle.json",
+    "--json"
+  ],
+  "files": {
+    "agent-run.lifecycle.json": "upstream/examples/agent-run.lifecycle.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"lifecycle\",\n  \"input\": \"<WORK>\\\\agent-run.lifecycle.json\",\n  \"output\": \"<WORK>\\\\examples\\\\lifecycle-agent-run.html\",\n  \"specification\": {\n    \"sha256\": \"5ba36f5ce91ed428cb48b599e275424916d82b619b9a3231cbd1bbc3966fc54b\",\n    \"bytes\": 3260\n  },\n  \"artifact\": {\n    \"sha256\": \"7952d024d3f7605ba28cac10dff1883c6efb57788ba650b26cd1afd87459b042\",\n    \"bytes\": 825171\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "agent-run.lifecycle.json",
+    "examples",
+    "examples\\lifecycle-agent-run.delivery.json",
+    "examples\\lifecycle-agent-run.html"
+  ],
+  "sidecars": {
+    "examples\\lifecycle-agent-run.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"lifecycle\",\n  \"input\": \"<WORK>\\\\agent-run.lifecycle.json\",\n  \"output\": \"<WORK>\\\\examples\\\\lifecycle-agent-run.html\",\n  \"specification\": {\n    \"sha256\": \"5ba36f5ce91ed428cb48b599e275424916d82b619b9a3231cbd1bbc3966fc54b\",\n    \"bytes\": 3260\n  },\n  \"artifact\": {\n    \"sha256\": \"7952d024d3f7605ba28cac10dff1883c6efb57788ba650b26cd1afd87459b042\",\n    \"bytes\": 825171\n  }\n}\n"
+  }
+}

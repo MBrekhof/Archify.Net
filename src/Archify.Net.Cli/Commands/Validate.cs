@@ -117,5 +117,5 @@ static partial class ValidateCommand
     }
 
     [GeneratedRegex(@"<svg[^>]*\sdata-engineering-profile=""([^""]+)""")]
-    private static partial Regex EngineeringProfile();
+    internal static partial Regex EngineeringProfile();
 }

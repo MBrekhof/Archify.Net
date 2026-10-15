@@ -361,4 +361,44 @@ public class OutputPathsTests
         Assert.NotNull(new FileInfo(output).LinkTarget);
         Assert.StartsWith("<!DOCTYPE html>", File.ReadAllText(target), StringComparison.OrdinalIgnoreCase);
     }
+
+    // Relative input paths resolve against the request's cwd (the command's), never the process's: an output equal to a relative
+    // input in that cwd is an alias.
+    [Fact]
+    public void Relative_input_paths_resolve_against_the_request_cwd()
+    {
+        using var scratch = new Scratch();
+        scratch.File("diagram.html", "x");
+        Assert.NotEqual(scratch.Root, Directory.GetCurrentDirectory());
+
+        var error = Assert.Throws<ArchifyDiagnosticException>(() => OutputPaths.Native.ResolveOutputPath(
+            new OutputRequest(scratch.Root, "diagram.html", "workflow.html") { InputPaths = ["diagram.html"] }));
+        Assert.Equal("output/input-alias", Assert.Single(error.Diagnostics).Code);
+        Assert.Equal(scratch.Path("diagram.html"), error.Diagnostics[0].Subject["input"]!.GetValue<string>());
+        var other = Assert.Throws<ArchifyDiagnosticException>(() => OutputPaths.Native.ResolveOutputPath(
+            new OutputRequest(scratch.Root, "diagram.html", "workflow.html") { OtherOutputPaths = ["diagram.html"] }));
+        Assert.Equal("output/target-alias", Assert.Single(other.Diagnostics).Code);
+    }
+
+    // deliverySidecarNamespace's realpath goes through the injected semantics, like the namespace probe after it.
+    [Fact]
+    public void Delivery_sidecar_path_resolves_the_artifact_through_the_injected_semantics()
+    {
+        using var scratch = new Scratch();
+        var artifact = scratch.File("Out.html", "x");
+        var fs = new RealPathRecorder();
+        Assert.Equal(scratch.Path("out.delivery.json"), SidecarPath.DeliverySidecarPath(artifact, ".delivery.json", new PathSemantics(fs)));
+        Assert.Contains(artifact, fs.RealPaths);
+    }
+
+    sealed class RealPathRecorder : IPathFs
+    {
+        public List<string> RealPaths { get; } = [];
+        public string RealPath(string path) { RealPaths.Add(path); return NativeFs.Ops.RealPath(path); }
+        public FsStat Stat(string path) => NativeFs.Ops.Stat(path);
+        public FsStat LStat(string path) => NativeFs.Ops.LStat(path);
+        public string ReadLink(string path) => NativeFs.Ops.ReadLink(path);
+        public IDisposable CreateExclusive(string path) => NativeFs.Ops.CreateExclusive(path);
+        public void Delete(string path) => NativeFs.Ops.Delete(path);
+    }
 }

@@ -1,0 +1,19 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    "web-app.architecture.json",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"prepare\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\web-app.architecture.json\",\n  \"error\": \"Output must not replace an input.\",\n  \"diagnostics\": [\n    {\n      \"severity\": \"error\",\n      \"subject\": {\n        \"output\": \"<WORK>\\\\web-app.architecture.json\",\n        \"input\": \"<WORK>\\\\web-app.architecture.json\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"choose an output path that is distinct from every input path\"\n      ],\n      \"code\": \"output/input-alias\",\n      \"message\": \"Output must not replace an input, including through a symbolic-link or future-path alias.\"\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "web-app.architecture.json"
+  ],
+  "sidecars": {}
+}

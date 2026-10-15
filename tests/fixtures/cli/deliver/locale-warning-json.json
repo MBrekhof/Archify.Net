@@ -1,0 +1,23 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "locale-warning.architecture.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "locale-warning.architecture.json": "tests/fixtures/cli/inputs/locale-warning.architecture.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\locale-warning.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"1301cb6a016a038f1b6339a98eede8e927139b2538bab3be5f076736977c8a3a\",\n    \"bytes\": 4849\n  },\n  \"artifact\": {\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"i18n/locale-fallback\",\n      \"severity\": \"warning\",\n      \"message\": \"meta.locale \\\"en-US\\\" has no bundled catalog and no usable meta.translations; the Viewer chrome and <html lang> fall back to English.\",\n      \"subject\": {\n        \"diagramType\": \"architecture\",\n        \"path\": \"/meta/locale\"\n      },\n      \"evidence\": {\n        \"locale\": \"en-US\",\n        \"bundledLocales\": [\n          \"en\",\n          \"zh-CN\",\n          \"zh-TW\",\n          \"es\",\n          \"ko\"\n        ]\n      },\n      \"supportedFixes\": [\n        \"Supply meta.translations for this locale.\",\n        \"Use a bundled locale: en, zh-CN, zh-TW, es, ko.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "archify: meta.locale \"en-US\" has no bundled catalog and no usable meta.translations; the Viewer chrome and <html lang> fall back to English.\n",
+  "entries": [
+    "locale-warning.architecture.json",
+    "out.delivery.json",
+    "out.html"
+  ],
+  "sidecars": {
+    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\locale-warning.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"1301cb6a016a038f1b6339a98eede8e927139b2538bab3be5f076736977c8a3a\",\n    \"bytes\": 4849\n  },\n  \"artifact\": {\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  }\n}\n"
+  }
+}

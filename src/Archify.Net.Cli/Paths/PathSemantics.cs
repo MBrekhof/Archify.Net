@@ -24,6 +24,9 @@ internal sealed partial class PathSemantics(IPathFs fs)
 {
     public static PathSemantics Native { get; } = new(NativeFs.Ops);
 
+    // realpathSync.native on this instance's filesystem, for callers that resolve before asking the semantics.
+    public string RealPath(string path) => fs.RealPath(path);
+
     const int MaxSymlinkDepth = 64;
     const int RecentProbeNameLimit = 128;
     static readonly bool Windows = OperatingSystem.IsWindows();
@@ -112,10 +115,11 @@ internal sealed partial class PathSemantics(IPathFs fs)
     static string Join(string directory, string name) => directory.Length > 0 && IsSep(directory[^1]) ? directory + name : directory + Sep + name;
 
     // path.dirname: the root (with its separator) is its own parent.
-    static string DirName(string path)
+    internal static string DirName(string path)
     {
         var rootLength = (Path.GetPathRoot(path) ?? "").Length;
-        if (rootLength > 0 && rootLength < path.Length && IsSep(path[rootLength])) rootLength++;
+        // A UNC root (`\\server\share`) comes back without its separator; a drive root (`C:\`) already ends in one.
+        if (rootLength > 0 && !IsSep(path[rootLength - 1]) && rootLength < path.Length && IsSep(path[rootLength])) rootLength++;
         var end = path.Length;
         while (end > rootLength && IsSep(path[end - 1])) end--;
         while (end > rootLength && !IsSep(path[end - 1])) end--;

@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "workflow",
+    "holiday-planning.workflow.json",
+    "--json"
+  ],
+  "files": {
+    "holiday-planning.workflow.json": "upstream/examples/holiday-planning.workflow.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\holiday-planning.workflow.json\",\n  \"output\": \"<WORK>\\\\holiday-planning.html\",\n  \"specification\": {\n    \"sha256\": \"b98354f921ca45842fed235db09fd4f19d94adc16865876f438c0d699d05e1ea\",\n    \"bytes\": 3019\n  },\n  \"artifact\": {\n    \"sha256\": \"dca997f9ae7d210d7ba45876ffaa990bd9e5594930434b3e745c51048226190f\",\n    \"bytes\": 810935\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stderr": "",
+  "entries": [
+    "holiday-planning.delivery.json",
+    "holiday-planning.html",
+    "holiday-planning.workflow.json"
+  ],
+  "sidecars": {
+    "holiday-planning.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\holiday-planning.workflow.json\",\n  \"output\": \"<WORK>\\\\holiday-planning.html\",\n  \"specification\": {\n    \"sha256\": \"b98354f921ca45842fed235db09fd4f19d94adc16865876f438c0d699d05e1ea\",\n    \"bytes\": 3019\n  },\n  \"artifact\": {\n    \"sha256\": \"dca997f9ae7d210d7ba45876ffaa990bd9e5594930434b3e745c51048226190f\",\n    \"bytes\": 810935\n  }\n}\n"
+  }
+}

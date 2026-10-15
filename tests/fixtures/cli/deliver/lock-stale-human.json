@@ -1,0 +1,30 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json",
+    ".archify-delivery-lock.json": "tests/fixtures/cli/inputs/stale.archify-delivery-lock.json",
+    "out.html": "upstream/examples/sequence-cache-miss-request.html",
+    "out.delivery.json": "tests/fixtures/cli/inputs/current.delivery.json",
+    "out.delivery-pending.json": "tests/fixtures/cli/inputs/pending.delivery-pending.json"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Could not start delivery for \"<WORK>\\out.html\": A stale delivery lock remains at \"<WORK>\\.archify-delivery-lock.json\"; recover it serially before retrying.\n[delivery/lock-stale] Could not start delivery for \"<WORK>\\out.html\": A stale delivery lock remains at \"<WORK>\\.archify-delivery-lock.json\"; recover it serially before retrying. Fix: confirm no delivery attempt is active for this output; remove only the preserved lock \"<WORK>\\.archify-delivery-lock.json\", then rerun deliver successfully.\n",
+  "entries": [
+    ".archify-delivery-lock.json",
+    "out.delivery-pending.json",
+    "out.delivery.json",
+    "out.html",
+    "web-app.architecture.json"
+  ],
+  "sidecars": {
+    ".archify-delivery-lock.json": "{\"schemaVersion\":1,\"receiptId\":\"<uuid>\",\"pid\":999999}\n",
+    "out.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"seeded\",\n  \"output\": \"seeded\"\n}\n",
+    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"sequence\"\n}\n"
+  }
+}
