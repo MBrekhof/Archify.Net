@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Entity \"order\" attribute 1 \"customer_id\" references unknown attribute \"customer.nope\" — \"customer\" has no attribute \"nope\".",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Entity \"order\" attribute 1 \"customer_id\" references unknown attribute \"customer.nope\" — \"customer\" has no attribute \"nope\".",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

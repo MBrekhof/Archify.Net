@@ -1,0 +1,217 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    520,
+    698
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "hub_a",
+      "label": "hub_a",
+      "x": 40,
+      "y": 80,
+      "width": 200,
+      "height": 116,
+      "attributes": [
+        "id",
+        "a",
+        "b",
+        "c"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "hub_b",
+      "label": "hub_b",
+      "x": 45,
+      "y": 268,
+      "width": 190,
+      "height": 116,
+      "attributes": [
+        "id",
+        "a",
+        "b",
+        "c"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "east_a1",
+      "label": "east_a1",
+      "x": 296,
+      "y": 80,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "east_a2",
+      "label": "east_a2",
+      "x": 296,
+      "y": 268,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "east_b1",
+      "label": "east_b1",
+      "x": 296,
+      "y": 456,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "east_b2",
+      "label": "east_b2",
+      "x": 296,
+      "y": 584,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 3,
+      "col": 1
+    }
+  ],
+  "relationships": [
+    {
+      "from": "east_a1",
+      "to": "hub_a",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          296,
+          108
+        ],
+        [
+          256,
+          108
+        ],
+        [
+          256,
+          126
+        ],
+        [
+          240,
+          126
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_a2",
+      "to": "hub_a",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          296,
+          296
+        ],
+        [
+          256,
+          296
+        ],
+        [
+          256,
+          150
+        ],
+        [
+          240,
+          150
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_b1",
+      "to": "hub_b",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          296,
+          484
+        ],
+        [
+          256,
+          484
+        ],
+        [
+          256,
+          314
+        ],
+        [
+          235,
+          314
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_b2",
+      "to": "hub_b",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          296,
+          612
+        ],
+        [
+          256,
+          612
+        ],
+        [
+          256,
+          338
+        ],
+        [
+          235,
+          338
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

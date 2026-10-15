@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Relationship 1 id \"payment_order\" \"payment\" -> \"order\" is too short (17px; minimum 24px) — place the entities farther apart.\n- Relationship 3 id \"order_item_product\" \"order_item\" -> \"product\" is too short (20px; minimum 24px) — place the entities farther apart.",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Relationship 1 id \"payment_order\" \"payment\" -> \"order\" is too short (17px; minimum 24px) — place the entities farther apart.",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Relationship 3 id \"order_item_product\" \"order_item\" -> \"product\" is too short (20px; minimum 24px) — place the entities farther apart.",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

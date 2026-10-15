@@ -1,0 +1,321 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    553,
+    1014
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "hub_a",
+      "label": "hub_a",
+      "x": 40,
+      "y": 80,
+      "width": 200,
+      "height": 116,
+      "attributes": [
+        "id",
+        "a",
+        "b",
+        "c"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "hub_b",
+      "label": "hub_b",
+      "x": 40,
+      "y": 268,
+      "width": 200,
+      "height": 116,
+      "attributes": [
+        "id",
+        "a",
+        "b",
+        "c"
+      ],
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "hub_c",
+      "label": "hub_c",
+      "x": 40,
+      "y": 456,
+      "width": 200,
+      "height": 116,
+      "attributes": [
+        "id",
+        "a",
+        "b",
+        "c"
+      ],
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "east_1",
+      "label": "east_1",
+      "x": 329,
+      "y": 80,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "east_2",
+      "label": "east_2",
+      "x": 329,
+      "y": 268,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "east_3",
+      "label": "east_3",
+      "x": 329,
+      "y": 456,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "east_4",
+      "label": "east_4",
+      "x": 329,
+      "y": 644,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 3,
+      "col": 1
+    },
+    {
+      "id": "east_5",
+      "label": "east_5",
+      "x": 329,
+      "y": 772,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 4,
+      "col": 1
+    },
+    {
+      "id": "east_6",
+      "label": "east_6",
+      "x": 329,
+      "y": 900,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 5,
+      "col": 1
+    }
+  ],
+  "relationships": [
+    {
+      "from": "east_1",
+      "to": "hub_a",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          329,
+          108
+        ],
+        [
+          256,
+          108
+        ],
+        [
+          256,
+          126
+        ],
+        [
+          240,
+          126
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_2",
+      "to": "hub_a",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          329,
+          296
+        ],
+        [
+          256,
+          296
+        ],
+        [
+          256,
+          150
+        ],
+        [
+          240,
+          150
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_3",
+      "to": "hub_b",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          329,
+          484
+        ],
+        [
+          268,
+          484
+        ],
+        [
+          268,
+          314
+        ],
+        [
+          240,
+          314
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_4",
+      "to": "hub_b",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          329,
+          672
+        ],
+        [
+          305,
+          672
+        ],
+        [
+          305,
+          338
+        ],
+        [
+          240,
+          338
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_5",
+      "to": "hub_c",
+      "label": "five",
+      "variant": "emphasis",
+      "route": "auto",
+      "points": [
+        [
+          329,
+          800
+        ],
+        [
+          284.5,
+          800
+        ],
+        [
+          284.5,
+          502
+        ],
+        [
+          240,
+          502
+        ]
+      ],
+      "labelAt": [
+        307,
+        782
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_6",
+      "to": "hub_c",
+      "label": "six",
+      "variant": "emphasis",
+      "route": "auto",
+      "points": [
+        [
+          329,
+          928
+        ],
+        [
+          284.5,
+          928
+        ],
+        [
+          284.5,
+          526
+        ],
+        [
+          240,
+          526
+        ]
+      ],
+      "labelAt": [
+        307,
+        910
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

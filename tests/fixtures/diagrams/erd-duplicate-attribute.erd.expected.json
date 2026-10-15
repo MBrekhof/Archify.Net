@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Entity \"customer\" declares attribute \"id\" twice.",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Entity \"customer\" declares attribute \"id\" twice.",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

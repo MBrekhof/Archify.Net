@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Relationship 0 id \"ghost_link\" references unknown source entity \"ghost\".",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Relationship 0 id \"ghost_link\" references unknown source entity \"ghost\".",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

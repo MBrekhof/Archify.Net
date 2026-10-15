@@ -1,0 +1,121 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    520,
+    382
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "hub",
+      "label": "hub",
+      "x": 40,
+      "y": 80,
+      "width": 200,
+      "height": 116,
+      "attributes": [
+        "id",
+        "a",
+        "b",
+        "c"
+      ],
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "east_a",
+      "label": "east_a",
+      "x": 296,
+      "y": 80,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "east_b",
+      "label": "east_b",
+      "x": 296,
+      "y": 268,
+      "width": 200,
+      "height": 56,
+      "attributes": [
+        "id"
+      ],
+      "row": 1,
+      "col": 1
+    }
+  ],
+  "relationships": [
+    {
+      "from": "east_a",
+      "to": "hub",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          296,
+          108
+        ],
+        [
+          256,
+          108
+        ],
+        [
+          256,
+          126
+        ],
+        [
+          240,
+          126
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "east_b",
+      "to": "hub",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          296,
+          296
+        ],
+        [
+          256,
+          296
+        ],
+        [
+          256,
+          150
+        ],
+        [
+          240,
+          150
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

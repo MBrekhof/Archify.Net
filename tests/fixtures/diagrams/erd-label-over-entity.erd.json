@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Label corridor",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "gapX": 60,
+    "gapY": 44
+  },
+  "entities": [
+    {
+      "id": "left",
+      "label": "left",
+      "pos": [
+        32,
+        40
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "right",
+      "label": "right",
+      "pos": [
+        332,
+        40
+      ],
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "left_id",
+          "type": "bigint",
+          "key": "fk",
+          "references": "left.id"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "right_left",
+      "from": "right",
+      "to": "left",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "label": "settles by",
+      "labelDx": 0
+    }
+  ]
+}

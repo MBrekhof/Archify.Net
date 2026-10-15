@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "erd schema validation failed:\n  /entities/0/width (id/label: \"customer\") must be number {\"type\":\"number\"}",
+  "diagnostics": [
+    {
+      "code": "schema/type",
+      "severity": "error",
+      "message": "/entities/0/width (id/label: \"customer\") must be number",
+      "subject": {
+        "diagramType": "erd",
+        "path": "/entities/0/width",
+        "identity": "customer"
+      },
+      "evidence": {
+        "keyword": "type",
+        "type": "number"
+      },
+      "supportedFixes": [
+        "use \"number\" at /entities/0/width"
+      ]
+    }
+  ]
+}

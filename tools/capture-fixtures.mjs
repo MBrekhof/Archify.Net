@@ -547,6 +547,39 @@ for (let i = 3; i <= 5; i++) for (const [s, col] of [['a', 0], ['b', 1]]) {
 erdWrite('orders.seven-domains', sevenDoc);
 const crossingDoc = orders(); erdCrossing(crossingDoc);
 erdWrite('orders.crossing-standard', crossingDoc);
+// TEST-003: trunk snap / bridge / coordinate-undefined delete (survey-test3 §1); helpers verbatim from the survey.
+const tpk = [{ name: 'id', type: 'bigint', key: 'pk' }];
+const twide = [...tpk, { name: 'a', type: 'bigint' }, { name: 'b', type: 'bigint' }, { name: 'c', type: 'bigint' }];
+const trel = (id, from, to, extra = {}) => ({ id, from, to, fromCardinality: 'many', toCardinality: 'one', ...extra });
+const tscene = (title, entities, relationships) => ({ schema_version: 1, diagram_type: 'erd', meta: { title, locale: 'en' },
+  layout: { mode: 'grid', origin: [40, 80], gapX: 56, gapY: 72, entityW: 200 }, entities, relationships });
+erdWrite('erd-trunk-snap', tscene('Snapped trunks', [
+  { id: 'hub_a', label: 'hub_a', row: 0, col: 0, width: 200, attributes: twide },
+  { id: 'hub_b', label: 'hub_b', row: 1, col: 0, width: 190, attributes: twide },
+  { id: 'east_a1', label: 'east_a1', row: 0, col: 1, width: 200, attributes: tpk },
+  { id: 'east_a2', label: 'east_a2', row: 1, col: 1, width: 200, attributes: tpk },
+  { id: 'east_b1', label: 'east_b1', row: 2, col: 1, width: 200, attributes: tpk },
+  { id: 'east_b2', label: 'east_b2', row: 3, col: 1, width: 200, attributes: tpk },
+], [trel('a1_hub', 'east_a1', 'hub_a'), trel('a2_hub', 'east_a2', 'hub_a'), trel('b1_hub', 'east_b1', 'hub_b'), trel('b2_hub', 'east_b2', 'hub_b')]));
+// T/erd-rendering.test.mjs:176-200 verbatim (the scene; the test's render call is not needed).
+erdWrite('erd-trunk-bridge', {
+  schema_version: 1, diagram_type: 'erd', meta: { title: 'Bundled fan-in', locale: 'en' },
+  layout: { mode: 'grid', origin: [40, 80], gapX: 56, gapY: 72, entityW: 200 },
+  entities: [
+    { id: 'hub', label: 'hub', row: 0, col: 0, width: 200, attributes: twide },
+    { id: 'east_a', label: 'east_a', row: 0, col: 1, width: 200, attributes: tpk },
+    { id: 'east_b', label: 'east_b', row: 1, col: 1, width: 200, attributes: tpk },
+  ],
+  relationships: [trel('a_hub', 'east_a', 'hub'), trel('b_hub', 'east_b', 'hub')],
+});
+erdWrite('erd-trunk-all-clash', tscene('Three styles', [
+  { id: 'hub_a', label: 'hub_a', row: 0, col: 0, width: 200, attributes: twide },
+  { id: 'hub_b', label: 'hub_b', row: 1, col: 0, width: 200, attributes: twide },
+  { id: 'hub_c', label: 'hub_c', row: 2, col: 0, width: 200, attributes: twide },
+  ...[1, 2, 3, 4, 5, 6].map((n, i) => ({ id: `east_${n}`, label: `east_${n}`, row: i, col: 1, width: 200, attributes: tpk })),
+], [trel('r1', 'east_1', 'hub_a'), trel('r2', 'east_2', 'hub_a'),
+  trel('r3', 'east_3', 'hub_b', { identifying: false }), trel('r4', 'east_4', 'hub_b', { identifying: false }),
+  trel('r5', 'east_5', 'hub_c', { variant: 'emphasis', label: 'five' }), trel('r6', 'east_6', 'hub_c', { variant: 'emphasis', label: 'six' })]));
 targets.push(...erdNames.map((name) => p3('erd', name)));
 // Quality-option goldens: minted with the env var upstream reads; C# renders the same input with RenderOptions.
 const renderEnv = (type, input, output, env) => execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), input, output], { stdio: 'inherit', env: { ...cleanEnv, ...env } });
@@ -556,6 +589,13 @@ const optionGoldens = [   // [type, input, golden, quality]
 ];
 for (const [type, input, golden, quality] of optionGoldens) renderEnv(type, input, out(`goldens/${golden}`), { ARCHIFY_QUALITY_PROFILE: quality });
 for (const [type, input, golden] of targets) render(type, input, out(`goldens/${golden}`));
+// TEST-003 outcomes (survey-test3 §1): a later upstream change must not silently empty these rows.
+{
+  const html = (n) => fs.readFileSync(out(`goldens/${n}-rendered.html`), 'utf8');
+  if (!html('erd-trunk-snap').includes('data-composition-points="256,108;256,612"')) throw new Error('erd-trunk-snap: no merged trunk at x=256');
+  if (/data-er-trunk[^>]*a-emphasis|a-emphasis[^>]*data-er-trunk/.test(html('erd-trunk-all-clash'))) throw new Error('erd-trunk-all-clash: emphasis trunk drawn');
+  if (!html('erd-trunk-all-clash').includes('data-er-trunk')) throw new Error('erd-trunk-all-clash: no trunks at all');
+}
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
 // The standard-profile crossing golden renders, but its report fails `orthogonal_arrows`: the authored `via` routes leave and
 // enter their ports on diagonal segments. `relationship_crossings` passes.
@@ -888,11 +928,38 @@ const erdFaults = [   // [name, targets, edit, env]
     (d) => { delete d.entities[0].row; delete d.entities[0].col; for (const r of d.relationships) delete r.label; }],
   // orders.crossing-standard's edit under the showcase option (upstream reads ARCHIFY_QUALITY_PROFILE in the gate path).
   ['erd-crossing-showcase', [['composition/proper-crossing']], erdCrossing, { ARCHIFY_QUALITY_PROFILE: 'showcase' }],
+  // TEST-003 (survey-test3 §2): validateEr branches. Each starts from cloneWithoutViews, as upstream's tests do.
+  ['erd-duplicate-attribute', [['layout/constraint']], (d) => { delete d.meta.views; d.entities[0].attributes.push({ name: 'id', type: 'bigint' }); }],
+  ['erd-unknown-source', [['layout/constraint']], (d) => { delete d.meta.views; d.relationships[0].from = 'ghost'; d.relationships[0].id = 'ghost_link'; }],
+  ['erd-unknown-target', [['layout/constraint']], (d) => { delete d.meta.views; d.relationships[0].to = 'ghost'; d.relationships[0].id = 'ghost_link'; }],
+  ['erd-ref-unknown-entity', [['layout/constraint']], (d) => { delete d.meta.views; d.entities[1].attributes[1].references = 'nobody.id'; }],
+  ['erd-ref-unknown-attribute', [['layout/constraint']], (d) => { delete d.meta.views; d.entities[1].attributes[1].references = 'customer.nope'; }],
+  ['erd-too-short', [['layout/constraint']], (d) => { delete d.meta.views; d.layout.gapX = 10; }],
+  ['erd-entity-overlap', [['layout/constraint'], ['erd/domain-not-drawn']], (d) => {
+    delete d.meta.views; const e = d.entities[1]; delete e.row; delete e.col; delete e.tag; e.pos = [60, 100];
+  }],
+  // The renderer's non-finite-width check is dead upstream (survey-test3 §3); pin the schema gate: JSON.parse gives Infinity for 1e400.
+  ['erd-width-infinite', [['schema/type']], (d) => {
+    d.entities[0].width = 987654321;
+    const text = JSON.stringify(d, null, 2) + '\n', anchor = '"width": 987654321';
+    if (text.split(anchor).length !== 2) throw new Error('erd-width-infinite: anchor not unique');
+    return text.replace(anchor, '"width": 1e400');
+  }],
+  // upstream T/erd-rendering.test.mjs:683-697, replacing the whole document (no `cards`, no `views` may survive).
+  ['erd-label-over-entity', [['layout/constraint']], (d) => {
+    for (const k of Object.keys(d)) delete d[k];
+    Object.assign(d, { schema_version: 1, diagram_type: 'erd', meta: { title: 'Label corridor', locale: 'en' }, layout: { mode: 'grid', gapX: 60, gapY: 44 },
+      entities: [{ id: 'left', label: 'left', pos: [32, 40], attributes: tpk },
+        { id: 'right', label: 'right', pos: [332, 40], attributes: [...tpk, { name: 'left_id', type: 'bigint', key: 'fk', references: 'left.id' }] }],
+      relationships: [trel('right_left', 'right', 'left', { label: 'settles by', labelDx: 0 })] });
+  }],
 ];
 for (const [name, want, edit, env] of erdFaults) {
   const diagram = orders();
-  edit(diagram);
-  write(`fixtures/diagrams/${name}.erd.json`, diagram);
+  const raw = edit(diagram);   // an edit may return raw JSON text for inputs JSON.stringify cannot produce
+  if (typeof raw === 'string') fs.writeFileSync(out(`fixtures/diagrams/${name}.erd.json`), raw);
+  else write(`fixtures/diagrams/${name}.erd.json`, diagram);
+  if (name === 'erd-label-over-entity' && ('cards' in diagram || 'views' in diagram.meta)) throw new Error('erd-label-over-entity: cards/views survived');
   let receipt;
   try {
     execFileSync(process.execPath, [path.join(UP, 'renderers/erd/render-erd.mjs'), out(`fixtures/diagrams/${name}.erd.json`), out(`goldens/${name}.html`)],

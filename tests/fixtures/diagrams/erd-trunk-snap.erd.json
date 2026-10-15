@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Snapped trunks",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      40,
+      80
+    ],
+    "gapX": 56,
+    "gapY": 72,
+    "entityW": 200
+  },
+  "entities": [
+    {
+      "id": "hub_a",
+      "label": "hub_a",
+      "row": 0,
+      "col": 0,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "a",
+          "type": "bigint"
+        },
+        {
+          "name": "b",
+          "type": "bigint"
+        },
+        {
+          "name": "c",
+          "type": "bigint"
+        }
+      ]
+    },
+    {
+      "id": "hub_b",
+      "label": "hub_b",
+      "row": 1,
+      "col": 0,
+      "width": 190,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "a",
+          "type": "bigint"
+        },
+        {
+          "name": "b",
+          "type": "bigint"
+        },
+        {
+          "name": "c",
+          "type": "bigint"
+        }
+      ]
+    },
+    {
+      "id": "east_a1",
+      "label": "east_a1",
+      "row": 0,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_a2",
+      "label": "east_a2",
+      "row": 1,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_b1",
+      "label": "east_b1",
+      "row": 2,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_b2",
+      "label": "east_b2",
+      "row": 3,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "a1_hub",
+      "from": "east_a1",
+      "to": "hub_a",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "a2_hub",
+      "from": "east_a2",
+      "to": "hub_a",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "b1_hub",
+      "from": "east_b1",
+      "to": "hub_b",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "b2_hub",
+      "from": "east_b2",
+      "to": "hub_b",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

@@ -115,6 +115,10 @@ public class ParityTests
         ["erd", Fixtures.Fixture("diagrams/orders.lanes.erd.json"), Fixtures.Golden("orders.lanes-rendered.html")],   // laneOffsets
         ["erd", Fixtures.Fixture("diagrams/orders.seven-domains.erd.json"), Fixtures.Golden("orders.seven-domains-rendered.html")],   // 7th hue wraps
         ["erd", Fixtures.Fixture("diagrams/orders.crossing-standard.erd.json"), Fixtures.Golden("orders.crossing-standard-rendered.html")],
+        // TEST-003: trunk snap (near.coordinate != candidate) plus bridges, the upstream bridge scene, and the coordinate-undefined delete.
+        ["erd", Fixtures.Fixture("diagrams/erd-trunk-snap.erd.json"), Fixtures.Golden("erd-trunk-snap-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/erd-trunk-bridge.erd.json"), Fixtures.Golden("erd-trunk-bridge-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/erd-trunk-all-clash.erd.json"), Fixtures.Golden("erd-trunk-all-clash-rendered.html")],
     ];
 
     [Fact] public void Workflow_quality_option_reaches_every_gate_like_the_env_var()   // Review Focus 3

@@ -52,6 +52,16 @@ public class ErdTests
     [InlineData("erd-self-loop")]
     [InlineData("erd-legend-overflow")]
     [InlineData("erd-unplaced-unlabelled")]   // P2: NaN geometry without a crash, pinned in full
+    // TEST-003: the validateEr branches (survey-test3 §2-§3); erd-width-infinite pins the schema gate, the renderer check is dead upstream.
+    [InlineData("erd-duplicate-attribute")]
+    [InlineData("erd-unknown-source")]
+    [InlineData("erd-unknown-target")]
+    [InlineData("erd-ref-unknown-entity")]
+    [InlineData("erd-ref-unknown-attribute")]
+    [InlineData("erd-too-short")]
+    [InlineData("erd-entity-overlap")]
+    [InlineData("erd-label-over-entity")]
+    [InlineData("erd-width-infinite")]
     public void Erd_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.erd.json")));

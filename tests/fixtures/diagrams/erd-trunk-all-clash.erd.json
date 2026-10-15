@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Three styles",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      40,
+      80
+    ],
+    "gapX": 56,
+    "gapY": 72,
+    "entityW": 200
+  },
+  "entities": [
+    {
+      "id": "hub_a",
+      "label": "hub_a",
+      "row": 0,
+      "col": 0,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "a",
+          "type": "bigint"
+        },
+        {
+          "name": "b",
+          "type": "bigint"
+        },
+        {
+          "name": "c",
+          "type": "bigint"
+        }
+      ]
+    },
+    {
+      "id": "hub_b",
+      "label": "hub_b",
+      "row": 1,
+      "col": 0,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "a",
+          "type": "bigint"
+        },
+        {
+          "name": "b",
+          "type": "bigint"
+        },
+        {
+          "name": "c",
+          "type": "bigint"
+        }
+      ]
+    },
+    {
+      "id": "hub_c",
+      "label": "hub_c",
+      "row": 2,
+      "col": 0,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "a",
+          "type": "bigint"
+        },
+        {
+          "name": "b",
+          "type": "bigint"
+        },
+        {
+          "name": "c",
+          "type": "bigint"
+        }
+      ]
+    },
+    {
+      "id": "east_1",
+      "label": "east_1",
+      "row": 0,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_2",
+      "label": "east_2",
+      "row": 1,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_3",
+      "label": "east_3",
+      "row": 2,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_4",
+      "label": "east_4",
+      "row": 3,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_5",
+      "label": "east_5",
+      "row": 4,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_6",
+      "label": "east_6",
+      "row": 5,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "r1",
+      "from": "east_1",
+      "to": "hub_a",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "r2",
+      "from": "east_2",
+      "to": "hub_a",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "r3",
+      "from": "east_3",
+      "to": "hub_b",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "identifying": false
+    },
+    {
+      "id": "r4",
+      "from": "east_4",
+      "to": "hub_b",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "identifying": false
+    },
+    {
+      "id": "r5",
+      "from": "east_5",
+      "to": "hub_c",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "variant": "emphasis",
+      "label": "five"
+    },
+    {
+      "id": "r6",
+      "from": "east_6",
+      "to": "hub_c",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "variant": "emphasis",
+      "label": "six"
+    }
+  ]
+}

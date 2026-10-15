@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Bundled fan-in",
+    "locale": "en"
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      40,
+      80
+    ],
+    "gapX": 56,
+    "gapY": 72,
+    "entityW": 200
+  },
+  "entities": [
+    {
+      "id": "hub",
+      "label": "hub",
+      "row": 0,
+      "col": 0,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        },
+        {
+          "name": "a",
+          "type": "bigint"
+        },
+        {
+          "name": "b",
+          "type": "bigint"
+        },
+        {
+          "name": "c",
+          "type": "bigint"
+        }
+      ]
+    },
+    {
+      "id": "east_a",
+      "label": "east_a",
+      "row": 0,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "east_b",
+      "label": "east_b",
+      "row": 1,
+      "col": 1,
+      "width": 200,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "a_hub",
+      "from": "east_a",
+      "to": "hub",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "b_hub",
+      "from": "east_b",
+      "to": "hub",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

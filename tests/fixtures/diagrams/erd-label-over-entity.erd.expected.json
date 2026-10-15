@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Entity-relationship layout validation failed:\n- Label \"settles by\" overlaps entity \"left\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [269, 58, 66, 14]\n  entity \"left\" rect: [32, 40, 240, 56]\n  Suggested fix: set labelAt [302, 110] or set labelDy 42 (below); or set labelAt [302, 32] or set labelDy -36 (above)\n- Label \"settles by\" overlaps entity \"right\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [269, 58, 66, 14]\n  entity \"right\" rect: [332, 40, 240, 76]\n  Suggested fix: set labelAt [302, 130] or set labelDy 62 (below); or set labelAt [302, 32] or set labelDy -36 (above)",
+  "diagnostics": [
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"settles by\" overlaps entity \"left\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [269, 58, 66, 14]\n  entity \"left\" rect: [32, 40, 240, 56]\n  Suggested fix: set labelAt [302, 110] or set labelDy 42 (below); or set labelAt [302, 32] or set labelDy -36 (above)",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"settles by\" overlaps entity \"right\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [269, 58, 66, 14]\n  entity \"right\" rect: [332, 40, 240, 76]\n  Suggested fix: set labelAt [302, 130] or set labelDy 62 (below); or set labelAt [302, 32] or set labelDy -36 (above)",
+      "subject": {
+        "diagramType": "erd"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}
