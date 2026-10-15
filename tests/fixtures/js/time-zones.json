@@ -352,6 +352,19 @@
       }
     },
     {
+      "zone": "UTC",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "00",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
       "zone": "Asia/Shanghai",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -573,6 +586,19 @@
       }
     },
     {
+      "zone": "Asia/Shanghai",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
       "zone": "America/New_York",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -791,6 +817,19 @@
         "h": "18",
         "mi": "59",
         "s": "59"
+      }
+    },
+    {
+      "zone": "America/New_York",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "9999",
+        "mo": "12",
+        "d": "31",
+        "h": "19",
+        "mi": "00",
+        "s": "00"
       }
     },
     {
@@ -1015,6 +1054,19 @@
       }
     },
     {
+      "zone": "Europe/Berlin",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "01",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
       "zone": "Asia/Kolkata",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -1236,6 +1288,19 @@
       }
     },
     {
+      "zone": "Asia/Kolkata",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "05",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
       "zone": "Pacific/Chatham",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -1454,6 +1519,19 @@
         "h": "13",
         "mi": "44",
         "s": "59"
+      }
+    },
+    {
+      "zone": "Pacific/Chatham",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "13",
+        "mi": "45",
+        "s": "00"
       }
     },
     {
@@ -1678,6 +1756,19 @@
       }
     },
     {
+      "zone": "Australia/Lord_Howe",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "11",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
       "zone": "+08:00",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -1896,6 +1987,19 @@
         "h": "07",
         "mi": "59",
         "s": "59"
+      }
+    },
+    {
+      "zone": "+08:00",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
       }
     },
     {
@@ -2120,6 +2224,19 @@
       }
     },
     {
+      "zone": "-05:30",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "9999",
+        "mo": "12",
+        "d": "31",
+        "h": "18",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
       "zone": "+0800",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -2341,6 +2458,19 @@
       }
     },
     {
+      "zone": "+0800",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
       "zone": "+08",
       "ms": 1772953199000,
       "guaranteed": true,
@@ -2559,6 +2689,253 @@
         "h": "07",
         "mi": "59",
         "s": "59"
+      }
+    },
+    {
+      "zone": "+08",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "08",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1772953199000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "17",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1772953200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "18",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1772953200750,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "03",
+        "d": "08",
+        "h": "18",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1793512799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "16",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1793512800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "17",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1793514600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "11",
+        "d": "01",
+        "h": "17",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1790820000000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "01",
+        "h": "12",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1791129600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "10",
+        "d": "05",
+        "h": "03",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1775356200000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "04",
+        "d": "05",
+        "h": "12",
+        "mi": "30",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1767225600000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2026",
+        "mo": "01",
+        "d": "01",
+        "h": "11",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 1798761599000,
+      "guaranteed": true,
+      "parts": {
+        "y": "2027",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 0,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "00",
+        "s": "00"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": -1000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1970",
+        "mo": "01",
+        "d": "01",
+        "h": "09",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": -62135596800000,
+      "guaranteed": false,
+      "parts": {
+        "y": "1",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "04",
+        "s": "52"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": -59042995200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "99",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "04",
+        "s": "52"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": -62167219200000,
+      "guaranteed": false,
+      "parts": {
+        "y": "0",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "04",
+        "s": "52"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 253402300799000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "10",
+        "mi": "59",
+        "s": "59"
+      }
+    },
+    {
+      "zone": "Australia/Sydney",
+      "ms": 253402300800000,
+      "guaranteed": true,
+      "parts": {
+        "y": "10000",
+        "mo": "01",
+        "d": "01",
+        "h": "11",
+        "mi": "00",
+        "s": "00"
       }
     }
   ]

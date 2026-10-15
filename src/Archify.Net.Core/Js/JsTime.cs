@@ -114,11 +114,13 @@ public static partial class Js
     }
 
     // ponytail: V8 parity — ZoneWall's offset lookup (fixture: time-zones.json `wall`; JsTimeTests past-MaxValue fact).
+    // The instant is clamped into the DateTime range for the lookup only: past MaxValue the last rule continues as V8's does
+    // (Sydney at year 10000 is +11:00, not BaseUtcOffset); below MinValue there is no rule, so the base offset results.
     // Integer ticks: TimeSpan.TotalMilliseconds is a double and rounds MaxMs up past DateTime.MaxValue (9999-12-31T24:00Z threw).
     static readonly long MinMs = (DateTime.MinValue.Ticks - DateTime.UnixEpoch.Ticks) / TimeSpan.TicksPerMillisecond,
         MaxMs = (DateTime.MaxValue.Ticks - DateTime.UnixEpoch.Ticks) / TimeSpan.TicksPerMillisecond;
     static long ZoneOffsetMs(TimeZoneInfo z, long ms) =>
-        (long)(ms >= MinMs && ms <= MaxMs ? z.GetUtcOffset(DateTime.UnixEpoch.AddMilliseconds(ms)) : z.BaseUtcOffset).TotalMilliseconds;
+        (long)z.GetUtcOffset(DateTime.UnixEpoch.AddMilliseconds(Math.Clamp(ms, MinMs, MaxMs))).TotalMilliseconds;
 
     // ponytail: V8 parity — ES floor(t / msPerDay) for negative instants (year 0000 and BC rows of time-zones.json).
     static long FloorDiv(long a, long b) => a / b - (a % b < 0 ? 1 : 0);

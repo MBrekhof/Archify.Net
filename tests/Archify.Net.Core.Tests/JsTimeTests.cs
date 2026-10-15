@@ -61,7 +61,7 @@ public class JsTimeTests
         Assert.Null(Js.CanonicalZoneId("China Standard Time")); Assert.Null(Js.CanonicalZoneId("Eastern Standard Time")); Assert.Null(Js.CanonicalZoneId("UTC-08"));
         Assert.Equal(Js.ZoneWall("Asia/Shanghai", 0), Js.ZoneWall("asia/shanghai", 0));
     }
-    [Fact] public void ZoneWall_past_DateTime_MaxValue_takes_the_base_offset()   // node 24.12: formatToParts → 10000-01-01 00:00:00 AD
+    [Fact] public void ZoneWall_past_DateTime_MaxValue_uses_the_offset_clamped_to_MaxValue()   // node 24.12: formatToParts → 10000-01-01 00:00:00 AD; named zones keep their last rule (DST) instead of BaseUtcOffset
     {
         foreach (var s in new[] { "9999-12-31T24:00Z", "9999-12-31T23:00:00-01:00" })
         {
