@@ -1,6 +1,7 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-15 (phase 6 done: exit demonstration passed).
+Updated 2026-10-15, evening: cleanup batches 1 and 2 and TEST-004 are done, and PERF-003 is reproduced. Every open card waits
+on Martin. Phase 6 was done earlier the same day, with the exit demonstration passed.
 
 ## What this repo is
 
@@ -43,10 +44,10 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   - `8ec3691 feat(skill): self-contained skill/archify package (SKILL.md, references, schemas, examples) with parity tests`
   - `11d20ea docs: phase 6 — MCP server and skill (exit demonstration pending)`
   - plus the docs commit that records the exit demonstration.
-- Test totals (`dotnet test Archify.Net.sln` from the repo root, including the `Browser` category): **3727 passed, 0 failed,
-  0 skipped, 0 warnings**:
-  - `Archify.Net.Core.Tests`: 2782 passed
-  - `Archify.Net.Cli.Tests`: 932 passed
+- Test totals at the end of the 2026-10-15 cleanup (`dotnet test` from the repo root, including the `Browser` category):
+  **3885 passed, 0 failed, 0 skipped, 0 warnings**. Phase 6 itself closed at 3727.
+  - `Archify.Net.Core.Tests`: 2937 passed
+  - `Archify.Net.Cli.Tests`: 935 passed
   - `Archify.Net.Mcp.Tests`: 13 passed
   - `dotnet test --filter Category!=Browser` skips the Chromium-backed tests when running without a browser.
 - Implementer: Gemini (agy); task reviews by Claude Opus 5.5. SDD workspace: `.superpowers/sdd/2026-10-15-phase6-mcp/`.
@@ -147,7 +148,12 @@ Zone acceptance differs by host as well: ids the OS ICU list or `TimeZoneInfo` c
     upstream (the schema rejects it first), so `erd-width-infinite` pins the schema gate instead.
   - The evidence `object-unavailable` (partial clone) and both per-file fallbacks are pinned through damaged fixture repos
     (`EvidenceRepo.MakePartialClone`/`MakeBadType`/`MakeTruncated`).
-  - What no input reaches yet is on TEST-004 (CARD-2185).
+  - TEST-004 `6f09f8a` pins the last reachable ones: the route-order-retry feedback catch, the 16px interior turn, the
+    explicit-pin arm of `throwDiagnosticError`, and both sides of the dataflow `repairLabelRoutes` >80 guard (81 → 49
+    diagnostics, 80 → 40). The unreachable ones carry their argument beside the C# code:
+    - `throwDiagnosticProblems` (`WorkflowCompilation.Validation.cs`);
+    - `readablePresetVia`'s success branch (`WorkflowCompilation.Pins.cs`);
+    - `throwDiagnosticError`'s `solver-budget-exhausted` arm, not found (`WorkflowCompilation.Svg.cs`).
 - **Non-empty `Layout.Report.diagnostics`: closed.** Phase 5 pins it: the `tests/fixtures/cli/layout` failure fixtures carry
   non-empty `diagnostics`, and `workflow-measured-failure` pins upstream's `{…, diagnostics, ok:false}` order. `t2-xrep-standard`
   pins a success receipt with a warning.
@@ -161,7 +167,8 @@ The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-r
 `.superpowers/sdd/2026-10-15-phase4-erd-evidence/progress.md`,
 `.superpowers/sdd/2026-10-15-phase5-cli/progress.md` and
 `.superpowers/sdd/2026-10-15-phase6-mcp/`, `.superpowers/sdd/2026-10-15-cleanup-batch1/` and
-`.superpowers/sdd/2026-10-15-cleanup-batch2/` (with the TZ, TEST-002 and TEST-003 surveys): every ruling and the deferred minors.
+`.superpowers/sdd/2026-10-15-cleanup-batch2/` (with the TZ, TEST-002 and TEST-003 surveys), `.superpowers/sdd/2026-10-15-test004/`
+and `.superpowers/sdd/2026-10-15-perf003/`: every ruling and the deferred minors.
 
 ## Next
 
@@ -193,7 +200,16 @@ All six port phases are done. The open cards on the board (project 46) are:
   - TZ-003 `5ab0465` (ZoneWall keeps DST past `DateTime.MaxValue`);
   - TEST-003 `0ce0060` (erd) and `4c57360` (evidence);
   - TEST-002 `3563f82` (workflow).
-- **Ready to work:** TEST-004 (paths no input reaches yet; each needs a crafted input or a written unreachability argument).
+  - PERF-003: **a huge node `width`/`height` hangs upstream and the port alike.** Two automatic edges between the same
+    pair, with a width of 1e30, never return. The cause is `automaticPortCandidates`' `offset += 12` probe loop, at
+    upstream :4492 and C# `WorkflowCompilation.Routing.cs:1113`. Options on the card:
+    - (a) report it upstream;
+    - (b) a minimal loop guard (a deviation);
+    - (c) a schema cap.
+
+    The recommendation is (a) + (b). Report and inputs: `.superpowers/sdd/2026-10-15-perf003/`.
+- **Done after batch 2:** TEST-004 `6f09f8a` (plan `docs/superpowers/plans/2026-10-15-test004.md`).
+- **Ready to work:** nothing. Every open card waits on Martin, or is parked.
 
 ## Phase 4 closed (2026-10-15)
 

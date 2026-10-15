@@ -105,7 +105,7 @@ Phase 6 results:
   `archify_render` (byte-identical HTML output), `archify_finalize` with real headless Chromium and with Chromium unavailable,
   the `StdioClientTransport` subprocess smoke test and `skill/archify/` parity.
 
-The full suite (`dotnet test`) runs 3727 tests: 2782 in `Archify.Net.Core.Tests`, 932 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 3885 tests: 2937 in `Archify.Net.Core.Tests`, 935 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 
 ## Quick start
 
@@ -390,7 +390,7 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - `DiagramLoader.Parse` stops at nesting depth 64. `JSON.parse` has no limit.
 - A raw lone surrogate inside a C# input string becomes U+FFFD. The escaped form `\udXXX` survives parsing, but rendering it fails with `internal/unclassified`.
 - *Word breaks:* `Js.WordBreaks` matches V8's `Intl.Segmenter` word granularity (UAX #29) except in three places. (a) Han, Hiragana, Katakana, Thai, Lao, Khmer and Myanmar runs split per grapheme, where ICU uses a dictionary. This shows in sequence notes and in wrapped dataflow labels of the automatic showcase layout; `first-draft.mixed-port-recovery` differs from upstream in exactly one such label. (b) The grapheme-cluster handling differs in both directions. V8 splits inside clusters the port keeps whole: a Prepend (e.g. U+0600) before a space, and a jamo next to a Hangul syllable. The port splits across clusters V8 joins: a ZWJ before a pictograph after a letter (UAX #29 WB3c; `"a‍😀"` is one word in V8, two in the port) and a Format/Prepend-led cluster after a letter (`"a؀b"` is one word in V8, `["a","؀b"]` in the port). (c) The port assumes a non-POSIX host locale; under a POSIX/`LANG=C` default V8 splits `api.example.com` at the dots. Every other text path (tree, class, timeline wrapping; zh-CN locale) is byte-exact.
-- *Time zones before the OS zone table's history:* conversions use the operating system's zone data, not Node's bundled tzdata. (a) Before a zone's first tzdata transition (local mean time, roughly pre-1900) the port shows the base offset — a `Asia/Shanghai` event at `0001-01-01T00:00:00Z` is labelled `UTC+08:06` by upstream and `UTC+08:00` by the port. (b) Before the OS table's first adjustment rule the rule is extrapolated backwards — `Pacific/Chatham`/`Australia/Lord_Howe` in 1970 read +13:45/+11:00 instead of +12:45/+10:00. UTC and fixed offsets are exact for every year; named zones are exact from the table's history onward (2026 transitions pinned by fixture).
+- *Time zones before the OS zone table's history:* conversions use the operating system's zone data, not Node's bundled tzdata. (a) Before a zone's first tzdata transition (local mean time, roughly pre-1900) the port shows the base offset — a `Asia/Shanghai` event at `0001-01-01T00:00:00Z` is labelled `UTC+08:06` by upstream and `UTC+08:00` by the port. (b) Before the OS table's first adjustment rule the rule is extrapolated backwards — `Pacific/Chatham`/`Australia/Lord_Howe` in 1970 read +13:45/+11:00 instead of +12:45/+10:00. UTC and fixed offsets are exact for every year; named zones are exact from the table's history onward (2026 transitions pinned by fixture). Past 9999-12-31 the zone's last rule continues, daylight saving included, as in V8 (year-10000 rows pinned by fixture).
 - *`Date.parse` outside the schema shape:* strings the timeline schema rejects (`2026-10-01 10:00:00Z`, offset-less timestamps) are `NaN` in the port; unreachable through `Render` because the schema gate runs first.
 - *Time zone ids the OS cannot resolve:* `meta.timezone` ids that V8's ICU accepts but the host's ICU list or `TimeZoneInfo` cannot resolve are rejected with `timeline/invalid-timezone`. The set varies with the OS build. On Windows with ICU 72.1 it includes `CET`, `EET`, `MET`, `WET`, `America/Ciudad_Juarez`, `Antarctica/Troll`, `Asia/Urumqi`, `Asia/Kashgar`, `Antarctica/Vostok`, `America/Coyhaique` and the `SystemV/*` legacy ids (card TZ-001).
 - *Time zones by host:* Windows with `icu.dll` matches IANA ids case-insensitively, as V8 does. Off Windows only exact-case IANA ids are accepted. On Windows without ICU (before Windows 10 1903, Server 2019, or `System.Globalization.UseNls=true`) only UTC and fixed offsets are accepted (card TZ-002).
@@ -410,6 +410,10 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - *Evidence, `realRoot`:* the port resolves only the final link of `RepoRoot`. When the root is reached through a junctioned or symlinked parent directory, `repoRoot` in diagnostic subjects and the paths in the `not a Git repository` and `root-not-top-level` messages differ from Node's; the verdict is the same.
 - *Evidence, non-ASCII hosts:* the port rejects five hosts WHATWG URL accepts, because `IdnMapping` enforces the hyphen, label-length and non-empty-label rules. By input: `https://-bücher.example/x/y`, `https://bücher-.example/x/y`, `https://ü` + 70 `a` + `.example/x/y` (a 71-character label), `https://bücher..example/o/r` and `https://xn--bcher-kva..example/o/r` (empty label).
 - *Evidence tests:* the `subdirectory-root` receipt is Windows-only (its path separator).
+- *Shared with upstream, not a deviation:* a workflow node with an extreme `width` or `height` (around `1e26` and up) makes
+  the compile take minutes, and from about `1e30` it never returns. Upstream behaves the same way. The trigger is two automatic
+  edges between the same pair of nodes. The cause is the port-candidate probe loop (`automaticPortCandidates`): its 12px
+  steps vanish in floating-point rounding at that magnitude. There is no timeout. Card PERF-003 holds the options.
 
 ### CLI (phase 5)
 
