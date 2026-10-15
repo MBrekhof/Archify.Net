@@ -1,0 +1,1966 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Data-flow layout validation failed:\n- [clean-flow/edge-through-node] dataflow flows[1] id \"f2\" \"n02\" -> \"n01\" crosses node \"p26\" (unrelated to this relationship) on segment 0 [306, 242] -> [306, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[4] id \"f5\" \"n01\" -> \"n02\" crosses node \"p26\" (unrelated to this relationship) on segment 0 [324, 186] -> [324, 242] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[7] id \"f8\" \"n05\" -> \"n06\" crosses node \"p10\" (unrelated to this relationship) on segment 0 [100, 414] -> [100, 470] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[11] id \"f12\" \"n08\" -> \"n10\" crosses node \"p12\" (unrelated to this relationship) on segment 0 [530, 414] -> [530, 470] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p14\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p15\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p20\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p24\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- [clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p29\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.\n- Label \"N1 文文文\" overlaps node \"n02\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [271, 221, 71, 27]\n  node \"n02\" rect: [259, 242, 112, 58]\n  Suggested fix: no placement directly above or below \"n02\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox\n- Label \"N1 文文文\" overlaps node \"p26\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [271, 221, 71, 27]\n  node \"p26\" rect: [259, 196, 112, 36]\n  Suggested fix: no placement directly above or below \"p26\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox\n- Label \"N1 文文文\" overlaps node \"n03\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [415, 153, 71, 27]\n  node \"n03\" rect: [474, 128, 112, 58]\n  Suggested fix: set labelAt [450, 108] or set labelDy -56 (above)\n- Label \"N1 文文文\" overlaps node \"n01\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [289, 165, 71, 27]\n  node \"n01\" rect: [259, 128, 112, 58]\n  Suggested fix: set labelAt [324, 108] or set labelDy -68 (above)\n- Label \"文文 Naaaaa\" overlaps node \"n05\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [67, 393, 66, 27]\n  node \"n05\" rect: [44, 356, 112, 58]\n  Suggested fix: set labelAt [100, 336] or set labelDy -68 (above)\n- Label \"文文文文文文\" overlaps node \"n08\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [495, 393, 71, 27]\n  node \"n08\" rect: [474, 356, 112, 58]\n  Suggested fix: set labelAt [530, 336] or set labelDy -68 (above)\n- Label \"文文 aaa\" overlaps node \"n09\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [630, 335, 71, 27]\n  node \"n09\" rect: [689, 356, 112, 58]\n  Suggested fix: set labelAt [665, 336] or set labelDy -9 (above)\n- Label \"文文文文文文\" overlaps node \"p22\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [407, 234, 71, 27]\n  node \"p22\" rect: [474, 242, 112, 36]\n  Suggested fix: no placement directly above or below \"p22\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox\n- Label \"aaaaaa 文文\" overlaps node \"n10\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [575, 493, 71, 27]\n  node \"n10\" rect: [474, 470, 112, 58]\n  Suggested fix: no placement directly above or below \"n10\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox\n- Label \"文文文 aaaaa\" overlaps node \"n11\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [790, 482, 71, 27]\n  node \"n11\" rect: [689, 470, 112, 58]\n  Suggested fix: no placement directly above or below \"n11\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox\n- Label \"aaaaa 文 aaaaa\" overlaps node \"n12\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [920, 449, 81, 27]\n  node \"n12\" rect: [904, 470, 112, 58]\n  Suggested fix: set labelAt [960, 450] or set labelDy -10 (above)\n- Labels \"aaaaaa 文文\" and \"文文文文文文\" overlap — adjust labelDx/labelDy.\n  \"aaaaaa 文文\" [575, 493, 71, 27]; \"文文文文文文\" [602, 483, 71, 27]\n  Suggested fix: adjust labelDx/labelDy/labelSegment, or route one relationship through a separate corridor\n- [composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[1] id \"f2\" \"n02\" -> \"n01\" label \"N1 文文文\" is 0px from flows[4] id \"f5\" \"n01\" -> \"n02\" label \"N1 文文文\" segment 0 [324, 186] -> [324, 242] (label rect [271, 221, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[3] id \"f4\" \"n03\" -> \"n01\" label \"N1 文文文\" is 0px from flows[2] id \"f3\" \"n01\" -> \"n03\" label \"N1 文文文\" segment 2 [395, 164] -> [450, 164] (label rect [415, 153, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[3] id \"f4\" \"n03\" -> \"n01\" label \"N1 文文文\" is 0px from flows[5] id \"f6\" \"n01\" -> \"n04\" label \"文文文\" segment 0 [371, 157] -> [426, 157] (label rect [415, 153, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[3] id \"f4\" \"n03\" -> \"n01\" label \"N1 文文文\" is 0px from flows[14] id \"f15\" \"n01\" -> \"n09\" label \"文文文文文文\" segment 0 [371, 170] -> [442, 170] (label rect [415, 153, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[4] id \"f5\" \"n01\" -> \"n02\" label \"N1 文文文\" is 0px from flows[1] id \"f2\" \"n02\" -> \"n01\" label \"N1 文文文\" segment 0 [306, 242] -> [306, 186] (label rect [289, 165, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文\" on flows[9] id \"f10\" \"n07\" -> \"n10\" label \"文文文文\" is 0px from flows[18] id \"f19\" \"n11\" -> \"n02\" label \"aaaaa · NNN\" segment 3 [434, 657] -> [434, 271] (label rect [424, 426, 51, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文\" on flows[10] id \"f11\" \"n07\" -> \"n08\" label \"文文文文文\" is 0px from flows[18] id \"f19\" \"n11\" -> \"n02\" label \"aaaaa · NNN\" segment 3 [434, 657] -> [434, 271] (label rect [392, 355, 61, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文\" on flows[12] id \"f13\" \"n08\" -> \"n09\" label \"文文文文\" is 1.9px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 1 [637.5, 486] -> [637.5, 157] (label rect [584, 370, 51, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文\" on flows[12] id \"f13\" \"n08\" -> \"n09\" label \"文文文文\" is 0px from flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" segment 0 [586, 394] -> [637.3, 394] (label rect [584, 370, 51, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文 aaa\" on flows[13] id \"f14\" \"n09\" -> \"n01\" label \"文文 aaa\" is 0px from flows[14] id \"f15\" \"n01\" -> \"n09\" label \"文文文文文文\" segment 2 [442, 339] -> [665, 339] (label rect [630, 335, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文 aaa\" on flows[13] id \"f14\" \"n09\" -> \"n01\" label \"文文 aaa\" is 0px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 1 [637.5, 486] -> [637.5, 157] (label rect [630, 335, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文 aaa\" on flows[13] id \"f14\" \"n09\" -> \"n01\" label \"文文 aaa\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [630, 335, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文\" on flows[15] id \"f16\" \"n09\" -> \"n12\" label \"文文文文文\" is 0px from flows[23] id \"f24\" \"n06\" -> \"n04\" label \"文文文文 aaaaa\" segment 4 [1036, 431] -> [880, 431] (label rect [817, 415, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文\" on flows[15] id \"f16\" \"n09\" -> \"n12\" label \"文文文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 3 [875, 81] -> [875, 600] (label rect [817, 415, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" is 0px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 1 [637.5, 486] -> [637.5, 157] (label rect [610, 421, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [610, 421, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" is 0px from flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" segment 1 [637.3, 394] -> [637.3, 613] (label rect [610, 421, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"aaaaaa 文文\" on flows[17] id \"f18\" \"n10\" -> \"n11\" label \"aaaaaa 文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 0 [586, 512] -> [645.3, 512] (label rect [575, 493, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"aaaaaa 文文\" on flows[17] id \"f18\" \"n10\" -> \"n11\" label \"aaaaaa 文文\" is 0px from flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" segment 1 [637.3, 394] -> [637.3, 613] (label rect [575, 493, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [609, 301, 56, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文 aaaaa\" on flows[20] id \"f21\" \"n11\" -> \"n12\" label \"文文文 aaaaa\" is 0px from flows[15] id \"f16\" \"n09\" -> \"n12\" label \"文文文文文\" segment 1 [852.5, 385] -> [852.5, 486] (label rect [790, 482, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文 aaaaa\" on flows[20] id \"f21\" \"n11\" -> \"n12\" label \"文文文 aaaaa\" is 0px from flows[25] id \"f26\" \"n11\" -> \"n13\" label \"N1 文文文\" segment 0 [801, 508] -> [850, 508] (label rect [790, 482, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"aaaaa 文 aaaaa\" on flows[22] id \"f23\" \"n12\" -> \"n04\" label \"aaaaa 文 aaaaa\" is 0px from flows[21] id \"f22\" \"n12\" -> \"n06\" label \"文文 aaaaa\" segment 2 [880, 455] -> [1036, 455] (label rect [920, 449, 81, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" segment 1 [645.3, 398] -> [645.3, 486] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[17] id \"f18\" \"n10\" -> \"n11\" label \"aaaaaa 文文\" segment 0 [586, 499] -> [610, 499] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[18] id \"f19\" \"n11\" -> \"n02\" label \"aaaaa · NNN\" segment 0 [689, 499] -> [665, 499] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 0 [689, 486] -> [637.5, 486] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.\n- [composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+  "diagnostics": [
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[1] id \"f2\" \"n02\" -> \"n01\" crosses node \"p26\" (unrelated to this relationship) on segment 0 [306, 242] -> [306, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 1,
+        "id": "f2",
+        "from": "n02",
+        "to": "n01"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p26",
+        "segmentIndex": 0,
+        "from": [
+          306,
+          242
+        ],
+        "to": [
+          306,
+          186
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[4] id \"f5\" \"n01\" -> \"n02\" crosses node \"p26\" (unrelated to this relationship) on segment 0 [324, 186] -> [324, 242] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 4,
+        "id": "f5",
+        "from": "n01",
+        "to": "n02"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p26",
+        "segmentIndex": 0,
+        "from": [
+          324,
+          186
+        ],
+        "to": [
+          324,
+          242
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[7] id \"f8\" \"n05\" -> \"n06\" crosses node \"p10\" (unrelated to this relationship) on segment 0 [100, 414] -> [100, 470] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 7,
+        "id": "f8",
+        "from": "n05",
+        "to": "n06"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p10",
+        "segmentIndex": 0,
+        "from": [
+          100,
+          414
+        ],
+        "to": [
+          100,
+          470
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[11] id \"f12\" \"n08\" -> \"n10\" crosses node \"p12\" (unrelated to this relationship) on segment 0 [530, 414] -> [530, 470] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 11,
+        "id": "f12",
+        "from": "n08",
+        "to": "n10"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p12",
+        "segmentIndex": 0,
+        "from": [
+          530,
+          414
+        ],
+        "to": [
+          530,
+          470
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p14\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 22,
+        "id": "f23",
+        "from": "n12",
+        "to": "n04"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p14",
+        "segmentIndex": 0,
+        "from": [
+          960,
+          470
+        ],
+        "to": [
+          960,
+          186
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p15\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 22,
+        "id": "f23",
+        "from": "n12",
+        "to": "n04"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p15",
+        "segmentIndex": 0,
+        "from": [
+          960,
+          470
+        ],
+        "to": [
+          960,
+          186
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p20\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 22,
+        "id": "f23",
+        "from": "n12",
+        "to": "n04"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p20",
+        "segmentIndex": 0,
+        "from": [
+          960,
+          470
+        ],
+        "to": [
+          960,
+          186
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p24\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 22,
+        "id": "f23",
+        "from": "n12",
+        "to": "n04"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p24",
+        "segmentIndex": 0,
+        "from": [
+          960,
+          470
+        ],
+        "to": [
+          960,
+          186
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "clean-flow/edge-through-node",
+      "severity": "error",
+      "message": "[clean-flow/edge-through-node] dataflow flows[22] id \"f23\" \"n12\" -> \"n04\" crosses node \"p29\" (unrelated to this relationship) on segment 0 [960, 470] -> [960, 186] (2px clearance) — adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 22,
+        "id": "f23",
+        "from": "n12",
+        "to": "n04"
+      },
+      "evidence": {
+        "obstacleKind": "node",
+        "obstacleId": "p29",
+        "segmentIndex": 0,
+        "from": [
+          960,
+          470
+        ],
+        "to": [
+          960,
+          186
+        ],
+        "clearancePx": 2
+      },
+      "supportedFixes": [
+        "adjust fromSide/toSide, set route/via or channelX/channelY, or move the node to another stage/row"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[1] id \"f2\" \"n02\" -> \"n01\" label \"N1 文文文\" is 0px from flows[4] id \"f5\" \"n01\" -> \"n02\" label \"N1 文文文\" segment 0 [324, 186] -> [324, 242] (label rect [271, 221, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 1,
+        "id": "f2",
+        "from": "n02",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "N1 文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 4,
+          "id": "f5",
+          "from": "n01",
+          "to": "n02"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f2",
+            "from": "n02",
+            "to": "n01",
+            "label": "N1 文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 1,
+          "label": "N1 文文文",
+          "x": 270.6,
+          "y": 221,
+          "width": 70.8,
+          "height": 27,
+          "lx": 306,
+          "ly": 232
+        },
+        "from": [
+          324,
+          186
+        ],
+        "to": [
+          324,
+          242
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[3] id \"f4\" \"n03\" -> \"n01\" label \"N1 文文文\" is 0px from flows[2] id \"f3\" \"n01\" -> \"n03\" label \"N1 文文文\" segment 2 [395, 164] -> [450, 164] (label rect [415, 153, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 3,
+        "id": "f4",
+        "from": "n03",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "N1 文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 2,
+          "id": "f3",
+          "from": "n01",
+          "to": "n03"
+        },
+        "segmentIndex": 2,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f4",
+            "from": "n03",
+            "to": "n01",
+            "label": "N1 文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 3,
+          "label": "N1 文文文",
+          "x": 414.6,
+          "y": 153,
+          "width": 70.8,
+          "height": 27,
+          "lx": 450,
+          "ly": 164
+        },
+        "from": [
+          395,
+          164
+        ],
+        "to": [
+          450,
+          164
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[3] id \"f4\" \"n03\" -> \"n01\" label \"N1 文文文\" is 0px from flows[5] id \"f6\" \"n01\" -> \"n04\" label \"文文文\" segment 0 [371, 157] -> [426, 157] (label rect [415, 153, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 3,
+        "id": "f4",
+        "from": "n03",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "N1 文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 5,
+          "id": "f6",
+          "from": "n01",
+          "to": "n04"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f4",
+            "from": "n03",
+            "to": "n01",
+            "label": "N1 文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 3,
+          "label": "N1 文文文",
+          "x": 414.6,
+          "y": 153,
+          "width": 70.8,
+          "height": 27,
+          "lx": 450,
+          "ly": 164
+        },
+        "from": [
+          371,
+          157
+        ],
+        "to": [
+          426,
+          157
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[3] id \"f4\" \"n03\" -> \"n01\" label \"N1 文文文\" is 0px from flows[14] id \"f15\" \"n01\" -> \"n09\" label \"文文文文文文\" segment 0 [371, 170] -> [442, 170] (label rect [415, 153, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 3,
+        "id": "f4",
+        "from": "n03",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "N1 文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 14,
+          "id": "f15",
+          "from": "n01",
+          "to": "n09"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f4",
+            "from": "n03",
+            "to": "n01",
+            "label": "N1 文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 3,
+          "label": "N1 文文文",
+          "x": 414.6,
+          "y": 153,
+          "width": 70.8,
+          "height": 27,
+          "lx": 450,
+          "ly": 164
+        },
+        "from": [
+          371,
+          170
+        ],
+        "to": [
+          442,
+          170
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[4] id \"f5\" \"n01\" -> \"n02\" label \"N1 文文文\" is 0px from flows[1] id \"f2\" \"n02\" -> \"n01\" label \"N1 文文文\" segment 0 [306, 242] -> [306, 186] (label rect [289, 165, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 4,
+        "id": "f5",
+        "from": "n01",
+        "to": "n02"
+      },
+      "evidence": {
+        "label": "N1 文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 1,
+          "id": "f2",
+          "from": "n02",
+          "to": "n01"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f5",
+            "from": "n01",
+            "to": "n02",
+            "label": "N1 文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 4,
+          "label": "N1 文文文",
+          "x": 288.6,
+          "y": 165,
+          "width": 70.8,
+          "height": 27,
+          "lx": 324,
+          "ly": 176
+        },
+        "from": [
+          306,
+          242
+        ],
+        "to": [
+          306,
+          186
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文\" on flows[9] id \"f10\" \"n07\" -> \"n10\" label \"文文文文\" is 0px from flows[18] id \"f19\" \"n11\" -> \"n02\" label \"aaaaa · NNN\" segment 3 [434, 657] -> [434, 271] (label rect [424, 426, 51, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 9,
+        "id": "f10",
+        "from": "n07",
+        "to": "n10"
+      },
+      "evidence": {
+        "label": "文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 18,
+          "id": "f19",
+          "from": "n11",
+          "to": "n02"
+        },
+        "segmentIndex": 3,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f10",
+            "from": "n07",
+            "to": "n10",
+            "label": "文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 9,
+          "label": "文文文文",
+          "x": 424.4,
+          "y": 425.5,
+          "width": 51.2,
+          "height": 27,
+          "lx": 450,
+          "ly": 436.5
+        },
+        "from": [
+          434,
+          657
+        ],
+        "to": [
+          434,
+          271
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文\" on flows[10] id \"f11\" \"n07\" -> \"n08\" label \"文文文文文\" is 0px from flows[18] id \"f19\" \"n11\" -> \"n02\" label \"aaaaa · NNN\" segment 3 [434, 657] -> [434, 271] (label rect [392, 355, 61, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 10,
+        "id": "f11",
+        "from": "n07",
+        "to": "n08"
+      },
+      "evidence": {
+        "label": "文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 18,
+          "id": "f19",
+          "from": "n11",
+          "to": "n02"
+        },
+        "segmentIndex": 3,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f11",
+            "from": "n07",
+            "to": "n08",
+            "label": "文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 10,
+          "label": "文文文文文",
+          "x": 392,
+          "y": 355,
+          "width": 61,
+          "height": 27,
+          "lx": 422.5,
+          "ly": 366
+        },
+        "from": [
+          434,
+          657
+        ],
+        "to": [
+          434,
+          271
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文\" on flows[12] id \"f13\" \"n08\" -> \"n09\" label \"文文文文\" is 1.9px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 1 [637.5, 486] -> [637.5, 157] (label rect [584, 370, 51, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 12,
+        "id": "f13",
+        "from": "n08",
+        "to": "n09"
+      },
+      "evidence": {
+        "label": "文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 19,
+          "id": "f20",
+          "from": "n11",
+          "to": "n03"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 1.9,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f13",
+            "from": "n08",
+            "to": "n09",
+            "label": "文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 12,
+          "label": "文文文文",
+          "x": 584.4,
+          "y": 369.66666666666663,
+          "width": 51.2,
+          "height": 27,
+          "lx": 610,
+          "ly": 380.66666666666663
+        },
+        "from": [
+          637.5,
+          486
+        ],
+        "to": [
+          637.5,
+          157
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文\" on flows[12] id \"f13\" \"n08\" -> \"n09\" label \"文文文文\" is 0px from flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" segment 0 [586, 394] -> [637.3, 394] (label rect [584, 370, 51, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 12,
+        "id": "f13",
+        "from": "n08",
+        "to": "n09"
+      },
+      "evidence": {
+        "label": "文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 27,
+          "id": "f28",
+          "from": "n08",
+          "to": "n14"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f13",
+            "from": "n08",
+            "to": "n09",
+            "label": "文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 12,
+          "label": "文文文文",
+          "x": 584.4,
+          "y": 369.66666666666663,
+          "width": 51.2,
+          "height": 27,
+          "lx": 610,
+          "ly": 380.66666666666663
+        },
+        "from": [
+          586,
+          394
+        ],
+        "to": [
+          637.25,
+          394
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文 aaa\" on flows[13] id \"f14\" \"n09\" -> \"n01\" label \"文文 aaa\" is 0px from flows[14] id \"f15\" \"n01\" -> \"n09\" label \"文文文文文文\" segment 2 [442, 339] -> [665, 339] (label rect [630, 335, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 13,
+        "id": "f14",
+        "from": "n09",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "文文 aaa",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 14,
+          "id": "f15",
+          "from": "n01",
+          "to": "n09"
+        },
+        "segmentIndex": 2,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f14",
+            "from": "n09",
+            "to": "n01",
+            "label": "文文 aaa",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 13,
+          "label": "文文 aaa",
+          "x": 629.6,
+          "y": 334.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 665,
+          "ly": 345.5
+        },
+        "from": [
+          442,
+          339
+        ],
+        "to": [
+          665,
+          339
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文 aaa\" on flows[13] id \"f14\" \"n09\" -> \"n01\" label \"文文 aaa\" is 0px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 1 [637.5, 486] -> [637.5, 157] (label rect [630, 335, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 13,
+        "id": "f14",
+        "from": "n09",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "文文 aaa",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 19,
+          "id": "f20",
+          "from": "n11",
+          "to": "n03"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f14",
+            "from": "n09",
+            "to": "n01",
+            "label": "文文 aaa",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 13,
+          "label": "文文 aaa",
+          "x": 629.6,
+          "y": 334.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 665,
+          "ly": 345.5
+        },
+        "from": [
+          637.5,
+          486
+        ],
+        "to": [
+          637.5,
+          157
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文 aaa\" on flows[13] id \"f14\" \"n09\" -> \"n01\" label \"文文 aaa\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [630, 335, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 13,
+        "id": "f14",
+        "from": "n09",
+        "to": "n01"
+      },
+      "evidence": {
+        "label": "文文 aaa",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 24,
+          "id": "f25",
+          "from": "n10",
+          "to": "n13"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f14",
+            "from": "n09",
+            "to": "n01",
+            "label": "文文 aaa",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 13,
+          "label": "文文 aaa",
+          "x": 629.6,
+          "y": 334.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 665,
+          "ly": 345.5
+        },
+        "from": [
+          645.25,
+          512
+        ],
+        "to": [
+          645.25,
+          81
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文\" on flows[15] id \"f16\" \"n09\" -> \"n12\" label \"文文文文文\" is 0px from flows[23] id \"f24\" \"n06\" -> \"n04\" label \"文文文文 aaaaa\" segment 4 [1036, 431] -> [880, 431] (label rect [817, 415, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 15,
+        "id": "f16",
+        "from": "n09",
+        "to": "n12"
+      },
+      "evidence": {
+        "label": "文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 23,
+          "id": "f24",
+          "from": "n06",
+          "to": "n04"
+        },
+        "segmentIndex": 4,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f16",
+            "from": "n09",
+            "to": "n12",
+            "label": "文文文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 15,
+          "label": "文文文文文",
+          "x": 817.1,
+          "y": 414.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 852.5,
+          "ly": 425.5
+        },
+        "from": [
+          1036,
+          431
+        ],
+        "to": [
+          880,
+          431
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文\" on flows[15] id \"f16\" \"n09\" -> \"n12\" label \"文文文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 3 [875, 81] -> [875, 600] (label rect [817, 415, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 15,
+        "id": "f16",
+        "from": "n09",
+        "to": "n12"
+      },
+      "evidence": {
+        "label": "文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 24,
+          "id": "f25",
+          "from": "n10",
+          "to": "n13"
+        },
+        "segmentIndex": 3,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f16",
+            "from": "n09",
+            "to": "n12",
+            "label": "文文文文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 15,
+          "label": "文文文文文",
+          "x": 817.1,
+          "y": 414.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 852.5,
+          "ly": 425.5
+        },
+        "from": [
+          875,
+          81
+        ],
+        "to": [
+          875,
+          600
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" is 0px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 1 [637.5, 486] -> [637.5, 157] (label rect [610, 421, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 16,
+        "id": "f17",
+        "from": "n09",
+        "to": "n10"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 19,
+          "id": "f20",
+          "from": "n11",
+          "to": "n03"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f17",
+            "from": "n09",
+            "to": "n10",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 16,
+          "label": "文文文文文文",
+          "x": 609.85,
+          "y": 421,
+          "width": 70.8,
+          "height": 27,
+          "lx": 645.25,
+          "ly": 432
+        },
+        "from": [
+          637.5,
+          486
+        ],
+        "to": [
+          637.5,
+          157
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [610, 421, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 16,
+        "id": "f17",
+        "from": "n09",
+        "to": "n10"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 24,
+          "id": "f25",
+          "from": "n10",
+          "to": "n13"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f17",
+            "from": "n09",
+            "to": "n10",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 16,
+          "label": "文文文文文文",
+          "x": 609.85,
+          "y": 421,
+          "width": 70.8,
+          "height": 27,
+          "lx": 645.25,
+          "ly": 432
+        },
+        "from": [
+          645.25,
+          512
+        ],
+        "to": [
+          645.25,
+          81
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" is 0px from flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" segment 1 [637.3, 394] -> [637.3, 613] (label rect [610, 421, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 16,
+        "id": "f17",
+        "from": "n09",
+        "to": "n10"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 27,
+          "id": "f28",
+          "from": "n08",
+          "to": "n14"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f17",
+            "from": "n09",
+            "to": "n10",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 16,
+          "label": "文文文文文文",
+          "x": 609.85,
+          "y": 421,
+          "width": 70.8,
+          "height": 27,
+          "lx": 645.25,
+          "ly": 432
+        },
+        "from": [
+          637.25,
+          394
+        ],
+        "to": [
+          637.25,
+          613
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"aaaaaa 文文\" on flows[17] id \"f18\" \"n10\" -> \"n11\" label \"aaaaaa 文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 0 [586, 512] -> [645.3, 512] (label rect [575, 493, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 17,
+        "id": "f18",
+        "from": "n10",
+        "to": "n11"
+      },
+      "evidence": {
+        "label": "aaaaaa 文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 24,
+          "id": "f25",
+          "from": "n10",
+          "to": "n13"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f18",
+            "from": "n10",
+            "to": "n11",
+            "label": "aaaaaa 文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 17,
+          "label": "aaaaaa 文文",
+          "x": 574.6,
+          "y": 492.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 610,
+          "ly": 503.5
+        },
+        "from": [
+          586,
+          512
+        ],
+        "to": [
+          645.25,
+          512
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"aaaaaa 文文\" on flows[17] id \"f18\" \"n10\" -> \"n11\" label \"aaaaaa 文文\" is 0px from flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" segment 1 [637.3, 394] -> [637.3, 613] (label rect [575, 493, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 17,
+        "id": "f18",
+        "from": "n10",
+        "to": "n11"
+      },
+      "evidence": {
+        "label": "aaaaaa 文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 27,
+          "id": "f28",
+          "from": "n08",
+          "to": "n14"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f18",
+            "from": "n10",
+            "to": "n11",
+            "label": "aaaaaa 文文",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 17,
+          "label": "aaaaaa 文文",
+          "x": 574.6,
+          "y": 492.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 610,
+          "ly": 503.5
+        },
+        "from": [
+          637.25,
+          394
+        ],
+        "to": [
+          637.25,
+          613
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"N1 文文文\" on flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [609, 301, 56, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 19,
+        "id": "f20",
+        "from": "n11",
+        "to": "n03"
+      },
+      "evidence": {
+        "label": "N1 文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 24,
+          "id": "f25",
+          "from": "n10",
+          "to": "n13"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f20",
+            "from": "n11",
+            "to": "n03",
+            "label": "N1 文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 19,
+          "label": "N1 文文文",
+          "x": 609.45,
+          "y": 300.5,
+          "width": 56.1,
+          "height": 27,
+          "lx": 637.5,
+          "ly": 311.5
+        },
+        "from": [
+          645.25,
+          512
+        ],
+        "to": [
+          645.25,
+          81
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文 aaaaa\" on flows[20] id \"f21\" \"n11\" -> \"n12\" label \"文文文 aaaaa\" is 0px from flows[15] id \"f16\" \"n09\" -> \"n12\" label \"文文文文文\" segment 1 [852.5, 385] -> [852.5, 486] (label rect [790, 482, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 20,
+        "id": "f21",
+        "from": "n11",
+        "to": "n12"
+      },
+      "evidence": {
+        "label": "文文文 aaaaa",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 15,
+          "id": "f16",
+          "from": "n09",
+          "to": "n12"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f21",
+            "from": "n11",
+            "to": "n12",
+            "label": "文文文 aaaaa",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 20,
+          "label": "文文文 aaaaa",
+          "x": 789.6,
+          "y": 481.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 825,
+          "ly": 492.5
+        },
+        "from": [
+          852.5,
+          385
+        ],
+        "to": [
+          852.5,
+          486
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文 aaaaa\" on flows[20] id \"f21\" \"n11\" -> \"n12\" label \"文文文 aaaaa\" is 0px from flows[25] id \"f26\" \"n11\" -> \"n13\" label \"N1 文文文\" segment 0 [801, 508] -> [850, 508] (label rect [790, 482, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 20,
+        "id": "f21",
+        "from": "n11",
+        "to": "n12"
+      },
+      "evidence": {
+        "label": "文文文 aaaaa",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 25,
+          "id": "f26",
+          "from": "n11",
+          "to": "n13"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f21",
+            "from": "n11",
+            "to": "n12",
+            "label": "文文文 aaaaa",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 20,
+          "label": "文文文 aaaaa",
+          "x": 789.6,
+          "y": 481.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 825,
+          "ly": 492.5
+        },
+        "from": [
+          801,
+          508
+        ],
+        "to": [
+          850,
+          508
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"aaaaa 文 aaaaa\" on flows[22] id \"f23\" \"n12\" -> \"n04\" label \"aaaaa 文 aaaaa\" is 0px from flows[21] id \"f22\" \"n12\" -> \"n06\" label \"文文 aaaaa\" segment 2 [880, 455] -> [1036, 455] (label rect [920, 449, 81, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 22,
+        "id": "f23",
+        "from": "n12",
+        "to": "n04"
+      },
+      "evidence": {
+        "label": "aaaaa 文 aaaaa",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 21,
+          "id": "f22",
+          "from": "n12",
+          "to": "n06"
+        },
+        "segmentIndex": 2,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f23",
+            "from": "n12",
+            "to": "n04",
+            "label": "aaaaa 文 aaaaa",
+            "variant": "default",
+            "classification": "文文文文文文"
+          },
+          "relationIndex": 22,
+          "label": "aaaaa 文 aaaaa",
+          "x": 919.7,
+          "y": 449,
+          "width": 80.6,
+          "height": 27,
+          "lx": 960,
+          "ly": 460
+        },
+        "from": [
+          880,
+          455
+        ],
+        "to": [
+          1036,
+          455
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[16] id \"f17\" \"n09\" -> \"n10\" label \"文文文文文文\" segment 1 [645.3, 398] -> [645.3, 486] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 27,
+        "id": "f28",
+        "from": "n08",
+        "to": "n14"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 16,
+          "id": "f17",
+          "from": "n09",
+          "to": "n10"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 601.85,
+          "y": 482.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 637.25,
+          "ly": 493.5
+        },
+        "from": [
+          645.25,
+          398
+        ],
+        "to": [
+          645.25,
+          486
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[17] id \"f18\" \"n10\" -> \"n11\" label \"aaaaaa 文文\" segment 0 [586, 499] -> [610, 499] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 27,
+        "id": "f28",
+        "from": "n08",
+        "to": "n14"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 17,
+          "id": "f18",
+          "from": "n10",
+          "to": "n11"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 601.85,
+          "y": 482.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 637.25,
+          "ly": 493.5
+        },
+        "from": [
+          586,
+          499
+        ],
+        "to": [
+          610,
+          499
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[18] id \"f19\" \"n11\" -> \"n02\" label \"aaaaa · NNN\" segment 0 [689, 499] -> [665, 499] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 27,
+        "id": "f28",
+        "from": "n08",
+        "to": "n14"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 18,
+          "id": "f19",
+          "from": "n11",
+          "to": "n02"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 601.85,
+          "y": 482.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 637.25,
+          "ly": 493.5
+        },
+        "from": [
+          689,
+          499
+        ],
+        "to": [
+          665,
+          499
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[19] id \"f20\" \"n11\" -> \"n03\" label \"N1 文文文\" segment 0 [689, 486] -> [637.5, 486] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 27,
+        "id": "f28",
+        "from": "n08",
+        "to": "n14"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 19,
+          "id": "f20",
+          "from": "n11",
+          "to": "n03"
+        },
+        "segmentIndex": 0,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 601.85,
+          "y": 482.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 637.25,
+          "ly": 493.5
+        },
+        "from": [
+          689,
+          486
+        ],
+        "to": [
+          637.5,
+          486
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "composition/label-route-clearance",
+      "severity": "error",
+      "message": "[composition/label-route-clearance] showcase dataflow label \"文文文文文文\" on flows[27] id \"f28\" \"n08\" -> \"n14\" label \"文文文文文文\" is 0px from flows[24] id \"f25\" \"n10\" -> \"n13\" label \"aaaaaa 文文\" segment 1 [645.3, 512] -> [645.3, 81] (label rect [602, 483, 71, 27]; minimum 4px) — adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY.",
+      "subject": {
+        "diagramType": "dataflow",
+        "collection": "flows",
+        "index": 27,
+        "id": "f28",
+        "from": "n08",
+        "to": "n14"
+      },
+      "evidence": {
+        "label": "文文文文文文",
+        "otherRelationship": {
+          "diagramType": "dataflow",
+          "collection": "flows",
+          "index": 24,
+          "id": "f25",
+          "from": "n10",
+          "to": "n13"
+        },
+        "segmentIndex": 1,
+        "clearancePx": 0,
+        "minimumPx": 4,
+        "labelRect": {
+          "relation": {
+            "id": "f28",
+            "from": "n08",
+            "to": "n14",
+            "label": "文文文文文文",
+            "variant": "dashed",
+            "classification": "文文文文"
+          },
+          "relationIndex": 27,
+          "label": "文文文文文文",
+          "x": 601.85,
+          "y": 482.5,
+          "width": 70.8,
+          "height": 27,
+          "lx": 637.25,
+          "ly": 493.5
+        },
+        "from": [
+          645.25,
+          512
+        ],
+        "to": [
+          645.25,
+          81
+        ]
+      },
+      "supportedFixes": [
+        "adjust labelAt, labelDx, labelDy, or labelSegment; otherwise adjust the other flow route/via/channelX/channelY"
+      ]
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"N1 文文文\" overlaps node \"n02\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [271, 221, 71, 27]\n  node \"n02\" rect: [259, 242, 112, 58]\n  Suggested fix: no placement directly above or below \"n02\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"N1 文文文\" overlaps node \"p26\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [271, 221, 71, 27]\n  node \"p26\" rect: [259, 196, 112, 36]\n  Suggested fix: no placement directly above or below \"p26\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"N1 文文文\" overlaps node \"n03\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [415, 153, 71, 27]\n  node \"n03\" rect: [474, 128, 112, 58]\n  Suggested fix: set labelAt [450, 108] or set labelDy -56 (above)",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"N1 文文文\" overlaps node \"n01\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [289, 165, 71, 27]\n  node \"n01\" rect: [259, 128, 112, 58]\n  Suggested fix: set labelAt [324, 108] or set labelDy -68 (above)",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"文文 Naaaaa\" overlaps node \"n05\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [67, 393, 66, 27]\n  node \"n05\" rect: [44, 356, 112, 58]\n  Suggested fix: set labelAt [100, 336] or set labelDy -68 (above)",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"文文文文文文\" overlaps node \"n08\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [495, 393, 71, 27]\n  node \"n08\" rect: [474, 356, 112, 58]\n  Suggested fix: set labelAt [530, 336] or set labelDy -68 (above)",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"文文 aaa\" overlaps node \"n09\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [630, 335, 71, 27]\n  node \"n09\" rect: [689, 356, 112, 58]\n  Suggested fix: set labelAt [665, 336] or set labelDy -9 (above)",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"文文文文文文\" overlaps node \"p22\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [407, 234, 71, 27]\n  node \"p22\" rect: [474, 242, 112, 36]\n  Suggested fix: no placement directly above or below \"p22\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"aaaaaa 文文\" overlaps node \"n10\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [575, 493, 71, 27]\n  node \"n10\" rect: [474, 470, 112, 58]\n  Suggested fix: no placement directly above or below \"n10\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"文文文 aaaaa\" overlaps node \"n11\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [790, 482, 71, 27]\n  node \"n11\" rect: [689, 470, 112, 58]\n  Suggested fix: no placement directly above or below \"n11\" stays clear inside the 1068x763 viewBox — move the label to an open area with labelAt, shorten the label, move the node, or enlarge meta.viewBox",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Label \"aaaaa 文 aaaaa\" overlaps node \"n12\" — adjust labelDx/labelDy/labelSegment or set labelAt.\n  label rect: [920, 449, 81, 27]\n  node \"n12\" rect: [904, 470, 112, 58]\n  Suggested fix: set labelAt [960, 450] or set labelDy -10 (above)",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    },
+    {
+      "code": "layout/constraint",
+      "severity": "error",
+      "message": "Labels \"aaaaaa 文文\" and \"文文文文文文\" overlap — adjust labelDx/labelDy.\n  \"aaaaaa 文文\" [575, 493, 71, 27]; \"文文文文文文\" [602, 483, 71, 27]\n  Suggested fix: adjust labelDx/labelDy/labelSegment, or route one relationship through a separate corridor",
+      "subject": {
+        "diagramType": "dataflow"
+      },
+      "evidence": {},
+      "supportedFixes": []
+    }
+  ]
+}

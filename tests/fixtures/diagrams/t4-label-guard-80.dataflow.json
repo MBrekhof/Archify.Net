@@ -1,0 +1,669 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Automatic label and route clearance",
+    "locale": "zh-CN",
+    "output": "diagram.html",
+    "quality_profile": "showcase"
+  },
+  "stages": [
+    {
+      "label": "文文文文文"
+    },
+    {
+      "label": "文文文文文"
+    },
+    {
+      "label": "文文文文文"
+    },
+    {
+      "label": "文文文文文"
+    },
+    {
+      "label": "文文文文文"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n00",
+      "type": "backend",
+      "label": "aaa_aa_aaaa",
+      "sublabel": "aaa · aaaaaa · NNN",
+      "stage": 0,
+      "row": 0
+    },
+    {
+      "id": "n01",
+      "type": "backend",
+      "label": "aaa(aaa)",
+      "sublabel": "N1 文文；文文 N1",
+      "stage": 1,
+      "row": 0
+    },
+    {
+      "id": "n02",
+      "type": "backend",
+      "label": "N1 文文",
+      "sublabel": "文文 NaaaaNaaaaaa",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "n03",
+      "type": "backend",
+      "label": "N1 文文",
+      "sublabel": "文文 NaaaaNaaaaaa",
+      "stage": 2,
+      "row": 0
+    },
+    {
+      "id": "n04",
+      "type": "backend",
+      "label": "文文 aaaaa",
+      "sublabel": "文文文文文文文",
+      "stage": 4,
+      "row": 0
+    },
+    {
+      "id": "n05",
+      "type": "backend",
+      "label": "aaaaaa-aaaaaa",
+      "sublabel": "文 aaa 文文 Naaaaa",
+      "stage": 0,
+      "row": 2
+    },
+    {
+      "id": "n06",
+      "type": "backend",
+      "label": "文文文 Naaaaa",
+      "sublabel": "aaaaaa 文文；文文文文",
+      "stage": 0,
+      "row": 3
+    },
+    {
+      "id": "n07",
+      "type": "backend",
+      "label": "文文文文文",
+      "sublabel": "文文 NaaaaaaNaaaaNaaaaaa",
+      "stage": 1,
+      "row": 2
+    },
+    {
+      "id": "n08",
+      "type": "backend",
+      "label": "aaaaaaa_aaaa",
+      "sublabel": "NNNN aaaaa · NNN",
+      "stage": 2,
+      "row": 2
+    },
+    {
+      "id": "n09",
+      "type": "backend",
+      "label": "文文 aaa(aaa)",
+      "sublabel": "文 aaaaa，文文 N1/N1",
+      "stage": 3,
+      "row": 2
+    },
+    {
+      "id": "n10",
+      "type": "backend",
+      "label": "aaaaa aaaaaa()",
+      "sublabel": "文文文文文文文",
+      "stage": 2,
+      "row": 3
+    },
+    {
+      "id": "n11",
+      "type": "backend",
+      "label": "aaa(aaa,aaaaa,NNN)",
+      "sublabel": "文文 N1，文文文 N1",
+      "stage": 3,
+      "row": 3
+    },
+    {
+      "id": "n12",
+      "type": "backend",
+      "label": "文文文文 Naaaaa",
+      "sublabel": "aaa_aaaaaa；aaaaaaa 文文",
+      "stage": 4,
+      "row": 3
+    },
+    {
+      "id": "n13",
+      "type": "backend",
+      "label": "文文文文",
+      "sublabel": "aaa_aaaaaaaaa；aaaaaaa 文文",
+      "stage": 4,
+      "row": 4
+    },
+    {
+      "id": "n14",
+      "type": "backend",
+      "label": "aaaaaaa_aaaa",
+      "sublabel": "文文文文文文文文；aaaaaaa",
+      "stage": 3,
+      "row": 4
+    },
+    {
+      "id": "p0",
+      "type": "backend",
+      "label": "P0",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 480,
+      "height": 36
+    },
+    {
+      "id": "p1",
+      "type": "backend",
+      "label": "P1",
+      "stage": 0,
+      "row": 0,
+      "yOffset": 456,
+      "height": 36
+    },
+    {
+      "id": "p2",
+      "type": "backend",
+      "label": "P2",
+      "stage": 2,
+      "row": 0,
+      "yOffset": 456,
+      "height": 36
+    },
+    {
+      "id": "p3",
+      "type": "backend",
+      "label": "P3",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 434,
+      "height": 36
+    },
+    {
+      "id": "p4",
+      "type": "backend",
+      "label": "P4",
+      "stage": 0,
+      "row": 0,
+      "yOffset": 410,
+      "height": 36
+    },
+    {
+      "id": "p5",
+      "type": "backend",
+      "label": "P5",
+      "stage": 2,
+      "row": 0,
+      "yOffset": 410,
+      "height": 36
+    },
+    {
+      "id": "p6",
+      "type": "backend",
+      "label": "P6",
+      "stage": 3,
+      "row": 0,
+      "yOffset": 410,
+      "height": 36
+    },
+    {
+      "id": "p7",
+      "type": "backend",
+      "label": "P7",
+      "stage": 4,
+      "row": 0,
+      "yOffset": 410,
+      "height": 36
+    },
+    {
+      "id": "p8",
+      "type": "backend",
+      "label": "P8",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 388,
+      "height": 36
+    },
+    {
+      "id": "p9",
+      "type": "backend",
+      "label": "P9",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 342,
+      "height": 36
+    },
+    {
+      "id": "p10",
+      "type": "backend",
+      "label": "P10",
+      "stage": 0,
+      "row": 0,
+      "yOffset": 296,
+      "height": 36
+    },
+    {
+      "id": "p11",
+      "type": "backend",
+      "label": "P11",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 296,
+      "height": 36
+    },
+    {
+      "id": "p12",
+      "type": "backend",
+      "label": "P12",
+      "stage": 2,
+      "row": 0,
+      "yOffset": 296,
+      "height": 36
+    },
+    {
+      "id": "p13",
+      "type": "backend",
+      "label": "P13",
+      "stage": 3,
+      "row": 0,
+      "yOffset": 296,
+      "height": 36
+    },
+    {
+      "id": "p14",
+      "type": "backend",
+      "label": "P14",
+      "stage": 4,
+      "row": 0,
+      "yOffset": 252,
+      "height": 36
+    },
+    {
+      "id": "p15",
+      "type": "backend",
+      "label": "P15",
+      "stage": 4,
+      "row": 0,
+      "yOffset": 206,
+      "height": 36
+    },
+    {
+      "id": "p16",
+      "type": "backend",
+      "label": "P16",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 182,
+      "height": 36
+    },
+    {
+      "id": "p17",
+      "type": "backend",
+      "label": "P17",
+      "stage": 0,
+      "row": 0,
+      "yOffset": 160,
+      "height": 36
+    },
+    {
+      "id": "p18",
+      "type": "backend",
+      "label": "P18",
+      "stage": 2,
+      "row": 0,
+      "yOffset": 160,
+      "height": 36
+    },
+    {
+      "id": "p19",
+      "type": "backend",
+      "label": "P19",
+      "stage": 3,
+      "row": 0,
+      "yOffset": 160,
+      "height": 36
+    },
+    {
+      "id": "p20",
+      "type": "backend",
+      "label": "P20",
+      "stage": 4,
+      "row": 0,
+      "yOffset": 160,
+      "height": 36
+    },
+    {
+      "id": "p21",
+      "type": "backend",
+      "label": "P21",
+      "stage": 0,
+      "row": 0,
+      "yOffset": 114,
+      "height": 36
+    },
+    {
+      "id": "p22",
+      "type": "backend",
+      "label": "P22",
+      "stage": 2,
+      "row": 0,
+      "yOffset": 114,
+      "height": 36
+    },
+    {
+      "id": "p23",
+      "type": "backend",
+      "label": "P23",
+      "stage": 3,
+      "row": 0,
+      "yOffset": 114,
+      "height": 36
+    },
+    {
+      "id": "p24",
+      "type": "backend",
+      "label": "P24",
+      "stage": 4,
+      "row": 0,
+      "yOffset": 114,
+      "height": 36
+    },
+    {
+      "id": "p25",
+      "type": "backend",
+      "label": "P25",
+      "stage": 0,
+      "row": 0,
+      "yOffset": 68,
+      "height": 36
+    },
+    {
+      "id": "p26",
+      "type": "backend",
+      "label": "P26",
+      "stage": 1,
+      "row": 0,
+      "yOffset": 68,
+      "height": 36
+    },
+    {
+      "id": "p27",
+      "type": "backend",
+      "label": "P27",
+      "stage": 2,
+      "row": 0,
+      "yOffset": 68,
+      "height": 36
+    },
+    {
+      "id": "p28",
+      "type": "backend",
+      "label": "P28",
+      "stage": 3,
+      "row": 0,
+      "yOffset": 68,
+      "height": 36
+    },
+    {
+      "id": "p29",
+      "type": "backend",
+      "label": "P29",
+      "stage": 4,
+      "row": 0,
+      "yOffset": 68,
+      "height": 36
+    },
+    {
+      "id": "p30",
+      "type": "backend",
+      "label": "P30",
+      "stage": 3,
+      "row": 0,
+      "yOffset": 22,
+      "height": 36
+    },
+    {
+      "id": "p31",
+      "type": "backend",
+      "label": "P31",
+      "stage": 3,
+      "row": 0,
+      "yOffset": -24,
+      "height": 36
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "n00",
+      "to": "n01",
+      "label": "aaa",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f2",
+      "from": "n02",
+      "to": "n01",
+      "label": "N1 文文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f3",
+      "from": "n01",
+      "to": "n03",
+      "label": "N1 文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f4",
+      "from": "n03",
+      "to": "n01",
+      "label": "N1 文文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f5",
+      "from": "n01",
+      "to": "n02",
+      "label": "N1 文文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f6",
+      "from": "n01",
+      "to": "n04",
+      "label": "文文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f7",
+      "from": "n01",
+      "to": "n05",
+      "label": "文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f8",
+      "from": "n05",
+      "to": "n06",
+      "label": "文文 Naaaaa",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f9",
+      "from": "n05",
+      "to": "n07",
+      "label": "文文文 aaaaa",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f10",
+      "from": "n07",
+      "to": "n10",
+      "label": "文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f11",
+      "from": "n07",
+      "to": "n08",
+      "label": "文文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f12",
+      "from": "n08",
+      "to": "n10",
+      "label": "文文文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f13",
+      "from": "n08",
+      "to": "n09",
+      "label": "文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f14",
+      "from": "n09",
+      "to": "n01",
+      "label": "文文 aaa",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f15",
+      "from": "n01",
+      "to": "n09",
+      "label": "文文文文文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f16",
+      "from": "n09",
+      "to": "n12",
+      "label": "文文文文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f17",
+      "from": "n09",
+      "to": "n10",
+      "label": "文文文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f18",
+      "from": "n10",
+      "to": "n11",
+      "label": "aaaaaa 文文",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f19",
+      "from": "n11",
+      "to": "n02",
+      "label": "aaaaa · NNN",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f20",
+      "from": "n11",
+      "to": "n03",
+      "label": "N1 文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f21",
+      "from": "n11",
+      "to": "n12",
+      "label": "文文文 aaaaa",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f22",
+      "from": "n12",
+      "to": "n06",
+      "label": "文文 aaaaa",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f23",
+      "from": "n12",
+      "to": "n04",
+      "label": "aaaaa 文 aaaaa",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f24",
+      "from": "n06",
+      "to": "n04",
+      "label": "文文文文 aaaaa",
+      "variant": "default",
+      "classification": "文文文文文文"
+    },
+    {
+      "id": "f25",
+      "from": "n10",
+      "to": "n13",
+      "label": "aaaaaa 文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f26",
+      "from": "n11",
+      "to": "n13",
+      "label": "N1 文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f27",
+      "from": "n13",
+      "to": "n06",
+      "label": "文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "f28",
+      "from": "n08",
+      "to": "n14",
+      "label": "文文文文文文",
+      "variant": "dashed",
+      "classification": "文文文文"
+    },
+    {
+      "id": "pf0",
+      "from": "p5",
+      "to": "p6",
+      "label": "x"
+    }
+  ]
+}

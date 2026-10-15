@@ -956,6 +956,27 @@ for (const [name, target] of t2Faults) {
   }
   write(`fixtures/diagrams/${name}.workflow.expected.json`, receipt);
 }
+// TEST-004 failure receipts (survey-t004): committed t4-*.<type>.json inputs, never rewritten here. The test sees the whole diagnostic
+// (arrays compared by JSON.stringify), and the dataflow rows also pin the diagnostic count (49 with the > 80 guard, 40 at the boundary).
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const t4Faults = [   // [type, name, code, test(diagnostic), receipt.diagnostics.length]
+  ['workflow', 't4-retry-feedback', 'composition/ambiguous-corridor', (x) => same(x.evidence?.from, [481, 278]) && same(x.evidence?.to, [526, 278])],
+  ['workflow', 't4-interior-turn', PIN, (x) => x.evidence?.invariant === '16px interior turn clearance'],
+  ['workflow', 't4-viewbox-origin', PIN, (x) => x.subject?.path === '/meta/viewBox' && same(x.evidence?.contentBounds, [40, -21, 752, 218])],
+  ['dataflow', 't4-label-guard', 'layout/constraint', (x) => x.message.includes('Label "N1 文文文" overlaps node "n03"'), 49],
+  ['dataflow', 't4-label-guard-80', 'layout/constraint', () => true, 40],
+];
+for (const [type, name, code, test, count] of t4Faults) {
+  let receipt;
+  try {
+    execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), out(`fixtures/diagrams/${name}.${type}.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; receipt = JSON.parse(String(e.stderr)); }
+  if (!receipt) { fs.rmSync(out(`goldens/${name}.html`), { force: true }); throw new Error(`t4 fault ${name}: rendered, expected ${code}`); }
+  if (!receipt.diagnostics?.some((x) => x.code === code && test(x))) throw new Error(`t4 fault ${name}: expected ${code} with the named branch`);
+  if (count !== undefined && receipt.diagnostics.length !== count) throw new Error(`t4 fault ${name}: ${receipt.diagnostics.length} diagnostics, expected ${count}`);
+  write(`fixtures/diagrams/${name}.${type}.expected.json`, receipt);
+}
 // Phase-4 erd failure receipts: orders.erd.json with one edit each (agy's Node probe, plan review 2026-10-15). Upstream must FAIL with
 // every target [code, evidence.reason?] in its receipt or the script throws. entities: 0 customer, 5 payment (tag checkout).
 const erdFaults = [   // [name, targets, edit, env]
@@ -1494,7 +1515,7 @@ const relationJson = (flow) => ({ id: flow.id, from: flow.from, to: flow.to,
   pins: Object.fromEntries(PIN_KEYS.filter((k) => flow[k] !== undefined).map((k) => [k, flow[k]])) });
 const jointLabel = (rect) => ({ ...labelJson(rect), relation: relationJson(rect.relation) });
 const jointRows = [];
-for (const f of fs.readdirSync(out('fixtures/diagrams')).filter((f) => /\.dataflow\.json$/.test(f) && !f.includes('.evidence')).sort()) {   // evidence inputs: Task 6 goldens, not repair scenes
+for (const f of fs.readdirSync(out('fixtures/diagrams')).filter((f) => /\.dataflow\.json$/.test(f) && !f.includes('.evidence') && !f.startsWith('t4-')).sort()) {   // evidence inputs: Task 6 goldens, not repair scenes; t4-*: TEST-004 end-to-end receipts (80+ labels would add 6k lines of scene)
   const d = JSON.parse(fs.readFileSync(out(`fixtures/diagrams/${f}`), 'utf8'));
   const calls = [];
   globalThis.__jlr = (fn, args) => {

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow layout validation failed:\n- [composition/ambiguous-corridor] showcase workflow edges[2] id \"n2-n3\" \"n2\" -> \"n3\" shares a 45px corridor with edges[3] id \"n4-n5\" \"n4\" -> \"n5\" at [481, 278] -> [526, 278] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+  "diagnostics": [
+    {
+      "code": "composition/ambiguous-corridor",
+      "severity": "error",
+      "message": "[composition/ambiguous-corridor] showcase workflow edges[2] id \"n2-n3\" \"n2\" -> \"n3\" shares a 45px corridor with edges[3] id \"n4-n5\" \"n4\" -> \"n5\" at [481, 278] -> [526, 278] (segments 1 and 1; minimum 8px) — adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 2,
+        "id": "n2-n3",
+        "from": "n2",
+        "to": "n3"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 3,
+          "id": "n4-n5",
+          "from": "n4",
+          "to": "n5"
+        },
+        "overlapLengthPx": 45,
+        "minimumPx": 8,
+        "from": [
+          481,
+          278
+        ],
+        "to": [
+          526,
+          278
+        ],
+        "segmentIndex": 1,
+        "otherSegmentIndex": 1
+      },
+      "supportedFixes": [
+        "adjust route/via, bias, or channel coordinates so unrelated edges do not visually merge"
+      ]
+    }
+  ]
+}

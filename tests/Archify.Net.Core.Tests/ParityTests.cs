@@ -167,6 +167,8 @@ public class ParityTests
     [InlineData("df-node-below-area-raised")]
     [InlineData("df-duplicate-node")]
     [InlineData("df-pinned-crossing")]
+    [InlineData("t4-label-guard")]       // TEST-004: 81 counted elements, repairLabelRoutes' > 80 guard holds -> 49 diagnostics
+    [InlineData("t4-label-guard-80")]    // boundary control: 80 elements, the repair runs -> 40
     public void Dataflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.dataflow.json")));
@@ -228,6 +230,9 @@ public class ParityTests
     [InlineData("t2-preset-rhythm")]
     [InlineData("t2-xrep")]
     [InlineData("t2-prep")]
+    [InlineData("t4-retry-feedback")]    // TEST-004: route-order retry swallows WorkflowLayoutFeedback
+    [InlineData("t4-interior-turn")]
+    [InlineData("t4-viewbox-origin")]
     public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));

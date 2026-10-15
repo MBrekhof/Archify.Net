@@ -19,6 +19,10 @@ internal sealed partial class WorkflowCompilation
         if (workflow.DiagramType != "workflow") problems.Add($"Unsupported diagram_type \"{workflow.DiagramType ?? "undefined"}\". Expected \"workflow\".");
         if (!workflow.Meta["title"].Truthy()) problems.Add("Workflow files must include meta.title.");
         if (workflow.Lanes.Count == 0) problems.Add("Workflow files must include at least one lane.");
+        // Unreachable (TEST-004 survey; argued, not probed): every check above is a schema rule (schema_version enum, diagram_type const,
+        // meta.title required minLength 1, lanes minItems 1, array types) and validateSchema runs first (workflow-compiler.mjs:1388),
+        // returning compilerFailure before validateWorkflow (:1405-1410). canonicalReadableWorkflow (:1411) changes none of those fields.
+        // The later problem list throws at :3031 instead of this site (:2728).
         if (problems.Count > 0)
             throw ctx.Diagnostics.ThrowDiagnosticProblems("Workflow layout validation failed", problems, subject: new JsonObject { ["diagramType"] = "workflow" });
 

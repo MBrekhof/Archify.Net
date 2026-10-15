@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow geometry extends above or left of the viewBox origin (40, -21).",
+  "diagnostics": [
+    {
+      "code": "workflow/explicit-pin-conflict",
+      "severity": "error",
+      "message": "Workflow geometry extends above or left of the viewBox origin (40, -21).",
+      "subject": {
+        "diagramType": "workflow",
+        "path": "/meta/viewBox"
+      },
+      "evidence": {
+        "actualViewBox": [
+          768,
+          280
+        ],
+        "requiredViewBox": [
+          768,
+          280
+        ],
+        "contentBounds": [
+          40,
+          -21,
+          752,
+          218
+        ],
+        "contributors": [
+          "workflow lanes",
+          "edge ab label mask",
+          "workflow lanes and bottom padding"
+        ]
+      },
+      "supportedFixes": []
+    }
+  ]
+}

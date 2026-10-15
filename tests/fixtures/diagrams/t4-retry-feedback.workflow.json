@@ -1,0 +1,118 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Automatic route and text recovery",
+    "output": "output.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "intake",
+      "label": "字"
+    },
+    {
+      "id": "fetch",
+      "label": "字"
+    },
+    {
+      "id": "compute",
+      "label": "字"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n0",
+      "lane": "intake",
+      "col": 4,
+      "type": "backend",
+      "label": "④"
+    },
+    {
+      "id": "n1",
+      "lane": "fetch",
+      "col": 2,
+      "type": "backend",
+      "label": "⑤",
+      "yOffset": -50
+    },
+    {
+      "id": "n2",
+      "lane": "fetch",
+      "col": 4,
+      "type": "backend",
+      "label": "字",
+      "yOffset": -50
+    },
+    {
+      "id": "n3",
+      "lane": "fetch",
+      "col": 2,
+      "type": "backend",
+      "label": "⑥",
+      "yOffset": 50
+    },
+    {
+      "id": "n4",
+      "lane": "fetch",
+      "col": 3,
+      "type": "backend",
+      "label": "⑦",
+      "yOffset": -50
+    },
+    {
+      "id": "n5",
+      "lane": "fetch",
+      "col": 5,
+      "type": "backend",
+      "label": "⑧",
+      "yOffset": 50
+    },
+    {
+      "id": "n6",
+      "lane": "compute",
+      "col": 4,
+      "type": "backend",
+      "label": "⑨"
+    },
+    {
+      "id": "n9",
+      "lane": "fetch",
+      "col": 4,
+      "type": "backend",
+      "label": "X",
+      "yOffset": 50
+    }
+  ],
+  "edges": [
+    {
+      "id": "n0-n1",
+      "from": "n0",
+      "to": "n1",
+      "label": "Yes",
+      "fromSide": "bottom",
+      "toSide": "left"
+    },
+    {
+      "id": "n1-n2",
+      "from": "n1",
+      "to": "n2",
+      "label": "字字字字"
+    },
+    {
+      "id": "n2-n3",
+      "from": "n2",
+      "to": "n3"
+    },
+    {
+      "id": "n4-n5",
+      "from": "n4",
+      "to": "n5"
+    },
+    {
+      "id": "n9-n6",
+      "from": "n9",
+      "to": "n6"
+    }
+  ]
+}

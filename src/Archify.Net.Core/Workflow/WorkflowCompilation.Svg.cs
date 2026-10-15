@@ -93,6 +93,10 @@ internal sealed partial class WorkflowCompilation
         var (bounds, required) = MeasuredPlanFootprint();
         requiredViewBox = required;
         var outsideOrigin = bounds.Left < 0 || bounds.Top < 0;
+        // Only the explicit-pin-conflict arm is reachable (t4-viewbox-origin: a relative labelDy on a pinned edge, which the pinned checks
+        // :2424-2458 skip). The solver-budget-exhausted arm (workflow-compiler.mjs:5266) was not found: automatic and preset candidates
+        // must pass routeFitsCanvasOrigin (:3681) on points and label rect, |yOffset| grows the lanes (:557-558), phases sit at y=27.
+        // Not proven; an unpinned labelDy -1000 fails in the router instead.
         if (outsideOrigin)
         {
             var hasAbsolutePins = HasAbsoluteWorkflowPins(workflow);

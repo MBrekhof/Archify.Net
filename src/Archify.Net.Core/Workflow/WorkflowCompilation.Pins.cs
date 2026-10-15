@@ -751,6 +751,11 @@ internal sealed partial class WorkflowCompilation
                 return ReadableAutomaticVia(edge, from, to, start, end, fromSide, toSide);
         }
         var points = Geometry.JoinRoutePoints(start, via, end);
+        // This success branch (workflow-compiler.mjs:4241-4244) is unreachable: argued and probed (38 fallback calls), not exhaustively proven.
+        // Only two callers exist. routeVia (:4322, guarded by `if (edge.via)` at :4315) is dead for v2: a non-auto preset edge without pins
+        // is a controlled route, so readableControlledRoute returns a plan and :5117 is never reached. The fallback (:5038-5056, call :5040-5048)
+        // runs only when no candidate passed the filters (:5002 feasible, :5003-5008 preset family, :5009-5011 channel pins) and recomputes
+        // the failed candidate's points: joinRoutePoints applies the same accept rule as normalizeRoutePoints (geometry.mjs:1332-1349 vs :1351-1371).
         if (ReadableCandidateIsFeasible(edge, points, from, to, fromSide, toSide) && RouteMatchesPresetFamily(preset, points, from, to)) return points[1..^1];
         var rejection = ReadablePresetRejection(edge, points, from, to, fromSide, toSide);
         var obstacle = rejection["obstacleNode"].Truthy()
@@ -855,7 +860,7 @@ internal sealed partial class WorkflowCompilation
         // alternative search) when exhaustive side inference found no valid plan.
         var fallback = materializedCandidates.FirstOrDefault();
         if (fallback is null) return null;
-        // The success branch of ReadablePresetVia is unreachable here: this fallback recomputes geometry that already failed (Task 10 report), so no fixture exists for it.
+        // The success branch of ReadablePresetVia is unreachable here: this fallback recomputes geometry that already failed (Task 10 report), so no fixture exists for it (argument at the success branch, ReadablePresetVia, TEST-004).
         var fallbackVia = ReadablePresetVia(edge, from, to, fallback.Points[0], fallback.Points[^1], fallback.FromSide, fallback.ToSide);
         return new Plan { Points = Geometry.NormalizeRoutePoints([fallback.Points[0], .. fallbackVia, fallback.Points[^1]]), FromSide = fallback.FromSide, ToSide = fallback.ToSide };
     }
