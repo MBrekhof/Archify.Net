@@ -491,6 +491,11 @@ internal sealed partial class PathSemantics(IPathFs fs)
     // the same entry.
     static string SidecarCaseKey(string component) => Js.ToLowerCase(ToLocaleUpper(component));
 
+    // portableSidecarComponentKey (visual-check.mjs:164-170): the collision envelope of a target directory that cannot be probed yet,
+    // with V8's full uppercasing (ß → SS), since the key decides a sidecar name rather than a probe.
+    internal static string PortableSidecarComponentKey(string component) =>
+        Normalize(Js.ToLowerCase(Js.ToUpperCase(Normalize(component, NormalizationForm.FormC))), NormalizationForm.FormC);
+
     (string? Component, PathRelation? Failure) TransformSidecarComponent(string directoryPath, string component, Func<string, string> transform, string phase)
     {
         var comparisons = new Dictionary<(string, string), PathRelation>();

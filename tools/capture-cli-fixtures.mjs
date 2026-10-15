@@ -643,4 +643,252 @@ const ntfsTable = ntfsNames.map((name) => {
 expect(fs.readdirSync(ntfsDir).length === 0, 'namespace probes leave no residue');
 writeJson(`${CLI_FIX}/paths/ntfs-sidecar-names.json`, ntfsTable);
 
-console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, three path tables, and upstream/recipes/scenarios.json`);
+// --- browser engine (Task 10): runBrowserCheck / runVisualCheck / persist*Failure driven by T/visual-check.test.mjs's fakeBrowser ---
+// The fake is declarative here so the C# test reads the same configuration from the fixture: viewport keys are `WxH:theme`.
+// A fixture is {scenario, exit, launched, calls, receipt (the returned receipt, indent 2), sidecar (the receipt file or null),
+// contactSheet (or null), summary (one line), entries (the workdir after the run)}, the workdir tokenised as <WORK>.
+const visualCheck = await import(pathToFileURL(path.join(SKILL, 'bin/visual-check.mjs')).href);
+const PNG = Buffer.from('89504e470d0a1a0a', 'hex');
+const ARTIFACT_TEXT = '<!doctype html><html><body>checked artifact</body></html>';
+function engineBrowser(config = {}, calls = []) {
+  const at = (list, k) => (config[list] || []).includes(k);
+  return {
+    calls,
+    async inspect({ width, height, theme, screenshotPath, writeScreenshot }) {
+      const k = `${width}x${height}:${theme}`;
+      calls.push({ width, height, theme, screenshot: Boolean(screenshotPath) });
+      if (screenshotPath && at('screenshotFailure', k)) throw new Error('synthetic screenshot failure');
+      if (screenshotPath) writeScreenshot(PNG);
+      const overflow = at('overflow', k);
+      const tall = at('tall', k);
+      const readableScroll = at('readableScroll', k);
+      const authoredScroll = at('authoredScroll', k);
+      const unreadable = at('unreadable', k);
+      const chromeCollision = at('chromeCollision', k);
+      const stageCollision = at('stageCollision', k);
+      const dockStageGap = config.stageGap?.[k] ?? (stageCollision ? -12 : 10);
+      const stageClearanceFailure = stageCollision || dockStageGap < 10;
+      const automaticReaderFit = 'automaticReaderFit' in config ? config.automaticReaderFit : 'intrinsic-height';
+      const authoredDiagramType = 'authoredDiagramType' in config ? config.authoredDiagramType : 'architecture';
+      const authoredUnclipped = config.authoredUnclipped ?? true;
+      const metrics = {
+        innerWidth: width,
+        innerHeight: height,
+        scrollWidth: width + (overflow ? 1 : 0),
+        scrollHeight: height + (readableScroll || authoredScroll ? 240 : 0) + (tall ? 300 : 0),
+        resolvedTheme: config.resolvedTheme?.[k] ?? theme,
+        ...(tall ? {
+          pageComposition: { bodyPaddingPx: 12, headerPx: 100, diagramChromePx: 76, svgPx: 800, cardsPx: 212, viewBoxHeight: 1000 },
+        } : {}),
+        readerLayout: readableScroll ? 'adaptive' : null,
+        readerOverflow: readableScroll ? 'authored' : null,
+        readerFit: readableScroll ? automaticReaderFit : authoredScroll ? 'authored-height' : null,
+        diagramType: authoredScroll ? authoredDiagramType : null,
+        documentScrollUnclipped: authoredScroll && authoredUnclipped,
+        readerWidth: 960,
+        diagramWidth: 930,
+        viewBoxWidth: 1300,
+        minimumProjectedNodeTextPx: unreadable ? 5.72 : 6.44,
+        minimumProjectedNodeText: unreadable ? 'Compact node' : 'Readable node',
+        minimumProjectedNodeTextDetail: unreadable ? 'primary' : 'context',
+        hasLegend: true,
+        hasNavigationDock: true,
+        legendDockIntersectionArea: chromeCollision ? 42 : 0,
+        dockStageIntersectionArea: stageCollision ? 84 : 0,
+        dockStageGap,
+        viewerChromeRequiredGap: 10,
+        viewerChromeReserve: chromeCollision || stageClearanceFailure ? 0 : 44,
+        viewerChromeActive: !chromeCollision && !stageClearanceFailure,
+      };
+      // T/visual-check.test.mjs:3033-3054 wraps inspect the same way.
+      if (config.scrollHeightOver != null) metrics.scrollHeight = height + config.scrollHeightOver;
+      if (config.scrollWidthOver != null) metrics.scrollWidth = width + config.scrollWidthOver;
+      if (config.lanes) metrics.workflowLanes = config.lanes;
+      return metrics;
+    },
+    async close() {
+      if (config.closeFails) {
+        throw Object.assign(new Error('Temporary directory cleanup failed: locked'), { code: 'ARCHIFY_TEMP_CLEANUP', directory: '/retained/profile' });
+      }
+    },
+  };
+}
+// A full diagnostic, as verifyDeliveryUnchanged would raise one (the C# carrier needs every field).
+const engineDiagnostic = (code) => ({
+  code, severity: 'error', message: `synthetic ${code}`, subject: { artifact: 'synthetic' }, evidence: { synthetic: true }, supportedFixes: ['synthetic fix'],
+});
+const passing = { browser: 'fake' };
+const at1440 = ['1440x900:light'];
+const lanes = [{ frameId: 'lane-0', heightPx: 720, nodeCount: 12, nodeIds: ['wait', 'cancel'], nodeSpanPx: 480, spaceAboveNodesPx: 180, spaceBelowNodesPx: 60 }];
+const persistFailure = { schemaVersion: 1, command: 'visual-check', artifact: { path: '<WORK>\\diagram.html' }, error: 'delivery failed', diagnostics: [engineDiagnostic('delivery/provenance-failed')] };
+const engineScenarios = {
+  // T:3112, T:3139, T:3160-3182, T:2992 (both commands)
+  'browser-check-pass': { command: 'browser-check' },
+  'browser-check-provenance-pass': { command: 'browser-check', provenance: { status: 'current', receiptId: 'delivery-receipt-123' } },
+  'browser-check-theme-mismatch': { command: 'browser-check', fake: { resolvedTheme: { '1440x900:dark': 'light', '2048x1320:dark': 'light' } } },
+  'browser-check-intermediate-theme-1600': { command: 'browser-check', fake: { resolvedTheme: { '1600x1000:light': 'dark' } } },
+  'browser-check-skipped': { command: 'browser-check', browser: 'unavailable' },
+  'browser-check-rerun': { command: 'browser-check', before: [{ pass: true }] },
+  'browser-check-launch-error': { command: 'browser-check', browser: 'launch-error' },
+  'browser-check-startup-timeout': { command: 'browser-check', browser: 'startup-timeout' },
+  'browser-check-unowned-receipt': { command: 'browser-check', before: [{ write: 'diagram.browser-check.json', text: 'external receipt claimant\n' }] },
+  'browser-check-persist': { command: 'browser-check', persist: { ...persistFailure, command: 'browser-check', ok: false, evidenceKind: 'automated-browser', status: 'fail', visualReview: 'not-requested', provenance: 'mismatch' } },
+  // T:323, T:768 (--out-dir end to end)
+  'visual-check-pass': { command: 'visual-check', provenance: { status: 'current', receiptId: 'delivery-receipt-123' } },
+  'visual-check-out-dir': { command: 'visual-check', outDir: 'outdir-e2e-evidence' },
+  'visual-check-intermediate-theme-1920': { command: 'visual-check', fake: { resolvedTheme: { '1920x1080:light': 'dark' } } },
+  // T:2615-2962: overflow, vertical budget, Reader scroll, readability, Dock
+  'visual-check-overflow': { command: 'visual-check', fake: { overflow: ['1600x1000:light'] } },
+  'visual-check-tall': { command: 'visual-check', fake: { tall: ['1440x900:light', '1440x900:dark'] } },
+  'visual-check-readable-intrinsic-height': { command: 'visual-check', fake: { readableScroll: at1440 } },
+  'visual-check-readable-width-first': { command: 'visual-check', fake: { readableScroll: at1440, automaticReaderFit: 'width-first' } },
+  'visual-check-readable-null': { command: 'visual-check', fake: { readableScroll: at1440, automaticReaderFit: null } },
+  'visual-check-readable-unknown': { command: 'visual-check', fake: { readableScroll: at1440, automaticReaderFit: 'unknown' } },
+  'visual-check-readable-horizontal': { command: 'visual-check', fake: { readableScroll: at1440, overflow: at1440 } },
+  'visual-check-readable-unreadable': { command: 'visual-check', fake: { readableScroll: at1440, unreadable: at1440 } },
+  'visual-check-unreadable': { command: 'visual-check', fake: { unreadable: at1440 } },
+  'visual-check-chrome-collision': { command: 'visual-check', fake: { chromeCollision: ['1920x1080:light'] } },
+  'visual-check-stage-collision': { command: 'visual-check', fake: { stageCollision: ['1920x1080:light'] } },
+  'visual-check-stage-low-gap': { command: 'visual-check', fake: { stageGap: { '1920x1080:light': 5 } } },
+  // T:2963 (screenshot failure discards the previous captures), T:2992, T:3010
+  'visual-check-screenshot-failure': { command: 'visual-check', before: [{ pass: true }], fake: { screenshotFailure: ['1440x900:dark', '2048x1320:dark'] } },
+  'visual-check-skipped': { command: 'visual-check', browser: 'unavailable' },
+  'visual-check-skipped-rerun': { command: 'visual-check', before: [{ pass: true }], browser: 'unavailable' },
+  // T:3033
+  'visual-check-lanes-vertical': { command: 'visual-check', fake: { scrollHeightOver: 599, lanes } },
+  'visual-check-lanes-horizontal': { command: 'visual-check', fake: { scrollWidthOver: 1, lanes } },
+  // T:3185
+  'visual-check-authored-readable': { command: 'visual-check', fake: { authoredScroll: at1440 } },
+  'visual-check-authored-workflow': { command: 'visual-check', fake: { authoredScroll: at1440, authoredDiagramType: 'workflow' } },
+  'visual-check-authored-missing-mode': { command: 'visual-check', fake: { authoredScroll: at1440, authoredDiagramType: null } },
+  'visual-check-authored-clipped': { command: 'visual-check', fake: { authoredScroll: at1440, authoredUnclipped: false } },
+  'visual-check-authored-unreadable': { command: 'visual-check', fake: { authoredScroll: at1440, unreadable: at1440 } },
+  'visual-check-authored-horizontal': { command: 'visual-check', fake: { authoredScroll: at1440, overflow: at1440 } },
+  // T:3209
+  'visual-check-cleanup-failure': { command: 'visual-check', fake: { closeFails: true } },
+  // T:2700, T:2737, T:2763 (delivery re-verification before and after the browser; a screenshot-path claimant)
+  'visual-check-verify-before': { command: 'visual-check', outDir: 'changed-before-browser-evidence', before: [{ pass: true }], verify: { failOnCall: 1, status: 'mismatch', code: 'delivery/provenance-mismatch' } },
+  'visual-check-verify-after': { command: 'visual-check', provenance: { status: 'current', receiptId: 'previous-receipt' }, verify: { failOnCall: 2, status: 'failed', code: 'delivery/provenance-failed' } },
+  'visual-check-verify-claimant': { command: 'visual-check', provenance: { status: 'current', receiptId: 'previous-receipt' }, verify: { failOnCall: 2, status: 'failed', code: 'delivery/provenance-failed', claimScreenshot: true } },
+  // T:2752 (failure persistence refuses an unowned non-file evidence path), plain persistence, ownership refusals at preflight
+  'visual-check-persist': { command: 'visual-check', persist: persistFailure },
+  'visual-check-persist-unowned-directory': { command: 'visual-check', before: [{ mkdir: 'diagram.visual-check.1440x900.light.png' }], persist: persistFailure },
+  'visual-check-stray-capture': { command: 'visual-check', before: [{ write: 'diagram.visual-check.1440x900.light.png', text: 'stray\n' }] },
+  'visual-check-artifact-changed': { command: 'visual-check', before: [{ pass: true }, { write: 'diagram.html', text: `${ARTIFACT_TEXT}\n` }] },
+  'visual-check-foreign-schema': { command: 'visual-check', before: [{ write: 'diagram.visual-check.json', text: '{"schemaVersion":2,"command":"visual-check"}\n' }] },
+  'visual-check-tampered-capture': { command: 'visual-check', before: [{ pass: true }, { write: 'diagram.visual-check.2048x1320.dark.png', text: 'tampered\n' }] },
+  'visual-check-missing-capture': { command: 'visual-check', before: [{ pass: true }, { delete: 'diagram.visual-check.1440x900.dark.png' }] },
+};
+const untoken = (value, work) => JSON.parse(JSON.stringify(value).replaceAll('<WORK>', escaped(work)));
+let engineCount = 0;
+for (const [name, scenario] of Object.entries(engineScenarios)) {
+  const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
+  try {
+    const artifact = path.join(work, 'diagram.html');
+    fs.writeFileSync(artifact, ARTIFACT_TEXT);
+    const outDir = scenario.outDir ? path.join(work, scenario.outDir) : undefined;
+    const browserCheck = scenario.command === 'browser-check';
+    const run = browserCheck ? visualCheck.runBrowserCheck : visualCheck.runVisualCheck;
+    const outputs = (browserCheck ? visualCheck.browserCheckSidecarPaths : visualCheck.sidecarPaths)(artifact, { outDir });
+    for (const step of scenario.before ?? []) {
+      if (step.pass) {
+        const previous = await run({ artifactPath: artifact, outDir, chromePath: '/fake/chrome', browserFactory: async () => engineBrowser() });
+        expect(previous.exitCode === 0, `${name}: the earlier run passes`);
+      } else if (step.write) fs.writeFileSync(path.join(work, step.write), step.text);
+      else if (step.mkdir) fs.mkdirSync(path.join(work, step.mkdir));
+      else if (step.delete) fs.rmSync(path.join(work, step.delete));
+    }
+    const calls = [];
+    let launched = false;
+    let verifications = 0;
+    let result;
+    if (scenario.persist) {
+      const persist = browserCheck ? visualCheck.persistBrowserCheckFailure : visualCheck.persistVisualCheckFailure;
+      result = { exitCode: 1, receipt: persist(artifact, untoken(scenario.persist, work), { outDir }) };
+    } else {
+      const { verify } = scenario;
+      result = await run({
+        artifactPath: artifact,
+        outDir,
+        ...(scenario.provenance ? { deliveryProvenance: scenario.provenance } : {}),
+        ...(scenario.browser === 'unavailable' ? { resolveChrome: () => null } : { chromePath: '/fake/chrome' }),
+        browserFactory: async () => {
+          launched = true;
+          if (scenario.browser === 'launch-error') throw new Error('synthetic launch failure');
+          if (scenario.browser === 'startup-timeout') {
+            throw Object.assign(new Error('synthetic startup timeout'), { code: 'ERR_CHROME_CDP_TIMEOUT', method: 'Target.getTargets' });
+          }
+          return engineBrowser(scenario.fake, calls);
+        },
+        ...(verify ? {
+          verifyArtifact: (bytes) => {
+            expect(bytes.toString('utf8') === ARTIFACT_TEXT, `${name}: verifyArtifact gets the captured bytes`);
+            verifications += 1;
+            if (verifications !== verify.failOnCall) return;
+            if (verify.claimScreenshot) fs.mkdirSync(outputs.screenshots[0].path);
+            throw Object.assign(new Error(`synthetic ${verify.status} delivery`), {
+              deliveryProvenance: { status: verify.status }, archifyDiagnostics: [engineDiagnostic(verify.code)],
+            });
+          },
+        } : {}),
+      });
+    }
+    const read = (file) => (file && fs.existsSync(file) && fs.statSync(file).isFile() ? tokenise(fs.readFileSync(file, 'utf8'), work) : null);
+    writeJson(`${CLI_FIX}/browser-engine/${name}.json`, {
+      scenario,
+      exit: result.exitCode,
+      launched,
+      calls,
+      receipt: tokenise(`${JSON.stringify(result.receipt, null, 2)}\n`, work),
+      sidecar: read(outputs.receipt),
+      contactSheet: browserCheck ? null : read(outputs.contactSheet),
+      summary: tokenise(JSON.stringify(visualCheck.summarizeBrowserEvidence(result.receipt)), work),
+      entries: walk(work).sort(),
+    });
+    engineCount += 1;
+  } finally {
+    fs.rmSync(work, { recursive: true, force: true });
+  }
+}
+
+// evidenceSidecarPaths (VC:190-241) on real directories of this volume: beside the artifact, an existing --out-dir and a missing
+// one (which path calculation must not create). `pathHashed` marks a name whose --out-dir alias guard hashed the artifact's
+// absolute path into it, so only its shape is portable.
+const sidecarWork = fs.mkdtempSync(path.join(tmpRoot, 'sidecars-'));
+fs.mkdirSync(path.join(sidecarWork, 'source'));
+fs.mkdirSync(path.join(sidecarWork, 'evidence'));
+const evidenceNames = ['outdir-source.html', 'WebApp.HTML', 'report.htm', 'Ünïcode Straße.html', 'Ünïcode Straße.html'.normalize('NFD'),
+  `${'L'.repeat(240)}.html`, `${'界'.repeat(80)}.html`];
+const evidenceTable = [];
+for (const name of evidenceNames) {
+  const file = path.join(sidecarWork, 'source', name);
+  fs.writeFileSync(file, '<!doctype html>', { flag: 'wx' });
+  try {
+    for (const command of ['browser-check', 'visual-check']) {
+      const calculate = command === 'browser-check' ? visualCheck.browserCheckSidecarPaths : visualCheck.sidecarPaths;
+      const beside = calculate(file);
+      for (const outDir of [null, 'evidence', 'missing\\deeper']) {
+        const outputs = outDir ? calculate(file, { outDir: path.join(sidecarWork, outDir) }) : beside;
+        expect(!fs.existsSync(path.join(sidecarWork, 'missing')), 'path calculation creates no directory');
+        const pathHashed = Boolean(outDir) && path.basename(outputs.receipt) !== path.basename(beside.receipt);
+        // The hash of a path-hashed name covers this run's temp directory: masked, so the table is deterministic.
+        const name_ = (file) => (pathHashed ? path.basename(file).replace(/\.~archify-[0-9a-f]{64}\./u, '.~archify-<hash>.') : path.basename(file));
+        evidenceTable.push({
+          name, command, outDir,
+          directory: tokenise(path.dirname(outputs.receipt), sidecarWork).replace('<WORK>', '<DIR>'),
+          receipt: name_(outputs.receipt),
+          contactSheet: name_(outputs.contactSheet),
+          screenshots: outputs.screenshots.map((entry) => name_(entry.path)),
+          pathHashed,
+        });
+      }
+    }
+  } finally {
+    fs.unlinkSync(file);
+  }
+}
+expect(evidenceTable.some((row) => row.pathHashed) && evidenceTable.some((row) => row.outDir && !row.pathHashed), 'both kinds of --out-dir name');
+expect(evidenceTable.every((row) => row.pathHashed === row.receipt.includes('<hash>')), 'exactly the path-hashed names are masked');
+writeJson(`${CLI_FIX}/paths/evidence-sidecar-names.json`, evidenceTable);
+
+console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, ${engineCount} browser-engine cases, four path tables, and upstream/recipes/scenarios.json`);

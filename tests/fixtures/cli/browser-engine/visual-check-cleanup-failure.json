@@ -1,0 +1,56 @@
+{
+  "scenario": {
+    "command": "visual-check",
+    "fake": {
+      "closeFails": true
+    }
+  },
+  "exit": 1,
+  "launched": true,
+  "calls": [
+    {
+      "width": 1440,
+      "height": 900,
+      "theme": "light",
+      "screenshot": true
+    },
+    {
+      "width": 1600,
+      "height": 1000,
+      "theme": "light",
+      "screenshot": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "theme": "light",
+      "screenshot": false
+    },
+    {
+      "width": 2048,
+      "height": 1320,
+      "theme": "light",
+      "screenshot": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "theme": "dark",
+      "screenshot": true
+    },
+    {
+      "width": 2048,
+      "height": 1320,
+      "theme": "dark",
+      "screenshot": true
+    }
+  ],
+  "receipt": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"pending\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"state\": {\n    \"detail\": \"read\",\n    \"motion\": \"still\"\n  },\n  \"chrome\": {\n    \"status\": \"available\",\n    \"executable\": \"/fake/chrome\"\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/temp-cleanup-incomplete\",\n      \"severity\": \"error\",\n      \"message\": \"Browser cleanup could not safely finish; inspect the reported retained path.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\diagram.html\"\n      },\n      \"evidence\": {\n        \"reason\": \"Temporary directory cleanup failed: locked\",\n        \"retainedDirectory\": \"/retained/profile\"\n      },\n      \"supportedFixes\": [\n        \"resolve the reported process or filesystem failure; verify directory ownership before manual cleanup\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"themeStates\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"readability\": {\n    \"status\": \"fail\",\n    \"minimumProjectedNodeTextPx\": 6,\n    \"viewports\": []\n  },\n  \"viewerChrome\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"diagram.visual-check.json\",\n    \"contactSheet\": \"diagram.visual-check.html\",\n    \"files\": []\n  },\n  \"error\": \"Temporary directory cleanup failed: locked\"\n}\n",
+  "sidecar": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"pending\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"state\": {\n    \"detail\": \"read\",\n    \"motion\": \"still\"\n  },\n  \"chrome\": {\n    \"status\": \"available\",\n    \"executable\": \"/fake/chrome\"\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"viewer/temp-cleanup-incomplete\",\n      \"severity\": \"error\",\n      \"message\": \"Browser cleanup could not safely finish; inspect the reported retained path.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\diagram.html\"\n      },\n      \"evidence\": {\n        \"reason\": \"Temporary directory cleanup failed: locked\",\n        \"retainedDirectory\": \"/retained/profile\"\n      },\n      \"supportedFixes\": [\n        \"resolve the reported process or filesystem failure; verify directory ownership before manual cleanup\"\n      ]\n    }\n  ],\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"themeStates\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"readability\": {\n    \"status\": \"fail\",\n    \"minimumProjectedNodeTextPx\": 6,\n    \"viewports\": []\n  },\n  \"viewerChrome\": {\n    \"status\": \"fail\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"diagram.visual-check.json\",\n    \"contactSheet\": \"diagram.visual-check.html\",\n    \"files\": []\n  },\n  \"error\": \"Temporary directory cleanup failed: locked\"\n}\n",
+  "contactSheet": null,
+  "summary": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"ok\":false,\"status\":\"fail\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"pending\",\"artifact\":{\"path\":\"<WORK>\\\\diagram.html\",\"sha256\":\"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\"bytes\":57},\"state\":{\"detail\":\"read\",\"motion\":\"still\"},\"chrome\":{\"status\":\"available\",\"executable\":\"/fake/chrome\"},\"checks\":{\"containment\":\"fail\",\"readability\":\"fail\",\"viewerChrome\":\"fail\",\"themeStates\":\"fail\",\"captures\":\"fail\"},\"error\":\"Temporary directory cleanup failed: locked\",\"diagnostics\":[{\"code\":\"viewer/temp-cleanup-incomplete\",\"severity\":\"error\",\"message\":\"Browser cleanup could not safely finish; inspect the reported retained path.\",\"subject\":{\"artifact\":\"<WORK>\\\\diagram.html\"},\"evidence\":{\"reason\":\"Temporary directory cleanup failed: locked\",\"retainedDirectory\":\"/retained/profile\"},\"supportedFixes\":[\"resolve the reported process or filesystem failure; verify directory ownership before manual cleanup\"]}],\"evidence\":{\"receipt\":\"<WORK>\\\\diagram.visual-check.json\",\"screenshots\":[]}}",
+  "entries": [
+    "diagram.html",
+    "diagram.visual-check.json"
+  ]
+}

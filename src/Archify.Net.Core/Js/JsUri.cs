@@ -86,6 +86,43 @@ public static partial class Js
         }
         return sb.ToString();
     }
+
+    // ponytail: V8 parity — toUpperCase (and toLocaleUpperCase('en-US'), identical for every code point): simple mappings plus
+    // SpecialCasing's 102 unconditional expansions (ß → SS, ligatures, Greek with ypogegrammeni), the table printed by Node v24.
+    // Ceiling: about 28 code points added in Unicode 16 (Garay and others) that .NET's simple case tables do not map yet.
+    public static string ToUpperCase(string s)
+    {
+        var sb = new StringBuilder(s.Length);
+        for (var i = 0; i < s.Length; i++)
+        {
+            var c = s[i];
+            if (c < 0x80) { sb.Append(char.ToUpperInvariant(c)); continue; }
+            if (UpperExpansions.TryGetValue(c, out var expansion)) { sb.Append(expansion); continue; }
+            if (Rune.TryGetRuneAt(s, i, out var r)) { sb.Append(Rune.ToUpperInvariant(r).ToString()); i += r.Utf16SequenceLength - 1; }
+            else sb.Append(c);   // lone surrogate: unchanged
+        }
+        return sb.ToString();
+    }
+    static readonly Dictionary<char, string> UpperExpansions = new()
+    {
+        ['ß'] = "SS", ['ŉ'] = "ʼN", ['ǰ'] = "J̌", ['ΐ'] = "Ϊ́", ['ΰ'] = "Ϋ́", ['և'] = "ԵՒ",
+        ['ẖ'] = "H̱", ['ẗ'] = "T̈", ['ẘ'] = "W̊", ['ẙ'] = "Y̊", ['ẚ'] = "Aʾ", ['ὐ'] = "Υ̓",
+        ['ὒ'] = "Υ̓̀", ['ὔ'] = "Υ̓́", ['ὖ'] = "Υ̓͂", ['ᾀ'] = "ἈΙ", ['ᾁ'] = "ἉΙ", ['ᾂ'] = "ἊΙ",
+        ['ᾃ'] = "ἋΙ", ['ᾄ'] = "ἌΙ", ['ᾅ'] = "ἍΙ", ['ᾆ'] = "ἎΙ", ['ᾇ'] = "ἏΙ", ['ᾈ'] = "ἈΙ",
+        ['ᾉ'] = "ἉΙ", ['ᾊ'] = "ἊΙ", ['ᾋ'] = "ἋΙ", ['ᾌ'] = "ἌΙ", ['ᾍ'] = "ἍΙ", ['ᾎ'] = "ἎΙ",
+        ['ᾏ'] = "ἏΙ", ['ᾐ'] = "ἨΙ", ['ᾑ'] = "ἩΙ", ['ᾒ'] = "ἪΙ", ['ᾓ'] = "ἫΙ", ['ᾔ'] = "ἬΙ",
+        ['ᾕ'] = "ἭΙ", ['ᾖ'] = "ἮΙ", ['ᾗ'] = "ἯΙ", ['ᾘ'] = "ἨΙ", ['ᾙ'] = "ἩΙ", ['ᾚ'] = "ἪΙ",
+        ['ᾛ'] = "ἫΙ", ['ᾜ'] = "ἬΙ", ['ᾝ'] = "ἭΙ", ['ᾞ'] = "ἮΙ", ['ᾟ'] = "ἯΙ", ['ᾠ'] = "ὨΙ",
+        ['ᾡ'] = "ὩΙ", ['ᾢ'] = "ὪΙ", ['ᾣ'] = "ὫΙ", ['ᾤ'] = "ὬΙ", ['ᾥ'] = "ὭΙ", ['ᾦ'] = "ὮΙ",
+        ['ᾧ'] = "ὯΙ", ['ᾨ'] = "ὨΙ", ['ᾩ'] = "ὩΙ", ['ᾪ'] = "ὪΙ", ['ᾫ'] = "ὫΙ", ['ᾬ'] = "ὬΙ",
+        ['ᾭ'] = "ὭΙ", ['ᾮ'] = "ὮΙ", ['ᾯ'] = "ὯΙ", ['ᾲ'] = "ᾺΙ", ['ᾳ'] = "ΑΙ", ['ᾴ'] = "ΆΙ",
+        ['ᾶ'] = "Α͂", ['ᾷ'] = "Α͂Ι", ['ᾼ'] = "ΑΙ", ['ῂ'] = "ῊΙ", ['ῃ'] = "ΗΙ", ['ῄ'] = "ΉΙ",
+        ['ῆ'] = "Η͂", ['ῇ'] = "Η͂Ι", ['ῌ'] = "ΗΙ", ['ῒ'] = "Ϊ̀", ['ΐ'] = "Ϊ́", ['ῖ'] = "Ι͂",
+        ['ῗ'] = "Ϊ͂", ['ῢ'] = "Ϋ̀", ['ΰ'] = "Ϋ́", ['ῤ'] = "Ρ̓", ['ῦ'] = "Υ͂", ['ῧ'] = "Ϋ͂",
+        ['ῲ'] = "ῺΙ", ['ῳ'] = "ΩΙ", ['ῴ'] = "ΏΙ", ['ῶ'] = "Ω͂", ['ῷ'] = "Ω͂Ι", ['ῼ'] = "ΩΙ",
+        ['ﬀ'] = "FF", ['ﬁ'] = "FI", ['ﬂ'] = "FL", ['ﬃ'] = "FFI", ['ﬄ'] = "FFL", ['ﬅ'] = "ST",
+        ['ﬆ'] = "ST", ['ﬓ'] = "ՄՆ", ['ﬔ'] = "ՄԵ", ['ﬕ'] = "ՄԻ", ['ﬖ'] = "ՎՆ", ['ﬗ'] = "ՄԽ",
+    };
     static bool IsFinalSigma(string s, int at)
     {
         var before = false;

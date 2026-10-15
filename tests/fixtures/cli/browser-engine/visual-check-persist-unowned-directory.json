@@ -1,0 +1,45 @@
+{
+  "scenario": {
+    "command": "visual-check",
+    "before": [
+      {
+        "mkdir": "diagram.visual-check.1440x900.light.png"
+      }
+    ],
+    "persist": {
+      "schemaVersion": 1,
+      "command": "visual-check",
+      "artifact": {
+        "path": "<WORK>\\diagram.html"
+      },
+      "error": "delivery failed",
+      "diagnostics": [
+        {
+          "code": "delivery/provenance-failed",
+          "severity": "error",
+          "message": "synthetic delivery/provenance-failed",
+          "subject": {
+            "artifact": "synthetic"
+          },
+          "evidence": {
+            "synthetic": true
+          },
+          "supportedFixes": [
+            "synthetic fix"
+          ]
+        }
+      ]
+    }
+  },
+  "exit": 1,
+  "launched": false,
+  "calls": [],
+  "receipt": "{\n  \"schemaVersion\": 1,\n  \"command\": \"visual-check\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"error\": \"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.1440x900.light.png\\\".\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-failed\",\n      \"severity\": \"error\",\n      \"message\": \"synthetic delivery/provenance-failed\",\n      \"subject\": {\n        \"artifact\": \"synthetic\"\n      },\n      \"evidence\": {\n        \"synthetic\": true\n      },\n      \"supportedFixes\": [\n        \"synthetic fix\"\n      ]\n    },\n    {\n      \"code\": \"viewer/evidence-path-conflict\",\n      \"severity\": \"error\",\n      \"message\": \"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.1440x900.light.png\\\".\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\diagram.html\",\n        \"evidencePath\": \"<WORK>\\\\diagram.visual-check.1440x900.light.png\"\n      },\n      \"evidence\": {\n        \"reason\": {\n          \"code\": \"requested-entry-not-regular-file\",\n          \"requestedPath\": \"<WORK>\\\\diagram.visual-check.1440x900.light.png\",\n          \"entryType\": \"directory\"\n        }\n      },\n      \"supportedFixes\": [\n        \"move the conflicting file aside, or choose a separate --out-dir, then rerun visual-check\"\n      ]\n    }\n  ],\n  \"ok\": false,\n  \"status\": \"fail\",\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"diagram.visual-check.json\",\n    \"contactSheet\": \"diagram.visual-check.html\",\n    \"files\": []\n  }\n}\n",
+  "sidecar": null,
+  "contactSheet": null,
+  "summary": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"ok\":false,\"status\":\"fail\",\"artifact\":{\"path\":\"<WORK>\\\\diagram.html\",\"sha256\":\"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\"bytes\":57},\"checks\":{\"containment\":\"fail\",\"captures\":\"fail\"},\"error\":\"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.1440x900.light.png\\\".\",\"diagnostics\":[{\"code\":\"delivery/provenance-failed\",\"severity\":\"error\",\"message\":\"synthetic delivery/provenance-failed\",\"subject\":{\"artifact\":\"synthetic\"},\"evidence\":{\"synthetic\":true},\"supportedFixes\":[\"synthetic fix\"]},{\"code\":\"viewer/evidence-path-conflict\",\"severity\":\"error\",\"message\":\"visual-check will not replace the existing unowned evidence path \\\"<WORK>\\\\diagram.visual-check.1440x900.light.png\\\".\",\"subject\":{\"artifact\":\"<WORK>\\\\diagram.html\",\"evidencePath\":\"<WORK>\\\\diagram.visual-check.1440x900.light.png\"},\"evidence\":{\"reason\":{\"code\":\"requested-entry-not-regular-file\",\"requestedPath\":\"<WORK>\\\\diagram.visual-check.1440x900.light.png\",\"entryType\":\"directory\"}},\"supportedFixes\":[\"move the conflicting file aside, or choose a separate --out-dir, then rerun visual-check\"]}],\"evidence\":{\"screenshots\":[]}}",
+  "entries": [
+    "diagram.html",
+    "diagram.visual-check.1440x900.light.png"
+  ]
+}

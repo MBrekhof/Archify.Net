@@ -1,0 +1,45 @@
+{
+  "scenario": {
+    "command": "browser-check",
+    "persist": {
+      "schemaVersion": 1,
+      "command": "browser-check",
+      "artifact": {
+        "path": "<WORK>\\diagram.html"
+      },
+      "error": "delivery failed",
+      "diagnostics": [
+        {
+          "code": "delivery/provenance-failed",
+          "severity": "error",
+          "message": "synthetic delivery/provenance-failed",
+          "subject": {
+            "artifact": "synthetic"
+          },
+          "evidence": {
+            "synthetic": true
+          },
+          "supportedFixes": [
+            "synthetic fix"
+          ]
+        }
+      ],
+      "ok": false,
+      "evidenceKind": "automated-browser",
+      "status": "fail",
+      "visualReview": "not-requested",
+      "provenance": "mismatch"
+    }
+  },
+  "exit": 1,
+  "launched": false,
+  "calls": [],
+  "receipt": "{\n  \"schemaVersion\": 1,\n  \"command\": \"browser-check\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"error\": \"delivery failed\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-failed\",\n      \"severity\": \"error\",\n      \"message\": \"synthetic delivery/provenance-failed\",\n      \"subject\": {\n        \"artifact\": \"synthetic\"\n      },\n      \"evidence\": {\n        \"synthetic\": true\n      },\n      \"supportedFixes\": [\n        \"synthetic fix\"\n      ]\n    }\n  ],\n  \"ok\": false,\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"not-requested\",\n  \"provenance\": \"mismatch\",\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"not-requested\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"diagram.browser-check.json\",\n    \"files\": []\n  }\n}\n",
+  "sidecar": "{\n  \"schemaVersion\": 1,\n  \"command\": \"browser-check\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"error\": \"delivery failed\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-failed\",\n      \"severity\": \"error\",\n      \"message\": \"synthetic delivery/provenance-failed\",\n      \"subject\": {\n        \"artifact\": \"synthetic\"\n      },\n      \"evidence\": {\n        \"synthetic\": true\n      },\n      \"supportedFixes\": [\n        \"synthetic fix\"\n      ]\n    }\n  ],\n  \"ok\": false,\n  \"evidenceKind\": \"automated-browser\",\n  \"status\": \"fail\",\n  \"visualReview\": \"not-requested\",\n  \"provenance\": \"mismatch\",\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"not-requested\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"receipt\": \"diagram.browser-check.json\",\n    \"files\": []\n  }\n}\n",
+  "contactSheet": null,
+  "summary": "{\"schemaVersion\":1,\"command\":\"browser-check\",\"ok\":false,\"status\":\"fail\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"not-requested\",\"artifact\":{\"path\":\"<WORK>\\\\diagram.html\",\"sha256\":\"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\"bytes\":57},\"provenance\":\"mismatch\",\"checks\":{\"containment\":\"fail\",\"captures\":\"not-requested\"},\"error\":\"delivery failed\",\"diagnostics\":[{\"code\":\"delivery/provenance-failed\",\"severity\":\"error\",\"message\":\"synthetic delivery/provenance-failed\",\"subject\":{\"artifact\":\"synthetic\"},\"evidence\":{\"synthetic\":true},\"supportedFixes\":[\"synthetic fix\"]}],\"evidence\":{\"receipt\":\"<WORK>\\\\diagram.browser-check.json\",\"screenshots\":[]}}",
+  "entries": [
+    "diagram.browser-check.json",
+    "diagram.html"
+  ]
+}

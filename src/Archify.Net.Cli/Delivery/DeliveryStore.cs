@@ -209,7 +209,7 @@ internal sealed partial class DeliveryStore
 
     static byte[] Sidecar(JsonObject value) => new UTF8Encoding(false).GetBytes(Js.Stringify(value, 2) + "\n");
 
-    static JsonObject Identity(byte[] bytes) => new() { ["sha256"] = Convert.ToHexStringLower(SHA256.HashData(bytes)), ["bytes"] = bytes.Length };
+    internal static JsonObject Identity(byte[] bytes) => new() { ["sha256"] = Convert.ToHexStringLower(SHA256.HashData(bytes)), ["bytes"] = bytes.Length };
 
     // beginDeliveryAttempt (A:985-1007): written before render; only a successful commit removes it.
     public void BeginJournal(DeliveryAttempt attempt, string input)
@@ -568,15 +568,27 @@ internal sealed partial class DeliveryStore
 
     // captureRegularFileBinding (atomic-output.mjs:302-421) reduced to its verdicts on Windows: lstat, a regular file, its bytes, and,
     // against an earlier inspection, the same bytes. The reason code, or null with the content.
-    static string? RegularFile(string path, string subject, byte[]? expected, out byte[] content)
+    static string? RegularFile(string path, string subject, byte[]? expected, out byte[] content) => RegularFile(path, subject, expected, out content, out _);
+
+    // The same, with the failure's system code (filesystemFailure's `systemCode`, ENOENT and the like).
+    internal static string? RegularFile(string path, string subject, byte[]? expected, out byte[] content, out string? systemCode)
     {
         content = [];
+        systemCode = null;
         FsStat stat;
         try { stat = NativeFs.LStat(path); }
-        catch (Exception error) when (error is IOException or UnauthorizedAccessException) { return $"{subject}-inspection-failed"; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            systemCode = NativeFs.ErrorCode(error);
+            return $"{subject}-inspection-failed";
+        }
         if (stat.IsDirectory || stat.IsSymbolicLink) return $"{subject}-not-regular-file";
         try { content = File.ReadAllBytes(path); }
-        catch (Exception error) when (error is IOException or UnauthorizedAccessException) { return $"{subject}-handle-inspection-failed"; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            systemCode = NativeFs.ErrorCode(error);
+            return $"{subject}-handle-inspection-failed";
+        }
         return expected is null || content.AsSpan().SequenceEqual(expected) ? null : $"{subject}-content-changed";
     }
 

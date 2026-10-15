@@ -10,8 +10,7 @@ public sealed record CliIo(TextWriter Stdout, TextWriter Stderr, string Cwd, Cli
     public void Err(string text) => Stderr.Write(text + "\n");
 }
 
-// The seams tests replace. ponytail: the browser inspector factory (Task 10) and the finalize stage runner (Task 12) join
-// as init properties when their types exist.
+// The seams tests replace. ponytail: the finalize stage runner (Task 12) joins as an init property when its type exists.
 public sealed record CliServices
 {
     public static readonly CliServices Default = new();
@@ -24,4 +23,6 @@ public sealed record CliServices
     public Func<string?> HeadlessShell { get; init; } = Commands.DoctorCommand.HeadlessShell;
     // install-browser's in-process installer (Q4)
     public Func<string[], int> PlaywrightMain { get; init; } = Microsoft.Playwright.Program.Main;
+    // browser-check / visual-check (Q4). Null until Task 11 installs the Playwright Chromium factory as the default.
+    public Browser.IBrowserInspectorFactory? BrowserInspectors { get; init; }
 }

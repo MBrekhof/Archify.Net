@@ -1,0 +1,527 @@
+[
+  {
+    "name": "outdir-source.html",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "outdir-source.browser-check.json",
+    "contactSheet": "outdir-source.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "outdir-source.html",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "outdir-source.browser-check.json",
+    "contactSheet": "outdir-source.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "outdir-source.html",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "outdir-source.browser-check.json",
+    "contactSheet": "outdir-source.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "outdir-source.html",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "outdir-source.visual-check.json",
+    "contactSheet": "outdir-source.visual-check.html",
+    "screenshots": [
+      "outdir-source.visual-check.1440x900.light.png",
+      "outdir-source.visual-check.1440x900.dark.png",
+      "outdir-source.visual-check.2048x1320.light.png",
+      "outdir-source.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "outdir-source.html",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "outdir-source.visual-check.json",
+    "contactSheet": "outdir-source.visual-check.html",
+    "screenshots": [
+      "outdir-source.visual-check.1440x900.light.png",
+      "outdir-source.visual-check.1440x900.dark.png",
+      "outdir-source.visual-check.2048x1320.light.png",
+      "outdir-source.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "outdir-source.html",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "outdir-source.visual-check.json",
+    "contactSheet": "outdir-source.visual-check.html",
+    "screenshots": [
+      "outdir-source.visual-check.1440x900.light.png",
+      "outdir-source.visual-check.1440x900.dark.png",
+      "outdir-source.visual-check.2048x1320.light.png",
+      "outdir-source.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "WebApp.HTML",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "webapp.browser-check.json",
+    "contactSheet": "webapp.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "WebApp.HTML",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "webapp.browser-check.json",
+    "contactSheet": "webapp.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "WebApp.HTML",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "webapp.browser-check.json",
+    "contactSheet": "webapp.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "WebApp.HTML",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "webapp.visual-check.json",
+    "contactSheet": "webapp.visual-check.html",
+    "screenshots": [
+      "webapp.visual-check.1440x900.light.png",
+      "webapp.visual-check.1440x900.dark.png",
+      "webapp.visual-check.2048x1320.light.png",
+      "webapp.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "WebApp.HTML",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "webapp.visual-check.json",
+    "contactSheet": "webapp.visual-check.html",
+    "screenshots": [
+      "webapp.visual-check.1440x900.light.png",
+      "webapp.visual-check.1440x900.dark.png",
+      "webapp.visual-check.2048x1320.light.png",
+      "webapp.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "WebApp.HTML",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "webapp.visual-check.json",
+    "contactSheet": "webapp.visual-check.html",
+    "screenshots": [
+      "webapp.visual-check.1440x900.light.png",
+      "webapp.visual-check.1440x900.dark.png",
+      "webapp.visual-check.2048x1320.light.png",
+      "webapp.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "report.htm",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.browser-check.json",
+    "contactSheet": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "report.htm",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.browser-check.json",
+    "contactSheet": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "report.htm",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.browser-check.json",
+    "contactSheet": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "report.htm",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.json",
+    "contactSheet": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.html",
+    "screenshots": [
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.1440x900.light.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.1440x900.dark.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.2048x1320.light.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "report.htm",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.json",
+    "contactSheet": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.html",
+    "screenshots": [
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.1440x900.light.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.1440x900.dark.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.2048x1320.light.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "report.htm",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.json",
+    "contactSheet": "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.html",
+    "screenshots": [
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.1440x900.light.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.1440x900.dark.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.2048x1320.light.png",
+      "report.htm.~archify-89922a96983da90f2bb73acdef9359d25b308ed0c7010ad1f269913d8ac84759.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "ünïcode straße.browser-check.json",
+    "contactSheet": "ünïcode straße.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "ünïcode straße.~archify-<hash>.browser-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.browser-check.html",
+    "screenshots": [],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "ünïcode straße.~archify-<hash>.browser-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.browser-check.html",
+    "screenshots": [],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "ünïcode straße.visual-check.json",
+    "contactSheet": "ünïcode straße.visual-check.html",
+    "screenshots": [
+      "ünïcode straße.visual-check.1440x900.light.png",
+      "ünïcode straße.visual-check.1440x900.dark.png",
+      "ünïcode straße.visual-check.2048x1320.light.png",
+      "ünïcode straße.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "ünïcode straße.~archify-<hash>.visual-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.visual-check.html",
+    "screenshots": [
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.dark.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "ünïcode straße.~archify-<hash>.visual-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.visual-check.html",
+    "screenshots": [
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.dark.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "ünïcode straße.browser-check.json",
+    "contactSheet": "ünïcode straße.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "ünïcode straße.~archify-<hash>.browser-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.browser-check.html",
+    "screenshots": [],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "ünïcode straße.~archify-<hash>.browser-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.browser-check.html",
+    "screenshots": [],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "ünïcode straße.visual-check.json",
+    "contactSheet": "ünïcode straße.visual-check.html",
+    "screenshots": [
+      "ünïcode straße.visual-check.1440x900.light.png",
+      "ünïcode straße.visual-check.1440x900.dark.png",
+      "ünïcode straße.visual-check.2048x1320.light.png",
+      "ünïcode straße.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "ünïcode straße.~archify-<hash>.visual-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.visual-check.html",
+    "screenshots": [
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.dark.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": true
+  },
+  {
+    "name": "Ünïcode Straße.html",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "ünïcode straße.~archify-<hash>.visual-check.json",
+    "contactSheet": "ünïcode straße.~archify-<hash>.visual-check.html",
+    "screenshots": [
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.1440x900.dark.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.light.png",
+      "ünïcode straße.~archify-<hash>.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": true
+  },
+  {
+    "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.html",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.browser-check.json",
+    "contactSheet": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.html",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.browser-check.json",
+    "contactSheet": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.html",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.browser-check.json",
+    "contactSheet": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.html",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.json",
+    "contactSheet": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.html",
+    "screenshots": [
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.1440x900.light.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.1440x900.dark.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.2048x1320.light.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.html",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.json",
+    "contactSheet": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.html",
+    "screenshots": [
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.1440x900.light.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.1440x900.dark.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.2048x1320.light.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL.html",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.json",
+    "contactSheet": "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.html",
+    "screenshots": [
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.1440x900.light.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.1440x900.dark.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.2048x1320.light.png",
+      "llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll.~archify-148dada4f55384828272544e4a5cb2f620137889755c81981bc287021d26945d.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "command": "browser-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.browser-check.json",
+    "contactSheet": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "command": "browser-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.browser-check.json",
+    "contactSheet": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "command": "browser-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.browser-check.json",
+    "contactSheet": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.browser-check.html",
+    "screenshots": [],
+    "pathHashed": false
+  },
+  {
+    "name": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "command": "visual-check",
+    "outDir": null,
+    "directory": "<DIR>\\source",
+    "receipt": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.json",
+    "contactSheet": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.html",
+    "screenshots": [
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.1440x900.light.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.1440x900.dark.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.2048x1320.light.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "command": "visual-check",
+    "outDir": "evidence",
+    "directory": "<DIR>\\evidence",
+    "receipt": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.json",
+    "contactSheet": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.html",
+    "screenshots": [
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.1440x900.light.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.1440x900.dark.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.2048x1320.light.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  },
+  {
+    "name": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.html",
+    "command": "visual-check",
+    "outDir": "missing\\deeper",
+    "directory": "<DIR>\\missing\\deeper",
+    "receipt": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.json",
+    "contactSheet": "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.html",
+    "screenshots": [
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.1440x900.light.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.1440x900.dark.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.2048x1320.light.png",
+      "界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界界.~archify-f646bc6742650a0b6d05477009a9a338d4a01ab7ab2173c122130977c78ef38e.visual-check.2048x1320.dark.png"
+    ],
+    "pathHashed": false
+  }
+]

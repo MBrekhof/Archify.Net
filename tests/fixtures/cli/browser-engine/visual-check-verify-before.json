@@ -1,0 +1,28 @@
+{
+  "scenario": {
+    "command": "visual-check",
+    "outDir": "changed-before-browser-evidence",
+    "before": [
+      {
+        "pass": true
+      }
+    ],
+    "verify": {
+      "failOnCall": 1,
+      "status": "mismatch",
+      "code": "delivery/provenance-mismatch"
+    }
+  },
+  "exit": 1,
+  "launched": false,
+  "calls": [],
+  "receipt": "{\n  \"schemaVersion\": 1,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"visualReview\": \"pending\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"provenance\": \"mismatch\",\n  \"error\": \"synthetic mismatch delivery\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-mismatch\",\n      \"severity\": \"error\",\n      \"message\": \"synthetic delivery/provenance-mismatch\",\n      \"subject\": {\n        \"artifact\": \"synthetic\"\n      },\n      \"evidence\": {\n        \"synthetic\": true\n      },\n      \"supportedFixes\": [\n        \"synthetic fix\"\n      ]\n    }\n  ],\n  \"ok\": false,\n  \"status\": \"fail\",\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"directory\": \"<WORK>\\\\changed-before-browser-evidence\",\n    \"receipt\": \"diagram.visual-check.json\",\n    \"contactSheet\": \"diagram.visual-check.html\",\n    \"files\": []\n  }\n}\n",
+  "sidecar": "{\n  \"schemaVersion\": 1,\n  \"command\": \"visual-check\",\n  \"evidenceKind\": \"automated-browser\",\n  \"visualReview\": \"pending\",\n  \"artifact\": {\n    \"path\": \"<WORK>\\\\diagram.html\",\n    \"sha256\": \"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\n    \"bytes\": 57\n  },\n  \"provenance\": \"mismatch\",\n  \"error\": \"synthetic mismatch delivery\",\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/provenance-mismatch\",\n      \"severity\": \"error\",\n      \"message\": \"synthetic delivery/provenance-mismatch\",\n      \"subject\": {\n        \"artifact\": \"synthetic\"\n      },\n      \"evidence\": {\n        \"synthetic\": true\n      },\n      \"supportedFixes\": [\n        \"synthetic fix\"\n      ]\n    }\n  ],\n  \"ok\": false,\n  \"status\": \"fail\",\n  \"containment\": {\n    \"status\": \"fail\",\n    \"policy\": \"fit-or-reader-declared-readable-vertical-scroll\",\n    \"viewports\": []\n  },\n  \"captures\": {\n    \"status\": \"fail\",\n    \"screenshots\": [],\n    \"contactSheet\": null\n  },\n  \"sidecars\": {\n    \"directory\": \"<WORK>\\\\changed-before-browser-evidence\",\n    \"receipt\": \"diagram.visual-check.json\",\n    \"contactSheet\": \"diagram.visual-check.html\",\n    \"files\": []\n  }\n}\n",
+  "contactSheet": null,
+  "summary": "{\"schemaVersion\":1,\"command\":\"visual-check\",\"ok\":false,\"status\":\"fail\",\"evidenceKind\":\"automated-browser\",\"visualReview\":\"pending\",\"artifact\":{\"path\":\"<WORK>\\\\diagram.html\",\"sha256\":\"1798e53b0705aa0b30cd7dc0dc37813d8bc02bbdded440b836e248aaf4727217\",\"bytes\":57},\"provenance\":\"mismatch\",\"checks\":{\"containment\":\"fail\",\"captures\":\"fail\"},\"error\":\"synthetic mismatch delivery\",\"diagnostics\":[{\"code\":\"delivery/provenance-mismatch\",\"severity\":\"error\",\"message\":\"synthetic delivery/provenance-mismatch\",\"subject\":{\"artifact\":\"synthetic\"},\"evidence\":{\"synthetic\":true},\"supportedFixes\":[\"synthetic fix\"]}],\"evidence\":{\"receipt\":\"<WORK>\\\\changed-before-browser-evidence\\\\diagram.visual-check.json\",\"screenshots\":[]}}",
+  "entries": [
+    "changed-before-browser-evidence",
+    "changed-before-browser-evidence\\diagram.visual-check.json",
+    "diagram.html"
+  ]
+}

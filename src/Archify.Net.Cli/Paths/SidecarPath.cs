@@ -7,8 +7,8 @@ namespace Archify.Net.Cli.Paths;
 
 // The namespace key of a sidecar's artifact could not be established (archify.mjs:47-54, code
 // ARCHIFY_SIDECAR_NAMESPACE_INDETERMINATE); Reason is the path-semantics reason.
-internal sealed class SidecarNamespaceException(JsonObject reason)
-    : IOException($"Could not establish a stable sidecar namespace ({reason["code"]?.GetValue<string>() ?? "unknown"}).")
+internal sealed class SidecarNamespaceException(JsonObject reason, string subject = "a stable sidecar namespace")
+    : IOException($"Could not establish {subject} ({reason["code"]?.GetValue<string>() ?? "unknown"}).")
 {
     public JsonObject Reason { get; } = reason;
 }
