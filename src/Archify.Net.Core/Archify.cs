@@ -33,7 +33,7 @@ public static class ArchifyNet
 {
     /// <summary>Runs the load gates and the typed renderer; problems come back as diagnostics, never as exceptions.</summary>
     /// <remarks>
-    /// Known deviations from upstream (full list in README.md, "Known deviations from upstream"):
+    /// Known deviations from upstream (full list in docs/deviations.md):
     /// Word breaks: <c>Js.WordBreaks</c> matches V8's <c>Intl.Segmenter</c> word granularity except that Han, Hiragana, Katakana, Thai, Lao,
     /// Khmer and Myanmar runs split per grapheme (ICU uses a dictionary; visible in sequence notes and wrapped automatic-showcase dataflow
     /// labels), V8 splits inside grapheme clusters the port keeps whole (a Prepend such as U+0600 before a space, a jamo next to a Hangul

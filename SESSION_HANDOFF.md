@@ -67,7 +67,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Packaging: `dotnet pack` failed at first because warnings-as-errors turned NU5111 (Microsoft.Playwright's `.ps1` helpers) into an
   error; fixed with `<NoWarn>NU5111</NoWarn>` in `Archify.Net.Cli.csproj`. Then pack, `dotnet tool install --tool-path`, `--help`,
   `demo`, `doctor` and `validate` all ran with exit 0.
-- Deviations: README, "Known deviations from upstream" > "CLI (phase 5)".
+- Deviations: `docs/deviations.md`, "CLI (phase 5)".
 - Reviews: implementers were Claude subagents (opus; Task 13 sonnet); task reviews by agy (Gemini). Task 12's agy review and the final
   whole-branch review are the controller's. Ledger with every ruling: `.superpowers/sdd/2026-10-15-phase5-cli/progress.md`.
 
@@ -101,7 +101,7 @@ The wave's 21 items and their outcome: `.superpowers/sdd/2026-10-15-phase5-cli/f
 
 ## Known deviations
 
-Listed in `README.md` under "Known deviations from upstream". Phases 2 to 4 add the items below, also restated in the XML remarks
+Listed in `docs/deviations.md`. Phases 2 to 4 add the items below, also restated in the XML remarks
 of `ArchifyNet.Render`:
 
 - Word breaks: `Js.WordBreaks` matches V8's `Intl.Segmenter` word granularity except that Han, Hiragana, Katakana, Thai,
