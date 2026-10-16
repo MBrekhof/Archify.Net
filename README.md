@@ -103,16 +103,16 @@ from consumer code.
 
 | Type | Upstream renderer | Port | Phase | Example |
 |---|---|---|---|---|
-| architecture | `renderers/architecture` | `src/Archify.Net.Core/Architecture` | 1 | [`web-app.architecture.json`](upstream/examples/web-app.architecture.json) · [HTML](upstream/examples/web-app-rendered.html) |
-| sequence | `renderers/sequence` | `src/Archify.Net.Core/Sequence` | 2 | [`cache-miss-request.sequence.json`](upstream/examples/cache-miss-request.sequence.json) · [HTML](upstream/examples/sequence-cache-miss-request.html) |
-| lifecycle | `renderers/lifecycle` | `src/Archify.Net.Core/Lifecycle` | 2 | [`agent-run.lifecycle.json`](upstream/examples/agent-run.lifecycle.json) · [HTML](upstream/examples/lifecycle-agent-run.html) |
-| class | `renderers/class` | `src/Archify.Net.Core/Class` | 2 | [`payment-processors.class.json`](upstream/examples/payment-processors.class.json) · [HTML](upstream/examples/class-payment-processors-rendered.html) |
-| tree | `renderers/tree` | `src/Archify.Net.Core/Tree` | 2 | [`payment-platform.tree.json`](upstream/examples/payment-platform.tree.json) · [HTML](upstream/examples/tree-payment-platform-rendered.html) |
-| timeline | `renderers/timeline` | `src/Archify.Net.Core/Timeline` | 2 | [`payment-incident.timeline.json`](upstream/examples/payment-incident.timeline.json) · [HTML](upstream/examples/timeline-payment-incident-rendered.html) |
-| waterfall | `renderers/waterfall` | `src/Archify.Net.Core/Waterfall` | 2 | [`checkout-request.waterfall.json`](upstream/examples/checkout-request.waterfall.json) · [HTML](upstream/examples/waterfall-checkout-request-rendered.html) |
-| workflow | `renderers/workflow` | `src/Archify.Net.Core/Workflow` | 3 | [`agent-tool-call.workflow.json`](upstream/examples/agent-tool-call.workflow.json) · [HTML](upstream/examples/workflow-agent-tool-call-rendered.html) |
-| dataflow | `renderers/dataflow` | `src/Archify.Net.Core/Dataflow` | 3 | [`product-analytics.dataflow.json`](upstream/examples/product-analytics.dataflow.json) · [HTML](upstream/examples/dataflow-product-analytics.html) |
-| erd | `renderers/erd` | `src/Archify.Net.Core/Erd` | 4 | [`orders.erd.json`](upstream/examples/orders.erd.json) · [HTML](upstream/examples/erd-orders-rendered.html) |
+| architecture | `renderers/architecture` | `src/Archify.Net.Core/Architecture` | 1 | [`web-app`](https://mbrekhof.github.io/Archify.Net/upstream/examples/web-app-rendered.html) ([JSON](upstream/examples/web-app.architecture.json)) |
+| sequence | `renderers/sequence` | `src/Archify.Net.Core/Sequence` | 2 | [`cache-miss-request`](https://mbrekhof.github.io/Archify.Net/upstream/examples/sequence-cache-miss-request.html) ([JSON](upstream/examples/cache-miss-request.sequence.json)) |
+| lifecycle | `renderers/lifecycle` | `src/Archify.Net.Core/Lifecycle` | 2 | [`agent-run`](https://mbrekhof.github.io/Archify.Net/upstream/examples/lifecycle-agent-run.html) ([JSON](upstream/examples/agent-run.lifecycle.json)) |
+| class | `renderers/class` | `src/Archify.Net.Core/Class` | 2 | [`payment-processors`](https://mbrekhof.github.io/Archify.Net/upstream/examples/class-payment-processors-rendered.html) ([JSON](upstream/examples/payment-processors.class.json)) |
+| tree | `renderers/tree` | `src/Archify.Net.Core/Tree` | 2 | [`payment-platform`](https://mbrekhof.github.io/Archify.Net/upstream/examples/tree-payment-platform-rendered.html) ([JSON](upstream/examples/payment-platform.tree.json)) |
+| timeline | `renderers/timeline` | `src/Archify.Net.Core/Timeline` | 2 | [`payment-incident`](https://mbrekhof.github.io/Archify.Net/upstream/examples/timeline-payment-incident-rendered.html) ([JSON](upstream/examples/payment-incident.timeline.json)) |
+| waterfall | `renderers/waterfall` | `src/Archify.Net.Core/Waterfall` | 2 | [`checkout-request`](https://mbrekhof.github.io/Archify.Net/upstream/examples/waterfall-checkout-request-rendered.html) ([JSON](upstream/examples/checkout-request.waterfall.json)) |
+| workflow | `renderers/workflow` | `src/Archify.Net.Core/Workflow` | 3 | [`agent-tool-call`](https://mbrekhof.github.io/Archify.Net/upstream/examples/workflow-agent-tool-call-rendered.html) ([JSON](upstream/examples/agent-tool-call.workflow.json)) |
+| dataflow | `renderers/dataflow` | `src/Archify.Net.Core/Dataflow` | 3 | [`product-analytics`](https://mbrekhof.github.io/Archify.Net/upstream/examples/dataflow-product-analytics.html) ([JSON](upstream/examples/product-analytics.dataflow.json)) |
+| erd | `renderers/erd` | `src/Archify.Net.Core/Erd` | 4 | [`orders`](https://mbrekhof.github.io/Archify.Net/upstream/examples/erd-orders-rendered.html) ([JSON](upstream/examples/orders.erd.json)) |
 
 All ten types are ported.
 
