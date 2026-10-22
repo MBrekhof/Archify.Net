@@ -107,8 +107,8 @@ public sealed partial class BrowserEvidenceTests
     // Q4: the browser is Playwright's pinned Chromium, so the unavailable path names `archify install-browser`, never upstream's
     // ARCHIFY_CHROME variable (stated deviation; everything else in those receipts is upstream's).
     internal static string ChromeUnavailableRuling(string text, string command) => text
-        .Replace("Chrome or Chromium is unavailable. Set ARCHIFY_CHROME to its executable path.", BrowserEvidence.ChromeUnavailableError)
-        .Replace($"set ARCHIFY_CHROME to a Chrome or Chromium executable and rerun {command}", BrowserEvidence.ChromeUnavailableFix(command));
+        .Replace("No supported browser found. Install Chrome/Chromium (or Microsoft Edge), or set ARCHIFY_CHROME to its executable path.", BrowserEvidence.ChromeUnavailableError)
+        .Replace($"set ARCHIFY_CHROME to a Chrome/Chromium executable (or Microsoft Edge) and rerun {command}", BrowserEvidence.ChromeUnavailableFix(command));
 
     static Action<byte[]> Verifier(JsonObject verify, EvidenceOutputs outputs)
     {

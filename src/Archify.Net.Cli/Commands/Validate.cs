@@ -14,7 +14,8 @@ static partial class ValidateCommand
     public static int Run(string[] args, CliIo io, string command = "validate")
     {
         var (afterQuality, quality) = Args.Quality(args);
-        var (options, repoRoot) = Args.RepoRoot(afterQuality, io.Cwd);
+        var (afterRepoRoot, repoRoot) = Args.RepoRoot(afterQuality, io.Cwd);
+        var (options, _) = Args.ExtractExplainerWritingArgs(afterRepoRoot);
         if (options.FirstOrDefault(arg => arg.StartsWith("--", StringComparison.Ordinal) && !KnownOptions.Contains(arg)) is { } unknown)
             throw new CliArgumentException($"Unknown {command} option \"{unknown}\".", "cli/unknown-option", new JsonObject { ["option"] = unknown },
                 supportedFixes: ["remove the unknown option and retry"]);

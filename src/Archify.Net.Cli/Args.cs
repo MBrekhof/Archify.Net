@@ -92,6 +92,32 @@ static class Args
         return (rest, sha);
     }
 
+    // extractExplainerWritingArgs (A:2397-2412 at v3.2.0), not the Extract above: `--writing` takes the next token whatever it is, a
+    // second occurrence is an error, and a valid value needs an explainer type. No explainer type is ported yet (PORT-009), so every
+    // valid use on a diagram type answers cli/unsupported-option.
+    public static (string[] Remaining, string? WritingMode) ExtractExplainerWritingArgs(string[] args)
+    {
+        var rest = new List<string>();
+        string? writingMode = null;
+        for (var index = 0; index < args.Length; index++)
+        {
+            var argument = args[index];
+            if (argument == "--writing" || argument.StartsWith("--writing=", StringComparison.Ordinal))
+            {
+                var value = argument == "--writing" ? (++index < args.Length ? args[index] : null) : argument["--writing=".Length..];
+                if (writingMode is not null || value is not ("warn" or "strict" or "off"))
+                    throw new CliArgumentException("--writing requires one of warn, strict or off.", "cli/invalid-arguments",
+                        new JsonObject { ["option"] = "--writing" }, supportedFixes: ["Use --writing warn, --writing strict or --writing off once."]);
+                writingMode = value;
+            }
+            else rest.Add(argument);
+        }
+        if (writingMode is not null && rest.FirstOrDefault(argument => !argument.StartsWith("--", StringComparison.Ordinal)) != "explainer")
+            throw new CliArgumentException("--writing is supported for explainer documents only.", "cli/unsupported-option",
+                new JsonObject { ["option"] = "--writing" }, supportedFixes: ["Remove --writing or use an explainer document."]);
+        return ([.. rest], writingMode);
+    }
+
     // rendererPath (A:2237-2247): an unknown type is an argument error.
     public static DiagramType DiagramType(string type)
     {

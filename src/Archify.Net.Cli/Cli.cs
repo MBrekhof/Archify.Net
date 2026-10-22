@@ -5,12 +5,13 @@ namespace Archify.Net.Cli;
 
 public static class Cli
 {
-    // COMMAND_USAGE (A:2191-2208), Q3: without compare, preview, migrate and brands; install-browser after doctor.
+    // COMMAND_USAGE (A:2192-2210 at v3.2.0), Q3: without compare, preview, migrate and brands; install-browser after doctor. The
+    // explainer lines (patch, the type, the writing block) wait for PORT-009.
     static readonly (string Command, string Form)[] CommandUsage =
     [
         ("render", "<type> <input.json> [output.html] [--quality standard|showcase] [--repo-root path]"),
         ("deliver", "<type> <input.json> [output.html] [--json] [--open] [--quality standard|showcase] [--repo-root path]"),
-        ("finalize", "<type> <input.json> <output.html> [--json] [--receipt path] [--out-dir <dir>] [--quality standard|showcase] [--repo-root path] [--candidate-sha256 hex]"),
+        ("finalize", "<type> <input.json> <output.html> [--json] [--browser-check] [--receipt path] [--out-dir <dir>] [--quality standard|showcase] [--repo-root path] [--candidate-sha256 hex]"),
         ("validate", "<type> <input.json> [--json] [--layout-json] [--quality standard|showcase] [--repo-root path]"),
         ("inspect", "<type> <input.json>"),
         ("check", "<output.html> [--json] [--require-provenance]"),
@@ -23,9 +24,10 @@ public static class Cli
         ("demo", "[output-directory]"),
     ];
 
-    // usage() (A:2210-2219)
+    // usage() (A:2212-2225 at v3.2.0)
     internal static string Usage() =>
         "Usage:\n" + string.Join("\n", CommandUsage.Select(u => $"  archify {u.Command}{(u.Form.Length > 0 ? " " + u.Form : "")}")) +
+        "\n  (finalize --out-dir relocates browser-check and default finalize receipts; HTML and its delivery receipt stay at the requested output path)" +
         "\n\nTypes:\n  architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\n";
 
     // The dispatch of A:7059-7138. Returns the exit code; a non-argument exception escapes (Program.Main: stack, exit 1).

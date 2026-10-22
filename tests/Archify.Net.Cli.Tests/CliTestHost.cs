@@ -130,7 +130,7 @@ public static class CliTestHost
 }
 
 // Q3: upstream's usage() -> the port's, in raw text and in JSON-escaped text (cli/usage receipts). Applied to every fixture.
-public static class UsageEdit
+public static partial class UsageEdit
 {
     static readonly string[] Out = ["compare", "preview", "migrate", "brands"];
 
@@ -138,9 +138,30 @@ public static class UsageEdit
     public static readonly string Upstream = CliTestHost.Fixture("help/help").Stdout[..^1];
     public static readonly string Edited = Edit(Upstream);
 
+    // The explainer type is not ported until PORT-009: its usage lines and its name in the type list are stripped, each strip a
+    // separate step that must match exactly once.
+    const string ExplainerType = ", explainer";
+    const string WritingBlock = "\nExplainer writing checks (validate, deliver, finalize, patch):\n  --writing warn|strict|off (default: warn)\n";
+
+    // The Types line of upstream's usage(), and the port's.
+    static readonly string UpstreamTypes = Upstream.Split('\n').SkipWhile(l => l != "Types:").ElementAt(1)[2..];
+    static readonly string EditedTypes = ReplaceOnce(UpstreamTypes, ExplainerType, "");
+
+    static string ReplaceOnce(string text, string part, string replacement)
+    {
+        var at = text.IndexOf(part, StringComparison.Ordinal);
+        if (at < 0 || text.IndexOf(part, at + 1, StringComparison.Ordinal) >= 0)
+            throw new InvalidOperationException($"help/help no longer has upstream's usage() shape: {Js.Stringify(part)} is not there exactly once.");
+        return text.Remove(at, part.Length).Insert(at, replacement);
+    }
+
     static string Edit(string usage)
     {
+        usage = ReplaceOnce(usage, WritingBlock, "");
+        usage = ReplaceOnce(usage, ExplainerType + "\n", "\n");   // the Types line
         var lines = usage.Split('\n').ToList();
+        if (lines.RemoveAll(l => l.StartsWith("  archify patch ", StringComparison.Ordinal)) != 1)
+            throw new InvalidOperationException("help/help no longer has upstream's usage() shape: one patch line.");
         var removed = lines.RemoveAll(l => Out.Any(c => l.StartsWith($"  archify {c} ", StringComparison.Ordinal)));
         var doctor = lines.IndexOf("  archify doctor");
         if (removed != 5 || doctor < 0) throw new InvalidOperationException("help/help no longer has upstream's usage() shape.");
@@ -150,5 +171,28 @@ public static class UsageEdit
 
     static string JsonEscaped(string s) => s.Replace("\n", "\\n");
 
-    public static string Apply(string text) => text.Replace(Upstream, Edited).Replace(JsonEscaped(Upstream), JsonEscaped(Edited));
+    public static string Apply(string text) => UnknownType(text.Replace(Upstream, Edited).Replace(JsonEscaped(Upstream), JsonEscaped(Edited)));
+
+    // rendererPath's unknown-type error lists TYPES in its message, its fix and evidence.supportedTypes; every listing must be
+    // upstream's (with explainer), else this edit fails loudly.
+    static string UnknownType(string text)
+    {
+        foreach (var prefix in new[] { "Expected one of: ", "use one of: " })
+        {
+            var count = text.Split(prefix).Length - 1;
+            if (count == 0) continue;
+            if (text.Split(prefix + UpstreamTypes).Length - 1 != count)
+                throw new InvalidOperationException($"an unknown-type listing after {Js.Stringify(prefix)} is not upstream's TYPES with explainer.");
+            text = text.Replace(prefix + UpstreamTypes, prefix + EditedTypes);
+        }
+        var arrays = text.Split("\"supportedTypes\": [").Length - 1;
+        if (arrays == 0) return text;
+        var edited = SupportedTypesExplainer().Replace(text, "\"waterfall\"\n");
+        if (SupportedTypesExplainer().Count(text) != arrays)
+            throw new InvalidOperationException("an evidence.supportedTypes array does not end in \"waterfall\", \"explainer\".");
+        return edited;
+    }
+
+    [System.Text.RegularExpressions.GeneratedRegex("\"waterfall\",\n +\"explainer\"\n")]
+    private static partial System.Text.RegularExpressions.Regex SupportedTypesExplainer();
 }

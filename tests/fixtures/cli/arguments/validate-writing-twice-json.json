@@ -1,0 +1,17 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "web-app.architecture.json",
+    "--writing",
+    "warn",
+    "--writing=off",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"arguments\",\n  \"error\": \"--writing requires one of warn, strict or off.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/invalid-arguments\",\n      \"severity\": \"error\",\n      \"message\": \"--writing requires one of warn, strict or off.\",\n      \"subject\": {\n        \"command\": \"validate\",\n        \"option\": \"--writing\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"Use --writing warn, --writing strict or --writing off once.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}

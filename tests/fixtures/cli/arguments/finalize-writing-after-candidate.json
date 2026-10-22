@@ -1,0 +1,18 @@
+{
+  "args": [
+    "finalize",
+    "architecture",
+    "web-app.architecture.json",
+    "out.html",
+    "--writing",
+    "bogus",
+    "--candidate-sha256",
+    "ABC"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--candidate-sha256 must be 64 lowercase hexadecimal characters.\n"
+}

@@ -1,0 +1,16 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "web-app.architecture.json",
+    "--writing",
+    "bogus",
+    "--repo-root"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--repo-root requires a repository path.\n"
+}

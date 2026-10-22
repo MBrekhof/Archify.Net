@@ -559,7 +559,8 @@ internal static partial class FinalizeGate
         {
             ["schemaVersion"] = 1, ["ok"] = false, ["command"] = "finalize", ["status"] = "running", ["type"] = type, ["quality"] = quality,
             ["startedAt"] = startedAt, ["specification"] = specification.DeepClone(), ["artifact"] = new JsonObject { ["path"] = resolvedOutput },
-            ["stages"] = new JsonObject(), ["diagnostics"] = new JsonArray(),
+            // a diagram type always needs the browser (finalize.mjs:746 at v3.2.0: needsBrowser = type !== 'explainer' || browserCheck)
+            ["stages"] = new JsonObject(), ["browserCheck"] = new JsonObject { ["requested"] = true, ["ran"] = false }, ["diagnostics"] = new JsonArray(),
             ["evidence"] = new JsonObject { ["receipt"] = resolvedReceipt, ["summaryReceipt"] = resolvedSummary }, ["visualReview"] = "not-requested",
         };
         var stages = receipt["stages"]!.AsObject();
@@ -578,6 +579,7 @@ internal static partial class FinalizeGate
             var args = StageArguments(stage, type, resolvedInput, resolvedOutput, quality, request.RepoRoot, resolvedOutDir);
             var result = await services.StageRunner.RunAsync(stage, args, new StageContext(cwd, services, resolvedOutput, resolvedOutDir));
             var stageReceipt = ParsedReceipt(result.Stdout);
+            if (stage == "browser-check") receipt["browserCheck"]!["ran"] = P(P(stageReceipt, "containment"), "viewports") is JsonArray { Count: > 0 };
             var code = result.Status;
             var status = StageStatus(stage, code, stageReceipt, quality);
             List<JsonNode?>? stageDiagnostics = null;
@@ -833,6 +835,7 @@ internal static partial class FinalizeGate
         CopyIfPresent(compact, "evidence", receipt);
         compact["visualReview"] = P(receipt, "visualReview").Truthy() ? P(receipt, "visualReview")!.DeepClone() : "not-requested";
         CopyIfPresent(compact, "durationMs", receipt);
+        if (P(receipt, "browserCheck").Truthy()) compact["browserCheck"] = P(receipt, "browserCheck")!.DeepClone();
 
         var ok = P(receipt, "ok").Truthy();
         var type = P(receipt, "type");

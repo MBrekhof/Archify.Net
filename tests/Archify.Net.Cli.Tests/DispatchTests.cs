@@ -53,6 +53,7 @@ public class DispatchTests
     {
         Assert.Equal(Cli.Usage(), UsageEdit.Edited);
         Assert.DoesNotContain("brands", UsageEdit.Edited);
+        Assert.DoesNotContain("explainer", UsageEdit.Edited);   // PORT-009
         Assert.Contains("  archify doctor\n  archify install-browser\n  archify demo [output-directory]\n", UsageEdit.Edited);
     }
 

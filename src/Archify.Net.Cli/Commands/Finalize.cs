@@ -7,7 +7,8 @@ namespace Archify.Net.Cli.Commands;
 
 static class FinalizeCommand
 {
-    static readonly string[] KnownOptions = ["--json"];
+    // --browser-check (A:5897 at v3.2.0) only matters for explainer; a diagram type always runs the browser gate.
+    static readonly string[] KnownOptions = ["--json", "--browser-check"];
 
     // commandFinalize (A:5772-5863): runFinalize with the CLI's delivery paths and provenance inspection, the compact summary on one
     // line with --json, else four lines and the warnings. A run that cannot start answers with a "could not start" receipt, exit 1.
@@ -17,7 +18,8 @@ static class FinalizeCommand
         var (afterRepoRoot, repoRoot) = Args.RepoRoot(afterQuality, io.Cwd);
         var (afterOutDir, outDir) = Args.OutDir(afterRepoRoot);
         var (afterReceipt, receiptPath) = Args.Receipt(afterOutDir);
-        var (args, candidateSha256) = Args.CandidateSha256(afterReceipt);
+        var (afterCandidate, candidateSha256) = Args.CandidateSha256(afterReceipt);
+        var (args, _) = Args.ExtractExplainerWritingArgs(afterCandidate);
         var json = args.Contains("--json");
         if (args.FirstOrDefault(arg => arg.StartsWith("--", StringComparison.Ordinal) && !KnownOptions.Contains(arg)) is { } unknown)
             throw new CliArgumentException($"Unknown finalize option \"{unknown}\".", "cli/unknown-option", new JsonObject { ["option"] = unknown },
@@ -58,6 +60,7 @@ static class FinalizeCommand
                 ["specification"] = new JsonObject { ["path"] = NodePath.Resolve(io.Cwd, input) },
                 ["artifact"] = new JsonObject { ["path"] = NodePath.Resolve(io.Cwd, output) },
                 ["gates"] = new JsonObject(FinalizeGate.Stages.Select(stage => KeyValuePair.Create(stage, (JsonNode?)"not-run"))),
+                ["browserCheck"] = new JsonObject { ["requested"] = true, ["ran"] = false },   // requested: type !== 'explainer' || …
                 ["diagnostics"] = diagnostics, ["visualReview"] = "not-requested",
             };
             if (json) io.Out(Js.Stringify(failure));

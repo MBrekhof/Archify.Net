@@ -979,8 +979,12 @@ public sealed class FinalizeTests
         Assert.Equal(["deliver: running []", "check: running [validate,deliver]", "browser-check: running [validate,deliver,check]"], seen);
         Assert.Equal(Js.Stringify(finalized.Receipt, 2) + "\n", File.ReadAllText(receiptPath));
         Assert.Matches(@"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$", (string)finalized.Receipt["startedAt"]!);
-        Assert.Equal(["schemaVersion", "ok", "command", "status", "type", "quality", "startedAt", "specification", "artifact", "stages", "diagnostics", "evidence",
-            "visualReview", "finishedAt", "durationMs"], finalized.Receipt.Select(kv => kv.Key));
+        Assert.Equal(["schemaVersion", "ok", "command", "status", "type", "quality", "startedAt", "specification", "artifact", "stages", "browserCheck",
+            "diagnostics", "evidence", "visualReview", "finishedAt", "durationMs"], finalized.Receipt.Select(kv => kv.Key));
+        Assert.Equal(["schemaVersion", "ok", "command", "status", "type", "quality", "specification", "artifact", "gates", "diagnostics", "diagnosticSummary",
+            "evidence", "visualReview", "durationMs", "browserCheck"], finalized.Summary.Select(kv => kv.Key));
+        // ran: the browser-check stage receipt has containment viewports (finalize.mjs:907 at v3.2.0)
+        Assert.Equal("""{"requested":true,"ran":true}""", Js.Stringify(finalized.Receipt["browserCheck"]));
     }
 
     // T:1265 (runFinalize reads ARCHIFY_CHECK_MAX_BUFFER from its env) is not ported: the stages run in process, with no pipe buffer

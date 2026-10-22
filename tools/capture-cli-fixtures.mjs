@@ -1115,6 +1115,38 @@ for (const [name, args] of finalizeArgs) {
 }
 mint('arguments', 'finalize-out-dir-missing-json', ['finalize', 'architecture', arch, 'out.html', '--json', '--out-dir'], exFiles(arch));
 
+// v3.2.0 --writing (extractExplainerWritingArgs, A:2397-2412): extracted after --repo-root (validate, deliver; inspect through
+// validate) and after --candidate-sha256 (finalize), before the unknown-option check. A valid value needs an explainer document,
+// which is not ported (PORT-009), so on a diagram type it is cli/unsupported-option. [name, args, code of the receipt]
+const writingCases = [
+  ['validate-writing-diagram', ['validate', 'architecture', arch, '--writing', 'warn', '--json'], 'cli/unsupported-option'],
+  ['deliver-writing-diagram', ['deliver', 'architecture', arch, '--writing=strict', '--json'], 'cli/unsupported-option'],
+  ['finalize-writing-diagram', ['finalize', 'architecture', arch, 'out.html', '--writing', 'off', '--json'], 'cli/unsupported-option'],
+  ['inspect-writing-diagram', ['inspect', 'architecture', arch, '--writing', 'warn', '--json'], 'cli/unsupported-option'],
+  ['validate-writing-twice', ['validate', 'architecture', arch, '--writing', 'warn', '--writing=off', '--json'], 'cli/invalid-arguments'],
+  ['finalize-writing-twice', ['finalize', 'architecture', arch, 'out.html', '--writing=warn', '--writing', 'warn', '--json'], 'cli/invalid-arguments'],
+  ['validate-writing-bogus', ['validate', 'architecture', arch, '--writing', 'bogus', '--json'], 'cli/invalid-arguments'],
+  ['deliver-writing-bogus', ['deliver', 'architecture', arch, '--writing=', '--json'], 'cli/invalid-arguments'],
+  ['validate-writing-missing', ['validate', 'architecture', arch, '--json', '--writing'], 'cli/invalid-arguments'],
+  // the order: --repo-root (validate) and --candidate-sha256 (finalize) are extracted first; the unknown-option check comes after
+  ['validate-writing-after-repo-root', ['validate', 'architecture', arch, '--writing', 'bogus', '--repo-root', '--json'], 'cli/missing-option-value'],
+  ['finalize-writing-after-candidate', ['finalize', 'architecture', arch, 'out.html', '--writing', 'bogus', '--candidate-sha256', 'ABC', '--json'], 'cli/invalid-option-value'],
+  ['deliver-writing-before-unknown-option', ['deliver', 'architecture', arch, '--bogus', '--writing', 'warn', '--json'], 'cli/unsupported-option'],
+];
+for (const [name, args, code] of writingCases) {
+  const { fixture } = mint('arguments', `${name}-json`, args, filesFor(args));
+  const receipt = JSON.parse(fixture.stdout);
+  expect(fixture.exit === 2 && fixture.stderr === '' && receipt.stage === 'arguments' && receipt.diagnostics[0].code === code, `${name}-json: ${code}`);
+  const human = args.filter((a) => a !== '--json');
+  const h = mint('arguments', name, human, filesFor(human)).fixture;
+  expect(h.exit === 2 && h.stdout === '' && h.stderr.length > 0, `${name} human`);
+}
+// `--writing` takes the next token even when it is an option: `--json` becomes the (invalid) value, yet the argv still asks for a receipt.
+{
+  const { fixture } = mint('arguments', 'validate-writing-takes-json-json', ['validate', 'architecture', arch, '--writing', '--json'], exFiles(arch));
+  expect(fixture.exit === 2 && JSON.parse(fixture.stdout).diagnostics[0].code === 'cli/invalid-arguments', 'validate-writing-takes-json-json receipt');
+}
+
 // Without a browser (ARCHIFY_CHROME at a missing file; the C# tests use a factory that reports none): runs that stop before the
 // browser gate, and the skipped gate itself (exit 2).
 const finalizeCases = [
@@ -1124,6 +1156,8 @@ const finalizeCases = [
   ['skipped-standard-json', ['finalize', 'architecture', arch, 'out.html', '--quality', 'standard', '--json'], exFiles(arch), 2],
   ['skipped-out-dir-json', ['finalize', 'architecture', arch, 'out.html', '--out-dir', 'evidence', '--json'], exFiles(arch), 2],
   ['skipped-custom-receipt-json', ['finalize', 'architecture', arch, 'out.html', '--receipt', 'reports/final.json', '--json'], exFiles(arch), 2],
+  // v3.2.0 --browser-check (A:5897): accepted, and a diagram type runs the browser gate with or without it.
+  ['browser-check-skipped-json', ['finalize', 'architecture', arch, 'out.html', '--browser-check', '--json'], exFiles(arch), 2],
   // T/finalize-paths.test.mjs:25-40: a 78-character CJK name; every delivery and evidence name is bounded.
   ['long-output-json', ['finalize', 'architecture', arch, `${'审'.repeat(78)}.html`, '--quality', 'showcase', '--json'], exFiles(arch), 2],
   // A deliver failure at stage input is a failed validate gate (finalize.mjs:923-934) with nextAction.
@@ -1148,12 +1182,18 @@ for (const [name, args, files, exit] of finalizeCases) {
   expect(f.exit === exit, `finalize ${name}: exit ${f.exit}, expected ${exit}`);
   if (name.startsWith('receipt-collision')) expect(f.entries.length === 1 && (f.stdout + f.stderr).includes('distinct'), `finalize ${name} writes nothing`);
   if (name === 'long-output-json') expect(f.entries.every((e) => Buffer.byteLength(e) <= 255), 'bounded names');
+  if (name === 'browser-check-skipped-json') {
+    const summary = JSON.parse(f.stdout);
+    expect(summary.gates.check === 'pass' && summary.gates['browser-check'] === 'skipped' && summary.browserCheck?.requested === true
+      && summary.browserCheck.ran === false, `finalize ${name}: the browser gate ran (skipped), browserCheck requested`);
+  }
 }
 
 // With Chromium: the web-app run whose summary, full receipt and sidecars the C# run must equal after scrubbing.
 for (const [name, args] of [['web-app-json', ['finalize', 'architecture', arch, 'out.html', '--json']], ['web-app-human', ['finalize', 'architecture', arch, 'out.html']]]) {
   const f = finalizeFixture('finalize-chromium', name, args, exFiles(arch), chromeEnv);
   expect(f.exit === 0 && f.sidecars['out.browser-check.json'].includes('"executable": "<CHROME>"'), `finalize ${name}: a launched, passing run`);
+  expect(f.sidecars['out.finalize.json'].includes('"browserCheck": {\n    "requested": true,\n    "ran": true\n  }'), `finalize ${name}: browserCheck ran`);
 }
 
 // The phase exit (plan "Exit"): upstream finalize on every example at both qualities, as {exit, ok, failedStage, gates, codes (the full

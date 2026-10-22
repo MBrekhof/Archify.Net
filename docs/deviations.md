@@ -45,6 +45,9 @@ Commands and configuration:
   `ARCHIFY_CHROME` and others). Use `--quality` and `--repo-root`.
 - `compare`, `brands`, `migrate` and `preview` are not ported. They answer `Unknown command` with exit 2.
 - Help is upstream's usage text minus those four commands, plus an `archify install-browser` line (a command upstream does not have).
+- The explainer type is withheld until PORT-009: no explainer usage lines (`archify patch`, `explainer` in Types, the
+  `--writing` block), no `patch` command, and no `--writing` acceptance. `--writing` is parsed as upstream parses it, but a valid
+  value always answers `cli/unsupported-option`, and the unknown-type message lists the ten diagram types only.
 - `archify examples` writes to `./examples/` in the current directory (upstream writes into the installed skill folder). It checks
   an example's `meta.output` against the current directory, where upstream checks against the skill root.
 - `archify doctor` checks the .NET runtime, the embedded resources, git on PATH and the Playwright Chromium install, in upstream's

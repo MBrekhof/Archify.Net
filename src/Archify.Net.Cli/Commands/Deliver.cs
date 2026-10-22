@@ -16,7 +16,8 @@ static partial class DeliverCommand
     {
         store ??= DeliveryStore.Native;
         var (afterQuality, quality) = Args.Quality(args);
-        var (options, repoRoot) = Args.RepoRoot(afterQuality, io.Cwd);
+        var (afterRepoRoot, repoRoot) = Args.RepoRoot(afterQuality, io.Cwd);
+        var (options, _) = Args.ExtractExplainerWritingArgs(afterRepoRoot);
         var json = options.Contains("--json");
         var open = options.Contains("--open");
         if (options.FirstOrDefault(arg => arg.StartsWith("--", StringComparison.Ordinal) && !KnownOptions.Contains(arg)) is { } unknown)

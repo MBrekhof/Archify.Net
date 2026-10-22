@@ -1,0 +1,16 @@
+{
+  "args": [
+    "validate",
+    "architecture",
+    "web-app.architecture.json",
+    "--writing",
+    "warn",
+    "--writing=off"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "",
+  "stderr": "--writing requires one of warn, strict or off.\n"
+}

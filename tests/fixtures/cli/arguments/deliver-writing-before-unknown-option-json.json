@@ -1,0 +1,17 @@
+{
+  "args": [
+    "deliver",
+    "architecture",
+    "web-app.architecture.json",
+    "--bogus",
+    "--writing",
+    "warn",
+    "--json"
+  ],
+  "files": {
+    "web-app.architecture.json": "upstream/examples/web-app.architecture.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"stage\": \"arguments\",\n  \"error\": \"--writing is supported for explainer documents only.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unsupported-option\",\n      \"severity\": \"error\",\n      \"message\": \"--writing is supported for explainer documents only.\",\n      \"subject\": {\n        \"command\": \"deliver\",\n        \"option\": \"--writing\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"Remove --writing or use an explainer document.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": ""
+}
