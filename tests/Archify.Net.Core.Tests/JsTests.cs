@@ -66,7 +66,7 @@ public class JsTests
             Ids(JsonNode.Parse(File.ReadAllText(file)), words);
         words.AddRange(BrandMarks.ListBrandMarks().Select(m => m.Id));
         words = [.. words.Distinct()];
-        Assert.True(words.Count > 250, $"{words.Count} strings");   // 288 at c21c31ff: the examples and the catalog were found
+        Assert.True(words.Count > 250, $"{words.Count} strings");   // above 250: the examples and the catalog were found
         var mismatches = new List<string>();
         foreach (var a in words) foreach (var b in words)
             if (Math.Sign(en.Compare(a, b, System.Globalization.CompareOptions.None)) != Math.Sign(Js.LocaleCompare(a, b))) mismatches.Add($"{a} vs {b}");

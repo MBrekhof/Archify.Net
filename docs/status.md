@@ -2,7 +2,7 @@
 
 Summary table in [`README.md`](../README.md#status).
 
-The full suite (`dotnet test`) runs 3972 tests: 2998 in `Archify.Net.Core.Tests`, 961 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 3993 tests: 3016 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 
 ## Phase 1 — Foundation, validation gates, architecture renderer, artifact checker
 
@@ -79,6 +79,7 @@ The full suite (`dotnet test`) runs 3972 tests: 2998 in `Archify.Net.Core.Tests`
 - New parity rows: timeline wall-clock ticks across DST (New York fall-back and spring-forward hours, Lord Howe's 30-minute
   shift, a round trip) and millisecond clock labels; waterfall `timeNumber` precision (a V8 table plus epoch offsets, a crowded
   axis, an endpoint shift and zero durations); erd trunk bridges blocked by an unrelated route, a wide route and an earlier
-  bridge; the `schema_version: 1` migration fallback with `semanticChecks`; git values that keep trailing spaces.
+  bridge, bridges that survive nearby strokes (vertical and horizontal), and a horizontal blocked bridge; the new `ar` locale
+  catalog; the `schema_version: 1` migration fallback with `semanticChecks`; git values that keep trailing spaces.
 - CLI: finalize receipts and summaries carry `browserCheck`, `--browser-check` is accepted, and `--writing` is parsed as
   upstream parses it (see the explainer entry in [`deviations.md`](deviations.md)).

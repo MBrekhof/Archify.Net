@@ -127,6 +127,7 @@ public class ParityTests
         ["erd", Fixtures.Fixture("diagrams/i18n.zh-TW.erd.json"), Fixtures.Golden("i18n.zh-TW-rendered.html")],
         ["erd", Fixtures.Fixture("diagrams/i18n.es.erd.json"), Fixtures.Golden("i18n.es-rendered.html")],
         ["erd", Fixtures.Fixture("diagrams/i18n.ko.erd.json"), Fixtures.Golden("i18n.ko-rendered.html")],
+        ["erd", Fixtures.Fixture("diagrams/i18n.ar.erd.json"), Fixtures.Golden("i18n.ar-rendered.html")],
         ["erd", Fixtures.Fixture("diagrams/orders.lanes.erd.json"), Fixtures.Golden("orders.lanes-rendered.html")],   // laneOffsets
         ["erd", Fixtures.Fixture("diagrams/orders.seven-domains.erd.json"), Fixtures.Golden("orders.seven-domains-rendered.html")],   // 7th hue wraps
         ["erd", Fixtures.Fixture("diagrams/orders.crossing-standard.erd.json"), Fixtures.Golden("orders.crossing-standard-rendered.html")],
@@ -140,6 +141,8 @@ public class ParityTests
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-bridge.erd.json"), Fixtures.Golden("erd-bridge-blocked-bridge-rendered.html")], // earlier bridge blocks; rejected one not kept
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-near-clear.erd.json"), Fixtures.Golden("erd-bridge-near-clear-rendered.html")],         // width 4 at 2.85: past 2.75, bridge survives
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-near-clear-thin.erd.json"), Fixtures.Golden("erd-bridge-near-clear-thin-rendered.html")], // width 1.5 at 1.6: past 1.5, bridge survives
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-near-clear-h.erd.json"), Fixtures.Golden("erd-bridge-near-clear-h-rendered.html")],         // horizontal: bridge survives
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-near-clear-thin-h.erd.json"), Fixtures.Golden("erd-bridge-near-clear-thin-h-rendered.html")], // horizontal, width 1.5: bridge survives
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-route-h.erd.json"), Fixtures.Golden("erd-bridge-blocked-route-h-rendered.html")], // horizontal overlap: axis 1
     ];
 

@@ -46,7 +46,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | PORT-007 | Re-pin to upstream 3.2.0: timeline DST ticks, waterfall time precision, erd bridges, migration contracts, CLI `browserCheck` | Done |
 | PORT-008, PORT-009 | Pele charts in C#, then the explainer type | Planned |
 
-The full suite (`dotnet test`) runs 3972 tests: 2998 in `Archify.Net.Core.Tests`, 961 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 3993 tests: 3016 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 Per-phase parity results and test counts are in [`docs/status.md`](docs/status.md).
 
 ## Quick start

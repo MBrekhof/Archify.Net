@@ -29,7 +29,7 @@ public class DoctorCommandTests
         Assert.Equal((0, Lines(_ => "ok") + "\nArchify is ready.\n", ""), CliTestHost.Run(["doctor"], services: Ready));
     }
 
-    // The default resource lookup finds every resource doctor asks for: template, 6 locale files, recipes, 2 viewer-gate
+    // The default resource lookup finds every resource doctor asks for: template, 7 locale files (manifest + 6), recipes, 2 viewer-gate
     // scripts, 10 schemas and 25 examples.
     [Fact]
     public void Every_checked_resource_is_embedded()

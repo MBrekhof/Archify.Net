@@ -583,7 +583,7 @@ const erdWrite = (name, d) => { write(`fixtures/diagrams/${name}.erd.json`, d); 
 erdWrite('label-capacity', fixture());
 erdWrite('label-capacity.showcase', fixture('showcase'));   // the tests' `for (const quality of ['standard', 'showcase'])`
 erdWrite('label-capacity-vertical', verticalFixture());
-for (const locale of ['en', 'zh-CN', 'zh-TW', 'es', 'ko']) erdWrite(`i18n.${locale}`, i18nFixture(undefined, locale));
+for (const locale of ['en', 'zh-CN', 'zh-TW', 'es', 'ko', 'ar']) erdWrite(`i18n.${locale}`, i18nFixture(undefined, locale));
 // Derived from orders.erd.json; each reaches a branch no clean upstream input does (survey-erd §8).
 const orders = () => ex('orders.erd.json');
 const erdCrossing = (d) => {   // two authored `via` routes that cross: clean under standard, composition/proper-crossing under showcase
@@ -678,6 +678,9 @@ erdWrite('erd-bridge-wide-route', bridgeFixture({ conflict: 'near', offset: 2.5,
 // The test's "bridges survive when nearby strokes remain separate" pair (vertical): just past each half-width sum, so one trunk stays.
 erdWrite('erd-bridge-near-clear', bridgeFixture({ conflict: 'near', offset: 2.85, width: 4 }));
 erdWrite('erd-bridge-near-clear-thin', bridgeFixture({ conflict: 'near', offset: 1.6 }));
+// The same pair horizontal (the test loops over both orientations).
+erdWrite('erd-bridge-near-clear-h', bridgeFixture({ conflict: 'near', offset: 2.85, width: 4, horizontal: true }));
+erdWrite('erd-bridge-near-clear-thin-h', bridgeFixture({ conflict: 'near', offset: 1.6, horizontal: true }));
 // The test's horizontal overlap scenario: c_d runs along the bus inside the gap, so the bridge is rejected on axis 1.
 erdWrite('erd-bridge-blocked-route-h', bridgeFixture({ conflict: 'overlap', horizontal: true }));
 // Same-axis bridges in one cluster. m sends two relationships, so both ends are spread and alignAutomaticFacingPorts
@@ -719,6 +722,9 @@ for (const [type, input, golden] of targets) render(type, input, out(`goldens/${
   if (!/data-edge-id="c_d"[^>]*stroke-width="4"/.test(html('erd-bridge-wide-route'))) throw new Error('erd-bridge-wide-route: c_d not drawn at width 4');
   for (const n of ['erd-bridge-near-clear', 'erd-bridge-near-clear-thin']) {
     if (trunks(n) !== '172,48;172,328') throw new Error(`${n}: trunks ${trunks(n)}, expected the bridge to survive (one trunk)`);
+  }
+  for (const n of ['erd-bridge-near-clear-h', 'erd-bridge-near-clear-thin-h']) {
+    if (trunks(n) !== '48,172;328,172') throw new Error(`${n}: trunks ${trunks(n)}, expected the bridge to survive (one trunk)`);
   }
   // 3.1.0 (checked once by rendering this input from c21c31ff): one trunk 48,172;328,172.
   if (trunks('erd-bridge-blocked-route-h') !== '48,172;126,172 | 150,172;328,172') throw new Error(`erd-bridge-blocked-route-h: trunks ${trunks('erd-bridge-blocked-route-h')}, expected the bridge 126..150 rejected`);
