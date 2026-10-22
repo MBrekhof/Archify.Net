@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "diagram_type": "waterfall",
+  "meta": {
+    "title": "endpoint-shift",
+    "output": "endpoint-shift.html",
+    "evidence": "illustrative",
+    "unit": "ms"
+  },
+  "layout": {
+    "width": 360
+  },
+  "spans": [
+    {
+      "id": "s0",
+      "name": "Span 0",
+      "start": 1700000000123.06,
+      "end": 1700000000124.44
+    }
+  ]
+}

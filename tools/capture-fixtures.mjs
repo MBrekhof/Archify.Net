@@ -190,6 +190,20 @@ function wfNumber(value) {
 }
 const wfValues = [0, 0.004, 0.0049, 0.0051, 0.00999, 0.01, 0.0000005, 0.00000049, 1e-7, 1.234e-9, 0.125, 0.5, 1, 1.005, 12.345, 12.355, 99.995, 100, 1234.5, 1234567.891, 4.2e6, -0.004, -12.345, 1.7e307, Number.MAX_VALUE];
 write('fixtures/js/waterfall-number.json', wfValues.map((value) => ({ value, text: wfNumber(value) })));
+// --- waterfall timeNumber(): render-waterfall.mjs v3.2.0 :198-204 copied verbatim; the closed-over timeResolution is a parameter.
+// MAX_VALUE at resolution 2e307 rounds to Infinity (toPrecision(3)) and takes the value.toString() fallback. ---
+function wfTimeNumber(value, timeResolution) {
+  const ordinary = wfNumber(value);
+  if (Math.abs(value) < 1e21 && Math.abs(Number(ordinary.replaceAll(',', '')) - value) <= timeResolution / 100) return ordinary;
+  const digits = value === 0 ? 1 : Math.min(17, Math.max(1, Math.floor(Math.log10(Math.abs(value))) - Math.floor(Math.log10(timeResolution)) + 2));
+  const rounded = Number(value.toPrecision(digits));
+  return Number.isFinite(rounded) ? rounded.toString() : value.toString();
+}
+const wfTimeValues = [0, 1e21, -1e21, 1700000000123.4, 1700000000123.456, 0.000123, 123456.789, 0.0091, 0.009104, -12.345, 9.99e20, 1e16 + 2,
+  Number.MAX_VALUE, -Number.MAX_VALUE];
+const wfTimeResolutions = [1, 0.5, 0.001, 1e-9, 4e-6, 2e307];
+write('fixtures/js/waterfall-time-number.json',
+  wfTimeValues.flatMap((value) => wfTimeResolutions.map((resolution) => ({ value, resolution, text: wfTimeNumber(value, resolution) }))));
 
 // --- JS whitespace trims and the five regex splits/tokenizers the tree, class and timeline wrappers use. Each regex is copied verbatim
 // from its renderer and evaluated by V8; the C# members (Task 2) reproduce them with explicit JS-whitespace classes. ---
@@ -340,6 +354,22 @@ const noUnit = structuredClone(incomplete); noUnit.meta.output = 'incomplete-tra
 write('fixtures/diagrams/incomplete-trace.no-unit.waterfall.json', noUnit);
 const wfWidth = ex('checkout-request.waterfall.json'); wfWidth.meta.output = 'checkout-request.width.html'; wfWidth.layout = { width: 500 };   // `wf.layout?.width ?? 760`
 write('fixtures/diagrams/checkout-request.width.waterfall.json', wfWidth);
+// 3.2.0 timeNumber (render-waterfall.mjs:195-204) and axisLabels (:240-267) at epoch-millisecond scale. Each input's branch is
+// asserted after the layout reports below. The schema's layout.width minimum is 360.
+const wfAxisProbe = (name, width, spans) => ({
+  schema_version: 1, diagram_type: 'waterfall',
+  meta: { title: name, output: `${name}.html`, evidence: 'illustrative', unit: 'ms' },
+  ...(width ? { layout: { width } } : {}),
+  spans: spans.map(([start, end], i) => ({ id: `s${i}`, name: `Span ${i}`, start, end })),
+});
+const axisProbes = [
+  // 0.5 ms spans; .456 needs the precision branch; the zero-length span must stay out of timeResolution
+  wfAxisProbe('epoch-offsets', undefined, [[1700000000123.4, 1700000000123.9], [1700000000123.456, 1700000000123.956], [1700000000123.4, 1700000000123.4]]),
+  wfAxisProbe('crowded-axis', 360, [[1700000000123.4, 1700000000123.9], [1700000000123.9, 1700000000124.4], [1700000000124.4, 1700000000124.9]]),   // middle label omitted
+  wfAxisProbe('endpoint-shift', 360, [[1700000000123.06, 1700000000124.44]]),   // two ticks whose labels overlap: the first shifts left
+  wfAxisProbe('zero-duration', undefined, [[1700000000123.456, 1700000000123.456]]),   // no positive duration: timeResolution is tickStep (1)
+];
+for (const d of axisProbes) write(`fixtures/diagrams/${d.meta.title}.waterfall.json`, d);
 const noTz = ex('payment-incident.timeline.json'); noTz.meta.output = 'payment-incident.no-timezone.html'; delete noTz.meta.timezone;   // `tl.meta.timezone || 'UTC'`
 write('fixtures/diagrams/payment-incident.no-timezone.timeline.json', noTz);
 const halfTz = ex('payment-incident.timeline.json'); halfTz.meta.output = 'payment-incident.minus-half.html'; halfTz.meta.timezone = '-05:30';   // fixed offset at render level
@@ -384,6 +414,7 @@ targets.push(
   ['waterfall', out('fixtures/diagrams/incomplete-trace.waterfall.json'), 'incomplete-trace-rendered.html'],
   ['waterfall', out('fixtures/diagrams/incomplete-trace.no-unit.waterfall.json'), 'incomplete-trace.no-unit-rendered.html'],
   ['waterfall', out('fixtures/diagrams/checkout-request.width.waterfall.json'), 'checkout-request.width-rendered.html'],
+  ...axisProbes.map(({ meta: { title } }) => ['waterfall', out(`fixtures/diagrams/${title}.waterfall.json`), `${title}-rendered.html`]),
   ['timeline', out('fixtures/diagrams/payment-incident.no-timezone.timeline.json'), 'payment-incident.no-timezone-rendered.html'],
   ['timeline', out('fixtures/diagrams/payment-incident.minus-half.timeline.json'), 'payment-incident.minus-half-rendered.html'],
   ['lifecycle', out('fixtures/diagrams/agent-run.no-sublabel-tag.lifecycle.json'), 'agent-run.no-sublabel-tag-rendered.html'],
@@ -849,13 +880,64 @@ for (const [name, fault] of waterfallFaults) {
     fs.rmSync(out(`goldens/${name}.html`), { force: true });
   } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.waterfall.expected.json`, JSON.parse(String(e.stderr))); }
 }
-// Waterfall layout reports (`--layout-json` stdout) for the three waterfall goldens.
+// Waterfall layout reports (`--layout-json` stdout) for the waterfall goldens and the axis probes.
 for (const [name, input] of [['waterfall-checkout-request', path.join(EX, 'checkout-request.waterfall.json')],
   ['waterfall-example-rebuild', path.join(EX, 'example-rebuild.waterfall.json')],
-  ['incomplete-trace', out('fixtures/diagrams/incomplete-trace.waterfall.json')]]) {
+  ['incomplete-trace', out('fixtures/diagrams/incomplete-trace.waterfall.json')],
+  ...axisProbes.map(({ meta: { title } }) => [title, out(`fixtures/diagrams/${title}.waterfall.json`)])]) {
   const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/waterfall/render-waterfall.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
+// Each axis probe reaches its branch (a later upstream change must not silently turn one into a no-op).
+{
+  const { nodeTextFit } = await imp('renderers/shared/text-fit.mjs');
+  const tickStepOf = (wall, axisWidth) => {   // verbatim render-waterfall.mjs:176-184 (minTickPx 80, NICE)
+    if (!wall) return 1;
+    const target = (80 / axisWidth) * wall;
+    let magnitude = 10 ** Math.floor(Math.log10(target));
+    for (;;) {
+      for (const factor of [1, 2, 2.5, 5]) if (factor * magnitude >= target) return factor * magnitude;
+      magnitude *= 10;
+    }
+  };
+  const probe = (name) => {
+    const report = JSON.parse(fs.readFileSync(out(`fixtures/diagrams/${name}.layout.json`), 'utf8'));
+    const html = fs.readFileSync(out(`goldens/${name}-rendered.html`), 'utf8');
+    const labels = [...html.matchAll(/<text x="([^"]+)"[^>]*class="t-muted wf-num" font-size="10\.5" text-anchor="middle">([^<]*)<\/text>/g)]
+      .map((m) => ({ x: Number(m[1]), text: m[2] }));
+    const durations = report.rows.map((row) => row.end - row.start);   // no open span in a probe, so row.end is the recorded end
+    const resolution = Math.min(tickStepOf(report.wall, report.axis.x1 - report.axis.x0), ...durations.filter((d) => d > 0));   // :197
+    const ordinaryFits = (v, res) => Math.abs(v) < 1e21 && Math.abs(Number(wfNumber(v).replaceAll(',', '')) - v) <= res / 100;
+    const times = [...report.rows.flatMap((row) => [row.start, row.end]), ...report.ticks.map(({ t }) => t)];
+    const fail = (why) => { throw new Error(`${name}: ${why}`); };
+    return { report, html, labels, durations, resolution, ordinaryFits, times, fail, ticks: report.ticks };
+  };
+  { const { html, durations, resolution, ordinaryFits, times, fail } = probe('epoch-offsets');
+    const precise = times.filter((v) => !ordinaryFits(v, resolution));
+    if (!precise.length) fail('no recorded time takes the precision branch');
+    for (const v of precise) {
+      const text = wfTimeNumber(v, resolution);
+      if (text === wfNumber(v) || !html.includes(text)) fail(`${v}: "${text}" missing or equal to 3.1.0's number()`);
+    }
+    if (!durations.includes(0)) fail('no zero-length span');
+    if (!times.some((v) => ordinaryFits(v, resolution) && !ordinaryFits(v, 0))) fail('counting the zero-length span would change no label'); }
+  { const { labels, ticks, resolution, fail } = probe('crowded-axis');
+    const text = (t) => `${wfTimeNumber(t, resolution)} ms`;
+    if (ticks.length < 3) fail(`${ticks.length} ticks, expected an intermediate one`);
+    if (labels[0]?.text !== text(ticks[0].t) || labels.at(-1)?.text !== text(ticks.at(-1).t)) fail('an endpoint label is missing');
+    if (labels.length >= ticks.length) fail('no intermediate label omitted'); }
+  { const { report, labels, ticks, fail } = probe('endpoint-shift');
+    if (ticks.length !== 2 || labels.length !== 2) fail(`${ticks.length} ticks, ${labels.length} labels, expected 2 and 2`);
+    const half = (textUnits(labels[0].text) * 10.5 * nodeTextFit.widthFactor + 4) / 2;
+    const clamped = Math.max(28 + half, Math.min(ticks[0].x, report.viewBox[0] - 28 - half));   // :244, margin 28
+    if (!(labels[0].x < clamped)) fail(`first label at ${labels[0].x}, unshifted ${clamped}`); }
+  { const { html, durations, resolution, report, fail } = probe('zero-duration');
+    if (durations.some((d) => d > 0)) fail('a positive duration');
+    const t0 = report.origin;
+    if (resolution !== 1 || wfTimeNumber(t0, resolution) !== wfNumber(t0) || wfTimeNumber(t0, 0) === wfNumber(t0) || !html.includes(`${wfNumber(t0)} → `)) {
+      fail('the header range does not tell timeResolution = tickStep from 0');
+    } }
 }
 // --- phase 3 manifest: one row per workflow/dataflow input, with owning task and (workflow) the compiler branches it reaches ---
 // Coverage probe: workflow-compiler.mjs with a tag call inserted after each anchor, imported from a data: URL (relative imports made absolute).

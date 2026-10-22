@@ -51,6 +51,17 @@ public sealed class WaterfallRenderer : IDiagramRenderer
         return Js.ToLocaleStringEnUs(rounded, maximumFractionDigits: 2);
     }
 
+    // timeNumber() (v3.2.0 :198-204); upstream closes over timeResolution, the port passes it in. `Number(ordinary.replaceAll(',', ''))`
+    // is Js.ToNumber; `rounded.toString()` / `value.toString()` are Js.Num.
+    internal static string TimeNumber(double value, double timeResolution)
+    {
+        var ordinary = Number(value);
+        if (Math.Abs(value) < 1e21 && Math.Abs(Js.ToNumber(ordinary.Replace(",", "")) - value) <= timeResolution / 100) return ordinary;
+        var digits = value == 0 ? 1 : Math.Min(17, Math.Max(1, Math.Floor(Math.Log10(Math.Abs(value))) - Math.Floor(Math.Log10(timeResolution)) + 2));
+        var rounded = Js.ToNumber(Js.ToPrecision(value, (int)digits));
+        return double.IsFinite(rounded) ? Js.Num(rounded) : Js.Num(value);
+    }
+
     // `{ ...span, index, status, open, end, duration }` (:118) plus depth (:126) and the placed fields of :198-207.
     sealed class Row
     {
@@ -63,6 +74,14 @@ public sealed class WaterfallRenderer : IDiagramRenderer
     }
 
     sealed record Tick(double T, double X);
+
+    // `{ text, x, left, right }` (v3.2.0 :240-245) plus the `visible` flag set at :262-267.
+    sealed class AxisLabel
+    {
+        public required string Text;
+        public double X, Left, Right;
+        public bool Visible;
+    }
 
     sealed class Scene
     {
@@ -80,6 +99,8 @@ public sealed class WaterfallRenderer : IDiagramRenderer
         readonly JsMap<string, string?> serviceOf = new();
         readonly double labelW, axisX0, axisX1, scale, rowsTop;
         readonly List<Tick> ticks = [];
+        readonly double timeResolution;
+        readonly List<AxisLabel> axisLabels;
         readonly List<LegendEntry> legendEntries;
         readonly double contentBottom, width, height;
 
@@ -168,6 +189,10 @@ public sealed class WaterfallRenderer : IDiagramRenderer
                 if (ticks.Count == 0 || ticks[^1].T != t) ticks.Add(new Tick(t, XOf(t)));
             }
 
+            // Absolute times need enough precision for the axis and the shortest recorded span, rather than the duration
+            // formatter's fixed significant-digit floor (v3.2.0 :197). With no positive duration this is tickStep.
+            timeResolution = Js.MinOf(spans.Where(row => row.Duration > 0).Select(row => row.Duration), tickStep);
+
             var parentIds = new JsSet<string>();
             foreach (var row in rows) if (row.Parent is not null) parentIds.Add(row.Parent);
             for (var index = 0; index < rows.Count; index++)
@@ -209,6 +234,40 @@ public sealed class WaterfallRenderer : IDiagramRenderer
             contentBottom = rowsTop + rows.Count * Layout.RowH + 8;
             var labelRoom = Math.Ceiling(Js.MaxOf(rows.Select(row => row.X1 + LABEL_GAP + row.LabelWidth)) - axisX1);
             width = Math.Ceiling(axisX1 + Math.Max(24, labelRoom) + Layout.Margin);
+            // ---- Axis labels (v3.2.0 :240-267) ----
+            axisLabels = ticks.Select(tick =>
+            {
+                var text = $"{TimeNumber(tick.T, timeResolution)} {unitLabel}";
+                var halfWidth = (Utils.TextUnits(text) * 10.5 * ADVANCE + 4) / 2;
+                var x = Math.Max(Layout.Margin + halfWidth, Math.Min(tick.X, width - Layout.Margin - halfWidth));
+                return new AxisLabel { Text = text, X = x, Left = x - halfWidth, Right = x + halfWidth };
+            }).ToList();
+            // Keep the endpoints readable; omit intermediate labels that cannot fit. The ticks and the proportional time geometry
+            // remain unchanged.
+            if (axisLabels.Count > 1)
+            {
+                var first = axisLabels[0];
+                var last = axisLabels[^1];
+                var overlap = Math.Max(0, first.Right + 8 - last.Left);
+                var leftShift = Math.Min(overlap, first.Left - Layout.Margin);
+                first.X -= leftShift;
+                first.Left -= leftShift;
+                first.Right -= leftShift;
+                // ponytail: unreachable for schema-valid input (needs a ~35-unit label), ported verbatim.
+                var rightShift = Math.Min(overlap - leftShift, width - Layout.Margin - last.Right);
+                last.X += rightShift;
+                last.Left += rightShift;
+                last.Right += rightShift;
+            }
+            var previousLabelRight = double.NegativeInfinity;
+            for (var index = 0; index < axisLabels.Count; index++)
+            {
+                var label = axisLabels[index];
+                var lastLabel = axisLabels[^1];
+                if (label.Left < previousLabelRight + 8 || (index > 0 && index < axisLabels.Count - 1 && label.Right + 8 > lastLabel.Left)) continue;
+                label.Visible = true;
+                previousLabelRight = label.Right;
+            }
             var footprint = Legend.LegendFootprint(legendEntries, width - Layout.Margin * 2, 11);
             height = Math.Ceiling(contentBottom + Layout.Margin + (legendEntries.Count > 0 ? 34 + footprint.ExtraHeight : 0));
         }
@@ -372,7 +431,7 @@ public sealed class WaterfallRenderer : IDiagramRenderer
             var evidenceW = Math.Ceiling(Utils.TextUnits(evidence) * 10.5 * ADVANCE + 24);
             var tone = evidenceKey == "measured" ? "backend" : "messagebus";
             var wallText = ctx.Locale.Translate(locale, "waterfall.wall", new Dictionary<string, string> { ["duration"] = FormatDuration(wall) });   // lookup only
-            var range = $"{Number(t0)} → {Number(t1)} {unitLabel}";
+            var range = $"{TimeNumber(t0, timeResolution)} → {TimeNumber(t1, timeResolution)} {unitLabel}";
             var wallX = Layout.Margin + evidenceW + 14;
             return $"        <g data-waterfall-evidence=\"{Utils.Esc(evidenceKey)}\">\n"
                 + $"          <rect x=\"{N(Layout.Margin)}\" y=\"14\" width=\"{N(evidenceW)}\" height=\"22\" rx=\"11\" class=\"c-{tone}\" stroke-width=\"1\"/>\n"
@@ -393,7 +452,9 @@ public sealed class WaterfallRenderer : IDiagramRenderer
             lines.AddRange(ticks.Select((tick, index) =>
                 $"        <line x1=\"{N(tick.X)}\" y1=\"{N(lineY)}\" x2=\"{N(tick.X)}\" y2=\"{N(contentBottom)}\" class=\"wf-grid{(index != 0 ? "" : " wf-grid-origin")}\" stroke-width=\"1\"/>\n"
                 + $"        <line x1=\"{N(tick.X)}\" y1=\"{N(lineY - 4)}\" x2=\"{N(tick.X)}\" y2=\"{N(lineY)}\" class=\"wf-axis\" stroke-width=\"1\"/>\n"
-                + $"        <text x=\"{N(tick.X)}\" y=\"{N(lineY - 10)}\" class=\"t-muted wf-num\" font-size=\"10.5\" text-anchor=\"middle\">{Utils.Esc(Number(tick.T))} {Utils.Esc(unitLabel)}</text>"));
+                + "        " + (axisLabels[index].Visible
+                    ? $"<text x=\"{N(axisLabels[index].X)}\" y=\"{N(lineY - 10)}\" class=\"t-muted wf-num\" font-size=\"10.5\" text-anchor=\"middle\">{Utils.Esc(axisLabels[index].Text)}</text>"
+                    : "")));
             return string.Join("\n", lines);
         }
 
@@ -418,7 +479,7 @@ public sealed class WaterfallRenderer : IDiagramRenderer
             var parent = row.Parent is not null ? rows.FirstOrDefault(candidate => candidate.Id == row.Parent) : null;
             var share = ctx.Locale.Translate(locale, "waterfall.share",
                 new Dictionary<string, string> { ["percent"] = Percent(row.Duration), ["total"] = FormatDuration(wall) });   // lookup only
-            var timing = $"{Number(row.Start)}–{(row.Open ? "…" : Number(row.End))} {unitLabel} · {row.Label} · {share}";
+            var timing = $"{TimeNumber(row.Start, timeResolution)}–{(row.Open ? "…" : TimeNumber(row.End, timeResolution))} {unitLabel} · {row.Label} · {share}";
             var service = serviceOf.Get(row.Id);
             var passport = new JsonObject
             {

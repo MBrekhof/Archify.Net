@@ -1,0 +1,31 @@
+{
+  "diagram_type": "waterfall",
+  "unit": "ms",
+  "viewBox": [
+    1008,
+    149
+  ],
+  "origin": 1700000000123.456,
+  "wall": 0,
+  "pxPerUnit": 0,
+  "axis": {
+    "x0": 196,
+    "x1": 956
+  },
+  "ticks": [],
+  "rows": [
+    {
+      "id": "s0",
+      "parent": null,
+      "depth": 0,
+      "start": 1700000000123.456,
+      "end": 1700000000123.456,
+      "open": false,
+      "x0": 196,
+      "x1": 196,
+      "y": 88,
+      "label": "0 ms",
+      "placement": "after"
+    }
+  ]
+}

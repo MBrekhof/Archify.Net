@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "diagram_type": "waterfall",
+  "meta": {
+    "title": "epoch-offsets",
+    "output": "epoch-offsets.html",
+    "evidence": "illustrative",
+    "unit": "ms"
+  },
+  "spans": [
+    {
+      "id": "s0",
+      "name": "Span 0",
+      "start": 1700000000123.4,
+      "end": 1700000000123.9
+    },
+    {
+      "id": "s1",
+      "name": "Span 1",
+      "start": 1700000000123.456,
+      "end": 1700000000123.956
+    },
+    {
+      "id": "s2",
+      "name": "Span 2",
+      "start": 1700000000123.4,
+      "end": 1700000000123.4
+    }
+  ]
+}

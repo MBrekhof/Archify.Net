@@ -43,6 +43,11 @@ public class ParityTests
         // TEST-001: schema-valid fallback sites no other golden reaches, one edit each on a committed input.
         ["waterfall", Fixtures.Fixture("diagrams/incomplete-trace.no-unit.waterfall.json"), Fixtures.Golden("incomplete-trace.no-unit-rendered.html")],   // `meta.unit || 'ms'`
         ["waterfall", Fixtures.Fixture("diagrams/checkout-request.width.waterfall.json"), Fixtures.Golden("checkout-request.width-rendered.html")],     // `layout?.width ?? 760`
+        // 3.2.0 timeNumber and axisLabels (capture-fixtures.mjs asserts each reaches its branch).
+        ["waterfall", Fixtures.Fixture("diagrams/epoch-offsets.waterfall.json"), Fixtures.Golden("epoch-offsets-rendered.html")],     // precision branch
+        ["waterfall", Fixtures.Fixture("diagrams/crowded-axis.waterfall.json"), Fixtures.Golden("crowded-axis-rendered.html")],       // intermediate label omitted
+        ["waterfall", Fixtures.Fixture("diagrams/endpoint-shift.waterfall.json"), Fixtures.Golden("endpoint-shift-rendered.html")],   // endpoint overlap shift
+        ["waterfall", Fixtures.Fixture("diagrams/zero-duration.waterfall.json"), Fixtures.Golden("zero-duration-rendered.html")],     // no positive duration
         ["timeline", Fixtures.Fixture("diagrams/payment-incident.no-timezone.timeline.json"), Fixtures.Golden("payment-incident.no-timezone-rendered.html")],   // `meta.timezone || 'UTC'`
         ["timeline", Fixtures.Fixture("diagrams/payment-incident.minus-half.timeline.json"), Fixtures.Golden("payment-incident.minus-half-rendered.html")],     // fixed offset -05:30
         ["lifecycle", Fixtures.Fixture("diagrams/agent-run.no-sublabel-tag.lifecycle.json"), Fixtures.Golden("agent-run.no-sublabel-tag-rendered.html")],
@@ -597,11 +602,15 @@ public class ParityTests
         AssertReceipt(expected, r);
     }
 
-    // `node render-waterfall.mjs <in> <out> --layout-json` stdout for the three waterfall goldens.
+    // `node render-waterfall.mjs <in> <out> --layout-json` stdout for the waterfall goldens.
     [Theory]
     [InlineData("upstream:examples/checkout-request.waterfall.json", "waterfall-checkout-request")]
     [InlineData("upstream:examples/example-rebuild.waterfall.json", "waterfall-example-rebuild")]
     [InlineData("fixture:diagrams/incomplete-trace.waterfall.json", "incomplete-trace")]
+    [InlineData("fixture:diagrams/epoch-offsets.waterfall.json", "epoch-offsets")]
+    [InlineData("fixture:diagrams/crowded-axis.waterfall.json", "crowded-axis")]
+    [InlineData("fixture:diagrams/endpoint-shift.waterfall.json", "endpoint-shift")]
+    [InlineData("fixture:diagrams/zero-duration.waterfall.json", "zero-duration")]
     public void Waterfall_layout_report_equals_upstream_layout_json(string input, string name)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);

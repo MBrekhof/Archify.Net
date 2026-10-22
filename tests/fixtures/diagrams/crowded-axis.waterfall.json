@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "diagram_type": "waterfall",
+  "meta": {
+    "title": "crowded-axis",
+    "output": "crowded-axis.html",
+    "evidence": "illustrative",
+    "unit": "ms"
+  },
+  "layout": {
+    "width": 360
+  },
+  "spans": [
+    {
+      "id": "s0",
+      "name": "Span 0",
+      "start": 1700000000123.4,
+      "end": 1700000000123.9
+    },
+    {
+      "id": "s1",
+      "name": "Span 1",
+      "start": 1700000000123.9,
+      "end": 1700000000124.4
+    },
+    {
+      "id": "s2",
+      "name": "Span 2",
+      "start": 1700000000124.4,
+      "end": 1700000000124.9
+    }
+  ]
+}

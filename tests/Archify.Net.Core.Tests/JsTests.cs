@@ -111,6 +111,15 @@ public class JsTests
     {
         foreach (var e in Load("waterfall-number.json")) Assert.Equal(e!["text"]!.GetValue<string>(), WaterfallRenderer.Number(e["value"]!.GetValue<double>()));
     }
+    [Fact] public void Waterfall_time_number_matches_V8()
+    {
+        var rows = Load("waterfall-time-number.json");
+        Assert.NotEmpty(rows);
+        foreach (var e in rows)
+        {
+            Assert.Equal(e!["text"]!.GetValue<string>(), WaterfallRenderer.TimeNumber(e["value"]!.GetValue<double>(), e["resolution"]!.GetValue<double>()));
+        }
+    }
     [Fact] public void Num_handles_raw_json_text_variants()
     {
         Assert.Equal("1", Js.Num(JsonNode.Parse("1.0")!.GetValue<double>()));

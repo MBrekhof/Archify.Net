@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "diagram_type": "waterfall",
+  "meta": {
+    "title": "zero-duration",
+    "output": "zero-duration.html",
+    "evidence": "illustrative",
+    "unit": "ms"
+  },
+  "spans": [
+    {
+      "id": "s0",
+      "name": "Span 0",
+      "start": 1700000000123.456,
+      "end": 1700000000123.456
+    }
+  ]
+}
