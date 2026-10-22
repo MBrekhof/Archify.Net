@@ -1,7 +1,8 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-15, evening: cleanup batches 1 and 2 and TEST-004 are done, and PERF-003 is reproduced. Every open card waits
-on Martin. Phase 6 was done earlier the same day, with the exit demonstration passed.
+Updated 2026-10-23: PORT-007 (re-pin to upstream archify 3.2.0, explainer excluded) is implemented and reviewed on branch
+`port-007-upstream-320`. It is **not merged or pushed yet**: Martin wants Gemini's whole-branch review first, and agy's Gemini
+quota is exhausted until about 2026-10-25. The PORT-008 plan (Pele charts in C#) is drafted and also waits on a Gemini review.
 
 ## What this repo is
 
@@ -20,6 +21,44 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Task state: **board-only**, ContextBoard project 46. Phase 1 is `PORT-001` (CARD-2166), phase 2 is `PORT-002`
   (CARD-2167), phase 3 is `PORT-003` (CARD-2168), phase 4 is `PORT-004` (CARD-2169); phases 5 and 6 are `PORT-005` and `PORT-006`. No `TODO.md` here.
 - `master`, remote `origin` = https://github.com/MBrekhof/Archify.Net (private, `gh` account `MBrekhof`).
+
+## State: PORT-007 (2026-10-22/23)
+
+- Card PORT-007 (CARD-2357). Plan: `docs/superpowers/plans/2026-10-22-port007-upstream-320.md`. Ledger with every ruling:
+  `.superpowers/sdd/2026-10-22-port007-upstream-320/progress.md`.
+- Branch `port-007-upstream-320`, 10 commits from `a8d8cd5` (plan) to `4c8d38a` (branch-review fixes). The tasks:
+  - re-pin and re-mint;
+  - timeline DST ticks and ms labels;
+  - waterfall `timeNumber` and axis labels;
+  - erd trunk bridges;
+  - migration `semanticChecks` and git-value trim;
+  - CLI `browserCheck`, `--browser-check` and `--writing`;
+  - docs;
+  - two waves of review minors.
+- Test totals at `4c8d38a` (`dotnet test`, Browser category included): **3993 passed** (Core 3016, Cli 964, Mcp 13),
+  0 failed, 0 warnings.
+- Reviews:
+  - Tasks 2–3 were reviewed by agy (Gemini). Tasks 4–6 were reviewed by Claude subagents after the Gemini quota ran out.
+    That fallback was Martin's choice, 2026-10-22.
+  - A Claude whole-branch review gave "with fixes": 1 Important, 7 Minor, all fixed in `4c8d38a`.
+- The explainer type and its files are excluded until PORT-009 (see `docs/deviations.md`, `upstream/UPSTREAM.md`).
+- **To finish:**
+  1. Run Gemini's whole-branch review on `git diff master...port-007-upstream-320`. The prompt is
+     `.superpowers/sdd/2026-10-22-port007-upstream-320/branch-review-prompt.md`; run it with agy as in the
+     `run-review.sh` next to it.
+  2. Settle the findings.
+  3. Fast-forward `master` and push (Martin authorised the push: "when finished commit and push").
+  4. Complete CARD-2357 with the SHAs.
+
+## PORT-008 (Pele charts in C#): planned
+
+- Card PORT-008 (CARD-2358). Research: `docs/superpowers/specs/2026-10-23-port008-pele-research.md`. Plan:
+  `docs/superpowers/plans/2026-10-23-port008-pele-charts.md`. Both files are **untracked**; commit them on a branch
+  `port-008-pele-charts` cut from master after the PORT-007 merge.
+- Martin decided on 2026-10-22 to port Pele's YAML front matter too.
+- Task 1 is a gate: V8-identical `sin/cos/acos/atan2/log10`. .NET differs by 1 ulp on 1–18 % of inputs. If it cannot
+  reach 0 differences, radar and venn need Martin's decision.
+- Next: Gemini reviews the plan, the findings are settled, then SDD. Martin said "carry on with PORT-008 after the push".
 
 ## State at end of phase 6
 
@@ -172,7 +211,8 @@ and `.superpowers/sdd/2026-10-15-perf003/`: every ruling and the deferred minors
 
 ## Next
 
-All six port phases are done. The open cards on the board (project 46) are:
+All six port phases are done; PORT-007 waits on Gemini (above), then PORT-008 and PORT-009. The other open cards on the board
+(project 46) are:
 
 - **Waiting on Martin:**
   - UPSTREAM-001: four upstream examples fail upstream's own gates. Report it upstream, or fix our copies of the examples?
@@ -209,7 +249,7 @@ All six port phases are done. The open cards on the board (project 46) are:
 
     The recommendation is (a) + (b). Report and inputs: `.superpowers/sdd/2026-10-15-perf003/`.
 - **Done after batch 2:** TEST-004 `6f09f8a` (plan `docs/superpowers/plans/2026-10-15-test004.md`).
-- **Ready to work:** nothing. Every open card waits on Martin, or is parked.
+- **Ready to work:** finishing PORT-007 and then PORT-008 once agy's Gemini quota is back. The rest waits on Martin, or is parked.
 
 ## Phase 4 closed (2026-10-15)
 
