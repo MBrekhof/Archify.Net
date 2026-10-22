@@ -4,6 +4,7 @@ Back to [`README.md`](../README.md).
 
 ## Core library, renderers and repository evidence
 
+- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is not ported until PORT-009 (the charts come first, in PORT-008). `upstream/` leaves out `schemas/explainer.schema.json`, `examples/delivery.explainer.json` and `references/explainer-authoring.md`, and `explainer` is an unknown diagram type.
 - `Check` throws `NotSupportedException` when `RequireProvenance` is set: provenance is checked by `archify check --require-provenance`.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
@@ -47,7 +48,7 @@ Commands and configuration:
 - Help is upstream's usage text minus those four commands, plus an `archify install-browser` line (a command upstream does not have).
 - The explainer type is withheld until PORT-009: no explainer usage lines (`archify patch`, `explainer` in Types, the
   `--writing` block), no `patch` command, and no `--writing` acceptance. `--writing` is parsed as upstream parses it, but a valid
-  value always answers `cli/unsupported-option`, and the unknown-type message lists the ten diagram types only.
+  value answers `cli/unsupported-option` with any diagram type (`explainer` itself answers `cli/unknown-diagram-type`), and the unknown-type message lists the ten diagram types only.
 - `archify examples` writes to `./examples/` in the current directory (upstream writes into the installed skill folder). It checks
   an example's `meta.output` against the current directory, where upstream checks against the skill root.
 - `archify doctor` checks the .NET runtime, the embedded resources, git on PATH and the Playwright Chromium install, in upstream's

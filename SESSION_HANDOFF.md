@@ -5,7 +5,7 @@ on Martin. Phase 6 was done earlier the same day, with the exit demonstration pa
 
 ## What this repo is
 
-C# port of [tt-a1i/archify](https://github.com/tt-a1i/archify) 3.1.0 (upstream commit `c21c31ff`, local
+C# port of [tt-a1i/archify](https://github.com/tt-a1i/archify) 3.2.0 (upstream tag `v3.2.0`, commit `208acba8`, local
 checkout: repo root `C:\projects\archify`, skill package root `C:\projects\archify\archify`). Library first (`Archify.Net.Core`), then CLI, then MCP server. The reader-side
 viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML byte-identical to upstream.
 
@@ -161,7 +161,7 @@ Zone acceptance differs by host as well: ids the OS ICU list or `TimeZoneInfo` c
 ## Dev-time tooling
 
 `tools/capture-fixtures.mjs` mints fixtures from upstream. It needs Node 24 and the upstream repo `C:\projects\archify` at
-`c21c31ff`; it reads the skill package root `C:\projects\archify\archify`. CI never runs it; the test suite only reads what it committed.
+`v3.2.0` (`208acba8`); it reads the skill package root `C:\projects\archify\archify`. CI never runs it; the test suite only reads what it committed.
 The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-renderers/progress.md`,
 `.superpowers/sdd/2026-10-14-phase3-workflow-dataflow/progress.md`,
 `.superpowers/sdd/2026-10-15-phase4-erd-evidence/progress.md`,

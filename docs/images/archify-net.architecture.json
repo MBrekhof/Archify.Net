@@ -43,7 +43,7 @@
   ],
   "cards": [
     { "dot": "cyan", "title": "Entry points", "items": ["archify-mcp: guide, validate, render, finalize", "archify CLI: port of upstream bin/archify.mjs", ".NET apps call the ArchifyNet facade directly"] },
-    { "dot": "emerald", "title": "Core library", "items": ["Byte-identical HTML to upstream archify 3.1.0", "Problems return as diagnostics, never exceptions", "Viewer JS embedded verbatim from upstream"] },
+    { "dot": "emerald", "title": "Core library", "items": ["Byte-identical HTML to upstream archify 3.2.0", "Problems return as diagnostics, never exceptions", "Viewer JS embedded verbatim from upstream"] },
     { "dot": "rose", "title": "Delivery gates", "items": ["finalize = deliver + check + browser-check", "Chromium runs upstream's measurement scripts", "Sidecar records provenance of each artifact"] }
   ]
 }

@@ -7,7 +7,7 @@
 
 <sub>Archify.Net drawing itself: [`docs/images/archify-net.architecture.json`](docs/images/archify-net.architecture.json), rendered by `archify finalize architecture` through the `archify-mcp` server.</sub>
 
-A C# port of [archify](https://github.com/tt-a1i/archify) 3.1.0, pinned at upstream commit `c21c31ff`.
+A C# port of [archify](https://github.com/tt-a1i/archify) 3.2.0, pinned at upstream tag `v3.2.0` (commit `208acba8`).
 It renders architecture diagrams from JSON into standalone HTML with inline SVG, and checks the result.
 The correctness bar is byte parity: the HTML it writes is byte-identical to upstream's for the same input.
 The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/`.
@@ -43,8 +43,10 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 4 | erd renderer and repository evidence | Done |
 | 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Done |
 | 6 | MCP server and SKILL.md | Done |
+| PORT-007 | Re-pin to upstream 3.2.0: timeline DST ticks, waterfall time precision, erd bridges, migration contracts, CLI `browserCheck` | Done |
+| PORT-008, PORT-009 | Pele charts in C#, then the explainer type | Planned |
 
-The full suite (`dotnet test`) runs 3885 tests: 2937 in `Archify.Net.Core.Tests`, 935 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 3972 tests: 2998 in `Archify.Net.Core.Tests`, 961 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 Per-phase parity results and test counts are in [`docs/status.md`](docs/status.md).
 
 ## Quick start
@@ -303,7 +305,7 @@ locales, HTML template and brand-mark catalog from `upstream/` as resources, so 
 ## Updating fixtures from upstream
 
 `tools/capture-fixtures.mjs` is a dev-time tool that mints the goldens, receipts, layout reports and Js fixtures
-from upstream. It needs Node 24 and an upstream repo checkout at `C:\projects\archify` on commit `c21c31ff`. It reads
+from upstream. It needs Node 24 and an upstream repo checkout at `C:\projects\archify` on tag `v3.2.0` (`208acba8`). It reads
 the skill package root inside it, `C:\projects\archify\archify`. It is deterministic: a re-run on the pinned commit
 rewrites every file byte-identically. CI never runs it; the test suite only reads what it committed.
 
