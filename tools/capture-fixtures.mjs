@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Dev-time only. Captures V8 behaviour and upstream renderer output as fixtures for the C# parity suite.
-// Usage: node tools/capture-fixtures.mjs   (from repo root; needs C:\projects\archify at c21c31ff)
+// Usage: node tools/capture-fixtures.mjs   (from repo root; needs C:\projects\archify at tag v3.2.0, commit 208acba8)
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';

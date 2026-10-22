@@ -9,7 +9,7 @@
     "payment-incident.timeline.json": "upstream/examples/payment-incident.timeline.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"timeline\",\n  \"input\": \"<WORK>\\\\payment-incident.timeline.json\",\n  \"output\": \"<WORK>\\\\payment-incident-timeline.html\",\n  \"specification\": {\n    \"sha256\": \"c1f535b3cc915ddd47ecd7df4e3ef02c441c8c3191daced5cf4422cff8dec95f\",\n    \"bytes\": 1445\n  },\n  \"artifact\": {\n    \"sha256\": \"b8b33ee1c76992d472edf30ab726974e493ebbe966daacd2051a88ffd77be6ea\",\n    \"bytes\": 811605\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"timeline\",\n  \"input\": \"<WORK>\\\\payment-incident.timeline.json\",\n  \"output\": \"<WORK>\\\\payment-incident-timeline.html\",\n  \"specification\": {\n    \"sha256\": \"c1f535b3cc915ddd47ecd7df4e3ef02c441c8c3191daced5cf4422cff8dec95f\",\n    \"bytes\": 1445\n  },\n  \"artifact\": {\n    \"sha256\": \"222c4995eac9e1ffcfabc1297174504f462149607ead1a281607eaaf9f73dcd8\",\n    \"bytes\": 813676\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "payment-incident-timeline.delivery.json",
@@ -17,6 +17,6 @@
     "payment-incident.timeline.json"
   ],
   "sidecars": {
-    "payment-incident-timeline.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"timeline\",\n  \"input\": \"<WORK>\\\\payment-incident.timeline.json\",\n  \"output\": \"<WORK>\\\\payment-incident-timeline.html\",\n  \"specification\": {\n    \"sha256\": \"c1f535b3cc915ddd47ecd7df4e3ef02c441c8c3191daced5cf4422cff8dec95f\",\n    \"bytes\": 1445\n  },\n  \"artifact\": {\n    \"sha256\": \"b8b33ee1c76992d472edf30ab726974e493ebbe966daacd2051a88ffd77be6ea\",\n    \"bytes\": 811605\n  }\n}\n"
+    "payment-incident-timeline.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"timeline\",\n  \"input\": \"<WORK>\\\\payment-incident.timeline.json\",\n  \"output\": \"<WORK>\\\\payment-incident-timeline.html\",\n  \"specification\": {\n    \"sha256\": \"c1f535b3cc915ddd47ecd7df4e3ef02c441c8c3191daced5cf4422cff8dec95f\",\n    \"bytes\": 1445\n  },\n  \"artifact\": {\n    \"sha256\": \"222c4995eac9e1ffcfabc1297174504f462149607ead1a281607eaaf9f73dcd8\",\n    \"bytes\": 813676\n  }\n}\n"
   }
 }

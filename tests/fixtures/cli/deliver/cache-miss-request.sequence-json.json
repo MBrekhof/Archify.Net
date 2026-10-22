@@ -9,7 +9,7 @@
     "cache-miss-request.sequence.json": "upstream/examples/cache-miss-request.sequence.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"sequence\",\n  \"input\": \"<WORK>\\\\cache-miss-request.sequence.json\",\n  \"output\": \"<WORK>\\\\examples\\\\sequence-cache-miss-request.html\",\n  \"specification\": {\n    \"sha256\": \"f8486daa803fff6c295cecca4604c561fbbf9acb2e83326022b5a87639e8afe6\",\n    \"bytes\": 3805\n  },\n  \"artifact\": {\n    \"sha256\": \"0acc3f1f239d8dae8088538a5b245e5aff0d9c6f68268cfd16b66b3d6a6c9772\",\n    \"bytes\": 819076\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"sequence\",\n  \"input\": \"<WORK>\\\\cache-miss-request.sequence.json\",\n  \"output\": \"<WORK>\\\\examples\\\\sequence-cache-miss-request.html\",\n  \"specification\": {\n    \"sha256\": \"f8486daa803fff6c295cecca4604c561fbbf9acb2e83326022b5a87639e8afe6\",\n    \"bytes\": 3805\n  },\n  \"artifact\": {\n    \"sha256\": \"1d5900665532daa696681210023e08b95d6858c96781b4bbb26c677c301bcd0d\",\n    \"bytes\": 821147\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "cache-miss-request.sequence.json",
@@ -18,6 +18,6 @@
     "examples\\sequence-cache-miss-request.html"
   ],
   "sidecars": {
-    "examples\\sequence-cache-miss-request.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"sequence\",\n  \"input\": \"<WORK>\\\\cache-miss-request.sequence.json\",\n  \"output\": \"<WORK>\\\\examples\\\\sequence-cache-miss-request.html\",\n  \"specification\": {\n    \"sha256\": \"f8486daa803fff6c295cecca4604c561fbbf9acb2e83326022b5a87639e8afe6\",\n    \"bytes\": 3805\n  },\n  \"artifact\": {\n    \"sha256\": \"0acc3f1f239d8dae8088538a5b245e5aff0d9c6f68268cfd16b66b3d6a6c9772\",\n    \"bytes\": 819076\n  }\n}\n"
+    "examples\\sequence-cache-miss-request.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"sequence\",\n  \"input\": \"<WORK>\\\\cache-miss-request.sequence.json\",\n  \"output\": \"<WORK>\\\\examples\\\\sequence-cache-miss-request.html\",\n  \"specification\": {\n    \"sha256\": \"f8486daa803fff6c295cecca4604c561fbbf9acb2e83326022b5a87639e8afe6\",\n    \"bytes\": 3805\n  },\n  \"artifact\": {\n    \"sha256\": \"1d5900665532daa696681210023e08b95d6858c96781b4bbb26c677c301bcd0d\",\n    \"bytes\": 821147\n  }\n}\n"
   }
 }

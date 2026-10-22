@@ -9,7 +9,7 @@
     "payment-processors.class.json": "upstream/examples/payment-processors.class.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payment-processors.class.json\",\n  \"output\": \"<WORK>\\\\payment-processors-class.html\",\n  \"specification\": {\n    \"sha256\": \"98742b997db4782981460e8110e5fba899d8500c92c086aa867c5c62c3b89222\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"12240a8db8fdf6bb91e92dc71916c1dcef4873e7d3b1ba351b8bc00d9489d48b\",\n    \"bytes\": 852544\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payment-processors.class.json\",\n  \"output\": \"<WORK>\\\\payment-processors-class.html\",\n  \"specification\": {\n    \"sha256\": \"98742b997db4782981460e8110e5fba899d8500c92c086aa867c5c62c3b89222\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"d94a3ea55770d1cd2685a7ad6bccf194acecf07b505f210ba56fd2d3307d52a5\",\n    \"bytes\": 854615\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "payment-processors-class.delivery.json",
@@ -17,6 +17,6 @@
     "payment-processors.class.json"
   ],
   "sidecars": {
-    "payment-processors-class.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payment-processors.class.json\",\n  \"output\": \"<WORK>\\\\payment-processors-class.html\",\n  \"specification\": {\n    \"sha256\": \"98742b997db4782981460e8110e5fba899d8500c92c086aa867c5c62c3b89222\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"12240a8db8fdf6bb91e92dc71916c1dcef4873e7d3b1ba351b8bc00d9489d48b\",\n    \"bytes\": 852544\n  }\n}\n"
+    "payment-processors-class.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payment-processors.class.json\",\n  \"output\": \"<WORK>\\\\payment-processors-class.html\",\n  \"specification\": {\n    \"sha256\": \"98742b997db4782981460e8110e5fba899d8500c92c086aa867c5c62c3b89222\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"d94a3ea55770d1cd2685a7ad6bccf194acecf07b505f210ba56fd2d3307d52a5\",\n    \"bytes\": 854615\n  }\n}\n"
   }
 }

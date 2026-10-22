@@ -9,7 +9,7 @@
     "payments.class.json": "upstream/examples/payments.class.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payments.class.json\",\n  \"output\": \"<WORK>\\\\payments-class.html\",\n  \"specification\": {\n    \"sha256\": \"afba837f97a041e14687cbe8893523232c4afad7afd922d9b128606d1b3f12c8\",\n    \"bytes\": 2828\n  },\n  \"artifact\": {\n    \"sha256\": \"5b11c66ccaef1177e69ea28e8a04ee9d8ba5964e7476e1a1e57ce1fe36b4c53c\",\n    \"bytes\": 818283\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payments.class.json\",\n  \"output\": \"<WORK>\\\\payments-class.html\",\n  \"specification\": {\n    \"sha256\": \"afba837f97a041e14687cbe8893523232c4afad7afd922d9b128606d1b3f12c8\",\n    \"bytes\": 2828\n  },\n  \"artifact\": {\n    \"sha256\": \"40574bed3eb6ad5ecd1325f41597335676bed7242912f41ae2876af183e5a874\",\n    \"bytes\": 820354\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "payments-class.delivery.json",
@@ -17,6 +17,6 @@
     "payments.class.json"
   ],
   "sidecars": {
-    "payments-class.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payments.class.json\",\n  \"output\": \"<WORK>\\\\payments-class.html\",\n  \"specification\": {\n    \"sha256\": \"afba837f97a041e14687cbe8893523232c4afad7afd922d9b128606d1b3f12c8\",\n    \"bytes\": 2828\n  },\n  \"artifact\": {\n    \"sha256\": \"5b11c66ccaef1177e69ea28e8a04ee9d8ba5964e7476e1a1e57ce1fe36b4c53c\",\n    \"bytes\": 818283\n  }\n}\n"
+    "payments-class.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"class\",\n  \"input\": \"<WORK>\\\\payments.class.json\",\n  \"output\": \"<WORK>\\\\payments-class.html\",\n  \"specification\": {\n    \"sha256\": \"afba837f97a041e14687cbe8893523232c4afad7afd922d9b128606d1b3f12c8\",\n    \"bytes\": 2828\n  },\n  \"artifact\": {\n    \"sha256\": \"40574bed3eb6ad5ecd1325f41597335676bed7242912f41ae2876af183e5a874\",\n    \"bytes\": 820354\n  }\n}\n"
   }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Dev-time only. Mints the expected outputs of upstream's `archify` CLI (bin/archify.mjs) for the C# CLI suite.
-// Usage: node tools/capture-cli-fixtures.mjs   (from repo root; needs C:\projects\archify at c21c31ff)
+// Usage: node tools/capture-cli-fixtures.mjs   (from repo root; needs C:\projects\archify at tag v3.2.0, commit 208acba8)
 //
 // Each case runs `node <SKILL>/bin/archify.mjs …args` in a fresh temp workdir seeded with `files` and writes
 // tests/fixtures/cli/<group>/<name>.json = {args, files, exit, stdout, stderr}. `files` maps a workdir-relative name to the

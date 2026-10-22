@@ -12,7 +12,7 @@
     "out.delivery.json": "tests/fixtures/cli/inputs/current.delivery.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"95e051b27a9e4a3307e194c0f666fca4af51470be7e2228d400ff48aea5b353b\",\n    \"bytes\": 3197\n  },\n  \"artifact\": {\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"95e051b27a9e4a3307e194c0f666fca4af51470be7e2228d400ff48aea5b353b\",\n    \"bytes\": 3197\n  },\n  \"artifact\": {\n    \"sha256\": \"37b490991c6eaa483b36bd37b7886ed52fd5a10f2351131dbde8197807c07f73\",\n    \"bytes\": 825776\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "out.delivery.json",
@@ -20,6 +20,6 @@
     "web-app.architecture.json"
   ],
   "sidecars": {
-    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"95e051b27a9e4a3307e194c0f666fca4af51470be7e2228d400ff48aea5b353b\",\n    \"bytes\": 3197\n  },\n  \"artifact\": {\n    \"sha256\": \"48b8012b0bfeeaf4fbffac8072cebf820f239010657bcf1cd53621d5298b03dc\",\n    \"bytes\": 823705\n  }\n}\n"
+    "out.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\web-app.architecture.json\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"specification\": {\n    \"sha256\": \"95e051b27a9e4a3307e194c0f666fca4af51470be7e2228d400ff48aea5b353b\",\n    \"bytes\": 3197\n  },\n  \"artifact\": {\n    \"sha256\": \"37b490991c6eaa483b36bd37b7886ed52fd5a10f2351131dbde8197807c07f73\",\n    \"bytes\": 825776\n  }\n}\n"
   }
 }

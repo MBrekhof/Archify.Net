@@ -9,7 +9,7 @@
     "orders.erd.json": "upstream/examples/orders.erd.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\orders.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\erd-orders-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"1777a374647084466f4d7ce3a968004be6ab70ac9cf82459b96bed7c556cdfdd\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"d6f13c5e6254ef3522294255a740e7aef78554058cbb29ac15e7e4149568c122\",\n    \"bytes\": 838767\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\orders.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\erd-orders-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"1777a374647084466f4d7ce3a968004be6ab70ac9cf82459b96bed7c556cdfdd\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"3d0dcdda77c8436762c0b4e07c52457d5b16543cddc5e6aaf1f47d099b17a694\",\n    \"bytes\": 840838\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "examples",
@@ -18,6 +18,6 @@
     "orders.erd.json"
   ],
   "sidecars": {
-    "examples\\erd-orders-rendered.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\orders.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\erd-orders-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"1777a374647084466f4d7ce3a968004be6ab70ac9cf82459b96bed7c556cdfdd\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"d6f13c5e6254ef3522294255a740e7aef78554058cbb29ac15e7e4149568c122\",\n    \"bytes\": 838767\n  }\n}\n"
+    "examples\\erd-orders-rendered.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\orders.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\erd-orders-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"1777a374647084466f4d7ce3a968004be6ab70ac9cf82459b96bed7c556cdfdd\",\n    \"bytes\": 7321\n  },\n  \"artifact\": {\n    \"sha256\": \"3d0dcdda77c8436762c0b4e07c52457d5b16543cddc5e6aaf1f47d099b17a694\",\n    \"bytes\": 840838\n  }\n}\n"
   }
 }

@@ -9,7 +9,7 @@
     "agent-tool-call.workflow.json": "upstream/examples/agent-tool-call.workflow.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\agent-tool-call.workflow.json\",\n  \"output\": \"<WORK>\\\\examples\\\\workflow-agent-tool-call-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"d67965d50872c97e4ff3476271e645bf19fab6b3ab44e111bdb44b063e3aa36f\",\n    \"bytes\": 4939\n  },\n  \"artifact\": {\n    \"sha256\": \"6a30f19e88a722c6fab02a6e9d95b64ef109799597fb94509321257754ac3703\",\n    \"bytes\": 828788\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\agent-tool-call.workflow.json\",\n  \"output\": \"<WORK>\\\\examples\\\\workflow-agent-tool-call-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"d67965d50872c97e4ff3476271e645bf19fab6b3ab44e111bdb44b063e3aa36f\",\n    \"bytes\": 4939\n  },\n  \"artifact\": {\n    \"sha256\": \"38220f39f8110f9f0b1fdbd96fd750bd33a3750de45dc2913827e3fc30224c85\",\n    \"bytes\": 830859\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "agent-tool-call.workflow.json",
@@ -18,6 +18,6 @@
     "examples\\workflow-agent-tool-call-rendered.html"
   ],
   "sidecars": {
-    "examples\\workflow-agent-tool-call-rendered.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\agent-tool-call.workflow.json\",\n  \"output\": \"<WORK>\\\\examples\\\\workflow-agent-tool-call-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"d67965d50872c97e4ff3476271e645bf19fab6b3ab44e111bdb44b063e3aa36f\",\n    \"bytes\": 4939\n  },\n  \"artifact\": {\n    \"sha256\": \"6a30f19e88a722c6fab02a6e9d95b64ef109799597fb94509321257754ac3703\",\n    \"bytes\": 828788\n  }\n}\n"
+    "examples\\workflow-agent-tool-call-rendered.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"workflow\",\n  \"input\": \"<WORK>\\\\agent-tool-call.workflow.json\",\n  \"output\": \"<WORK>\\\\examples\\\\workflow-agent-tool-call-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"d67965d50872c97e4ff3476271e645bf19fab6b3ab44e111bdb44b063e3aa36f\",\n    \"bytes\": 4939\n  },\n  \"artifact\": {\n    \"sha256\": \"38220f39f8110f9f0b1fdbd96fd750bd33a3750de45dc2913827e3fc30224c85\",\n    \"bytes\": 830859\n  }\n}\n"
   }
 }

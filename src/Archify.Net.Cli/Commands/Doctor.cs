@@ -20,7 +20,7 @@ static class DoctorCommand
         ("waterfall", ["checkout-request", "example-rebuild"]),
     ];
 
-    static readonly string[] Locales = ["manifest", "en", "es", "ko", "zh-CN", "zh-TW"];
+    static readonly string[] Locales = ["manifest", "en", "es", "ko", "zh-CN", "zh-TW", "ar"];
 
     // commandDoctor (A:5873-6052) under Q3: the .NET runtime, the embedded resources, git on PATH and Playwright's Chromium, in
     // upstream's line format and exit contract. A missing resource counts as a missing file, a failed probe as a failed runtime check.

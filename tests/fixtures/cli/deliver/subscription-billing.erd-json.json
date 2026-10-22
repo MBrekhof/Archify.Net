@@ -9,7 +9,7 @@
     "subscription-billing.erd.json": "upstream/examples/subscription-billing.erd.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\subscription-billing.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\subscription-billing-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"89945699d92b9cc0ab91263cf38a07c350867d260eacd5d8ba1dc835fe2d22ed\",\n    \"bytes\": 11817\n  },\n  \"artifact\": {\n    \"sha256\": \"93e24ec18c465ed8ffd1d070fbb8a7db73d7510f09d770c869c79b254bd7a893\",\n    \"bytes\": 861720\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\subscription-billing.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\subscription-billing-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"89945699d92b9cc0ab91263cf38a07c350867d260eacd5d8ba1dc835fe2d22ed\",\n    \"bytes\": 11817\n  },\n  \"artifact\": {\n    \"sha256\": \"b4f11e17fda7ed78ef818367f71de4898bb43eafe0a7757f26f4e1277bf16ec3\",\n    \"bytes\": 863791\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "examples",
@@ -18,6 +18,6 @@
     "subscription-billing.erd.json"
   ],
   "sidecars": {
-    "examples\\subscription-billing-rendered.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\subscription-billing.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\subscription-billing-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"89945699d92b9cc0ab91263cf38a07c350867d260eacd5d8ba1dc835fe2d22ed\",\n    \"bytes\": 11817\n  },\n  \"artifact\": {\n    \"sha256\": \"93e24ec18c465ed8ffd1d070fbb8a7db73d7510f09d770c869c79b254bd7a893\",\n    \"bytes\": 861720\n  }\n}\n"
+    "examples\\subscription-billing-rendered.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"erd\",\n  \"input\": \"<WORK>\\\\subscription-billing.erd.json\",\n  \"output\": \"<WORK>\\\\examples\\\\subscription-billing-rendered.html\",\n  \"specification\": {\n    \"sha256\": \"89945699d92b9cc0ab91263cf38a07c350867d260eacd5d8ba1dc835fe2d22ed\",\n    \"bytes\": 11817\n  },\n  \"artifact\": {\n    \"sha256\": \"b4f11e17fda7ed78ef818367f71de4898bb43eafe0a7757f26f4e1277bf16ec3\",\n    \"bytes\": 863791\n  }\n}\n"
   }
 }

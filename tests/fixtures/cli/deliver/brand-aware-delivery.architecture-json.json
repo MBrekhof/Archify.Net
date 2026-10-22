@@ -9,7 +9,7 @@
     "brand-aware-delivery.architecture.json": "upstream/examples/brand-aware-delivery.architecture.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\brand-aware-delivery.architecture.json\",\n  \"output\": \"<WORK>\\\\brand-aware-delivery.html\",\n  \"specification\": {\n    \"sha256\": \"211c126ebdc5f0124617b1067cecfb858143a1a18fd10621d01f5765c7de3b5d\",\n    \"bytes\": 2789\n  },\n  \"artifact\": {\n    \"sha256\": \"aaa317c16a81cd7720be309feaa3b74e7c1153ecf78ca127a54b95c25fb0538d\",\n    \"bytes\": 834609\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\brand-aware-delivery.architecture.json\",\n  \"output\": \"<WORK>\\\\brand-aware-delivery.html\",\n  \"specification\": {\n    \"sha256\": \"211c126ebdc5f0124617b1067cecfb858143a1a18fd10621d01f5765c7de3b5d\",\n    \"bytes\": 2789\n  },\n  \"artifact\": {\n    \"sha256\": \"c71c269d8ab8011fbab4a93b6427fe22059f2b0a1481dbd1c759ecb235c320ec\",\n    \"bytes\": 836680\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "brand-aware-delivery.architecture.json",
@@ -17,6 +17,6 @@
     "brand-aware-delivery.html"
   ],
   "sidecars": {
-    "brand-aware-delivery.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\brand-aware-delivery.architecture.json\",\n  \"output\": \"<WORK>\\\\brand-aware-delivery.html\",\n  \"specification\": {\n    \"sha256\": \"211c126ebdc5f0124617b1067cecfb858143a1a18fd10621d01f5765c7de3b5d\",\n    \"bytes\": 2789\n  },\n  \"artifact\": {\n    \"sha256\": \"aaa317c16a81cd7720be309feaa3b74e7c1153ecf78ca127a54b95c25fb0538d\",\n    \"bytes\": 834609\n  }\n}\n"
+    "brand-aware-delivery.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\brand-aware-delivery.architecture.json\",\n  \"output\": \"<WORK>\\\\brand-aware-delivery.html\",\n  \"specification\": {\n    \"sha256\": \"211c126ebdc5f0124617b1067cecfb858143a1a18fd10621d01f5765c7de3b5d\",\n    \"bytes\": 2789\n  },\n  \"artifact\": {\n    \"sha256\": \"c71c269d8ab8011fbab4a93b6427fe22059f2b0a1481dbd1c759ecb235c320ec\",\n    \"bytes\": 836680\n  }\n}\n"
   }
 }

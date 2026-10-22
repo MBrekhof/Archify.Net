@@ -4,7 +4,7 @@ namespace Archify.Net.Tests;
 
 public class I18nTests
 {
-    [Fact] public void Supported_locales_match_manifest() => Assert.Equal(new[] { "en", "zh-CN", "zh-TW", "es", "ko" }, LocaleCatalog.SupportedLocales);
+    [Fact] public void Supported_locales_match_manifest() => Assert.Equal(new[] { "en", "zh-CN", "zh-TW", "es", "ko", "ar" }, LocaleCatalog.SupportedLocales);
     [Fact] public void Unknown_locale_falls_back_to_en_and_reports()
     {
         var c = new LocaleCatalog();

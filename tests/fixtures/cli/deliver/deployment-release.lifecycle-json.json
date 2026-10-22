@@ -9,7 +9,7 @@
     "deployment-release.lifecycle.json": "upstream/examples/deployment-release.lifecycle.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"lifecycle\",\n  \"input\": \"<WORK>\\\\deployment-release.lifecycle.json\",\n  \"output\": \"<WORK>\\\\examples\\\\deployment-release.html\",\n  \"specification\": {\n    \"sha256\": \"e3dc105d03c1c9881160006cdace23cb5d8533803e337caf0ec287c64e775275\",\n    \"bytes\": 4155\n  },\n  \"artifact\": {\n    \"sha256\": \"857e85d2b67365737ab237ed1a0a22153a433fdf418eb7a6b8238e9035b66864\",\n    \"bytes\": 832196\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"lifecycle\",\n  \"input\": \"<WORK>\\\\deployment-release.lifecycle.json\",\n  \"output\": \"<WORK>\\\\examples\\\\deployment-release.html\",\n  \"specification\": {\n    \"sha256\": \"e3dc105d03c1c9881160006cdace23cb5d8533803e337caf0ec287c64e775275\",\n    \"bytes\": 4155\n  },\n  \"artifact\": {\n    \"sha256\": \"b0333c73f642d08fbf5d9c4361b98515f952859f83fa1eda8d9b46d08e80e59c\",\n    \"bytes\": 834267\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "deployment-release.lifecycle.json",
@@ -18,6 +18,6 @@
     "examples\\deployment-release.html"
   ],
   "sidecars": {
-    "examples\\deployment-release.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"lifecycle\",\n  \"input\": \"<WORK>\\\\deployment-release.lifecycle.json\",\n  \"output\": \"<WORK>\\\\examples\\\\deployment-release.html\",\n  \"specification\": {\n    \"sha256\": \"e3dc105d03c1c9881160006cdace23cb5d8533803e337caf0ec287c64e775275\",\n    \"bytes\": 4155\n  },\n  \"artifact\": {\n    \"sha256\": \"857e85d2b67365737ab237ed1a0a22153a433fdf418eb7a6b8238e9035b66864\",\n    \"bytes\": 832196\n  }\n}\n"
+    "examples\\deployment-release.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"lifecycle\",\n  \"input\": \"<WORK>\\\\deployment-release.lifecycle.json\",\n  \"output\": \"<WORK>\\\\examples\\\\deployment-release.html\",\n  \"specification\": {\n    \"sha256\": \"e3dc105d03c1c9881160006cdace23cb5d8533803e337caf0ec287c64e775275\",\n    \"bytes\": 4155\n  },\n  \"artifact\": {\n    \"sha256\": \"b0333c73f642d08fbf5d9c4361b98515f952859f83fa1eda8d9b46d08e80e59c\",\n    \"bytes\": 834267\n  }\n}\n"
   }
 }

@@ -1,8 +1,8 @@
 {
   "ok": true,
   "artifact": {
-    "sha256": "efa252e00dfddadbc44f5a7faa40fd844a47bac429522eb34e15628dbfe66f0a",
-    "bytes": 826104
+    "sha256": "c923c3f80c7aa75949b8fb9c90335f9c5eb44ccdb6c380e419b9935c7e3ec4b2",
+    "bytes": 828175
   },
   "checks": [
     {

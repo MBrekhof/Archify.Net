@@ -37,7 +37,7 @@ public class DoctorCommandTests
         var asked = new List<string>();
         var services = Ready with { HasResource = name => { asked.Add(name); return CliServices.Default.HasResource(name); } };
         Assert.Equal((0, Lines(_ => "ok") + "\nArchify is ready.\n", ""), CliTestHost.Run(["doctor"], services: services));
-        Assert.Equal(45, asked.Distinct().Count());
+        Assert.Equal(46, asked.Distinct().Count());
         Assert.Equal(25, asked.Count(n => n.StartsWith("examples/", StringComparison.Ordinal)));
         Assert.Equal(10, asked.Count(n => n.StartsWith("schemas/", StringComparison.Ordinal)));
         Assert.Contains("viewer-gate/settle.js", asked);

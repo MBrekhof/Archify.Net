@@ -9,7 +9,7 @@
     "payment-platform.tree.json": "upstream/examples/payment-platform.tree.json"
   },
   "exit": 0,
-  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"tree\",\n  \"input\": \"<WORK>\\\\payment-platform.tree.json\",\n  \"output\": \"<WORK>\\\\payment-platform-tree.html\",\n  \"specification\": {\n    \"sha256\": \"1e99f37b3845d67fa97c9a2ff33109981c23bfdb0d03ba05b7d92944dcdfc61f\",\n    \"bytes\": 1214\n  },\n  \"artifact\": {\n    \"sha256\": \"f64e8a5ffd3ae82ae6bf6f28cc8f716c0b437c1fa1c3bba74bf7c33e962b7bd3\",\n    \"bytes\": 817227\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"ok\": true,\n  \"command\": \"deliver\",\n  \"type\": \"tree\",\n  \"input\": \"<WORK>\\\\payment-platform.tree.json\",\n  \"output\": \"<WORK>\\\\payment-platform-tree.html\",\n  \"specification\": {\n    \"sha256\": \"1e99f37b3845d67fa97c9a2ff33109981c23bfdb0d03ba05b7d92944dcdfc61f\",\n    \"bytes\": 1214\n  },\n  \"artifact\": {\n    \"sha256\": \"1f7b0a95699d6208fdaeda801cfa7e261b8ced13ac17be3de86dd5246987c250\",\n    \"bytes\": 819298\n  },\n  \"validation\": {\n    \"checksPassed\": 9,\n    \"checkCount\": 9,\n    \"compositionProfile\": \"showcase\",\n    \"compositionStatus\": \"pass\",\n    \"errors\": 0,\n    \"warnings\": 0\n  }\n}\n",
   "stderr": "",
   "entries": [
     "payment-platform-tree.delivery.json",
@@ -17,6 +17,6 @@
     "payment-platform.tree.json"
   ],
   "sidecars": {
-    "payment-platform-tree.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"tree\",\n  \"input\": \"<WORK>\\\\payment-platform.tree.json\",\n  \"output\": \"<WORK>\\\\payment-platform-tree.html\",\n  \"specification\": {\n    \"sha256\": \"1e99f37b3845d67fa97c9a2ff33109981c23bfdb0d03ba05b7d92944dcdfc61f\",\n    \"bytes\": 1214\n  },\n  \"artifact\": {\n    \"sha256\": \"f64e8a5ffd3ae82ae6bf6f28cc8f716c0b437c1fa1c3bba74bf7c33e962b7bd3\",\n    \"bytes\": 817227\n  }\n}\n"
+    "payment-platform-tree.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"tree\",\n  \"input\": \"<WORK>\\\\payment-platform.tree.json\",\n  \"output\": \"<WORK>\\\\payment-platform-tree.html\",\n  \"specification\": {\n    \"sha256\": \"1e99f37b3845d67fa97c9a2ff33109981c23bfdb0d03ba05b7d92944dcdfc61f\",\n    \"bytes\": 1214\n  },\n  \"artifact\": {\n    \"sha256\": \"1f7b0a95699d6208fdaeda801cfa7e261b8ced13ac17be3de86dd5246987c250\",\n    \"bytes\": 819298\n  }\n}\n"
   }
 }
