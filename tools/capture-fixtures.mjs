@@ -675,6 +675,11 @@ function bridgeFixture({ horizontal = false, conflict, dashed = false, offset = 
 erdWrite('erd-bridge-blocked-route', bridgeFixture({ conflict: 'crossing', dashed: true }));   // c_d crosses the 126..150 gap
 // width 4 at offset 2.5: blocked only through (1.5 + 4) / 2 = 2.75; the same offset at the default 1.5 still bridges.
 erdWrite('erd-bridge-wide-route', bridgeFixture({ conflict: 'near', offset: 2.5, width: 4 }));
+// The test's "bridges survive when nearby strokes remain separate" pair (vertical): just past each half-width sum, so one trunk stays.
+erdWrite('erd-bridge-near-clear', bridgeFixture({ conflict: 'near', offset: 2.85, width: 4 }));
+erdWrite('erd-bridge-near-clear-thin', bridgeFixture({ conflict: 'near', offset: 1.6 }));
+// The test's horizontal overlap scenario: c_d runs along the bus inside the gap, so the bridge is rejected on axis 1.
+erdWrite('erd-bridge-blocked-route-h', bridgeFixture({ conflict: 'overlap', horizontal: true }));
 // Same-axis bridges in one cluster. m sends two relationships, so both ends are spread and alignAutomaticFacingPorts
 // keeps m's slots (247.2, 271.2) 1.2px off the hub's (246, 270): runs a | m1 | m2 | b leave gaps A 222..246,
 // B 247.2..270, C 271.2..294. B lies within 1.5 of the taken A and is rejected by the bridged check alone (every
@@ -712,6 +717,11 @@ for (const [type, input, golden] of targets) render(type, input, out(`goldens/${
     if (trunks(n) !== '172,48;172,126 | 172,150;172,328') throw new Error(`${n}: trunks ${trunks(n)}, expected the bridge 126..150 rejected`);
   }
   if (!/data-edge-id="c_d"[^>]*stroke-width="4"/.test(html('erd-bridge-wide-route'))) throw new Error('erd-bridge-wide-route: c_d not drawn at width 4');
+  for (const n of ['erd-bridge-near-clear', 'erd-bridge-near-clear-thin']) {
+    if (trunks(n) !== '172,48;172,328') throw new Error(`${n}: trunks ${trunks(n)}, expected the bridge to survive (one trunk)`);
+  }
+  // 3.1.0 (checked once by rendering this input from c21c31ff): one trunk 48,172;328,172.
+  if (trunks('erd-bridge-blocked-route-h') !== '48,172;126,172 | 150,172;328,172') throw new Error(`erd-bridge-blocked-route-h: trunks ${trunks('erd-bridge-blocked-route-h')}, expected the bridge 126..150 rejected`);
   // 3.1.0: one trunk 172,48;172,528. Appending the rejected B would also reject C: three trunks.
   if (trunks('erd-bridge-blocked-bridge') !== '172,48;172,247.2 | 172,270;172,528') throw new Error(`erd-bridge-blocked-bridge: trunks ${trunks('erd-bridge-blocked-bridge')}, expected only B rejected`);
 }
@@ -909,7 +919,7 @@ for (const [name, input] of [['timeline-payment-incident', path.join(EX, 'paymen
     if (ticks[1] - ticks[0] !== 1_800_000) fail('tick interval is not 30 minutes');
     if (count(tickLabels, '01:00') !== 2 || count(tickLabels, '01:30') !== 2) fail(`labels ${tickLabels.join(' | ')}`); }
   { const { tickLabels, fail } = probe('dst-spring-forward-hour');
-    if (tickLabels.some((label) => label.startsWith('02:'))) fail(`labels ${tickLabels.join(' | ')}`); }
+    if (!tickLabels.length || tickLabels.some((label) => label.startsWith('02:'))) fail(`labels ${tickLabels.join(' | ') || '(none)'}`); }
   { const { texts, fail } = probe('ms-clock-label');
     for (const end of [':05.250', ':59.750', ':00:08']) if (!texts.some((x) => x.endsWith(end))) fail(`no label ends in ${end}`); }
   { const { ticks, seg, fail } = probe('dst-lord-howe'); const tz = 'Australia/Lord_Howe'; const interval = ticks[1] - ticks[0];
@@ -998,7 +1008,7 @@ for (const [name, input] of [['waterfall-checkout-request', path.join(EX, 'check
     const clamped = Math.max(28 + half, Math.min(ticks[0].x, report.viewBox[0] - 28 - half));   // :244, margin 28
     if (!(labels[0].x < clamped)) fail(`first label at ${labels[0].x}, unshifted ${clamped}`); }
   { const { html, durations, resolution, report, fail } = probe('zero-duration');
-    if (durations.some((d) => d > 0)) fail('a positive duration');
+    if (!durations.length || durations.some((d) => d > 0)) fail(durations.length ? 'a positive duration' : 'no spans');
     const t0 = report.origin;
     if (resolution !== 1 || wfTimeNumber(t0, resolution) !== wfNumber(t0) || wfTimeNumber(t0, 0) === wfNumber(t0) || !html.includes(`${wfNumber(t0)} → `)) {
       fail('the header range does not tell timeResolution = tickStep from 0');
@@ -1079,7 +1089,7 @@ const migrationSemanticsDocument = (semanticChecks) => ({
   ],
 });
 // Phase-3 failure receipts: one fault per diagnostic code; upstream must FAIL with the target code in its receipt or the script throws.
-const p3Faults = [   // [type, source input, name, target code, edit]
+const p3Faults = [   // [type, source input (null: the edit builds the document), name, target code, edit]
   // workflow v2 without pins (holiday-planning, zh-CN). lanes calendar makeup; nodes today@calendar:0 mid_autumn@calendar:1 national_day@calendar:3
   // year_end@calendar:5 makeup_work@makeup:3; edges 0 today>mid_autumn 1 mid_autumn>national_day 2 national_day>year_end 3 national_day>makeup_work
   ['workflow', path.join(EX, 'holiday-planning.workflow.json'), 'wf-duplicate-node-id', 'workflow/duplicate-node-id', (d) => { d.nodes[2].id = d.nodes[1].id; }],
@@ -1100,9 +1110,9 @@ const p3Faults = [   // [type, source input, name, target code, edit]
   ['workflow', path.join(TF, 'v1-workflow-explicit-coordinates.workflow.json'), 'wf-v1-column-capacity', 'workflow/column-capacity', (d) => { d.nodes[2].col = 1; d.nodes[3].col = 2; }],
   ['workflow', path.join(TF, 'workflow-first-draft/release-luna.workflow.json'), 'wf-release-luna', 'workflow/node-overlap', () => {}],   // upstream's own negative fixture, unedited
   // migrationSemanticsDocument with a/b widened to 130px (2px of the 8px clearance): only the planning fallback can offer the
-  // migration, and its required a→b edge is the one planning drops (3.1.0 offered no fix here; checked below).
-  ['workflow', path.join(EX, 'incident-response.workflow.json'), 'wf-v1-semantic-fallback', 'workflow/column-capacity', (d) => {
-    for (const key of Object.keys(d)) delete d[key];
+  // migration, and its required a→b edge is the one planning drops. No source input: the edit builds the whole document.
+  // Verified once out of tree (PORT-007 Task 5 scratchpad probe), not by this script: 3.1.0's receipt for this input has supportedFixes [], 3.2.0's offers the migration.
+  ['workflow', null, 'wf-v1-semantic-fallback', 'workflow/column-capacity', (d) => {
     Object.assign(d, migrationSemanticsDocument({ requiredEdges: [{ from: 'a', to: 'b' }] }));
     d.nodes[0].width = 130; d.nodes[1].width = 130;
   }],
@@ -1117,7 +1127,7 @@ const p3Faults = [   // [type, source input, name, target code, edit]
 ];
 const p3FaultReceipts = new Map();
 for (const [type, source, name, code, edit] of p3Faults) {
-  const diagram = JSON.parse(fs.readFileSync(source, 'utf8'));
+  const diagram = source ? JSON.parse(fs.readFileSync(source, 'utf8')) : {};
   edit(diagram);
   write(`fixtures/diagrams/${name}.${type}.json`, diagram);
   let receipt;

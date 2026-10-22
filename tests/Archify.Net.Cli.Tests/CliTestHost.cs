@@ -146,6 +146,7 @@ public static partial class UsageEdit
     // The Types line of upstream's usage(), and the port's.
     static readonly string UpstreamTypes = Upstream.Split('\n').SkipWhile(l => l != "Types:").ElementAt(1)[2..];
     static readonly string EditedTypes = ReplaceOnce(UpstreamTypes, ExplainerType, "");
+    static readonly string TypesHead = UpstreamTypes[..(UpstreamTypes.IndexOf(", ", StringComparison.Ordinal) + 2)];   // "architecture, "
 
     static string ReplaceOnce(string text, string part, string replacement)
     {
@@ -174,17 +175,22 @@ public static partial class UsageEdit
     public static string Apply(string text) => UnknownType(text.Replace(Upstream, Edited).Replace(JsonEscaped(Upstream), JsonEscaped(Edited)));
 
     // rendererPath's unknown-type error lists TYPES in its message, its fix and evidence.supportedTypes; every listing must be
-    // upstream's (with explainer), else this edit fails loudly.
+    // upstream's (with explainer), else this edit fails loudly. A prefix is a TYPES listing only when TYPES' first entry follows it,
+    // so another message's "use one of: " is left alone; an unknown-type text with no listing at all also fails.
     static string UnknownType(string text)
     {
+        var listings = 0;
         foreach (var prefix in new[] { "Expected one of: ", "use one of: " })
         {
-            var count = text.Split(prefix).Length - 1;
+            var count = text.Split(prefix + TypesHead).Length - 1;
             if (count == 0) continue;
             if (text.Split(prefix + UpstreamTypes).Length - 1 != count)
                 throw new InvalidOperationException($"an unknown-type listing after {Js.Stringify(prefix)} is not upstream's TYPES with explainer.");
             text = text.Replace(prefix + UpstreamTypes, prefix + EditedTypes);
+            listings += count;
         }
+        if (listings == 0 && (text.Contains("Unknown diagram type", StringComparison.Ordinal) || text.Contains("cli/unknown-diagram-type", StringComparison.Ordinal)))
+            throw new InvalidOperationException("an unknown-type message no longer lists upstream's TYPES after \"Expected one of: \".");
         var arrays = text.Split("\"supportedTypes\": [").Length - 1;
         if (arrays == 0) return text;
         var edited = SupportedTypesExplainer().Replace(text, "\"waterfall\"\n");

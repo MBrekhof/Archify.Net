@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "Independent relationship beside a shared parent",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "entities": [
+    {
+      "id": "hub",
+      "label": "hub",
+      "pos": [
+        80,
+        40
+      ],
+      "width": 116,
+      "attributes": [
+        {
+          "name": "f0",
+          "type": "int"
+        },
+        {
+          "name": "f1",
+          "type": "int"
+        },
+        {
+          "name": "f2",
+          "type": "int"
+        },
+        {
+          "name": "f3",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "id": "a",
+      "label": "a",
+      "pos": [
+        0,
+        240
+      ],
+      "width": 96,
+      "attributes": [
+        {
+          "name": "f0",
+          "type": "int"
+        },
+        {
+          "name": "f1",
+          "type": "int"
+        },
+        {
+          "name": "f2",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "label": "b",
+      "pos": [
+        280,
+        240
+      ],
+      "width": 96,
+      "attributes": [
+        {
+          "name": "f0",
+          "type": "int"
+        },
+        {
+          "name": "f1",
+          "type": "int"
+        },
+        {
+          "name": "f2",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "label": "c",
+      "pos": [
+        0,
+        440
+      ],
+      "width": 96,
+      "attributes": [
+        {
+          "name": "f0",
+          "type": "int"
+        },
+        {
+          "name": "f1",
+          "type": "int"
+        },
+        {
+          "name": "f2",
+          "type": "int"
+        }
+      ]
+    },
+    {
+      "id": "d",
+      "label": "d",
+      "pos": [
+        280,
+        440
+      ],
+      "width": 96,
+      "attributes": [
+        {
+          "name": "f0",
+          "type": "int"
+        },
+        {
+          "name": "f1",
+          "type": "int"
+        },
+        {
+          "name": "f2",
+          "type": "int"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "a_hub",
+      "from": "a",
+      "to": "hub",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "b_hub",
+      "from": "b",
+      "to": "hub",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "c_d",
+      "from": "c",
+      "to": "d",
+      "fromCardinality": "many",
+      "toCardinality": "one",
+      "fromSide": "top",
+      "toSide": "top",
+      "via": [
+        [
+          48,
+          400
+        ],
+        [
+          128,
+          400
+        ],
+        [
+          128,
+          172
+        ],
+        [
+          148,
+          172
+        ],
+        [
+          148,
+          400
+        ],
+        [
+          328,
+          400
+        ]
+      ]
+    }
+  ]
+}

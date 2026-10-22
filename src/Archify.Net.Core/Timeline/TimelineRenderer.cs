@@ -420,20 +420,20 @@ public sealed class TimelineRenderer : IDiagramRenderer
         // offset's series is kept when the zone really has that offset there, so a repeated hour keeps both ticks and a skipped one none.
         List<double> WallClockTicks(double start, double end, double interval)
         {
-            var offsets = new List<double>();   // JS Set: insertion order, SameValueZero
-            void Add(List<double> set, double value) { if (!set.Contains(value)) set.Add(value); }
-            Add(offsets, ZoneOffset(start));
-            Add(offsets, ZoneOffset(end));
-            for (var probe = start + DAY; probe < end; probe += DAY) Add(offsets, ZoneOffset(probe));
-            var candidates = new List<double>();
+            var offsets = new JsSet<double>();
+            offsets.Add(ZoneOffset(start));
+            offsets.Add(ZoneOffset(end));
+            for (var probe = start + DAY; probe < end; probe += DAY) offsets.Add(ZoneOffset(probe));
+            var candidates = new JsSet<double>();
             foreach (var offset in offsets)
             {
                 var firstTick = Math.Ceiling((start + offset) / interval) * interval - offset;
                 for (var t = firstTick; t <= end; t += interval)
-                    if (offsets.Count == 1 || ZoneOffset(t) == offset) Add(candidates, t);
+                    if (offsets.Count == 1 || ZoneOffset(t) == offset) candidates.Add(t);
             }
-            Js.Sort(candidates, (left, right) => left - right);
-            return candidates;
+            List<double> ticks = [.. candidates];
+            Js.Sort(ticks, (left, right) => left - right);
+            return ticks;
         }
 
         static string DurationLabel(double ms)

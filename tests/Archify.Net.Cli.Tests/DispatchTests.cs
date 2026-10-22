@@ -74,6 +74,17 @@ public class DispatchTests
 
     static (string, string?) Pair((string[] Remaining, string? Value) r) => (string.Join(" ", r.Remaining), r.Value);
 
+    // extractExplainerWritingArgs' success path (A:2397-2413): upstream's three values, both forms, the flag removed from rest.
+    [Theory]
+    [InlineData("warn")]
+    [InlineData("strict")]
+    [InlineData("off")]
+    public void Writing_extractor_accepts_each_value_for_an_explainer(string mode)
+    {
+        Assert.Equal(("explainer x.json", mode), Pair(Args.ExtractExplainerWritingArgs(["explainer", "x.json", "--writing", mode])));
+        Assert.Equal(("explainer x.json --json", mode), Pair(Args.ExtractExplainerWritingArgs(["explainer", $"--writing={mode}", "x.json", "--json"])));
+    }
+
     [Theory]
     [InlineData("--quality")]
     [InlineData("--quality", "--json")]

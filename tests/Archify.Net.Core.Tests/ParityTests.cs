@@ -138,6 +138,9 @@ public class ParityTests
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-route.erd.json"), Fixtures.Golden("erd-bridge-blocked-route-rendered.html")],   // unrelated route crosses the gap
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-wide-route.erd.json"), Fixtures.Golden("erd-bridge-wide-route-rendered.html")],         // width 4: half-width sum
         ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-bridge.erd.json"), Fixtures.Golden("erd-bridge-blocked-bridge-rendered.html")], // earlier bridge blocks; rejected one not kept
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-near-clear.erd.json"), Fixtures.Golden("erd-bridge-near-clear-rendered.html")],         // width 4 at 2.85: past 2.75, bridge survives
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-near-clear-thin.erd.json"), Fixtures.Golden("erd-bridge-near-clear-thin-rendered.html")], // width 1.5 at 1.6: past 1.5, bridge survives
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-route-h.erd.json"), Fixtures.Golden("erd-bridge-blocked-route-h-rendered.html")], // horizontal overlap: axis 1
     ];
 
     [Fact] public void Workflow_quality_option_reaches_every_gate_like_the_env_var()   // Review Focus 3
