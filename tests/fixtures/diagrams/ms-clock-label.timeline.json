@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_type": "timeline",
+  "meta": {
+    "title": "ms-clock-label",
+    "output": "ms-clock-label.html",
+    "evidence": "illustrative",
+    "timezone": "UTC"
+  },
+  "layout": {
+    "width": 600,
+    "breaks": "none"
+  },
+  "events": [
+    {
+      "id": "e0",
+      "at": "1969-12-31T23:59:59.750Z",
+      "title": "Event 0"
+    },
+    {
+      "id": "e1",
+      "at": "1970-01-01T00:00:05.250Z",
+      "title": "Event 1"
+    },
+    {
+      "id": "e2",
+      "at": "1970-01-01T00:00:08Z",
+      "title": "Event 2"
+    }
+  ]
+}

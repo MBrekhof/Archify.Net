@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "diagram_type": "timeline",
+  "meta": {
+    "title": "dst-lord-howe",
+    "output": "dst-lord-howe.html",
+    "evidence": "illustrative",
+    "timezone": "Australia/Lord_Howe"
+  },
+  "layout": {
+    "width": 480,
+    "breaks": "none"
+  },
+  "events": [
+    {
+      "id": "e0",
+      "at": "2026-04-05T00:00:00+11:00",
+      "title": "Event 0"
+    },
+    {
+      "id": "e1",
+      "at": "2026-04-05T03:00:00+10:30",
+      "title": "Event 1"
+    }
+  ]
+}

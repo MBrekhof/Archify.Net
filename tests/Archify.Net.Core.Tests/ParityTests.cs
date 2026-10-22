@@ -30,6 +30,12 @@ public class ParityTests
         ["timeline", Fixtures.Upstream("examples/payment-incident.timeline.json"), Fixtures.Upstream("examples/timeline-payment-incident-rendered.html")],
         ["timeline", Fixtures.Upstream("examples/archify-dev-activity.timeline.json"), Fixtures.Upstream("examples/timeline-archify-dev-activity-rendered.html")],
         ["timeline", Fixtures.Fixture("diagrams/dst-new-york.timeline.json"), Fixtures.Golden("dst-new-york-rendered.html")],
+        // 3.2.0 wallClockTicks and millisecond clock labels (capture-fixtures.mjs asserts each reaches its branch).
+        ["timeline", Fixtures.Fixture("diagrams/dst-roundtrip-segment.timeline.json"), Fixtures.Golden("dst-roundtrip-segment-rendered.html")],       // DST only mid-segment
+        ["timeline", Fixtures.Fixture("diagrams/dst-fall-back-hour.timeline.json"), Fixtures.Golden("dst-fall-back-hour-rendered.html")],             // repeated hour
+        ["timeline", Fixtures.Fixture("diagrams/dst-spring-forward-hour.timeline.json"), Fixtures.Golden("dst-spring-forward-hour-rendered.html")],   // skipped hour
+        ["timeline", Fixtures.Fixture("diagrams/ms-clock-label.timeline.json"), Fixtures.Golden("ms-clock-label-rendered.html")],                     // pre-1970, .250, no fraction
+        ["timeline", Fixtures.Fixture("diagrams/dst-lord-howe.timeline.json"), Fixtures.Golden("dst-lord-howe-rendered.html")],                       // 30-minute shift
         ["timeline", Fixtures.Fixture("diagrams/payment-incident.zh-CN.timeline.json"), Fixtures.Golden("payment-incident.zh-CN-rendered.html")],
         ["waterfall", Fixtures.Upstream("examples/checkout-request.waterfall.json"), Fixtures.Upstream("examples/waterfall-checkout-request-rendered.html")],
         ["waterfall", Fixtures.Upstream("examples/example-rebuild.waterfall.json"), Fixtures.Upstream("examples/waterfall-example-rebuild-rendered.html")],
@@ -555,12 +561,17 @@ public class ParityTests
         AssertReceipt(expected, r);
     }
 
-    // `node render-timeline.mjs <in> <out> --layout-json` stdout for the four timeline goldens.
+    // `node render-timeline.mjs <in> <out> --layout-json` stdout for the timeline goldens.
     [Theory]
     [InlineData("upstream:examples/payment-incident.timeline.json", "timeline-payment-incident")]
     [InlineData("upstream:examples/archify-dev-activity.timeline.json", "timeline-archify-dev-activity")]
     [InlineData("fixture:diagrams/dst-new-york.timeline.json", "dst-new-york")]
     [InlineData("fixture:diagrams/payment-incident.zh-CN.timeline.json", "payment-incident.zh-CN")]
+    [InlineData("fixture:diagrams/dst-roundtrip-segment.timeline.json", "dst-roundtrip-segment")]
+    [InlineData("fixture:diagrams/dst-fall-back-hour.timeline.json", "dst-fall-back-hour")]
+    [InlineData("fixture:diagrams/dst-spring-forward-hour.timeline.json", "dst-spring-forward-hour")]
+    [InlineData("fixture:diagrams/ms-clock-label.timeline.json", "ms-clock-label")]
+    [InlineData("fixture:diagrams/dst-lord-howe.timeline.json", "dst-lord-howe")]
     public void Timeline_layout_report_equals_upstream_layout_json(string input, string name)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);

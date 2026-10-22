@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "diagram_type": "timeline",
+  "meta": {
+    "title": "dst-roundtrip-segment",
+    "output": "dst-roundtrip-segment.html",
+    "evidence": "illustrative",
+    "timezone": "America/New_York"
+  },
+  "layout": {
+    "width": 600,
+    "breaks": "none"
+  },
+  "events": [
+    {
+      "id": "e0",
+      "at": "2026-02-15T00:00:00-05:00",
+      "title": "Event 0"
+    },
+    {
+      "id": "e1",
+      "at": "2026-11-15T00:00:00-05:00",
+      "title": "Event 1"
+    }
+  ]
+}

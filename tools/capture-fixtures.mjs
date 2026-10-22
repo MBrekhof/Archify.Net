@@ -298,6 +298,25 @@ const dst = {
   ],
 };
 write('fixtures/diagrams/dst-new-york.timeline.json', dst);
+// 3.2.0 wallClockTicks (render-timeline.mjs:261-276) and clockLabel's millisecond fraction (:150-154). Each input's branch is
+// asserted after the layout reports below.
+const tlProbe = (name, timezone, ats, width) => ({
+  schema_version: 1, diagram_type: 'timeline',
+  meta: { title: name, output: `${name}.html`, evidence: 'illustrative', timezone },
+  layout: { width, breaks: 'none' },
+  events: ats.map((at, i) => ({ id: `e${i}`, at, title: `Event ${i}` })),
+});
+const tickProbes = [
+  // one segment whose ends are both EST; only the day probes see EDT, so the summer ticks need the second offset
+  tlProbe('dst-roundtrip-segment', 'America/New_York', ['2026-02-15T00:00:00-05:00', '2026-11-15T00:00:00-05:00'], 600),
+  tlProbe('dst-fall-back-hour', 'America/New_York', ['2026-11-01T04:30:00Z', '2026-11-01T07:30:00Z'], 800),     // repeated 01:00-02:00, 30 min tick
+  tlProbe('dst-spring-forward-hour', 'America/New_York', ['2026-03-08T06:00:00Z', '2026-03-08T09:00:00Z'], 800), // skipped 02:00-03:00
+  // seconds shown: a pre-1970 fraction (ms -250 -> .750), .250, and a whole second that prints no fraction
+  tlProbe('ms-clock-label', 'UTC', ['1969-12-31T23:59:59.750Z', '1970-01-01T00:00:05.250Z', '1970-01-01T00:00:08Z'], 600),
+  // 30-minute DST shift at an hourly tick (a 15 or 30 minute tick stays aligned across a 30-minute shift, so 3.1.0 would agree)
+  tlProbe('dst-lord-howe', 'Australia/Lord_Howe', ['2026-04-05T00:00:00+11:00', '2026-04-05T03:00:00+10:30'], 480),
+];
+for (const d of tickProbes) write(`fixtures/diagrams/${d.meta.title}.timeline.json`, d);
 // zh-CN locale (spec "zh-CN fixture"; upstream renders it cleanly). Exercises the bundled catalog in legend labels, the evidence chip,
 // `timeline.axis` and `timeline.compressed` — none of it touches Intl.Segmenter, so it is fully byte-exact.
 const zh = ex('payment-incident.timeline.json'); zh.meta.output = 'payment-incident.zh-CN.html'; zh.meta.locale = 'zh-CN';
@@ -360,6 +379,7 @@ targets.push(
   ['tree', out('fixtures/diagrams/payment-platform.right.tree.json'), 'payment-platform.right-rendered.html'],
   ['tree', out('fixtures/diagrams/payment-platform.wrap.tree.json'), 'payment-platform.wrap-rendered.html'],
   ['timeline', out('fixtures/diagrams/dst-new-york.timeline.json'), 'dst-new-york-rendered.html'],
+  ...tickProbes.map(({ meta: { title } }) => ['timeline', out(`fixtures/diagrams/${title}.timeline.json`), `${title}-rendered.html`]),
   ['timeline', out('fixtures/diagrams/payment-incident.zh-CN.timeline.json'), 'payment-incident.zh-CN-rendered.html'],
   ['waterfall', out('fixtures/diagrams/incomplete-trace.waterfall.json'), 'incomplete-trace-rendered.html'],
   ['waterfall', out('fixtures/diagrams/incomplete-trace.no-unit.waterfall.json'), 'incomplete-trace.no-unit-rendered.html'],
@@ -757,14 +777,50 @@ for (const [name, fault] of timelineFaults) {
     fs.rmSync(out(`goldens/${name}.html`), { force: true });
   } catch (e) { if (e.status !== 1 || !e.stderr) throw e; write(`fixtures/diagrams/${name}.timeline.expected.json`, JSON.parse(String(e.stderr))); }
 }
-// Timeline layout reports (`--layout-json` stdout) for the four timeline goldens.
+// Timeline layout reports (`--layout-json` stdout) for the timeline goldens and the tick probes.
 for (const [name, input] of [['timeline-payment-incident', path.join(EX, 'payment-incident.timeline.json')],
   ['timeline-archify-dev-activity', path.join(EX, 'archify-dev-activity.timeline.json')],
   ['dst-new-york', out('fixtures/diagrams/dst-new-york.timeline.json')],
-  ['payment-incident.zh-CN', out('fixtures/diagrams/payment-incident.zh-CN.timeline.json')]]) {
+  ['payment-incident.zh-CN', out('fixtures/diagrams/payment-incident.zh-CN.timeline.json')],
+  ...tickProbes.map(({ meta: { title } }) => [title, out(`fixtures/diagrams/${title}.timeline.json`)])]) {
   const stdout = execFileSync(process.execPath, [path.join(UP, 'renderers/timeline/render-timeline.mjs'), input, out(`goldens/${name}.layout.html`), '--layout-json'],
     { encoding: 'utf8', env: cleanEnv, stdio: ['ignore', 'pipe', 'pipe'] });
   fs.writeFileSync(out(`fixtures/diagrams/${name}.layout.json`), stdout);
+}
+// Each tick probe reaches its branch (a later upstream change must not silently turn one into a no-op).
+{
+  const zoneOffset = (tz, ms) => {   // verbatim render-timeline.mjs:121-127 over wallParts
+    const w = wallParts(tz, ms); const local = new Date(0);
+    local.setUTCFullYear(+w.y, +w.mo - 1, +w.d); local.setUTCHours(+w.h, +w.mi, +w.s, 0);
+    return local.getTime() - Math.floor(ms / 1000) * 1000;
+  };
+  const probe = (name) => {
+    const report = JSON.parse(fs.readFileSync(out(`fixtures/diagrams/${name}.layout.json`), 'utf8'));
+    const html = fs.readFileSync(out(`goldens/${name}-rendered.html`), 'utf8');
+    const tickLabels = [...html.matchAll(/<text\b[^>]*\btl-tick\b[^>]*>([^<]*)<\/text>/g)].map((m) => m[1]);
+    const texts = [...html.matchAll(/>([^<]*)<\/text>/g)].map((m) => m[1]);
+    const fail = (why) => { throw new Error(`${name}: ${why}`); };
+    return { report, tickLabels, texts, fail, ticks: report.ticks.map(({ t }) => t), seg: report.segments[0] };
+  };
+  const count = (list, value) => list.filter((x) => x === value).length;
+  { const { report, seg, fail } = probe('dst-roundtrip-segment'); const tz = 'America/New_York';
+    if (report.segments.length !== 1) fail(`${report.segments.length} segments, expected 1`);
+    if (zoneOffset(tz, seg.start) !== zoneOffset(tz, seg.end)) fail('end offsets differ');
+    const offsets = new Set([zoneOffset(tz, seg.start), zoneOffset(tz, seg.end)]);
+    for (let p = seg.start + 86_400_000; p < seg.end; p += 86_400_000) offsets.add(zoneOffset(tz, p));
+    if (offsets.size !== 2) fail(`offsets.size ${offsets.size}, expected 2`); }
+  { const { tickLabels, ticks, fail } = probe('dst-fall-back-hour');
+    if (ticks[1] - ticks[0] !== 1_800_000) fail('tick interval is not 30 minutes');
+    if (count(tickLabels, '01:00') !== 2 || count(tickLabels, '01:30') !== 2) fail(`labels ${tickLabels.join(' | ')}`); }
+  { const { tickLabels, fail } = probe('dst-spring-forward-hour');
+    if (tickLabels.some((label) => label.startsWith('02:'))) fail(`labels ${tickLabels.join(' | ')}`); }
+  { const { texts, fail } = probe('ms-clock-label');
+    for (const end of [':05.250', ':59.750', ':00:08']) if (!texts.some((x) => x.endsWith(end))) fail(`no label ends in ${end}`); }
+  { const { ticks, seg, fail } = probe('dst-lord-howe'); const tz = 'Australia/Lord_Howe'; const interval = ticks[1] - ticks[0];
+    if (interval !== 3_600_000) fail('tick interval is not one hour');
+    const offset = zoneOffset(tz, seg.start); const old = [];   // 3.1.0: one offset, the segment start's
+    for (let t = Math.ceil((seg.start + offset) / interval) * interval - offset; t <= seg.end; t += interval) old.push(t);
+    if (JSON.stringify(old) === JSON.stringify(ticks)) fail('tick set equals the 3.1.0 single-offset loop'); }
 }
 // Waterfall failure receipts: checkout-request.waterfall.json with one fault each, one per code render-waterfall.mjs's timing
 // checks (:54-105) can emit, every per-span invalid-timing message, and the axis-scale site (:167-171).

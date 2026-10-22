@@ -206,10 +206,8 @@ public sealed class TimelineRenderer : IDiagramRenderer
                     continue;
                 }
                 var interval = TICKS.FirstOrDefault(candidate => candidate * scale >= Layout.MinTickPx, TICKS[^1]);
-                var offset = ZoneOffset(segment.Start);
-                var t = Math.Ceiling((segment.Start + offset) / interval) * interval - offset;
                 var before = ticks.Count;
-                for (; t <= segment.End; t += interval) ticks.Add(new Tick(t, XOf(t), interval));
+                foreach (var t in WallClockTicks(segment.Start, segment.End, interval)) ticks.Add(new Tick(t, XOf(t), interval));
                 // A segment too short for a regular tick still states where it starts.
                 if (ticks.Count == before) ticks.Add(new Tick(segment.Start, segment.X0, interval));
             }
@@ -410,10 +408,32 @@ public sealed class TimelineRenderer : IDiagramRenderer
             return $"UTC{sign}{Js.Num(Math.Floor(abs / 60)).PadLeft(2, '0')}:{Js.Num(abs % 60).PadLeft(2, '0')}";
         }
 
+        // `new Date(ms).getUTCMilliseconds()`: the non-negative remainder, so a pre-1970 -250 is .750 (:150-154).
         string ClockLabel(double ms, bool seconds, bool date)
         {
             var w = Wall(ms);
-            return $"{(date ? $"{w.Mo}-{w.D} " : "")}{w.H}:{w.Mi}{(seconds ? $":{w.S}" : "")}";
+            var fraction = FloorMod(Math.Truncate(ms), 1000);
+            return $"{(date ? $"{w.Mo}-{w.D} " : "")}{w.H}:{w.Mi}{(seconds ? $":{w.S}{(fraction != 0 ? $".{Js.Num(fraction).PadLeft(3, '0')}" : "")}" : "")}";
+        }
+
+        // Wall-clock ticks across every offset the segment sees (:261-276). Day probes only collect offsets; a candidate from one
+        // offset's series is kept when the zone really has that offset there, so a repeated hour keeps both ticks and a skipped one none.
+        List<double> WallClockTicks(double start, double end, double interval)
+        {
+            var offsets = new List<double>();   // JS Set: insertion order, SameValueZero
+            void Add(List<double> set, double value) { if (!set.Contains(value)) set.Add(value); }
+            Add(offsets, ZoneOffset(start));
+            Add(offsets, ZoneOffset(end));
+            for (var probe = start + DAY; probe < end; probe += DAY) Add(offsets, ZoneOffset(probe));
+            var candidates = new List<double>();
+            foreach (var offset in offsets)
+            {
+                var firstTick = Math.Ceiling((start + offset) / interval) * interval - offset;
+                for (var t = firstTick; t <= end; t += interval)
+                    if (offsets.Count == 1 || ZoneOffset(t) == offset) Add(candidates, t);
+            }
+            Js.Sort(candidates, (left, right) => left - right);
+            return candidates;
         }
 
         static string DurationLabel(double ms)

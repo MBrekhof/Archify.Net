@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "diagram_type": "timeline",
+  "meta": {
+    "title": "dst-spring-forward-hour",
+    "output": "dst-spring-forward-hour.html",
+    "evidence": "illustrative",
+    "timezone": "America/New_York"
+  },
+  "layout": {
+    "width": 800,
+    "breaks": "none"
+  },
+  "events": [
+    {
+      "id": "e0",
+      "at": "2026-03-08T06:00:00Z",
+      "title": "Event 0"
+    },
+    {
+      "id": "e1",
+      "at": "2026-03-08T09:00:00Z",
+      "title": "Event 1"
+    }
+  ]
+}
