@@ -634,6 +634,63 @@ erdWrite('erd-trunk-all-clash', tscene('Three styles', [
 ], [trel('r1', 'east_1', 'hub_a'), trel('r2', 'east_2', 'hub_a'),
   trel('r3', 'east_3', 'hub_b', { identifying: false }), trel('r4', 'east_4', 'hub_b', { identifying: false }),
   trel('r5', 'east_5', 'hub_c', { variant: 'emphasis', label: 'five' }), trel('r6', 'east_6', 'hub_c', { variant: 'emphasis', label: 'six' })]));
+// PORT-007 (3.2.0): a trunk bridge must not touch an unrelated route or an earlier bridge. fixture() verbatim from
+// T/erd-trunk-bridges.test.mjs:14-50 (v3.2.0); each scenario is one the test renders.
+function bridgeFixture({ horizontal = false, conflict, dashed = false, offset = 0, width } = {}) {
+  const table = (id, pos, rows = 3) => ({
+    id, label: id, pos, width: rows * 20 + 36,
+    attributes: Array.from({ length: rows }, (_, index) => ({ name: `f${index}`, type: 'int' })),
+  });
+  const document = {
+    schema_version: 1, diagram_type: 'erd',
+    meta: { title: 'Independent relationship beside a shared parent', locale: 'en', quality_profile: 'showcase', legend: { mode: 'hidden' } },
+    entities: [table('hub', [40, 80], 4), table('a', [240, 0]), table('b', [240, 280]), table('c', [440, 0]), table('d', [440, 280])],
+    relationships: [
+      { id: 'a_hub', from: 'a', to: 'hub', fromCardinality: 'many', toCardinality: 'one', fromSide: 'left', toSide: 'right' },
+      { id: 'b_hub', from: 'b', to: 'hub', fromCardinality: 'many', toCardinality: 'one', fromSide: 'left', toSide: 'right' },
+    ],
+  };
+  if (conflict) {
+    const x = conflict === 'crossing' ? 164 : 172 + offset;
+    const [top, bottom] = width > 1.5 || conflict === 'touch' ? [130, 146] : [128, 148];
+    document.relationships.push({
+      id: 'c_d', from: 'c', to: 'd', fromCardinality: 'many', toCardinality: 'one',
+      fromSide: 'left', toSide: 'left',
+      via: [[400, 48], [400, top], [x, top], [x, bottom], [400, bottom], [400, 328]],
+      ...(dashed ? { identifying: false } : {}),
+      ...(width === undefined ? {} : { width }),
+    });
+  }
+  if (horizontal) {
+    document.entities.forEach(entity => { entity.pos.reverse(); });
+    document.relationships.forEach(relationship => {
+      const sides = { left: 'top', right: 'bottom' };
+      relationship.fromSide = sides[relationship.fromSide];
+      relationship.toSide = sides[relationship.toSide];
+      relationship.via?.forEach(point => point.reverse());
+    });
+  }
+  return document;
+}
+erdWrite('erd-bridge-blocked-route', bridgeFixture({ conflict: 'crossing', dashed: true }));   // c_d crosses the 126..150 gap
+// width 4 at offset 2.5: blocked only through (1.5 + 4) / 2 = 2.75; the same offset at the default 1.5 still bridges.
+erdWrite('erd-bridge-wide-route', bridgeFixture({ conflict: 'near', offset: 2.5, width: 4 }));
+// Same-axis bridges in one cluster. m sends two relationships, so both ends are spread and alignAutomaticFacingPorts
+// keeps m's slots (247.2, 271.2) 1.2px off the hub's (246, 270): runs a | m1 | m2 | b leave gaps A 222..246,
+// B 247.2..270, C 271.2..294. B lies within 1.5 of the taken A and is rejected by the bridged check alone (every
+// relationship is a cluster member, so no route conflicts); C is taken only because the rejected B was not appended.
+// Standard profile: showcase fails the 1.2px interior segments as composition/micro-segment.
+{
+  const doc = bridgeFixture();
+  doc.meta.quality_profile = 'standard';
+  doc.entities = doc.entities.filter((entity) => ['hub', 'a', 'b'].includes(entity.id));
+  doc.entities.find((entity) => entity.id === 'hub').pos = [40, 200];
+  doc.entities.find((entity) => entity.id === 'b').pos = [240, 480];
+  doc.entities.push({ ...doc.entities.find((entity) => entity.id === 'a'), id: 'm', label: 'm', pos: [240, 211.2] });
+  doc.relationships.splice(1, 0, ...['m1_hub', 'm2_hub'].map((id) => (
+    { id, from: 'm', to: 'hub', fromCardinality: 'many', toCardinality: 'one', fromSide: 'left', toSide: 'right' })));
+  erdWrite('erd-bridge-blocked-bridge', doc);
+}
 targets.push(...erdNames.map((name) => p3('erd', name)));
 // Quality-option goldens: minted with the env var upstream reads; C# renders the same input with RenderOptions.
 const renderEnv = (type, input, output, env) => execFileSync(process.execPath, [path.join(UP, `renderers/${type}/render-${type}.mjs`), input, output], { stdio: 'inherit', env: { ...cleanEnv, ...env } });
@@ -649,6 +706,14 @@ for (const [type, input, golden] of targets) render(type, input, out(`goldens/${
   if (!html('erd-trunk-snap').includes('data-composition-points="256,108;256,612"')) throw new Error('erd-trunk-snap: no merged trunk at x=256');
   if (/data-er-trunk[^>]*a-emphasis|a-emphasis[^>]*data-er-trunk/.test(html('erd-trunk-all-clash'))) throw new Error('erd-trunk-all-clash: emphasis trunk drawn');
   if (!html('erd-trunk-all-clash').includes('data-er-trunk')) throw new Error('erd-trunk-all-clash: no trunks at all');
+  // PORT-007: the rejected bridge splits the one 3.1.0 trunk (172,48;172,328) into two.
+  const trunks = (n) => [...html(n).matchAll(/<path data-er-trunk=""[^>]*data-composition-points="([^"]+)"/g)].map((m) => m[1]).join(' | ');
+  for (const n of ['erd-bridge-blocked-route', 'erd-bridge-wide-route']) {
+    if (trunks(n) !== '172,48;172,126 | 172,150;172,328') throw new Error(`${n}: trunks ${trunks(n)}, expected the bridge 126..150 rejected`);
+  }
+  if (!/data-edge-id="c_d"[^>]*stroke-width="4"/.test(html('erd-bridge-wide-route'))) throw new Error('erd-bridge-wide-route: c_d not drawn at width 4');
+  // 3.1.0: one trunk 172,48;172,528. Appending the rejected B would also reject C: three trunks.
+  if (trunks('erd-bridge-blocked-bridge') !== '172,48;172,247.2 | 172,270;172,528') throw new Error(`erd-bridge-blocked-bridge: trunks ${trunks('erd-bridge-blocked-bridge')}, expected only B rejected`);
 }
 // Node checker output for every golden (upstream 15 + ours); strip the absolute `file` so it is path-independent.
 // The standard-profile crossing golden renders, but its report fails `orthogonal_arrows`: the authored `via` routes leave and

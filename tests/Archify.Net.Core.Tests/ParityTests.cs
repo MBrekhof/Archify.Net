@@ -134,6 +134,10 @@ public class ParityTests
         ["erd", Fixtures.Fixture("diagrams/erd-trunk-snap.erd.json"), Fixtures.Golden("erd-trunk-snap-rendered.html")],
         ["erd", Fixtures.Fixture("diagrams/erd-trunk-bridge.erd.json"), Fixtures.Golden("erd-trunk-bridge-rendered.html")],
         ["erd", Fixtures.Fixture("diagrams/erd-trunk-all-clash.erd.json"), Fixtures.Golden("erd-trunk-all-clash-rendered.html")],
+        // 3.2.0 trunk bridges (capture-fixtures.mjs asserts each rejected bridge).
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-route.erd.json"), Fixtures.Golden("erd-bridge-blocked-route-rendered.html")],   // unrelated route crosses the gap
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-wide-route.erd.json"), Fixtures.Golden("erd-bridge-wide-route-rendered.html")],         // width 4: half-width sum
+        ["erd", Fixtures.Fixture("diagrams/erd-bridge-blocked-bridge.erd.json"), Fixtures.Golden("erd-bridge-blocked-bridge-rendered.html")], // earlier bridge blocks; rejected one not kept
     ];
 
     [Fact] public void Workflow_quality_option_reaches_every_gate_like_the_env_var()   // Review Focus 3

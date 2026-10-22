@@ -1,0 +1,202 @@
+{
+  "diagram_type": "erd",
+  "viewBox": [
+    360,
+    634
+  ],
+  "layout": {
+    "margin": 24,
+    "legendH": 34,
+    "padX": 12,
+    "keyWidth": 30,
+    "keyFont": 9,
+    "headerFont": 13,
+    "headerFontMinimum": 10,
+    "rowFont": 11,
+    "rowFontMinimum": 9,
+    "typeFont": 10.5,
+    "typeFontMinimum": 9,
+    "minRelationshipLength": 24
+  },
+  "entities": [
+    {
+      "id": "hub",
+      "label": "hub",
+      "x": 40,
+      "y": 200,
+      "width": 116,
+      "height": 116,
+      "attributes": [
+        "f0",
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "pos": [
+        40,
+        200
+      ]
+    },
+    {
+      "id": "a",
+      "label": "a",
+      "x": 240,
+      "y": 0,
+      "width": 96,
+      "height": 96,
+      "attributes": [
+        "f0",
+        "f1",
+        "f2"
+      ],
+      "pos": [
+        240,
+        0
+      ]
+    },
+    {
+      "id": "b",
+      "label": "b",
+      "x": 240,
+      "y": 480,
+      "width": 96,
+      "height": 96,
+      "attributes": [
+        "f0",
+        "f1",
+        "f2"
+      ],
+      "pos": [
+        240,
+        480
+      ]
+    },
+    {
+      "id": "m",
+      "label": "m",
+      "x": 240,
+      "y": 211,
+      "width": 96,
+      "height": 96,
+      "attributes": [
+        "f0",
+        "f1",
+        "f2"
+      ],
+      "pos": [
+        240,
+        211
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "a",
+      "to": "hub",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          240,
+          48
+        ],
+        [
+          172,
+          48
+        ],
+        [
+          172,
+          222
+        ],
+        [
+          156,
+          222
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "m",
+      "to": "hub",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          240,
+          247.2
+        ],
+        [
+          172,
+          247.2
+        ],
+        [
+          172,
+          246
+        ],
+        [
+          156,
+          246
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "m",
+      "to": "hub",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          240,
+          271.2
+        ],
+        [
+          172,
+          271.2
+        ],
+        [
+          172,
+          270
+        ],
+        [
+          156,
+          270
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "from": "b",
+      "to": "hub",
+      "label": null,
+      "variant": "default",
+      "route": "auto",
+      "points": [
+        [
+          240,
+          528
+        ],
+        [
+          172,
+          528
+        ],
+        [
+          172,
+          294
+        ],
+        [
+          156,
+          294
+        ]
+      ],
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    }
+  ]
+}

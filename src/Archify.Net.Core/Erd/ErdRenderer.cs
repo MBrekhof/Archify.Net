@@ -123,7 +123,11 @@ public sealed class ErdRenderer : IDiagramRenderer
     const double TRUNK_BRIDGE = ERD_PORT_SPACING + 8;
     const double TRUNK_CAP = 10;
     const double TRUNK_LEG = 12;
+    const double DEFAULT_RELATIONSHIP_STROKE_WIDTH = 1.5;
     const double GLYPH_HALF_HEIGHT = 10;
+
+    static double RelationshipStrokeWidth(JsonObject relationship) =>
+        relationship.Num("width") is { } width && double.IsFinite(width) ? width : DEFAULT_RELATIONSHIP_STROKE_WIDTH;
 
     // `{ role, entity, side, styleKey, members }` (:691-697); axis and coordinate are written by the trunk pass (:713, :747),
     // and a coordinate left undefined stays null.
@@ -139,12 +143,13 @@ public sealed class ErdRenderer : IDiagramRenderer
     }
     sealed record ChosenLine(int Axis, double Coordinate, string StyleKey);
     sealed class TrunkRun { public int StartIndex, EndIndex; public double Low, High; }
-    sealed class Span(double low, double high, string styleKey)
+    sealed class Span(double low, double high, string styleKey, JsonObject relationship)
     {
         public double Low { get; } = low;
         public double High { get; set; } = high;
         public string StyleKey { get; } = styleKey;
-        public Span Copy() => new(Low, High, StyleKey);
+        public JsonObject Relationship { get; } = relationship;
+        public Span Copy() => new(Low, High, StyleKey, Relationship);
     }
 
     static string N(double v) => Js.Num(v);
@@ -911,15 +916,20 @@ public sealed class ErdRenderer : IDiagramRenderer
                 var styleKey = MarkerStyleOf(relationship);
                 var key = $"{N(group.Axis)}:{N(group.Coordinate ?? double.NaN)}:{styleKey}";
                 var list = clusters.Get(key) ?? [];
-                foreach (var run in runs) list.Add(new Span(run.Low, run.High, styleKey));
+                foreach (var run in runs) list.Add(new Span(run.Low, run.High, styleKey, relationship));
                 clusters.Set(key, list);
             }
             var paths = new List<string>();
+            var bridged = new List<Segment>();
+            var routed = relationships.Where(RenderableRelationship)
+                .Select(relationship => (Relationship: relationship, Points: router.PathFor(relationship).Points, Width: RelationshipStrokeWidth(relationship)))
+                .ToList();
             foreach (var (key, runs) in clusters.Entries)
             {
                 var parts = key.Split(':');
                 var axis = Js.ToNumber(parts[0]);
                 var coordinate = Js.ToNumber(parts[1]);
+                var members = new HashSet<JsonObject>(runs.Select(run => run.Relationship), ReferenceEqualityComparer.Instance);
                 Js.Sort(runs, (left, right) => left.Low - right.Low);
                 var merged = new List<Span>();
                 foreach (var run in runs)
@@ -938,8 +948,16 @@ public sealed class ErdRenderer : IDiagramRenderer
                         var probe = axis == 0
                             ? new Segment(new(coordinate, last.High), new(coordinate, segment.Low))
                             : new Segment(new(last.High, coordinate), new(segment.Low, coordinate));
-                        if (!entities.Values.Any(entity => Geometry.SegmentIntersectsRect(probe, entity)))
+                        // The bridge is ink no logical route owns: members may share the bus, but an unrelated route or an
+                        // earlier bridge within the two strokes' half-width sum keeps the trunk split (:902-913).
+                        var box = new Rect(probe.Start.X, probe.Start.Y, probe.End.X - probe.Start.X, probe.End.Y - probe.Start.Y);
+                        var conflicts = routed.Any(route => !members.Contains(route.Relationship)
+                                && Enumerable.Range(1, Math.Max(0, route.Points.Count - 1)).Any(index => Geometry.SegmentIntersectsRect(
+                                    new Segment(route.Points[index - 1], route.Points[index]), box, (DEFAULT_RELATIONSHIP_STROKE_WIDTH + route.Width) / 2)))
+                            || bridged.Any(other => Geometry.SegmentIntersectsRect(other, box, DEFAULT_RELATIONSHIP_STROKE_WIDTH));
+                        if (!conflicts && !entities.Values.Any(entity => Geometry.SegmentIntersectsRect(probe, entity)))
                         {
+                            bridged.Add(probe);
                             last.High = segment.High;   // literal: the bridge takes this segment's high
                             continue;
                         }
@@ -952,7 +970,7 @@ public sealed class ErdRenderer : IDiagramRenderer
                     List<Pt> points = axis == 0
                         ? [new(coordinate, segment.Low), new(coordinate, segment.High)]
                         : [new(segment.Low, coordinate), new(segment.High, coordinate)];
-                    paths.Add($"        <path data-er-trunk=\"\" data-composition-points=\"{Geometry.RoutePointsValue(points)}\" d=\"{Geometry.RoundedPath(points, 8)}\" class=\"{cls}\" stroke-width=\"1.5\"/>");
+                    paths.Add($"        <path data-er-trunk=\"\" data-composition-points=\"{Geometry.RoutePointsValue(points)}\" d=\"{Geometry.RoundedPath(points, 8)}\" class=\"{cls}\" stroke-width=\"{N(DEFAULT_RELATIONSHIP_STROKE_WIDTH)}\"/>");
                 }
             }
             return string.Join("\n", paths);
@@ -1380,7 +1398,7 @@ public sealed class ErdRenderer : IDiagramRenderer
             var cls = (Geometry.ArrowClassMap.TryGetValue(MarkerStyleOf(relationship), out var mapped) ? mapped : Geometry.ArrowClassMap["default"]).Path;
             var routed = router.PathFor(relationship);
             var d = BundledRelationshipD(routed, RelationshipTrunkRuns(relationship));
-            var strokeWidth = relationship.Num("width") is { } width && double.IsFinite(width) ? width : 1.5;
+            var strokeWidth = RelationshipStrokeWidth(relationship);
             return $"        <path {SvgAttrs.FocusEdgeAttrs(S(relationship.Str("from")), S(relationship.Str("to")), relationship.Str("label"), N(index), relationship.Str("id"))} data-er-ends=\"{string.Join(" ", RelationshipEnds(relationship))}\" data-composition-points=\"{Geometry.RoutePointsValue(routed.Points)}\" d=\"{d}\" class=\"{cls}\"{SvgAttrs.AnimateAttr(meta, "edge", index)} stroke-width=\"{N(strokeWidth)}\" marker-start=\"url(#{CardinalityMarkerId(relationship, "from")})\" marker-end=\"url(#{CardinalityMarkerId(relationship, "to")})\"/>";
         }
 
