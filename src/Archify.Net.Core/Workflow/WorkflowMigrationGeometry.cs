@@ -48,6 +48,9 @@ internal static class WorkflowMigrationGeometry
             if (!edge.ContainsKey("labelAt") && edge.ContainsKey("label")) automatic["label"] = edge["label"]?.DeepClone();
             edges.Add(automatic);
         }
+        // Full-topology contracts cannot be checked against a layout-only subgraph (3.2.0 #497); the source and the final mapped
+        // candidate keep and validate them.
+        if (edges.Count != w.Edges.Count) planned.SemanticChecks = null;
         planned.Edges = edges;
 
         if (planned.MainPath is { } mainPath)

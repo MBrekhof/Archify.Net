@@ -214,6 +214,8 @@ public class ParityTests
     [InlineData("wf-single-pin-conflict")]
     [InlineData("wf-v1-column-capacity")]
     [InlineData("wf-release-luna")]
+    // 3.2.0 #497: the migration offer from the planning fallback, whose projection drops the edge semanticChecks requires.
+    [InlineData("wf-v1-semantic-fallback")]
     // TEST-002 (survey-test2): feedback rounds, authored-pin invariants, preset conflicts and verified repairs.
     [InlineData("t2-lg6")]
     [InlineData("t2-fb-exhaust")]

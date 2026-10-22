@@ -13,7 +13,7 @@ namespace Archify.Net;
 /// Spawn failures carry Node's error text, synthesised: <c>spawnSync git ENOENT</c>, <c>spawnSync git ENOBUFS</c>, or
 /// <c>spawnSync git EACCES</c>. Stated deviation: any other start errno prints its numeric code where Node prints its name.
 /// </remarks>
-internal sealed class GitRunner
+internal class GitRunner
 {
     /// <summary>What is started. The diagnostic text always says <c>git</c>, the file upstream passes to spawnSync; tests point
     /// this at a missing executable to stand for a PATH without git.</summary>
@@ -28,7 +28,8 @@ internal sealed class GitRunner
         public string Text => new UTF8Encoding(false).GetString(Stdout);   // encoding: 'utf8' (U+FFFD on invalid bytes)
     }
 
-    public Result Run(string root, IReadOnlyList<string> args, int maxBuffer, string? input = null)
+    // Virtual as a test seam: a subclass answers chosen commands with output a real repository cannot produce on Windows.
+    public virtual Result Run(string root, IReadOnlyList<string> args, int maxBuffer, string? input = null)
     {
         var start = new ProcessStartInfo(Executable)
         {

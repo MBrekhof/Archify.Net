@@ -1061,6 +1061,23 @@ for (const { name, type, input } of p3Rows.filter((r) => r.type === 'workflow'))
     { encoding: 'utf8', env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json', ...option }, stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 });
   fs.writeFileSync(out(`fixtures/workflow/${name}.receipt.json`), stdout);
 }
+// T/workflow-migration-semantics.test.mjs (v3.2.0) document(): a v1 workflow whose labelAt-pinned bottom-channel pin-edge fails the
+// intrinsic candidate, so column capacity falls back to planningWorkflow, which drops that edge (#497).
+const migrationSemanticsDocument = (semanticChecks) => ({
+  schema_version: 1, diagram_type: 'workflow',
+  meta: { title: 'Fallback semantic contract', output: 'fallback.html', viewBox: [720, 520], legend: { mode: 'hidden' } },
+  lanes: [{ id: 'pin', label: 'Pinned label' }, { id: 'straight', label: 'Straight constraint' }, { id: 'blocker', label: 'Blocker' }],
+  nodes: [
+    { id: 'a', lane: 'pin', col: 0, type: 'backend', label: 'A' }, { id: 'b', lane: 'pin', col: 1, type: 'backend', label: 'B' },
+    { id: 'c', lane: 'straight', col: 0, type: 'backend', label: 'C' }, { id: 'd', lane: 'straight', col: 1, type: 'backend', label: 'D' },
+    { id: 'obstacle', lane: 'blocker', col: 4, type: 'database', label: 'Obstacle' },
+  ],
+  mainPath: ['a', 'b'], semanticChecks: structuredClone(semanticChecks),
+  edges: [
+    { id: 'pin-edge', from: 'a', to: 'b', label: 'p', labelAt: [562, 367], route: 'bottom-channel', fromSide: 'bottom', toSide: 'bottom' },
+    { id: 'straight-edge', from: 'c', to: 'd', label: 'x', route: 'straight' },
+  ],
+});
 // Phase-3 failure receipts: one fault per diagnostic code; upstream must FAIL with the target code in its receipt or the script throws.
 const p3Faults = [   // [type, source input, name, target code, edit]
   // workflow v2 without pins (holiday-planning, zh-CN). lanes calendar makeup; nodes today@calendar:0 mid_autumn@calendar:1 national_day@calendar:3
@@ -1082,6 +1099,13 @@ const p3Faults = [   // [type, source input, name, target code, edit]
   ['workflow', path.join(EX, 'incident-response.workflow.json'), 'wf-unknown-main-path', 'workflow/unknown-endpoint', (d) => { d.mainPath[3] = 'ghost'; }],
   ['workflow', path.join(TF, 'v1-workflow-explicit-coordinates.workflow.json'), 'wf-v1-column-capacity', 'workflow/column-capacity', (d) => { d.nodes[2].col = 1; d.nodes[3].col = 2; }],
   ['workflow', path.join(TF, 'workflow-first-draft/release-luna.workflow.json'), 'wf-release-luna', 'workflow/node-overlap', () => {}],   // upstream's own negative fixture, unedited
+  // migrationSemanticsDocument with a/b widened to 130px (2px of the 8px clearance): only the planning fallback can offer the
+  // migration, and its required a→b edge is the one planning drops (3.1.0 offered no fix here; checked below).
+  ['workflow', path.join(EX, 'incident-response.workflow.json'), 'wf-v1-semantic-fallback', 'workflow/column-capacity', (d) => {
+    for (const key of Object.keys(d)) delete d[key];
+    Object.assign(d, migrationSemanticsDocument({ requiredEdges: [{ from: 'a', to: 'b' }] }));
+    d.nodes[0].width = 130; d.nodes[1].width = 130;
+  }],
   // dataflow (product-analytics, viewBox 1080x520)
   ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-unknown-endpoint', 'dataflow/unknown-endpoint', (d) => { d.flows[2].to = 'consnt'; }],
   ['dataflow', path.join(EX, 'product-analytics.dataflow.json'), 'df-node-above-area', 'dataflow/node-above-area', (d) => { d.nodes[3].yOffset = -400; }],
@@ -1110,6 +1134,19 @@ for (const [type, source, name, code, edit] of p3Faults) {
 const belowFits = (name) => p3FaultReceipts.get(name).diagnostics.find((x) => x.code === 'dataflow/node-below-area').evidence?.requiredViewBoxFitsViewport;
 if (belowFits('df-node-below-area') !== false || belowFits('df-node-below-area-raised') !== true) {
   throw new Error(`node-below-area: requiredViewBoxFitsViewport ${belowFits('df-node-below-area')}/${belowFits('df-node-below-area-raised')}, expected false/true`);
+}
+// #497: the migration offer for wf-v1-semantic-fallback comes from the planning projection, which must drop semanticChecks.
+{
+  const capacity = p3FaultReceipts.get('wf-v1-semantic-fallback').diagnostics.find((x) => x.code === 'workflow/column-capacity');
+  if (!capacity.supportedFixes.includes('migrate this workflow to schema_version 2')) throw new Error('wf-v1-semantic-fallback: no migration offer');
+  const { compileWorkflow } = await imp('renderers/workflow/workflow-compiler.mjs');
+  const fallbackMg = await imp('renderers/workflow/workflow-migration-geometry.mjs');
+  const fallback = JSON.parse(fs.readFileSync(out('fixtures/diagrams/wf-v1-semantic-fallback.workflow.json'), 'utf8'));
+  const planned = fallbackMg.planningWorkflow(fallback);
+  if (compileWorkflow({ workflow: fallbackMg.intrinsicWorkflow(fallback) }).ok || planned.edges.length === fallback.edges.length
+    || 'semanticChecks' in planned || !compileWorkflow({ workflow: planned }).ok) {
+    throw new Error('wf-v1-semantic-fallback: the offer no longer comes from a semantic-free planning projection');
+  }
 }
 // TEST-002 failure receipts (survey-test2 "Path table"): the committed t2-*.workflow.json inputs, never rewritten here. Upstream must FAIL
 // with the code and the field that names the branch (evidence.invariant, bracketed name in the survey; conflictType; verifiedRepair).
@@ -1794,10 +1831,16 @@ const wmCrafted = [
       ...['beta', 'alpha', 'Alpha'].map((id) => ({ id, lane: 'makeup', col: 0, type: 'external', label: id })));
     d.edges.push({ id: 'makeup_return', from: 'makeup_work', to: 'mid_autumn' }, { id: 'to_retry', from: 'national_day', to: 'retry' },
       { id: 'retry_back', from: 'retry', to: 'mid_autumn' }); return d; })()],
-  // v1 migration: a straight labeled edge, a kept edge whose labelAt is mapped and whose label planning drops.
+  // v1 migration: a straight labeled edge, a kept edge whose labelAt is mapped and whose label planning drops. Planning drops
+  // the routed edges, so its projection loses the semanticChecks naming the kept alert→triage edge (#497).
   ['crafted.migration', (() => { const d = ex('incident-response.workflow.json');
     Object.assign(d.edges[6], { route: 'straight', label: 'declare it', width: 2, role: 'branch' });
-    d.edges.push({ from: 'alert', to: 'triage', label: 'skip', labelAt: [150.5, 60], width: 1.6 }); return d; })()],
+    d.edges.push({ from: 'alert', to: 'triage', label: 'skip', labelAt: [150.5, 60], width: 1.6 });
+    d.semanticChecks = { requiredEdges: [{ from: 'alert', to: 'triage' }] }; return d; })()],
+  // T/workflow-migration-semantics.test.mjs "planning keeps semantic contracts when it retains every authored edge".
+  ['crafted.migration-kept', (() => { const d = migrationSemanticsDocument({ requiredEdges: [{ from: 'a', to: 'b' }],
+    requiredPaths: [{ from: 'a', to: 'b' }], allowedRoots: ['a', 'c', 'obstacle'], allowedTerminals: ['b', 'd', 'obstacle'] });
+    d.edges[0] = { id: 'pin-edge', from: 'a', to: 'b', label: 'p', route: 'auto' }; return d; })()],
 ];
 const wmRows = [];
 const seenInputs = new Set();
@@ -1806,7 +1849,7 @@ for (const { name, input } of p3Rows.filter((r) => r.type === 'workflow')) {
   seenInputs.add(input);
   wmRows.push({ name, input });
 }
-for (const name of ['wf-unknown-node-lane', 'wf-semantic-reference', 'wf-required-edge']) wmRows.push({ name, input: `tests/fixtures/diagrams/${name}.workflow.json` });
+for (const name of ['wf-unknown-node-lane', 'wf-semantic-reference', 'wf-required-edge', 'wf-v1-semantic-fallback']) wmRows.push({ name, input: `tests/fixtures/diagrams/${name}.workflow.json` });
 for (const [name, document] of wmCrafted) wmRows.push({ name, document: JSON.parse(JSON.stringify(document)) });
 const wmDoc = (row) => (row.document ? structuredClone(row.document) : JSON.parse(fs.readFileSync(path.join(ROOT, row.input), 'utf8')));
 const WM_FEEDBACK = { rankGapMinimums: { '1:3': 260.5, '0:1': 150.25, '2:3': 133 }, rankGapContributors: { '1:3': ['rank 1→3 route clearance', 'edge x route'] },
@@ -1873,6 +1916,13 @@ const prRows = wmRows.map((row) => ({ name: row.name, result: proposeWorkflowPla
 if (!prRows.some((r) => r.name === 'crafted.placement' && r.result.eligible && r.result.changes.length)) throw new Error('crafted.placement: not an eligible proposal');
 if (!prRows.some((r) => !r.result.eligible)) throw new Error('proposeWorkflowPlacement: no ineligible row');
 if (!mgDocs.some((r) => r.changedCoordinates.length)) throw new Error('mapExplicitCoordinates: no row changes a coordinate');
+// #497: planning deletes semanticChecks exactly when it drops an edge; each side needs a row that carries contracts.
+for (const [name, kept] of [['crafted.migration', false], ['wf-v1-semantic-fallback', false], ['crafted.migration-kept', true]]) {
+  const row = mgDocs.find((r) => r.name === name);
+  if (!row?.intrinsic.semanticChecks || (row.planning.edges.length === row.intrinsic.edges.length) !== kept || ('semanticChecks' in row.planning) !== kept) {
+    throw new Error(`${name}: planning ${kept ? 'must keep' : 'must drop'} its edges and semanticChecks together`);
+  }
+}
 write('fixtures/js/workflow-model.json', {
   feedback: WM_FEEDBACK,
   rows: wmModel,

@@ -100,7 +100,9 @@ internal static class RepositoryEvidence
             throw EvidenceFailure(sink, "repository-evidence/git-command", failure,
                 evidence: new JsonObject { ["gitArgs"] = new JsonArray([.. args.Select(a => (JsonNode)a)]), ["exitCode"] = result.Status },
                 supportedFixes: ["use the intended local Git repository and verify its origin and revision"]);
-        return Js.Trim(result.Text);
+        // Removes Git's record terminator without changing whitespace in a path (`replace(/\n$/, '')`: one \n, \r kept).
+        var text = result.Text;
+        return text.EndsWith('\n') ? text[..^1] : text;
     }
 
     static string VerifiedSourcePath(DiagnosticSink sink, JsonNode? value, string where)
@@ -201,10 +203,11 @@ internal static class RepositoryEvidence
         }
         var notRepository = $"Evidence root \"{realRoot}\" is not a Git repository.";
         var gitRoot = GitValue(git, sink, realRoot, ["rev-parse", "--show-toplevel"], notRepository);
+        // Port-only call (sameEntry's stand-in): git prints "\n" at the top level, empty once the terminator is gone.
         if (GitValue(git, sink, realRoot, ["rev-parse", "--show-prefix"], notRepository).Length > 0)
             throw EvidenceFailure(sink, "repository-evidence/root-not-top-level", $"Evidence root must be the Git top-level directory: {gitRoot}",
                 new JsonObject { ["repoRoot"] = realRoot }, new JsonObject { ["gitTopLevel"] = gitRoot }, [$"pass --repo-root {gitRoot}"]);
-        var origin = GitValue(git, sink, realRoot, ["remote", "get-url", "origin"], "Evidence repository must have an origin remote.");
+        var origin = Js.Trim(GitValue(git, sink, realRoot, ["remote", "get-url", "origin"], "Evidence repository must have an origin remote."));
         if (RepositoryLocation.Parse(origin, authored: false, provider)?.Identity != location.Identity)
         {
             var safeOrigin = RepositoryLocation.Redact(origin);

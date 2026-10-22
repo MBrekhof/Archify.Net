@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -233,6 +234,69 @@ public class RepositoryEvidenceTests
     }
 
     static GitRunner MissingGit() => new() { Executable = Path.Combine(Path.GetTempPath(), "archify-no-git", OperatingSystem.IsWindows() ? "git.exe" : "git") };
+
+    // Answers the named commands (args joined by spaces) itself; every other command runs real git.
+    sealed class ScriptedGit : GitRunner
+    {
+        readonly Dictionary<string, string> answers = new(StringComparer.Ordinal);
+        public string this[string args] { set => answers[args] = value; }
+        public override Result Run(string root, IReadOnlyList<string> args, int maxBuffer, string? input = null) =>
+            answers.TryGetValue(string.Join(' ', args), out var text) ? new(null, 0, Encoding.UTF8.GetBytes(text)) : base.Run(root, args, maxBuffer, input);
+    }
+
+    // 3.2.0 dc7a5f28: gitValue drops Git's one record terminator (`replace(/\n$/, '')`), so the top-level path keeps its whitespace.
+    // Upstream's test renames a directory to end in a space (POSIX only); the canned answer stands for that directory here.
+    [Theory]
+    [InlineData("C:/repo-with-space \n", "C:/repo-with-space ")]
+    [InlineData("C:/repo\r\n", "C:/repo\r")]   // only \n is the terminator
+    [InlineData("C:/repo", "C:/repo")]
+    [InlineData("C:/repo\n\n", "C:/repo\n")]
+    [InlineData("\n", "")]
+    [InlineData("", "")]
+    public void Top_level_path_loses_only_one_trailing_newline(string answer, string gitTopLevel)
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        try
+        {
+            var root = Directory.CreateDirectory(Path.Combine(repo, "src")).FullName;   // a real show-prefix "src/" marks it not top level
+            var git = new ScriptedGit { ["rev-parse --show-toplevel"] = answer };
+            var d = Assert.Single(Failure(() => RepositoryEvidence.Verify(DiagramType.Architecture, Diagram("subdirectory-root"), root, new DiagnosticSink(), git), repo));
+            Assert.Equal("repository-evidence/root-not-top-level", d.Code);
+            Assert.Equal(gitTopLevel, d.Evidence["gitTopLevel"]!.GetValue<string>());   // the value that keeps its whitespace
+            // normalizedDiagnostic trims the message and each fix (diagnostics.mjs:17,25), upstream as here.
+            Assert.Equal(Js.Trim($"Evidence root must be the Git top-level directory: {gitTopLevel}"), d.Message);
+            Assert.Equal([Js.Trim($"pass --repo-root {gitTopLevel}")], d.SupportedFixes);
+        }
+        finally { EvidenceRepo.Delete(repo); }
+    }
+
+    // `gitValue(...).trim()`: the origin alone stays fully trimmed (3.2.0 repository-evidence.mjs:232).
+    [Theory]
+    [InlineData(" https://github.com/example/x.git \n")]
+    [InlineData("\thttps://github.com/example/x.git\r\n")]
+    public void Origin_is_fully_trimmed(string answer)
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        try
+        {
+            var git = new ScriptedGit { ["remote get-url origin"] = answer };
+            var d = Assert.Single(Failure(() => RepositoryEvidence.Verify(DiagramType.Architecture, Diagram("github-web"), repo, new DiagnosticSink(), git), repo));
+            Assert.Equal("repository-evidence/origin-mismatch", d.Code);
+            Assert.Equal("https://github.com/example/x.git", d.Evidence["localOrigin"]!.GetValue<string>());
+        }
+        finally { EvidenceRepo.Delete(repo); }
+    }
+
+    [Fact] public void A_padded_matching_origin_verifies()
+    {
+        var (repo, _) = EvidenceRepo.Create(GithubOrigin);
+        try
+        {
+            var git = new ScriptedGit { ["remote get-url origin"] = $" {GithubOrigin} \r\n" };
+            Assert.Equal(Payload("github-web"), Js.Stringify(RepositoryEvidence.Verify(DiagramType.Architecture, Diagram("github-web"), repo, new DiagnosticSink(), git)));
+        }
+        finally { EvidenceRepo.Delete(repo); }
+    }
 
     // P4: a diagram without meta.repository or sources returns null before any git process; the runner here fails on first use.
     [Fact] public void Load_spawns_no_git_for_a_diagram_without_evidence()

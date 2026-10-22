@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "source": "renderer",
+  "error": "Workflow columns 0→1 place nodes \"a\" and \"b\" so they leave only 2px of direct clearance under the fixed-v1 layout.",
+  "diagnostics": [
+    {
+      "code": "workflow/column-capacity",
+      "severity": "error",
+      "message": "Workflow columns 0→1 place nodes \"a\" and \"b\" so they leave only 2px of direct clearance under the fixed-v1 layout.",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "pin-edge",
+        "from": "a",
+        "to": "b",
+        "fromCol": 0,
+        "toCol": 1
+      },
+      "evidence": {
+        "centerDistancePx": 132,
+        "nodeWidthsPx": [
+          130,
+          130
+        ],
+        "actualSignedClearancePx": 2,
+        "requiredDirectClearancePx": 8
+      },
+      "supportedFixes": [
+        "migrate this workflow to schema_version 2"
+      ],
+      "suppresses": [
+        "workflow/short-edge",
+        "clean-flow/endpoint-side-direction",
+        "workflow/label-node-overlap"
+      ]
+    }
+  ]
+}

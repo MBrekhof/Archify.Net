@@ -9619,6 +9619,238 @@
       }
     },
     {
+      "name": "wf-v1-semantic-fallback",
+      "input": "tests/fixtures/diagrams/wf-v1-semantic-fallback.workflow.json",
+      "canonical": {
+        "lanes": [
+          "pin",
+          "straight",
+          "blocker"
+        ],
+        "nodes": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "obstacle"
+        ],
+        "edges": [
+          "{\"from\":\"a\",\"fromSide\":\"bottom\",\"id\":\"pin-edge\",\"label\":\"p\",\"labelAt\":[562,367],\"route\":\"bottom-channel\",\"to\":\"b\",\"toSide\":\"bottom\"}",
+          "{\"from\":\"c\",\"id\":\"straight-edge\",\"label\":\"x\",\"route\":\"straight\",\"to\":\"d\"}"
+        ],
+        "phases": null,
+        "groups": null,
+        "widths": [
+          130,
+          130,
+          92,
+          92,
+          92
+        ],
+        "automatic": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "absolutePins": true,
+        "verticalStack": false,
+        "independent": false,
+        "preserves": true
+      },
+      "semantic": [],
+      "layout": {
+        "none": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 749,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104,
+            104
+          ],
+          "laneGap": 20,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0,
+            0
+          ],
+          "colXs": [
+            113,
+            251,
+            371,
+            491,
+            611,
+            731
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 805,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "node a width 130px",
+            "node b width 130px",
+            "rank 0→1 node width clearance"
+          ],
+          "heightContributors": []
+        },
+        "feedback": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 782,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104,
+            104
+          ],
+          "laneGap": 32,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0,
+            0
+          ],
+          "colXs": [
+            113,
+            263.25,
+            383.25,
+            523.75,
+            643.75,
+            763.75
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 838,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "edge x route",
+            "node a width 130px",
+            "rank 0→1 route clearance",
+            "rank 1→3 route clearance"
+          ],
+          "heightContributors": [
+            "edge y lane-gap route clearance"
+          ]
+        }
+      },
+      "measured": {
+        "legend": {
+          "entries": [],
+          "present": [
+            "backend",
+            "database"
+          ],
+          "packingWidth": 680,
+          "rows": 0,
+          "extraHeight": 0,
+          "minimumCanvasWidth": 720
+        },
+        "autoHeight": 528,
+        "initialViewBox": [
+          720,
+          520
+        ],
+        "laneTops": [
+          52,
+          176,
+          300
+        ],
+        "laneHeights": [
+          104,
+          104,
+          104
+        ],
+        "lastLaneBottom": 404,
+        "legendY": 448,
+        "nodes": [
+          {
+            "id": "a",
+            "x": 23,
+            "y": 93,
+            "width": 130,
+            "height": 52,
+            "cx": 88,
+            "cy": 119,
+            "context": "Pinned label",
+            "problems": []
+          },
+          {
+            "id": "b",
+            "x": 155,
+            "y": 93,
+            "width": 130,
+            "height": 52,
+            "cx": 220,
+            "cy": 119,
+            "context": "Pinned label",
+            "problems": []
+          },
+          {
+            "id": "c",
+            "x": 42,
+            "y": 217,
+            "width": 92,
+            "height": 52,
+            "cx": 88,
+            "cy": 243,
+            "context": "Straight constraint",
+            "problems": []
+          },
+          {
+            "id": "d",
+            "x": 174,
+            "y": 217,
+            "width": 92,
+            "height": 52,
+            "cx": 220,
+            "cy": 243,
+            "context": "Straight constraint",
+            "problems": []
+          },
+          {
+            "id": "obstacle",
+            "x": 454,
+            "y": 341,
+            "width": 92,
+            "height": 52,
+            "cx": 500,
+            "cy": 367,
+            "context": "Blocker",
+            "problems": []
+          }
+        ]
+      },
+      "steps": {
+        "edges": [
+          0,
+          3
+        ],
+        "nodes": [
+          0,
+          1,
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    {
       "name": "crafted.edge-tiebreak",
       "document": {
         "schema_version": 2,
@@ -12541,7 +12773,15 @@
               "Every branch has an owner and observable exit"
             ]
           }
-        ]
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "alert",
+              "to": "triage"
+            }
+          ]
+        }
       },
       "canonical": {
         "lanes": [
@@ -12962,6 +13202,350 @@
           15,
           16,
           17
+        ]
+      }
+    },
+    {
+      "name": "crafted.migration-kept",
+      "document": {
+        "schema_version": 1,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "viewBox": [
+            720,
+            520
+          ],
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A"
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B"
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "mainPath": [
+          "a",
+          "b"
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "requiredPaths": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "allowedRoots": [
+            "a",
+            "c",
+            "obstacle"
+          ],
+          "allowedTerminals": [
+            "b",
+            "d",
+            "obstacle"
+          ]
+        },
+        "edges": [
+          {
+            "id": "pin-edge",
+            "from": "a",
+            "to": "b",
+            "label": "p",
+            "route": "auto"
+          },
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "label": "x",
+            "route": "straight"
+          }
+        ]
+      },
+      "canonical": {
+        "lanes": [
+          "pin",
+          "straight",
+          "blocker"
+        ],
+        "nodes": [
+          "a",
+          "b",
+          "c",
+          "d",
+          "obstacle"
+        ],
+        "edges": [
+          "{\"from\":\"a\",\"id\":\"pin-edge\",\"label\":\"p\",\"route\":\"auto\",\"to\":\"b\"}",
+          "{\"from\":\"c\",\"id\":\"straight-edge\",\"label\":\"x\",\"route\":\"straight\",\"to\":\"d\"}"
+        ],
+        "phases": null,
+        "groups": null,
+        "widths": [
+          92,
+          92,
+          92,
+          92,
+          92
+        ],
+        "automatic": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "absolutePins": false,
+        "verticalStack": false,
+        "independent": false,
+        "preserves": true
+      },
+      "semantic": [],
+      "layout": {
+        "none": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 722,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104,
+            104
+          ],
+          "laneGap": 20,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0,
+            0
+          ],
+          "colXs": [
+            94,
+            224,
+            344,
+            464,
+            584,
+            704
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 778,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "edge pin-edge label mask",
+            "edge straight-edge label mask",
+            "node a width 92px",
+            "node b width 92px",
+            "node c width 92px",
+            "node d width 92px",
+            "rank 0→1 direct clearance"
+          ],
+          "heightContributors": []
+        },
+        "feedback": {
+          "contract": "readable-v2",
+          "laneX": 40,
+          "laneY": 52,
+          "laneW": 763,
+          "laneH": 104,
+          "laneHeights": [
+            104,
+            104,
+            104
+          ],
+          "laneGap": 32,
+          "laneTitleH": 30,
+          "groupHeaderHeights": [
+            0,
+            0,
+            0
+          ],
+          "groupFooterHeights": [
+            0,
+            0,
+            0
+          ],
+          "colXs": [
+            94,
+            244.25,
+            364.25,
+            504.75,
+            624.75,
+            744.75
+          ],
+          "nodeW": 92,
+          "nodeH": 52,
+          "defaultViewBoxWidth": 819,
+          "channelLabelEdgeKeys": [],
+          "widthContributors": [
+            "edge x route",
+            "rank 0→1 route clearance",
+            "rank 1→3 route clearance"
+          ],
+          "heightContributors": [
+            "edge y lane-gap route clearance"
+          ]
+        }
+      },
+      "measured": {
+        "legend": {
+          "entries": [],
+          "present": [
+            "backend",
+            "database"
+          ],
+          "packingWidth": 680,
+          "rows": 0,
+          "extraHeight": 0,
+          "minimumCanvasWidth": 720
+        },
+        "autoHeight": 528,
+        "initialViewBox": [
+          720,
+          520
+        ],
+        "laneTops": [
+          52,
+          176,
+          300
+        ],
+        "laneHeights": [
+          104,
+          104,
+          104
+        ],
+        "lastLaneBottom": 404,
+        "legendY": 448,
+        "nodes": [
+          {
+            "id": "a",
+            "x": 42,
+            "y": 93,
+            "width": 92,
+            "height": 52,
+            "cx": 88,
+            "cy": 119,
+            "context": "Pinned label",
+            "problems": []
+          },
+          {
+            "id": "b",
+            "x": 174,
+            "y": 93,
+            "width": 92,
+            "height": 52,
+            "cx": 220,
+            "cy": 119,
+            "context": "Pinned label",
+            "problems": []
+          },
+          {
+            "id": "c",
+            "x": 42,
+            "y": 217,
+            "width": 92,
+            "height": 52,
+            "cx": 88,
+            "cy": 243,
+            "context": "Straight constraint",
+            "problems": []
+          },
+          {
+            "id": "d",
+            "x": 174,
+            "y": 217,
+            "width": 92,
+            "height": 52,
+            "cx": 220,
+            "cy": 243,
+            "context": "Straight constraint",
+            "problems": []
+          },
+          {
+            "id": "obstacle",
+            "x": 454,
+            "y": 341,
+            "width": 92,
+            "height": 52,
+            "cx": 500,
+            "cy": 367,
+            "context": "Blocker",
+            "problems": []
+          }
+        ]
+      },
+      "steps": {
+        "edges": [
+          0,
+          3
+        ],
+        "nodes": [
+          0,
+          1,
+          4,
+          5,
+          6
         ]
       }
     }
@@ -16474,6 +17058,300 @@
       }
     },
     {
+      "name": "wf-v1-semantic-fallback",
+      "preserves": true,
+      "intrinsic": {
+        "schema_version": 2,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A",
+            "width": 130
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B",
+            "width": 130
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "mainPath": [
+          "a",
+          "b"
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ]
+        },
+        "edges": [
+          {
+            "id": "pin-edge",
+            "from": "a",
+            "to": "b",
+            "label": "p",
+            "labelAt": [
+              562,
+              367
+            ],
+            "route": "bottom-channel",
+            "fromSide": "bottom",
+            "toSide": "bottom"
+          },
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "label": "x",
+            "route": "straight"
+          }
+        ]
+      },
+      "intrinsicPolicy": true,
+      "planning": {
+        "schema_version": 2,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A",
+            "width": 130
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B",
+            "width": 130
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "edges": [
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "route": "straight",
+            "label": "x"
+          }
+        ]
+      },
+      "planningPolicy": true,
+      "columns": [
+        113,
+        251,
+        371,
+        491,
+        611,
+        731
+      ],
+      "changedCoordinates": [
+        {
+          "path": "/edges/0/labelAt/0",
+          "from": 562,
+          "to": 670.52
+        }
+      ],
+      "mapped": {
+        "schema_version": 2,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "viewBox": [
+            720,
+            520
+          ],
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A",
+            "width": 130
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B",
+            "width": 130
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "mainPath": [
+          "a",
+          "b"
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ]
+        },
+        "edges": [
+          {
+            "id": "pin-edge",
+            "from": "a",
+            "to": "b",
+            "label": "p",
+            "labelAt": [
+              670.52,
+              367
+            ],
+            "route": "bottom-channel",
+            "fromSide": "bottom",
+            "toSide": "bottom"
+          },
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "label": "x",
+            "route": "straight"
+          }
+        ]
+      }
+    },
+    {
       "name": "crafted.migration",
       "preserves": true,
       "intrinsic": {
@@ -16793,7 +17671,15 @@
               "Every branch has an owner and observable exit"
             ]
           }
-        ]
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "alert",
+              "to": "triage"
+            }
+          ]
+        }
       },
       "intrinsicPolicy": true,
       "planning": {
@@ -17363,6 +18249,350 @@
               "Rollback remains visible as a deliberate response",
               "Every branch has an owner and observable exit"
             ]
+          }
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "alert",
+              "to": "triage"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "crafted.migration-kept",
+      "preserves": true,
+      "intrinsic": {
+        "schema_version": 2,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A"
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B"
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "mainPath": [
+          "a",
+          "b"
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "requiredPaths": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "allowedRoots": [
+            "a",
+            "c",
+            "obstacle"
+          ],
+          "allowedTerminals": [
+            "b",
+            "d",
+            "obstacle"
+          ]
+        },
+        "edges": [
+          {
+            "id": "pin-edge",
+            "from": "a",
+            "to": "b",
+            "label": "p",
+            "route": "auto"
+          },
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "label": "x",
+            "route": "straight"
+          }
+        ]
+      },
+      "intrinsicPolicy": true,
+      "planning": {
+        "schema_version": 2,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A"
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B"
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "mainPath": [
+          "a",
+          "b"
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "requiredPaths": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "allowedRoots": [
+            "a",
+            "c",
+            "obstacle"
+          ],
+          "allowedTerminals": [
+            "b",
+            "d",
+            "obstacle"
+          ]
+        },
+        "edges": [
+          {
+            "id": "pin-edge",
+            "from": "a",
+            "to": "b",
+            "label": "p"
+          },
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "route": "straight",
+            "label": "x"
+          }
+        ]
+      },
+      "planningPolicy": true,
+      "columns": [
+        94,
+        224,
+        344,
+        464,
+        584,
+        704
+      ],
+      "changedCoordinates": [],
+      "mapped": {
+        "schema_version": 2,
+        "diagram_type": "workflow",
+        "meta": {
+          "title": "Fallback semantic contract",
+          "output": "fallback.html",
+          "viewBox": [
+            720,
+            520
+          ],
+          "legend": {
+            "mode": "hidden"
+          }
+        },
+        "lanes": [
+          {
+            "id": "pin",
+            "label": "Pinned label"
+          },
+          {
+            "id": "straight",
+            "label": "Straight constraint"
+          },
+          {
+            "id": "blocker",
+            "label": "Blocker"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "a",
+            "lane": "pin",
+            "col": 0,
+            "type": "backend",
+            "label": "A"
+          },
+          {
+            "id": "b",
+            "lane": "pin",
+            "col": 1,
+            "type": "backend",
+            "label": "B"
+          },
+          {
+            "id": "c",
+            "lane": "straight",
+            "col": 0,
+            "type": "backend",
+            "label": "C"
+          },
+          {
+            "id": "d",
+            "lane": "straight",
+            "col": 1,
+            "type": "backend",
+            "label": "D"
+          },
+          {
+            "id": "obstacle",
+            "lane": "blocker",
+            "col": 4,
+            "type": "database",
+            "label": "Obstacle"
+          }
+        ],
+        "mainPath": [
+          "a",
+          "b"
+        ],
+        "semanticChecks": {
+          "requiredEdges": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "requiredPaths": [
+            {
+              "from": "a",
+              "to": "b"
+            }
+          ],
+          "allowedRoots": [
+            "a",
+            "c",
+            "obstacle"
+          ],
+          "allowedTerminals": [
+            "b",
+            "d",
+            "obstacle"
+          ]
+        },
+        "edges": [
+          {
+            "id": "pin-edge",
+            "from": "a",
+            "to": "b",
+            "label": "p",
+            "route": "auto"
+          },
+          {
+            "id": "straight-edge",
+            "from": "c",
+            "to": "d",
+            "label": "x",
+            "route": "straight"
           }
         ]
       }
@@ -18225,6 +19455,13 @@
       }
     },
     {
+      "name": "wf-v1-semantic-fallback",
+      "result": {
+        "eligible": false,
+        "reason": "Needs unpinned v2, complete mainPath, no authored regions, <=64 nodes."
+      }
+    },
+    {
       "name": "crafted.edge-tiebreak",
       "result": {
         "eligible": false,
@@ -18555,6 +19792,13 @@
     },
     {
       "name": "crafted.migration",
+      "result": {
+        "eligible": false,
+        "reason": "Needs unpinned v2, complete mainPath, no authored regions, <=64 nodes."
+      }
+    },
+    {
+      "name": "crafted.migration-kept",
       "result": {
         "eligible": false,
         "reason": "Needs unpinned v2, complete mainPath, no authored regions, <=64 nodes."
