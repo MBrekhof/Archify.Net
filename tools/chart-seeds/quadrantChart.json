@@ -1448,6 +1448,22 @@
     "text": "quadrantChart\n  accDescr: Range: [0, 1]"
   },
   {
+    "name": "keyword-acc-title-colon-next-line",
+    "text": "quadrantChart\n  accTitle\n: [0.5, 0.5]"
+  },
+  {
+    "name": "keyword-acc-descr-colon-next-line",
+    "text": "quadrantChart\n  accDescr\n  : [0.5, 0.5]"
+  },
+  {
+    "name": "keyword-acc-title-spaces-colon-next-line",
+    "text": "quadrantChart\n  accTitle  \n  : [0.5, 0.5]"
+  },
+  {
+    "name": "keyword-title-colon-next-line",
+    "text": "quadrantChart\n  title\n: [0.5, 0.5]"
+  },
+  {
     "name": "comment-tab-after-point",
     "text": "quadrantChart\n  A: [0.3, 0.6]\t%% note"
   },

@@ -25,10 +25,10 @@ public class ChartParityTests
     static readonly Dictionary<string, Dictionary<int, string>> FuzzDeviations = new()
     {
         ["quadrantChart"] = new() {
-            [14] = "Q1", [50] = "Q3", [240] = "Q3", [298] = "Q3", [304] = "Q3", [305] = "Q3", [317] = "Q3", [353] = "Q1Q3",
-            [377] = "Q1Q2", [385] = "Q3", [393] = "Q3", [401] = "Q3", [407] = "Q2", [429] = "Q3", [431] = "Q3", [527] = "Q1Q3",
-            [576] = "R1", [687] = "Q3", [730] = "Q3", [732] = "R1", [739] = "Q3", [748] = "Q3", [768] = "Q3", [855] = "Q3",
-            [882] = "Q3", [995] = "Q3",
+            [14] = "Q1", [78] = "Q3", [134] = "Q1", [193] = "Q2", [221] = "Q3", [279] = "Q3", [305] = "Q3", [317] = "Q3",
+            [320] = "Q3", [332] = "Q3", [338] = "Q2", [429] = "Q3", [431] = "Q2", [487] = "Q3", [491] = "Q1", [499] = "Q2",
+            [527] = "Q1", [557] = "Q3", [620] = "Q2", [623] = "Q3", [647] = "R1", [686] = "Q3", [748] = "Q3", [783] = "Q1",
+            [810] = "Q3", [815] = "Q3", [839] = "Q3", [877] = "Q3", [901] = "Q3", [906] = "Q3", [928] = "Q3", [995] = "Q3",
         },
     };
 
@@ -185,12 +185,12 @@ public class ChartParityTests
         Assert.Contains("quadrantChart/quirk-comment-brace-exempt", Targets().Select(row => $"{row[0]}/{row[1]}"));
     }
 
-    // Which quirks an input shows: Q1 a character other than `}` or whitespace directly before `%%`; Q2 a coordinate `0` followed by a character
+    // Which quirks an input shows: Q1 a character other than `}`, `%` or whitespace directly before `%%`; Q2 a coordinate `0` followed by a character
     // other than a dot and then a digit; Q3 a keyword followed by a word character, after other text in its statement, or
     // leading a statement in point form.
     // JS `\s` as a class body.
     const string WsBody = @"\t\n\v\f\r \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff";
-    static readonly Regex ReQ1 = new($"[^}}{WsBody}]%%");
+    static readonly Regex ReQ1 = new($"[^}}%{WsBody}]%%");
     static readonly Regex ReQ2 = new(@"(?<=[\[,\t\n\v\f\r \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff])0[^.\n\r\u2028\u2029][0-9]");
     static readonly Regex ReKeyword = new("[Xx]-[Aa][Xx][Ii][Ss]|[Yy]-[Aa][Xx][Ii][Ss]|[Qq][Uu][Aa][Dd][Rr][Aa][Nn][Tt]-[1-4]|[Qq][Uu][Aa][Dd][Rr][Aa][Nn][Tt][Cc][Hh][Aa][Rr][Tt]|[Cc][Ll][Aa][Ss][Ss][Dd][Ee][Ff]|[Tt][Ii][Tt][Ll][Ee]|[Aa][Cc][Cc](?:[Tt][Ii][Tt][Ll][Ee]|[Dd][Ee][Ss][Cc][Rr])");
     const string Sp = $"[{WsBody}]*";

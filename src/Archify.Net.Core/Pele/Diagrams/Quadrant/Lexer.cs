@@ -119,6 +119,12 @@ internal static partial class Pele
             }
             // `[x, y]` from the `:` at q: the point after a keyword that takes the rest of its line (`Title: [0.5, 0.5]`).
             bool PairAfter(int q) => Chars.CharAt(src, Run(q + 1)) == 91 && Pair(Run(Run(q + 1) + 1));
+            // No line end from q up to e.
+            bool OnLine(int q, int e)
+            {
+                while (q < e && !Chars.IsLineEnd(src[q])) q++;
+                return q == e;
+            }
             // `title` at p is a point's name when its `:` follows the word, with spaces between; `title Range: [0, 1]` is a title.
             bool TitlePoint(int q)
             {
@@ -291,7 +297,8 @@ internal static partial class Pele
                     {
                         var k = Run(p + 8);
                         var d = Chars.CharAt(src, k);
-                        if (d == 58 && start && !PairAfter(k))
+                        // A point only when its `:` is on the keyword's line: `accTitle\n: [0.5, 0.5]` is an accTitle, as in Node.
+                        if (d == 58 && start && !(OnLine(p + 8, k) && PairAfter(k)))
                         {
                             Emit(descr ? T.AccDescr : T.AccTitle, p, Run(k + 1));
                             Push(descr ? SAccDescr : SAccTitle);
