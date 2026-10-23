@@ -65,7 +65,8 @@ public class JsMathTests(Xunit.Abstractions.ITestOutputHelper output)
         var files = new List<string>();
         if (Directory.Exists(Path.Combine(core, "Pele"))) files.AddRange(Directory.GetFiles(Path.Combine(core, "Pele"), "*.cs", SearchOption.AllDirectories));
         if (Directory.Exists(Path.Combine(core, "Explainer"))) files.AddRange(Directory.GetFiles(Path.Combine(core, "Explainer"), "*.cs"));
-        var banned = new Regex(@"(?<!Js)Math\.(Sin|Cos|Tan|Asin|Acos|Atan|Atan2|Exp|Log|Log10|Pow|Round|Truncate)\(");
+        // Math, MathF and the double/Double generic-math statics, plus `using static System.Math` (bare Sin(...) calls).
+        var banned = new Regex(@"(?<!\w)(Math|MathF|double|Double)\.(Sin|Cos|Tan|Asin|Acos|Atan|Atan2|Exp|Log|Log10|Pow|Round|Truncate)\(|using\s+static\s+System\.MathF?\s*;");
         var hits = files.SelectMany(f => File.ReadLines(f).Select((line, i) => (f, i, line)))
             .Where(h => banned.IsMatch(h.line)).Select(h => $"{Path.GetRelativePath(core, h.f)}:{h.i + 1}: {h.line.Trim()}").ToList();
         Assert.Empty(hits);
