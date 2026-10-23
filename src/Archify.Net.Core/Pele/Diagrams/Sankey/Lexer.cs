@@ -16,8 +16,16 @@ internal static partial class Pele
         // `const enum S`
         const int Initial = 0, Csv = 1, EscapedText = 2;
 
-        // RFC 4180 TEXTDATA: printable ASCII except the double quote and the comma.
-        static bool IsTextData(int c) => c is >= 32 and <= 126 && c != 34 && c != 44;
+        // RFC 4180 TEXTDATA is printable ASCII except the double quote and the comma.
+        // Deviation (PORT-008 Task 11, S3, Martin 2026-10-23): upstream 1.3.0 keeps to ASCII, so `Café,Bar,1` or a CJK name is
+        // an error. The port takes Pele 1.9.0's alphabet (PR #9, its `c0`), by code point: that ASCII, U+00A0-U+D7FF,
+        // U+E000-U+FFFD and U+10000 up. Controls (C0, DEL, C1), lone surrogates and U+FFFE/U+FFFF stay outside.
+        static bool IsTextData(int c) =>
+            c is >= 32 and <= 126 && c != 34 && c != 44 || c is >= 0xa0 and <= 0xd7ff or >= 0xe000 and <= 0xfffd or >= 0x10000;
+
+        // String.prototype.codePointAt: a pair is one code point; a lone surrogate is its own value.
+        static int CodePointAt(string s, int i) =>
+            char.IsHighSurrogate(s[i]) && i + 1 < s.Length && char.IsLowSurrogate(s[i + 1]) ? char.ConvertToUtf32(s[i], s[i + 1]) : s[i];
 
         public static (List<int> Types, List<string> Texts, List<int> Starts) Tokenize(string src)
         {
@@ -55,8 +63,8 @@ internal static partial class Pele
                     }
                     while (q < n)
                     {
-                        int d = src[q];
-                        if (IsTextData(d) || d == 44 || d == 13 || d == 10) q++;
+                        var d = CodePointAt(src, q);
+                        if (IsTextData(d) || d == 44 || d == 13 || d == 10) q += d > 0xffff ? 2 : 1;
                         else if (d == 34 && Chars.CharAt(src, q + 1) == 34) q += 2;
                         else break;
                     }
@@ -92,7 +100,7 @@ internal static partial class Pele
                         Emit(T.DQuote, p, p + 1);
                         continue;
                     }
-                    while (q < n && IsTextData(src[q])) q++;
+                    while (q < n && CodePointAt(src, q) is var d && IsTextData(d)) q += d > 0xffff ? 2 : 1;
                     Emit(T.NonEscapedText, p, q);
                 }
                 // A character outside the CSV alphabet matches as empty text and is never consumed.

@@ -7,6 +7,10 @@ internal static partial class Pele
     // diagrams/sankey/parser.ts
     internal static partial class Sankey
     {
+        // /^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/ (JS \d is ASCII; `$` without `m` is the very end).
+        static readonly System.Text.RegularExpressions.Regex ReDecimal = new(@"\A[+-]?(?:[0-9]+\.?[0-9]*|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\z",
+            System.Text.RegularExpressions.RegexOptions.NonBacktracking);   // linear on a 50,000-digit value
+
         // JS \s without the line breaks \n and \r (Mermaid's [^\S\n\r]).
         static bool IsBlank(int c) => c is not (10 or 13) && Js.IsSpace(c);
 
@@ -17,9 +21,9 @@ internal static partial class Pele
         // `sankey ` with a trailing space, a tab-indented row or a quoted field with blanks at its row's edge is then a parse
         // error. The port strips blanks at the start and end of every row, where rows end at a line break outside a quoted
         // field (quotes as the lexer reads them: `"` opens, `""` inside is a quote, a lone `"` closes). Text inside quotes is
-        // kept as written, and so is a run of blanks next to a comma, which is a whole field (`a,b,   ` reads as Node reads
-        // it, an empty value). Each run is held until what follows it is known. One pass, with the collapse of line breaks
-        // done as it goes.
+        // kept as written, and so is a run of blanks next to a comma, which is a whole field: `  ,c,2` stays Node's empty
+        // name, and `a,b,   ` reaches the value check (S4) as a blank value, while `a,b,` stays the parse error it is in
+        // Mermaid. Each run is held until what follows it is known. One pass, with the collapse of line breaks done as it goes.
         public static string PrepareTextForParsing(string text)
         {
             var start = 0;
@@ -124,10 +128,21 @@ internal static partial class Pele
                 Expect(T.Comma, ", 'NEWLINE', 'EOF'");
                 var to = Name();
                 Expect(T.Comma, ", 'NEWLINE', 'EOF'");
-                var amount = Field();
+                var at = starts[i];
+                var amount = Js.Trim(Field());
                 var source = db.FindOrCreateNode(from);
                 var target = db.FindOrCreateNode(to);
-                db.AddLink(source, target, Js.ParseFloat(Js.Trim(amount)));
+                // Deviation (PORT-008 Task 11, S4, Martin 2026-10-23): upstream reads the value with parseFloat, so `abc` or a
+                // blank is a link with no flow and `1x`, `12abc` or `"1,000"` silently 1 or 12. The port takes a value only
+                // when the whole trimmed text is a decimal number, and reports anything else on the value's line. An accepted
+                // value keeps parseFloat's result (`1e999` is Infinity, as upstream). The value is quoted as JSON.stringify does,
+                // so a quoted value with a line break keeps the message on one line (charts.mjs keeps only the first).
+                if (!ReDecimal.IsMatch(amount))
+                {
+                    var line = Errors.Locate(src, at).Line;
+                    throw new PeleException($"Sankey diagrams need a number for each link's value, and {Js.Quote(amount)} on line {line} is not one.", "semantic", line);
+                }
+                db.AddLink(source, target, Js.ParseFloat(amount));
                 if (types[i] != T.Newline) break;
                 i++;
             }

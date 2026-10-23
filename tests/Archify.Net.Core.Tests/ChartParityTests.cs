@@ -19,6 +19,7 @@ public class ChartParityTests
         ("xychart", "pow-clamped-equal"), ("xychart", "pow-clamped-equal-negative"),
         ("quadrantChart", "phantom-empty-quadrant-label"), ("quadrantChart", "phantom-empty-point-label"), ("quadrantChart", "stress-points"),
         .. QuirkRows.SelectMany(group => group.Value.Select(row => (group.Key, row.Name))),
+        .. SankeyUnicodeRows.Select(row => ("sankey", row.Name)), .. SankeyValueRows.Select(row => ("sankey", row.Name)),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
     // Fuzz_deviations_are_the_stated_quirks.
@@ -36,10 +37,24 @@ public class ChartParityTests
             [592] = "X2X4", [634] = "Q1", [765] = "Q1", [782] = "Q1", [848] = "X2", [956] = "X4", [986] = "X4",
         },
         ["sankey"] = new() {
-            [23] = "S2", [77] = "S1", [81] = "S1", [96] = "S1", [178] = "S1", [196] = "S1", [256] = "S2", [311] = "S1", [341] = "S1",
-            [353] = "S1", [355] = "S1", [452] = "S1", [461] = "S1", [487] = "S1", [529] = "S1", [553] = "S2", [593] = "S1", [719] = "S2",
-            [811] = "S1", [822] = "S1", [835] = "S1", [838] = "S1", [854] = "S1", [868] = "S1", [915] = "S1", [933] = "S1", [986] = "S1",
-            [992] = "S2",
+            [2] = "S4", [3] = "S4", [5] = "S1", [8] = "S1", [14] = "S4", [31] = "S1", [50] = "S1S3", [70] = "S3S4",
+            [73] = "S3S4", [83] = "S3", [92] = "S4", [95] = "S1", [96] = "S2", [100] = "S4", [103] = "S4", [113] = "S4",
+            [115] = "S1", [117] = "S4", [122] = "S4", [123] = "S2", [128] = "S4", [132] = "S4", [137] = "S4", [139] = "S4",
+            [141] = "S4", [156] = "S4", [160] = "S4", [161] = "S1", [187] = "S4", [189] = "S4", [191] = "S4", [205] = "S1",
+            [209] = "S3S4", [218] = "S4", [222] = "S2S4", [226] = "S4", [228] = "S4", [241] = "S4", [243] = "S4",
+            [252] = "S4", [253] = "S4", [262] = "S4", [281] = "S4", [287] = "S1S4", [294] = "S4", [304] = "S4",
+            [307] = "S4", [312] = "S4", [313] = "S4", [319] = "S4", [342] = "S4", [346] = "S2S4", [348] = "S4",
+            [353] = "S2", [355] = "S4", [363] = "S3S4", [367] = "S1", [369] = "S1", [375] = "S3", [383] = "S4",
+            [387] = "S3S4", [390] = "S1S3S4", [394] = "S4", [407] = "S4", [417] = "S4", [432] = "S4", [445] = "S4",
+            [450] = "S4", [458] = "S4", [465] = "S2S4", [467] = "S1S4", [478] = "S4", [483] = "S4", [518] = "S4",
+            [534] = "S3S4", [537] = "S4", [538] = "S2", [539] = "S4", [544] = "S3", [549] = "S4", [554] = "S1",
+            [558] = "S4", [559] = "S3", [587] = "S4", [601] = "S3", [610] = "S1", [619] = "S4", [620] = "S4", [621] = "S4",
+            [627] = "S4", [634] = "S1", [645] = "S3", [669] = "S4", [678] = "S1", [680] = "S4", [689] = "S1", [694] = "S3",
+            [697] = "S1", [702] = "S4", [709] = "S4", [717] = "S4", [725] = "S1", [734] = "S1", [739] = "S4", [745] = "S4",
+            [747] = "S4", [756] = "S4", [763] = "S3", [770] = "S4", [778] = "S4", [788] = "S3", [797] = "S4", [805] = "S4",
+            [806] = "S1S4", [814] = "S4", [829] = "S1S4", [835] = "S2", [838] = "S2S4", [840] = "S4", [845] = "S4",
+            [850] = "S1", [859] = "S3", [871] = "S2", [883] = "S4", [908] = "S4", [909] = "S2", [942] = "S2S3",
+            [953] = "S2", [976] = "S4",
         },
     };
 
@@ -229,8 +244,14 @@ public class ChartParityTests
     //      row, `sankey ` with a trailing blank, a tab-indented row or a quoted field with blanks at its row's edge is a parse
     //      error; the port strips blanks at each row's edges outside quoted fields;
     //   S2 render.ts writes a label's name, prefix and suffix with esc(), so `&amp;` shows as typed while the band's <title>
-    //      decodes it; the port decodes them in the label too.
-    // A reference row writes the same chart without those blanks (S1) or with the decoded character (S2).
+    //      decodes it; the port decodes them in the label too;
+    //   S3 (Martin, fix round 1) the CSV alphabet is ASCII, so `Café` is an error; the port takes Pele 1.9.0's alphabet
+    //      (U+00A0 up, no surrogate halves, U+FFFE/U+FFFF or controls). Mermaid's `#…;` placeholders are non-ASCII, so an
+    //      entity code in a name now lexes and decodes;
+    //   S4 (Martin, fix round 1, with the controller's ruling) parseFloat reads `abc` or a blank as no flow and `1x` as 1;
+    //      the port takes only a whole decimal number and reports anything else (SankeyValueRows).
+    // A reference row writes the same chart without those blanks (S1), with the decoded character (S2) or the decoded text
+    // (S3). S3 rows with non-ASCII names are checked against ASCII stand-ins instead (SankeyUnicodeRows).
     static (string Name, string Quirk, string Reference)[] SankeyQuirkRows =>
     [
         .. new[]
@@ -245,7 +266,73 @@ public class ChartParityTests
             "quirk-entity-name-amp", "quirk-entity-name-quot", "quirk-entity-name-lt", "quirk-entity-prefix", "quirk-entity-suffix",
             "quirk-entity-outlined", "render-hostile-t10-p10",
         }.Select(name => (name, "S2", $"{name}-reference")),
+        .. new[] { "names-entity-hash", "render-hostile-t3-p10" }.Select(name => (name, "S3", $"{name}-reference")),
     ];
+
+    // S3 rows with non-ASCII names: the port's output is Node's output for the reference (the same chart with ASCII stand-ins)
+    // with each stand-in swapped back in the SVG. Every name stays inside the chart, so its measured width moves nothing.
+    static (string Name, string Reference, (string StandIn, string Name)[] Swaps)[] SankeyUnicodeRows =>
+    [
+        ("quirk-unicode-cafe", "quirk-unicode-cafe-reference", [("Cafe", "Café")]),
+        ("quirk-unicode-cjk", "quirk-unicode-cjk-reference", [("Grid", "电网"), ("Indy", "工业"), ("Loss", "损耗")]),
+        ("quirk-unicode-emoji", "quirk-unicode-emoji-reference", [("Sun", "🌞"), ("Home", "🏠")]),
+        ("quirk-unicode-quoted", "quirk-unicode-quoted-reference", [("Electricite, reseau", "Électricité, réseau")]),
+        ("quirk-unicode-nbsp-inside", "quirk-unicode-nbsp-inside-reference", [("AxB", "A\u00a0B")]),
+        ("quirk-unicode-quoted-emoji", "quirk-unicode-quoted-emoji-reference", [("X sun", "\U0001F31E sun")]),
+        ("names-non-ascii", "names-non-ascii-reference", [("Cafe", "Café")]),
+        ("render-rejects-6", "names-non-ascii-reference", [("Cafe", "Café")]),   // Pele's own "rejects Café" case
+    ];
+
+    // S4 rows: the port's error, as text, with the value as written (trimmed) and the line the parser reports (the prepared
+    // text's, as for every sankey error until the core line map lands).
+    static (string Name, string Value, int Line)[] SankeyValueRows =>
+    [
+        ("quirk-value-abc", "abc", 3), ("quirk-value-quoted-blank", "", 2), ("quirk-value-nan", "NaN", 2),
+        ("quirk-value-after-blank-lines", "x", 3), ("quirk-value-after-front-matter", "x", 2), ("quirk-value-quoted-multiline-name", "oops", 3),
+        ("quirk-value-first-of-two", "x", 2), ("quirk-value-1x", "1x", 3), ("quirk-value-thousands", "1,000", 3),
+        ("quirk-value-12abc", "12abc", 3), ("quirk-value-1e", "1e", 3), ("quirk-value-percent", "10%", 3),
+        ("quirk-value-infinity", "Infinity", 3), ("quirk-value-hex", "0x10", 3), ("quirk-value-multiline", "1\n2", 2),
+        // Existing rows: parseFloat's prefix reads (`1e`, `1 %% note`, `1` + 4,000 spaces + `x`) and blanks.
+        ("values-numbers", "1e", 4), ("comment-inline", "1 %% note", 2), ("stress-one-blank-run", "1" + new string(' ', 4000) + "x", 2),
+        ("stress-value-digits-50k", new string('1', 49970) + "x", 2), ("unicode-line-separator", "1\u2028c", 2), ("rows-blank-last-field", "", 2), ("rows-blank-fields-tabs", "", 2),
+        ("layout-not-positive", "NaN", 2), ("stress-not-numbers", "x", 2),
+        ("render-not-numbers", "abc", 2), ("render-hostile-t2-p2", "<img src=x onerror=alert(1)>", 2),
+        ("render-hostile-t2-p9", "javascript:alert(1)", 2),
+        ("render-hostile-t5-p5", "<foreignObject><iframe src=javascript:alert(1)></iframe></foreignObject>", 2),
+        ("render-hostile-t5-p12", "vbscript:msgbox(1)", 2),
+    ];
+
+    static string ValueError(string value, int line) => ExplainerCharts.Json(new JsonObject
+    {
+        ["error"] = $"Sankey diagrams need a number for each link's value, and {Js.Quote(value)} on line {line} is not one.",
+        ["line"] = line,
+        ["example"] = "pie title Share\n  \"A\" : 60\n  \"B\" : 40",
+    });
+
+    [Fact] public void Sankey_unicode_names_and_unreadable_values_are_the_stated_deviations()
+    {
+        foreach (var (name, reference, swaps) in SankeyUnicodeRows)
+        {
+            var node = Fixtures.Lf(Golden("sankey", name));
+            Assert.True(node.Contains("\"error\""), $"{name}: Node draws it");
+            Assert.True(QuirkIn("sankey", Seed("sankey", name)["text"]!.GetValue<string>()).Contains("S3"), $"{name}: input shows no S3");
+            var expected = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden("sankey", reference)))!;
+            var svg = expected["svg"]!.GetValue<string>();
+            foreach (var (standIn, swapped) in swaps)
+            {
+                Assert.Contains(standIn, svg);
+                svg = svg.Replace(standIn, swapped, StringComparison.Ordinal);
+            }
+            expected["svg"] = svg;
+            Assert.Equal(ExplainerCharts.Json(expected), Run(Seed("sankey", name)));
+        }
+        foreach (var (name, value, line) in SankeyValueRows)
+        {
+            Assert.True(QuirkIn("sankey", Seed("sankey", name)["text"]!.GetValue<string>()).Contains("S4"), $"{name}: input shows no S4");
+            Assert.NotEqual(Fixtures.Lf(Golden("sankey", name)), ValueError(value, line) + "\n");
+            Assert.Equal(ValueError(value, line), Run(Seed("sankey", name)));
+        }
+    }
 
     // Inputs the fixes must leave as Node draws them: each is compared with Node by Matches_node.
     static readonly string[] Controls =
@@ -266,8 +353,11 @@ public class ChartParityTests
         "sankey/rows-crlf-spaces-unquoted", "sankey/stress-rows-blanks-50k", "sankey/stress-rows-quoted-50k", "sankey/render-quoted-names",
         "sankey/oracle-1", "sankey/spec-allows-proto-as-id-with-sankey-syntax", "sankey/directive-config", "sankey/corpus-docs-0", "sankey/crlf",
         "sankey/crlf-quoted", "sankey/error-line-after-blank-lines", "sankey/entity-unknown-name", "sankey/entity-no-semicolon",
-        "sankey/render-hostile-t10-p17", "sankey/names-html", "sankey/rows-blank-last-field", "sankey/rows-blank-first-field",
-        "sankey/rows-blank-fields-tabs",
+        "sankey/render-hostile-t10-p17", "sankey/names-html", "sankey/rows-blank-first-field",
+        // S3 keeps controls, surrogate halves and U+FFFE out; S4 reads whole decimals (`1e999`, `-0`, `.5`, `" 8 "`) as
+        // upstream does, and an empty value stays Mermaid's parse error.
+        "sankey/unicode-c1-control", "sankey/unicode-c1-quoted", "sankey/unicode-del", "sankey/unicode-lone-surrogate", "sankey/unicode-fffe",
+        "sankey/values-readable", "sankey/values-blank-at-end", "sankey/values-comma-at-end", "sankey/values-empty",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -322,7 +412,9 @@ public class ChartParityTests
     {
         "quadrantChart" => string.Concat(ReQ1.IsMatch(text) ? "Q1" : "", ReQ2.IsMatch(text) ? "Q2" : "", KeywordQuirk(text) ? "Q3" : ""),
         "xychart" => XyChartQuirkIn(text),
-        "sankey" => string.Concat(SankeyRowBlanks(text) ? "S1" : "", ReHtmlEntity.IsMatch(text) ? "S2" : ""),
+        "sankey" => string.Concat(SankeyRowBlanks(text) ? "S1" : "",
+            ReHtmlEntity.Matches(text).Any(m => Pele.Entities.DecodeEntities(m.Value) != m.Value) ? "S2" : "",
+            SankeyUnicode(text) ? "S3" : "", SankeyUnreadableValue(text) ? "S4" : ""),
         _ => "",
     };
 
@@ -331,9 +423,10 @@ public class ChartParityTests
     // between the first and the last row that hold text; or at the start of a row (not the first) or the end of a row (not
     // the last), a run not next to a comma that holds a blank other than a space (outside the CSV alphabet), is next to a
     // quote, or ends the header row. Spaces next to an unquoted field's text change nothing, as the parser trims fields.
-    // S2: an HTML entity
-    // (in a name only a named one reaches the label, since Mermaid's `#…;` encoding hides a numeric one in a placeholder that
-    // is never CSV text; a prefix or suffix from the configuration is not encoded).
+    // S2: an HTML entity that DecodeEntities changes (a prefix or suffix from the configuration is not Mermaid-encoded).
+    // S3: in the chart text, a character past the C1 controls, or a Mermaid `#…;` code (its placeholder is non-ASCII).
+    // S4: a row whose third field, trimmed and unquoted, is not a whole decimal number.
+    // Attribution of every listed fuzz case is also checked against Node by tools/chart-seeds/sankey-fuzz-check.mjs.
     static readonly Regex ReFrontMatter = new(@"\A[\t\n\v\f\r  ﻿]*---[\s\S]*?\n---[^\n]*(?:\n|\z)");
     // A `%%{…}%%` directive (it may span lines) and a comment line, which preprocess takes out too.
     static readonly Regex ReCommentLine = new(@"%%\{[\s\S]*?(?:\}%%|\z)|(?<=\A|\n)[\t\n\v\f\r    -     　﻿]*%%[^\n]*\n?");
@@ -355,6 +448,24 @@ public class ChartParityTests
             var trail = rows[k][Js.TrimEnd(rows[k]).Length..];
             if (k > first && Matters(lead, body[0], header: false)) return true;
             if (k < last && Matters(trail, body[^1], header: k == first)) return true;
+        }
+        return false;
+    }
+    static string SankeyBody(string text) => ReCommentLine.Replace(ReFrontMatter.Replace(text, ""), "");
+    static readonly Regex ReMermaidCode = new("#[A-Za-z0-9_]+;");
+    static readonly Regex ReWholeDecimal = new(@"\A[+-]?(?:[0-9]+\.?[0-9]*|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\z", RegexOptions.NonBacktracking);
+    static bool SankeyUnicode(string text) => SankeyBody(text).Any(c => c > 0x9f) || ReMermaidCode.IsMatch(SankeyBody(text));
+    static bool SankeyUnreadableValue(string text)
+    {
+        // Quoted fields hold `;` for their commas and line breaks, so a row splits into its own fields.
+        var rows = ReCsvQuoted.Replace(SankeyBody(text), m => m.Value.Replace(",", ";").Replace("\n", ";").Replace("\r", ";")).Split('\n', '\r');
+        foreach (var row in rows.Skip(1))
+        {
+            var fields = row.Split(',');
+            if (fields.Length < 3) continue;
+            var value = Js.Trim(fields[2]);
+            if (value.Length >= 2 && value[0] == '"' && value[^1] == '"') value = value[1..^1];
+            if (!ReWholeDecimal.IsMatch(Js.Trim(value))) return true;
         }
         return false;
     }
@@ -497,6 +608,7 @@ public class ChartParityTests
     [InlineData("sankey", "quirk-rows-stress-50k")]
     [InlineData("sankey", "stress-rows-blanks-50k")]
     [InlineData("sankey", "stress-rows-quoted-50k")]
+    [InlineData("sankey", "stress-value-digits-50k")]   // S4's decimal test: 49,970 digits then `x`
     public void Grammar_fix_is_linear(string group, string name)
     {
         var text = Seed(group, name)["text"]!.GetValue<string>();

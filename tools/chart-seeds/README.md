@@ -87,8 +87,14 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   the existing rows that `ChartParityTests.SankeyQuirkRows` names, are the upstream slips the port fixes: S1 the blanks at
   a row's edges (Mermaid's `prepareTextForParsing` has no `m` flag) and S2 entities written undecoded in a label. Each
   one's `-reference` row is the same chart written so that Node already reads it the corrected way. The `rows-*`,
-  `stress-rows-*` and `entity-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in
+  `stress-rows-*` and `entity-*` controls still equal Node. Fix round 1 adds Martin's rulings: S3 (`quirk-unicode-*`,
+  names outside ASCII, with Pele 1.9.0's alphabet), checked against `-reference` rows with ASCII stand-ins that the test
+  swaps back, and S4 (`quirk-value-*`, a value that is not a whole decimal number is an error naming its line), whose
+  expected error text is pinned in the test. The `unicode-*` and `values-*` controls still equal Node, and
+  `layout-tie-break-*` pins the layout's index tie-break. As for quadrantChart, the differing fuzz cases are listed in
   `FuzzDeviations`, and the port's output for them is pinned in `tests/fixtures/charts/sankey.fuzz-deviations.json`.
+  `node tools/chart-seeds/sankey-fuzz-check.mjs` checks each pinned case's attribution against Node, with the input
+  corrected by hand for its stated quirk; run it after a re-mint.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).
