@@ -1240,6 +1240,34 @@
     "text": "sankey\na,b,1"
   },
   {
+    "name": "names-invalid-xml-fffe",
+    "text": "sankey\nA#65534;B,b,1"
+  },
+  {
+    "name": "names-invalid-xml-ffff-html",
+    "text": "sankey\nA&#65535;B,b,1"
+  },
+  {
+    "name": "names-invalid-xml-c0",
+    "text": "sankey\nA#1;B,c,1\nAB,d,2"
+  },
+  {
+    "name": "names-invalid-xml-target",
+    "text": "sankey\na,b,1\nb,C#65535;,2"
+  },
+  {
+    "name": "values-runs-on-control",
+    "text": "sankey\na,b,x\u0001"
+  },
+  {
+    "name": "values-runs-on-quote",
+    "text": "sankey\na,b,\"x\"y"
+  },
+  {
+    "name": "values-runs-on-space",
+    "text": "sankey\na,b,1 c,d,2"
+  },
+  {
     "name": "unicode-lone-surrogate",
     "text": "sankey\na\ud800b,c,1"
   },

@@ -11,6 +11,20 @@ internal static partial class Pele
         static readonly System.Text.RegularExpressions.Regex ReDecimal = new(@"\A[+-]?(?:[0-9]+\.?[0-9]*|\.[0-9]+)(?:[eE][+-]?[0-9]+)?\z",
             System.Text.RegularExpressions.RegexOptions.NonBacktracking);   // linear on a 50,000-digit value
 
+        // /[\x00-\x08\x0b\x0c\x0e-\x1f\ud800-\udfff\ufffe\uffff]/u: under `u` a surrogate matches only when it is not half of a
+        // pair, so this walks code points.
+        static bool HasInvalidXml(string s)
+        {
+            for (var k = 0; k < s.Length; k++)
+            {
+                int c = s[k];
+                if (c is <= 8 or 0xb or 0xc or >= 0xe and <= 0x1f or 0xfffe or 0xffff) return true;
+                if (char.IsHighSurrogate(s[k]) && k + 1 < s.Length && char.IsLowSurrogate(s[k + 1])) k++;
+                else if (char.IsSurrogate(s[k])) return true;
+            }
+            return false;
+        }
+
         // JS \s without the line breaks \n and \r (Mermaid's [^\S\n\r]).
         static bool IsBlank(int c) => c is not (10 or 13) && Js.IsSpace(c);
 
@@ -118,7 +132,15 @@ internal static partial class Pele
                 return text;
             }
 
-            string Name() => Js.Trim(Field()).Replace("\"\"", "\"", StringComparison.Ordinal);
+            // Pele 1.9.0 `name()`, which comes with the S3 alphabet: a name whose decoded text holds a character XML does not allow
+            // is a parse error at the name's start (`A#65534;B`, `A&#65535;B`, `A#1;B`).
+            string Name()
+            {
+                var at = starts[i];
+                var name = Js.Trim(Field()).Replace("\"\"", "\"", StringComparison.Ordinal);
+                if (HasInvalidXml(Entities.DecodeEntities(name))) throw Errors.SyntaxError("sankey", src, at, "Invalid XML character in node name");
+                return name;
+            }
 
             Expect(T.Sankey);
             Expect(T.Newline);
@@ -136,8 +158,9 @@ internal static partial class Pele
                 // blank is a link with no flow and `1x`, `12abc` or `"1,000"` silently 1 or 12. The port takes a value only
                 // when the whole trimmed text is a decimal number, and reports anything else on the value's line. An accepted
                 // value keeps parseFloat's result (`1e999` is Infinity, as upstream). The value is quoted as JSON.stringify does,
-                // so a quoted value with a line break keeps the message on one line (charts.mjs keeps only the first).
-                if (!ReDecimal.IsMatch(amount))
+                // so a quoted value with a line break keeps the message on one line (charts.mjs keeps only the first). The check
+                // waits until the row has ended well: a row that runs on (`x\x01`, `"x"y`, a tab) is the parse error it is upstream.
+                if (types[i] is T.Newline or T.Eof && !ReDecimal.IsMatch(amount))
                 {
                     var line = Errors.Locate(src, at).Line;
                     throw new PeleException($"Sankey diagrams need a number for each link's value, and {Js.Quote(amount)} on line {line} is not one.", "semantic", line);

@@ -59,6 +59,62 @@ const correct = (input) => {
   return decode(head).replace(/\t/g, '\\t') + ascii(decode(mermaid(strip(input.slice(head.length)))));
 };
 
+// The text sankey's parser sees, with S1 applied: preprocess's comment lines out, the row edges stripped, line breaks
+// collapsed, trimmed.
+const prepare = (input) => {
+  let body = input.slice((HEAD.exec(input)?.[1] ?? '').length);
+  if (body.includes('%%')) body = body.replace(/^\s*%%(?!\{)[^\n]+\n?/gm, '');
+  return strip(body.trimStart()).replace(/[\n\r]+/g, '\n').trim();
+};
+// Pele 1.9.0's alphabet (its `c0`) and its name check, written out again.
+const textData = (c) => (c >= 32 && c <= 126 && c !== 34 && c !== 44) || (c >= 0xa0 && c <= 0xd7ff) || (c >= 0xe000 && c <= 0xfffd) || c >= 0x10000;
+const INVALID_XML = /[\x00-\x08\x0b\x0c\x0e-\x1f\ud800-\udfff\ufffe\uffff]/u;
+// S4's own reader: the first row that ends well and whose value is not a whole decimal, as {value, line}; null when the
+// rows end (or one breaks, which is a parse error) first.
+function firstBadValue(text) {
+  const header = text.indexOf('\n');
+  if (header < 0 || !/^sankey(-beta)?$/i.test(text.slice(0, header))) return null;
+  const line = (at) => text.slice(0, at).split('\n').length;
+  let p = header + 1;
+  for (;;) {
+    const fields = [];
+    for (let f = 0; f < 3; f++) {
+      const start = p;
+      let value;
+      if (text[p] === '"') {
+        let q = p + 1;
+        value = '';
+        for (;;) {
+          if (q >= text.length) return null;
+          const c = text.codePointAt(q);
+          if (c === 34) { if (text[q + 1] === '"') { value += '""'; q += 2; continue; } break; }
+          if (!(textData(c) || c === 44 || c === 10 || c === 13)) return null;
+          value += String.fromCodePoint(c);
+          q += c > 0xffff ? 2 : 1;
+        }
+        if (value === '') return null;   // `""` gives no text token
+        p = q + 1;
+      } else {
+        let q = p;
+        while (q < text.length && textData(text.codePointAt(q))) q += text.codePointAt(q) > 0xffff ? 2 : 1;
+        if (q === p) return null;
+        value = text.slice(p, q);
+        p = q;
+      }
+      fields.push({ value: value.trim(), start });
+      if (f < 2) {
+        if (text[p] !== ',') return null;
+        p++;
+      }
+    }
+    for (const name of fields.slice(0, 2)) if (INVALID_XML.test(decode(mermaid(name.value.replaceAll('""', '"'))))) return null;
+    if (p < text.length && text[p] !== '\n') return null;
+    if (!DECIMAL.test(fields[2].value)) return { value: fields[2].value, line: line(fields[2].start) };
+    if (p >= text.length) return null;
+    p++;
+  }
+}
+
 let bad = 0;
 for (const { index, output } of pinned) {
   const input = fuzz[index].input;
@@ -66,16 +122,18 @@ for (const { index, output } of pinned) {
   const node = run(correct(input));
   let ok, why = '';
   const m = S4.exec(port.error ?? '');
+  const expected = firstBadValue(prepare(input));
   if (m) {
+    // The port must name exactly the value and line the reader finds, and Node nothing earlier.
     const line = +m[2];
     const value = JSON.parse(m[1]);
     const earlier = node.error !== undefined && node.line > 0 && node.line < line;
-    ok = !DECIMAL.test(value.trim()) && !earlier && input.includes(value);
-    why = `S4 ${m[1].slice(0, 30)} line ${line}; node ${node.error ? 'error line ' + node.line : 'draws'}`;
+    ok = expected !== null && expected.value === value && expected.line === line && !earlier;
+    why = `S4 ${m[1].slice(0, 30)} line ${line}; reader ${expected ? JSON.stringify(expected.value).slice(0, 20) + ' line ' + expected.line : 'none'}`;
   } else {
-    // Both sides mapped, as the SVG has non-ASCII of its own (the `→` of a band's title).
-    ok = normal(node) === normal(port);
-    why = port.svg !== undefined ? 'svg' : 'error ' + JSON.stringify(port.error);
+    // Both sides mapped, as the SVG has non-ASCII of its own (the `→` of a band's title); and no unreadable value to report.
+    ok = normal(node) === normal(port) && expected === null;
+    why = (port.svg !== undefined ? 'svg' : 'error ' + JSON.stringify(port.error)) + (expected ? ' (reader expects S4)' : '');
   }
   if (!ok) bad++;
   console.log(String(index).padStart(4), ok ? 'ok  ' : 'FAIL', why.padEnd(60), JSON.stringify(input).slice(0, 80));

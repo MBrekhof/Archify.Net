@@ -37,24 +37,16 @@ public class ChartParityTests
             [592] = "X2X4", [634] = "Q1", [765] = "Q1", [782] = "Q1", [848] = "X2", [956] = "X4", [986] = "X4",
         },
         ["sankey"] = new() {
-            [2] = "S4", [3] = "S4", [5] = "S1", [8] = "S1", [14] = "S4", [31] = "S1", [50] = "S1S3", [70] = "S3S4",
-            [73] = "S3S4", [83] = "S3", [92] = "S4", [95] = "S1", [96] = "S2", [100] = "S4", [103] = "S4", [113] = "S4",
-            [115] = "S1", [117] = "S4", [122] = "S4", [123] = "S2", [128] = "S4", [132] = "S4", [137] = "S4", [139] = "S4",
-            [141] = "S4", [156] = "S4", [160] = "S4", [161] = "S1", [187] = "S4", [189] = "S4", [191] = "S4", [205] = "S1",
-            [209] = "S3S4", [218] = "S4", [222] = "S2S4", [226] = "S4", [228] = "S4", [241] = "S4", [243] = "S4",
-            [252] = "S4", [253] = "S4", [262] = "S4", [281] = "S4", [287] = "S1S4", [294] = "S4", [304] = "S4",
-            [307] = "S4", [312] = "S4", [313] = "S4", [319] = "S4", [342] = "S4", [346] = "S2S4", [348] = "S4",
-            [353] = "S2", [355] = "S4", [363] = "S3S4", [367] = "S1", [369] = "S1", [375] = "S3", [383] = "S4",
-            [387] = "S3S4", [390] = "S1S3S4", [394] = "S4", [407] = "S4", [417] = "S4", [432] = "S4", [445] = "S4",
-            [450] = "S4", [458] = "S4", [465] = "S2S4", [467] = "S1S4", [478] = "S4", [483] = "S4", [518] = "S4",
-            [534] = "S3S4", [537] = "S4", [538] = "S2", [539] = "S4", [544] = "S3", [549] = "S4", [554] = "S1",
-            [558] = "S4", [559] = "S3", [587] = "S4", [601] = "S3", [610] = "S1", [619] = "S4", [620] = "S4", [621] = "S4",
-            [627] = "S4", [634] = "S1", [645] = "S3", [669] = "S4", [678] = "S1", [680] = "S4", [689] = "S1", [694] = "S3",
-            [697] = "S1", [702] = "S4", [709] = "S4", [717] = "S4", [725] = "S1", [734] = "S1", [739] = "S4", [745] = "S4",
-            [747] = "S4", [756] = "S4", [763] = "S3", [770] = "S4", [778] = "S4", [788] = "S3", [797] = "S4", [805] = "S4",
-            [806] = "S1S4", [814] = "S4", [829] = "S1S4", [835] = "S2", [838] = "S2S4", [840] = "S4", [845] = "S4",
-            [850] = "S1", [859] = "S3", [871] = "S2", [883] = "S4", [908] = "S4", [909] = "S2", [942] = "S2S3",
-            [953] = "S2", [976] = "S4",
+            [2] = "S1S4", [73] = "S3S4", [77] = "S2", [82] = "S4", [83] = "S3", [87] = "S3S4", [96] = "S3", [97] = "S3S4",
+            [114] = "S4", [126] = "S2", [132] = "S4", [154] = "S4", [162] = "S1S3S4", [191] = "S4", [192] = "S1",
+            [211] = "S3", [226] = "S4", [229] = "S2", [234] = "S1S4", [240] = "S4", [255] = "S2", [267] = "S1",
+            [288] = "S4", [312] = "S4", [363] = "S4", [387] = "S3", [389] = "S2", [408] = "S1", [409] = "S4", [432] = "S4",
+            [439] = "S4", [445] = "S3S4", [461] = "S2S3S4", [476] = "S4", [487] = "S3", [498] = "S3", [501] = "S2",
+            [509] = "S4", [511] = "S4", [518] = "S4", [544] = "S3S4", [549] = "S1S4", [568] = "S4", [570] = "S4",
+            [601] = "S3", [607] = "S4", [617] = "S4", [621] = "S1", [655] = "S1", [658] = "S4", [663] = "S3", [678] = "S4",
+            [685] = "S4", [687] = "S4", [696] = "S4", [709] = "S2S3", [725] = "S1", [745] = "S1", [779] = "S3",
+            [788] = "S3", [805] = "S4", [813] = "S2", [838] = "S3S4", [852] = "S3", [894] = "S3", [907] = "S4",
+            [928] = "S4", [942] = "S4", [967] = "S3", [968] = "S4", [980] = "S4",
         },
     };
 
@@ -294,7 +286,7 @@ public class ChartParityTests
         ("quirk-value-infinity", "Infinity", 3), ("quirk-value-hex", "0x10", 3), ("quirk-value-multiline", "1\n2", 2),
         // Existing rows: parseFloat's prefix reads (`1e`, `1 %% note`, `1` + 4,000 spaces + `x`) and blanks.
         ("values-numbers", "1e", 4), ("comment-inline", "1 %% note", 2), ("stress-one-blank-run", "1" + new string(' ', 4000) + "x", 2),
-        ("stress-value-digits-50k", new string('1', 49970) + "x", 2), ("unicode-line-separator", "1\u2028c", 2), ("rows-blank-last-field", "", 2), ("rows-blank-fields-tabs", "", 2),
+        ("stress-value-digits-50k", new string('1', 49970) + "x", 2), ("rows-blank-last-field", "", 2),
         ("layout-not-positive", "NaN", 2), ("stress-not-numbers", "x", 2),
         ("render-not-numbers", "abc", 2), ("render-hostile-t2-p2", "<img src=x onerror=alert(1)>", 2),
         ("render-hostile-t2-p9", "javascript:alert(1)", 2),
@@ -308,6 +300,22 @@ public class ChartParityTests
         ["line"] = line,
         ["example"] = "pie title Share\n  \"A\" : 60\n  \"B\" : 40",
     });
+
+    // Pele 1.9.0's name check (fix round 2): the parse error's detail, which charts.mjs cuts to its first line, is 1.9.0's
+    // "Invalid XML character in node name", at the name's line. Through charts.mjs each row equals Node (Controls).
+    [Theory]
+    [InlineData("sankey\nA#65534;B,b,1", 2)]
+    [InlineData("sankey\nA&#65535;B,b,1", 2)]
+    [InlineData("sankey\nA#1;B,c,1\nAB,d,2", 2)]
+    [InlineData("sankey\na,b,1\nb,C#65535;,2", 3)]
+    public void Sankey_name_check_is_pele_1_9s(string text, int line)
+    {
+        var e = Assert.Throws<PeleException>(() =>
+            Pele.Sankey.Parse(Pele.Sankey.PrepareTextForParsing(Pele.Preprocess.EncodeEntities(text) + "\n"), new Pele.Sankey.SankeyDb()));
+        Assert.StartsWith($"Parse error on line {line}:\n", e.Message);
+        Assert.EndsWith("\nInvalid XML character in node name", e.Message);
+        Assert.Equal(line, e.Line);
+    }
 
     [Fact] public void Sankey_unicode_names_and_unreadable_values_are_the_stated_deviations()
     {
@@ -358,6 +366,10 @@ public class ChartParityTests
         // upstream does, and an empty value stays Mermaid's parse error.
         "sankey/unicode-c1-control", "sankey/unicode-c1-quoted", "sankey/unicode-del", "sankey/unicode-lone-surrogate", "sankey/unicode-fffe",
         "sankey/values-readable", "sankey/values-blank-at-end", "sankey/values-comma-at-end", "sankey/values-empty",
+        // Fix round 2: the value check waits for a well-ended row; the 1.9.0 name check rejects what Node rejects.
+        "sankey/values-runs-on-control", "sankey/values-runs-on-quote", "sankey/values-runs-on-space", "sankey/rows-blank-fields-tabs",
+        "sankey/unicode-line-separator", "sankey/names-invalid-xml-fffe", "sankey/names-invalid-xml-ffff-html", "sankey/names-invalid-xml-c0",
+        "sankey/names-invalid-xml-target",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -464,7 +476,12 @@ public class ChartParityTests
             var fields = row.Split(',');
             if (fields.Length < 3) continue;
             var value = Js.Trim(fields[2]);
-            if (value.Length >= 2 && value[0] == '"' && value[^1] == '"') value = value[1..^1];
+            // A quoted value counts only when its quote closes at the field's end; `"2"%%` is a parse error first.
+            if (value.StartsWith('"'))
+            {
+                if (value.Length < 2 || value[^1] != '"' || value[1..^1].Replace("\"\"", "").Contains('"')) continue;
+                value = value[1..^1];
+            }
             if (!ReWholeDecimal.IsMatch(Js.Trim(value))) return true;
         }
         return false;
