@@ -48,8 +48,15 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   `oracle-*` (the corpus additions of `tests/xychart/oracle.test.ts`), `render-hostile-*` (each template of
   `xychart-security.test.ts` with two of its payloads), and `stress-*` (the shapes of `tests/xychart/stress.test.ts` at
   about 4,000 characters, since archify keeps Pele's 50,000-character source limit, plus that limit case verbatim). The
-  `BROKEN` fragment and the `oracle-5`/`oracle-6` seeds use the text of the grammar's broken markdown-string rule as
-  `upstream/xychart.jison:51-53` reads it across its quotes (`pushState`, `MD_STR`); Pele's lexer matches it in any case.
+  `oracle-5`/`oracle-6` seeds use the text of the grammar's broken markdown-string rule as `upstream/xychart.jison:51-53`
+  reads it across its quotes (`pushState`, `MD_STR`). The fuzz fragments are Pele's `FRAGMENTS` without the three made
+  from that text: the port reads markdown strings (X3), so the text is a plain backtick to it.
+  - Task 6 follow-up: `quirk-*` rows, and the existing rows that `ChartParityTests.XyChartQuirkRows` names, are the Mermaid
+    grammar slips the port fixes: Q1 the `[^}]%%` comment rule, X1 the case-sensitive orientation, X2 orientation words
+    as keywords anywhere, X3 the broken markdown-string rules, X4 unquoted text losing its spaces. Each one's `-reference`
+    row is the same chart written so that Node already reads it the corrected way. The `comment-*`, `orientation-*` and
+    `md-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`,
+    and the port's output for them is pinned in `tests/fixtures/charts/xychart.fuzz-deviations.json`.
 
 - `quadrantChart` (Task 7): archify's tests have no quadrant fence, so `archify-*` and `fm-quadrant-*` pin archify's own
   `quadrantChart: {chartWidth: 400, chartHeight: 400}` and the front matter that replaces it. Beyond the list above:

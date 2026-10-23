@@ -9,17 +9,16 @@ internal static partial class Pele
 
         // lexer.ts `const enum S`
         const int SInitial = 0, SAxisData = 1, SAxisBandData = 2, SData = 3, SDataInner = 4, SString = 5, SAccTitle = 6, SAccDescr = 7,
-            SAccDescrMultiline = 8;
+            SAccDescrMultiline = 8, SMdString = 9;
 
-        // The token each state gives for the empty rest of the input.
+        // The token each state gives for the empty rest of the input, where it gives one (md_string gives none: its only text
+        // rule cannot match an empty rest).
         static readonly int[] AtEnd = [T.Eof, T.Eof, T.Eof, T.Eof, T.Eof, T.Str, T.AccTitleValue, T.AccDescrValue, T.AccDescrMultilineValue];
 
-        // Mermaid's grammar means to open a markdown string at `"` followed by a backtick, but its quoting turns the rule into
-        // one that matches this text and leaves the current state. Markdown strings are never read.
-        static readonly string BrokenRule =
-            "`)" + new string(' ', 36) + "{ this.pushstate(md_string); }\n<md_string>(?:(?!`\").)+" + new string(' ', 18)
-            + "{ return md_str; }\n<md_string>(?:`";
-
+        // Deviation X3 (PORT-008 Task 11): xychart.jison:51-53 mean to read a markdown string, but a quoting slip turns the
+        // opening rule into one that matches a fixed run of jison source, and Pele copies that (lexer.ts BROKEN_RULE). The port
+        // reads markdown strings as the quadrant grammar does (quadrant lexer.ts): `"` then a backtick opens, a run without
+        // backtick or `"` is MD_STR, and a backtick then `"` closes.
         static readonly int[] Single = BuildSingle();
 
         static int[] BuildSingle()
@@ -79,6 +78,7 @@ internal static partial class Pele
                 return q;
             }
             bool Keyword(string word) => Caseless.WordAt(src, p, word) && !Chars.IsWord(Chars.CharAt(src, p + word.Length));
+            bool AfterHeader() => types.Count > 0 && types[^1] == T.XyChart;
 
             while (p < n)
             {
@@ -97,6 +97,23 @@ internal static partial class Pele
                         Emit(T.Str, p, e == -1 ? n : e);
                     }
                     continue;
+                }
+                if (state == SMdString)
+                {
+                    if (c == 96 && Chars.CharAt(src, p + 1) == 34)
+                    {
+                        p += 2;
+                        Pop();
+                        continue;
+                    }
+                    if (c != 96 && c != 34)
+                    {
+                        var e = p + 1;
+                        while (e < n && src[e] != 96 && src[e] != 34) e++;
+                        Emit(T.MdStr, p, e);
+                        continue;
+                    }
+                    break;
                 }
                 if (state == SAccTitle || state == SAccDescr)
                 {
@@ -125,8 +142,10 @@ internal static partial class Pele
                     p = LineEnd(p + 2);
                     continue;
                 }
-                // Mermaid's second comment rule takes any character before `%%` with it, a line break included.
-                if (c != 125 && next == 37 && Chars.CharAt(src, p + 2) == 37)
+                // Mermaid's second comment rule, `[^\}]\%\%[^\n]*`, takes any character before `%%` with it. Deviation Q1
+                // (PORT-008 Task 11): only whitespace (JS `\s`, a line break included) goes with the comment, as upstream; any
+                // other character stays and is read by the rules below (`ab c%%x` keeps `ab c`).
+                if (Chars.IsSpace(c) && next == 37 && Chars.CharAt(src, p + 2) == 37)
                 {
                     p = LineEnd(p + 3);
                     continue;
@@ -206,15 +225,18 @@ internal static partial class Pele
                             matched = true;
                         }
                         break;
+                    // Deviation X2 (PORT-008 Task 11): upstream's `(?:"vertical"|"horizontal")` has no word boundary and no
+                    // start condition, so `title verticality` fails. The orientation is a whole word straight after the chart
+                    // keyword, with only spaces between (a line break is a NEWLINE token); anywhere else it is plain text.
                     case 118:
-                        if (Caseless.WordAt(src, p, "vertical"))
+                        if (AfterHeader() && Keyword("vertical"))
                         {
                             Emit(T.ChartOrientation, p, p + 8);
                             matched = true;
                         }
                         break;
                     case 104:
-                        if (Caseless.WordAt(src, p, "horizontal"))
+                        if (AfterHeader() && Keyword("horizontal"))
                         {
                             Emit(T.ChartOrientation, p, p + 10);
                             matched = true;
@@ -277,16 +299,18 @@ internal static partial class Pele
                         continue;
                     }
                 }
-                if (c == 96 && Caseless.WordAt(src, p, BrokenRule))
-                {
-                    p += BrokenRule.Length;
-                    Pop();
-                    continue;
-                }
                 if (c == 34)
                 {
-                    p++;
-                    Push(SString);
+                    if (next == 96)
+                    {
+                        p += 2;
+                        Push(SMdString);
+                    }
+                    else
+                    {
+                        p++;
+                        Push(SString);
+                    }
                     continue;
                 }
                 if (Chars.IsLetter(c))
@@ -322,9 +346,12 @@ internal static partial class Pele
                 return new(types, texts, starts);
             }
             // Jison tries the rules of the current state once more against the empty rest of the input.
-            types.Add(AtEnd[state]);
-            texts.Add("");
-            starts.Add(n);
+            if (state < AtEnd.Length)
+            {
+                types.Add(AtEnd[state]);
+                texts.Add("");
+                starts.Add(n);
+            }
             types.Add(T.End);
             texts.Add("");
             starts.Add(n);

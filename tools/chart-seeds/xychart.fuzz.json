@@ -116,9 +116,6 @@
     "l",
     "v",
     "h",
-    "#35;",
-    "`)                                    { this.pushState(md_string); }\n<md_string>(?:(?!`\").)+                  { return MD_STR; }\n<md_string>(?:`",
-    "`)                                    { THIS.PUSHSTATE(MD_STRING); }\n<MD_STRING>(?:(?!`\").)+                  { RETURN MD_STR; }\n<MD_STRING>(?:`",
-    "`)                                    { "
+    "#35;"
   ]
 }

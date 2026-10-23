@@ -7,7 +7,8 @@ internal static partial class Pele
     // diagrams/xychart/db.ts
     internal static partial class XyChart
     {
-        internal sealed record XyText(string Text);
+        // `Markdown` is the grammar's type 'markdown' (X3). Render reads only the text, as upstream does.
+        internal sealed record XyText(string Text, bool Markdown = false);
 
         internal sealed record DataPoint(double Value, string Label);
 
@@ -46,7 +47,10 @@ internal static partial class Pele
             public bool HasSetYAxis { get; private set; }
             public List<Plot> Plots { get; } = [];
 
-            public void SetOrientation(string orientation) => Orientation = orientation == "horizontal" ? "horizontal" : "vertical";
+            // Deviation X1 (PORT-008 Task 11): upstream compares case-sensitively, so `HORIZONTAL`, which the case-insensitive
+            // lexer takes as the orientation, draws vertical. The token is ASCII letters only.
+            public void SetOrientation(string orientation) =>
+                Orientation = Js.ToLowerCase(orientation) == "horizontal" ? "horizontal" : "vertical";
 
             public void SetXAxisTitle(XyText title) => XAxis.Title = Js.Trim(title.Text);
 

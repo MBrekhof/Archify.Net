@@ -18,7 +18,7 @@ public class ChartParityTests
         ("data", "json-deep-unread-column"), ("wrapper", "native-treeview"),
         ("xychart", "pow-clamped-equal"), ("xychart", "pow-clamped-equal-negative"),
         ("quadrantChart", "phantom-empty-quadrant-label"), ("quadrantChart", "phantom-empty-point-label"), ("quadrantChart", "stress-points"),
-        .. QuadrantQuirkRows.Select(row => ("quadrantChart", row.Name)),
+        .. QuirkRows.SelectMany(group => group.Value.Select(row => (group.Key, row.Name))),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
     // Fuzz_deviations_are_the_stated_quirks.
@@ -29,6 +29,11 @@ public class ChartParityTests
             [320] = "Q3", [332] = "Q3", [338] = "Q2", [429] = "Q3", [431] = "Q2", [487] = "Q3", [491] = "Q1", [499] = "Q2",
             [527] = "Q1", [557] = "Q3", [620] = "Q2", [623] = "Q3", [647] = "R1", [686] = "Q3", [748] = "Q3", [783] = "Q1",
             [810] = "Q3", [815] = "Q3", [839] = "Q3", [877] = "Q3", [901] = "Q3", [906] = "Q3", [928] = "Q3", [995] = "Q3",
+        },
+        ["xychart"] = new() {
+            [16] = "X3", [37] = "X4", [70] = "X4", [130] = "X4", [133] = "C1", [164] = "Q1", [172] = "X3", [187] = "X3", [256] = "X4",
+            [351] = "X2", [452] = "Q1", [497] = "X4", [501] = "X4", [524] = "X4", [698] = "X2", [704] = "C1", [711] = "C1", [775] = "X2",
+            [822] = "X2", [870] = "X3", [891] = "X4", [892] = "X4", [893] = "X2", [894] = "X4", [965] = "Q1", [979] = "X4",
         },
     };
 
@@ -171,18 +176,71 @@ public class ChartParityTests
         ("stress-point-form-rescan", "Q3", "stress-point-form-rescan-reference"),
     ];
 
-    [Fact] public void Quadrant_grammar_slips_are_the_stated_deviations()
-    {
-        foreach (var (name, quirk, reference) in QuadrantQuirkRows)
+    // Mermaid grammar slips Pele mirrors (xychart.jison), fixed in the port (Task 6 follow-up, PORT-010):
+    //   Q1 `[^\}]\%\%[^\n]*` takes the character before a comment with it; only whitespace goes with the comment now;
+    //   X1 `setOrientation` compares case-sensitively, so `HORIZONTAL` draws vertical;
+    //   X2 `(?:"vertical"|"horizontal")` fires anywhere and without a word boundary; the port takes the orientation only as a
+    //      whole word straight after the chart keyword;
+    //   X3 the md_string rules are broken by a quoting slip (Pele's BROKEN_RULE); the port reads "`...`" as the quadrant
+    //      grammar does;
+    //   X4 unquoted text joins its tokens with '' (`title Sales Report` is `SalesReport`); the port keeps the source between
+    //      them, as written.
+    // A reference row writes the same chart so that upstream reads it the corrected way: quoted (X2, X4), without backticks
+    // (X3), in lower case (X1), with a space before `%%` (Q1), or (X3 lexical errors) a backtick upstream already rejects.
+    static (string Name, string Quirk, string Reference)[] XyChartQuirkRows =>
+    [
+        .. new[] { "quirk-comment-eats-number", "quirk-comment-eats-char", "quirk-comment-eats-bracket", "comment-glued", "stress-comment-markers" }
+            .Select(name => (name, "Q1", $"{name}-reference")),
+        .. new[] { "horizontal-uppercase", "quirk-orientation-capitalised" }.Select(name => (name, "X1", $"{name}-reference")),
+        .. new[]
         {
-            var node = Fixtures.Lf(Golden("quadrantChart", name));
-            var expected = Fixtures.Lf(Golden("quadrantChart", reference));
-            Assert.True(node != expected, $"{name}: Node already draws the corrected output");
-            Assert.True(QuirkIn(Seed("quadrantChart", name)["text"]!.GetValue<string>()).Contains(quirk), $"{name}: input shows no {quirk}");
-            Assert.Equal(expected, Run(Seed("quadrantChart", name)) + "\n");
+            "title-starts-with-vertical", "series-title-starts-with-horizontal", "quirk-orientation-title", "quirk-orientation-series",
+            "quirk-orientation-axis-title", "quirk-orientation-category", "quirk-orientation-title-words", "quirk-orientation-whole-word",
+        }.Select(name => (name, "X2", $"{name}-reference")),
+        .. new[]
+        {
+            "broken-rule-in-title", "oracle-5", "oracle-6", "quirk-md-title", "quirk-md-axis-title", "quirk-md-category", "quirk-md-series",
+            "quirk-md-point-label", "quirk-md-emphasis", "quirk-md-unclosed-at-end", "quirk-md-opening-only", "stress-md-string-50k",
+        }.Select(name => (name, "X3", $"{name}-reference")),
+        .. new[]
+        {
+            "stress-title-words", "quirk-unquoted-title", "quirk-unquoted-axis-title", "quirk-unquoted-category", "quirk-unquoted-series",
+            "quirk-unquoted-y-title", "quirk-unquoted-tabs", "quirk-unquoted-mixed", "quirk-unquoted-across-lines", "stress-unquoted-words-50k",
+        }.Select(name => (name, "X4", $"{name}-reference")),
+    ];
+
+    // Inputs the fixes must leave as Node draws them: each is compared with Node by Matches_node.
+    static readonly string[] Controls =
+    [
+        "quadrantChart/quirk-comment-brace-exempt",   // `}%%` keeps its exemption (a lexical error at `}`)
+        "xychart/comment-tab-before", "xychart/comment-nbsp-before", "xychart/comment-brace-before", "xychart/comment-percent-run",
+        "xychart/render-horizontal", "xychart/orientation-vertical-upper", "xychart/orientation-quoted-title", "xychart/orientation-next-line",
+        "xychart/orientation-crlf", "xychart/orientation-front-matter", "xychart/orientation-init", "xychart/orientation-spaces-comment",
+        "xychart/orientation-glued", "xychart/orientation-after-semicolon", "xychart/md-backtick-inside", "xychart/md-backtick-unquoted",
+    ];
+
+    // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
+    static Dictionary<string, (string Name, string Quirk, string Reference)[]> QuirkRows => new()
+    {
+        ["quadrantChart"] = QuadrantQuirkRows,
+        ["xychart"] = XyChartQuirkRows,
+    };
+
+    [Fact] public void Grammar_slips_are_the_stated_deviations()
+    {
+        foreach (var (group, rows) in QuirkRows)
+        {
+            foreach (var (name, quirk, reference) in rows)
+            {
+                var node = Fixtures.Lf(Golden(group, name));
+                var expected = Fixtures.Lf(Golden(group, reference));
+                Assert.True(node != expected, $"{group}/{name}: Node already draws the corrected output");
+                Assert.True(QuirkIn(group, Seed(group, name)["text"]!.GetValue<string>()).Contains(quirk), $"{group}/{name}: input shows no {quirk}");
+                Assert.Equal(expected, Run(Seed(group, name)) + "\n");
+            }
         }
-        // `}%%` keeps its exemption: Node and the port agree (a lexical error at `}`).
-        Assert.Contains("quadrantChart/quirk-comment-brace-exempt", Targets().Select(row => $"{row[0]}/{row[1]}"));
+        var compared = Targets().Select(row => $"{row[0]}/{row[1]}").ToHashSet();
+        foreach (var control in Controls) Assert.True(compared.Contains(control), $"{control} is not compared with Node");
     }
 
     // Which quirks an input shows: Q1 a character other than `}`, `%` or whitespace directly before `%%`; Q2 a coordinate `0` followed by a character
@@ -208,8 +266,61 @@ public class ChartParityTests
         }
         return false;
     }
-    static string QuirkIn(string text) =>
-        string.Concat(ReQ1.IsMatch(text) ? "Q1" : "", ReQ2.IsMatch(text) ? "Q2" : "", KeywordQuirk(text) ? "Q3" : "");
+    static string QuirkIn(string group, string text) => group switch
+    {
+        "quadrantChart" => string.Concat(ReQ1.IsMatch(text) ? "Q1" : "", ReQ2.IsMatch(text) ? "Q2" : "", KeywordQuirk(text) ? "Q3" : ""),
+        "xychart" => XyChartQuirkIn(text),
+        _ => "",
+    };
+
+    // xychart. Quoted text is a string token whatever it holds, and a comment is no token, so Q1 looks outside quotes and the
+    // X1, X2, X4 and C1 tests outside quotes and comments too. C1 is Task 6's first deviation (an exact y range whose ends
+    // clamp to the same ±1e300 falls back to the data, Clamped_equal_y_range_is_the_stated_deviation).
+    static readonly Regex ReQuoted = new("\"[^\"]*(?:\"|\\z)");
+    static readonly Regex ReComment = new("%%[^\n]*");
+    static string XyChartQuirkIn(string text)
+    {
+        var unquoted = ReQuoted.Replace(text, "\"\"");
+        var bare = ReComment.Replace(unquoted, "");
+        return string.Concat(ReXyQ1.IsMatch(unquoted) ? "Q1" : "", OrientationQuirk(bare, upperCase: true) ? "X1" : "",
+            OrientationQuirk(bare, upperCase: false) ? "X2" : "", MarkdownQuirk(text) ? "X3" : "", ReX4.IsMatch(bare) ? "X4" : "",
+            ClampedEqualRange(bare) ? "C1" : "");
+    }
+    const string XyNumber = @"[+-]?(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)";
+    static readonly Regex ReYRange = new($@"[Yy]-[Aa][Xx][Ii][Ss][^\n]*?({XyNumber})[{WsBody}]*-->[{WsBody}]*({XyNumber})");
+    static bool ClampedEqualRange(string text) => ReYRange.Matches(text).Any(m =>
+        Js.ToNumber(m.Groups[1].Value) is var lo && Js.ToNumber(m.Groups[2].Value) is var hi && double.IsFinite(lo) && double.IsFinite(hi)
+        && lo != hi && Math.Clamp(lo, -1e300, 1e300) == Math.Clamp(hi, -1e300, 1e300));
+
+    // Q1: a character that starts a token (a letter not after a letter, a digit not after a digit, or any other
+    // character but `}`, `%` and whitespace) directly before `%%`.
+    static readonly Regex ReXyQ1 = new($"(?:(?<![A-Za-z])[A-Za-z]|(?<![0-9])[0-9]|[^A-Za-z0-9}}%{WsBody}])%%");
+    // X1 and X2: an orientation word where a token starts. Upstream lexes it as the orientation; X1 is a header orientation
+    // `horizontal` not written in lower case, X2 one that is not a whole word straight after the chart keyword.
+    static readonly Regex ReOrientation = new("(?<![A-Za-z])(?:[Vv][Ee][Rr][Tt][Ii][Cc][Aa][Ll]|[Hh][Oo][Rr][Ii][Zz][Oo][Nn][Tt][Aa][Ll])");
+    const string SpaceNoBreak = @"[\t\v\f    -     　﻿]";
+    static readonly Regex ReAfterHeader = new($@"[Xx][Yy][Cc][Hh][Aa][Rr][Tt](?:-[Bb][Ee][Tt][Aa])?{SpaceNoBreak}+\z");
+    static bool OrientationQuirk(string text, bool upperCase)
+    {
+        foreach (Match m in ReOrientation.Matches(text))
+        {
+            var whole = !(m.Index + m.Length < text.Length && (char.IsAsciiLetterOrDigit(text[m.Index + m.Length]) || text[m.Index + m.Length] == '_'));
+            var header = whole && ReAfterHeader.IsMatch(text[..m.Index]);
+            if (upperCase ? header && m.Value.Length == 10 && m.Value != "horizontal" : !header) return true;
+        }
+        return false;
+    }
+    // X3: `"` then a backtick (a markdown string), or the jison source text Pele's BROKEN_RULE skipped.
+    const string BrokenRule = "`)                                    { this.pushstate(md_string); }\n<md_string>(?:(?!`\").)+                  { return md_str; }\n<md_string>(?:`";
+    static bool MarkdownQuirk(string text) => text.Contains("\"`", StringComparison.Ordinal) || text.Contains(BrokenRule, StringComparison.OrdinalIgnoreCase);
+    // X4: unquoted text of two tokens or more with whitespace between, after `title`, an axis, a series keyword or a category's
+    // `[`/`,` (the first token has a character other than a digit, so an axis range `0 --> 1` is not text). In an axis or
+    // series statement the whitespace may hold a line break after spaces: that break is skipped with them (lexer.ts).
+    const string XyWord = "[A-Za-z0-9&+=*.#_-]";
+    static readonly Regex ReX4 = new(
+        $@"(?:(?<![A-Za-z])(?:[Tt][Ii][Tt][Ll][Ee]|[XxYy]-[Aa][Xx][Ii][Ss]|[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr])|[\[,]){SpaceNoBreak}*{XyWord}*[A-Za-z&+=*#_]{XyWord}*{SpaceNoBreak}+(?:[\n\r][{WsBody}]*)?(?!{XyKeyword}(?![A-Za-z0-9_])){XyWord}");
+    // A keyword the lexer takes anywhere, which ends the text before it.
+    const string XyKeyword = "(?:[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr]|[Tt][Ii][Tt][Ll][Ee]|[XxYy]-[Aa][Xx][Ii][Ss]|[Xx][Yy][Cc][Hh][Aa][Rr][Tt])";
 
     // The SVG with its point-label group left out: round 1's empty-label fix changes only that group.
     static string OutsidePointLabels(string json)
@@ -218,7 +329,8 @@ public class ChartParityTests
         return at < 0 ? json : json[..at] + json[json.IndexOf("</g>", at, StringComparison.Ordinal)..];
     }
 
-    // Every listed fuzz case differs from Node and shows its quirk (Q1-Q3, or R1 for the round-1 empty-label fix); every other
+    // Every listed fuzz case differs from Node and shows its quirk (QuirkIn per group; for quadrantChart also R1, the round-1
+    // empty-label fix); every other
     // case equals Node (Matches_node). What the port gives for each listed case is pinned in
     // tests/fixtures/charts/<group>.fuzz-deviations.json ([{index, output}]): port output, not a Node golden. A missing file
     // is written from the port and the fact fails once, so a re-mint is an explicit step (delete the file, run twice).
@@ -234,8 +346,9 @@ public class ChartParityTests
                 var node = Js.Stringify(rows[i]!["result"], 2);
                 var port = RunText(input);
                 if (node == port) continue;
-                // R1: round 1's empty-label deviation, which moves only point labels.
-                var why = QuirkIn(input) + (node.Contains("\"svg\"") && OutsidePointLabels(node) == OutsidePointLabels(port) ? "R1" : "");
+                // R1: quadrantChart round 1's empty-label deviation, which moves only point labels.
+                var why = QuirkIn(group, input)
+                    + (group == "quadrantChart" && node.Contains("\"svg\"") && OutsidePointLabels(node) == OutsidePointLabels(port) ? "R1" : "");
                 differing.Add($"[{i}] = \"{why}\"");
             }
             var actual = string.Join(", ", differing);
@@ -254,13 +367,21 @@ public class ChartParityTests
         }
     }
 
-    // The point-form test of a keyword that leads a statement runs once per statement, not once per leading space (review N2:
-    // 24,000 spaces before `x-axis` and a 25,000-character point name took 1.7 s when it rescanned from every space).
-    [Fact] public void Point_form_test_is_linear()
+    // A grammar fix that reads ahead stays linear on a source at the 50,000-character limit:
+    //   quadrantChart's point-form test runs once per statement, not once per leading space (review N2: 24,000 spaces before
+    //   `x-axis` and a 25,000-character point name took 1.7 s when it rescanned from every space);
+    //   xychart's markdown string is read in one pass (X3), and unquoted text is one slice of the source, not a concatenation
+    //   per token (X4).
+    [Theory]
+    [InlineData("quadrantChart", "stress-point-form-rescan")]
+    [InlineData("xychart", "stress-md-string-50k")]
+    [InlineData("xychart", "stress-unquoted-words-50k")]
+    public void Grammar_fix_is_linear(string group, string name)
     {
-        var text = Seed("quadrantChart", "stress-point-form-rescan")["text"]!.GetValue<string>();
+        var text = Seed(group, name)["text"]!.GetValue<string>();
         Assert.True(text.Length is > 49000 and <= 50000);
         ExplainerCharts.Compile("quadrantChart\n  A: [0.5, 0.5]");   // warm up
+        ExplainerCharts.Compile("xychart\n  title a b\n  line [1, 2]");
         var clock = System.Diagnostics.Stopwatch.StartNew();
         ExplainerCharts.Compile(text);
         clock.Stop();

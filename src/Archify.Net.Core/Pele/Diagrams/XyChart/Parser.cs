@@ -7,7 +7,7 @@ internal static partial class Pele
     {
         static bool[] Flags(params int[] tokens)
         {
-            var output = new bool[T.Eof + 1];
+            var output = new bool[T.MdStr + 1];
             foreach (var t in tokens) output[t] = true;
             return output;
         }
@@ -36,14 +36,19 @@ internal static partial class Pele
                 return texts[i++];
             }
 
-            bool IsText(int k) => TypeAt(k) == T.Str || Is(Word, k);
+            bool IsText(int k) => TypeAt(k) is T.Str or T.MdStr || Is(Word, k);
 
             XyText Text()
             {
                 if (!IsText(i)) throw Fail("'STR', 'ALPHA', 'NUM'");
-                var s = texts[i++];
-                if (types[i - 1] != T.Str) while (Is(Word, i)) s += texts[i++];
-                return new(s);
+                if (types[i] is T.Str or T.MdStr) return new(texts[i], types[i++] == T.MdStr);
+                // Deviation X4 (PORT-008 Task 11): the grammar's alphaNum joins its tokens with '' (xychart.jison:178), so
+                // `title Sales Report` reads `SalesReport`. The port keeps what separates the tokens in the source, as written,
+                // as the quadrant grammar does (each whitespace character is a SPACE token of its text); the db trims the ends.
+                // The tokens are consecutive slices of the source, so the text is one slice from the first to the last.
+                var first = starts[i];
+                while (Is(Word, i)) i++;
+                return new(src[first..(starts[i - 1] + texts[i - 1].Length)]);
             }
 
             (double, double) Range()
@@ -60,7 +65,8 @@ internal static partial class Pele
                 for (; ; )
                 {
                     var value = Js.ToNumber(Expect(T.NumberWithDecimal));
-                    output.Add(new(value, TypeAt(i) == T.Str ? texts[i++] : ""));
+                    // A markdown label is taken as its text (X3); the grammar's dataPoint names only STR.
+                    output.Add(new(value, TypeAt(i) is T.Str or T.MdStr ? texts[i++] : ""));
                     if (TypeAt(i) != T.Comma) break;
                     i++;
                 }
