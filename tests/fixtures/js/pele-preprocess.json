@@ -323,5 +323,205 @@
     "name": "empty",
     "input": "",
     "out": "{\"text\":\"\",\"config\":{},\"withComments\":\"\",\"lineOffset\":0}"
+  },
+  {
+    "name": "fm-title",
+    "input": "---\ntitle: Hello  world\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"Hello  world\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-array",
+    "input": "---\ntitle: [1, 2]\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"1,2\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-object",
+    "input": "---\ntitle: {}\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"[object Object]\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-zero",
+    "input": "---\ntitle: 0\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-empty",
+    "input": "---\ntitle: \"\"\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-false",
+    "input": "---\ntitle: false\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-null",
+    "input": "---\ntitle: null\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-nan",
+    "input": "---\ntitle: .nan\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-neg-zero",
+    "input": "---\ntitle: -0\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-inf",
+    "input": "---\ntitle: .inf\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"Infinity\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-float",
+    "input": "---\ntitle: 1.50\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"1.5\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-true",
+    "input": "---\ntitle: true\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"true\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-nested-array",
+    "input": "---\ntitle: [null, [1, [2]], ~, \"x\"]\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\",1,2,,x\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-title-block",
+    "input": "---\ntitle: |\n  two\n  lines\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"two\\nlines\\n\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":5}"
+  },
+  {
+    "name": "fm-title-dup",
+    "input": "---\ntitle: a\ntitle: b\n---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"b\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":4}"
+  },
+  {
+    "name": "fm-config",
+    "input": "---\nconfig:\n  pie:\n    textPosition: 0.5\n  theme: dark\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"pie\":{\"textPosition\":0.5},\"theme\":\"dark\"},\"withComments\":\"pie\",\"lineOffset\":6}"
+  },
+  {
+    "name": "fm-config-scalar",
+    "input": "---\nconfig: 5\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-config-array",
+    "input": "---\nconfig: [1]\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-config-unsafe",
+    "input": "---\nconfig:\n  __proto__:\n    a: 1\n  constructor: 1\n  ok:\n    prototype: 2\n    b: 3\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"ok\":{\"b\":3}},\"withComments\":\"pie\",\"lineOffset\":9}"
+  },
+  {
+    "name": "fm-config-numbers",
+    "input": "---\nconfig:\n  a: .inf\n  b: -.inf\n  c: .nan\n  d: -0\n  e: 0x10\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":null,\"b\":null,\"c\":null,\"d\":0,\"e\":16},\"withComments\":\"pie\",\"lineOffset\":8}"
+  },
+  {
+    "name": "fm-config-then-directive",
+    "input": "---\nconfig:\n  a:\n    x: 1\n  k: [1]\n---\n%%{init: {\"a\": {\"y\": 2}, \"k\": {\"q\": 1}}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":{\"x\":1,\"y\":2},\"k\":{\"q\":1}},\"withComments\":\"\\npie\",\"lineOffset\":6}"
+  },
+  {
+    "name": "fm-config-xychart",
+    "input": "---\nconfig:\n  xyChart:\n    useMaxWidth: false\n---\nxychart-beta\n  bar [1]",
+    "out": "{\"text\":\"xychart-beta\\n  bar [1]\",\"config\":{\"xyChart\":{\"useMaxWidth\":false}},\"withComments\":\"xychart-beta\\n  bar [1]\",\"lineOffset\":5}"
+  },
+  {
+    "name": "fm-display-mode",
+    "input": "---\ndisplayMode: compact\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"gantt\":{\"displayMode\":\"compact\"}},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-display-mode-merge",
+    "input": "---\ndisplayMode: compact\nconfig:\n  gantt:\n    x: 1\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"gantt\":{\"x\":1,\"displayMode\":\"compact\"}},\"withComments\":\"pie\",\"lineOffset\":6}"
+  },
+  {
+    "name": "fm-display-mode-replace",
+    "input": "---\nconfig:\n  gantt: 5\ndisplayMode: [a, b]\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"gantt\":{\"displayMode\":\"a,b\"}},\"withComments\":\"pie\",\"lineOffset\":5}"
+  },
+  {
+    "name": "fm-display-mode-falsy",
+    "input": "---\ndisplayMode: 0\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-top-sequence",
+    "input": "---\n- a\n- b\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":4}"
+  },
+  {
+    "name": "fm-top-scalar",
+    "input": "---\nplain\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-empty",
+    "input": "---\n\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-comment-only",
+    "input": "---\n# c\n---\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-indented",
+    "input": "  ---\n  title: T\n  config:\n    a: 1\n  ---\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"T\",\"config\":{\"a\":1},\"withComments\":\"pie\",\"lineOffset\":5}"
+  },
+  {
+    "name": "fm-crlf",
+    "input": "---\r\ntitle: T\r\n---\r\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"T\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-line-shift",
+    "input": "---\ntitle: T\nconfig:\n  a: 1\n---\npie\n  \"A\" : abc",
+    "out": "{\"text\":\"pie\\n  \\\"A\\\" : abc\",\"title\":\"T\",\"config\":{\"a\":1},\"withComments\":\"pie\\n  \\\"A\\\" : abc\",\"lineOffset\":5}"
+  },
+  {
+    "name": "fm-then-comments",
+    "input": "---\ntitle: T\n---\n%% c\npie",
+    "out": "{\"text\":\"pie\",\"title\":\"T\",\"config\":{},\"withComments\":\"%% c\\npie\",\"lineOffset\":3}"
+  },
+  {
+    "name": "fm-error-flow",
+    "input": "---\nconfig: [\n---\npie\n\"a\": 1",
+    "out": "{\"throws\":\"PeleError\",\"message\":\"Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection\",\"code\":\"syntax\",\"line\":0}"
+  },
+  {
+    "name": "fm-error-tab",
+    "input": "---\n\ta: 1\n---\npie",
+    "out": "{\"throws\":\"PeleError\",\"message\":\"Front matter is not valid YAML. YAML: tabs are not allowed for indentation\",\"code\":\"syntax\",\"line\":0}"
+  },
+  {
+    "name": "fm-error-code-point-nan",
+    "input": "---\ntitle: \"\\uZZZZ\"\n---\npie",
+    "out": "{\"throws\":\"PeleError\",\"message\":\"Front matter is not valid YAML. Invalid code point NaN\",\"code\":\"syntax\",\"line\":0}"
+  },
+  {
+    "name": "fm-error-code-point-high",
+    "input": "---\ntitle: \"\\U00110000\"\n---\npie",
+    "out": "{\"throws\":\"PeleError\",\"message\":\"Front matter is not valid YAML. Invalid code point 1114112\",\"code\":\"syntax\",\"line\":0}"
+  },
+  {
+    "name": "fm-error-escape",
+    "input": "---\ntitle: \"\\q\"\n---\npie",
+    "out": "{\"throws\":\"PeleError\",\"message\":\"Front matter is not valid YAML. YAML: unknown escape sequence\",\"code\":\"syntax\",\"line\":0}"
+  },
+  {
+    "name": "fm-error-end",
+    "input": "---\na: 1\n-b\n---\npie",
+    "out": "{\"throws\":\"PeleError\",\"message\":\"Front matter is not valid YAML. YAML: can not read a block mapping entry\",\"code\":\"syntax\",\"line\":0}"
   }
 ]

@@ -81,7 +81,9 @@ public class PeleCoreTests
 
     static string PreprocessJson(string input)
     {
-        var p = Pele.Preprocess.Run(input);
+        Preprocessed p;
+        try { p = Pele.Preprocess.Run(input); }
+        catch (PeleException e) { return Js.Stringify(Try(() => throw e)); }
         var o = new JsonObject { ["text"] = p.Text };
         if (p.Title is not null) o["title"] = p.Title;
         o["config"] = V8Order(p.Config);
@@ -94,6 +96,43 @@ public class PeleCoreTests
     public void Preprocess_matches_V8()
     {
         AllMatch(A(Load("pele-preprocess.json")).Select(r => (S(r!["name"]), S(r["out"]), PreprocessJson(S(r["input"])))), 60);
+    }
+
+    // The capture's yamlEnc: every number as {num} (Infinity, NaN and -0 survive), keys in V8 order.
+    static JsonNode? YamlEnc(JsonNode? node) => V8Order(node) switch
+    {
+        JsonObject o => new JsonObject(o.Select(kv => KeyValuePair.Create(kv.Key, YamlEnc(kv.Value?.DeepClone())))),
+        JsonArray a => new JsonArray([.. a.Select(x => YamlEnc(x?.DeepClone()))]),
+        JsonValue v when v.GetValueKind() == System.Text.Json.JsonValueKind.Number => new JsonObject { ["num"] = NumIn(v.D()) },
+        var other => other,
+    };
+    static string NumIn(double d) => d == 0 && double.IsNegative(d) ? "-0" : Js.Num(d);
+
+    [Fact]
+    public void Yaml_matches_V8()
+    {
+        AllMatch(A(Load("pele-yaml.json")).Select(r =>
+        {
+            var src = S(r![0]);
+            string got;
+            try { got = Js.Stringify(YamlEnc(Pele.Yaml.Parse(src))); }
+            catch (Pele.Yaml.YamlError e) { got = Js.Stringify(new JsonObject { ["error"] = e.Message }); }
+            return (Q(src), S(r[1]), got);
+        }), 330);
+    }
+
+    // Front-matter config keeps .inf, -.inf, .nan and -0 as doubles (later chart code tests `typeof === 'number'`); the
+    // JSON.stringify golden shows them only as null and 0.
+    [Fact]
+    public void Front_matter_config_keeps_non_finite_numbers_and_negative_zero()
+    {
+        var c = Pele.Preprocess.Run("---\nconfig:\n  a: .inf\n  b: -.inf\n  c: .nan\n  d: -0\n  n:\n    e: [.NaN]\n---\npie").Config;
+        static double Num(JsonNode? n) { Assert.Equal(System.Text.Json.JsonValueKind.Number, n!.GetValueKind()); return n.D(); }
+        Assert.Equal(double.PositiveInfinity, Num(c["a"]));
+        Assert.Equal(double.NegativeInfinity, Num(c["b"]));
+        Assert.True(double.IsNaN(Num(c["c"])));
+        Assert.True(Num(c["d"]) == 0 && double.IsNegative(Num(c["d"])));
+        Assert.True(double.IsNaN(Num(c["n"]!["e"]![0])));
     }
 
     // Deviation (PORT-008 Task 11): V8 merges a directive nested 300 levels deep; the port's JSON depth cap (256) ignores it.

@@ -8,6 +8,7 @@
 export { detect } from 'C:/projects/pele/src/detect.ts';
 export { PeleError, locate, syntaxError } from 'C:/projects/pele/src/errors.ts';
 export { preprocess, encodeEntities, cleanupComments } from 'C:/projects/pele/src/preprocess.ts';
+export { parseYaml } from 'C:/projects/pele/src/util/yaml.ts';
 export { decodeEntities } from 'C:/projects/pele/src/text/entities.ts';
 export { metricsMeasurer } from 'C:/projects/pele/src/text/measurer.ts';
 export { layoutLabel } from 'C:/projects/pele/src/text/label.ts';

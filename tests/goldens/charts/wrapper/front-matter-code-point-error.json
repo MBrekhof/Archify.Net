@@ -1,0 +1,8 @@
+{
+  "thrown": {
+    "name": "PeleError",
+    "message": "Front matter is not valid YAML. Invalid code point NaN",
+    "code": "syntax",
+    "line": 0
+  }
+}

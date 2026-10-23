@@ -188,12 +188,25 @@ public static partial class Js
         if (t.Length > 2 && t[0] == '0' && (t[1] | 0x20) is 'x' or 'b' or 'o')
         {
             var radix = (t[1] | 0x20) switch { 'x' => 16, 'b' => 2, _ => 8 };
-            double acc = 0;
+            var acc = BigInteger.Zero;
             foreach (var c in t[2..]) { var d = c is >= '0' and <= '9' ? c - '0' : c is >= 'a' and <= 'z' ? c - 'a' + 10 : c is >= 'A' and <= 'Z' ? c - 'A' + 10 : 99; if (d >= radix) return double.NaN; acc = acc * radix + d; }
-            return acc;
+            return RoundToDouble(acc);
         }
         var (value, length) = DecimalPrefix(t);
         return length == t.Length ? value : double.NaN;         // whole string must be a StrDecimalLiteral
+    }
+    // A non-negative integer to the nearest double, ties to even: V8's Number('0x…') above 2^53 (a double accumulator rounds
+    // at every digit; 6% of random 54-96 bit literals came out 1 ulp off, PORT-008 Task 4).
+    static double RoundToDouble(BigInteger v)
+    {
+        var bits = (int)v.GetBitLength();
+        if (bits <= 53) return (long)v;
+        var shift = bits - 54;                                  // keep 53 bits and the rounding bit
+        var top = (long)(v >> shift);
+        var sticky = !(v & ((BigInteger.One << shift) - 1)).IsZero;
+        var mant = top >> 1;
+        if ((top & 1) == 1 && (sticky || (mant & 1) == 1)) mant++;
+        return Math.ScaleB(mant, shift + 1);                    // exact; past double.MaxValue it is Infinity, as in V8
     }
     public static double ParseFloat(string s)
     {

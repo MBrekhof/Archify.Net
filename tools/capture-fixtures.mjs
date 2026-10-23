@@ -2156,9 +2156,103 @@ const pelePreIn = [
   ['html-after-last', '<x a="1"> <y b="2"'], ['html-empty-attr', '<x a="">'], ['html-crlf', '<x\r\na="1">\r\n'],
   ['dashes-not-front-matter', 'pie\n---\n"a":1'], ['dashes-glued', '---pie'], ['dashes-unclosed', '---\npie'], ['empty', ''],
 ];
-write('fixtures/js/pele-preprocess.json', pelePreIn.map(([name, input]) => {
+// Front matter (Task 4): title truthiness then String() (preprocess.ts:156), config merge, displayMode, the line shift, and
+// thrown YAML errors wrapped as "Front matter is not valid YAML. ..." (a peleTry row).
+const fm = (yaml, rest = 'pie') => `---\n${yaml}\n---\n${rest}`;
+pelePreIn.push(
+  ['fm-title', fm('title: Hello  world')], ['fm-title-array', fm('title: [1, 2]')], ['fm-title-object', fm('title: {}')],
+  ['fm-title-zero', fm('title: 0')], ['fm-title-empty', fm('title: ""')], ['fm-title-false', fm('title: false')],
+  ['fm-title-null', fm('title: null')], ['fm-title-nan', fm('title: .nan')], ['fm-title-neg-zero', fm('title: -0')],
+  ['fm-title-inf', fm('title: .inf')], ['fm-title-float', fm('title: 1.50')], ['fm-title-true', fm('title: true')],
+  ['fm-title-nested-array', fm('title: [null, [1, [2]], ~, "x"]')], ['fm-title-block', fm('title: |\n  two\n  lines')],
+  ['fm-title-dup', fm('title: a\ntitle: b')],
+  ['fm-config', fm('config:\n  pie:\n    textPosition: 0.5\n  theme: dark')], ['fm-config-scalar', fm('config: 5')],
+  ['fm-config-array', fm('config: [1]')], ['fm-config-unsafe', fm('config:\n  __proto__:\n    a: 1\n  constructor: 1\n  ok:\n    prototype: 2\n    b: 3')],
+  ['fm-config-numbers', fm('config:\n  a: .inf\n  b: -.inf\n  c: .nan\n  d: -0\n  e: 0x10')],
+  ['fm-config-then-directive', fm('config:\n  a:\n    x: 1\n  k: [1]', '%%{init: {"a": {"y": 2}, "k": {"q": 1}}}%%\npie')],
+  ['fm-config-xychart', fm('config:\n  xyChart:\n    useMaxWidth: false', 'xychart-beta\n  bar [1]')],
+  ['fm-display-mode', fm('displayMode: compact')], ['fm-display-mode-merge', fm('displayMode: compact\nconfig:\n  gantt:\n    x: 1')],
+  ['fm-display-mode-replace', fm('config:\n  gantt: 5\ndisplayMode: [a, b]')], ['fm-display-mode-falsy', fm('displayMode: 0')],
+  ['fm-top-sequence', fm('- a\n- b')], ['fm-top-scalar', fm('plain')], ['fm-empty', '---\n\n---\npie'], ['fm-comment-only', fm('# c')],
+  ['fm-indented', '  ---\n  title: T\n  config:\n    a: 1\n  ---\npie'], ['fm-crlf', '---\r\ntitle: T\r\n---\r\npie'],
+  ['fm-line-shift', fm('title: T\nconfig:\n  a: 1', 'pie\n  "A" : abc')], ['fm-then-comments', fm('title: T', '%% c\npie')],
+  ['fm-error-flow', fm('config: [', 'pie\n"a": 1')], ['fm-error-tab', fm('\ta: 1')], ['fm-error-code-point-nan', fm('title: "\\uZZZZ"')],
+  ['fm-error-code-point-high', fm('title: "\\U00110000"')], ['fm-error-escape', fm('title: "\\q"')], ['fm-error-end', fm('a: 1\n-b')],
+);
+write('fixtures/js/pele-preprocess.json', pelePreIn.map(([name, input]) => ({ name, input, out: JSON.stringify(peleTry(() => {
   const { text, title, config, withComments, lineOffset } = P.preprocess(input);
-  return { name, input, out: JSON.stringify({ text, title, config, withComments, lineOffset }) };
+  return { text, title, config, withComments, lineOffset };
+})) })));
+
+// util/yaml.ts parseYaml (Task 4). Numbers are written as {num} so that Infinity, NaN and -0 survive JSON; an error is
+// {error: message} (preprocess.ts wraps any error's message, so the class is not recorded).
+const yamlEnc = (v) => JSON.stringify(v, (_k, x) => (typeof x === 'number' ? { num: peleNumIn(x) } : x));
+const yamlNest = (n, open, close, leaf = '1') => open.repeat(n) + leaf + close.repeat(n);
+const yamlKeys = (n) => Array.from({ length: n }, (_, i) => ' '.repeat(i) + 'k:').join('\n') + ' 1';
+const yamlSeqs = (n) => Array.from({ length: n }, (_, i) => ' '.repeat(i) + '-').join('\n') + ' 1';
+const peleYamlIn = [
+  // scalars
+  'a: 1', 'a: -0', 'a: +1', 'a: 01', 'a: 1.', 'a: .5', 'a: +.5', 'a: -.5e1', 'a: 1e3', 'a: 1E400', 'a: -1e400', 'a: 1.5e-3', 'a: 5e-324',
+  'a: 123456789012345678901234567890', 'a: 0x1F', 'a: -0x1F', 'a: +0x1f', 'a: 0x0', 'a: -0x0', 'a: 0x1FFFFFFFFFFFFF', 'a: 0o17',
+  'a: -0o17', 'a: 0o8', 'a: 0b101', 'a: -0b0', 'a: 0X1F', 'a: 0B1',
+  // past 2^53 Number() rounds once, ties to even (Js.ToNumber used to round at every digit)
+  'a: 0xa3f71d68be3994e', 'a: 0x3ec1d1793b7c69d9f', 'a: -0x2484978515ef1d42', 'a: 0x20000000000001', 'a: 0x20000000000003',
+  'a: 0x2000000000000100000000001', 'a: 0o7777777777777777777777777777', 'a: 0b' + '10'.repeat(40), 'a: 0x' + 'f'.repeat(256),
+  'a: 0x' + 'f'.repeat(255), 'a: [0x' + 'f'.repeat(13) + '8' + '0'.repeat(242) + ', 0x' + 'f'.repeat(13) + '7' + 'f'.repeat(242) + ', 0x' + 'f'.repeat(13) + 'c' + '0'.repeat(242) + ', 0x' + 'f'.repeat(13) + 'b' + 'f'.repeat(242) + ']', 'a: .inf', 'a: -.Inf', 'a: +.INF', 'a: .iNf', 'a: .nan', 'a: .NaN',
+  'a: .NAN', 'a: -.nan', 'a: ~', 'a: null', 'a: Null', 'a: NULL', 'a: nUll', 'a: true', 'a: True', 'a: TRUE', 'a: tRUE', 'a: false',
+  'a: False', 'a: FALSE', 'a: yes', 'a: 1_000', 'a: 12:30', 'a: 1,2', 'a:', 'a: # c', 'a: x # c', 'a: x#c', 'a: "x # c"', 'a:  spaced  out  ',
+  'a: 1 2', 'a: -', 'a: - x', 'a: \u00A0x\u00A0', 'a: \uFEFF1', 'a: x\u2028y',
+  // documents
+  '', '   ', '\n\n', '# only a comment', '---', '...', 'a: 1\n...', 'a: 1\n...\nb: 2', 'a: 1\n---\nb: 2', 'plain', 'plain # c', '"quoted"',
+  "'single'", '42', '- a\n- b', '[1, 2]', '{a: 1}', '{a: 1} x', '{a: 1}\nb: 2', '[1] # c', '[1]\n# c', '  {a: 1}  ', '[1,\n2]', '{a: [1, 2]',
+  '[1, 2', 'a\nb', '  a: 1', '  a: 1\nb: 2', 'a: 1\r\nb: 2\r', 'a: 1\rb: 2',
+  // block mappings
+  'a: 1\nb: 2', 'a:\n  b: 1\n  c: 2', 'a:\n  b:\n    c: 1', 'a:\n- 1\n- 2', 'a:\n  - 1\n  - 2', 'a: 1\n  b: 2', 'a:\n  b: 1\n c: 2',
+  'a: 1\nb', 'a: 1\na: 2', 'a:\n  x: 1\na: 2', 'a: 1\nb: 2\na: 3', '"a b": 1', "'it''s': 1", '"a\\tb": 1', '"a": 1', 'a : 1', 'a:1',
+  'a:b: c', 'x: a:1', 'a#b: 1', 'a #b: 1', '__proto__: 1', '__proto__:\n  a: 1', '1: a\n2: b\nz: c\n0: d', 'null: 1', '~: 1', 'true: 1',
+  '1.0: x', '.inf: x', '0x10: x', '[a]: 1', '{a: 1}: 2', '"a": 1\n"b"', '"a" : 1', '"a":1', '"a\\": 1', "'a'b': 1", '-x: 1', '- : 1',
+  'a: 1 # c\nb: 2', 'a:\n\n\n  b: 1', 'a:\n# c\n  b: 1', 'a:\nb:', 'a:\n  # only comment\nb: 1', 'a:\n---\n  b: 1', 'k: v\n  # x\n  w',
+  'a\u00A0: 1', 'a\t: 1', 'a:\tb', 'a: \tb',
+  // tabs
+  'a:\n\tb: 1', '\ta: 1', 'a:\n  b: 1\n\tc: 2', '- \t- a', 'a:\n  \tb: 1',
+  // sequences
+  '- a\n-b', '- a\n  - b', '- a: 1\n  b: 2', '- - a\n  - b', '-\n  a: 1', '- \n- x', '-', '- # c\n  a: 1', '- a\n\n- b', '- a\n  b',
+  '-  a: 1\n   b: 2', '- [1, 2]\n- {a: 1}', '- "x"\n- \'y\'', '- |\n  text\n- b', 'a:\n- 1\nb: 2', 'a:\n  - 1\n - 2', '- a: 1\n- b: 2',
+  '- a:\n    b: 1', '-\ta', '- a # c\n- b',
+  // block scalars
+  'a: |\n  line1\n  line2\n', 'a: |-\n  x\n\n', 'a: |+\n  x\n\n\nb: 1', 'a: |\n  x\n\n\n', 'a: >\n  folded\n  text\n\n  para\n    indented\n  back',
+  'a: |2\n    two extra', 'a: |1\n  x', 'a: | # comment-x\n  y', 'a: | # 3\n     y', 'a: >-\n', 'a: |\nb: 1', 'a: |+\n\n\n', 'a: |x', 'a: |\n  x\n   y\n z',
+  'a: >\n  a\n\n\n  b', 'a: >\n\n  lead', 'a: >+\n  x\n\n', 'a: |-\n', 'a: >\n  a\n  \tb\n  c', '- >\n  x\n  y', 'a: |\n\tx', 'a: |\n  \u2028x',
+  'a: >\n  x  \n  y', 'a: | \u2028', 'a: |-+\n  x\n',
+  // multi-line plain
+  'a: one\n  two\n\n  three\nb: 1', 'a: one\n  # not comment\n  two', 'a: x\n\n\nb: 1', 'a: one\n  two # c\n  three', 'a: x\n\n  \n  y',
+  'a: one\n\n', '- one\n  two', 'a: x\n  - y',
+  // flow collections
+  'a: [1, 2, 3]', 'a: [1,2,]', 'a: [,1]', 'a: [1,,2]', 'a: [1 2]', 'a: [1 "b"]', 'a: {x: 1, y: [2, {z: 3}]}', 'a: {x}', 'a: {x: 1, x: 2}',
+  'a: {"x": 1}', 'a: {x:1}', 'a: {x: a:b}', 'a: [a:b, c: d]', 'a: [1, 2] # c', 'a: [1, 2] x', 'a: [1,\n  2,\n  3]', 'a: [1,\n2]\nb: 3',
+  'a: [1, 2', 'a: {x: 1', 'a: [\n  1, # c\n  2\n]', 'a: [a#b]', 'a: [a #b]', 'a: [{}, []]', 'a: []', 'a: {}', "a: ['x', 'it''s']", 'a: [1]]',
+  'a: {a: {b: {c: 1}}}', 'a: {,}', 'a: {x: 1,, y: 2}', 'a: {x: 1 y: 2}', 'a: {x: 1 "y": 2}', 'a: {: 1}', 'a: {]}', 'a: [}]', 'a: [:x]',
+  'a: {"a" "b"}', 'a: [\n1,\n2,\n3,\n4,\n5,\n6]\nb: 1', 'a: [\n1,\n2] x\nb: 1', 'a: [1\n,2]', 'a: {x: [1, 2]: 3}', 'a: [ ~, null, true ]',
+  'a: [.inf, -.nan, 0x1F, 1e400]', 'a: {1: a, 0x2: b, .inf: c, ~: d, [1, 2]: e, {}: f}', 'a: [1, 2]\n  b', 'a: {x: "y\n  z"}',
+  'a: [1, [2, [3]]]', 'a: { x : 1 , y : 2 }', 'a: {x:\n  1}', 'a: [a,b]#c', 'a: [a,b] #c', 'a: [\u00A01\u00A0]', 'a: [x\u2028y]',
+  'a: {x\u3000: 1}', 'a: [1]\n- 2', '[1]\n[2]', '{a: 1}\n{b: 2}', 'a: [#x\n1]', 'a: [1, #x\n2]',
+  // depth (MAX_DEPTH = 64)
+  yamlNest(64, '[', ']'), yamlNest(65, '[', ']'), yamlNest(66, '[', ']'), 'a: ' + yamlNest(64, '[', ']'), 'a: ' + yamlNest(65, '[', ']'),
+  yamlNest(64, '{a: ', '}'), yamlNest(65, '{a: ', '}'), yamlNest(66, '{a: ', '}'), 'a: ' + yamlNest(65, '{a: ', '}'),
+  yamlKeys(64), yamlKeys(65), yamlKeys(66), yamlKeys(67), yamlSeqs(64), yamlSeqs(65), yamlSeqs(66), yamlSeqs(67),
+  yamlKeys(66).replace(/ 1$/, ' ' + yamlNest(64, '[', ']')),
+  // quoted scalars and escapes (review M3)
+  'a: "\\0\\a\\b\\t\\n\\v\\f\\r\\e\\ \\"\\/\\\\\\N\\_\\L\\P"', 'a: "\\q"', 'a: "\\x41"', 'a: "\\x4"', 'a: "\\u41"', 'a: "\\u0041"',
+  'a: "\\U00000041"', 'a: "\\U0001F600"', 'a: "\\U0010FFFF"', 'a: "\\uD800"', 'a: "\\uDC00\\uD800"', 'a: "\\uD83D\\uDE00"', 'a: "\\uZZZZ"',
+  'a: "\\U00110000"', 'a: "\\x"', 'a: "\\u"', 'a: "\\U"', 'a: "\\u-041"', 'a: "\\U-0000001"', 'a: "\\u0x41"', 'a: "\\u 41 "',
+  'a: "\\U0000004G"', 'a: "\\x4G"', 'a: "\\xG4"', 'a: "\\U+0000041"', 'a: "\\u00e9x"', 'a: "\\xffz"', 'a: "\\U7FFFFFFF"', 'a: "\\uFFFF"',
+  'a: "\\x-0"', 'a: "\\t"x', 'a: "one \\\n   two"', 'a: "x\n  y"', 'a: "x\n\n  y"', 'a: "a\\\\\n b"', 'a: "unterminated', 'a: "x" y',
+  'a: "x" # c', 'a: \'single\'', "a: 'x\n  y'", "a: 'unterminated", "a: 'a''b'", "a: 'a\\b'", "a: ''", 'a: ""', 'a: "\\\\"', 'a: "\\"',
+  'a: "x\\\n\n  y"', 'a: "  lead\n   trail  "', 'a: "x\t\n\ty"', "a: 'x\n\n\n  y'", 'a: "\\', '"\\uZZZZ"', '["\\U00110000"]',
+  'a: "\\u{41}"', 'a: "\u2028"', '"x"\n"y"', 'a: "x\n"\nb: 1', 'a: "x\ny"\nb: 1',
+];
+write('fixtures/js/pele-yaml.json', peleYamlIn.map((src) => {
+  try { return [src, yamlEnc(P.parseYaml(src))]; } catch (e) { return [src, JSON.stringify({ error: e.message })]; }
 }));
 // Nesting past the port's JSON depth cap (a stated deviation): Node merges it; the port ignores the directive.
 const peleDeep = P.preprocess(`%%{init: ${peleNest(300)}}%%\npie`);

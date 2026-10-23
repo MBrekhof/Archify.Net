@@ -1476,6 +1476,7 @@ export {
   locate,
   metricsMeasurer,
   num,
+  parseYaml,
   preprocess,
   resolveStyle,
   seriesColor,

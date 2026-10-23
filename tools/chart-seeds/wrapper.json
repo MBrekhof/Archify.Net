@@ -70,5 +70,21 @@
   {
     "name": "archify-pie-showdata",
     "text": "pie showData\n  \"Viewer\" : 0.8\n  \"字体\" : 0.2"
+  },
+  {
+    "name": "front-matter-yaml-error",
+    "text": "---\nconfig: [\n---\npie\n  \"A\" : 1"
+  },
+  {
+    "name": "front-matter-code-point-error",
+    "text": "---\ntitle: \"\\uZZZZ\"\n---\npie\n  \"A\" : 1"
+  },
+  {
+    "name": "front-matter-use-max-width-false",
+    "text": "---\nconfig:\n  xyChart:\n    useMaxWidth: false\n---\nxychart-beta\n  x-axis [\"Before\", \"After\"]\n  bar [80, 600]"
+  },
+  {
+    "name": "front-matter-title-line-shift",
+    "text": "---\ntitle: Share\nconfig:\n  pie:\n    textPosition: 0.5\n---\npie\n  \"A\" : abc"
   }
 ]

@@ -152,10 +152,23 @@ internal static partial class Pele
             return new(CleanupComments(text), title, config, text, lineOffset);
         }
 
-        // preprocess.ts:149-162: parseYaml(body), its errors wrapped as "Front matter is not valid YAML. …", then `title`,
-        // `config` and `displayMode`. util/yaml.ts is ported in PORT-008 Task 4.
-        static string? FrontMatterYaml(string body, JsonObject config) =>
-            throw new NotImplementedException("Front-matter YAML lands in PORT-008 Task 4.");
+        // preprocess.ts:149-162: parseYaml(body), its errors wrapped as "Front matter is not valid YAML. …", then `title`
+        // (JS truthiness, then String()), `config` and `displayMode`.
+        static string? FrontMatterYaml(string body, JsonObject config)
+        {
+            JsonNode? parsed;
+            try { parsed = Yaml.Parse(body); }
+            catch (Yaml.YamlError error) { throw new PeleException($"Front matter is not valid YAML. {error.Message}", "syntax"); }
+            if (parsed is not JsonObject front) return null;
+            var title = front["title"].Truthy() ? Js.String(front["title"]) : null;
+            if (front["config"] is JsonObject frontConfig) Merge(config, frontConfig);
+            if (front["displayMode"].Truthy())
+            {
+                if (config["gantt"] is not JsonObject gantt) config["gantt"] = gantt = new JsonObject();
+                gantt["displayMode"] = Js.String(front["displayMode"]);
+            }
+            return title;
+        }
 
         // preprocess.ts:171-219.
         static readonly Regex ReEntity = new($"#{W}+;");
