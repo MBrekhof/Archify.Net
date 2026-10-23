@@ -13,8 +13,11 @@ every expected value; nothing here is hand-written output.
     `chartFromData(bytes, file, spec)`. Where `TextDecoder` (`fatal: true`) throws, the golden is `{"notUtf8": true}`: the
     message for that case is the caller's (`sources.mjs:311`, PORT-009).
 - `<type>.fuzz.json`: `{seed, count, fragments}`. The capture runs Pele's `random` and `mutator`
-  (`tests/support/corpus.ts:34-57`, copied verbatim into the capture script) over the group's own `text` seeds, and writes
-  all `count` results as one array.
+  (`tests/support/corpus.ts:34-57`, copied verbatim into the capture script) over the group's own `text` seeds of at most
+  2,000 characters (Pele's oracle compares only inputs up to that length), and writes all `count` results as one array.
+  `seed` is `0x5EED0000` plus the type's index in charts.mjs's register order (`CHART_TYPES` in the capture: pie 0,
+  xychart 1, quadrantChart 2, sankey 3, radar 4, venn 5), and `fragments` is the type's `FRAGMENTS` from Pele's
+  `tests/<type>/oracle.test.ts`. The capture refuses any other seed.
 
 Goldens:
 
@@ -36,7 +39,14 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
 
 - `data`: every `chartFromData` branch (Task 2).
 - `wrapper`: the `NATIVE` redirects, undetected and unsupported text, and archify's `test/explainer-charts.test.mjs`
-  inputs. It is seeded and minted now, and compared from Task 5, because its outputs need pie and xychart.
+  inputs. Compared from Task 5; its xychart rows wait in `PendingUntil["xychart"]`, and `native-treeview` is the
+  UPSTREAM-003 deviation (the port redirects `treeView-beta`).
+- `<type>` (`pie`, then one per type task): archify's inputs for the type, Pele's `tests/corpus/<type>-docs.json`
+  verbatim, the inputs of Pele's `tests/compat/<type>/*` and `tests/render/<type>*.test.ts` (each `name` says which), and
+  the type's own edge cases. The capture refuses a type group that has no drawn result or no error result.
+
+Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
+Mermaid, also MIT, as their file headers say).
 
 `data.json` is generated from readable literals, so its `name`s carry the meaning. To add a data seed, base64 the file's
 bytes, for example `Buffer.from(text).toString('base64')`.

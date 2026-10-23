@@ -1,13 +1,76 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 
 namespace Archify.Net;
 
 // archify 3.2.0 explainer/charts.mjs: compileExplainerChart (Compile, PORT-008 Task 5) and chartFromData (FromData).
 internal static class ExplainerCharts
 {
-    public static ChartResult Compile(string text) => throw new NotImplementedException("compileExplainerChart lands in PORT-008 Task 5.");
+    // charts.mjs:11. UPSTREAM-003 fixed: upstream keys `treeview`, which Pele's detector never returns (PORT-008 Task 11).
+    static readonly Dictionary<string, string> Native = new(StringComparer.Ordinal)
+    {
+        ["flowchart"] = "workflow or architecture", ["sequence"] = "sequence", ["class"] = "class", ["er"] = "erd", ["state"] = "lifecycle",
+        ["timeline"] = "timeline", ["gantt"] = "timeline or waterfall", ["mindmap"] = "tree", ["treeView"] = "tree",
+    };
+    const string Supported = "pie, xychart-beta (bar and line), quadrantChart, sankey-beta, radar-beta or venn-beta";
+    const string Example = "pie title Share\n  \"A\" : 60\n  \"B\" : 40";
+
+    // charts.mjs:23-37. detectType runs outside the try, so a front-matter PeleException propagates (review B1).
+    public static ChartResult Compile(string text)
+    {
+        var type = Pele.DetectType(text);
+        if (type is not null && Native.TryGetValue(type, out var native))
+        {
+            return new(null, null, null, null, $"Mermaid {type} is drawn with the native {native} shorthand, which Archify validates and lets readers explore.",
+                null, $"@{native.Split(' ')[0]} id=...");
+        }
+        try
+        {
+            var config = new JsonObject
+            {
+                ["xyChart"] = new JsonObject { ["width"] = 480, ["height"] = 260, ["showDataLabel"] = true },
+                ["quadrantChart"] = new JsonObject { ["chartWidth"] = 400, ["chartHeight"] = 400 },
+            };
+            var result = Pele.Render(PieLegend(text), new PeleOptions(8, 13, false, false, config));
+            return new(UprightHanTitles(result.Svg), result.Width, result.Height, result.Type, null, null, null);
+        }
+        catch (PeleException error)
+        {
+            return new(null, null, null, null, error.Code == "unsupported-diagram" ? $"A chart fence supports {Supported}." : error.Message.Split('\n')[0],
+                error.Line ?? 0, Example);
+        }
+    }
+
+    // pieLegend (charts.mjs:15-20): "Label · value (share%)" in place of Pele's "Label [value]". It runs on the raw text, so the
+    // multiline anchors also stand at \r, U+2028 and U+2029, and \s is JS's (review M6); \b and \d are ASCII.
+    const string Ws = Js.WsClass;
+    static readonly Regex RePie = new($@"\A{Ws}*pie(?![A-Za-z0-9_])");
+    static readonly Regex ReShowData = new($@"\A({Ws}*pie){Ws}+showData(?![A-Za-z0-9_])");
+    static readonly Regex ReSlice = new($@"(?<=\A|[\n\r\u2028\u2029])({Ws}*)""((?:[^""\\]|\\[^\n\r\u2028\u2029])*)""{Ws}*:{Ws}*(-?[0-9]+(?:\.[0-9]+)?){Ws}*(?=[\n\r\u2028\u2029]|\z)");
+
+    internal static string PieLegend(string text)
+    {
+        if (!RePie.IsMatch(text)) return text;
+        double total = 0;
+        foreach (Match match in ReSlice.Matches(text)) total += Js.ToNumber(match.Groups[3].Value);
+        if (!(total > 0)) return text;
+        return ReSlice.Replace(ReShowData.Replace(text, match => match.Groups[1].Value, 1), match =>
+        {
+            var (indent, label, value) = (match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value);
+            var share = Js.Num(Js.Round(Js.ToNumber(value) / total * 100));
+            return $"{indent}\"{label} · {value}{(Js.HasHan(label) ? $"（{share}%）" : $" ({share}%)")}\" : {value}";
+        });
+    }
+
+    // charts.mjs:30: a rotated CJK axis title lies on its side; vertical writing keeps the characters upright. The pattern's
+    // `[^<]*\p{Script=Han}[^<]*` is the whole `[^<]*` run holding a Han code point, so the run is matched and then tested.
+    static readonly Regex ReRotated = new(@"<g transform=""translate\(([0-9.-]+),([0-9.-]+)\) rotate\(-90\)""><text x=""0"" y=""[0-9.-]+"" text-anchor=""middle"">([^<]*)</text></g>");
+
+    internal static string UprightHanTitles(string svg) => ReRotated.Replace(svg, match => Js.HasHan(match.Groups[3].Value)
+        ? $"<text x=\"{match.Groups[1].Value}\" y=\"{match.Groups[2].Value}\" text-anchor=\"middle\" writing-mode=\"vertical-rl\">{match.Groups[3].Value}</text>"
+        : match.Value);
 
     static readonly UTF8Encoding StrictUtf8 = new(false, true);
     // ponytail: JSON.parse nests without limit; the C# parse and Js.String recurse at about 1 KB of stack per level, so a
@@ -34,7 +97,7 @@ internal static class ExplainerCharts
         string text;
         try { text = StrictUtf8.GetString(bytes); }
         catch (DecoderFallbackException) { return new(null, null, true); }   // TextDecoder fatal: the caller's message (PORT-009)
-        for (var i = 0; i < 2 && text.StartsWith('﻿'); i++) text = text[1..];   // TextDecoder drops one BOM, the regex a second
+        for (var i = 0; i < 2 && text.StartsWith('\ufeff'); i++) text = text[1..];   // TextDecoder drops one BOM, the regex a second
         List<JsonObject> rows;
         if (IsJsonPath(filePath))
         {

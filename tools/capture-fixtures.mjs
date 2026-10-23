@@ -2020,10 +2020,13 @@ function peleMutator(corpus, fragments, rnd) {
 }
 fs.rmSync(out('goldens/charts'), { recursive: true, force: true });   // a renamed or removed seed leaves no stale golden
 const chartGroups = new Map();
+// charts.mjs:9 register order; a type's fuzz seed is 0x5EED0000 + its index here.
+const CHART_TYPES = ['pie', 'xychart', 'quadrantChart', 'sankey', 'radar', 'venn'];
 for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.json') && !f.endsWith('.fuzz.json')).sort()) {
   const group = f.slice(0, -'.json'.length);
   const seeds = JSON.parse(fs.readFileSync(path.join(CHART_SEEDS, f), 'utf8'));
   const names = new Set();
+  const results = [];
   for (const s of seeds) {
     // Golden file names: one per seed, unique ignoring case (Windows), and `fuzz` is the fuzz array's name.
     if (!/^[\w.-]+$/.test(s.name) || s.name === 'fuzz' || names.has(s.name.toLowerCase())) throw new Error(`${f}: bad or duplicate seed name ${JSON.stringify(s.name)}`);
@@ -2035,6 +2038,11 @@ for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.json') &&
       throw new Error(`wrapper/${s.name}: not a NATIVE redirect: ${JSON.stringify(result)}`);
     }
     write(`goldens/charts/${group}/${s.name}.json`, result);
+    results.push(result);
+  }
+  // A type group must reach both the drawing and the diagnostic path, so it cannot pass vacuously.
+  if (CHART_TYPES.includes(group) && !(results.some((r) => typeof r.svg === 'string') && results.some((r) => typeof r.error === 'string'))) {
+    throw new Error(`${f}: a chart type group needs at least one drawn and one error result`);
   }
   chartGroups.set(group, seeds);
 }
@@ -2042,8 +2050,12 @@ for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.json') &&
 for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.fuzz.json')).sort()) {
   const type = f.slice(0, -'.fuzz.json'.length);
   const { seed, count, fragments } = JSON.parse(fs.readFileSync(path.join(CHART_SEEDS, f), 'utf8'));
-  const corpus = (chartGroups.get(type) ?? []).filter((s) => typeof s.text === 'string').map((s) => s.text);
-  if (!corpus.length || !Number.isInteger(seed) || !Number.isInteger(count) || !fragments?.length) throw new Error(`${f}: needs ${type}.json text seeds, an integer seed and count, and fragments`);
+  // Seeds over 2,000 characters stay out of the corpus: Pele's oracle compares only inputs up to that length
+  // (tests/<type>/oracle.test.ts), and the oversized seeds have their own rows.
+  const corpus = (chartGroups.get(type) ?? []).filter((s) => typeof s.text === 'string' && s.text.length <= 2000).map((s) => s.text);
+  if (!corpus.length || CHART_TYPES.indexOf(type) < 0 || seed !== 0x5EED0000 + CHART_TYPES.indexOf(type) || !Number.isInteger(count) || !fragments?.length) {
+    throw new Error(`${f}: needs ${type}.json text seeds, seed 0x5EED0000 + its index in CHART_TYPES, an integer count, and fragments`);
+  }
   const next = peleMutator(corpus, fragments, peleRandom(seed));
   write(`goldens/charts/${type}/fuzz.json`, Array.from({ length: count }, () => { const input = next(); return { input, result: chartCompile(input) }; }));
 }

@@ -1,0 +1,6 @@
+{
+  "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-pie\" viewBox=\"0 0 256 256\" width=\"256\" height=\"256\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"pie\"><g class=\"pele-slices\" transform=\"translate(128,128)\" stroke=\"var(--_bg)\" stroke-width=\"1.5\" stroke-linejoin=\"round\"><circle class=\"pele-slice\" r=\"120\" fill=\"none\" stroke=\"var(--_b)\"/></g></svg>",
+  "width": 256,
+  "height": 256,
+  "type": "pie"
+}

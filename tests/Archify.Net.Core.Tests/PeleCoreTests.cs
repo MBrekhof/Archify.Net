@@ -250,10 +250,10 @@ public class PeleCoreTests
         Assert.Equal(S(fit["fitWidth"]), Pele.FitWidth.Fit(480, (plot, narrow) => $"{Js.Num(plot)}|{(narrow ? "true" : "false")}"));
     }
 
-    // core.ts parseSource/render with no diagram registered yet (the six types land in Tasks 5-10): the limits and the
-    // unsupported-diagram errors, as core.ts words them.
+    // core.ts parseSource/render: the limits and the unsupported-diagram errors, as core.ts words them. gitGraph is detected
+    // but archify never registers it.
     [Theory]
-    [InlineData("pie\n\"a\" : 1", "Diagram type \"pie\" is not supported yet.", "unsupported-diagram")]
+    [InlineData("gitGraph\n  commit", "Diagram type \"gitGraph\" is not supported yet.", "unsupported-diagram")]
     [InlineData("hello", "No diagram type detected for the given text.", "unsupported-diagram")]
     [InlineData("ﬂ°°1.5¶ß", "No diagram type detected for the given text.", "unsupported-diagram")]
     public void Render_reports_core_errors(string text, string message, string code)
@@ -265,9 +265,9 @@ public class PeleCoreTests
     [Fact]
     public void Render_limits_the_source_to_50000_characters()
     {
-        var e = Assert.Throws<PeleException>(() => Pele.Render("pie\n" + new string('x', 49_997), Options));
+        var e = Assert.Throws<PeleException>(() => Pele.Render("gitGraph\n" + new string('x', 49_992), Options));
         Assert.Equal(("Diagram source is longer than the limit of 50000 characters.", "limit"), (e.Message, e.Code));
-        var at = Assert.Throws<PeleException>(() => Pele.Render("pie\n" + new string('x', 49_996), Options));
-        Assert.Equal("Diagram type \"pie\" is not supported yet.", at.Message);
+        var at = Assert.Throws<PeleException>(() => Pele.Render("gitGraph\n" + new string('x', 49_991), Options));
+        Assert.Equal("Diagram type \"gitGraph\" is not supported yet.", at.Message);
     }
 }

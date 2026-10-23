@@ -1,0 +1,5 @@
+{
+  "error": "Diagram source is longer than the limit of 50000 characters.",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

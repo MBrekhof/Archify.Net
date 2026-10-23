@@ -6,12 +6,16 @@ namespace Archify.Net.Tests;
 // section). Seeds and layout: tools/chart-seeds/README.md.
 public class ChartParityTests
 {
-    // A group is compared once it is listed; each type task adds its own. "wrapper" needs pie and xychart (Task 5).
-    static readonly string[] Groups = ["data"];
-    // Rows whose golden needs a later task, filtered out of the theory data (xunit 2.9.3 has no dynamic skip).
-    static readonly HashSet<(string Group, string Name)> PendingUntil = [];
+    // A group is compared once it is listed; each type task adds its own.
+    static readonly string[] Groups = ["data", "wrapper", "pie"];
+    // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
+    // dynamic skip). The type's task removes its entry.
+    static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = new()
+    {
+        ["xychart"] = [("wrapper", "archify-xychart-before-after"), ("wrapper", "archify-xychart-cjk-axis"), ("wrapper", "front-matter-use-max-width-false")],
+    };
     // Rows that differ from Node by a stated deviation (PORT-008 Task 11, docs/deviations.md), each pinned by its own fact below.
-    static readonly HashSet<(string Group, string Name)> KnownDeviations = [("data", "json-deep-unread-column")];
+    static readonly HashSet<(string Group, string Name)> KnownDeviations = [("data", "json-deep-unread-column"), ("wrapper", "native-treeview")];
 
     public static TheoryData<string, string> Targets()
     {
@@ -21,7 +25,7 @@ public class ChartParityTests
             foreach (var seed in SeedsOf(group))
             {
                 var name = seed!["name"]!.GetValue<string>();
-                if (!PendingUntil.Contains((group, name)) && !KnownDeviations.Contains((group, name))) data.Add(group, name);
+                if (!PendingUntil.Values.Any(rows => rows.Contains((group, name))) && !KnownDeviations.Contains((group, name))) data.Add(group, name);
             }
             if (File.Exists(SeedFile($"{group}.fuzz.json"))) data.Add(group, "fuzz");   // the capture refuses a seed named "fuzz"
         }
@@ -45,6 +49,30 @@ public class ChartParityTests
     {
         Assert.Contains("\"text\": \"xychart-beta", Fixtures.Lf(Golden("data", "json-deep-unread-column")));
         Assert.Equal("{\n  \"error\": \"The data file is not valid JSON.\"\n}", Run(Seed("data", "json-deep-unread-column")));
+    }
+
+    // UPSTREAM-003: charts.mjs:11 keys NATIVE by `treeview`, but Pele detects `treeView`, so upstream never redirects a
+    // treeView-beta fence. The port keys it `treeView` (Martin, 2026-10-23) and redirects it like every other native type.
+    [Fact] public void TreeView_redirect_is_the_stated_deviation()
+    {
+        Assert.Contains("A chart fence supports", Fixtures.Lf(Golden("wrapper", "native-treeview")));
+        const string port = "{\n  \"error\": \"Mermaid treeView is drawn with the native tree shorthand, which Archify validates and lets readers explore.\",\n  \"example\": \"@tree id=...\"\n}";
+        Assert.Equal(port, Run(Seed("wrapper", "native-treeview")));
+        Assert.Equal(port, RunText("treeView-beta\n  a\n    b"));
+    }
+
+    // charts.mjs:30: a rotated axis title with a Han character is set upright; others are left alone. Node pins it through
+    // wrapper/archify-xychart-cjk-axis once xychart lands (Task 6).
+    [Fact] public void Rotated_han_title_is_written_vertically()
+    {
+        const string han = "<g transform=\"translate(12.5,-3) rotate(-90)\"><text x=\"0\" y=\"4.55\" text-anchor=\"middle\">延迟（毫秒）</text></g>";
+        const string latin = "<g transform=\"translate(12.5,-3) rotate(-90)\"><text x=\"0\" y=\"4.55\" text-anchor=\"middle\">Latency</text></g>";
+        Assert.Equal("<text x=\"12.5\" y=\"-3\" text-anchor=\"middle\" writing-mode=\"vertical-rl\">延迟（毫秒）</text>" + latin,
+            ExplainerCharts.UprightHanTitles(han + latin));
+        Assert.Equal("<text x=\"1\" y=\"2\" text-anchor=\"middle\" writing-mode=\"vertical-rl\">a\U00020000</text>",
+            ExplainerCharts.UprightHanTitles("<g transform=\"translate(1,2) rotate(-90)\"><text x=\"0\" y=\"0\" text-anchor=\"middle\">a\U00020000</text></g>"));
+        const string arabicDigits = "<g transform=\"translate(١,2) rotate(-90)\"><text x=\"0\" y=\"0\" text-anchor=\"middle\">汉</text></g>";
+        Assert.Equal(arabicDigits, ExplainerCharts.UprightHanTitles(arabicDigits));   // JS \d is ASCII
     }
 
     // The capture's thrown row for a front-matter YAML error, as Node wrote it (Task 4 seeds the real row in wrapper.json).
