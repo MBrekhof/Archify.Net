@@ -60,7 +60,11 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   (`coord-*`), label placement including the 300-point limit of the free-place search (`place-*`), and layout options
   (`opt-*`). `phantom-empty-quadrant-label`, `phantom-empty-point-label` and `stress-points` are the deviation where
   an empty label reserves no space (the port fixes it). The `-reference` and `-control` rows are the Node outputs that
-  the fixed placement is checked against.
+  the fixed placement is checked against. `quirk-*` rows, and the existing rows that `ChartParityTests.QuadrantQuirkRows`
+  names, are the Mermaid grammar slips the port fixes (Q1 the `[^}]%%` comment rule, Q2 the coordinate's unescaped
+  dot, Q3 keywords that fire anywhere). Each one's `-reference` row is the same input written so that Node already
+  reads it the corrected way. The `keyword-*` controls that are not in that list still equal Node. The fuzz cases that
+  differ for these reasons are listed by index in `FuzzDeviations`.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).

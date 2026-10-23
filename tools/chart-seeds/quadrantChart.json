@@ -1200,6 +1200,250 @@
     "text": "quadrantChart\n  P: [0.25, 0.5]\n  Q: [0.25, 0.4609375]"
   },
   {
+    "name": "quirk-comment-eats-char",
+    "text": "quadrantChart\n  quadrant-1 ab c%%x"
+  },
+  {
+    "name": "quirk-comment-eats-char-reference",
+    "text": "quadrantChart\n  quadrant-1 ab c %%x"
+  },
+  {
+    "name": "quirk-comment-eats-style-digit",
+    "text": "quadrantChart\n  A: [0.5, 0.5] radius: 5%%x"
+  },
+  {
+    "name": "quirk-comment-eats-style-digit-reference",
+    "text": "quadrantChart\n  A: [0.5, 0.5] radius: 5 %%x"
+  },
+  {
+    "name": "quirk-comment-brace-exempt",
+    "text": "quadrantChart\n  quadrant-1 x}%%y"
+  },
+  {
+    "name": "quirk-coordinate-hex",
+    "text": "quadrantChart\n  A: [0x1, 0.5]"
+  },
+  {
+    "name": "quirk-coordinate-exponent",
+    "text": "quadrantChart\n  A: [0e5, 0.5]"
+  },
+  {
+    "name": "quirk-coordinate-comma",
+    "text": "quadrantChart\n  A: [0,5, 0.5]"
+  },
+  {
+    "name": "quirk-coordinate-semicolon",
+    "text": "quadrantChart\n  A: [0.5, 0;5]"
+  },
+  {
+    "name": "quirk-coordinate-reference",
+    "text": "quadrantChart\n  A: [2, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-x-axis-name",
+    "text": "quadrantChart\n  x-axisy: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-x-axis-name-reference",
+    "text": "quadrantChart\n  \"x-axisy\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-y-axis-name",
+    "text": "quadrantChart\n  y-axis2: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-y-axis-name-reference",
+    "text": "quadrantChart\n  \"y-axis2\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-name",
+    "text": "quadrantChart\n  quadrant-1st: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-name-reference",
+    "text": "quadrantChart\n  \"quadrant-1st\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-chart-name",
+    "text": "quadrantChart\n  quadrantCharts: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-chart-name-reference",
+    "text": "quadrantChart\n  \"quadrantCharts\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-in-text",
+    "text": "quadrantChart\n  quadrant-2 my-axis x-axisfoo"
+  },
+  {
+    "name": "quirk-keyword-in-text-reference",
+    "text": "quadrantChart\n  quadrant-2 \"my-axis x-axisfoo\""
+  },
+  {
+    "name": "comment-glued-reference",
+    "text": "quadrantChart\n  A: [0.5, 0.5]x %%y\n  B: [0.2, 0.2]"
+  },
+  {
+    "name": "stress-comment-markers-reference",
+    "text": "quadrantChart\na %%a%%a%%"
+  },
+  {
+    "name": "keyword-glued-reference",
+    "text": "quadrantChart:"
+  },
+  {
+    "name": "keyword-x-axis-glued-reference",
+    "text": "quadrantChart\n  \"x-axisfoo\" --> bar"
+  },
+  {
+    "name": "place-out-of-range-reference",
+    "text": "quadrantChart\nP0: [0.5, 0.5]\nP1: [0.5, 0.5]\nP2: [0.5, 0.5]\nP3: [0.5, 0.5]\nP4: [0.5, 0.5]\nP5: [0.5, 0.5]\nP6: [0.5, 0.5]\nP7: [0.5, 0.5]\nP8: [0.5, 0.5]\nP9: [0.5, 0.5]\nP10: [0.5, 0.5]\nP11: [0.5, 0.5]\nP12: [0.5, 0.5]\nP13: [0.5, 0.5]\nP14: [0.5, 0.5]\nP15: [0.5, 0.5]\nP16: [0.5, 0.5]\nP17: [0.5, 0.5]\nP18: [0.5, 0.5]\nP19: [0.5, 0.5]\nP20: [0.5, 0.5]\nP21: [0.5, 0.5]\nP22: [0.5, 0.5]\nP23: [0.5, 0.5]\nP24: [0.5, 0.5]\nP25: [0.5, 0.5]\nP26: [0.5, 0.5]\nP27: [0.5, 0.5]\nP28: [0.5, 0.5]\nP29: [0.5, 0.5]\nP30: [0.5, 0.5]\nP31: [0.5, 0.5]\nP32: [0.5, 0.5]\nP33: [0.5, 0.5]\nP34: [0.5, 0.5]\nP35: [0.5, 0.5]\nP36: [0.5, 0.5]\nP37: [0.5, 0.5]\nP38: [0.5, 0.5]\nP39: [0.5, 0.5]\nP40: [0.5, 0.5]\nP41: [0.5, 0.5]\nP42: [0.5, 0.5]\nP43: [0.5, 0.5]\nP44: [0.5, 0.5]\nP45: [0.5, 0.5]\nP46: [0.5, 0.5]\nP47: [0.5, 0.5]\nP48: [0.5, 0.5]\nP49: [0.5, 0.5]\nP50: [0.5, 0.5]\nP51: [0.5, 0.5]\nP52: [0.5, 0.5]\nP53: [0.5, 0.5]\nP54: [0.5, 0.5]\nP55: [0.5, 0.5]\nP56: [0.5, 0.5]\nP57: [0.5, 0.5]\nP58: [0.5, 0.5]\nP59: [0.5, 0.5]\nP60: [0.5, 0.5]\nP61: [0.5, 0.5]\nP62: [0.5, 0.5]\nP63: [0.5, 0.5]\nP64: [0.5, 0.5]\nP65: [0.5, 0.5]\nP66: [0.5, 0.5]\nP67: [0.5, 0.5]\nP68: [0.5, 0.5]\nP69: [0.5, 0.5]\nP70: [0.5, 0.5]\nP71: [0.5, 0.5]\nP72: [0.5, 0.5]\nP73: [0.5, 0.5]\nP74: [0.5, 0.5]\nP75: [0.5, 0.5]\nP76: [0.5, 0.5]\nP77: [0.5, 0.5]\nP78: [0.5, 0.5]\nP79: [0.5, 0.5]\nP80: [0.5, 0.5]\nP81: [0.5, 0.5]\nP82: [0.5, 0.5]\nP83: [0.5, 0.5]\nP84: [0.5, 0.5]\nP85: [0.5, 0.5]\nP86: [0.5, 0.5]\nP87: [0.5, 0.5]\nP88: [0.5, 0.5]\nP89: [0.5, 0.5]\nP90: [0.5, 0.5]\nP91: [0.5, 0.5]\nP92: [0.5, 0.5]\nP93: [0.5, 0.5]\nP94: [0.5, 0.5]\nP95: [0.5, 0.5]\nP96: [0.5, 0.5]\nP97: [0.5, 0.5]\nP98: [0.5, 0.5]\nP99: [0.5, 0.5]\nP100: [0.5, 0.5]\nP101: [0.5, 0.5]\nP102: [0.5, 0.5]\nP103: [0.5, 0.5]\nP104: [0.5, 0.5]\nP105: [0.5, 0.5]\nP106: [0.5, 0.5]\nP107: [0.5, 0.5]\nP108: [0.5, 0.5]\nP109: [0.5, 0.5]\nP110: [0.5, 0.5]\nP111: [0.5, 0.5]\nP112: [0.5, 0.5]\nP113: [0.5, 0.5]\nP114: [0.5, 0.5]\nP115: [0.5, 0.5]\nP116: [0.5, 0.5]\nP117: [0.5, 0.5]\nP118: [0.5, 0.5]\nP119: [0.5, 0.5]\nP120: [0.5, 0.5]\nP121: [0.5, 0.5]\nP122: [0.5, 0.5]\nP123: [0.5, 0.5]\nP124: [0.5, 0.5]\nP125: [0.5, 0.5]\nP126: [0.5, 0.5]\nP127: [0.5, 0.5]\nP128: [0.5, 0.5]\nP129: [0.5, 0.5]\nP130: [0.5, 0.5]\nP131: [0.5, 0.5]\nP132: [0.5, 0.5]\nP133: [0.5, 0.5]\nP134: [0.5, 0.5]\nP135: [0.5, 0.5]\nP136: [0.5, 0.5]\nP137: [0.5, 0.5]\nP138: [0.5, 0.5]\nP139: [0.5, 0.5]\nP140: [0.5, 0.5]\nP141: [0.5, 0.5]\nP142: [0.5, 0.5]\nP143: [0.5, 0.5]\nP144: [0.5, 0.5]\nP145: [0.5, 0.5]\nP146: [0.5, 0.5]\nP147: [0.5, 0.5]\nP148: [0.5, 0.5]\nP149: [0.5, 0.5]\nP150: [0.5, 0.5]\nP151: [0.5, 0.5]\nP152: [0.5, 0.5]\nP153: [0.5, 0.5]\nP154: [0.5, 0.5]\nP155: [0.5, 0.5]\nP156: [0.5, 0.5]\nP157: [0.5, 0.5]\nP158: [0.5, 0.5]\nP159: [0.5, 0.5]\nP160: [0.5, 0.5]\nP161: [0.5, 0.5]\nP162: [0.5, 0.5]\nP163: [0.5, 0.5]\nP164: [0.5, 0.5]\nP165: [0.5, 0.5]\nP166: [0.5, 0.5]\nP167: [0.5, 0.5]\nP168: [0.5, 0.5]\nP169: [0.5, 0.5]\nP170: [0.5, 0.5]\nP171: [0.5, 0.5]\nP172: [0.5, 0.5]\nP173: [0.5, 0.5]\nP174: [0.5, 0.5]\nP175: [0.5, 0.5]\nP176: [0.5, 0.5]\nP177: [0.5, 0.5]\nP178: [0.5, 0.5]\nP179: [0.5, 0.5]\nP180: [0.5, 0.5]\nP181: [0.5, 0.5]\nP182: [0.5, 0.5]\nP183: [0.5, 0.5]\nP184: [0.5, 0.5]\nP185: [0.5, 0.5]\nP186: [0.5, 0.5]\nP187: [0.5, 0.5]\nP188: [0.5, 0.5]\nP189: [0.5, 0.5]\nP190: [0.5, 0.5]\nP191: [0.5, 0.5]\nP192: [0.5, 0.5]\nP193: [0.5, 0.5]\nP194: [0.5, 0.5]\nP195: [0.5, 0.5]\nP196: [0.5, 0.5]\nP197: [0.5, 0.5]\nP198: [0.5, 0.5]\nP199: [0.5, 0.5]\nP200: [0.5, 0.5]\nP201: [0.5, 0.5]\nP202: [0.5, 0.5]\nP203: [0.5, 0.5]\nP204: [0.5, 0.5]\nP205: [0.5, 0.5]\nP206: [0.5, 0.5]\nP207: [0.5, 0.5]\nP208: [0.5, 0.5]\nP209: [0.5, 0.5]\nP210: [0.5, 0.5]\nP211: [0.5, 0.5]\nP212: [0.5, 0.5]\nP213: [0.5, 0.5]\nP214: [0.5, 0.5]\nP215: [0.5, 0.5]\nP216: [0.5, 0.5]\nP217: [0.5, 0.5]\nP218: [0.5, 0.5]\nP219: [0.5, 0.5]\nP220: [0.5, 0.5]\nP221: [0.5, 0.5]\nP222: [0.5, 0.5]\nP223: [0.5, 0.5]\nP224: [0.5, 0.5]\nP225: [0.5, 0.5]\nP226: [0.5, 0.5]\nP227: [0.5, 0.5]\nP228: [0.5, 0.5]\nP229: [0.5, 0.5]\nP230: [0.5, 0.5]\nP231: [0.5, 0.5]\nP232: [0.5, 0.5]\nP233: [0.5, 0.5]\nP234: [0.5, 0.5]\nP235: [0.5, 0.5]\nP236: [0.5, 0.5]\nP237: [0.5, 0.5]\nP238: [0.5, 0.5]\nP239: [0.5, 0.5]\nP240: [0.5, 0.5]\nP241: [0.5, 0.5]\nP242: [0.5, 0.5]\nP243: [0.5, 0.5]\nP244: [0.5, 0.5]\nP245: [0.5, 0.5]\nP246: [0.5, 0.5]\nP247: [0.5, 0.5]\nP248: [0.5, 0.5]\nP249: [0.5, 0.5]\nP250: [0.5, 0.5]\nP251: [0.5, 0.5]\nP252: [0.5, 0.5]\nP253: [0.5, 0.5]\nP254: [0.5, 0.5]\nP255: [0.5, 0.5]\nP256: [0.5, 0.5]\nP257: [0.5, 0.5]\nP258: [0.5, 0.5]\nP259: [0.5, 0.5]\nP260: [0.5, 0.5]\nP261: [0.5, 0.5]\nP262: [0.5, 0.5]\nP263: [0.5, 0.5]\nP264: [0.5, 0.5]\nP265: [0.5, 0.5]\nP266: [0.5, 0.5]\nP267: [0.5, 0.5]\nP268: [0.5, 0.5]\nP269: [0.5, 0.5]\nP270: [0.5, 0.5]\nP271: [0.5, 0.5]\nP272: [0.5, 0.5]\nP273: [0.5, 0.5]\nP274: [0.5, 0.5]\nP275: [0.5, 0.5]\nP276: [0.5, 0.5]\nP277: [0.5, 0.5]\nP278: [0.5, 0.5]\nP279: [0.5, 0.5]\nP280: [0.5, 0.5]\nP281: [0.5, 0.5]\nP282: [0.5, 0.5]\nP283: [0.5, 0.5]\nP284: [0.5, 0.5]\nP285: [0.5, 0.5]\nP286: [0.5, 0.5]\nP287: [0.5, 0.5]\nP288: [0.5, 0.5]\nP289: [0.5, 0.5]\nP290: [0.5, 0.5]\nP291: [0.5, 0.5]\nP292: [0.5, 0.5]\nP293: [0.5, 0.5]\nP294: [0.5, 0.5]\nP295: [0.5, 0.5]\nP296: [0.5, 0.5]\nP297: [0.5, 0.5]\nP298: [0.5, 0.5]\nP299: [0.5, 0.5]\nX: [2, 0.5]\n"
+  },
+  {
+    "name": "keyword-whole-word-in-text",
+    "text": "quadrantChart\n  quadrant-1 the x-axis of quadrant-2 ideas"
+  },
+  {
+    "name": "keyword-whole-word-in-text-reference",
+    "text": "quadrantChart\n  quadrant-1 \"the x-axis of quadrant-2 ideas\""
+  },
+  {
+    "name": "quirk-keyword-quadrant-1x",
+    "text": "quadrantChart\n  quadrant-1x: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-1x-reference",
+    "text": "quadrantChart\n  \"quadrant-1x\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-12",
+    "text": "quadrantChart\n  quadrant-12: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-12-reference",
+    "text": "quadrantChart\n  \"quadrant-12\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-quadrant",
+    "text": "quadrantChart\n  my-quadrant-1: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-quadrant-reference",
+    "text": "quadrantChart\n  \"my-quadrant-1\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-x-axis",
+    "text": "quadrantChart\n  Sub x-axis: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-x-axis-reference",
+    "text": "quadrantChart\n  \"Sub x-axis\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-classdef",
+    "text": "quadrantChart\n  My classDef: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-classdef-reference",
+    "text": "quadrantChart\n  \"My classDef\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-title-point",
+    "text": "quadrantChart\n  Title: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-title-point-reference",
+    "text": "quadrantChart\n  \"Title\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-acc-title-point",
+    "text": "quadrantChart\n  accTitle: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-acc-title-point-reference",
+    "text": "quadrantChart\n  \"accTitle\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-x-axis-point",
+    "text": "quadrantChart\n  x-axis: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-x-axis-point-reference",
+    "text": "quadrantChart\n  \"x-axis\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-point",
+    "text": "quadrantChart\n  quadrant-1 Plan: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-quadrant-point-reference",
+    "text": "quadrantChart\n  \"quadrant-1 Plan\": [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-keyword-mid-quadrant-text",
+    "text": "quadrantChart\n  quadrant-1 Move to quadrant-2"
+  },
+  {
+    "name": "quirk-keyword-mid-quadrant-text-reference",
+    "text": "quadrantChart\n  quadrant-1 \"Move to quadrant-2\""
+  },
+  {
+    "name": "quirk-keyword-mid-axis-text",
+    "text": "quadrantChart\n  x-axis my x-axis label"
+  },
+  {
+    "name": "quirk-keyword-mid-axis-text-reference",
+    "text": "quadrantChart\n  x-axis \"my x-axis label\""
+  },
+  {
+    "name": "quirk-keyword-quadrant-1st-text",
+    "text": "quadrantChart\n  quadrant-1st place"
+  },
+  {
+    "name": "quirk-keyword-quadrant-1st-text-reference",
+    "text": "quadrantChart\n  \"quadrant-1st place\""
+  },
+  {
+    "name": "keyword-acc-descr-block-point",
+    "text": "quadrantChart\n  accDescr { A: [0.5, 0.5] }\n  B: [0.2, 0.2]"
+  },
+  {
+    "name": "keyword-title-not-point",
+    "text": "quadrantChart\n  title My chart: a [draft]"
+  },
+  {
+    "name": "keyword-chart-then-point",
+    "text": "quadrantChart A: [0.5, 0.5]"
+  },
+  {
+    "name": "keyword-after-semicolon",
+    "text": "quadrantChart\n  A: [0.5, 0.5]; quadrant-1 q; x-axis a --> b"
+  },
+  {
+    "name": "keyword-title-semicolon-point",
+    "text": "quadrantChart\n  title T; A: [0.5, 0.5]"
+  },
+  {
+    "name": "quirk-comment-eats-after-dot",
+    "text": "quadrantChart\n  quadrant-1 a.b%%x"
+  },
+  {
+    "name": "quirk-comment-eats-after-dot-reference",
+    "text": "quadrantChart\n  quadrant-1 a.b %%x"
+  },
+  {
+    "name": "quirk-comment-eats-digit",
+    "text": "quadrantChart\n  quadrant-1 Plan 2%%x"
+  },
+  {
+    "name": "quirk-comment-eats-digit-reference",
+    "text": "quadrantChart\n  quadrant-1 Plan 2 %%x"
+  },
+  {
+    "name": "quirk-coordinate-y-hex",
+    "text": "quadrantChart\n  A: [0.5, 0x9]"
+  },
+  {
     "name": "opt-size-clamped",
     "text": "---\nconfig:\n  quadrantChart:\n    chartWidth: 50\n    chartHeight: 9000\n---\nquadrantChart\n  A: [0.5, 0.5]"
   },

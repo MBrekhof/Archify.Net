@@ -42,6 +42,9 @@ internal static partial class Pele
             var p = 0;
             // The last run scanned of each kind, so that a long run is not scanned again from each of its characters.
             int spaceFrom = 0, spaceTo = 0, dashFrom = 0, dashTo = 0, wsFrom = 0, wsTo = 0, gapFrom = 0, gapTo = 0;
+            // Deviation (PORT-008 Task 11, Q3): whether a statement starts here: at the start, after a line break, `;` or the
+            // chart keyword, with spaces between. Only there is a keyword a keyword.
+            var start = true;
 
             void Emit(int type, int s, int e)
             {
@@ -49,6 +52,7 @@ internal static partial class Pele
                 texts.Add(src[s..e]);
                 starts.Add(s);
                 p = e;
+                start = type is T.Newline or T.Semi or T.QuadrantChart || (type == T.Space && start);
             }
             void Push(int s)
             {
@@ -74,14 +78,43 @@ internal static partial class Pele
                 while (q < n && Chars.IsSpace(src[q])) q++;
                 return q;
             }
-            // Mermaid's `(1)|(0(.\d+)?)`, where the dot is any character within a line.
+            // Whether the statement from q is in point form: `: [x, y]` as the point rules read it, before the end of the line,
+            // a `;` or a comment, outside quotes. `Title: [0.5, 0.5]` is a point named Title; `title A: [draft]` is a title.
+            bool PointForm(int q)
+            {
+                for (var k = q; k < n; k++)
+                {
+                    int ch = src[k];
+                    if (ch is 10 or 13 or 59 || (ch == 37 && Chars.CharAt(src, k + 1) == 37)) return false;
+                    if (ch == 34)
+                    {
+                        k = Find(src, '"', k + 1);
+                        if (k == -1) return false;
+                    }
+                    else if (ch == 58 && Chars.CharAt(src, Run(k + 1)) == 91 && Pair(Run(Run(k + 1) + 1))) return true;
+                }
+                return false;
+            }
+            // `x, y]` from q, with the whitespace the point states allow.
+            bool Pair(int q)
+            {
+                var e = Coordinate(q);
+                if (e == -1 || Chars.CharAt(src, Run(e)) != 44) return false;
+                e = Coordinate(Run(Run(e) + 1));
+                return e != -1 && Chars.CharAt(src, Run(e)) == 93;
+            }
+            // A keyword at q leads a statement: a statement starts here and is not a point.
+            bool Lead(int q) => start && !PointForm(q);
+            // `(1)|(0(\.\d+)?)`. Deviation (PORT-008 Task 11): Mermaid's rule leaves the dot unescaped, so any character within a
+            // line counts as one: `0x1` reads as 1, `0e5` as 0, and `0,5` drops the point. Here the dot is a dot, and such input
+            // is a lexical error, as `[2, 0.5]` already is.
             int Coordinate(int q)
             {
                 var c = Chars.CharAt(src, q);
                 if (c == 49) return q + 1;
                 if (c != 48) return -1;
                 var e = q + 1;
-                if (e < n && !Chars.IsLineEnd(src[e]) && Chars.IsDigit(Chars.CharAt(src, e + 1)))
+                if (Chars.CharAt(src, e) == 46 && Chars.IsDigit(Chars.CharAt(src, e + 1)))
                 {
                     e += 2;
                     while (Chars.IsDigit(Chars.CharAt(src, e))) e++;
@@ -208,12 +241,9 @@ internal static partial class Pele
                     p = LineEnd(p + 2);
                     continue;
                 }
-                // Mermaid's second comment rule takes any character before `%%` with it, a line break included.
-                if (c != 125 && next == 37 && Chars.CharAt(src, p + 2) == 37)
-                {
-                    p = LineEnd(p + 3);
-                    continue;
-                }
+                // Deviation (PORT-008 Task 11): Mermaid's second comment rule `[^\}]\%\%[^\n]*` takes the character before `%%`
+                // with it (`ab c%%x` reads `ab`). It is dropped: that character is read by the rules below, and the `%%` then
+                // starts a comment by the rule above. `}` stays exempt, as nothing below reads it either.
                 if (c == 10 || c == 13)
                 {
                     var e = p + 1;
@@ -223,7 +253,7 @@ internal static partial class Pele
                 }
 
                 var lower = c | 32;
-                if (lower == 116 && Caseless.WordAt(src, p, "title") && !Chars.IsWord(Chars.CharAt(src, p + 5)))
+                if (lower == 116 && Caseless.WordAt(src, p, "title") && !Chars.IsWord(Chars.CharAt(src, p + 5)) && Lead(p))
                 {
                     Emit(T.Title, p, p + 5);
                     Push(STitle);
@@ -236,13 +266,13 @@ internal static partial class Pele
                     {
                         var k = Run(p + 8);
                         var d = Chars.CharAt(src, k);
-                        if (d == 58)
+                        if (d == 58 && Lead(p))
                         {
                             Emit(descr ? T.AccDescr : T.AccTitle, p, Run(k + 1));
                             Push(descr ? SAccDescr : SAccTitle);
                             continue;
                         }
-                        if (d == 123 && descr)
+                        if (d == 123 && descr && start)
                         {
                             p = Run(k + 1);
                             Push(SAccDescrMultiline);
@@ -267,12 +297,15 @@ internal static partial class Pele
                     var dl = d | 32;
                     var type = 0;
                     var end = 0;
-                    if (dl == 120 && Caseless.WordAt(src, j, "x-axis"))
+                    // Deviation (PORT-008 Task 11, Q3): Mermaid's axis, quadrant and chart keywords end anywhere (`x-axisy: [0.5,
+                    // 0.5]` is an axis statement, `quadrant-1st` a quadrant) and fire anywhere in a line. Here every keyword ends at
+                    // a word boundary, as `title` and `classDef` already do, and only leads a statement (`Lead`).
+                    if (dl == 120 && Caseless.WordAt(src, j, "x-axis") && !Chars.IsWord(Chars.CharAt(src, j + 6)) && Lead(j))
                     {
                         type = T.XAxis;
                         end = j + 6;
                     }
-                    else if (dl == 121 && Caseless.WordAt(src, j, "y-axis"))
+                    else if (dl == 121 && Caseless.WordAt(src, j, "y-axis") && !Chars.IsWord(Chars.CharAt(src, j + 6)) && Lead(j))
                     {
                         type = T.YAxis;
                         end = j + 6;
@@ -296,10 +329,14 @@ internal static partial class Pele
                         var q = Chars.CharAt(src, j + 9);
                         if (Chars.CharAt(src, j + 8) == 45 && q >= 49 && q <= 52)
                         {
-                            type = T.Quadrant1 + q - 49;
-                            end = j + 10;
+                            if (!Chars.IsWord(Chars.CharAt(src, j + 10)) && Lead(j))
+                            {
+                                type = T.Quadrant1 + q - 49;
+                                end = j + 10;
+                            }
                         }
-                        else if (Caseless.WordAt(src, j + 8, "chart"))
+                        // The chart keyword is not a point: `quadrantChart A: [0.5, 0.5]` is the chart and a point.
+                        else if (Caseless.WordAt(src, j + 8, "chart") && !Chars.IsWord(Chars.CharAt(src, j + 13)) && start)
                         {
                             type = T.QuadrantChart;
                             end = j + 13;
@@ -312,7 +349,7 @@ internal static partial class Pele
                     }
                 }
 
-                if (lower == 99 && Caseless.WordAt(src, p, "classdef") && !Chars.IsWord(Chars.CharAt(src, p + 8)))
+                if (lower == 99 && Caseless.WordAt(src, p, "classdef") && !Chars.IsWord(Chars.CharAt(src, p + 8)) && Lead(p))
                 {
                     Emit(T.ClassDef, p, p + 8);
                     continue;
