@@ -5,3 +5,5 @@
 upstream/**        -text
 tests/goldens/**   -text
 tests/fixtures/**  -text
+# The skill package is compared byte for byte with upstream's LF files (SkillPackageTests); autocrlf must not touch it.
+skill/**           -text

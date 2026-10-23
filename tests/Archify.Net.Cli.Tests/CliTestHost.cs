@@ -1,5 +1,3 @@
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Text;
 using System.Text.Json.Nodes;
 using Xunit;
@@ -73,15 +71,16 @@ public static class CliTestHost
     }
 
     // icacls <dir> /deny *S-1-1-0:(WD,AD): Everyone may not create files or subdirectories in this directory (not inherited). Owning
-    // the directory is enough; no elevation.
+    // the directory is enough; no elevation. icacls, not FileSystemAccessRule: when %TEMP% carries explicit ACEs (a sandbox tool
+    // added some), new directories inherit a non-canonical ACL that .NET refuses to modify; icacls reorders it.
     public static void DenyCreate(string directory)
     {
         if (!OperatingSystem.IsWindows()) throw new PlatformNotSupportedException("denyCreate is a Windows ACL");
-        var info = new DirectoryInfo(directory);
-        var security = info.GetAccessControl();
-        security.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null),
-            FileSystemRights.CreateFiles | FileSystemRights.CreateDirectories, AccessControlType.Deny));
-        info.SetAccessControl(security);
+        using var icacls = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("icacls", [directory, "/deny", "*S-1-1-0:(WD,AD)"])
+            { RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false })!;
+        var output = icacls.StandardOutput.ReadToEnd() + icacls.StandardError.ReadToEnd();
+        icacls.WaitForExit();
+        if (icacls.ExitCode != 0) throw new InvalidOperationException($"icacls exited {icacls.ExitCode}: {output}");
     }
 
     // Fixture names ("help/x") in a group, optionally only those whose file name starts with a prefix.
