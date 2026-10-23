@@ -1,0 +1,5 @@
+{
+  "error": "value for color x is invalid, please use a valid hex code",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

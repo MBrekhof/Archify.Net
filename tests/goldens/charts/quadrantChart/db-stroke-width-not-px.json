@@ -1,0 +1,5 @@
+{
+  "error": "value for stroke-width 30 is invalid, please use a valid number of pixels (eg. 10px)",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

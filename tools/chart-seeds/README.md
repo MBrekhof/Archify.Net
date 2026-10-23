@@ -51,6 +51,15 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   `BROKEN` fragment and the `oracle-5`/`oracle-6` seeds use the text of the grammar's broken markdown-string rule as
   `upstream/xychart.jison:51-53` reads it across its quotes (`pushState`, `MD_STR`); Pele's lexer matches it in any case.
 
+- `quadrantChart` (Task 7): archify's tests have no quadrant fence, so `archify-*` and `fm-quadrant-*` pin archify's own
+  `quadrantChart: {chartWidth: 400, chartHeight: 400}` and the front matter that replaces it. Beyond the list above:
+  `db-*` (the `parseStyles` calls of Pele's `quadrantDb.spec.ts` written as chart text), `oracle-*` (the corpus additions
+  of `tests/quadrant/oracle.test.ts`), `render-hostile-*` (each template of `quadrant-security.test.ts` with two of its
+  payloads), `render-extreme-*`, `stress-*` (the shapes of `tests/quadrant/stress.test.ts` at about 4,000 characters,
+  plus the limit case verbatim), every style-validation error of `quadrant/db.ts` (`style-*`, `class-*`), coordinates
+  (`coord-*`), label placement including the 300-point limit of the free-place search (`place-*`), and layout options
+  (`opt-*`).
+
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).
 

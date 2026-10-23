@@ -7,7 +7,7 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
     static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
