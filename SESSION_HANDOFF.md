@@ -1,8 +1,9 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-23: PORT-007 (re-pin to upstream archify 3.2.0, explainer excluded) is implemented and reviewed on branch
-`port-007-upstream-320`. It is **not merged or pushed yet**: Martin wants Gemini's whole-branch review first, and agy's Gemini
-quota is exhausted until about 2026-10-25. The PORT-008 plan (Pele charts in C#) is drafted and also waits on a Gemini review.
+Updated 2026-10-23: PORT-007 (re-pin to upstream archify 3.2.0, explainer excluded) is merged to master and pushed after a
+Fable whole-branch gate (agy's Gemini and Opus quotas were exhausted; Martin: "can you do the review yourself (fable)?").
+Martin's standing order for the rest of the arc: PORT-008, then PORT-009, each Fable-reviewed (plan and branch), then
+merge and push. No deploy.
 
 ## What this repo is
 
@@ -26,7 +27,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 
 - Card PORT-007 (CARD-2357). Plan: `docs/superpowers/plans/2026-10-22-port007-upstream-320.md`. Ledger with every ruling:
   `.superpowers/sdd/2026-10-22-port007-upstream-320/progress.md`.
-- Branch `port-007-upstream-320`, 10 commits from `a8d8cd5` (plan) to `4c8d38a` (branch-review fixes). The tasks:
+- Branch `port-007-upstream-320`, commits from `a8d8cd5` (plan) through `4c8d38a` (branch-review fixes) and the handoff after it. The tasks:
   - re-pin and re-mint;
   - timeline DST ticks and ms labels;
   - waterfall `timeNumber` and axis labels;
@@ -41,14 +42,9 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   - Tasks 2–3 were reviewed by agy (Gemini). Tasks 4–6 were reviewed by Claude subagents after the Gemini quota ran out.
     That fallback was Martin's choice, 2026-10-22.
   - A Claude whole-branch review gave "with fixes": 1 Important, 7 Minor, all fixed in `4c8d38a`.
+  - The Fable merge gate (2026-10-23) said "Ready to merge: Yes", 0 Critical/Important, 2 Minor, both fixed before the merge.
 - The explainer type and its files are excluded until PORT-009 (see `docs/deviations.md`, `upstream/UPSTREAM.md`).
-- **To finish:**
-  1. Run Gemini's whole-branch review on `git diff master...port-007-upstream-320`. The prompt is
-     `.superpowers/sdd/2026-10-22-port007-upstream-320/branch-review-prompt.md`; run it with agy as in the
-     `run-review.sh` next to it.
-  2. Settle the findings.
-  3. Fast-forward `master` and push (Martin authorised the push: "when finished commit and push").
-  4. Complete CARD-2357 with the SHAs.
+  `skill/archify/SKILL.md` keeps its 3.1.0 wording apart from the `--out-dir` sentences; PORT-009 re-derives it.
 
 ## PORT-008 (Pele charts in C#): planned
 

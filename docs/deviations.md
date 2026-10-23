@@ -4,7 +4,7 @@ Back to [`README.md`](../README.md).
 
 ## Core library, renderers and repository evidence
 
-- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is not ported until PORT-009 (the charts come first, in PORT-008). `upstream/` leaves out `schemas/explainer.schema.json`, `examples/delivery.explainer.json` and `references/explainer-authoring.md`, and `explainer` is an unknown diagram type.
+- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is not ported until PORT-009 (the charts come first, in PORT-008). `upstream/` leaves out `schemas/explainer.schema.json`, `examples/delivery.explainer.json` and `references/explainer-authoring.md`, and `explainer` is an unknown diagram type. `skill/archify/SKILL.md` keeps its 3.1.0 wording except the `--out-dir` sentences; PORT-009 re-derives it against 3.2.0.
 - `Check` throws `NotSupportedException` when `RequireProvenance` is set: provenance is checked by `archify check --require-provenance`.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
