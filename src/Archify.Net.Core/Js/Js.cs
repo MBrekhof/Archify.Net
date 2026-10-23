@@ -201,6 +201,25 @@ public static partial class Js
         var (value, length) = DecimalPrefix(t);
         return length == 0 ? double.NaN : value;
     }
+    // JS parseInt(s, radix): ES §19.2.5. Radix 0 means 10, or 16 after a 0x prefix; the longest digit prefix counts.
+    internal static double ParseInt(string s, int radix = 10)
+    {
+        var i = 0;
+        while (i < s.Length && IsSpace(s[i])) i++;
+        var neg = i < s.Length && s[i] == '-';
+        if (i < s.Length && (s[i] == '+' || s[i] == '-')) i++;
+        var strip = true;
+        if (radix != 0) { if (radix < 2 || radix > 36) return double.NaN; strip = radix == 16; } else radix = 10;
+        if (strip && i + 1 < s.Length && s[i] == '0' && (s[i + 1] | 0x20) == 'x') { i += 2; radix = 16; }
+        var start = i;
+        static int Digit(char c) => c is >= '0' and <= '9' ? c - '0' : (c | 0x20) is >= 'a' and <= 'z' ? (c | 0x20) - 'a' + 10 : 99;
+        while (i < s.Length && Digit(s[i]) < radix) i++;
+        if (i == start) return double.NaN;
+        double v;
+        if (radix == 10) v = double.Parse(s.AsSpan(start, i - start), NumberStyles.None, CultureInfo.InvariantCulture);
+        else { v = 0; for (var j = start; j < i; j++) v = v * radix + Digit(s[j]); } // ponytail: exact below 2^53; V8 rounds longer non-decimal digit runs its own way
+        return neg ? -v : v;
+    }
     // Longest prefix matching [+-]? (Infinity | digits [. digits?] | . digits) ([eE] [+-]? digits)? — returns (value, consumed chars).
     static (double value, int length) DecimalPrefix(string t)
     {
