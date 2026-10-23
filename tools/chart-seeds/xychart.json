@@ -1548,6 +1548,10 @@
     "text": "xychart-beta\nhorizontal\n  bar [1, 2]"
   },
   {
+    "name": "orientation-next-line-after-space",
+    "text": "xychart-beta \n  horizontal\n  bar [1, 2]"
+  },
+  {
     "name": "orientation-crlf",
     "text": "xychart-beta horizontal\r\n  x-axis [a, b]\r\n  bar [1, 2]"
   },
@@ -1648,6 +1652,30 @@
     "text": "xychart-beta\n  title $\n  bar [1]"
   },
   {
+    "name": "quirk-md-inner-backtick",
+    "text": "xychart-beta\n  title \"`a`b`\"\n  bar [1]"
+  },
+  {
+    "name": "quirk-md-inner-backtick-reference",
+    "text": "xychart-beta\n  title $\n  bar [1]"
+  },
+  {
+    "name": "quirk-md-inner-backtick-series",
+    "text": "xychart-beta\n  line \"`a`b`\" [1, 2]"
+  },
+  {
+    "name": "quirk-md-inner-backtick-series-reference",
+    "text": "xychart-beta\n  line $ [1, 2]"
+  },
+  {
+    "name": "quirk-md-label-unclosed",
+    "text": "xychart-beta\n  line [1 \"`p\"]"
+  },
+  {
+    "name": "quirk-md-label-unclosed-reference",
+    "text": "xychart-beta\n  line [1 $]"
+  },
+  {
     "name": "md-backtick-inside",
     "text": "xychart-beta\n  title \"a`b`\"\n  bar [1]"
   },
@@ -1729,7 +1757,111 @@
   },
   {
     "name": "quirk-unquoted-across-lines-reference",
-    "text": "xychart-beta\n  x-axis \"Big  \n  Months\" [a, b]\n  bar [1, 2]"
+    "text": "xychart-beta\n  x-axis \"Big Months\" [a, b]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-title",
+    "text": "xychart-beta\n  title Sales \n  Report\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-title-reference",
+    "text": "xychart-beta\n  title \"Sales Report\"\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-twice",
+    "text": "xychart-beta\n  title a \n\n  b\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-twice-reference",
+    "text": "xychart-beta\n  title \"a b\"\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-crlf",
+    "text": "xychart-beta\r\n  title Sales \r\n  Report\r\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-crlf-reference",
+    "text": "xychart-beta\r\n  title \"Sales Report\"\r\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-category",
+    "text": "xychart-beta\n  x-axis [a \n b, c]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-category-reference",
+    "text": "xychart-beta\n  x-axis [\"a b\", c]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-y-title",
+    "text": "xychart-beta\n  y-axis lat \n  ms 0 --> 10\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-y-title-reference",
+    "text": "xychart-beta\n  y-axis \"lat ms\" 0 --> 10\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-series",
+    "text": "xychart-beta\n  line Sales \n  Total [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-break-series-reference",
+    "text": "xychart-beta\n  line \"Sales Total\" [1, 2]"
+  },
+  {
+    "name": "unquoted-break-ends-title",
+    "text": "xychart-beta\n  title Sales\n  Report\n  bar [1, 2]"
+  },
+  {
+    "name": "unquoted-break-before-data",
+    "text": "xychart-beta\n  line Sales \n  [1, 2]"
+  },
+  {
+    "name": "unquoted-break-before-range",
+    "text": "xychart-beta\n  y-axis lat \n  0 --> 10\n  bar [1, 2]"
+  },
+  {
+    "name": "unquoted-break-in-category",
+    "text": "xychart-beta\n  x-axis [a\n b, c]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-string",
+    "text": "xychart-beta\n  title a \"\" b\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-string-reference",
+    "text": "xychart-beta\n  title \"a  b\"\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-md",
+    "text": "xychart-beta\n  title a \"``\" b\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-md-reference",
+    "text": "xychart-beta\n  title \"a  b\"\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-accdescr",
+    "text": "xychart-beta\n  title a accDescr{} b\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-accdescr-reference",
+    "text": "xychart-beta\n  title \"a  b\"\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-string-axis",
+    "text": "xychart-beta\n  x-axis a \"\" b [c, d]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-string-axis-reference",
+    "text": "xychart-beta\n  x-axis \"a  b\" [c, d]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-string-category",
+    "text": "xychart-beta\n  x-axis [a \"\" b, c]\n  bar [1, 2]"
+  },
+  {
+    "name": "quirk-unquoted-empty-string-category-reference",
+    "text": "xychart-beta\n  x-axis [\"a  b\", c]\n  bar [1, 2]"
   },
   {
     "name": "stress-unquoted-words-50k",

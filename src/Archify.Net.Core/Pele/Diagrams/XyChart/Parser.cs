@@ -42,13 +42,32 @@ internal static partial class Pele
             {
                 if (!IsText(i)) throw Fail("'STR', 'ALPHA', 'NUM'");
                 if (types[i] is T.Str or T.MdStr) return new(texts[i], types[i++] == T.MdStr);
-                // Deviation X4 (PORT-008 Task 11): the grammar's alphaNum joins its tokens with '' (xychart.jison:178), so
-                // `title Sales Report` reads `SalesReport`. The port keeps what separates the tokens in the source, as written,
-                // as the quadrant grammar does (each whitespace character is a SPACE token of its text); the db trims the ends.
-                // The tokens are consecutive slices of the source, so the text is one slice from the first to the last.
-                var first = starts[i];
-                while (Is(Word, i)) i++;
-                return new(src[first..(starts[i - 1] + texts[i - 1].Length)]);
+                // Deviation X4 (PORT-008 Task 11): the grammar's alphaNum joins its tokens with '' (xychart.jison:171), so
+                // `title Sales Report` reads `SalesReport`. The port joins them with the whitespace between them: a gap on one
+                // line keeps its whitespace characters as written (spaces, tabs, NBSP), and a gap that holds a line break
+                // (the lexer's whitespace skip takes one after a space) is one space (Martin, 2026-10-23). Text in a gap that
+                // gave no token (`""`, an empty markdown string, `accDescr{}`) is dropped, as upstream drops it. The db trims
+                // the ends.
+                var text = new System.Text.StringBuilder(texts[i]);
+                var end = starts[i] + texts[i].Length;
+                for (i++; Is(Word, i); i++)
+                {
+                    var spaces = text.Length;
+                    var lineBreak = false;
+                    for (var k = end; k < starts[i]; k++)
+                    {
+                        if (src[k] is '\n' or '\r') lineBreak = true;
+                        else if (Chars.IsSpace(src[k])) text.Append(src[k]);
+                    }
+                    if (lineBreak)
+                    {
+                        text.Length = spaces;
+                        text.Append(' ');
+                    }
+                    text.Append(texts[i]);
+                    end = starts[i] + texts[i].Length;
+                }
+                return new(text.ToString());
             }
 
             (double, double) Range()

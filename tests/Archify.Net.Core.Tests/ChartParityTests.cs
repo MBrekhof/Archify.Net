@@ -31,9 +31,9 @@ public class ChartParityTests
             [810] = "Q3", [815] = "Q3", [839] = "Q3", [877] = "Q3", [901] = "Q3", [906] = "Q3", [928] = "Q3", [995] = "Q3",
         },
         ["xychart"] = new() {
-            [16] = "X3", [37] = "X4", [70] = "X4", [130] = "X4", [133] = "C1", [164] = "Q1", [172] = "X3", [187] = "X3", [256] = "X4",
-            [351] = "X2", [452] = "Q1", [497] = "X4", [501] = "X4", [524] = "X4", [698] = "X2", [704] = "C1", [711] = "C1", [775] = "X2",
-            [822] = "X2", [870] = "X3", [891] = "X4", [892] = "X4", [893] = "X2", [894] = "X4", [965] = "Q1", [979] = "X4",
+            [15] = "Q1", [16] = "X2X4", [185] = "X2X4", [200] = "Q1", [208] = "X4", [238] = "Q1", [256] = "X3", [338] = "X4",
+            [367] = "X3", [376] = "X2", [401] = "X2X4", [477] = "X3", [516] = "Q1", [524] = "X4", [557] = "X4", [586] = "X3X4",
+            [592] = "X2X4", [634] = "Q1", [765] = "Q1", [782] = "Q1", [848] = "X2", [956] = "X4", [986] = "X4",
         },
     };
 
@@ -183,8 +183,9 @@ public class ChartParityTests
     //      whole word straight after the chart keyword;
     //   X3 the md_string rules are broken by a quoting slip (Pele's BROKEN_RULE); the port reads "`...`" as the quadrant
     //      grammar does;
-    //   X4 unquoted text joins its tokens with '' (`title Sales Report` is `SalesReport`); the port keeps the source between
-    //      them, as written.
+    //   X4 unquoted text joins its tokens with '' (`title Sales Report` is `SalesReport`); the port joins them with the
+    //      whitespace between them: same-line whitespace as written, a gap holding a line break as one space (Martin), and
+    //      text in a gap that gave no token (`""`, `accDescr{}`) dropped.
     // A reference row writes the same chart so that upstream reads it the corrected way: quoted (X2, X4), without backticks
     // (X3), in lower case (X1), with a space before `%%` (Q1), or (X3 lexical errors) a backtick upstream already rejects.
     static (string Name, string Quirk, string Reference)[] XyChartQuirkRows =>
@@ -201,11 +202,19 @@ public class ChartParityTests
         {
             "broken-rule-in-title", "oracle-5", "oracle-6", "quirk-md-title", "quirk-md-axis-title", "quirk-md-category", "quirk-md-series",
             "quirk-md-point-label", "quirk-md-emphasis", "quirk-md-unclosed-at-end", "quirk-md-opening-only", "stress-md-string-50k",
+            // Malformed markdown strings are lexical errors, as in quadrant (Martin, fix round 1 M2).
+            "quirk-md-inner-backtick", "quirk-md-inner-backtick-series", "quirk-md-label-unclosed",
         }.Select(name => (name, "X3", $"{name}-reference")),
         .. new[]
         {
             "stress-title-words", "quirk-unquoted-title", "quirk-unquoted-axis-title", "quirk-unquoted-category", "quirk-unquoted-series",
             "quirk-unquoted-y-title", "quirk-unquoted-tabs", "quirk-unquoted-mixed", "quirk-unquoted-across-lines", "stress-unquoted-words-50k",
+            // A gap holding a line break is one space (Martin, fix round 1 I1).
+            "quirk-unquoted-break-title", "quirk-unquoted-break-twice", "quirk-unquoted-break-crlf", "quirk-unquoted-break-category",
+            "quirk-unquoted-break-y-title", "quirk-unquoted-break-series",
+            // Text in a gap that gave no token is dropped; the gap keeps its whitespace (fix round 1 C1).
+            "quirk-unquoted-empty-string", "quirk-unquoted-empty-md", "quirk-unquoted-empty-accdescr", "quirk-unquoted-empty-string-axis",
+            "quirk-unquoted-empty-string-category",
         }.Select(name => (name, "X4", $"{name}-reference")),
     ];
 
@@ -217,6 +226,10 @@ public class ChartParityTests
         "xychart/render-horizontal", "xychart/orientation-vertical-upper", "xychart/orientation-quoted-title", "xychart/orientation-next-line",
         "xychart/orientation-crlf", "xychart/orientation-front-matter", "xychart/orientation-init", "xychart/orientation-spaces-comment",
         "xychart/orientation-glued", "xychart/orientation-after-semicolon", "xychart/md-backtick-inside", "xychart/md-backtick-unquoted",
+        "xychart/orientation-next-line-after-space",   // `xychart-beta <space>\n  horizontal` stays horizontal, as in Node (M1)
+        // X4 changes no statement boundary.
+        "xychart/unquoted-break-ends-title", "xychart/unquoted-break-before-data", "xychart/unquoted-break-before-range",
+        "xychart/unquoted-break-in-category",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -274,15 +287,16 @@ public class ChartParityTests
     };
 
     // xychart. Quoted text is a string token whatever it holds, and a comment is no token, so Q1 looks outside quotes and the
-    // X1, X2, X4 and C1 tests outside quotes and comments too. C1 is Task 6's first deviation (an exact y range whose ends
-    // clamp to the same ±1e300 falls back to the data, Clamped_equal_y_range_is_the_stated_deviation).
-    static readonly Regex ReQuoted = new("\"[^\"]*(?:\"|\\z)");
+    // X1, X2, X4 and C1 tests outside quotes and comments too. An empty string `""` or an empty markdown string gives no token
+    // at all and stays `""`; other quoted text becomes `"\u0001"`, one token. C1 is Task 6's first deviation (an exact y range
+    // whose ends clamp to the same +-1e300 falls back to the data, Clamped_equal_y_range_is_the_stated_deviation).
+    static readonly Regex ReQuoted = new("\"([^\"]*)(?:\"|\\z)");
     static readonly Regex ReComment = new("%%[^\n]*");
     static string XyChartQuirkIn(string text)
     {
-        var unquoted = ReQuoted.Replace(text, "\"\"");
+        var unquoted = ReQuoted.Replace(text, m => m.Groups[1].Value is "" or "``" && m.Length == m.Groups[1].Length + 2 ? "\"\"" : "\"\u0001\"");
         var bare = ReComment.Replace(unquoted, "");
-        return string.Concat(ReXyQ1.IsMatch(unquoted) ? "Q1" : "", OrientationQuirk(bare, upperCase: true) ? "X1" : "",
+        return string.Concat(XyQ1(unquoted) ? "Q1" : "", OrientationQuirk(bare, upperCase: true) ? "X1" : "",
             OrientationQuirk(bare, upperCase: false) ? "X2" : "", MarkdownQuirk(text) ? "X3" : "", ReX4.IsMatch(bare) ? "X4" : "",
             ClampedEqualRange(bare) ? "C1" : "");
     }
@@ -292,14 +306,34 @@ public class ChartParityTests
         Js.ToNumber(m.Groups[1].Value) is var lo && Js.ToNumber(m.Groups[2].Value) is var hi && double.IsFinite(lo) && double.IsFinite(hi)
         && lo != hi && Math.Clamp(lo, -1e300, 1e300) == Math.Clamp(hi, -1e300, 1e300));
 
-    // Q1: a character that starts a token (a letter not after a letter, a digit not after a digit, or any other
-    // character but `}`, `%` and whitespace) directly before `%%`.
+    // Q1: a character that starts a token directly before `%%`: a letter not after a letter, a digit not after a digit, or any
+    // other character but `}`, `%` and whitespace. Not a character inside a number token or the `>` of `-->`, which axis_data
+    // and data_inner read whole: in an x-axis or y-axis statement outside its `[...]`, or inside a series' `[...]`.
     static readonly Regex ReXyQ1 = new($"(?:(?<![A-Za-z])[A-Za-z]|(?<![0-9])[0-9]|[^A-Za-z0-9}}%{WsBody}])%%");
+    static readonly Regex ReAxisStatement = new($@"\A[{WsBody}]*[XxYy]-[Aa][Xx][Ii][Ss](?![A-Za-z0-9_])");
+    static readonly Regex ReSeriesStatement = new($@"\A[{WsBody}]*(?:[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr])(?![A-Za-z0-9_])");
+    static readonly Regex ReNumberEnd = new($@"{XyNumber}\z");
+    static bool XyQ1(string text)
+    {
+        foreach (Match m in ReXyQ1.Matches(text))
+        {
+            var line = text[(m.Index == 0 ? 0 : text.LastIndexOfAny(['\n', ';'], m.Index - 1) + 1)..(m.Index + 1)];
+            var open = line.LastIndexOf('[') > line.LastIndexOf(']');
+            var whole = ReAxisStatement.IsMatch(line) ? !open : ReSeriesStatement.IsMatch(line) && open;
+            if (whole && (ReNumberEnd.Match(line) is { Success: true, Length: > 1 } || line.EndsWith("-->", StringComparison.Ordinal))) continue;
+            return true;
+        }
+        return false;
+    }
     // X1 and X2: an orientation word where a token starts. Upstream lexes it as the orientation; X1 is a header orientation
-    // `horizontal` not written in lower case, X2 one that is not a whole word straight after the chart keyword.
+    // `horizontal` not written in lower case, X2 one that is not a whole word after the chart keyword and its whitespace (a
+    // line break after a space is part of that whitespace: the lexer skips it with the space, M1).
     static readonly Regex ReOrientation = new("(?<![A-Za-z])(?:[Vv][Ee][Rr][Tt][Ii][Cc][Aa][Ll]|[Hh][Oo][Rr][Ii][Zz][Oo][Nn][Tt][Aa][Ll])");
-    const string SpaceNoBreak = @"[\t\v\f    -     　﻿]";
-    static readonly Regex ReAfterHeader = new($@"[Xx][Yy][Cc][Hh][Aa][Rr][Tt](?:-[Bb][Ee][Tt][Aa])?{SpaceNoBreak}+\z");
+    // JS `\s` without the line breaks the lexer turns into NEWLINE (\n, \r); U+2028 and U+2029 are skipped as plain space.
+    const string SpaceNotNewline = @"[\t\v\f \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]";
+    // Whitespace the lexer skips in one run: it starts with a non-newline space and may take line breaks with it.
+    const string XySkip = $@"{SpaceNotNewline}+(?:[\n\r][{WsBody}]*)?";
+    static readonly Regex ReAfterHeader = new($@"[Xx][Yy][Cc][Hh][Aa][Rr][Tt](?:-[Bb][Ee][Tt][Aa])?{XySkip}\z");
     static bool OrientationQuirk(string text, bool upperCase)
     {
         foreach (Match m in ReOrientation.Matches(text))
@@ -313,12 +347,22 @@ public class ChartParityTests
     // X3: `"` then a backtick (a markdown string), or the jison source text Pele's BROKEN_RULE skipped.
     const string BrokenRule = "`)                                    { this.pushstate(md_string); }\n<md_string>(?:(?!`\").)+                  { return md_str; }\n<md_string>(?:`";
     static bool MarkdownQuirk(string text) => text.Contains("\"`", StringComparison.Ordinal) || text.Contains(BrokenRule, StringComparison.OrdinalIgnoreCase);
-    // X4: unquoted text of two tokens or more with whitespace between, after `title`, an axis, a series keyword or a category's
-    // `[`/`,` (the first token has a character other than a digit, so an axis range `0 --> 1` is not text). In an axis or
-    // series statement the whitespace may hold a line break after spaces: that break is skipped with them (lexer.ts).
+    // X4: unquoted text of two tokens or more with whitespace between them, which Node joins with ''.
+    //   After `title`, `line` or `bar` and at least one space, any text token counts (digits are NUM there).
+    //   After `x-axis`/`y-axis` and at least one space, the first token holds a letter and the second starts with one: axis_data
+    //   reads digits and `-->` as NUMBER and ARROW, not text.
+    //   After a category's `[` or `,`, the first token holds a letter.
+    // Between the tokens: a whitespace run (XySkip), plus any `""` (an empty string or markdown string) or empty `accDescr{}`,
+    // which give no token. A following keyword ends the text instead.
     const string XyWord = "[A-Za-z0-9&+=*.#_-]";
+    const string XyLetter = "[A-Za-z&+=*#_]";
+    const string XyNoToken = $@"(?:""""|[Aa][Cc][Cc][Dd][Ee][Ss][Cc][Rr]{SpaceNotNewline}*\{{{SpaceNotNewline}*\}})";
+    const string XyGap = $"{XyNoToken}*{XySkip}(?:{XyNoToken}|{XySkip})*";
+    const string XyNext = $"(?!{XyKeyword}(?![A-Za-z0-9_]))";
     static readonly Regex ReX4 = new(
-        $@"(?:(?<![A-Za-z])(?:[Tt][Ii][Tt][Ll][Ee]|[XxYy]-[Aa][Xx][Ii][Ss]|[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr])|[\[,]){SpaceNoBreak}*{XyWord}*[A-Za-z&+=*#_]{XyWord}*{SpaceNoBreak}+(?:[\n\r][{WsBody}]*)?(?!{XyKeyword}(?![A-Za-z0-9_])){XyWord}");
+        $"(?<![A-Za-z])(?:[Tt][Ii][Tt][Ll][Ee]|[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr]){SpaceNotNewline}+{XyWord}+{XyGap}{XyNext}{XyWord}"
+        + $"|(?<![A-Za-z])[XxYy]-[Aa][Xx][Ii][Ss]{SpaceNotNewline}+{XyWord}*{XyLetter}{XyWord}*{XyGap}{XyNext}[A-Za-z&*=#_]"
+        + $"|[\\[,]{SpaceNotNewline}*{XyWord}*{XyLetter}{XyWord}*{XyGap}{XyNext}{XyWord}");
     // A keyword the lexer takes anywhere, which ends the text before it.
     const string XyKeyword = "(?:[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr]|[Tt][Ii][Tt][Ll][Ee]|[XxYy]-[Aa][Xx][Ii][Ss]|[Xx][Yy][Cc][Hh][Aa][Rr][Tt])";
 
