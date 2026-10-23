@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid sequence is drawn with the native sequence shorthand, which Archify validates and lets readers explore.",
+  "example": "@sequence id=..."
+}

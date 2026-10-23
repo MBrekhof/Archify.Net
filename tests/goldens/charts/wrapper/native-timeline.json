@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid timeline is drawn with the native timeline shorthand, which Archify validates and lets readers explore.",
+  "example": "@timeline id=..."
+}

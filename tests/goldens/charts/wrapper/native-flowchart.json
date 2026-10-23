@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid flowchart is drawn with the native workflow or architecture shorthand, which Archify validates and lets readers explore.",
+  "example": "@workflow id=..."
+}

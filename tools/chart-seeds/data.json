@@ -1,0 +1,954 @@
+[
+  {
+    "name": "archify-latency-bar-ms",
+    "file": "latency.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p50",
+        "p99"
+      ],
+      "unit": "ms"
+    }
+  },
+  {
+    "name": "archify-latency-missing-p95",
+    "file": "latency.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p95"
+      ]
+    }
+  },
+  {
+    "name": "archify-blank-csv-empty-cell",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA5OQpNb24sODAKVHVlLAo=",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p99"
+      ]
+    }
+  },
+  {
+    "name": "archify-blank-json-null",
+    "file": "a.json",
+    "bytes": "W3siZGF5IjoiTW9uIiwicDk5Ijo4MH0seyJkYXkiOiJUdWUiLCJwOTkiOm51bGx9XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p99"
+      ]
+    }
+  },
+  {
+    "name": "archify-blank-json-absent",
+    "file": "b.json",
+    "bytes": "W3siZGF5IjoiTW9uIiwicDk5Ijo4MH0seyJkYXkiOiJUdWUifV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p99"
+      ]
+    }
+  },
+  {
+    "name": "archify-pie-csv",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsNjAKQiw0MAo=",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-invalid",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLH1d",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-empty-file",
+    "file": "a.json",
+    "bytes": "",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-not-array",
+    "file": "a.json",
+    "bytes": "eyJrIjoiQSIsInYiOjF9",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-array-number",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoxfSwyXQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-array-null",
+    "file": "a.json",
+    "bytes": "W251bGxd",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-array-array",
+    "file": "a.json",
+    "bytes": "W1sxXV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-empty-array",
+    "file": "a.json",
+    "bytes": "W10=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "csv-header-only",
+    "file": "a.csv",
+    "bytes": "ayx2Cg==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "csv-blank-lines-only",
+    "file": "a.csv",
+    "bytes": "ayx2CgogIAoJCg==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "csv-empty-file",
+    "file": "a.csv",
+    "bytes": "",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "missing-column-integer-keys",
+    "file": "a.csv",
+    "bytes": "bmFtZSwyMDI0LDcsNDI5NDk2NzI5NSwwMSw0Mjk0OTY3Mjk0CkEsMSwyLDMsNCw1",
+    "spec": {
+      "kind": "bar",
+      "x": "name",
+      "y": [
+        "zz"
+      ]
+    }
+  },
+  {
+    "name": "missing-column-json-key-order",
+    "file": "a.json",
+    "bytes": "W3siYiI6MSwiMTAiOjIsImEiOjN9LHsiMiI6NCwiYyI6NX1d",
+    "spec": {
+      "kind": "bar",
+      "x": "b",
+      "y": [
+        "zz"
+      ]
+    }
+  },
+  {
+    "name": "missing-x-before-y",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "zz",
+      "y": [
+        "yy"
+      ]
+    }
+  },
+  {
+    "name": "missing-x-empty-is-falsy",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "duplicate-header",
+    "file": "a.csv",
+    "bytes": "dixrLHYKMSxBLDI=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "duplicate-header-columns-order",
+    "file": "a.csv",
+    "bytes": "dixrLHYKMSxBLDI=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "zz"
+      ]
+    }
+  },
+  {
+    "name": "json-duplicate-key",
+    "file": "a.json",
+    "bytes": "W3sidiI6MSwiayI6IkEiLCJ2IjoyfV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "pie-12-rows",
+    "file": "a.csv",
+    "bytes": "ayx2CnIwLDEKcjEsMgpyMiwzCnIzLDQKcjQsNQpyNSw2CnI2LDcKcjcsOApyOCw5CnI5LDEwCnIxMCwxMQpyMTEsMTI=",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "pie-13-rows",
+    "file": "a.csv",
+    "bytes": "ayx2CnIwLDEKcjEsMgpyMiwzCnIzLDQKcjQsNQpyNSw2CnI2LDcKcjcsOApyOCw5CnI5LDEwCnIxMCwxMQpyMTEsMTIKcjEyLDEz",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bar-60-rows",
+    "file": "a.csv",
+    "bytes": "ayx2CnIwLDEKcjEsMgpyMiwzCnIzLDQKcjQsNQpyNSw2CnI2LDcKcjcsOApyOCw5CnI5LDEwCnIxMCwxMQpyMTEsMTIKcjEyLDEzCnIxMywxNApyMTQsMTUKcjE1LDE2CnIxNiwxNwpyMTcsMTgKcjE4LDE5CnIxOSwyMApyMjAsMjEKcjIxLDIyCnIyMiwyMwpyMjMsMjQKcjI0LDI1CnIyNSwyNgpyMjYsMjcKcjI3LDI4CnIyOCwyOQpyMjksMzAKcjMwLDMxCnIzMSwzMgpyMzIsMzMKcjMzLDM0CnIzNCwzNQpyMzUsMzYKcjM2LDM3CnIzNywzOApyMzgsMzkKcjM5LDQwCnI0MCw0MQpyNDEsNDIKcjQyLDQzCnI0Myw0NApyNDQsNDUKcjQ1LDQ2CnI0Niw0NwpyNDcsNDgKcjQ4LDQ5CnI0OSw1MApyNTAsNTEKcjUxLDUyCnI1Miw1MwpyNTMsNTQKcjU0LDU1CnI1NSw1NgpyNTYsNTcKcjU3LDU4CnI1OCw1OQpyNTksNjA=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bar-61-rows",
+    "file": "a.csv",
+    "bytes": "ayx2CnIwLDEKcjEsMgpyMiwzCnIzLDQKcjQsNQpyNSw2CnI2LDcKcjcsOApyOCw5CnI5LDEwCnIxMCwxMQpyMTEsMTIKcjEyLDEzCnIxMywxNApyMTQsMTUKcjE1LDE2CnIxNiwxNwpyMTcsMTgKcjE4LDE5CnIxOSwyMApyMjAsMjEKcjIxLDIyCnIyMiwyMwpyMjMsMjQKcjI0LDI1CnIyNSwyNgpyMjYsMjcKcjI3LDI4CnIyOCwyOQpyMjksMzAKcjMwLDMxCnIzMSwzMgpyMzIsMzMKcjMzLDM0CnIzNCwzNQpyMzUsMzYKcjM2LDM3CnIzNywzOApyMzgsMzkKcjM5LDQwCnI0MCw0MQpyNDEsNDIKcjQyLDQzCnI0Myw0NApyNDQsNDUKcjQ1LDQ2CnI0Niw0NwpyNDcsNDgKcjQ4LDQ5CnI0OSw1MApyNTAsNTEKcjUxLDUyCnI1Miw1MwpyNTMsNTQKcjU0LDU1CnI1NSw1NgpyNTYsNTcKcjU3LDU4CnI1OCw1OQpyNTksNjAKcjYwLDYx",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "line-61-rows",
+    "file": "a.csv",
+    "bytes": "ayx2CnIwLDEKcjEsMgpyMiwzCnIzLDQKcjQsNQpyNSw2CnI2LDcKcjcsOApyOCw5CnI5LDEwCnIxMCwxMQpyMTEsMTIKcjEyLDEzCnIxMywxNApyMTQsMTUKcjE1LDE2CnIxNiwxNwpyMTcsMTgKcjE4LDE5CnIxOSwyMApyMjAsMjEKcjIxLDIyCnIyMiwyMwpyMjMsMjQKcjI0LDI1CnIyNSwyNgpyMjYsMjcKcjI3LDI4CnIyOCwyOQpyMjksMzAKcjMwLDMxCnIzMSwzMgpyMzIsMzMKcjMzLDM0CnIzNCwzNQpyMzUsMzYKcjM2LDM3CnIzNywzOApyMzgsMzkKcjM5LDQwCnI0MCw0MQpyNDEsNDIKcjQyLDQzCnI0Myw0NApyNDQsNDUKcjQ1LDQ2CnI0Niw0NwpyNDcsNDgKcjQ4LDQ5CnI0OSw1MApyNTAsNTEKcjUxLDUyCnI1Miw1MwpyNTMsNTQKcjU0LDU1CnI1NSw1NgpyNTYsNTcKcjU3LDU4CnI1OCw1OQpyNTksNjAKcjYwLDYx",
+    "spec": {
+      "kind": "line",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "blank-json-whitespace",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoxfSx7ImsiOiJCIiwidiI6IiBcdFx1MzAwMFx1ZmVmZiJ9XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "blank-csv-quoted-space",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMQpCLCIgIg==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "blank-second-column",
+    "file": "a.csv",
+    "bytes": "ayx2LHcKQSwxLDIKQiwzLA==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v",
+        "w"
+      ]
+    }
+  },
+  {
+    "name": "non-numeric",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMQpCLGFiYw==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "non-numeric-infinity-string",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsSW5maW5pdHk=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "non-numeric-json-1e400",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoxZTQwMH1d",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "non-numeric-underscore",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMV8wMDA=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "numbers-commas",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsIjEsMjAwIgpCLCIzLDQsNSIKQywiLTEsNWUzIg==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "numbers-js-forms",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoiMHgxMCJ9LHsiayI6IkIiLCJ2IjoiIDEsMiAifSx7ImsiOiJDIiwidiI6Ii41In0seyJrIjoiRCIsInYiOiItMCJ9LHsiayI6IkUiLCJ2IjoiMWUyMSJ9LHsiayI6IkYiLCJ2IjowLjF9LHsiayI6IkciLCJ2IjotMH0seyJrIjoiSCIsInYiOjFlLTd9XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "numbers-pie-floats",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjowLjF9LHsiayI6IkIiLCJ2IjowLjJ9LHsiayI6IkMiLCJ2IjoxMjM0NTY3ODkwMTIzNDU2ODAwMDB9XQ==",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "quoted-cells",
+    "file": "a.csv",
+    "bytes": "ayx2CiJzYXkgIiJoaSIiIiwxCiJhLGIiLDIKImJhY2tcXHNsYXNoIiwzCnVuInF1b3RlZCBtaWQiLDQ=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "quoted-unterminated",
+    "file": "a.csv",
+    "bytes": "ayx2CiJvcGVuLDEKQiwy",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "csv-crlf",
+    "file": "a.csv",
+    "bytes": "ayx2DQpBLDENCkIsMg0K",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "csv-cr-cr-lf",
+    "file": "a.csv",
+    "bytes": "ayx2DQ0KQSwxDQ0K",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "csv-trimmed-cells",
+    "file": "a.csv",
+    "bytes": "IGsgLCB2IArCoEHjgIAsIDEg",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "unicode-labels",
+    "file": "a.csv",
+    "bytes": "ayx2Cua8ouWtlywxCvCfmIAsMgrtlZzquIAsMw==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bom-csv",
+    "file": "a.csv",
+    "bytes": "77u/ayx2CkEsMQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bom-double-csv",
+    "file": "a.csv",
+    "bytes": "77u/77u/ayx2CkEsMQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bom-triple-csv",
+    "file": "a.csv",
+    "bytes": "77u/77u/77u/ayx2CkEsMQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bom-double-json",
+    "file": "a.json",
+    "bytes": "77u/77u/W3siayI6IkEiLCJ2IjoxfV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "bom-triple-json",
+    "file": "a.json",
+    "bytes": "77u/77u/77u/W3siayI6IkEiLCJ2IjoxfV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "pie-json",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjozfSx7ImsiOiJCIiwidiI6MX1d",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
+        "v",
+        "w"
+      ]
+    }
+  },
+  {
+    "name": "pie-empty-y",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMQ==",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": []
+    }
+  },
+  {
+    "name": "bar-no-unit",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p50"
+      ]
+    }
+  },
+  {
+    "name": "bar-unit-empty",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p50"
+      ],
+      "unit": ""
+    }
+  },
+  {
+    "name": "bar-unit-quotes",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": [
+        "p50"
+      ],
+      "unit": "m\"s\\"
+    }
+  },
+  {
+    "name": "bar-empty-y",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "bar",
+      "x": "day",
+      "y": []
+    }
+  },
+  {
+    "name": "line-two-series-unit",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "line",
+      "x": "day",
+      "y": [
+        "p50",
+        "p99"
+      ],
+      "unit": "ms"
+    }
+  },
+  {
+    "name": "line-no-unit",
+    "file": "a.csv",
+    "bytes": "ZGF5LHA1MCxwOTkKTW9uLDc4LDgyClR1ZSw3OSw2MDAK",
+    "spec": {
+      "kind": "line",
+      "x": "day",
+      "y": [
+        "p99"
+      ]
+    }
+  },
+  {
+    "name": "quote-strips-in-column-name",
+    "file": "a.csv",
+    "bytes": "aywidiIiXCIKQSwx",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v\"\\"
+      ]
+    }
+  },
+  {
+    "name": "ragged-short-row-x",
+    "file": "a.csv",
+    "bytes": "ayx2LHcKQSwxCkIsMiwz",
+    "spec": {
+      "kind": "bar",
+      "x": "w",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "ragged-long-row-columns",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMSw5",
+    "spec": {
+      "kind": "bar",
+      "x": "zz",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "ragged-long-row-undefined-key",
+    "file": "a.csv",
+    "bytes": "ayx2CkEsMSw5LDg=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "undefined"
+      ]
+    }
+  },
+  {
+    "name": "ragged-json-missing-x",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoxfSx7InYiOjJ9XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "inherited-tostring-cell",
+    "file": "a.csv",
+    "bytes": "ayx0b1N0cmluZwpBLDEKQg==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "toString"
+      ]
+    }
+  },
+  {
+    "name": "inherited-proto-cell",
+    "file": "a.csv",
+    "bytes": "ayxfX3Byb3RvX18KQSwxCkI=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "__proto__"
+      ]
+    }
+  },
+  {
+    "name": "inherited-constructor-x",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoxLCJjb25zdHJ1Y3RvciI6ImMifSx7InYiOjJ9XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "constructor",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-lone-surrogate",
+    "file": "a.json",
+    "bytes": "W3siayI6Ilx1ZDgwMCIsInYiOjF9XQ==",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-value-array",
+    "file": "a.json",
+    "bytes": "W3siayI6WzEsbnVsbCwieCJdLCJ2IjpbMV19XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-value-object",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2Ijp7ImEiOjF9fV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-value-true",
+    "file": "a.json",
+    "bytes": "W3siayI6dHJ1ZSwidiI6dHJ1ZX1d",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-value-number-x",
+    "file": "a.json",
+    "bytes": "W3siayI6MS41MCwidiI6Mn0seyJrIjotMCwidiI6M30seyJrIjpudWxsLCJ2Ijo0fV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "json-deep-unread-column",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjoxLCJkZWVwIjpbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tdXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV19XQ==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "path-json-uppercase",
+    "file": "DATA.JSON",
+    "bytes": "W3siayI6IkEiLCJ2IjoxfV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "path-json-long-s",
+    "file": "data.jſon",
+    "bytes": "W3siayI6IkEiLCJ2IjoxfV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "path-json-not-suffix",
+    "file": "data.json.csv",
+    "bytes": "W3siayI6IkEiLCJ2IjoxfV0=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "not-utf8-ff",
+    "file": "a.csv",
+    "bytes": "/0E=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "not-utf8-overlong",
+    "file": "a.csv",
+    "bytes": "ayzAgA==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "not-utf8-surrogate",
+    "file": "a.csv",
+    "bytes": "7aCA",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "not-utf8-truncated",
+    "file": "a.csv",
+    "bytes": "ayx2CkEs4oI=",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "not-utf8-above-max",
+    "file": "a.csv",
+    "bytes": "9JCAgA==",
+    "spec": {
+      "kind": "bar",
+      "x": "k",
+      "y": [
+        "v"
+      ]
+    }
+  }
+]

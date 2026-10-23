@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid state is drawn with the native lifecycle shorthand, which Archify validates and lets readers explore.",
+  "example": "@lifecycle id=..."
+}

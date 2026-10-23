@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid mindmap is drawn with the native tree shorthand, which Archify validates and lets readers explore.",
+  "example": "@tree id=..."
+}

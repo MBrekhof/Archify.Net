@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid gantt is drawn with the native timeline or waterfall shorthand, which Archify validates and lets readers explore.",
+  "example": "@timeline id=..."
+}

@@ -1966,4 +1966,85 @@ for (const f of fs.readdirSync(checkerDir).filter((f) => f.endsWith('.html')).so
   delete res.file;
   write(`fixtures/checker/${path.basename(f, '.html')}.expected.json`, res);
 }
+
+// --- PORT-008 charts: tools/chart-seeds/<group>.json -> tests/goldens/charts/<group>/<name>.json (layout: tools/chart-seeds/README.md) ---
+const { compileExplainerChart, chartFromData } = await import('file:///C:/projects/archify/archify/explainer/charts.mjs');
+const { PeleError } = await import('file:///C:/projects/archify/archify/explainer/vendor/pele/core.js');   // the instance charts.mjs uses
+const CHART_SEEDS = path.join(ROOT, 'tools', 'chart-seeds');
+// charts.mjs:25 runs detectType outside its try, so a front-matter PeleError leaves compileExplainerChart: a thrown row (review B1).
+const chartCompile = (text) => {
+  try { return compileExplainerChart(text); } catch (e) {
+    if (!(e instanceof PeleError)) throw e;
+    return { thrown: { name: e.name, message: e.message, code: e.code, line: e.line } };
+  }
+};
+// Only TextDecoder (fatal) throws inside chartFromData; sources.mjs:311 gives that its own message (PORT-009), so record the fact.
+const chartData = (s) => {
+  try { return chartFromData(Buffer.from(s.bytes, 'base64'), s.file, s.spec); } catch (e) {
+    if (e.code !== 'ERR_ENCODING_INVALID_ENCODED_DATA') throw e;
+    return { notUtf8: true };
+  }
+};
+// Pele 1.3.0 tests/support/corpus.ts:34-57 `random` and `mutator`, verbatim (types dropped).
+function peleRandom(seed) {
+  let state = seed >>> 0;
+  return () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+function peleMutator(corpus, fragments, rnd) {
+  const pick = (list) => list[Math.floor(rnd() * list.length)];
+  return () => {
+    let s = pick(corpus);
+    const edits = 1 + Math.floor(rnd() * 3);
+    for (let k = 0; k < edits; k++) {
+      const pos = Math.floor(rnd() * (s.length + 1));
+      const r = rnd();
+      if (r < 0.35) {
+        s = s.slice(0, pos) + pick(fragments) + s.slice(pos);
+      } else if (r < 0.6) {
+        s = s.slice(0, pos) + s.slice(pos + 1 + Math.floor(rnd() * 3));
+      } else if (r < 0.75) {
+        const other = pick(corpus);
+        const from = Math.floor(rnd() * other.length);
+        s = s.slice(0, pos) + other.slice(from, from + Math.floor(rnd() * 20)) + s.slice(pos);
+      } else if (r < 0.9) {
+        s = s.slice(0, pos) + s.slice(pos, pos + Math.floor(rnd() * 6)) + s.slice(pos);
+      } else {
+        s = s.slice(0, pos) + pick(fragments) + s.slice(pos + 1);
+      }
+    }
+    return s;
+  };
+}
+fs.rmSync(out('goldens/charts'), { recursive: true, force: true });   // a renamed or removed seed leaves no stale golden
+const chartGroups = new Map();
+for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.json') && !f.endsWith('.fuzz.json')).sort()) {
+  const group = f.slice(0, -'.json'.length);
+  const seeds = JSON.parse(fs.readFileSync(path.join(CHART_SEEDS, f), 'utf8'));
+  const names = new Set();
+  for (const s of seeds) {
+    // Golden file names: one per seed, unique ignoring case (Windows), and `fuzz` is the fuzz array's name.
+    if (!/^[\w.-]+$/.test(s.name) || s.name === 'fuzz' || names.has(s.name.toLowerCase())) throw new Error(`${f}: bad or duplicate seed name ${JSON.stringify(s.name)}`);
+    names.add(s.name.toLowerCase());
+    const isText = typeof s.text === 'string', isData = typeof s.bytes === 'string' && typeof s.file === 'string' && Array.isArray(s.spec?.y);
+    if (isText === isData) throw new Error(`${f}/${s.name}: a seed is {name, text} or {name, file, bytes, spec}`);
+    const result = isText ? chartCompile(s.text) : chartData(s);
+    if (group === 'wrapper' && /^native-(?!treeview$)/.test(s.name) && !result.error?.startsWith(`Mermaid ${s.name.slice('native-'.length).split('.')[0]} `)) {
+      throw new Error(`wrapper/${s.name}: not a NATIVE redirect: ${JSON.stringify(result)}`);
+    }
+    write(`goldens/charts/${group}/${s.name}.json`, result);
+  }
+  chartGroups.set(group, seeds);
+}
+// Fuzz: {seed, count, fragments} per type; the corpus is the group's own text seeds; all results go to one array (review M7).
+for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.fuzz.json')).sort()) {
+  const type = f.slice(0, -'.fuzz.json'.length);
+  const { seed, count, fragments } = JSON.parse(fs.readFileSync(path.join(CHART_SEEDS, f), 'utf8'));
+  const corpus = (chartGroups.get(type) ?? []).filter((s) => typeof s.text === 'string').map((s) => s.text);
+  if (!corpus.length || !Number.isInteger(seed) || !Number.isInteger(count) || !fragments?.length) throw new Error(`${f}: needs ${type}.json text seeds, an integer seed and count, and fragments`);
+  const next = peleMutator(corpus, fragments, peleRandom(seed));
+  write(`goldens/charts/${type}/fuzz.json`, Array.from({ length: count }, () => { const input = next(); return { input, result: chartCompile(input) }; }));
+}
 console.log('fixtures captured');

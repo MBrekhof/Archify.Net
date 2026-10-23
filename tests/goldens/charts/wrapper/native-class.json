@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid class is drawn with the native class shorthand, which Archify validates and lets readers explore.",
+  "example": "@class id=..."
+}

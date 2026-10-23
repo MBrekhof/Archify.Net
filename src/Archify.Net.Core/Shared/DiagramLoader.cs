@@ -23,10 +23,10 @@ public static class DiagramLoader
     }
 
     // JSON.parse itself: any root (`null` is null), duplicate keys keep the last value, lone surrogate escapes survive. A syntax
-    // error is the reader's JsonException.
-    public static JsonNode? ParseNode(string json)
+    // error is the reader's JsonException, and so is nesting deeper than maxDepth (0 = the reader's 64).
+    public static JsonNode? ParseNode(string json, int maxDepth = 0)
     {
-        var reader = new Utf8JsonReader(Encoding.UTF8.GetBytes(json), ReaderOptions);
+        var reader = new Utf8JsonReader(Encoding.UTF8.GetBytes(json), ReaderOptions with { MaxDepth = maxDepth });
         reader.Read();
         var root = Value(ref reader);
         reader.Read();   // throws on anything after the root value

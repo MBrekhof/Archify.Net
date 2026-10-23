@@ -1,0 +1,74 @@
+[
+  {
+    "name": "native-flowchart",
+    "text": "flowchart LR\n  A --> B"
+  },
+  {
+    "name": "native-sequence",
+    "text": "sequenceDiagram\n  A->>B: hi"
+  },
+  {
+    "name": "native-class",
+    "text": "classDiagram\n  class A"
+  },
+  {
+    "name": "native-er",
+    "text": "erDiagram\n  A ||--o{ B : has"
+  },
+  {
+    "name": "native-state",
+    "text": "stateDiagram-v2\n  [*] --> A"
+  },
+  {
+    "name": "native-timeline",
+    "text": "timeline\n  title T\n  2024 : a"
+  },
+  {
+    "name": "native-gantt",
+    "text": "gantt\n  title G\n  section S\n  A :a1, 2024-01-01, 1d"
+  },
+  {
+    "name": "native-mindmap",
+    "text": "mindmap\n  root"
+  },
+  {
+    "name": "native-treeview",
+    "text": "treeView-beta\n  \"root\""
+  },
+  {
+    "name": "native-flowchart.graph",
+    "text": "graph TD\n  A --> B"
+  },
+  {
+    "name": "empty",
+    "text": ""
+  },
+  {
+    "name": "undetected-hello",
+    "text": "hello"
+  },
+  {
+    "name": "unsupported-gitgraph",
+    "text": "gitGraph\n  commit"
+  },
+  {
+    "name": "archify-xychart-before-after",
+    "text": "xychart-beta\n  x-axis [\"Before\", \"After\"]\n  bar [80, 600]"
+  },
+  {
+    "name": "archify-pie-syntax-error",
+    "text": "pie title Share\n  \"A\" : abc"
+  },
+  {
+    "name": "archify-xychart-cjk-axis",
+    "text": "xychart-beta\n  x-axis [\"前\", \"后\"]\n  y-axis \"延迟（毫秒）\" 0 --> 700\n  bar [80, 600]"
+  },
+  {
+    "name": "archify-pie-one",
+    "text": "pie\n  \"A\" : 1"
+  },
+  {
+    "name": "archify-pie-showdata",
+    "text": "pie showData\n  \"Viewer\" : 0.8\n  \"字体\" : 0.2"
+  }
+]

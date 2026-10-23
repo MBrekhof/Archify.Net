@@ -1,0 +1,4 @@
+{
+  "error": "Mermaid er is drawn with the native erd shorthand, which Archify validates and lets readers explore.",
+  "example": "@erd id=..."
+}
