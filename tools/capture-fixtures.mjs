@@ -2047,4 +2047,215 @@ for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.fuzz.json
   const next = peleMutator(corpus, fragments, peleRandom(seed));
   write(`goldens/charts/${type}/fuzz.json`, Array.from({ length: count }, () => { const input = next(); return { input, result: chartCompile(input) }; }));
 }
+
+// --- PORT-008 Task 3: Pele core unit tables -> tests/fixtures/js/pele-*.json ---
+// Pele's internals are not exported by the vendored core.js, so they come from tools/pele-internals/pele-internals.mjs, a
+// bundle of the 1.3.0 tag source (build command in tools/pele-internals/entry.mjs; committed so no esbuild install is needed).
+const PELE_INTERNALS = path.join(ROOT, 'tools', 'pele-internals', 'pele-internals.mjs');
+if (!fs.existsSync(PELE_INTERNALS)) {
+  throw new Error(`${PELE_INTERNALS} is missing. Rebuild it from the repo root with esbuild 0.28.2: node <esbuild>/bin/esbuild ` +
+    'tools/pele-internals/entry.mjs --bundle --format=esm --target=es2022 --charset=ascii --legal-comments=none --outfile=tools/pele-internals/pele-internals.mjs');
+}
+const P = await import(pathToFileURL(PELE_INTERNALS).href);
+const { detectType: vendoredDetectType } = await import('file:///C:/projects/archify/archify/explainer/vendor/pele/core.js');
+const peleNumIn = (v) => (Object.is(v, -0) ? '-0' : String(v));   // Js.ToNumber reads it back bit for bit
+const peleTry = (run) => { try { return run(); } catch (e) { return { throws: e.name, message: e.message, ...(e instanceof P.PeleError ? { code: e.code, line: e.line } : {}) }; } };
+// Seeded LCG (Pele's tests/support/corpus.ts random), never Math.random.
+const peleRnd = peleRandom(0x5EED0300);
+
+// num(): .xx5 boundaries, >= 1e11 hundredths (the String() fallback), -0, NaN, infinities, plus 150 seeded values.
+const peleNums = [0, -0, NaN, Infinity, -Infinity, 1, -1, 0.5, -0.5, 0.005, -0.005, 0.004999, 0.0049999999999999, 0.015, 0.025,
+  0.045, 0.125, -0.125, 0.135, 0.995, -0.995, 1.005, -1.005, 1.115, -1.115, 2.675, -2.675, 9.995, -9.995, 12.345, 99.995,
+  123456.785, 123456789.125, 0.1 + 0.2, 1 / 3, -1 / 3, 2 / 3, 1e-7, -1e-7, 5e-324, -5e-324, 1e9, -1e9, 999999999.99,
+  999999999.994, 999999999.995, -999999999.995, 1e9 - 0.005, 1e9 + 0.005, 1e10, 1e10 + 0.005, 1e11, -1e11, 1e21, -1e21,
+  123456789012.345, 1.7976931348623157e308, -1.7976931348623157e308, 0.01, 0.1, 0.07, 0.29, 0.57, 1.45, 4.35, 8.2];
+for (let i = 0; i < 150; i++) {
+  const base = Math.floor(peleRnd() * 2000000 - 1000000) / 100;
+  const scale = 10 ** (Math.floor(peleRnd() * 16) - 4);
+  peleNums.push(i % 3 === 0 ? base + (i % 2 ? 0.005 : -0.005) : base * scale);
+}
+write('fixtures/js/pele-num.json', peleNums.map((v) => [peleNumIn(v), P.num(v)]));
+
+// esc() / escText(): every control character, the four escaped ones, entity codes and placeholders.
+const peleEscIn = ['', 'plain', 'a&b', '<tag>', '"q"', "'s'", 'a\x01\x02b', '\t\n\r', '\x7f', '&amp;', '&#35;', '&#x41;',
+  '&nbsp;x', '&unknown;', '&Alpha;&alpha;', 'ﬂ°quot¶ß', 'ﬂ°°35¶ß', 'ﬂ°°1.5¶ß', '\u2028\u2029', '\uFEFF', '\ud800x', '😀',
+  '&#0;', '&#55296;', '&#1114111;', '&#1114112;', '&#x110000;', '&lt;b&gt;', 'x\x00\x0b\x0c\x0e\x1fy'];
+for (let c = 0; c < 32; c++) peleEscIn.push('a' + String.fromCharCode(c) + 'b');
+write('fixtures/js/pele-esc.json', peleEscIn.map((s) => ({ s, esc: P.esc(s), escText: peleTry(() => P.escText(s)) })));
+
+// encodeEntities / decodeEntities.
+const peleEncodeIn = ['no hash', '#', '#35;', '#quot;', 'a #9829; b', '#+12;', '##;', '#_;', '#é;', '#0;', '#007;',
+  'style a fill:#f00;', 'classDef x fill:#f9f;stroke:#333;', 'style a fill:#f00\nstyle b color:#0f0;', 'classDef a fill:#abc ;',
+  'style x : #fff;', 'stylefoo:#a;', 'style a:#1;b;c', 'style a:#1;\u2028x;', 'style a:#1\u2029;', 'style a:#1;\r#2;',
+  'style a fill:#f00;#35;', 'x style a:b #c;', 'classDef a:#b;\nclassDef c:#d;e;', 'style a :#f;', 'style\n:#a;', 'style:#a;'];
+const peleDecodeIn = ['plain', 'ﬂ°quot¶ß', 'ﬂ°°35¶ß', 'ﬂ°°0x41¶ß', 'ﬂ°° 65¶ß', 'ﬂ°°¶ß', 'ﬂ°°1e1¶ß', 'ﬂ°°1.5¶ß', 'ﬂ°°-5¶ß',
+  'ﬂ°°55296¶ß', 'ﬂ°°1114112¶ß', 'ﬂ°nope¶ß', 'ﬂ°abc', 'ﬂ°x¶', 'ﬂ°x¶ßy¶ß', 'aﬂ°amp¶ßbﬂ°lt¶ßc', '¶ß alone', 'ﬂ°ﬂ°amp¶ß',
+  'ﬂ°__proto__¶ß', '&#9;', '&#x1F600;', '&#xD800;', '&lt;&gt;', '&Alpha;', '&alpha', '&amp;amp;', '&#99999999999999999999;',
+  '&#x;', '&#;', '&__proto__;', '&constructor;', '&quot;ﬂ°°65¶ß&#66;', '&x1;', '&#X41;', '&#00065;'];
+write('fixtures/js/pele-entities.json', {
+  encode: peleEncodeIn.map((s) => [s, P.encodeEntities(s)]),
+  decode: peleDecodeIn.map((s) => [s, peleTry(() => P.decodeEntities(s))]),
+});
+
+// The Arial metrics measurer: ASCII, Han, emoji (surrogates), combining marks, zero-width and wide ranges, every style bit.
+const peleAscii = Array.from({ length: 95 }, (_, i) => String.fromCharCode(32 + i)).join('');
+const peleMeasureIn = [peleAscii, 'Hello World', '中文字', '😀👍', 'e\u0301', '\uFEFF', '\u200B\u200F', '\t\n\x1f', '\u00A0x',
+  '한국어', 'ＡＢ｡', '\uFE0F\uFE00', '\uFE30\uFE4F', '\u1100\u115F', '\u2E80\ua4cf', '\uFFE0\uFFE6', '\uF900', '\u0300\u036f',
+  '\u2028', 'Mixed 中 😀 é', '', '\x7f\x80'];
+const peleMeasure = [];
+for (const text of peleMeasureIn) for (const size of [13, 16, 11.5]) for (let style = 0; style < 8; style++) {
+  peleMeasure.push([text, size, style, P.metricsMeasurer.width(text, size, style)]);
+}
+write('fixtures/js/pele-measure.json', peleMeasure);
+
+// detectType over every detector, in order, plus near misses. Each row is cross-checked against the vendored core.js.
+const peleDetectIn = ['flowchart-elk', 'mindmap', 'architecture-beta', 'agentflow-beta', 'agentflow-beta x', 'agentflow-betax',
+  'C4Context', 'xC4Container', 'notes C4Deployment', 'C4Component', 'C4Dynamic', 'kanban', 'classDiagram', 'erDiagram', 'gantt',
+  'info', 'pie', '  pie', 'pies', '\uFEFF pie', '\u00A0pie', '\u0085pie', '\u2028pie', 'requirement', 'requirementDiagram',
+  'sequenceDiagram', 'swimlane-beta', 'swimlane-beta2', 'swimlane-beta-x', 'graph TD', 'flowchart LR', 'Flowchart', 'timeline',
+  'gitGraph', 'stateDiagram-v2', 'journey', 'quadrantChart', 'sankey', 'sankey-beta', 'packet', 'packet-beta', 'xychart',
+  'xychart-beta', 'block', 'block-beta', 'eventmodeling', 'treeView-beta', 'treeview-beta', 'radar-beta', 'radar', 'ishikawa',
+  'ISHIKAWA', 'ishikawa-beta', 'ishikawa-betaX', 'ishikawax', 'ishi\u212Awa', 'treemap', 'railroad-beta', 'Railroad-EBNF-beta',
+  'railroad-abnf-beta', 'railroad-peg-beta', 'railroad-xyz-beta', 'venn-beta', 'venn', 'wardley-beta', 'WARDLEY-BETA',
+  'cynefin-beta', 'cynefin-beta:', 'cynefin-beta x', 'cynefin-betax', 'cynefin-beta\n', 'cynefin-beta\u00A0', 'usecase-beta',
+  'usecase-beta\t', 'usecase-beta:', 'usecase-beta\u00A0', 'usecase-beta\u0085', '', '   ', '%% comment\npie',
+  '%%{init: {"a":1}}%%\nxychart-beta', 'unknown', 'Pie', '\n\n  gantt', 'x\npie', '%%\npie'];
+write('fixtures/js/pele-detect.json', peleDetectIn.map((t) => {
+  const type = P.detect(P.preprocess(t).text);
+  if (type !== vendoredDetectType(t)) throw new Error(`pele-internals drifted from the vendored core.js on ${JSON.stringify(t)}`);
+  return [t, type];
+}));
+
+// preprocess(): {text, title, config, withComments, lineOffset} as JSON.stringify writes it (front matter rows: Task 4).
+const peleNest = (n) => '{"a":'.repeat(n) + '1' + '}'.repeat(n);
+const pelePreIn = [
+  ['comment', 'pie\n%% comment\n"a": 1'], ['comments-top', '%% top\n\n%% another\npie'], ['comment-indented', '\n\n  %% c\npie'],
+  ['comment-inline', 'pie %% not a line comment'], ['comment-empty', '%%\npie'], ['comment-percent3', '%%%\npie'],
+  ['comment-last', 'pie\n%% last'], ['comment-blank-run', 'pie\n\n\n%% c\n\n"a":1'], ['comment-u2028', 'pie\u2028%% c\n"a":1'],
+  ['comment-u2029-end', 'pie\u2029  %% c'], ['comment-cr-only', 'pie\r%% c\r"a" : 1'], ['crlf', 'pie\r\n"a" : 1\r\n'],
+  ['cr-crlf', 'pie\r\r\n"a"\r'], ['comment-tab', 'pie\n\t%% tabbed\n"a":1'], ['comment-nbsp', 'pie\n\u00A0%% nbsp\nx'],
+  ['comment-feff', '\uFEFF%% bom\npie'], ['comment-directive-like', '%%{ not closed\npie'], ['percent-in-string', 'pie "a%%b" : 1'],
+  ['trim-start', '  \n\t pie'], ['trim-feff', '\uFEFFpie'],
+  ['init', '%%{init: {"theme":"dark"}}%%\npie'], ['init-single-quotes', "%%{init: {'a':1}}%%\npie"],
+  ['init-apostrophe-value', "%%{init: {\"a\":\"it's\"}}%%\npie"], ['init-dup-keys', '%%{init: {"a":1,"b":2,"a":3}}%%\npie'],
+  ['init-dup-object', '%%{init: {"a":{"x":1},"a":{"y":2}}}%%\npie'], ['init-invalid', '%%{init: invalid}%%\npie'],
+  ['init-empty', '%%{init: }%%\npie'], ['init-array', '%%{init: [1,2]}%%\npie'], ['init-null', '%%{init: null}%%\npie'],
+  ['init-merge', '%%{initialize: {"x": {"y": 1}, "k": [1]}}%%\n%%{init: {"x": {"z": 2}, "k": {"q": 1}}}%%\npie'],
+  ['init-merge-replace', '%%{init: {"x": {"y": 1}}}%%\n%%{init: {"x": 5}}%%\n%%{init: {"x": {"w": 1}}}%%\npie'],
+  ['init-unsafe', '%%{init: {"__proto__": {"a":1}, "constructor": 1, "prototype": 2, "ok": {"__proto__": 3, "b": 4}}}%%\npie'],
+  ['init-arrays', '%%{init: {"a": [1, {"b": 2}], "c": "s"}}%%\npie'], ['init-numbers', '%%{init: {"n": 1e400, "m": -0, "f": 1.50}}%%\npie'],
+  ['init-int-keys', '%%{init: {"b": 1, "2": 2, "a": 3, "1": 4}}%%\npie'], ['init-lone-surrogate', '%%{init: {"s": "\\ud800"}}%%\npie'],
+  ['init-nest-100', `%%{init: ${peleNest(100)}}%%\npie`], ['wrap', '%%{wrap}%%\npie'], ['wrap-colon', '%%{wrap: true}%%\npie'],
+  ['init-closer-in-string', '%%{init: {"a":"x}%%y"}}%%\npie'], ['init-multiline', '%%{init: {\n"a": 1\n}}%%\npie'],
+  ['init-crlf', '%%{init: {\r\n"a": 1\r\n}}%%\r\npie'], ['init-u2028', '%%{init: {"a":\u20281}}%%\npie'], ['init-upper', '%%{INIT: {"a":1}}%%\npie'],
+  ['init-spaces', '%%{ init : {"a" : 1} }%%\npie'], ['init-later', 'pie\n%%{init: {"a":1}}%%'], ['init-unclosed', '%%{init: {"a":1}\npie'],
+  ['init-word', '%%{init: theme}%%\npie'], ['init-twice-line', '%%{init: {"a":1}}%%%%{init: {"b":2}}%%\npie'],
+  ['directive-other', '%%{config: {"a":1}}%%\npie'], ['directive-trim', '  %%{init: {"a":1}}%%  \npie'],
+  ['html-attrs', 'flowchart\nA["<a href="x" title="y">t</a>"]'], ['html-attrs-b', 'x <b class="c">y</b>'], ['html-br', 'a<br/>b'],
+  ['html-first-gt', '>pie <x a="1"'], ['html-digit-tag', '<1 a="b">'], ['html-unicode-tag', '<é a="b">'], ['html-newline-attrs', '<x\na="1">'],
+  ['html-after-last', '<x a="1"> <y b="2"'], ['html-empty-attr', '<x a="">'], ['html-crlf', '<x\r\na="1">\r\n'],
+  ['dashes-not-front-matter', 'pie\n---\n"a":1'], ['dashes-glued', '---pie'], ['dashes-unclosed', '---\npie'], ['empty', ''],
+];
+write('fixtures/js/pele-preprocess.json', pelePreIn.map(([name, input]) => {
+  const { text, title, config, withComments, lineOffset } = P.preprocess(input);
+  return { name, input, out: JSON.stringify({ text, title, config, withComments, lineOffset }) };
+}));
+// Nesting past the port's JSON depth cap (a stated deviation): Node merges it; the port ignores the directive.
+const peleDeep = P.preprocess(`%%{init: ${peleNest(300)}}%%\npie`);
+write('fixtures/js/pele-preprocess-deep.json', { input: `%%{init: ${peleNest(300)}}%%\npie`, text: peleDeep.text, merged: JSON.stringify(peleDeep.config).length });
+
+// layoutLabel(raw, markdown, metricsMeasurer, size, maxWidth, base): wrapping, <br/>, inline tags, markdown, icons.
+const peleLabelIn = [
+  ['', false, 13, 400, 0], ['Hello', false, 13, 400, 0], ['  padded  ', false, 13, 400, 0], ['Hello', false, 16, 400, 1],
+  ['a long label that should wrap nicely', false, 13, 50, 0], ['nospaceslongword', false, 13, 10, 0], ['two  spaces  here', false, 13, 30, 0],
+  ['line1<br/>line2', false, 13, 400, 0], ['a<br>b<BR />c<br \t/>d', false, 13, 400, 0], ['a\\nb', false, 13, 400, 0], ['a\nb', false, 13, 400, 0],
+  ['<br/>x', false, 13, 400, 0], ['<b>bold</b> text', false, 13, 400, 0], ['<i>it</i>', false, 13, 400, 0], ['<strong>x</strong><em>y</em>', false, 13, 400, 0],
+  ['<span class="x">s</span>', false, 13, 400, 0], ['<b>unclosed', false, 13, 400, 0], ['<b>x</b>', false, 13, 400, 1], ['a < b', false, 13, 400, 0],
+  ['<B>up</B>', false, 13, 400, 0], ['<b-x>t</b-x>', false, 13, 400, 0], ['<b\u00A0x>t', false, 13, 400, 0],
+  ['fa:fa-car Cars', false, 13, 400, 0], ['Cars fa:fa-car', false, 13, 400, 0], ['Cars fa:fa-car more', false, 13, 400, 0],
+  ['fab:fa-github x', false, 13, 400, 0], ['fa:fa-car', false, 13, 400, 0], ['fa:fa-car,x', false, 13, 400, 0], ['a fa:fa-x  b', false, 13, 400, 0],
+  ['faz:fa-car x', false, 13, 400, 0], ['<b>fa:fa-car</b> x', false, 13, 400, 0], ['x fa:fa-car<br/>y', false, 13, 400, 0],
+  ['ﬂ°quot¶ß quoted', false, 13, 400, 0], ['&amp; x', false, 13, 400, 0], ['ﬂ°°65¶ß', false, 13, 400, 0],
+  ['**bold** md', true, 13, 400, 0], ['_it_ md', true, 13, 400, 0], ['snake_case_word', true, 13, 400, 0], ['* not', true, 13, 400, 0],
+  ['__b__ and *i*', true, 13, 400, 0], ['**unclosed', true, 13, 400, 0], ['a *b c* d', true, 13, 400, 0], ['**bold** md', false, 13, 400, 0],
+  ['**a long bold** text that wraps', true, 13, 60, 0], ['  a\n    b\r\n  c', true, 13, 400, 0], ['x**y**', true, 13, 400, 0],
+  ['中文标签很长很长', false, 13, 30, 0], ['中文 标签 很长 很长', false, 13, 30, 0], ['emoji 😀 here and more', false, 13, 40, 0],
+  ['<b>a b c d e f</b> g h', false, 13, 30, 0], ['a<b>b c</b>d e', false, 13, 20, 0], ['wrap\u00A0nbsp words here', false, 13, 30, 0],
+  ['trailing   <br/>x', false, 13, 400, 0], ['  <b> spaced </b>  ', false, 13, 400, 0], ['a b', false, 13, 0, 0], ['x', false, 0, 400, 0],
+];
+write('fixtures/js/pele-label.json', peleLabelIn.map(([raw, markdown, size, maxWidth, base]) =>
+  [raw, markdown, size, maxWidth, base, JSON.stringify(P.layoutLabel(raw, markdown, P.metricsMeasurer, size, maxWidth, base))]));
+
+// The SVG writer: svgDocument (rx rewrite, weights, accessible names, useMaxWidth), labelSvg, resolveStyle, classNames,
+// seriesColor, fontStyle. Theme constants are written out so the port's copies are checked too.
+const RX = ' rx="var(--pele-radius,4px)"';
+const peleDocs = [
+  ['pie', 100, 50, 13, true, '', '', ''], ['xychart', 480.5, 260, 13, false, 'T & t', 'D <d>', '<g/>'],
+  ['pie', 10, 10, 16, true, 'ﬂ°amp¶ß', '', `<rect x="0"${RX} y="1"/>`], ['venn', 1, 2, 11.5, true, '', 'only desc', `<rect${RX} style="fill:red"/>`],
+  ['sankey', 3, 4, 13, true, '', '', `<rect${RX}>`], ['radar', 5, 6, 13, true, '', '', `<rectx${RX}/><rect a="1"/>`],
+  ['quadrantChart', 7, 8, 13, true, '', '', '<text font-weight="var(--_w)">a</text><g fill="var(--_tw)"/><x y="var(--_hw)"/>'],
+  ['pie', 9, 9, 13, true, '', '', `<rect${RX}${RX}/>`], ['pie', 9, 9, 13, true, '', '', 'var(--_r) only'],
+];
+const peleLabelSvgIn = [
+  ['Hello', false, 13, 400, 0, 50, 20, ''], ['<b>Bold</b>', false, 13, 400, 0, 50, 20, ''], ['<b>Bold</b>', false, 13, 400, 0, 50, 20, ' font-weight="600"'],
+  ['a<br/>b', false, 13, 400, 0, 0, 0, ' class="t"'], ['<br/>x', false, 13, 400, 0, 1.005, 2.675, ''], ['**bold** and _it_', true, 13, 400, 0, 10, 10, ''],
+  ['x', false, 13, 400, 1, 3, 4, ''], ['<i>a</i><b>b</b>', false, 13, 400, 0, 3, 4, ''], ['<i><b>a</b></i> <i>b</i>', false, 13, 400, 0, 3, 4, ' font-style="normal"'],
+  ['a & b', false, 13, 400, 0, -5, -5, ''], ['', false, 13, 400, 0, 0, 0, ''], ['long words that wrap around', false, 16, 60, 0, 100, 100, ''],
+  ['fa:fa-car Cars', false, 13, 400, 0, 0, 0, ''],
+];
+const peleStyles = [[], ['fill:#f00'], ['fill:#f00', 'stroke:blue', 'stroke-width:2px'], ['color:red', 'font-weight:bold'], ['font-weight:700'],
+  ['font-weight:500'], ['font-weight: 600'], ['font-weight:bolder'], ['font-weight:abc'], ['font-size:14px'], ['font-size:14'], ['font-size:300px'],
+  ['font-size:0'], ['font-size:1.5.2px'], ['FONT-SIZE:12PX'], ['font-size:.5'], ['FILL : #abc !IMPORTANT'], ['fill:url(x)'], ['fill:url\t(x)'],
+  ['fill:url\u00A0(x)'], ['fill: '], [':x'], ['nocolon'], ['opacity:0.5'], ['fill:a', 'stroke:c', 'fill:b'], ['font-style:italic'], ['fill:"q"'],
+  ['fill:a&b'], ['stroke:red;'], ['fill:expression (x)'], ['fill:JavaScript:x'], ['rx:5', 'ry:6'], ['font-family:Arial'], ['fill:/*x*/'],
+  ['fill:@IMPORT'], ['fill:image-set(x)'], ['fill-opacity:0.2', 'stroke-dasharray:3 3'], ['text-decoration:underline', 'letter-spacing:1px'],
+  ['fill:a!important!important'], ['fill:#f00 !important'], ['unknown:1']];
+write('fixtures/js/pele-svg.json', {
+  constants: { ROOT_STYLE: P.ROOT_STYLE, RADIUS: P.RADIUS, CRITICAL: P.CRITICAL },
+  documents: peleDocs.map(([type, w, h, size, responsive, accTitle, accDescr, content]) =>
+    [type, w, h, size, responsive, accTitle, accDescr, content, P.svgDocument(type, w, h, size, responsive ? {} : { responsive: false }, { accTitle, accDescr }, content)]),
+  labels: peleLabelSvgIn.map(([raw, md, size, max, base, cx, cy, attrs]) =>
+    [raw, md, size, max, base, cx, cy, attrs, P.labelSvg(P.layoutLabel(raw, md, P.metricsMeasurer, size, max, base), cx, cy, attrs)]),
+  styles: peleStyles.map((decls) => [decls, JSON.stringify(P.resolveStyle(decls))]),
+  classNames: ['a b', 'a.b#c', '  x  ', '', '---', 'é', 'a_b-c', '<x>', 'a\u00A0b'].map((s) => [s, P.classNames(s)]),
+  seriesColor: Array.from({ length: 27 }, (_, i) => [i - 9, P.seriesColor(i - 9)]),
+  fontStyle: [13, 11.5, 16].map((size) => [size, P.fontStyle(size, undefined, undefined)]),
+});
+
+// The Langium-style tokenizer and Reader over a test table built from the common tokens. The C# test builds the same table
+// (PeleCoreTests.TestTokens); it uses a literal pattern with `longer`, a `match` scanner, a `scanner` factory and every shared token.
+const T = P.tokens;
+const tokId = { name: 'ID', pattern: /[a-z]+/y, first: 'abcdefghijklmnopqrstuvwxyz' };
+const tokDigits = (src, at) => { let i = at; while (src.charCodeAt(i) >= 48 && src.charCodeAt(i) <= 57) i++; return i > at ? i : -1; };
+const TEST_TOKENS = [{ name: 'pie', pattern: 'pie', longer: [tokId] }, T.keyword('showData'), { name: ':', pattern: ':' },
+  { name: 'NUM', pattern: /[0-9]+/y, match: tokDigits, first: '0123456789' }, T.ACC_DESCR, T.ACC_TITLE, T.TITLE, T.STRING, T.NEWLINE,
+  T.WHITESPACE, T.YAML, T.DIRECTIVE, T.SINGLE_LINE_COMMENT, tokId,
+  { name: 'HASH', pattern: /#[0-9]+/y, scanner: () => (src, at) => (src.charCodeAt(at) === 35 && tokDigits(src, at + 1) !== -1 ? tokDigits(src, at + 1) : -1), first: '#' }];
+const peleTokenIn = ['pie', 'pies', 'pie showData', 'pie showDatax', 'pie title X\n"a" : 1', 'pie\n%% c\n"a":1', '  accTitle: t\naccDescr {\nx\n}',
+  'accDescr: d %% c', 'accTitle: a %% b', 'title T %% c', '%%{init: {}}%%\npie', '%%{init: {}}%%x', '%%{ unclosed\npie', '---\nx\n---\npie',
+  '---\n---', '---\nunclosed', '--- \r\n a \r\n---', 'pie ?', '"unterminated', "'s' \"d\"", '"a\\"b"', 'pie%%c', 'é', 'pie é', 'title', 'titlex',
+  'showData%%x', '12:34', 'a\r\nb', 'a\rb', '\t \t', '', 'accDescr\n{ multi\n line }', 'accDescr {unclosed', 'pie\u2028x', '"a\u2028b"', '#12 pie', '#', 'pie#3#4'];
+write('fixtures/js/pele-tokens.json', {
+  tokenize: peleTokenIn.map((src) => [src, peleTry(() => { const t = T.tokenize(src, TEST_TOKENS, 'test'); return { kinds: t.kinds, starts: t.starts, ends: t.ends }; })]),
+  // Reader: expect pie, accept showData, expect ':' then NUM; the Chevrotain-style failure message otherwise.
+  reader: ['pie:1', 'pie showData:2', 'pie', 'pie:x', 'pie::', 'x:1', 'pie showData', '\npie:1'].map((src) => [src, peleTry(() => {
+    const r = new T.Reader(T.tokenize(src, TEST_TOKENS, 'test'), TEST_TOKENS, 'test');
+    const out = [r.expect(0)];
+    out.push(String(r.accept(1)));
+    out.push(r.expect(2), r.expect(3));
+    return out;
+  })]),
+  titleValue: ['title  My   Title', 'title', 'title\tx  y ', 'xtitle a', 'title\u00A0a  b'].map((s) => [s, T.titleValue(s)]),
+  accTitleValue: ['accTitle: x  y', 'accTitle:', 'accTitle :\t a\t\tb'].map((s) => [s, T.accTitleValue(s)]),
+  accDescrValue: ['accDescr: one  two', 'accDescr {\n  line one  \n\n\n  line two\n}', 'accDescr{a\u2028  b}', 'accDescr   {  x\r\n\r\n y  }',
+    'accDescr {}', 'accDescr{\u00A0a\u00A0\n\u2029b}', 'accDescr {a\t\t b\r\r\nc}', 'accDescr:x', 'accDescr {  \n  }'].map((s) => [s, T.accDescrValue(s)]),
+  stringValue: ['"abc"', '"a\\nb"', '"a\\"b"', "'x\\ty'", '"\\q"', '"\\0"', '"\\v\\b\\f\\r"', '""', '"\\\\"'].map((s) => [s, T.stringValue(s)]),
+  locate: [['abc', 0], ['abc', 2], ['abc', 3], ['a\nbc\nd', 3], ['a\nbc\nd', 2], ['a\nbc\nd', 5], ['\n\n', 1], ['', 0], ['x\r\ny', 2]]
+    .map(([src, at]) => [src, at, P.locate(src, at)]),
+  syntaxError: [['pie', 'pie\nx', 4, 'Expecting a but found b.', false], ['xy', 'a\nb\nc', 2, '', true], ['t', 'abc', 1, 'detail', false]]
+    .map(([type, src, at, detail, lexical]) => { const e = P.syntaxError(type, src, at, detail, lexical); return [type, src, at, detail, lexical, { message: e.message, code: e.code, line: e.line }]; }),
+  wordAt: [['XYChart', 0, 'xychart'], ['xyCHART', 0, 'xychart'], ['xy', 0, 'xychart'], ['éa', 0, 'éa'], ['ÉA', 0, 'éa'], ['K', 0, 'k'],
+    ['\u212A', 0, 'k'], ['x[', 0, 'x'], ['ab', 1, 'b'], ['a1', 0, 'a1'], ['A_', 0, 'a_'], ['', 0, '']].map(([s, at, w]) => [s, at, w, P.wordAt(s, at, w)]),
+  fit: { titleRoom: P.titleRoom({ padding: 8 }), capWidth: P.capWidth({}, 480, 200, 30), fitWidth: P.fitWidth({}, 480, 200, (plot, narrow) => ({ svg: `${plot}|${narrow}`, width: plot, height: 1, links: [] })).svg },
+});
 console.log('fixtures captured');

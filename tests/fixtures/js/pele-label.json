@@ -1,0 +1,450 @@
+[
+  [
+    "",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[],\"widths\":[],\"width\":0,\"height\":0,\"size\":0,\"lineHeight\":0}"
+  ],
+  [
+    "Hello",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"Hello\",\"style\":0,\"width\":29.614}]],\"widths\":[29.614],\"width\":29.614,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "  padded  ",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"padded\",\"style\":0,\"width\":43.368}]],\"widths\":[43.368],\"width\":43.368,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "Hello",
+    false,
+    16,
+    400,
+    1,
+    "{\"lines\":[[{\"text\":\"Hello\",\"style\":1,\"width\":39.12}]],\"widths\":[39.12],\"width\":39.12,\"height\":24,\"size\":16,\"lineHeight\":24}"
+  ],
+  [
+    "a long label that should wrap nicely",
+    false,
+    13,
+    50,
+    0,
+    "{\"lines\":[[{\"text\":\"a long\",\"style\":0,\"width\":35.412}],[{\"text\":\"label\",\"style\":0,\"width\":27.456}],[{\"text\":\"that\",\"style\":0,\"width\":21.684}],[{\"text\":\"should\",\"style\":0,\"width\":38.298}],[{\"text\":\"wrap\",\"style\":0,\"width\":28.171}],[{\"text\":\"nicely\",\"style\":0,\"width\":33.228}]],\"widths\":[35.412,27.456,21.684,38.298,28.171,33.228],\"width\":38.298,\"height\":120,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "nospaceslongword",
+    false,
+    13,
+    10,
+    0,
+    "{\"lines\":[[{\"text\":\"nospaceslongword\",\"style\":0,\"width\":108.381}]],\"widths\":[108.381],\"width\":108.381,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "two  spaces  here",
+    false,
+    13,
+    30,
+    0,
+    "{\"lines\":[[{\"text\":\"two\",\"style\":0,\"width\":20.228}],[{\"text\":\"spaces\",\"style\":0,\"width\":41.184}],[{\"text\":\"here\",\"style\":0,\"width\":26.013}]],\"widths\":[20.228,41.184,26.013],\"width\":41.184,\"height\":60,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "line1<br/>line2",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"line1\",\"style\":0,\"width\":27.456}],[{\"text\":\"line2\",\"style\":0,\"width\":27.456}]],\"widths\":[27.456,27.456],\"width\":27.456,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a<br>b<BR />c<br \t/>d",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a\",\"style\":0,\"width\":7.228}],[{\"text\":\"b\",\"style\":0,\"width\":7.228}],[{\"text\":\"c\",\"style\":0,\"width\":6.5}],[{\"text\":\"d\",\"style\":0,\"width\":7.228}]],\"widths\":[7.228,7.228,6.5,7.228],\"width\":7.228,\"height\":80,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a\\nb",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a\",\"style\":0,\"width\":7.228}],[{\"text\":\"b\",\"style\":0,\"width\":7.228}]],\"widths\":[7.228,7.228],\"width\":7.228,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a\nb",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a\",\"style\":0,\"width\":7.228}],[{\"text\":\"b\",\"style\":0,\"width\":7.228}]],\"widths\":[7.228,7.228],\"width\":7.228,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<br/>x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[],[{\"text\":\"x\",\"style\":0,\"width\":6.5}]],\"widths\":[0,6.5],\"width\":6.5,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b>bold</b> text",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"bold\",\"style\":1,\"width\":27.443},{\"text\":\" text\",\"style\":0,\"width\":24.57}]],\"widths\":[52.013000000000005],\"width\":52.013000000000005,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<i>it</i>",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"it\",\"style\":2,\"width\":6.5}]],\"widths\":[6.5],\"width\":6.5,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<strong>x</strong><em>y</em>",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"x\",\"style\":1,\"width\":7.228},{\"text\":\"y\",\"style\":2,\"width\":6.5}]],\"widths\":[13.728],\"width\":13.728,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<span class=\"x\">s</span>",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"s\",\"style\":0,\"width\":6.5}]],\"widths\":[6.5],\"width\":6.5,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b>unclosed",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"unclosed\",\"style\":1,\"width\":57.07}]],\"widths\":[57.07],\"width\":57.07,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b>x</b>",
+    false,
+    13,
+    400,
+    1,
+    "{\"lines\":[[{\"text\":\"x\",\"style\":1,\"width\":7.228}]],\"widths\":[7.228],\"width\":7.228,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a < b",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a < b\",\"style\":0,\"width\":29.276}]],\"widths\":[29.276],\"width\":29.276,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<B>up</B>",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"up\",\"style\":1,\"width\":15.886}]],\"widths\":[15.886],\"width\":15.886,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b-x>t</b-x>",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"t\",\"style\":0,\"width\":3.614}]],\"widths\":[3.614],\"width\":3.614,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b x>t",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"t\",\"style\":1,\"width\":4.329}]],\"widths\":[4.329],\"width\":4.329,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "fa:fa-car Cars",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"Cars\",\"style\":0,\"width\":27.443}]],\"widths\":[27.443],\"width\":27.443,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "Cars fa:fa-car",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"Cars\",\"style\":0,\"width\":27.443}]],\"widths\":[27.443],\"width\":27.443,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "Cars fa:fa-car more",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"Cars more\",\"style\":0,\"width\":60.671}]],\"widths\":[60.671],\"width\":60.671,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "fab:fa-github x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"x\",\"style\":0,\"width\":6.5}]],\"widths\":[6.5],\"width\":6.5,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "fa:fa-car",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[]],\"widths\":[0],\"width\":0,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "fa:fa-car,x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\",x\",\"style\":0,\"width\":10.114}]],\"widths\":[10.114],\"width\":10.114,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a fa:fa-x  b",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a  b\",\"style\":0,\"width\":21.684}]],\"widths\":[21.684],\"width\":21.684,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "faz:fa-car x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"faz:fa-car x\",\"style\":0,\"width\":64.298}]],\"widths\":[64.298],\"width\":64.298,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b>fa:fa-car</b> x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\" x\",\"style\":0,\"width\":10.114}]],\"widths\":[10.114],\"width\":10.114,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "x fa:fa-car<br/>y",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"x\",\"style\":0,\"width\":6.5}],[{\"text\":\"y\",\"style\":0,\"width\":6.5}]],\"widths\":[6.5,6.5],\"width\":6.5,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "ﬂ°quot¶ß quoted",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"\\\" quoted\",\"style\":0,\"width\":47.983}]],\"widths\":[47.983],\"width\":47.983,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "&amp; x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"& x\",\"style\":0,\"width\":18.785}]],\"widths\":[18.785],\"width\":18.785,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "ﬂ°°65¶ß",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"A\",\"style\":0,\"width\":8.671}]],\"widths\":[8.671],\"width\":8.671,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "**bold** md",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"bold\",\"style\":1,\"width\":27.443},{\"text\":\" md\",\"style\":0,\"width\":21.671}]],\"widths\":[49.114000000000004],\"width\":49.114000000000004,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "_it_ md",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"it\",\"style\":2,\"width\":6.5},{\"text\":\" md\",\"style\":0,\"width\":21.671}]],\"widths\":[28.171],\"width\":28.171,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "snake_case_word",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"snake_case_word\",\"style\":0,\"width\":104.767}]],\"widths\":[104.767],\"width\":104.767,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "* not",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"* not\",\"style\":0,\"width\":26.741}]],\"widths\":[26.741],\"width\":26.741,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "__b__ and *i*",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"b\",\"style\":1,\"width\":7.943},{\"text\":\" and \",\"style\":0,\"width\":28.912},{\"text\":\"i\",\"style\":2,\"width\":2.886}]],\"widths\":[39.741],\"width\":39.741,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "**unclosed",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"**unclosed\",\"style\":0,\"width\":62.14}]],\"widths\":[62.14],\"width\":62.14,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a *b c* d",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a \",\"style\":0,\"width\":10.842},{\"text\":\"b c\",\"style\":2,\"width\":17.342},{\"text\":\" d\",\"style\":0,\"width\":10.842}]],\"widths\":[39.025999999999996],\"width\":39.025999999999996,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "**bold** md",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"**bold** md\",\"style\":0,\"width\":66.469}]],\"widths\":[66.469],\"width\":66.469,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "**a long bold** text that wraps",
+    true,
+    13,
+    60,
+    0,
+    "{\"lines\":[[{\"text\":\"a long\",\"style\":1,\"width\":38.285}],[{\"text\":\"bold\",\"style\":1,\"width\":27.443},{\"text\":\" text\",\"style\":0,\"width\":24.57}],[{\"text\":\"that wraps\",\"style\":0,\"width\":59.969}]],\"widths\":[38.285,52.013000000000005,59.969],\"width\":59.969,\"height\":60,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "  a\n    b\r\n  c",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"a\",\"style\":0,\"width\":7.228}],[{\"text\":\"b\",\"style\":0,\"width\":7.228}],[{\"text\":\"c\",\"style\":0,\"width\":6.5}]],\"widths\":[7.228,7.228,6.5],\"width\":7.228,\"height\":60,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "x**y**",
+    true,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"x\",\"style\":0,\"width\":6.5},{\"text\":\"y\",\"style\":1,\"width\":7.228}]],\"widths\":[13.728],\"width\":13.728,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "中文标签很长很长",
+    false,
+    13,
+    30,
+    0,
+    "{\"lines\":[[{\"text\":\"中文标签很长很长\",\"style\":0,\"width\":104}]],\"widths\":[104],\"width\":104,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "中文 标签 很长 很长",
+    false,
+    13,
+    30,
+    0,
+    "{\"lines\":[[{\"text\":\"中文\",\"style\":0,\"width\":26}],[{\"text\":\"标签\",\"style\":0,\"width\":26}],[{\"text\":\"很长\",\"style\":0,\"width\":26}],[{\"text\":\"很长\",\"style\":0,\"width\":26}]],\"widths\":[26,26,26,26],\"width\":26,\"height\":80,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "emoji 😀 here and more",
+    false,
+    13,
+    40,
+    0,
+    "{\"lines\":[[{\"text\":\"emoji\",\"style\":0,\"width\":31.057}],[{\"text\":\"😀\",\"style\":0,\"width\":13}],[{\"text\":\"here\",\"style\":0,\"width\":26.013}],[{\"text\":\"and\",\"style\":0,\"width\":21.684}],[{\"text\":\"more\",\"style\":0,\"width\":29.614}]],\"widths\":[31.057,13,26.013,21.684,29.614],\"width\":31.057,\"height\":100,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "<b>a b c d e f</b> g h",
+    false,
+    13,
+    30,
+    0,
+    "{\"lines\":[[{\"text\":\"a b c\",\"style\":1,\"width\":29.627}],[{\"text\":\"d e f\",\"style\":1,\"width\":26.728}],[{\"text\":\"g h\",\"style\":0,\"width\":18.07}]],\"widths\":[29.627,26.728,18.07],\"width\":29.627,\"height\":60,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a<b>b c</b>d e",
+    false,
+    13,
+    20,
+    0,
+    "{\"lines\":[[{\"text\":\"a\",\"style\":0,\"width\":7.228},{\"text\":\"b\",\"style\":1,\"width\":7.943}],[{\"text\":\"c\",\"style\":1,\"width\":7.228},{\"text\":\"d\",\"style\":0,\"width\":7.228}],[{\"text\":\"e\",\"style\":0,\"width\":7.228}]],\"widths\":[15.171,14.456,7.228],\"width\":15.171,\"height\":60,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "wrap nbsp words here",
+    false,
+    13,
+    30,
+    0,
+    "{\"lines\":[[{\"text\":\"wrap\",\"style\":0,\"width\":28.171}],[{\"text\":\"nbsp\",\"style\":0,\"width\":28.184}],[{\"text\":\"words\",\"style\":0,\"width\":34.671}],[{\"text\":\"here\",\"style\":0,\"width\":26.013}]],\"widths\":[28.171,28.184,34.671,26.013],\"width\":34.671,\"height\":80,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "trailing   <br/>x",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"trailing\",\"style\":0,\"width\":38.285}],[{\"text\":\"x\",\"style\":0,\"width\":6.5}]],\"widths\":[38.285,6.5],\"width\":38.285,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "  <b> spaced </b>  ",
+    false,
+    13,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\" spaced \",\"style\":1,\"width\":52.026}]],\"widths\":[52.026],\"width\":52.026,\"height\":20,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "a b",
+    false,
+    13,
+    0,
+    0,
+    "{\"lines\":[[{\"text\":\"a\",\"style\":0,\"width\":7.228}],[{\"text\":\"b\",\"style\":0,\"width\":7.228}]],\"widths\":[7.228,7.228],\"width\":7.228,\"height\":40,\"size\":13,\"lineHeight\":20}"
+  ],
+  [
+    "x",
+    false,
+    0,
+    400,
+    0,
+    "{\"lines\":[[{\"text\":\"x\",\"style\":0,\"width\":0}]],\"widths\":[0],\"width\":0,\"height\":0,\"size\":0,\"lineHeight\":0}"
+  ]
+]

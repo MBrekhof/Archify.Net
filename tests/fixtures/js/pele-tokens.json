@@ -1,0 +1,1027 @@
+{
+  "tokenize": [
+    [
+      "pie",
+      {
+        "kinds": [
+          0,
+          -1
+        ],
+        "starts": [
+          0,
+          3
+        ],
+        "ends": [
+          3,
+          3
+        ]
+      }
+    ],
+    [
+      "pies",
+      {
+        "kinds": [
+          13,
+          -1
+        ],
+        "starts": [
+          0,
+          4
+        ],
+        "ends": [
+          4,
+          4
+        ]
+      }
+    ],
+    [
+      "pie showData",
+      {
+        "kinds": [
+          0,
+          1,
+          -1
+        ],
+        "starts": [
+          0,
+          4,
+          12
+        ],
+        "ends": [
+          3,
+          12,
+          12
+        ]
+      }
+    ],
+    [
+      "pie showDatax",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\npie showDatax\n--------^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie title X\n\"a\" : 1",
+      {
+        "kinds": [
+          0,
+          6,
+          8,
+          7,
+          2,
+          3,
+          -1
+        ],
+        "starts": [
+          0,
+          3,
+          11,
+          12,
+          16,
+          18,
+          19
+        ],
+        "ends": [
+          3,
+          11,
+          12,
+          15,
+          17,
+          19,
+          19
+        ]
+      }
+    ],
+    [
+      "pie\n%% c\n\"a\":1",
+      {
+        "kinds": [
+          0,
+          8,
+          8,
+          7,
+          2,
+          3,
+          -1
+        ],
+        "starts": [
+          0,
+          3,
+          8,
+          9,
+          12,
+          13,
+          14
+        ],
+        "ends": [
+          3,
+          4,
+          9,
+          12,
+          13,
+          14,
+          14
+        ]
+      }
+    ],
+    [
+      "  accTitle: t\naccDescr {\nx\n}",
+      {
+        "kinds": [
+          5,
+          8,
+          4,
+          -1
+        ],
+        "starts": [
+          0,
+          13,
+          14,
+          28
+        ],
+        "ends": [
+          13,
+          14,
+          28,
+          28
+        ]
+      }
+    ],
+    [
+      "accDescr: d %% c",
+      {
+        "kinds": [
+          4,
+          -1
+        ],
+        "starts": [
+          0,
+          16
+        ],
+        "ends": [
+          12,
+          16
+        ]
+      }
+    ],
+    [
+      "accTitle: a %% b",
+      {
+        "kinds": [
+          5,
+          -1
+        ],
+        "starts": [
+          0,
+          16
+        ],
+        "ends": [
+          12,
+          16
+        ]
+      }
+    ],
+    [
+      "title T %% c",
+      {
+        "kinds": [
+          6,
+          -1
+        ],
+        "starts": [
+          0,
+          12
+        ],
+        "ends": [
+          8,
+          12
+        ]
+      }
+    ],
+    [
+      "%%{init: {}}%%\npie",
+      {
+        "kinds": [
+          0,
+          -1
+        ],
+        "starts": [
+          15,
+          18
+        ],
+        "ends": [
+          18,
+          18
+        ]
+      }
+    ],
+    [
+      "%%{init: {}}%%x",
+      {
+        "kinds": [
+          -1
+        ],
+        "starts": [
+          15
+        ],
+        "ends": [
+          15
+        ]
+      }
+    ],
+    [
+      "%%{ unclosed\npie",
+      {
+        "kinds": [
+          8,
+          0,
+          -1
+        ],
+        "starts": [
+          12,
+          13,
+          16
+        ],
+        "ends": [
+          13,
+          16,
+          16
+        ]
+      }
+    ],
+    [
+      "---\nx\n---\npie",
+      {
+        "kinds": [
+          0,
+          -1
+        ],
+        "starts": [
+          10,
+          13
+        ],
+        "ends": [
+          13,
+          13
+        ]
+      }
+    ],
+    [
+      "---\n---",
+      {
+        "kinds": [
+          -1
+        ],
+        "starts": [
+          7
+        ],
+        "ends": [
+          7
+        ]
+      }
+    ],
+    [
+      "---\nunclosed",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\n---\n^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "--- \r\n a \r\n---",
+      {
+        "kinds": [
+          -1
+        ],
+        "starts": [
+          14
+        ],
+        "ends": [
+          14
+        ]
+      }
+    ],
+    [
+      "pie ?",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\npie ?\n----^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "\"unterminated",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\n\"unterminated\n^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "'s' \"d\"",
+      {
+        "kinds": [
+          7,
+          7,
+          -1
+        ],
+        "starts": [
+          0,
+          4,
+          7
+        ],
+        "ends": [
+          3,
+          7,
+          7
+        ]
+      }
+    ],
+    [
+      "\"a\\\"b\"",
+      {
+        "kinds": [
+          7,
+          -1
+        ],
+        "starts": [
+          0,
+          6
+        ],
+        "ends": [
+          6,
+          6
+        ]
+      }
+    ],
+    [
+      "pie%%c",
+      {
+        "kinds": [
+          0,
+          -1
+        ],
+        "starts": [
+          0,
+          6
+        ],
+        "ends": [
+          3,
+          6
+        ]
+      }
+    ],
+    [
+      "é",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\né\n^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie é",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\npie é\n----^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "title",
+      {
+        "kinds": [
+          6,
+          -1
+        ],
+        "starts": [
+          0,
+          5
+        ],
+        "ends": [
+          5,
+          5
+        ]
+      }
+    ],
+    [
+      "titlex",
+      {
+        "kinds": [
+          6,
+          13,
+          -1
+        ],
+        "starts": [
+          0,
+          5,
+          6
+        ],
+        "ends": [
+          5,
+          6,
+          6
+        ]
+      }
+    ],
+    [
+      "showData%%x",
+      {
+        "kinds": [
+          1,
+          -1
+        ],
+        "starts": [
+          0,
+          11
+        ],
+        "ends": [
+          8,
+          11
+        ]
+      }
+    ],
+    [
+      "12:34",
+      {
+        "kinds": [
+          3,
+          2,
+          3,
+          -1
+        ],
+        "starts": [
+          0,
+          2,
+          3,
+          5
+        ],
+        "ends": [
+          2,
+          3,
+          5,
+          5
+        ]
+      }
+    ],
+    [
+      "a\r\nb",
+      {
+        "kinds": [
+          13,
+          8,
+          13,
+          -1
+        ],
+        "starts": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "ends": [
+          1,
+          3,
+          4,
+          4
+        ]
+      }
+    ],
+    [
+      "a\rb",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\na\rb\n-^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "\t \t",
+      {
+        "kinds": [
+          -1
+        ],
+        "starts": [
+          3
+        ],
+        "ends": [
+          3
+        ]
+      }
+    ],
+    [
+      "",
+      {
+        "kinds": [
+          -1
+        ],
+        "starts": [
+          0
+        ],
+        "ends": [
+          0
+        ]
+      }
+    ],
+    [
+      "accDescr\n{ multi\n line }",
+      {
+        "kinds": [
+          4,
+          -1
+        ],
+        "starts": [
+          0,
+          24
+        ],
+        "ends": [
+          24,
+          24
+        ]
+      }
+    ],
+    [
+      "accDescr {unclosed",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\naccDescr {unclosed\n---^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie x",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\npie x\n---^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "\"a b\"",
+      {
+        "kinds": [
+          7,
+          -1
+        ],
+        "starts": [
+          0,
+          5
+        ],
+        "ends": [
+          5,
+          5
+        ]
+      }
+    ],
+    [
+      "#12 pie",
+      {
+        "kinds": [
+          14,
+          0,
+          -1
+        ],
+        "starts": [
+          0,
+          4,
+          7
+        ],
+        "ends": [
+          3,
+          7,
+          7
+        ]
+      }
+    ],
+    [
+      "#",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\n#\n^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie#3#4",
+      {
+        "kinds": [
+          0,
+          14,
+          14,
+          -1
+        ],
+        "starts": [
+          0,
+          3,
+          5,
+          7
+        ],
+        "ends": [
+          3,
+          5,
+          7,
+          7
+        ]
+      }
+    ]
+  ],
+  "reader": [
+    [
+      "pie:1",
+      [
+        "pie",
+        "false",
+        ":",
+        "1"
+      ]
+    ],
+    [
+      "pie showData:2",
+      {
+        "throws": "PeleError",
+        "message": "Lexical error on line 1. Unrecognized text.\npie showData:2\n--------^",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie",
+      {
+        "throws": "PeleError",
+        "message": "Parse error on line 1:\npie\n---^\nExpecting token of type ':' but found end of input.",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie:x",
+      {
+        "throws": "PeleError",
+        "message": "Parse error on line 1:\npie:x\n----^\nExpecting token of type 'NUM' but found `x`.",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie::",
+      {
+        "throws": "PeleError",
+        "message": "Parse error on line 1:\npie::\n----^\nExpecting token of type 'NUM' but found `:`.",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "x:1",
+      {
+        "throws": "PeleError",
+        "message": "Parse error on line 1:\nx:1\n^\nExpecting token of type 'pie' but found `x`.",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "pie showData",
+      {
+        "throws": "PeleError",
+        "message": "Parse error on line 1:\npie showData\n------------^\nExpecting token of type ':' but found end of input.",
+        "code": "syntax",
+        "line": 1
+      }
+    ],
+    [
+      "\npie:1",
+      {
+        "throws": "PeleError",
+        "message": "Parse error on line 1:\n\n^\nExpecting token of type 'pie' but found `\n`.",
+        "code": "syntax",
+        "line": 1
+      }
+    ]
+  ],
+  "titleValue": [
+    [
+      "title  My   Title",
+      "My Title"
+    ],
+    [
+      "title",
+      ""
+    ],
+    [
+      "title\tx  y ",
+      "x y"
+    ],
+    [
+      "xtitle a",
+      "a"
+    ],
+    [
+      "title a  b",
+      ""
+    ]
+  ],
+  "accTitleValue": [
+    [
+      "accTitle: x  y",
+      "x y"
+    ],
+    [
+      "accTitle:",
+      ""
+    ],
+    [
+      "accTitle :\t a\t\tb",
+      "a b"
+    ]
+  ],
+  "accDescrValue": [
+    [
+      "accDescr: one  two",
+      "one two"
+    ],
+    [
+      "accDescr {\n  line one  \n\n\n  line two\n}",
+      "line one\nline two"
+    ],
+    [
+      "accDescr{a   b}",
+      "a b"
+    ],
+    [
+      "accDescr   {  x\r\n\r\n y  }",
+      "x\ry"
+    ],
+    [
+      "accDescr {}",
+      ""
+    ],
+    [
+      "accDescr{ a \n b}",
+      "a\nb"
+    ],
+    [
+      "accDescr {a\t\t b\r\r\nc}",
+      "a b\rc"
+    ],
+    [
+      "accDescr:x",
+      "x"
+    ],
+    [
+      "accDescr {  \n  }",
+      ""
+    ]
+  ],
+  "stringValue": [
+    [
+      "\"abc\"",
+      "abc"
+    ],
+    [
+      "\"a\\nb\"",
+      "a\nb"
+    ],
+    [
+      "\"a\\\"b\"",
+      "a\"b"
+    ],
+    [
+      "'x\\ty'",
+      "x\ty"
+    ],
+    [
+      "\"\\q\"",
+      "q"
+    ],
+    [
+      "\"\\0\"",
+      "\u0000"
+    ],
+    [
+      "\"\\v\\b\\f\\r\"",
+      "\u000b\b\f\r"
+    ],
+    [
+      "\"\"",
+      ""
+    ],
+    [
+      "\"\\\\\"",
+      "\\"
+    ]
+  ],
+  "locate": [
+    [
+      "abc",
+      0,
+      {
+        "line": 1,
+        "column": 1,
+        "snippet": "abc\n^"
+      }
+    ],
+    [
+      "abc",
+      2,
+      {
+        "line": 1,
+        "column": 3,
+        "snippet": "abc\n--^"
+      }
+    ],
+    [
+      "abc",
+      3,
+      {
+        "line": 1,
+        "column": 4,
+        "snippet": "abc\n---^"
+      }
+    ],
+    [
+      "a\nbc\nd",
+      3,
+      {
+        "line": 2,
+        "column": 2,
+        "snippet": "bc\n-^"
+      }
+    ],
+    [
+      "a\nbc\nd",
+      2,
+      {
+        "line": 2,
+        "column": 1,
+        "snippet": "bc\n^"
+      }
+    ],
+    [
+      "a\nbc\nd",
+      5,
+      {
+        "line": 3,
+        "column": 1,
+        "snippet": "d\n^"
+      }
+    ],
+    [
+      "\n\n",
+      1,
+      {
+        "line": 2,
+        "column": 1,
+        "snippet": "\n^"
+      }
+    ],
+    [
+      "",
+      0,
+      {
+        "line": 1,
+        "column": 1,
+        "snippet": "\n^"
+      }
+    ],
+    [
+      "x\r\ny",
+      2,
+      {
+        "line": 1,
+        "column": 3,
+        "snippet": "x\r\n--^"
+      }
+    ]
+  ],
+  "syntaxError": [
+    [
+      "pie",
+      "pie\nx",
+      4,
+      "Expecting a but found b.",
+      false,
+      {
+        "message": "Parse error on line 2:\nx\n^\nExpecting a but found b.",
+        "code": "syntax",
+        "line": 2
+      }
+    ],
+    [
+      "xy",
+      "a\nb\nc",
+      2,
+      "",
+      true,
+      {
+        "message": "Lexical error on line 2. Unrecognized text.\nb\n^",
+        "code": "syntax",
+        "line": 2
+      }
+    ],
+    [
+      "t",
+      "abc",
+      1,
+      "detail",
+      false,
+      {
+        "message": "Parse error on line 1:\nabc\n-^\ndetail",
+        "code": "syntax",
+        "line": 1
+      }
+    ]
+  ],
+  "wordAt": [
+    [
+      "XYChart",
+      0,
+      "xychart",
+      true
+    ],
+    [
+      "xyCHART",
+      0,
+      "xychart",
+      true
+    ],
+    [
+      "xy",
+      0,
+      "xychart",
+      false
+    ],
+    [
+      "éa",
+      0,
+      "éa",
+      true
+    ],
+    [
+      "ÉA",
+      0,
+      "éa",
+      false
+    ],
+    [
+      "K",
+      0,
+      "k",
+      true
+    ],
+    [
+      "K",
+      0,
+      "k",
+      false
+    ],
+    [
+      "x[",
+      0,
+      "x",
+      true
+    ],
+    [
+      "ab",
+      1,
+      "b",
+      true
+    ],
+    [
+      "a1",
+      0,
+      "a1",
+      true
+    ],
+    [
+      "A_",
+      0,
+      "a_",
+      true
+    ],
+    [
+      "",
+      0,
+      "",
+      true
+    ]
+  ],
+  "fit": {
+    "titleRoom": 4000,
+    "capWidth": 480,
+    "fitWidth": "480|false"
+  }
+}

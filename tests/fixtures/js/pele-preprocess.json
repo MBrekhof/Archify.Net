@@ -1,0 +1,327 @@
+[
+  {
+    "name": "comment",
+    "input": "pie\n%% comment\n\"a\": 1",
+    "out": "{\"text\":\"pie\\n\\\"a\\\": 1\",\"config\":{},\"withComments\":\"pie\\n%% comment\\n\\\"a\\\": 1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comments-top",
+    "input": "%% top\n\n%% another\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"%% top\\n\\n%% another\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-indented",
+    "input": "\n\n  %% c\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\n\\n  %% c\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-inline",
+    "input": "pie %% not a line comment",
+    "out": "{\"text\":\"pie %% not a line comment\",\"config\":{},\"withComments\":\"pie %% not a line comment\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-empty",
+    "input": "%%\npie",
+    "out": "{\"text\":\"%%\\npie\",\"config\":{},\"withComments\":\"%%\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-percent3",
+    "input": "%%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"%%%\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-last",
+    "input": "pie\n%% last",
+    "out": "{\"text\":\"pie\\n\",\"config\":{},\"withComments\":\"pie\\n%% last\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-blank-run",
+    "input": "pie\n\n\n%% c\n\n\"a\":1",
+    "out": "{\"text\":\"pie\\n\\n\\\"a\\\":1\",\"config\":{},\"withComments\":\"pie\\n\\n\\n%% c\\n\\n\\\"a\\\":1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-u2028",
+    "input": "pie %% c\n\"a\":1",
+    "out": "{\"text\":\"pie \\\"a\\\":1\",\"config\":{},\"withComments\":\"pie %% c\\n\\\"a\\\":1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-u2029-end",
+    "input": "pie   %% c",
+    "out": "{\"text\":\"pie \",\"config\":{},\"withComments\":\"pie   %% c\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-cr-only",
+    "input": "pie\r%% c\r\"a\" : 1",
+    "out": "{\"text\":\"pie\\n\\\"a\\\" : 1\",\"config\":{},\"withComments\":\"pie\\n%% c\\n\\\"a\\\" : 1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "crlf",
+    "input": "pie\r\n\"a\" : 1\r\n",
+    "out": "{\"text\":\"pie\\n\\\"a\\\" : 1\\n\",\"config\":{},\"withComments\":\"pie\\n\\\"a\\\" : 1\\n\",\"lineOffset\":0}"
+  },
+  {
+    "name": "cr-crlf",
+    "input": "pie\r\r\n\"a\"\r",
+    "out": "{\"text\":\"pie\\n\\n\\\"a\\\"\\n\",\"config\":{},\"withComments\":\"pie\\n\\n\\\"a\\\"\\n\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-tab",
+    "input": "pie\n\t%% tabbed\n\"a\":1",
+    "out": "{\"text\":\"pie\\n\\\"a\\\":1\",\"config\":{},\"withComments\":\"pie\\n\\t%% tabbed\\n\\\"a\\\":1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-nbsp",
+    "input": "pie\n %% nbsp\nx",
+    "out": "{\"text\":\"pie\\nx\",\"config\":{},\"withComments\":\"pie\\n %% nbsp\\nx\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-feff",
+    "input": "﻿%% bom\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"﻿%% bom\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "comment-directive-like",
+    "input": "%%{ not closed\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"pie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "percent-in-string",
+    "input": "pie \"a%%b\" : 1",
+    "out": "{\"text\":\"pie \\\"a%%b\\\" : 1\",\"config\":{},\"withComments\":\"pie \\\"a%%b\\\" : 1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "trim-start",
+    "input": "  \n\t pie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"  \\n\\t pie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "trim-feff",
+    "input": "﻿pie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"﻿pie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init",
+    "input": "%%{init: {\"theme\":\"dark\"}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"theme\":\"dark\"},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-single-quotes",
+    "input": "%%{init: {'a':1}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":1},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-apostrophe-value",
+    "input": "%%{init: {\"a\":\"it's\"}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-dup-keys",
+    "input": "%%{init: {\"a\":1,\"b\":2,\"a\":3}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":3,\"b\":2},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-dup-object",
+    "input": "%%{init: {\"a\":{\"x\":1},\"a\":{\"y\":2}}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":{\"y\":2}},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-invalid",
+    "input": "%%{init: invalid}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-empty",
+    "input": "%%{init: }%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-array",
+    "input": "%%{init: [1,2]}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-null",
+    "input": "%%{init: null}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-merge",
+    "input": "%%{initialize: {\"x\": {\"y\": 1}, \"k\": [1]}}%%\n%%{init: {\"x\": {\"z\": 2}, \"k\": {\"q\": 1}}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"x\":{\"y\":1,\"z\":2},\"k\":{\"q\":1}},\"withComments\":\"\\n\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-merge-replace",
+    "input": "%%{init: {\"x\": {\"y\": 1}}}%%\n%%{init: {\"x\": 5}}%%\n%%{init: {\"x\": {\"w\": 1}}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"x\":{\"w\":1}},\"withComments\":\"\\n\\n\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-unsafe",
+    "input": "%%{init: {\"__proto__\": {\"a\":1}, \"constructor\": 1, \"prototype\": 2, \"ok\": {\"__proto__\": 3, \"b\": 4}}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"ok\":{\"b\":4}},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-arrays",
+    "input": "%%{init: {\"a\": [1, {\"b\": 2}], \"c\": \"s\"}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":[1,{\"b\":2}],\"c\":\"s\"},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-numbers",
+    "input": "%%{init: {\"n\": 1e400, \"m\": -0, \"f\": 1.50}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"n\":null,\"m\":0,\"f\":1.5},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-int-keys",
+    "input": "%%{init: {\"b\": 1, \"2\": 2, \"a\": 3, \"1\": 4}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"1\":4,\"2\":2,\"b\":1,\"a\":3},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-lone-surrogate",
+    "input": "%%{init: {\"s\": \"\\ud800\"}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"s\":\"\\ud800\"},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-nest-100",
+    "input": "%%{init: {\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":1}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":1}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "wrap",
+    "input": "%%{wrap}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"wrap\":true},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "wrap-colon",
+    "input": "%%{wrap: true}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"wrap\":true},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-closer-in-string",
+    "input": "%%{init: {\"a\":\"x}%%y\"}}%%\npie",
+    "out": "{\"text\":\"y\\\"}}%%\\npie\",\"config\":{},\"withComments\":\"y\\\"}}%%\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-multiline",
+    "input": "%%{init: {\n\"a\": 1\n}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":1},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-crlf",
+    "input": "%%{init: {\r\n\"a\": 1\r\n}}%%\r\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":1},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-u2028",
+    "input": "%%{init: {\"a\": 1}}%%\npie",
+    "out": "{\"text\":\"1}}%%\\npie\",\"config\":{},\"withComments\":\"1}}%%\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-upper",
+    "input": "%%{INIT: {\"a\":1}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-spaces",
+    "input": "%%{ init : {\"a\" : 1} }%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":1},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-later",
+    "input": "pie\n%%{init: {\"a\":1}}%%",
+    "out": "{\"text\":\"pie\\n\",\"config\":{\"a\":1},\"withComments\":\"pie\\n\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-unclosed",
+    "input": "%%{init: {\"a\":1}\npie",
+    "out": "{\"text\":\"\",\"config\":{},\"withComments\":\"\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-word",
+    "input": "%%{init: theme}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "init-twice-line",
+    "input": "%%{init: {\"a\":1}}%%%%{init: {\"b\":2}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":1,\"b\":2},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "directive-other",
+    "input": "%%{config: {\"a\":1}}%%\npie",
+    "out": "{\"text\":\"pie\",\"config\":{},\"withComments\":\"\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "directive-trim",
+    "input": "  %%{init: {\"a\":1}}%%  \npie",
+    "out": "{\"text\":\"pie\",\"config\":{\"a\":1},\"withComments\":\"    \\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-attrs",
+    "input": "flowchart\nA[\"<a href=\"x\" title=\"y\">t</a>\"]",
+    "out": "{\"text\":\"flowchart\\nA[\\\"<a href='x' title='y'>t</a>\\\"]\",\"config\":{},\"withComments\":\"flowchart\\nA[\\\"<a href='x' title='y'>t</a>\\\"]\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-attrs-b",
+    "input": "x <b class=\"c\">y</b>",
+    "out": "{\"text\":\"x <b class='c'>y</b>\",\"config\":{},\"withComments\":\"x <b class='c'>y</b>\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-br",
+    "input": "a<br/>b",
+    "out": "{\"text\":\"a<br/>b\",\"config\":{},\"withComments\":\"a<br/>b\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-first-gt",
+    "input": ">pie <x a=\"1\"",
+    "out": "{\"text\":\">pie <x a=\\\"1\\\"\",\"config\":{},\"withComments\":\">pie <x a=\\\"1\\\"\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-digit-tag",
+    "input": "<1 a=\"b\">",
+    "out": "{\"text\":\"<1 a='b'>\",\"config\":{},\"withComments\":\"<1 a='b'>\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-unicode-tag",
+    "input": "<é a=\"b\">",
+    "out": "{\"text\":\"<é a=\\\"b\\\">\",\"config\":{},\"withComments\":\"<é a=\\\"b\\\">\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-newline-attrs",
+    "input": "<x\na=\"1\">",
+    "out": "{\"text\":\"<x\\na='1'>\",\"config\":{},\"withComments\":\"<x\\na='1'>\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-after-last",
+    "input": "<x a=\"1\"> <y b=\"2\"",
+    "out": "{\"text\":\"<x a='1'> <y b=\\\"2\\\"\",\"config\":{},\"withComments\":\"<x a='1'> <y b=\\\"2\\\"\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-empty-attr",
+    "input": "<x a=\"\">",
+    "out": "{\"text\":\"<x a=''>\",\"config\":{},\"withComments\":\"<x a=''>\",\"lineOffset\":0}"
+  },
+  {
+    "name": "html-crlf",
+    "input": "<x\r\na=\"1\">\r\n",
+    "out": "{\"text\":\"<x\\na='1'>\\n\",\"config\":{},\"withComments\":\"<x\\na='1'>\\n\",\"lineOffset\":0}"
+  },
+  {
+    "name": "dashes-not-front-matter",
+    "input": "pie\n---\n\"a\":1",
+    "out": "{\"text\":\"pie\\n---\\n\\\"a\\\":1\",\"config\":{},\"withComments\":\"pie\\n---\\n\\\"a\\\":1\",\"lineOffset\":0}"
+  },
+  {
+    "name": "dashes-glued",
+    "input": "---pie",
+    "out": "{\"text\":\"---pie\",\"config\":{},\"withComments\":\"---pie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "dashes-unclosed",
+    "input": "---\npie",
+    "out": "{\"text\":\"---\\npie\",\"config\":{},\"withComments\":\"---\\npie\",\"lineOffset\":0}"
+  },
+  {
+    "name": "empty",
+    "input": "",
+    "out": "{\"text\":\"\",\"config\":{},\"withComments\":\"\",\"lineOffset\":0}"
+  }
+]

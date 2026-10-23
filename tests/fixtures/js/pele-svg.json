@@ -1,0 +1,669 @@
+{
+  "constants": {
+    "ROOT_STYLE": "--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg)",
+    "RADIUS": "var(--pele-radius,4px)",
+    "CRITICAL": "var(--pele-critical,#e45756)"
+  },
+  "documents": [
+    [
+      "pie",
+      100,
+      50,
+      13,
+      true,
+      "",
+      "",
+      "",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-pie\" viewBox=\"0 0 100 50\" width=\"100\" height=\"50\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"pie\"></svg>"
+    ],
+    [
+      "xychart",
+      480.5,
+      260,
+      13,
+      false,
+      "T & t",
+      "D <d>",
+      "<g/>",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-xychart\" viewBox=\"0 0 480.5 260\" width=\"480.5\" height=\"260\" style=\"--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"xychart\" aria-labelledby=\"pele-title\" aria-describedby=\"pele-desc\"><title id=\"pele-title\">T &amp; t</title><desc id=\"pele-desc\">D &lt;d&gt;</desc><g/></svg>"
+    ],
+    [
+      "pie",
+      10,
+      10,
+      16,
+      true,
+      "ﬂ°amp¶ß",
+      "",
+      "<rect x=\"0\" rx=\"var(--pele-radius,4px)\" y=\"1\"/>",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-pie\" viewBox=\"0 0 10 10\" width=\"10\" height=\"10\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"pie\" aria-labelledby=\"pele-title\"><title id=\"pele-title\">&amp;</title><rect x=\"0\" y=\"1\" style=\"rx:var(--_r)\"/></svg>"
+    ],
+    [
+      "venn",
+      1,
+      2,
+      11.5,
+      true,
+      "",
+      "only desc",
+      "<rect rx=\"var(--pele-radius,4px)\" style=\"fill:red\"/>",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-venn\" viewBox=\"0 0 1 2\" width=\"1\" height=\"2\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,monospace);font:11.5px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"venn\" aria-describedby=\"pele-desc\"><desc id=\"pele-desc\">only desc</desc><rect style=\"rx:var(--_r);fill:red\"/></svg>"
+    ],
+    [
+      "sankey",
+      3,
+      4,
+      13,
+      true,
+      "",
+      "",
+      "<rect rx=\"var(--pele-radius,4px)\">",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-sankey\" viewBox=\"0 0 3 4\" width=\"3\" height=\"4\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"sankey\"><rect style=\"rx:var(--_r)\"></svg>"
+    ],
+    [
+      "radar",
+      5,
+      6,
+      13,
+      true,
+      "",
+      "",
+      "<rectx rx=\"var(--pele-radius,4px)\"/><rect a=\"1\"/>",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-radar\" viewBox=\"0 0 5 6\" width=\"5\" height=\"6\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"radar\"><rectx rx=\"var(--pele-radius,4px)\"/><rect a=\"1\"/></svg>"
+    ],
+    [
+      "quadrantChart",
+      7,
+      8,
+      13,
+      true,
+      "",
+      "",
+      "<text font-weight=\"var(--_w)\">a</text><g fill=\"var(--_tw)\"/><x y=\"var(--_hw)\"/>",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-quadrantChart\" viewBox=\"0 0 7 8\" width=\"7\" height=\"8\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_tw:var(--pele-title-weight,bold);--_hw:var(--pele-heading-weight,bold);--_w:var(--pele-bold-weight,bold);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"quadrantChart\"><text font-weight=\"var(--_w)\">a</text><g fill=\"var(--_tw)\"/><x y=\"var(--_hw)\"/></svg>"
+    ],
+    [
+      "pie",
+      9,
+      9,
+      13,
+      true,
+      "",
+      "",
+      "<rect rx=\"var(--pele-radius,4px)\" rx=\"var(--pele-radius,4px)\"/>",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-pie\" viewBox=\"0 0 9 9\" width=\"9\" height=\"9\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"pie\"><rect rx=\"var(--pele-radius,4px)\" style=\"rx:var(--_r)\"/></svg>"
+    ],
+    [
+      "pie",
+      9,
+      9,
+      13,
+      true,
+      "",
+      "",
+      "var(--_r) only",
+      "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"pele pele-pie\" viewBox=\"0 0 9 9\" width=\"9\" height=\"9\" style=\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_r:var(--pele-radius,4px);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\" fill=\"var(--_fg)\" role=\"graphics-document document\" aria-roledescription=\"pie\">var(--_r) only</svg>"
+    ]
+  ],
+  "labels": [
+    [
+      "Hello",
+      false,
+      13,
+      400,
+      0,
+      50,
+      20,
+      "",
+      "<text x=\"50\" y=\"24.55\" text-anchor=\"middle\">Hello</text>"
+    ],
+    [
+      "<b>Bold</b>",
+      false,
+      13,
+      400,
+      0,
+      50,
+      20,
+      "",
+      "<text font-weight=\"var(--_w)\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"50\" y=\"24.55\">Bold</tspan></text>"
+    ],
+    [
+      "<b>Bold</b>",
+      false,
+      13,
+      400,
+      0,
+      50,
+      20,
+      " font-weight=\"600\"",
+      "<text font-weight=\"600\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"50\" y=\"24.55\">Bold</tspan></text>"
+    ],
+    [
+      "a<br/>b",
+      false,
+      13,
+      400,
+      0,
+      0,
+      0,
+      " class=\"t\"",
+      "<text class=\"t\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"0\" y=\"-5.45\">a</tspan><tspan x=\"0\" y=\"14.55\">b</tspan></text>"
+    ],
+    [
+      "<br/>x",
+      false,
+      13,
+      400,
+      0,
+      1.005,
+      2.675,
+      "",
+      "<text text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"1\" y=\"-2.77\"> </tspan><tspan x=\"1\" y=\"17.23\">x</tspan></text>"
+    ],
+    [
+      "**bold** and _it_",
+      true,
+      13,
+      400,
+      0,
+      10,
+      10,
+      "",
+      "<text text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"10\" y=\"14.55\" font-weight=\"var(--_w)\">bold</tspan><tspan> and </tspan><tspan font-style=\"italic\">it</tspan></text>"
+    ],
+    [
+      "x",
+      false,
+      13,
+      400,
+      1,
+      3,
+      4,
+      "",
+      "<text font-weight=\"var(--_w)\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"3\" y=\"8.55\">x</tspan></text>"
+    ],
+    [
+      "<i>a</i><b>b</b>",
+      false,
+      13,
+      400,
+      0,
+      3,
+      4,
+      "",
+      "<text text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"3\" y=\"8.55\" font-style=\"italic\">a</tspan><tspan font-weight=\"var(--_w)\">b</tspan></text>"
+    ],
+    [
+      "<i><b>a</b></i> <i>b</i>",
+      false,
+      13,
+      400,
+      0,
+      3,
+      4,
+      " font-style=\"normal\"",
+      "<text font-style=\"normal\" text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"3\" y=\"8.55\" font-weight=\"var(--_w)\" font-style=\"italic\">a</tspan><tspan> </tspan><tspan font-style=\"italic\">b</tspan></text>"
+    ],
+    [
+      "a & b",
+      false,
+      13,
+      400,
+      0,
+      -5,
+      -5,
+      "",
+      "<text x=\"-5\" y=\"-0.45\" text-anchor=\"middle\">a &amp; b</text>"
+    ],
+    [
+      "",
+      false,
+      13,
+      400,
+      0,
+      0,
+      0,
+      "",
+      ""
+    ],
+    [
+      "long words that wrap around",
+      false,
+      16,
+      60,
+      0,
+      100,
+      100,
+      "",
+      "<text text-anchor=\"middle\" xml:space=\"preserve\"><tspan x=\"100\" y=\"57.6\">long</tspan><tspan x=\"100\" y=\"81.6\">words</tspan><tspan x=\"100\" y=\"105.6\">that</tspan><tspan x=\"100\" y=\"129.6\">wrap</tspan><tspan x=\"100\" y=\"153.6\">around</tspan></text>"
+    ],
+    [
+      "fa:fa-car Cars",
+      false,
+      13,
+      400,
+      0,
+      0,
+      0,
+      "",
+      "<text x=\"0\" y=\"4.55\" text-anchor=\"middle\">Cars</text>"
+    ]
+  ],
+  "styles": [
+    [
+      [],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:#f00"
+      ],
+      "{\"shape\":\" style=\\\"fill:#f00;\\\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:#f00",
+        "stroke:blue",
+        "stroke-width:2px"
+      ],
+      "{\"shape\":\" style=\\\"fill:#f00;stroke:blue;stroke-width:2px;\\\"\",\"line\":\" style=\\\"stroke:blue;stroke-width:2px;\\\"\",\"text\":\"\",\"stroke\":\"blue\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "color:red",
+        "font-weight:bold"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"fill:red;font-weight:bold;\\\"\",\"bold\":true,\"italic\":false}"
+    ],
+    [
+      [
+        "font-weight:700"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-weight:700;\\\"\",\"bold\":true,\"italic\":false}"
+    ],
+    [
+      [
+        "font-weight:500"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-weight:500;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-weight: 600"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-weight:600;\\\"\",\"bold\":true,\"italic\":false}"
+    ],
+    [
+      [
+        "font-weight:bolder"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-weight:bolder;\\\"\",\"bold\":true,\"italic\":false}"
+    ],
+    [
+      [
+        "font-weight:abc"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-weight:abc;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-size:14px"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:14px;\\\"\",\"bold\":false,\"italic\":false,\"fontSize\":14}"
+    ],
+    [
+      [
+        "font-size:14"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:14;\\\"\",\"bold\":false,\"italic\":false,\"fontSize\":14}"
+    ],
+    [
+      [
+        "font-size:300px"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:300px;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-size:0"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:0;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-size:1.5.2px"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:1.5.2px;\\\"\",\"bold\":false,\"italic\":false,\"fontSize\":1.5}"
+    ],
+    [
+      [
+        "FONT-SIZE:12PX"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:12PX;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-size:.5"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-size:.5;\\\"\",\"bold\":false,\"italic\":false,\"fontSize\":0.5}"
+    ],
+    [
+      [
+        "FILL : #abc !IMPORTANT"
+      ],
+      "{\"shape\":\" style=\\\"fill:#abc;\\\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:url(x)"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:url\t(x)"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:url (x)"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill: "
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        ":x"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "nocolon"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "opacity:0.5"
+      ],
+      "{\"shape\":\" style=\\\"opacity:0.5;\\\"\",\"line\":\" style=\\\"opacity:0.5;\\\"\",\"text\":\" style=\\\"opacity:0.5;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:a",
+        "stroke:c",
+        "fill:b"
+      ],
+      "{\"shape\":\" style=\\\"fill:b;stroke:c;\\\"\",\"line\":\" style=\\\"stroke:c;\\\"\",\"text\":\"\",\"stroke\":\"c\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-style:italic"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-style:italic;\\\"\",\"bold\":false,\"italic\":true}"
+    ],
+    [
+      [
+        "fill:\"q\""
+      ],
+      "{\"shape\":\" style=\\\"fill:&quot;q&quot;;\\\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:a&b"
+      ],
+      "{\"shape\":\" style=\\\"fill:a&amp;b;\\\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "stroke:red;"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:expression (x)"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:JavaScript:x"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "rx:5",
+        "ry:6"
+      ],
+      "{\"shape\":\" style=\\\"rx:5;ry:6;\\\"\",\"line\":\" style=\\\"rx:5;ry:6;\\\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "font-family:Arial"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"font-family:Arial;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:/*x*/"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:@IMPORT"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:image-set(x)"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill-opacity:0.2",
+        "stroke-dasharray:3 3"
+      ],
+      "{\"shape\":\" style=\\\"fill-opacity:0.2;stroke-dasharray:3 3;\\\"\",\"line\":\" style=\\\"stroke-dasharray:3 3;\\\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "text-decoration:underline",
+        "letter-spacing:1px"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\" style=\\\"text-decoration:underline;letter-spacing:1px;\\\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:a!important!important"
+      ],
+      "{\"shape\":\" style=\\\"fill:a;\\\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "fill:#f00 !important"
+      ],
+      "{\"shape\":\" style=\\\"fill:#f00;\\\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ],
+    [
+      [
+        "unknown:1"
+      ],
+      "{\"shape\":\"\",\"line\":\"\",\"text\":\"\",\"bold\":false,\"italic\":false}"
+    ]
+  ],
+  "classNames": [
+    [
+      "a b",
+      " a b"
+    ],
+    [
+      "a.b#c",
+      " a b c"
+    ],
+    [
+      "  x  ",
+      " x"
+    ],
+    [
+      "",
+      ""
+    ],
+    [
+      "---",
+      " ---"
+    ],
+    [
+      "é",
+      ""
+    ],
+    [
+      "a_b-c",
+      " a_b-c"
+    ],
+    [
+      "<x>",
+      " x"
+    ],
+    [
+      "a b",
+      " a b"
+    ]
+  ],
+  "seriesColor": [
+    [
+      -9,
+      "var(--pele-series-8,#9d755d)"
+    ],
+    [
+      -8,
+      "var(--pele-series-1,#4c78a8)"
+    ],
+    [
+      -7,
+      "var(--pele-series-2,#f58518)"
+    ],
+    [
+      -6,
+      "var(--pele-series-3,#54a24b)"
+    ],
+    [
+      -5,
+      "var(--pele-series-4,#e45756)"
+    ],
+    [
+      -4,
+      "var(--pele-series-5,#72b7b2)"
+    ],
+    [
+      -3,
+      "var(--pele-series-6,#eeca3b)"
+    ],
+    [
+      -2,
+      "var(--pele-series-7,#b279a2)"
+    ],
+    [
+      -1,
+      "var(--pele-series-8,#9d755d)"
+    ],
+    [
+      0,
+      "var(--pele-series-1,#4c78a8)"
+    ],
+    [
+      1,
+      "var(--pele-series-2,#f58518)"
+    ],
+    [
+      2,
+      "var(--pele-series-3,#54a24b)"
+    ],
+    [
+      3,
+      "var(--pele-series-4,#e45756)"
+    ],
+    [
+      4,
+      "var(--pele-series-5,#72b7b2)"
+    ],
+    [
+      5,
+      "var(--pele-series-6,#eeca3b)"
+    ],
+    [
+      6,
+      "var(--pele-series-7,#b279a2)"
+    ],
+    [
+      7,
+      "var(--pele-series-8,#9d755d)"
+    ],
+    [
+      8,
+      "var(--pele-series-1,#4c78a8)"
+    ],
+    [
+      9,
+      "var(--pele-series-2,#f58518)"
+    ],
+    [
+      10,
+      "var(--pele-series-3,#54a24b)"
+    ],
+    [
+      11,
+      "var(--pele-series-4,#e45756)"
+    ],
+    [
+      12,
+      "var(--pele-series-5,#72b7b2)"
+    ],
+    [
+      13,
+      "var(--pele-series-6,#eeca3b)"
+    ],
+    [
+      14,
+      "var(--pele-series-7,#b279a2)"
+    ],
+    [
+      15,
+      "var(--pele-series-8,#9d755d)"
+    ],
+    [
+      16,
+      "var(--pele-series-1,#4c78a8)"
+    ],
+    [
+      17,
+      "var(--pele-series-2,#f58518)"
+    ]
+  ],
+  "fontStyle": [
+    [
+      13,
+      ";--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)"
+    ],
+    [
+      11.5,
+      ";--_fm:var(--pele-font-mono,monospace);font:11.5px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)"
+    ],
+    [
+      16,
+      ";--_fm:var(--pele-font-mono,monospace);font:16px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)"
+    ]
+  ]
+}

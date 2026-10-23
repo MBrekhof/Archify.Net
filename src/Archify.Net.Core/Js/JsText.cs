@@ -225,6 +225,16 @@ public static partial class Js
     // ponytail: V8 parity — /^,\s*$/.test(part) (render-class.mjs:885), as code: JS `$` has no before-final-\n match.
     public static bool IsCommaPart(string part) => part.Length > 0 && part[0] == ',' && Trim(part[1..]).Length == 0;
 
+    // String.prototype.indexOf / lastIndexOf: ordinal, `from` clamped to [0, length]; a lastIndexOf match starts at or before
+    // `from` (.NET's LastIndexOf(value, startIndex) wants the match to END there, and both .NET forms throw past the end).
+    public static int IndexOf(string s, string needle, int from) => s.IndexOf(needle, Math.Clamp(from, 0, s.Length), StringComparison.Ordinal);
+    public static int LastIndexOf(string s, string needle, int from)
+    {
+        for (var i = Math.Min(Math.Max(from, 0), s.Length - needle.Length); i >= 0; i--)
+            if (string.CompareOrdinal(s, i, needle, 0, needle.Length) == 0) return i;
+        return -1;
+    }
+
     // ponytail: V8 parity — toLowerCase is ICU's root-locale full lowercasing: simple mappings plus U+0130 → "i̇" (the
     // only unconditional SpecialCasing expansion) and Final_Sigma (Σ → ς at a word end). ToLowerInvariant has neither.
     // Ceiling: Cased and Case_Ignorable are approximated from general categories plus the Other_Lowercase/Other_Uppercase

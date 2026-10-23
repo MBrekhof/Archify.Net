@@ -1,0 +1,310 @@
+[
+  {
+    "s": "",
+    "esc": "",
+    "escText": ""
+  },
+  {
+    "s": "plain",
+    "esc": "plain",
+    "escText": "plain"
+  },
+  {
+    "s": "a&b",
+    "esc": "a&amp;b",
+    "escText": "a&amp;b"
+  },
+  {
+    "s": "<tag>",
+    "esc": "&lt;tag&gt;",
+    "escText": "&lt;tag&gt;"
+  },
+  {
+    "s": "\"q\"",
+    "esc": "&quot;q&quot;",
+    "escText": "&quot;q&quot;"
+  },
+  {
+    "s": "'s'",
+    "esc": "'s'",
+    "escText": "'s'"
+  },
+  {
+    "s": "a\u0001\u0002b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "\t\n\r",
+    "esc": "\t\n\r",
+    "escText": "\t\n\r"
+  },
+  {
+    "s": "",
+    "esc": "",
+    "escText": ""
+  },
+  {
+    "s": "&amp;",
+    "esc": "&amp;amp;",
+    "escText": "&amp;"
+  },
+  {
+    "s": "&#35;",
+    "esc": "&amp;#35;",
+    "escText": "#"
+  },
+  {
+    "s": "&#x41;",
+    "esc": "&amp;#x41;",
+    "escText": "A"
+  },
+  {
+    "s": "&nbsp;x",
+    "esc": "&amp;nbsp;x",
+    "escText": " x"
+  },
+  {
+    "s": "&unknown;",
+    "esc": "&amp;unknown;",
+    "escText": "&amp;unknown;"
+  },
+  {
+    "s": "&Alpha;&alpha;",
+    "esc": "&amp;Alpha;&amp;alpha;",
+    "escText": "Αα"
+  },
+  {
+    "s": "ﬂ°quot¶ß",
+    "esc": "ﬂ°quot¶ß",
+    "escText": "&quot;"
+  },
+  {
+    "s": "ﬂ°°35¶ß",
+    "esc": "ﬂ°°35¶ß",
+    "escText": "#"
+  },
+  {
+    "s": "ﬂ°°1.5¶ß",
+    "esc": "ﬂ°°1.5¶ß",
+    "escText": {
+      "throws": "RangeError",
+      "message": "Invalid code point 1.5"
+    }
+  },
+  {
+    "s": "  ",
+    "esc": "  ",
+    "escText": "  "
+  },
+  {
+    "s": "﻿",
+    "esc": "﻿",
+    "escText": "﻿"
+  },
+  {
+    "s": "\ud800x",
+    "esc": "\ud800x",
+    "escText": "\ud800x"
+  },
+  {
+    "s": "😀",
+    "esc": "😀",
+    "escText": "😀"
+  },
+  {
+    "s": "&#0;",
+    "esc": "&amp;#0;",
+    "escText": "&amp;#0;"
+  },
+  {
+    "s": "&#55296;",
+    "esc": "&amp;#55296;",
+    "escText": "&amp;#55296;"
+  },
+  {
+    "s": "&#1114111;",
+    "esc": "&amp;#1114111;",
+    "escText": "􏿿"
+  },
+  {
+    "s": "&#1114112;",
+    "esc": "&amp;#1114112;",
+    "escText": "&amp;#1114112;"
+  },
+  {
+    "s": "&#x110000;",
+    "esc": "&amp;#x110000;",
+    "escText": "&amp;#x110000;"
+  },
+  {
+    "s": "&lt;b&gt;",
+    "esc": "&amp;lt;b&amp;gt;",
+    "escText": "&lt;b&gt;"
+  },
+  {
+    "s": "x\u0000\u000b\f\u000e\u001fy",
+    "esc": "xy",
+    "escText": "xy"
+  },
+  {
+    "s": "a\u0000b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0001b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0002b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0003b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0004b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0005b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0006b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0007b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\bb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\tb",
+    "esc": "a\tb",
+    "escText": "a\tb"
+  },
+  {
+    "s": "a\nb",
+    "esc": "a\nb",
+    "escText": "a\nb"
+  },
+  {
+    "s": "a\u000bb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\fb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\rb",
+    "esc": "a\rb",
+    "escText": "a\rb"
+  },
+  {
+    "s": "a\u000eb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u000fb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0010b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0011b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0012b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0013b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0014b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0015b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0016b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0017b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0018b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u0019b",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u001ab",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u001bb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u001cb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u001db",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u001eb",
+    "esc": "ab",
+    "escText": "ab"
+  },
+  {
+    "s": "a\u001fb",
+    "esc": "ab",
+    "escText": "ab"
+  }
+]
