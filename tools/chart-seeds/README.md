@@ -58,7 +58,9 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   payloads), `render-extreme-*`, `stress-*` (the shapes of `tests/quadrant/stress.test.ts` at about 4,000 characters,
   plus the limit case verbatim), every style-validation error of `quadrant/db.ts` (`style-*`, `class-*`), coordinates
   (`coord-*`), label placement including the 300-point limit of the free-place search (`place-*`), and layout options
-  (`opt-*`).
+  (`opt-*`). `phantom-empty-quadrant-label`, `phantom-empty-point-label` and `stress-points` are the deviation where
+  an empty label reserves no space (the port fixes it). The `-reference` and `-control` rows are the Node outputs that
+  the fixed placement is checked against.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).

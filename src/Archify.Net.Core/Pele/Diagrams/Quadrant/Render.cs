@@ -90,7 +90,10 @@ internal static partial class Pele
                 var text = Text(model.Quadrants[k], size, tileW - 16);
                 var cx = x + tileW / 2;
                 var cy = hasPoints ? y + textTop + text.Height / 2 : y + tileH / 2;
-                taken.AddRange([cx - text.Width / 2, cy - text.Height / 2, cx + text.Width / 2, cy + text.Height / 2]);
+                // Deviation (PORT-008 Task 11): upstream also reserves a zero-size box for a quadrant with no text, at the tile's
+                // centre and textTop, so a point label whose box holds that spot moves away from empty space. Only drawn text
+                // (labelSvg writes nothing for a label without lines) is kept clear of.
+                if (text.Lines.Count > 0) taken.AddRange([cx - text.Width / 2, cy - text.Height / 2, cx + text.Width / 2, cy + text.Height / 2]);
                 quadrants.Append($"<g class=\"pele-quadrant\" data-id=\"{k + 1}\">")
                     .Append($"<rect x=\"{Builder.Num(x)}\" y=\"{Builder.Num(y)}\" width=\"{Builder.Num(tileW)}\" height=\"{Builder.Num(tileH)}\" rx=\"{Theme.Radius}\"/>")
                     .Append(Builder.LabelSvg(text, cx, cy, " class=\"pele-label\" fill=\"var(--_fg)\" stroke=\"none\""))
@@ -171,7 +174,9 @@ internal static partial class Pele
                     }
                     if (free) break;
                 }
-                if (careful) taken.AddRange([tx - halfW, ty - halfH, tx + halfW, ty + halfH]);
+                // Deviation (as for the quadrant labels above): a point whose label is empty reserves nothing, as nothing is drawn.
+                // Its dot, drawn even at radius 0, keeps its box.
+                if (careful && text.Lines.Count > 0) taken.AddRange([tx - halfW, ty - halfH, tx + halfW, ty + halfH]);
                 labels.Append(Builder.LabelSvg(text, tx, ty, " class=\"pele-label\""));
             }
 

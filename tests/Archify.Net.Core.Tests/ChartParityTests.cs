@@ -16,6 +16,7 @@ public class ChartParityTests
     [
         ("data", "json-deep-unread-column"), ("wrapper", "native-treeview"),
         ("xychart", "pow-clamped-equal"), ("xychart", "pow-clamped-equal-negative"),
+        ("quadrantChart", "phantom-empty-quadrant-label"), ("quadrantChart", "phantom-empty-point-label"), ("quadrantChart", "stress-points"),
     ];
 
     public static TheoryData<string, string> Targets()
@@ -74,6 +75,38 @@ public class ChartParityTests
             Assert.Contains("M40,NaNH472", Fixtures.Lf(Golden("xychart", name)));
             Assert.Equal(reference, Run(Seed("xychart", name)) + "\n");
         }
+    }
+
+    // quadrant render.ts:96,180: upstream reserves a zero-size "taken" box for a label with no text (an empty quadrant, a
+    // point label that trims to nothing), so a point label whose box holds that invisible spot is pushed away from empty
+    // space. The port reserves boxes only for drawn labels.
+    [Fact] public void Empty_label_reserves_no_space_is_the_stated_deviation()
+    {
+        static string Points(string json) { var at = json.IndexOf("<g class=\\\"pele-point-labels\\\"", StringComparison.Ordinal); return json[..at] + json[json.IndexOf("</g>", at, StringComparison.Ordinal)..]; }
+
+        // Empty quadrant-1: P goes right in Node. The reference moves only the invisible anchor (quadrantTextTopPadding: 100,
+        // same 400x400 size), and Node then draws P above; the port draws that reference byte for byte.
+        var quadrant = Fixtures.Lf(Golden("quadrantChart", "phantom-empty-quadrant-label"));
+        Assert.Contains("x=\\\"309.33\\\" y=\\\"36.46\\\" text-anchor=\\\"middle\\\">P<", quadrant);
+        var reference = Fixtures.Lf(Golden("quadrantChart", "phantom-empty-quadrant-label-reference"));
+        Assert.Contains("x=\\\"296\\\" y=\\\"20.46\\\" text-anchor=\\\"middle\\\">P<", reference);
+        Assert.Equal(reference, Run(Seed("quadrantChart", "phantom-empty-quadrant-label")) + "\n");
+
+        // A point labelled " " above P: Node sends P right; the port draws P where Node draws it without that point (the
+        // control), and everything else as Node does.
+        const string right = "<text class=\\\"pele-label\\\" x=\\\"117.34\\\" y=\\\"203.5\\\" text-anchor=\\\"middle\\\">P</text>";
+        const string above = "<text class=\\\"pele-label\\\" x=\\\"104\\\" y=\\\"187.5\\\" text-anchor=\\\"middle\\\">P</text>";
+        var point = Fixtures.Lf(Golden("quadrantChart", "phantom-empty-point-label"));
+        Assert.Contains(right, point);
+        Assert.Contains(above, Fixtures.Lf(Golden("quadrantChart", "phantom-empty-point-label-control")));
+        Assert.Equal(point.Replace(right, above), Run(Seed("quadrantChart", "phantom-empty-point-label")) + "\n");
+
+        // stress-points (250 points, no quadrant text) moves some labels off the empty quadrants' anchors; only the label group
+        // differs from Node.
+        var stress = Fixtures.Lf(Golden("quadrantChart", "stress-points"));
+        var port = Run(Seed("quadrantChart", "stress-points")) + "\n";
+        Assert.NotEqual(stress, port);
+        Assert.Equal(Points(stress), Points(port));
     }
 
     // charts.mjs:30: a rotated axis title with a Han character is set upright; others are left alone. Node pins it through

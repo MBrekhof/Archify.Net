@@ -1184,6 +1184,22 @@
     "text": "---\nconfig:\n  quadrantChart:\n    quadrantTextTopPadding: 40\n---\nquadrantChart\n  quadrant-1 one\n  quadrant-3 three\n  A: [0.75, 0.75]"
   },
   {
+    "name": "phantom-empty-quadrant-label",
+    "text": "quadrantChart\n  P: [0.75, 0.935]\n  Q: [0.75, 0.8958]"
+  },
+  {
+    "name": "phantom-empty-quadrant-label-reference",
+    "text": "---\nconfig:\n  quadrantChart:\n    chartWidth: 400\n    chartHeight: 400\n    quadrantTextTopPadding: 100\n---\nquadrantChart\n  P: [0.75, 0.935]\n  Q: [0.75, 0.8958]"
+  },
+  {
+    "name": "phantom-empty-point-label",
+    "text": "quadrantChart\n  \" \": [0.25, 0.578125]\n  P: [0.25, 0.5]\n  Q: [0.25, 0.4609375]"
+  },
+  {
+    "name": "phantom-empty-point-label-control",
+    "text": "quadrantChart\n  P: [0.25, 0.5]\n  Q: [0.25, 0.4609375]"
+  },
+  {
     "name": "opt-size-clamped",
     "text": "---\nconfig:\n  quadrantChart:\n    chartWidth: 50\n    chartHeight: 9000\n---\nquadrantChart\n  A: [0.5, 0.5]"
   },
