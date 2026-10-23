@@ -1,0 +1,314 @@
+[
+  {
+    "index": 7,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 10,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 12,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 14,
+    "output": "{\n  \"error\": \"Lexical error on line 11. Unrecognized text.\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 22,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 32,
+    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 36,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 38,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 43,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 53,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 62,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 73,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 79,
+    "output": "{\n  \"error\": \"Lexical error on line 9. Unrecognized text.\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 116,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 125,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 129,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 149,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 169,
+    "output": "{\n  \"error\": \"Lexical error on line 13. Unrecognized text.\",\n  \"line\": 13,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 177,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 178,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 182,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 189,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 195,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 232,
+    "output": "{\n  \"error\": \"Lexical error on line 9. Unrecognized text.\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 233,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 265,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 279,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 303,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 315,
+    "output": "{\n  \"error\": \"Lexical error on line 10. Unrecognized text.\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 321,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 327,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 329,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 338,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 355,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 367,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 413,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 417,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 450,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 457,
+    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 492,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 504,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 509,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 525,
+    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 538,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 544,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 552,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 556,
+    "output": "{\n  \"error\": \"Lexical error on line 15. Unrecognized text.\",\n  \"line\": 15,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 563,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 567,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 584,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 602,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 608,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 621,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 639,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 687,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 697,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 705,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 712,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 713,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 720,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 739,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 742,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 744,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 770,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 777,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 818,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 827,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 841,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 853,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 856,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 880,
+    "output": "{\n  \"error\": \"Lexical error on line 9. Unrecognized text.\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 883,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 908,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 914,
+    "output": "{\n  \"error\": \"Lexical error on line 12. Unrecognized text.\",\n  \"line\": 12,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 916,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 943,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 962,
+    "output": "{\n  \"error\": \"Lexical error on line 15. Unrecognized text.\",\n  \"line\": 15,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 989,
+    "output": "{\n  \"error\": \"Lexical error on line 10. Unrecognized text.\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  }
+]

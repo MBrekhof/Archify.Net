@@ -7,7 +7,36 @@ namespace Archify.Net;
 
 // preprocess.ts Preprocessed. `Config` is the shallow `{ [key]: YamlValue }` record; JS object key order is not kept
 // (config is only ever read by key on the chart path; sankey's nodeColors goes into a lookup Map).
-internal sealed record Preprocessed(string Text, string? Title, JsonObject Config, string WithComments, int LineOffset);
+// `Origin[i]` is the offset in the source of `Text[i]` (see SourceMap).
+internal sealed record Preprocessed(string Text, string? Title, JsonObject Config, string WithComments, int LineOffset, int[] Origin);
+
+// Deviation (PORT-008 Task 11, UPSTREAM-007: mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in
+// the text the diagram parsed, so every line that preparation removes before the error (front matter, `%%` comment lines,
+// `%%{...}%%` directives, leading blank lines, sankey's blank lines, and archify's pie legend before Pele) moves the number
+// up. The port reports the line as written in the fence. `origin[i]` is the source offset of the prepared text's character i: a kept character's own, a replaced
+// run's first (no replacement holds a line break but CRLF's, which takes the CR's). Past the last character (EOF, and the
+// "\n" Pele.Render appends) is just after the last kept source character. Lines are counted as Preprocess.Run normalises
+// them: `\r\n`, `\n` and a lone `\r` each end one, and line 1 is the fence's first.
+internal sealed class SourceMap(string source, int[] origin)
+{
+    public int Offset(int at) => at < origin.Length ? origin[at] : origin.Length == 0 ? 0 : origin[^1] + 1;
+
+    // A text prepared from this one, where inner[i] is the offset here of its character i (sankey's own preparation).
+    public SourceMap Then(int[] inner) => new(source, Array.ConvertAll(inner, Offset));
+
+    // 1 + the line breaks that start before the offset (a CRLF maps to its CR, so it counts once).
+    public int Line(int at)
+    {
+        var end = Math.Min(Offset(at), source.Length);
+        var line = 1;
+        for (var i = 0; i < end; i++)
+        {
+            if (source[i] == '\r' && i + 1 < source.Length && source[i + 1] == '\n') i++;
+            if (source[i] is '\n' or '\r') line++;
+        }
+        return line;
+    }
+}
 
 internal static partial class Pele
 {
@@ -29,8 +58,39 @@ internal static partial class Pele
         static readonly Regex ReAttr = new("=\"([^\"]*)\"");
         static readonly HashSet<string> UnsafeKeys = new(StringComparer.Ordinal) { "__proto__", "constructor", "prototype" };
 
-        public static string CleanupComments(string text) =>
-            Js.TrimStart(text.Contains("%%", StringComparison.Ordinal) ? ReComment.Replace(text, "") : text);
+        // CleanupComments (preprocess.ts:22-24), with the origins of what is left.
+        static (string, int[]) CleanupComments(string text, int[] origin)
+        {
+            if (text.Contains("%%", StringComparison.Ordinal)) (text, origin) = Replace(text, origin, Removed(ReComment.Matches(text)));
+            var trimmed = Js.TrimStart(text);
+            return (trimmed, origin[(text.Length - trimmed.Length)..]);
+        }
+
+        static IEnumerable<(int At, int Length, string With)> Removed(MatchCollection matches) => matches.Select(m => (m.Index, m.Length, ""));
+
+        // The text with each edit made (in order, not overlapping), and the source offset of each character left (SourceMap): a
+        // replacement as long as its match keeps its characters' origins, any other takes its match's first. Regex.Replace
+        // over the same matches gives the same text.
+        internal static (string Text, int[] Origin) Replace(string text, int[] origin, IEnumerable<(int At, int Length, string With)> edits)
+        {
+            var output = new StringBuilder(text.Length);
+            var origins = new List<int>(text.Length);
+            var last = 0;
+            var edited = false;
+            foreach (var (at, length, with) in edits)
+            {
+                edited = true;
+                output.Append(text, last, at - last).Append(with);
+                origins.AddRange(origin.AsSpan(last, at - last));
+                if (with.Length == length) origins.AddRange(origin.AsSpan(at, length));
+                else for (var k = 0; k < with.Length; k++) origins.Add(origin[at]);
+                last = at + length;
+            }
+            if (!edited) return (text, origin);
+            output.Append(text, last, text.Length - last);
+            origins.AddRange(origin.AsSpan(last));
+            return (output.ToString(), [.. origins]);
+        }
 
         static bool IsLineBreak(int ch) => ch is '\n' or '\r';
 
@@ -99,9 +159,9 @@ internal static partial class Pele
         }
 
         // preprocess.ts:102-123: matches are read from the trimmed, quote-normalised text, but removed from the original.
-        static string Directives(string text, JsonObject config)
+        static (string, int[]) Directives(string text, int[] origin, JsonObject config)
         {
-            if (!text.Contains("%%{", StringComparison.Ordinal)) return text;
+            if (!text.Contains("%%{", StringComparison.Ordinal)) return (text, origin);
             var normalized = Js.Trim(text).Replace('\'', '"');
             for (var match = ReDirective.Match(normalized); match.Success; match = match.NextMatch())
             {
@@ -119,13 +179,34 @@ internal static partial class Pele
                     if (args is JsonObject record) Merge(config, record);
                 }
             }
-            return ReDirective.Replace(text, "");
+            return Replace(text, origin, Removed(ReDirective.Matches(text)));
+        }
+
+        // `\r\n` and a lone `\r` become `\n`; the `\n` of a CRLF takes the CR's origin.
+        static IEnumerable<(int At, int Length, string With)> NormalizedBreaks(string text)
+        {
+            for (var i = text.IndexOf('\r'); i != -1; i = text.IndexOf('\r', i + 1))
+            {
+                var crlf = i + 1 < text.Length && text[i + 1] == '\n';
+                yield return (i, crlf ? 2 : 1, "\n");
+                if (crlf) i++;
+            }
+        }
+
+        internal static int[] Identity(int length)
+        {
+            var origin = new int[length];
+            for (var i = 0; i < length; i++) origin[i] = i;
+            return origin;
         }
 
         public static Preprocessed Run(string source)
         {
-            var text = source.Contains('\r') ? source.Replace("\r\n", "\n").Replace('\r', '\n') : source;
-            // A tag needs a closing bracket, so nothing after the last one can match.
+            var origin = Identity(source.Length);
+            var text = source;
+            if (source.Contains('\r')) (text, origin) = Replace(source, origin, NormalizedBreaks(source));
+            // A tag needs a closing bracket, so nothing after the last one can match. The attribute quoting is as long as
+            // what it replaces (`="x"` -> `='x'`), so every character keeps its origin.
             var lastClose = text.Contains('<') ? text.LastIndexOf('>') : -1;
             if (lastClose > 0)
             {
@@ -146,10 +227,12 @@ internal static partial class Pele
                 title = FrontMatterYaml(body, config);
                 for (var i = text.IndexOf('\n'); i != -1 && i < front.Length; i = Js.IndexOf(text, "\n", i + 1)) lineOffset++;
                 text = text[front.Length..];
+                origin = origin[front.Length..];
             }
 
-            text = Directives(text, config);
-            return new(CleanupComments(text), title, config, text, lineOffset);
+            (text, origin) = Directives(text, origin, config);
+            var (clean, cleanOrigin) = CleanupComments(text, origin);
+            return new(clean, title, config, text, lineOffset, cleanOrigin);
         }
 
         // preprocess.ts:149-162: parseYaml(body), its errors wrapped as "Front matter is not valid YAML. …", then `title`
@@ -175,12 +258,10 @@ internal static partial class Pele
         static readonly Regex ReInt = new(@"\A\+?[0-9]+\z");
 
         // Does what Mermaid's `text.replace(/keyword.*:\S*#.*;/g, drop the last character)` does (preprocess.ts:175-211).
-        static string DropColorSemicolons(string text, string keyword)
+        // The semicolons it drops, as edits (at most one per line, in order).
+        static IEnumerable<(int At, int Length, string With)> ColorSemicolons(string text, string keyword)
         {
             var from = text.IndexOf(keyword, StringComparison.Ordinal);
-            if (from == -1) return text;
-            var output = new StringBuilder();
-            var last = 0;
             while (from != -1)
             {
                 var lineEnd = text.IndexOfAny(['\n', '\r', '\u2028', '\u2029'], from);
@@ -197,26 +278,25 @@ internal static partial class Pele
                 if (hash != -1)
                 {
                     var semi = Js.LastIndexOf(text, ";", lineEnd - 1);
-                    if (semi > hash)
-                    {
-                        output.Append(text, last, semi - last);
-                        last = semi + 1;
-                    }
+                    if (semi > hash) yield return (semi, 1, "");
                 }
                 from = lineEnd >= text.Length ? -1 : Js.IndexOf(text, keyword, lineEnd + 1);
             }
-            return last == 0 ? text : output.Append(text, last, text.Length - last).ToString();
         }
 
         // Mermaid hides `#name;` entity codes behind placeholder characters so `#` and `;` survive parsing.
-        public static string EncodeEntities(string text)
+        public static string EncodeEntities(string text) => EncodeEntities(text, new int[text.Length]).Text;
+
+        public static (string Text, int[] Origin) EncodeEntities(string text, int[] origin)
         {
-            if (!text.Contains('#')) return text;
-            return ReEntity.Replace(DropColorSemicolons(DropColorSemicolons(text, "style"), "classDef"), m =>
+            if (!text.Contains('#')) return (text, origin);
+            (text, origin) = Replace(text, origin, ColorSemicolons(text, "style"));
+            (text, origin) = Replace(text, origin, ColorSemicolons(text, "classDef"));
+            return Replace(text, origin, ReEntity.Matches(text).Select(m =>
             {
                 var inner = m.Value[1..^1];
-                return (ReInt.IsMatch(inner) ? "ﬂ°°" : "ﬂ°") + inner + "¶ß";
-            });
+                return (m.Index, m.Length, (ReInt.IsMatch(inner) ? "ﬂ°°" : "ﬂ°") + inner + "¶ß");
+            }));
         }
     }
 }

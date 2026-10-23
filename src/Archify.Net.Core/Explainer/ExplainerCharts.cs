@@ -28,12 +28,7 @@ internal static class ExplainerCharts
         }
         try
         {
-            var config = new JsonObject
-            {
-                ["xyChart"] = new JsonObject { ["width"] = 480, ["height"] = 260, ["showDataLabel"] = true },
-                ["quadrantChart"] = new JsonObject { ["chartWidth"] = 400, ["chartHeight"] = 400 },
-            };
-            var result = Pele.Render(PieLegend(text), new PeleOptions(8, 13, false, false, config));
+            var result = Render(text);
             return new(UprightHanTitles(result.Svg), result.Width, result.Height, result.Type, null, null, null);
         }
         catch (PeleException error)
@@ -50,18 +45,41 @@ internal static class ExplainerCharts
     static readonly Regex ReShowData = new($@"\A({Ws}*pie){Ws}+showData(?![A-Za-z0-9_])");
     static readonly Regex ReSlice = new($@"(?<=\A|[\n\r\u2028\u2029])({Ws}*)""((?:[^""\\]|\\[^\n\r\u2028\u2029])*)""{Ws}*:{Ws}*(-?[0-9]+(?:\.[0-9]+)?){Ws}*(?=[\n\r\u2028\u2029]|\z)");
 
-    internal static string PieLegend(string text)
+    // charts.mjs:25, the render call (a PeleException propagates).
+    internal static PeleRenderResult Render(string text)
     {
-        if (!RePie.IsMatch(text)) return text;
+        var config = new JsonObject
+        {
+            ["xyChart"] = new JsonObject { ["width"] = 480, ["height"] = 260, ["showDataLabel"] = true },
+            ["quadrantChart"] = new JsonObject { ["chartWidth"] = 400, ["chartHeight"] = 400 },
+        };
+        // The legend can drop line breaks too (a `showData` on a later line, the blanks after a slice's value), so Pele is
+        // told where each of its characters is in the fence (SourceMap).
+        var (legend, origin) = PieLegend(text);
+        return Pele.Render(legend, new PeleOptions(8, 13, false, false, config), new SourceMap(text, origin));
+    }
+
+    // `Origin[i]` is the offset in `text` of the result's character i. A slice keeps its indent and label as written, and
+    // the rest of the match (`"`, `:`, the value and the blanks after it, line breaks included) becomes the new tail.
+    internal static (string Text, int[] Origin) PieLegend(string text)
+    {
+        var origin = Pele.Preprocess.Identity(text.Length);
+        if (!RePie.IsMatch(text)) return (text, origin);
         double total = 0;
         foreach (Match match in ReSlice.Matches(text)) total += Js.ToNumber(match.Groups[3].Value);
-        if (!(total > 0)) return text;
-        return ReSlice.Replace(ReShowData.Replace(text, match => match.Groups[1].Value, 1), match =>
+        if (!(total > 0)) return (text, origin);
+        if (ReShowData.Match(text) is { Success: true } showData)
         {
-            var (indent, label, value) = (match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value);
+            var pie = showData.Groups[1].Length;
+            (text, origin) = Pele.Preprocess.Replace(text, origin, [(pie, showData.Length - pie, "")]);
+        }
+        return Pele.Preprocess.Replace(text, origin, ReSlice.Matches(text).Select(match =>
+        {
+            var (label, value) = (match.Groups[2], match.Groups[3].Value);
             var share = Js.Num(Js.Round(Js.ToNumber(value) / total * 100));
-            return $"{indent}\"{label} · {value}{(Js.HasHan(label) ? $"（{share}%）" : $" ({share}%)")}\" : {value}";
-        });
+            var quote = label.Index + label.Length;
+            return (quote, match.Index + match.Length - quote, $" · {value}{(Js.HasHan(label.Value) ? $"（{share}%）" : $" ({share}%)")}\" : {value}");
+        }));
     }
 
     // charts.mjs:30: a rotated CJK axis title lies on its side; vertical writing keeps the characters upright. The pattern's

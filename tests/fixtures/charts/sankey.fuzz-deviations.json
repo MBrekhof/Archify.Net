@@ -4,6 +4,42 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"1/\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 3,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 26,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 28,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 36,
+    "output": "{\n  \"error\": \"Parse error on line 14:\",\n  \"line\": 14,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 42,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 47,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 60,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 62,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 63,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 73,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"4&0\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
@@ -17,11 +53,15 @@
   },
   {
     "index": 83,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 87,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"b\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 88,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 96,
@@ -36,12 +76,20 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"a1\\\" on line 4 is not one.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 115,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 126,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C152.5,0 152.5,0 295,0L295,400C152.5,400 152.5,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: jav\\tascript:alert(1)2</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"b-&gt;c\\\" d=\\\"M305,0C447.5,0 447.5,0 590,0L590,200C447.5,200 447.5,200 305,200Z\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"><title>b → c: jav\\tascript:alert(1)1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"295\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"200\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">jav\\tascript:alert(1)2</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"311\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">jav\\tascript:alert(1)2</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"103.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">jav\\tascript:alert(1)1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
     "index": 132,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"x\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 142,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 154,
@@ -52,6 +100,10 @@
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 182,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 191,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"sankey\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
@@ -60,8 +112,20 @@
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C152.5,0 152.5,0 295,0L295,200C152.5,200 152.5,200 10,200Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: 1</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"b-&gt;c\\\" d=\\\"M305,0C447.5,0 447.5,0 590,0L590,400C447.5,400 447.5,400 305,400Z\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"><title>b → c: 2</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"200\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"295\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"103.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"311\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">2</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">2</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 195,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 211,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 216,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 221,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 226,
@@ -80,6 +144,10 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"SANKEY1\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 253,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 255,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"A &amp; B-&gt;c\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>A &amp; B → c: £1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"A &amp; B\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"A &amp; B\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">A &amp; B <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">£1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">£1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
@@ -88,16 +156,52 @@
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 281,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 288,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"#1.239\\\" on line 5 is not one.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"#1.239\\\" on line 14 is not one.\",\n  \"line\": 14,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 303,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 307,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 312,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"oops\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 319,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 321,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 327,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 355,
+    "output": "{\n  \"error\": \"Parse error on line 14:\",\n  \"line\": 14,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 363,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"sankey-1\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 364,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 370,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 387,
@@ -108,6 +212,14 @@
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"A &amp; B-&gt;c\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>A &amp; B → c: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"A &amp; B\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"A &amp; B\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">A &amp; B <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 397,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 399,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 408,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
@@ -116,8 +228,16 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"vbscript:msgbox(1)\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 429,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 431,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 432,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"x\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"x\\\" on line 5 is not one.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 439,
@@ -128,12 +248,24 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"ö.597\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 451,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 455,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 461,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 471,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 476,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"sankey-betax6.862\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"sankey-betax6.862\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 487,
@@ -148,6 +280,14 @@
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C152.5,0 152.5,0 295,0L295,400C152.5,400 152.5,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: jav&amp;#9a,b,1;ascript:alert(1)2jav\\tascript:alert(1)</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"b-&gt;c\\\" d=\\\"M305,0C447.5,0 447.5,0 590,0L590,200C447.5,200 447.5,200 305,200Z\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"><title>b → c: jav&amp;#9a,b,1;ascript:alert(1)1jav\\tascript:alert(1)</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"295\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"200\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">jav&amp;#9a,b,1;ascript:alert(1)2jav\\tascript:alert(1)</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"311\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">jav&amp;#9a,b,1;ascript:alert(1)2jav\\tascript:alert(1)</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"103.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">jav&amp;#9a,b,1;ascript:alert(1)1jav\\tascript:alert(1)</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 503,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 506,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 509,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"12a,b,1.5\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
@@ -157,14 +297,46 @@
   },
   {
     "index": 518,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"sankey-beta4\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"sankey-beta4\\\" on line 7 is not one.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 527,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 531,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 532,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 538,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 541,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 543,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 544,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"value\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"value\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 549,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 552,
+    "output": "{\n  \"error\": \"Parse error on line 15:\",\n  \"line\": 15,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 554,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
@@ -172,8 +344,24 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"1e\\\" on line 4 is not one.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 569,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 570,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"foreignObject><iframe src=javascript:alert(1)></iframe></foreignObject>\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 575,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 592,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 598,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 601,
@@ -181,7 +369,7 @@
   },
   {
     "index": 607,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"104.453/\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"104.453/\\\" on line 4 is not one.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 617,
@@ -189,6 +377,26 @@
   },
   {
     "index": 621,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 627,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 630,
+    "output": "{\n  \"error\": \"Parse error on line 21:\",\n  \"line\": 21,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 636,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 644,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 654,
     "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
@@ -216,20 +424,68 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"javascript:aleralert\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 692,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 695,
+    "output": "{\n  \"error\": \"Parse error on line 13:\",\n  \"line\": 13,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 696,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"2ankeyx\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 702,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 703,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 706,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 708,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 709,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"jav&amp;#x0v&amp;&amp;x09;ascript:ale1\\nrt(1)-&gt;b\\\" d=\\\"M10,0C152.5,0 152.5,18 295,18L295,142.33C152.5,142.33 152.5,124.33 10,124.33Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>jav&amp;#x0v&amp;&amp;x09;ascript:ale1\\nrt(1) → b: 1</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,151.33C152.5,151.33 152.5,142.33 295,142.33L295,391C152.5,391 152.5,400 10,400Z\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"><title>a → b: 2</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"b-&gt;c\\\" d=\\\"M305,18C447.5,18 447.5,18 590,18L590,142.33C447.5,142.33 447.5,142.33 305,142.33Z\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"><title>b → c: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"jav&amp;#x0v&amp;&amp;x09;ascript:ale1\\nrt(1)\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"124.33\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"295\\\" y=\\\"18\\\" width=\\\"10\\\" height=\\\"373\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"151.33\\\" width=\\\"10\\\" height=\\\"248.67\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"18\\\" width=\\\"10\\\" height=\\\"124.33\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-4,#e45756)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"jav&amp;#x0v&amp;&amp;x09;ascript:ale1\\nrt(1)\\\"><text x=\\\"16\\\" y=\\\"66.02\\\" text-anchor=\\\"start\\\">jav&amp;#x0v&amp;&amp;x09;ascript:ale1\\nrt(1) <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"311\\\" y=\\\"208.35\\\" text-anchor=\\\"start\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">3</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"279.52\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">2</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"84.02\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 713,
+    "output": "{\n  \"error\": \"Parse error on line 12:\",\n  \"line\": 12,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 725,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C152.5,0 152.5,0 295,0L295,200C152.5,200 152.5,200 10,200Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: 1</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"b-&gt;c\\\" d=\\\"M305,0C447.5,0 447.5,0 590,0L590,400C447.5,400 447.5,400 305,400Z\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"><title>b → c: 2</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"200\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"295\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"103.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"311\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">2</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">2</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 730,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 735,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 745,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"a-&gt;b\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>a → b: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"a\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"b\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"a\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">a <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"b\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">b <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
+  },
+  {
+    "index": 750,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 752,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 776,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 779,
@@ -240,20 +496,68 @@
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"A B-&gt;c\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>A B → c: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"A B\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"A B\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">A B <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 793,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 805,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"0Infinity.403\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 807,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 809,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 813,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"A &amp; B-&gt;c\\\" d=\\\"M10,0C300,0 300,0 590,0L590,400C300,400 300,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>A &amp; B → c: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"A &amp; B\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"c\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"A &amp; B\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">A &amp; B <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"c\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">c <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
   },
   {
+    "index": 822,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 829,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 830,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 838,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"571e\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 844,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 852,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-sankey\\\" viewBox=\\\"0 0 616 416\\\" width=\\\"616\\\" height=\\\"416\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"sankey\\\"><g transform=\\\"translate(8,8)\\\"><g class=\\\"pele-sankey-links\\\" fill-opacity=\\\"0.4\\\"><path class=\\\"pele-sankey-link\\\" data-id=\\\"CaA bé-&gt;Bar\\\" d=\\\"M10,0C152.5,0 152.5,0 295,0L295,400C152.5,400 152.5,400 10,400Z\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"><title>CaA bé → Bar: 1</title></path><path class=\\\"pele-sankey-link\\\" data-id=\\\"Bar-&gt;Tea\\\" d=\\\"M305,0C447.5,0 447.5,0 590,0L590,400C447.5,400 447.5,400 305,400Z\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"><title>Bar → Tea: 1</title></path></g><g class=\\\"pele-sankey-nodes\\\"><rect class=\\\"pele-sankey-node\\\" data-id=\\\"CaA bé\\\" x=\\\"0\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"Bar\\\" x=\\\"295\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-2,#f58518)\\\"/><rect class=\\\"pele-sankey-node\\\" data-id=\\\"Tea\\\" x=\\\"590\\\" y=\\\"0\\\" width=\\\"10\\\" height=\\\"400\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-3,#54a24b)\\\"/></g><g class=\\\"pele-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-label\\\" data-id=\\\"CaA bé\\\"><text x=\\\"16\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">CaA bé <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"Bar\\\"><text x=\\\"311\\\" y=\\\"203.85\\\" text-anchor=\\\"start\\\">Bar <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g><g class=\\\"pele-label\\\" data-id=\\\"Tea\\\"><text x=\\\"584\\\" y=\\\"203.85\\\" text-anchor=\\\"end\\\">Tea <tspan class=\\\"pele-sankey-value\\\" fill=\\\"var(--_m)\\\">1</tspan></text></g></g></g></svg>\",\n  \"width\": 616,\n  \"height\": 416,\n  \"type\": \"sankey\"\n}"
+  },
+  {
+    "index": 868,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 871,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 873,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 883,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 884,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 894,
@@ -264,12 +568,32 @@
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"<foreignObjsankey-betaect><ifre src=javascript:alert(1)></iframe></foreignObject>\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 925,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 928,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"vbscript:msgbox(1)\\\\\\\"\\\\\\\"\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 933,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 942,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"<feignObject><iframe src=javascript:alert(1)></iframe></foreignObject>\\\" on line 2 is not one.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 947,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 950,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 958,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 967,
@@ -277,10 +601,22 @@
   },
   {
     "index": 968,
-    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"x\\\" on line 3 is not one.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"x\\\" on line 5 is not one.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 970,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 980,
     "output": "{\n  \"error\": \"Sankey diagrams need a number for each link's value, and \\\"&2\\\" on line 33 is not one.\",\n  \"line\": 33,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 990,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 995,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   }
 ]

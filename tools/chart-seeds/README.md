@@ -95,6 +95,14 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   `FuzzDeviations`, and the port's output for them is pinned in `tests/fixtures/charts/sankey.fuzz-deviations.json`.
   `node tools/chart-seeds/sankey-fuzz-check.mjs` checks each pinned case's attribution against Node, with the input
   corrected by hand for its stated quirk; run it after a re-mint.
+- `lines` (the core line remap after Task 8, UPSTREAM-007): upstream counts an error's line in the text the diagram
+  parsed, so front matter, `%%` comment lines, directives, leading blank lines, sankey's blank lines and rows of blanks,
+  and archify's pie legend (`showData` on a later line, blanks after a slice's value) move it up; the port counts the
+  fence as written. Each row is an error after removed lines in pie, xychart, quadrantChart or sankey (CRLF, lone CR,
+  multi-line and mid-line directives, indented front matter, entity codes and HTML attributes before the error, EOF), and
+  `ChartParityTests.LineRemapRows` holds its line, written by hand; `control-*` rows still equal Node. It is not a type
+  group, so it adds nothing to any fuzz corpus. Fuzz cases that differ only by the remap are `L1` in `FuzzDeviations`, and
+  the sankey checker puts Node's error and the S4 value on the input's line with its own map.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).

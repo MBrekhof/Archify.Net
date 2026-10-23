@@ -8,7 +8,7 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "lines"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
     static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
@@ -20,33 +20,70 @@ public class ChartParityTests
         ("quadrantChart", "phantom-empty-quadrant-label"), ("quadrantChart", "phantom-empty-point-label"), ("quadrantChart", "stress-points"),
         .. QuirkRows.SelectMany(group => group.Value.Select(row => (group.Key, row.Name))),
         .. SankeyUnicodeRows.Select(row => ("sankey", row.Name)), .. SankeyValueRows.Select(row => ("sankey", row.Name)),
+        .. LineRemapRows.Select(row => (row.Group, row.Name)),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
     // Fuzz_deviations_are_the_stated_quirks.
     static readonly Dictionary<string, Dictionary<int, string>> FuzzDeviations = new()
     {
+        ["pie"] = new() {
+            [7] = "L1", [10] = "L1", [12] = "L1", [14] = "L1", [22] = "L1", [32] = "L1", [36] = "L1", [38] = "L1", [43] = "L1",
+            [53] = "L1", [62] = "L1", [73] = "L1", [79] = "L1", [116] = "L1", [125] = "L1", [129] = "L1", [149] = "L1",
+            [169] = "L1", [177] = "L1", [178] = "L1", [182] = "L1", [189] = "L1", [195] = "L1", [232] = "L1", [233] = "L1",
+            [265] = "L1", [279] = "L1", [303] = "L1", [315] = "L1", [321] = "L1", [327] = "L1", [329] = "L1", [338] = "L1",
+            [355] = "L1", [367] = "L1", [413] = "L1", [417] = "L1", [450] = "L1", [457] = "L1", [492] = "L1", [504] = "L1",
+            [509] = "L1", [525] = "L1", [538] = "L1", [544] = "L1", [552] = "L1", [556] = "L1", [563] = "L1", [567] = "L1",
+            [584] = "L1", [602] = "L1", [608] = "L1", [621] = "L1", [639] = "L1", [687] = "L1", [697] = "L1", [705] = "L1",
+            [712] = "L1", [713] = "L1", [720] = "L1", [739] = "L1", [742] = "L1", [744] = "L1", [770] = "L1", [777] = "L1",
+            [818] = "L1", [827] = "L1", [841] = "L1", [853] = "L1", [856] = "L1", [880] = "L1", [883] = "L1", [908] = "L1",
+            [914] = "L1", [916] = "L1", [943] = "L1", [962] = "L1", [989] = "L1",
+        },
         ["quadrantChart"] = new() {
-            [14] = "Q1", [78] = "Q3", [134] = "Q1", [193] = "Q2", [221] = "Q3", [279] = "Q3", [305] = "Q3", [317] = "Q3",
-            [320] = "Q3", [332] = "Q3", [338] = "Q2", [429] = "Q3", [431] = "Q2", [487] = "Q3", [491] = "Q1", [499] = "Q2",
-            [527] = "Q1", [557] = "Q3", [620] = "Q2", [623] = "Q3", [647] = "R1", [686] = "Q3", [748] = "Q3", [783] = "Q1",
-            [810] = "Q3", [815] = "Q3", [839] = "Q3", [877] = "Q3", [901] = "Q3", [906] = "Q3", [928] = "Q3", [995] = "Q3",
+            [12] = "Q3L1", [14] = "Q1", [19] = "L1", [25] = "L1", [52] = "L1", [78] = "Q3", [81] = "Q3L1", [120] = "Q3L1",
+            [124] = "Q3L1", [125] = "L1", [134] = "Q1", [139] = "Q3L1", [169] = "L1", [191] = "Q3L1", [193] = "Q2",
+            [196] = "L1", [221] = "Q3", [233] = "L1", [234] = "L1", [263] = "Q3L1", [264] = "L1", [279] = "Q3", [305] = "Q3",
+            [317] = "Q3", [320] = "Q3", [332] = "Q3", [338] = "Q2", [410] = "L1", [429] = "Q3", [431] = "Q2", [487] = "Q3",
+            [491] = "Q1", [492] = "Q3L1", [499] = "Q2", [513] = "Q3L1", [522] = "L1", [527] = "Q1", [557] = "Q3",
+            [565] = "Q3L1", [619] = "Q3L1", [620] = "Q2", [623] = "Q3", [634] = "Q1L1", [647] = "R1", [665] = "L1",
+            [686] = "Q3", [688] = "Q3L1", [689] = "Q3L1", [718] = "L1", [741] = "L1", [748] = "Q3", [749] = "L1",
+            [769] = "Q3L1", [776] = "Q3L1", [783] = "Q1", [795] = "L1", [810] = "Q3", [815] = "Q3", [839] = "Q3", [849] = "L1",
+            [877] = "Q3", [898] = "Q3L1", [901] = "Q3", [904] = "L1", [906] = "Q3", [926] = "Q3L1", [928] = "Q3", [948] = "L1",
+            [995] = "Q3",
         },
         ["xychart"] = new() {
-            [15] = "Q1", [16] = "X2X4", [185] = "X2X4", [200] = "Q1", [208] = "X4", [238] = "Q1", [256] = "X3", [338] = "X4",
-            [367] = "X3", [376] = "X2", [401] = "X2X4", [477] = "X3", [516] = "Q1", [524] = "X4", [557] = "X4", [586] = "X3X4",
-            [592] = "X2X4", [634] = "Q1", [765] = "Q1", [782] = "Q1", [848] = "X2", [956] = "X4", [986] = "X4",
+            [2] = "L1", [14] = "X4L1", [15] = "Q1", [16] = "X2X4", [19] = "L1", [26] = "L1", [35] = "L1", [55] = "L1",
+            [95] = "L1", [98] = "X2L1", [106] = "L1", [145] = "X4L1", [149] = "L1", [164] = "L1", [176] = "L1", [180] = "L1",
+            [184] = "L1", [185] = "X2X4", [186] = "L1", [191] = "X2X4L1", [193] = "L1", [200] = "Q1", [208] = "X4",
+            [223] = "Q1L1", [238] = "Q1", [256] = "X3", [284] = "L1", [285] = "L1", [309] = "L1", [327] = "L1", [338] = "X4",
+            [355] = "L1", [367] = "X3", [370] = "L1", [376] = "X2", [383] = "L1", [389] = "L1", [394] = "L1", [401] = "X2X4",
+            [439] = "L1", [477] = "X3", [489] = "L1", [516] = "Q1", [522] = "L1", [524] = "X4", [557] = "X4", [576] = "L1",
+            [583] = "L1", [586] = "X3X4", [592] = "X2X4", [610] = "L1", [612] = "X4L1", [634] = "Q1", [668] = "X2L1",
+            [675] = "L1", [687] = "L1", [692] = "L1", [699] = "L1", [720] = "L1", [743] = "L1", [752] = "L1", [765] = "Q1",
+            [776] = "L1", [780] = "L1", [782] = "Q1", [796] = "L1", [820] = "L1", [848] = "X2", [868] = "L1", [869] = "L1",
+            [871] = "L1", [902] = "L1", [910] = "X4L1", [911] = "L1", [949] = "X4L1", [956] = "X4", [970] = "L1", [973] = "L1",
+            [986] = "X4", [998] = "L1",
         },
         ["sankey"] = new() {
-            [2] = "S1S4", [73] = "S3S4", [77] = "S2", [82] = "S4", [83] = "S3", [87] = "S3S4", [96] = "S3", [97] = "S3S4",
-            [114] = "S4", [126] = "S2", [132] = "S4", [154] = "S4", [162] = "S1S3S4", [191] = "S4", [192] = "S1",
-            [211] = "S3", [226] = "S4", [229] = "S2", [234] = "S1S4", [240] = "S4", [255] = "S2", [267] = "S1",
-            [288] = "S4", [312] = "S4", [363] = "S4", [387] = "S3", [389] = "S2", [408] = "S1", [409] = "S4", [432] = "S4",
-            [439] = "S4", [445] = "S3S4", [461] = "S2S3S4", [476] = "S4", [487] = "S3", [498] = "S3", [501] = "S2",
-            [509] = "S4", [511] = "S4", [518] = "S4", [544] = "S3S4", [549] = "S1S4", [568] = "S4", [570] = "S4",
-            [601] = "S3", [607] = "S4", [617] = "S4", [621] = "S1", [655] = "S1", [658] = "S4", [663] = "S3", [678] = "S4",
-            [685] = "S4", [687] = "S4", [696] = "S4", [709] = "S2S3", [725] = "S1", [745] = "S1", [779] = "S3",
-            [788] = "S3", [805] = "S4", [813] = "S2", [838] = "S3S4", [852] = "S3", [894] = "S3", [907] = "S4",
-            [928] = "S4", [942] = "S4", [967] = "S3", [968] = "S4", [980] = "S4",
+            [2] = "S1S4", [3] = "L1", [26] = "S4L1", [28] = "S4L1", [36] = "L1", [42] = "S1S4L1", [47] = "S4L1", [60] = "L1",
+            [62] = "L1", [63] = "L1", [73] = "S3S4", [77] = "S2", [82] = "S4", [83] = "S3", [87] = "S3S4", [88] = "S4L1",
+            [96] = "S3", [97] = "S3S4", [114] = "S4", [115] = "L1", [126] = "S2", [132] = "S4", [142] = "L1", [154] = "S4",
+            [162] = "S1S3S4", [182] = "L1", [191] = "S4", [192] = "S1", [195] = "L1", [211] = "S3", [216] = "S4L1",
+            [221] = "L1", [226] = "S4", [229] = "S2", [234] = "S1S4", [240] = "S4", [253] = "S4L1", [255] = "S2", [267] = "S1",
+            [281] = "S4L1", [288] = "S4", [303] = "S1L1", [307] = "S4L1", [312] = "S4", [319] = "L1", [321] = "L1",
+            [327] = "L1", [355] = "L1", [363] = "S4", [364] = "S4L1", [370] = "L1", [387] = "S3", [389] = "S2", [397] = "S4L1",
+            [399] = "L1", [408] = "S1", [409] = "S4", [429] = "S4L1", [431] = "L1", [432] = "S4", [439] = "S4", [445] = "S3S4",
+            [451] = "L1", [455] = "L1", [461] = "S2S3S4", [471] = "L1", [476] = "S4", [487] = "S3", [498] = "S3", [501] = "S2",
+            [503] = "L1", [506] = "L1", [509] = "S4", [511] = "S4", [518] = "S4", [527] = "S3L1", [531] = "S1L1", [532] = "L1",
+            [538] = "S2S4L1", [541] = "S4L1", [543] = "L1", [544] = "S3S4", [549] = "S1S4", [552] = "L1", [554] = "L1",
+            [568] = "S4", [569] = "L1", [570] = "S4", [575] = "S4L1", [592] = "S4L1", [598] = "S4L1", [601] = "S3",
+            [607] = "S4", [617] = "S4", [621] = "S1", [627] = "L1", [630] = "L1", [636] = "S4L1", [644] = "L1", [654] = "L1",
+            [655] = "S1", [658] = "S4", [663] = "S3", [678] = "S4", [685] = "S4", [687] = "S4", [692] = "S4L1", [695] = "L1",
+            [696] = "S4", [702] = "S4L1", [703] = "L1", [706] = "L1", [708] = "L1", [709] = "S2S3", [713] = "L1", [725] = "S1",
+            [730] = "L1", [735] = "L1", [745] = "S1", [750] = "S2S4L1", [752] = "L1", [776] = "L1", [779] = "S3", [788] = "S3",
+            [793] = "L1", [805] = "S4", [807] = "L1", [809] = "L1", [813] = "S2", [822] = "S4L1", [829] = "L1", [830] = "L1",
+            [838] = "S3S4", [844] = "S4L1", [852] = "S3", [868] = "S2L1", [871] = "S2L1", [873] = "S4L1", [883] = "S4L1",
+            [884] = "L1", [894] = "S3", [907] = "S4", [925] = "L1", [928] = "S4", [933] = "S4L1", [942] = "S4", [947] = "L1",
+            [950] = "L1", [958] = "S4L1", [967] = "S3", [968] = "S4", [970] = "L1", [980] = "S4", [990] = "L1", [995] = "S4L1",
         },
     };
 
@@ -275,12 +312,11 @@ public class ChartParityTests
         ("render-rejects-6", "names-non-ascii-reference", [("Cafe", "Café")]),   // Pele's own "rejects Café" case
     ];
 
-    // S4 rows: the port's error, as text, with the value as written (trimmed) and the line the parser reports (the prepared
-    // text's, as for every sankey error until the core line map lands).
+    // S4 rows: the port's error, as text, with the value as written (trimmed) and its line in the fence (LineRemapRows).
     static (string Name, string Value, int Line)[] SankeyValueRows =>
     [
         ("quirk-value-abc", "abc", 3), ("quirk-value-quoted-blank", "", 2), ("quirk-value-nan", "NaN", 2),
-        ("quirk-value-after-blank-lines", "x", 3), ("quirk-value-after-front-matter", "x", 2), ("quirk-value-quoted-multiline-name", "oops", 3),
+        ("quirk-value-after-blank-lines", "x", 5), ("quirk-value-after-front-matter", "x", 5), ("quirk-value-quoted-multiline-name", "oops", 3),
         ("quirk-value-first-of-two", "x", 2), ("quirk-value-1x", "1x", 3), ("quirk-value-thousands", "1,000", 3),
         ("quirk-value-12abc", "12abc", 3), ("quirk-value-1e", "1e", 3), ("quirk-value-percent", "10%", 3),
         ("quirk-value-infinity", "Infinity", 3), ("quirk-value-hex", "0x10", 3), ("quirk-value-multiline", "1\n2", 2),
@@ -342,6 +378,195 @@ public class ChartParityTests
         }
     }
 
+    // UPSTREAM-007 (mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in the text the diagram parsed,
+    // after front matter, `%%` comment lines, directives and leading blank lines (and in sankey blank lines and, with S1,
+    // rows of blanks) are gone, and archify's pie legend drops a `showData` written on a later line than `pie` with the line
+    // breaks before it. The port counts lines as written in the fence: `\r\n`, `\n` and a lone `\r` each end one, and an
+    // error at the end of the text is on the line of the last character kept, not on the line after the "\n" Pele appends.
+    // Each row's port output is Node's (for the row, or for its reference) with the line, in `line` and in the message, set
+    // to the fence line written here by hand; FenceOracle checks that line holds the error's text too.
+    static (string Group, string Name, int Line, string? Reference)[] LineRemapRows =>
+    [
+        ("lines", "pie-front-matter", 5, null), ("lines", "pie-front-matter-indented", 5, null), ("lines", "pie-comment", 3, null),
+        ("lines", "pie-two-comments", 4, null), ("lines", "pie-directive", 3, null), ("lines", "pie-directive-multiline", 5, null),
+        ("lines", "pie-leading-blank-lines", 4, null), ("lines", "pie-crlf", 3, null), ("lines", "pie-lone-cr", 3, null),
+        ("lines", "pie-crlf-front-matter", 7, null), ("lines", "pie-parse-error", 3, null), ("lines", "pie-eof", 3, null),
+        ("lines", "pie-unclosed-string", 4, null), ("lines", "pie-color-semicolon", 3, null), ("lines", "pie-entity-before-error", 3, null),
+        ("lines", "pie-html-attribute-before-error", 4, null), ("lines", "pie-show-data-next-line", 4, null),
+        ("lines", "pie-show-data-blank-lines", 6, null), ("lines", "pie-show-data-same-line", 4, null),
+        ("lines", "pie-legend-blank-after-slice", 4, null), ("lines", "pie-crlf-parse-error", 3, null), ("lines", "pie-crlf-eof", 3, null),
+        ("lines", "xychart-comment", 4, null), ("lines", "xychart-front-matter", 5, null), ("lines", "xychart-directive-mid-line", 3, null),
+        ("lines", "xychart-directive-before-error", 3, null), ("lines", "xychart-lexical", 3, null), ("lines", "xychart-eof", 4, null),
+        ("lines", "quadrant-comment", 4, null), ("lines", "quadrant-front-matter", 5, null), ("lines", "quadrant-crlf", 3, null),
+        ("lines", "quadrant-parse-error", 3, null), ("lines", "quadrant-eof", 4, null),
+        ("lines", "sankey-blank-lines", 6, null), ("lines", "sankey-leading-blank-line", 4, null), ("lines", "sankey-comment", 4, null),
+        ("lines", "sankey-front-matter", 6, null), ("lines", "sankey-blank-row-reference", 4, null), ("lines", "sankey-crlf", 4, null),
+        ("lines", "sankey-lone-cr", 4, null), ("lines", "sankey-eof", 3, null), ("lines", "sankey-name-check", 3, null),
+        // S1 drops the row of blanks that Node stops at; the port then stops at `c d`, as Node does without that row.
+        ("lines", "sankey-blank-row", 4, "sankey-blank-row-reference"),
+        // Existing rows.
+        ("wrapper", "front-matter-title-line-shift", 8, null),
+        ("pie", "comment-above-syntax-error", 3, null), ("pie", "comment-first-line-error", 4, null), ("pie", "front-matter-syntax-error-line", 6, null),
+        ("xychart", "fm-syntax-error-line", 6, null), ("quadrantChart", "fm-syntax-error-line", 6, null), ("quadrantChart", "comment-above-error", 4, null),
+        ("sankey", "error-line-after-blank-lines", 6, null), ("sankey", "error-line-after-comment", 5, null),
+        ("sankey", "error-line-after-front-matter", 6, null), ("sankey", "rows-blank-row-then-error", 4, null),
+        // An error at the end of the text, with nothing removed: Node counts the "\n" Pele appends as one more line.
+        ("xychart", "spec-parse-line-data-throws-error-if-data-is-not-provided", 4, null),
+        ("xychart", "spec-parse-bar-should-throw-error-if-data-is-not-provided", 4, null),
+        ("xychart", "render-hostile-t1-p1", 3, null), ("xychart", "stress-unclosed-string", 2, null),
+        ("quadrantChart", "stress-unclosed-acc-descr", 1335, null), ("quadrantChart", "stress-unclosed-string", 2, null),
+        ("quadrantChart", "stress-unclosed-md-string", 2, null), ("quadrantChart", "acc-descr-unclosed", 2, null),
+    ];
+
+    [Fact] public void Error_lines_count_the_fence_as_written()
+    {
+        foreach (var (group, name, line, reference) in LineRemapRows)
+        {
+            var node = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden(group, reference ?? name)))!;
+            Assert.True(node["line"] is JsonValue nodeLine && nodeLine.GetValue<double>() != line, $"{group}/{name}: Node already reports line {line}");
+            Assert.Equal(WithLine(node, line), Run(Seed(group, name)));
+            Assert.Null(FenceOracle(Seed(group, name)["text"]!.GetValue<string>(), line));
+        }
+        // Every `lines` seed is a row here or a control.
+        foreach (var seed in SeedsOf("lines").Cast<JsonObject>().Select(seed => seed["name"]!.GetValue<string>()))
+            Assert.True(seed.StartsWith("control-", StringComparison.Ordinal) || LineRemapRows.Any(row => row.Group == "lines" && row.Name == seed), seed);
+    }
+
+    // Node's error result with its line set to `line`, in `line` and in the message's "line N"; null when the message does
+    // not name its line once.
+    static string? WithLine(JsonObject node, int line)
+    {
+        var copy = (JsonObject)node.DeepClone();
+        var number = new Regex($"line {(int)copy["line"]!.GetValue<double>()}(?![0-9])");
+        var error = copy["error"]!.GetValue<string>();
+        if (number.Matches(error).Count != 1) return null;
+        copy["error"] = number.Replace(error, $"line {line}");
+        copy["line"] = line;
+        return ExplainerCharts.Json(copy);
+    }
+
+    // An oracle apart from the port's map: the fence's line `line` holds the error's text. That is the text at the snippet's
+    // caret up to a blank (or, at a blank or the line's end, the last text before it) with Mermaid's entity placeholders
+    // written back as `#…;`; for an error past the snippet's last character, the line of the last character preprocessing
+    // keeps (KeptLine); for S4, the first line of the value it names. Returns why it does not hold, or null.
+    static readonly Regex ReBreak = new(@"\r\n|\n|\r");
+    static readonly Regex RePlaceholder = new("ﬂ°°?([A-Za-z0-9_]+)¶ß");
+    static readonly Regex ReS4 = new(@"\ASankey diagrams need a number for each link's value, and (""(?:[^""\\]|\\.)*"") on line [0-9]+ is not one\.\z");
+    static string? FenceOracle(string fence, int line)
+    {
+        PeleException error;
+        try { ExplainerCharts.Render(fence); return "no error"; }
+        catch (PeleException e) { error = e; }
+        if (error.Line != line) return $"the error is on line {error.Line}";
+        var lines = ReBreak.Split(fence);
+        if (line < 1 || line > lines.Length) return $"line {line} of {lines.Length}";
+        string token;
+        if (ReS4.Match(error.Message) is { Success: true } s4)
+        {
+            token = Js.Trim(ReBreak.Split(DiagramLoader.ParseNode(s4.Groups[1].Value)!.GetValue<string>())[0]);
+        }
+        else
+        {
+            var parts = error.Message.Split('\n');
+            token = Token(parts[1], parts[2].Length - 1);
+            if (token == "") return KeptLine(fence, Pele.DetectType(fence) == "sankey") is var kept && kept == line ? null : $"the text ends on line {kept}";
+        }
+        // The token as written may hold a placeholder the fence spells `#…;`, or a directive the fence has inside it, or run on
+        // past the end of the line when a directive took the line break with it (its trailing \s*).
+        var written = lines[line - 1];
+        var bare = ReDropped.Replace(written, "");
+        var tail = bare.TrimEnd().Split(' ', '\t')[^1];
+        bool Holds(string t) => written.Contains(t, StringComparison.Ordinal) || bare.Contains(t, StringComparison.Ordinal)
+            || bare.Length < written.Length && tail != "" && t.StartsWith(tail, StringComparison.Ordinal);
+        return Holds(token) || Holds(RePlaceholder.Replace(token, "#$1;")) ? null : $"line {line} {Js.Quote(written)} has no {Js.Quote(token)}";
+    }
+
+    static string Token(string snippet, int caret)
+    {
+        bool Blank(int k) => Js.IsSpace(snippet[k]);
+        var start = Math.Min(caret, snippet.Length);
+        while (start < snippet.Length && Blank(start)) start++;
+        var end = start;
+        if (start < snippet.Length)
+        {
+            while (end < snippet.Length && !Blank(end)) end++;
+            return snippet[start..end];
+        }
+        end = Math.Min(caret, snippet.Length);
+        while (end > 0 && Blank(end - 1)) end--;
+        start = end;
+        while (start > 0 && !Blank(start - 1)) start--;
+        return snippet[start..end];
+    }
+
+    // preprocess.ts:16-17 written again over the fence: comment lines (from a line start, with the blanks before them) and
+    // `%%{…}%%` directives go; sankey's preparation also trims blanks. An error at the end is on the line of the last
+    // character left.
+    static readonly Regex ReDropped = new($@"%%\{{[{WsBody}]*[A-Za-z0-9_](?:(?!\}}%%)[\s\S])*(?:\}}%%)?|(?<=\A|[\n\r  ])[{WsBody}]*%%(?!\{{)[^\n\r]+(?:\r\n|\n|\r)?");
+    static int KeptLine(string fence, bool sankey)
+    {
+        var dropped = new bool[fence.Length];
+        foreach (Match m in ReDropped.Matches(fence)) Array.Fill(dropped, true, m.Index, m.Length);
+        var last = fence.Length - 1;
+        while (last >= 0 && (dropped[last] || sankey && Js.IsSpace(fence[last]))) last--;
+        return 1 + ReBreak.Matches(fence[..(last + 1)]).Count;
+    }
+
+    // Only the remap moves the error: Node's output and the port's differ only in the error's line, the port's parser stopped
+    // on Node's line of the parsed text, and the port's line passes FenceOracle. (A grammar fix can move an error to another
+    // line of the parsed text; that is the fix's difference, not the remap's.)
+    static bool LineOnly(string node, string port, string input)
+    {
+        if (DiagramLoader.ParseNode(node) is not JsonObject n || n["error"] is null || n["line"] is not JsonValue nodeLine
+            || DiagramLoader.ParseNode(port) is not JsonObject p || p["line"] is not JsonValue portLine) return false;
+        var line = (int)portLine.GetValue<double>();
+        int? parsed = null;
+        try { ExplainerCharts.Render(input); } catch (PeleException e) { parsed = e.ParsedLine; }
+        return WithLine(n, line) == port && parsed == (int)nodeLine.GetValue<double>() && FenceOracle(input, line) is null;
+    }
+
+    // Every located error the port reports, for every seed and fuzz input, names a fence line that holds its text.
+    [Fact] public void Every_error_line_holds_the_error()
+    {
+        var failures = new List<string>();
+        var located = 0;
+        foreach (var group in Groups.Where(group => group != "data"))
+        {
+            var inputs = SeedsOf(group).Cast<JsonObject>().Where(seed => seed["text"] is not null)
+                .Select(seed => (seed["name"]!.GetValue<string>(), seed["text"]!.GetValue<string>())).ToList();
+            if (File.Exists(Golden(group, "fuzz")))
+            {
+                var rows = (JsonArray)DiagramLoader.ParseNode(Fixtures.Lf(Golden(group, "fuzz")))!;
+                inputs.AddRange(rows.Select((row, i) => ($"fuzz[{i}]", row!["input"]!.GetValue<string>())));
+            }
+            foreach (var (name, text) in inputs)
+            {
+                PeleException? error = null;
+                try { ExplainerCharts.Render(text); } catch (PeleException e) { error = e; }
+                if (error is not { Line: > 0 }) continue;   // errors without a line carry 0, as in Pele
+                located++;
+                if (FenceOracle(text, error.Line!.Value) is { } why) failures.Add($"{group}/{name}: {why}");
+            }
+        }
+        Assert.True(failures.Count == 0, string.Join("\n", failures));
+        Assert.True(located > 500, $"{located} located errors");
+    }
+
+    // The map is built in one pass per step and read once per error: 9,000 comment lines before a pie error, and 20,000 CRLF
+    // blank lines before a sankey one, stay well inside the time a chart takes.
+    [Fact] public void Line_remap_is_linear()
+    {
+        var pie = "pie\n" + string.Concat(Enumerable.Repeat("%% c\n", 9000)) + "  \"a\": x";
+        var sankey = "sankey-beta\r\n" + string.Concat(Enumerable.Repeat("\r\n", 20000)) + "a,b,1\r\nc d";
+        Assert.True(pie.Length <= 50000 && sankey.Length <= 50000);
+        ExplainerCharts.Compile("pie\n%% c\n  \"a\": x");   // warm up
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        var (pieResult, sankeyResult) = (ExplainerCharts.Compile(pie), ExplainerCharts.Compile(sankey));
+        clock.Stop();
+        Assert.Equal<(int?, int?)>((9002, 20003), (pieResult.Line, sankeyResult.Line));
+        Assert.True(clock.ElapsedMilliseconds < 500, $"{clock.ElapsedMilliseconds} ms");
+    }
+
     // Inputs the fixes must leave as Node draws them: each is compared with Node by Matches_node.
     static readonly string[] Controls =
     [
@@ -357,10 +582,11 @@ public class ChartParityTests
         // S1 strips only blanks at a row's edges outside quotes; S2 only decodes entities that decode.
         "sankey/rows-spaces-unquoted", "sankey/rows-quoted-inner-blanks", "sankey/rows-quoted-blank-line-inside",
         "sankey/rows-mid-row-blanks-before-quote", "sankey/rows-mid-row-blanks-after-quote", "sankey/rows-unclosed-quote-trailing",
-        "sankey/rows-tab-mid-row", "sankey/rows-tab-at-text-end", "sankey/rows-comment-indented", "sankey/rows-blank-row-then-error",
+        // (`rows-blank-row-then-error` and `error-line-after-blank-lines` moved to LineRemapRows: their errors follow removed lines.)
+        "sankey/rows-tab-mid-row", "sankey/rows-tab-at-text-end", "sankey/rows-comment-indented",
         "sankey/rows-crlf-spaces-unquoted", "sankey/stress-rows-blanks-50k", "sankey/stress-rows-quoted-50k", "sankey/render-quoted-names",
         "sankey/oracle-1", "sankey/spec-allows-proto-as-id-with-sankey-syntax", "sankey/directive-config", "sankey/corpus-docs-0", "sankey/crlf",
-        "sankey/crlf-quoted", "sankey/error-line-after-blank-lines", "sankey/entity-unknown-name", "sankey/entity-no-semicolon",
+        "sankey/crlf-quoted", "sankey/entity-unknown-name", "sankey/entity-no-semicolon",
         "sankey/render-hostile-t10-p17", "sankey/names-html", "sankey/rows-blank-first-field",
         // S3 keeps controls, surrogate halves and U+FFFE out; S4 reads whole decimals (`1e999`, `-0`, `.5`, `" 8 "`) as
         // upstream does, and an empty value stays Mermaid's parse error.
@@ -370,6 +596,10 @@ public class ChartParityTests
         "sankey/values-runs-on-control", "sankey/values-runs-on-quote", "sankey/values-runs-on-space", "sankey/rows-blank-fields-tabs",
         "sankey/unicode-line-separator", "sankey/names-invalid-xml-fffe", "sankey/names-invalid-xml-ffff-html", "sankey/names-invalid-xml-c0",
         "sankey/names-invalid-xml-target",
+        // The line remap moves only errors after removed lines: nothing removed, a comment after the error, a directive on
+        // the error's line, trailing blank lines sankey trims, and a removed comment that an EOF past Pele's "\n" offsets.
+        "lines/control-pie-nothing-removed", "lines/control-pie-comment-after-error", "lines/control-pie-directive-same-line",
+        "lines/control-xychart-eof-one-comment", "lines/control-sankey-eof-trailing-blank-lines", "lines/control-sankey-nothing-removed",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -591,9 +821,11 @@ public class ChartParityTests
                 var node = Js.Stringify(rows[i]!["result"], 2);
                 var port = RunText(input);
                 if (node == port) continue;
-                // R1: quadrantChart round 1's empty-label deviation, which moves only point labels.
+                // R1: quadrantChart round 1's empty-label deviation, which moves only point labels. L1: the line remap
+                // (LineRemapRows), when the outputs differ only by it (LineOnly); the quirks are those the text shows.
                 var why = QuirkIn(group, input)
-                    + (group == "quadrantChart" && node.Contains("\"svg\"") && OutsidePointLabels(node) == OutsidePointLabels(port) ? "R1" : "");
+                    + (group == "quadrantChart" && node.Contains("\"svg\"") && OutsidePointLabels(node) == OutsidePointLabels(port) ? "R1" : "")
+                    + (LineOnly(node, port, input) ? "L1" : "");
                 differing.Add($"[{i}] = \"{why}\"");
             }
             var actual = string.Join(", ", differing);

@@ -38,8 +38,13 @@ internal static partial class Pele
         // kept as written, and so is a run of blanks next to a comma, which is a whole field: `  ,c,2` stays Node's empty
         // name, and `a,b,   ` reaches the value check (S4) as a blank value, while `a,b,` stays the parse error it is in
         // Mermaid. Each run is held until what follows it is known. One pass, with the collapse of line breaks done as it goes.
-        public static string PrepareTextForParsing(string text)
+        public static string PrepareTextForParsing(string text) => PrepareWithOrigin(text).Text;
+
+        // `Origin[i]` is the offset in `text` of the result's character i (SourceMap.Then): a run of line breaks keeps its
+        // first, and the blanks it drops (S1, the trim) move the rest up.
+        public static (string Text, int[] Origin) PrepareWithOrigin(string text)
         {
+            var origins = new List<int>(text.Length);
             var start = 0;
             var end = text.Length;
             while (start < end && IsBlank(text[start])) start++;
@@ -51,17 +56,19 @@ internal static partial class Pele
             var blanks = -1;       // where a run of blanks outside quotes began
             var lastBreak = false;
             var last = '\0';       // the last character kept
-            void Put(char c)
+            void Put(int at)
             {
+                var c = text[at];
                 var isBreak = c is '\n' or '\r';
                 if (isBreak && lastBreak) return;   // .replace(/[\n\r]+/g, '\n')
                 last = isBreak ? '\n' : c;
                 output.Append(last);
+                origins.Add(at);
                 lastBreak = isBreak;
             }
             void Flush(int to)
             {
-                for (var k = blanks; k < to; k++) Put(text[k]);
+                for (var k = blanks; k < to; k++) Put(k);
                 blanks = -1;
             }
             for (var i = start; i < end; i++)
@@ -69,10 +76,10 @@ internal static partial class Pele
                 var c = text[i];
                 if (quoted)
                 {
-                    Put(c);
+                    Put(i);
                     if (c == '"')
                     {
-                        if (i + 1 < end && text[i + 1] == '"') Put(text[++i]);
+                        if (i + 1 < end && text[i + 1] == '"') Put(++i);
                         else quoted = false;
                     }
                     continue;
@@ -88,17 +95,19 @@ internal static partial class Pele
                     if (blanks >= 0 && !rowStart && last == ',') Flush(i);
                     blanks = -1;
                     rowStart = true;
-                    Put(c);
+                    Put(i);
                     continue;
                 }
                 // A row's leading run goes, unless it is the first field; a run inside a row stays.
                 if (blanks >= 0 && (!rowStart || c == ',')) Flush(i);
                 blanks = -1;
                 rowStart = false;
-                Put(c);
+                Put(i);
                 if (c == '"') quoted = true;
             }
-            return Js.Trim(output.ToString());
+            var prepared = output.ToString();
+            var trimmed = Js.Trim(prepared);
+            return (trimmed, origins.GetRange(prepared.Length - Js.TrimStart(prepared).Length, trimmed.Length).ToArray());
         }
 
         public static void Parse(string src, SankeyDb db)
@@ -162,8 +171,8 @@ internal static partial class Pele
                 // waits until the row has ended well: a row that runs on (`x\x01`, `"x"y`, a tab) is the parse error it is upstream.
                 if (types[i] is T.Newline or T.Eof && !ReDecimal.IsMatch(amount))
                 {
-                    var line = Errors.Locate(src, at).Line;
-                    throw new PeleException($"Sankey diagrams need a number for each link's value, and {Js.Quote(amount)} on line {line} is not one.", "semantic", line);
+                    throw new PeleException(line => $"Sankey diagrams need a number for each link's value, and {Js.Quote(amount)} on line {line} is not one.",
+                        at, Errors.Locate(src, at).Line, "semantic");
                 }
                 db.AddLink(source, target, Js.ParseFloat(amount));
                 if (types[i] != T.Newline) break;

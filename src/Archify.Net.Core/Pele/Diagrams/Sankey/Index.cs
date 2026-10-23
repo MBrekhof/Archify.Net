@@ -9,7 +9,10 @@ internal sealed class SankeyDiagram : IPeleDiagram
     public PeleRenderResult Render(PreprocessedInput input, PeleRenderContext context)
     {
         var db = new Pele.Sankey.SankeyDb { Title = string.IsNullOrEmpty(input.Title) ? null : input.Title };   // if (title)
-        Pele.Sankey.Parse(Pele.Sankey.PrepareTextForParsing(input.Source), db);
+        var (text, origin) = Pele.Sankey.PrepareWithOrigin(input.Source);
+        // The parser's offsets are in the prepared text, which has lost blank lines too (SourceMap).
+        try { Pele.Sankey.Parse(text, db); }
+        catch (PeleException error) when (error.At is int at) { throw error.Located(input.Map.Then(origin).Line(at)); }
         return Pele.Sankey.Render(db, input.Config, context);
     }
 }
