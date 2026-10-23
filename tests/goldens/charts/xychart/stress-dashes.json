@@ -1,0 +1,5 @@
+{
+  "error": "No Plot to render, please provide a plot with some data",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

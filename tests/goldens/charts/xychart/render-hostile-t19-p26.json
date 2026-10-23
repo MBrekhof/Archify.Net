@@ -1,0 +1,8 @@
+{
+  "thrown": {
+    "name": "PeleError",
+    "message": "Front matter is not valid YAML. YAML: unexpected content after a value",
+    "code": "syntax",
+    "line": 0
+  }
+}

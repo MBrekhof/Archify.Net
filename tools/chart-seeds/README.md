@@ -39,11 +39,17 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
 
 - `data`: every `chartFromData` branch (Task 2).
 - `wrapper`: the `NATIVE` redirects, undetected and unsupported text, and archify's `test/explainer-charts.test.mjs`
-  inputs. Compared from Task 5; its xychart rows wait in `PendingUntil["xychart"]`, and `native-treeview` is the
-  UPSTREAM-003 deviation (the port redirects `treeView-beta`).
+  inputs. Compared from Task 5 (its xychart rows from Task 6), and `native-treeview` is the UPSTREAM-003 deviation (the
+  port redirects `treeView-beta`).
 - `<type>` (`pie`, then one per type task): archify's inputs for the type, Pele's `tests/corpus/<type>-docs.json`
   verbatim, the inputs of Pele's `tests/compat/<type>/*` and `tests/render/<type>*.test.ts` (each `name` says which), and
   the type's own edge cases. The capture refuses a type group that has no drawn result or no error result.
+- `xychart` (Task 6) adds, beyond that list: `db-*` (the calls of Pele's `xychartDb.spec.ts` written as chart text),
+  `oracle-*` (the corpus additions of `tests/xychart/oracle.test.ts`), `render-hostile-*` (each template of
+  `xychart-security.test.ts` with two of its payloads), and `stress-*` (the shapes of `tests/xychart/stress.test.ts` at
+  about 4,000 characters, since archify keeps Pele's 50,000-character source limit, plus that limit case verbatim). The
+  `BROKEN` fragment and the `oracle-5`/`oracle-6` seeds use the text of the grammar's broken markdown-string rule as
+  `upstream/xychart.jison:51-53` reads it across its quotes (`pushState`, `MD_STR`); Pele's lexer matches it in any case.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).

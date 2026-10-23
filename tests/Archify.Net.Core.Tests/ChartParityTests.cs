@@ -7,15 +7,16 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
-    static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = new()
-    {
-        ["xychart"] = [("wrapper", "archify-xychart-before-after"), ("wrapper", "archify-xychart-cjk-axis"), ("wrapper", "front-matter-use-max-width-false")],
-    };
+    static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
     // Rows that differ from Node by a stated deviation (PORT-008 Task 11, docs/deviations.md), each pinned by its own fact below.
-    static readonly HashSet<(string Group, string Name)> KnownDeviations = [("data", "json-deep-unread-column"), ("wrapper", "native-treeview")];
+    static readonly HashSet<(string Group, string Name)> KnownDeviations =
+    [
+        ("data", "json-deep-unread-column"), ("wrapper", "native-treeview"),
+        ("xychart", "pow-clamped-equal"), ("xychart", "pow-clamped-equal-negative"),
+    ];
 
     public static TheoryData<string, string> Targets()
     {
@@ -59,6 +60,20 @@ public class ChartParityTests
         const string port = "{\n  \"error\": \"Mermaid treeView is drawn with the native tree shorthand, which Archify validates and lets readers explore.\",\n  \"example\": \"@tree id=...\"\n}";
         Assert.Equal(port, Run(Seed("wrapper", "native-treeview")));
         Assert.Equal(port, RunText("treeView-beta\n  a\n    b"));
+    }
+
+    // xychart render.ts: upstream tests an exact y range for `lo !== hi` before clamping it to ±1e300, so `1e301 --> 1e302`
+    // collapses to one value and divides by zero: 100 ticks at NaN. The port tests the clamped ends and falls back to the
+    // data, as a collapsed range does, so both rows draw what Node draws for `y-axis 5 --> 5`.
+    [Fact] public void Clamped_equal_y_range_is_the_stated_deviation()
+    {
+        var reference = Fixtures.Lf(Golden("xychart", "pow-clamped-equal-reference"));
+        Assert.DoesNotContain("NaN", reference);
+        foreach (var name in new[] { "pow-clamped-equal", "pow-clamped-equal-negative" })
+        {
+            Assert.Contains("M40,NaNH472", Fixtures.Lf(Golden("xychart", name)));
+            Assert.Equal(reference, Run(Seed("xychart", name)) + "\n");
+        }
     }
 
     // charts.mjs:30: a rotated axis title with a Han character is set upright; others are left alone. Node pins it through
