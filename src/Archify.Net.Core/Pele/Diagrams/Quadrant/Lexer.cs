@@ -103,8 +103,28 @@ internal static partial class Pele
                 e = Coordinate(Run(Run(e) + 1));
                 return e != -1 && Chars.CharAt(src, Run(e)) == 93;
             }
-            // A keyword at q leads a statement: a statement starts here and is not a point.
-            bool Lead(int q) => start && !PointForm(q);
+            // A keyword at q leads a statement: a statement starts here and is not a point. The answer is kept by position, as
+            // every space of a leading run tries the keyword at the same q (review N2: a rescan from each space was quadratic).
+            var pointFormAt = -1;
+            var pointForm = false;
+            bool Lead(int q)
+            {
+                if (!start) return false;
+                if (q != pointFormAt)
+                {
+                    pointFormAt = q;
+                    pointForm = PointForm(q);
+                }
+                return !pointForm;
+            }
+            // `[x, y]` from the `:` at q: the point after a keyword that takes the rest of its line (`Title: [0.5, 0.5]`).
+            bool PairAfter(int q) => Chars.CharAt(src, Run(q + 1)) == 91 && Pair(Run(Run(q + 1) + 1));
+            // `title` at p is a point's name when its `:` follows the word, with spaces between; `title Range: [0, 1]` is a title.
+            bool TitlePoint(int q)
+            {
+                while (Chars.IsSpace(Chars.CharAt(src, q)) && !Chars.IsLineEnd(src[q])) q++;
+                return Chars.CharAt(src, q) == 58 && PairAfter(q);
+            }
             // `(1)|(0(\.\d+)?)`. Deviation (PORT-008 Task 11): Mermaid's rule leaves the dot unescaped, so any character within a
             // line counts as one: `0x1` reads as 1, `0e5` as 0, and `0,5` drops the point. Here the dot is a dot, and such input
             // is a lexical error, as `[2, 0.5]` already is.
@@ -241,9 +261,14 @@ internal static partial class Pele
                     p = LineEnd(p + 2);
                     continue;
                 }
-                // Deviation (PORT-008 Task 11): Mermaid's second comment rule `[^\}]\%\%[^\n]*` takes the character before `%%`
-                // with it (`ab c%%x` reads `ab`). It is dropped: that character is read by the rules below, and the `%%` then
-                // starts a comment by the rule above. `}` stays exempt, as nothing below reads it either.
+                // Deviation (PORT-008 Task 11, Q1): Mermaid's second comment rule `[^\}]\%\%[^\n]*` takes the character before
+                // `%%` with it (`ab c%%x` reads `ab`). It is narrowed to `\s\%\%[^\n]*`: whitespace before a comment still goes
+                // with it, as upstream (`]\t%% note`), and any other character is read by the rules below. `}` is not whitespace.
+                if (Chars.IsSpace(c) && next == 37 && Chars.CharAt(src, p + 2) == 37)
+                {
+                    p = LineEnd(p + 3);
+                    continue;
+                }
                 if (c == 10 || c == 13)
                 {
                     var e = p + 1;
@@ -253,7 +278,7 @@ internal static partial class Pele
                 }
 
                 var lower = c | 32;
-                if (lower == 116 && Caseless.WordAt(src, p, "title") && !Chars.IsWord(Chars.CharAt(src, p + 5)) && Lead(p))
+                if (lower == 116 && Caseless.WordAt(src, p, "title") && !Chars.IsWord(Chars.CharAt(src, p + 5)) && start && !TitlePoint(p + 5))
                 {
                     Emit(T.Title, p, p + 5);
                     Push(STitle);
@@ -266,7 +291,7 @@ internal static partial class Pele
                     {
                         var k = Run(p + 8);
                         var d = Chars.CharAt(src, k);
-                        if (d == 58 && Lead(p))
+                        if (d == 58 && start && !PairAfter(k))
                         {
                             Emit(descr ? T.AccDescr : T.AccTitle, p, Run(k + 1));
                             Push(descr ? SAccDescr : SAccTitle);

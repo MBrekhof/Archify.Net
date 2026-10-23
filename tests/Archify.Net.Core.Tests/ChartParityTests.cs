@@ -25,11 +25,10 @@ public class ChartParityTests
     static readonly Dictionary<string, Dictionary<int, string>> FuzzDeviations = new()
     {
         ["quadrantChart"] = new() {
-            [64] = "Q3", [78] = "Q3", [106] = "Q2", [131] = "Q2", [134] = "Q2", [177] = "Q3", [245] = "Q2", [277] = "Q2",
-            [279] = "Q3", [309] = "Q2", [317] = "Q3", [330] = "Q3", [332] = "Q3", [371] = "Q1", [393] = "Q3", [401] = "Q2",
-            [456] = "Q1Q3", [489] = "Q2", [607] = "Q3", [656] = "Q2", [667] = "Q3", [730] = "Q2Q3", [739] = "Q3", [740] = "Q3",
-            [748] = "Q3", [796] = "Q3", [797] = "Q3", [827] = "Q3", [855] = "Q3", [871] = "Q1", [882] = "Q3", [894] = "Q3",
-            [900] = "Q2", [927] = "Q3", [928] = "Q1Q3", [971] = "Q3", [984] = "Q2Q3", [995] = "Q3",
+            [14] = "Q1", [50] = "Q3", [240] = "Q3", [298] = "Q3", [304] = "Q3", [305] = "Q3", [317] = "Q3", [353] = "Q1Q3",
+            [377] = "Q1Q2", [385] = "Q3", [393] = "Q3", [401] = "Q3", [407] = "Q2", [429] = "Q3", [431] = "Q3", [527] = "Q1Q3",
+            [576] = "R1", [687] = "Q3", [730] = "Q3", [732] = "R1", [739] = "Q3", [748] = "Q3", [768] = "Q3", [855] = "Q3",
+            [882] = "Q3", [995] = "Q3",
         },
     };
 
@@ -169,6 +168,7 @@ public class ChartParityTests
         ("quirk-keyword-mid-quadrant-text", "Q3", "quirk-keyword-mid-quadrant-text-reference"),
         ("quirk-keyword-mid-axis-text", "Q3", "quirk-keyword-mid-axis-text-reference"),
         ("quirk-keyword-quadrant-1st-text", "Q3", "quirk-keyword-quadrant-1st-text-reference"),
+        ("stress-point-form-rescan", "Q3", "stress-point-form-rescan-reference"),
     ];
 
     [Fact] public void Quadrant_grammar_slips_are_the_stated_deviations()
@@ -185,13 +185,15 @@ public class ChartParityTests
         Assert.Contains("quadrantChart/quirk-comment-brace-exempt", Targets().Select(row => $"{row[0]}/{row[1]}"));
     }
 
-    // Which quirks an input shows: Q1 a character other than `}` before `%%`; Q2 a coordinate `0` followed by a character
+    // Which quirks an input shows: Q1 a character other than `}` or whitespace directly before `%%`; Q2 a coordinate `0` followed by a character
     // other than a dot and then a digit; Q3 a keyword followed by a word character, after other text in its statement, or
     // leading a statement in point form.
-    static readonly Regex ReQ1 = new("[^}]%%");
+    // JS `\s` as a class body.
+    const string WsBody = @"\t\n\v\f\r \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff";
+    static readonly Regex ReQ1 = new($"[^}}{WsBody}]%%");
     static readonly Regex ReQ2 = new(@"(?<=[\[,\t\n\v\f\r \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff])0[^.\n\r\u2028\u2029][0-9]");
     static readonly Regex ReKeyword = new("[Xx]-[Aa][Xx][Ii][Ss]|[Yy]-[Aa][Xx][Ii][Ss]|[Qq][Uu][Aa][Dd][Rr][Aa][Nn][Tt]-[1-4]|[Qq][Uu][Aa][Dd][Rr][Aa][Nn][Tt][Cc][Hh][Aa][Rr][Tt]|[Cc][Ll][Aa][Ss][Ss][Dd][Ee][Ff]|[Tt][Ii][Tt][Ll][Ee]|[Aa][Cc][Cc](?:[Tt][Ii][Tt][Ll][Ee]|[Dd][Ee][Ss][Cc][Rr])");
-    const string Sp = @"[\t\n\v\f\r \u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*";
+    const string Sp = $"[{WsBody}]*";
     const string Coord = @"(?:1|0(?:\.[0-9]+)?)";
     static readonly Regex RePointForm = new($@"\A[^\n\r;]*?:{Sp}\[{Sp}{Coord}{Sp},{Sp}{Coord}{Sp}\]");
     static bool KeywordQuirk(string text)
@@ -217,7 +219,9 @@ public class ChartParityTests
     }
 
     // Every listed fuzz case differs from Node and shows its quirk (Q1-Q3, or R1 for the round-1 empty-label fix); every other
-    // case equals Node (Matches_node).
+    // case equals Node (Matches_node). What the port gives for each listed case is pinned in
+    // tests/fixtures/charts/<group>.fuzz-deviations.json ([{index, output}]): port output, not a Node golden. A missing file
+    // is written from the port and the fact fails once, so a re-mint is an explicit step (delete the file, run twice).
     [Fact] public void Fuzz_deviations_are_the_stated_quirks()
     {
         foreach (var (group, cases) in FuzzDeviations)
@@ -236,7 +240,31 @@ public class ChartParityTests
             }
             var actual = string.Join(", ", differing);
             Assert.True(actual == string.Join(", ", cases.Select(c => $"[{c.Key}] = \"{c.Value}\"")), $"{group} fuzz cases that differ: {actual}");
+
+            var pinned = new JsonArray([.. cases.Keys.Select(i => (JsonNode)new JsonObject { ["index"] = i, ["output"] = RunText(rows[i]!["input"]!.GetValue<string>()) })]);
+            var path = Fixtures.Fixture($"charts/{group}.fuzz-deviations.json");
+            var written = Js.Stringify(pinned, 2) + "\n";
+            if (!File.Exists(path))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                File.WriteAllText(path, written);
+                Assert.Fail($"{path} written from the port; check it and run again");
+            }
+            Assert.Equal(Fixtures.Lf(path), written);
         }
+    }
+
+    // The point-form test of a keyword that leads a statement runs once per statement, not once per leading space (review N2:
+    // 24,000 spaces before `x-axis` and a 25,000-character point name took 1.7 s when it rescanned from every space).
+    [Fact] public void Point_form_test_is_linear()
+    {
+        var text = Seed("quadrantChart", "stress-point-form-rescan")["text"]!.GetValue<string>();
+        Assert.True(text.Length is > 49000 and <= 50000);
+        ExplainerCharts.Compile("quadrantChart\n  A: [0.5, 0.5]");   // warm up
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        ExplainerCharts.Compile(text);
+        clock.Stop();
+        Assert.True(clock.ElapsedMilliseconds < 500, $"{clock.ElapsedMilliseconds} ms");
     }
 
     // charts.mjs:30: a rotated axis title with a Han character is set upright; others are left alone. Node pins it through

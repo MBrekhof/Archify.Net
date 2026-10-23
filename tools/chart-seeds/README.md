@@ -64,7 +64,9 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   names, are the Mermaid grammar slips the port fixes (Q1 the `[^}]%%` comment rule, Q2 the coordinate's unescaped
   dot, Q3 keywords that fire anywhere). Each one's `-reference` row is the same input written so that Node already
   reads it the corrected way. The `keyword-*` controls that are not in that list still equal Node. The fuzz cases that
-  differ for these reasons are listed by index in `FuzzDeviations`.
+  differ for these reasons are listed by index in `FuzzDeviations`. What the port gives for each of them is pinned in
+  `tests/fixtures/charts/quadrantChart.fuzz-deviations.json`. That file is port output, not a Node golden: delete it and
+  run the fact twice to re-mint it after the seeds change.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).
