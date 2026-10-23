@@ -8,7 +8,7 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
     static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
@@ -34,6 +34,12 @@ public class ChartParityTests
             [15] = "Q1", [16] = "X2X4", [185] = "X2X4", [200] = "Q1", [208] = "X4", [238] = "Q1", [256] = "X3", [338] = "X4",
             [367] = "X3", [376] = "X2", [401] = "X2X4", [477] = "X3", [516] = "Q1", [524] = "X4", [557] = "X4", [586] = "X3X4",
             [592] = "X2X4", [634] = "Q1", [765] = "Q1", [782] = "Q1", [848] = "X2", [956] = "X4", [986] = "X4",
+        },
+        ["sankey"] = new() {
+            [23] = "S2", [77] = "S1", [81] = "S1", [96] = "S1", [178] = "S1", [196] = "S1", [256] = "S2", [311] = "S1", [341] = "S1",
+            [353] = "S1", [355] = "S1", [452] = "S1", [461] = "S1", [487] = "S1", [529] = "S1", [553] = "S2", [593] = "S1", [719] = "S2",
+            [811] = "S1", [822] = "S1", [835] = "S1", [838] = "S1", [854] = "S1", [868] = "S1", [915] = "S1", [933] = "S1", [986] = "S1",
+            [992] = "S2",
         },
     };
 
@@ -218,6 +224,29 @@ public class ChartParityTests
         }.Select(name => (name, "X4", $"{name}-reference")),
     ];
 
+    // Upstream slips in sankey, fixed in the port (Task 8):
+    //   S1 Mermaid's prepareTextForParsing, commented "remove all trailing spaces for each row", has no `m` flag, so a blank
+    //      row, `sankey ` with a trailing blank, a tab-indented row or a quoted field with blanks at its row's edge is a parse
+    //      error; the port strips blanks at each row's edges outside quoted fields;
+    //   S2 render.ts writes a label's name, prefix and suffix with esc(), so `&amp;` shows as typed while the band's <title>
+    //      decodes it; the port decodes them in the label too.
+    // A reference row writes the same chart without those blanks (S1) or with the decoded character (S2).
+    static (string Name, string Quirk, string Reference)[] SankeyQuirkRows =>
+    [
+        .. new[]
+        {
+            "quirk-rows-header-space", "quirk-rows-header-tab", "quirk-rows-tab-indent", "quirk-rows-blank-row", "quirk-rows-blank-rows-indented",
+            "quirk-rows-quoted-indent", "quirk-rows-quoted-trailing", "quirk-rows-quoted-trailing-value", "quirk-rows-nbsp-row",
+            "quirk-rows-crlf-blank-row", "quirk-rows-front-matter-header-space", "quirk-rows-init-header-space", "quirk-rows-stress-50k",
+            "render-rejects-5", "unicode-nbsp-row",
+        }.Select(name => (name, "S1", $"{name}-reference")),
+        .. new[]
+        {
+            "quirk-entity-name-amp", "quirk-entity-name-quot", "quirk-entity-name-lt", "quirk-entity-prefix", "quirk-entity-suffix",
+            "quirk-entity-outlined", "render-hostile-t10-p10",
+        }.Select(name => (name, "S2", $"{name}-reference")),
+    ];
+
     // Inputs the fixes must leave as Node draws them: each is compared with Node by Matches_node.
     static readonly string[] Controls =
     [
@@ -230,6 +259,15 @@ public class ChartParityTests
         // X4 changes no statement boundary.
         "xychart/unquoted-break-ends-title", "xychart/unquoted-break-before-data", "xychart/unquoted-break-before-range",
         "xychart/unquoted-break-in-category",
+        // S1 strips only blanks at a row's edges outside quotes; S2 only decodes entities that decode.
+        "sankey/rows-spaces-unquoted", "sankey/rows-quoted-inner-blanks", "sankey/rows-quoted-blank-line-inside",
+        "sankey/rows-mid-row-blanks-before-quote", "sankey/rows-mid-row-blanks-after-quote", "sankey/rows-unclosed-quote-trailing",
+        "sankey/rows-tab-mid-row", "sankey/rows-tab-at-text-end", "sankey/rows-comment-indented", "sankey/rows-blank-row-then-error",
+        "sankey/rows-crlf-spaces-unquoted", "sankey/stress-rows-blanks-50k", "sankey/stress-rows-quoted-50k", "sankey/render-quoted-names",
+        "sankey/oracle-1", "sankey/spec-allows-proto-as-id-with-sankey-syntax", "sankey/directive-config", "sankey/corpus-docs-0", "sankey/crlf",
+        "sankey/crlf-quoted", "sankey/error-line-after-blank-lines", "sankey/entity-unknown-name", "sankey/entity-no-semicolon",
+        "sankey/render-hostile-t10-p17", "sankey/names-html", "sankey/rows-blank-last-field", "sankey/rows-blank-first-field",
+        "sankey/rows-blank-fields-tabs",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -237,6 +275,7 @@ public class ChartParityTests
     {
         ["quadrantChart"] = QuadrantQuirkRows,
         ["xychart"] = XyChartQuirkRows,
+        ["sankey"] = SankeyQuirkRows,
     };
 
     [Fact] public void Grammar_slips_are_the_stated_deviations()
@@ -283,8 +322,42 @@ public class ChartParityTests
     {
         "quadrantChart" => string.Concat(ReQ1.IsMatch(text) ? "Q1" : "", ReQ2.IsMatch(text) ? "Q2" : "", KeywordQuirk(text) ? "Q3" : ""),
         "xychart" => XyChartQuirkIn(text),
+        "sankey" => string.Concat(SankeyRowBlanks(text) ? "S1" : "", ReHtmlEntity.IsMatch(text) ? "S2" : ""),
         _ => "",
     };
+
+    // sankey. S1: outside front matter, comment and directive lines, with quoted fields (read as the lexer reads them) held
+    // as `"Q"`, blanks (JS \s but a line break) that Node does not trim away and the port strips: a row of blanks only
+    // between the first and the last row that hold text; or at the start of a row (not the first) or the end of a row (not
+    // the last), a run not next to a comma that holds a blank other than a space (outside the CSV alphabet), is next to a
+    // quote, or ends the header row. Spaces next to an unquoted field's text change nothing, as the parser trims fields.
+    // S2: an HTML entity
+    // (in a name only a named one reaches the label, since Mermaid's `#…;` encoding hides a numeric one in a placeholder that
+    // is never CSV text; a prefix or suffix from the configuration is not encoded).
+    static readonly Regex ReFrontMatter = new(@"\A[\t\n\v\f\r  ﻿]*---[\s\S]*?\n---[^\n]*(?:\n|\z)");
+    // A `%%{…}%%` directive (it may span lines) and a comment line, which preprocess takes out too.
+    static readonly Regex ReCommentLine = new(@"%%\{[\s\S]*?(?:\}%%|\z)|(?<=\A|\n)[\t\n\v\f\r    -     　﻿]*%%[^\n]*\n?");
+    static readonly Regex ReCsvQuoted = new("\"(?:[^\"]|\"\")*(?:\"|\\z)");
+    static readonly Regex ReHtmlEntity = new("&(?:#[0-9]+|#[xX][0-9a-fA-F]+|[A-Za-z0-9_]+);");
+    static bool SankeyRowBlanks(string text)
+    {
+        var rows = ReCsvQuoted.Replace(ReCommentLine.Replace(ReFrontMatter.Replace(text, ""), ""), "\"Q\"").Split('\n', '\r');
+        var first = Array.FindIndex(rows, row => Js.Trim(row) != "");
+        var last = Array.FindLastIndex(rows, row => Js.Trim(row) != "");
+        // A run next to a comma is a whole field, which the port keeps.
+        bool Matters(string run, char inner, bool header) => run != "" && inner != ',' && (header || inner == '"' || run.Trim(' ') != "");
+        for (var k = first + 1; k < last; k++) if (rows[k] != "" && Js.Trim(rows[k]) == "") return true;
+        for (var k = Math.Max(first, 0); k <= last; k++)
+        {
+            var body = Js.Trim(rows[k]);
+            if (body == "") continue;
+            var lead = rows[k][..(rows[k].Length - Js.TrimStart(rows[k]).Length)];
+            var trail = rows[k][Js.TrimEnd(rows[k]).Length..];
+            if (k > first && Matters(lead, body[0], header: false)) return true;
+            if (k < last && Matters(trail, body[^1], header: k == first)) return true;
+        }
+        return false;
+    }
 
     // xychart. Quoted text is a string token whatever it holds, and a comment is no token, so Q1 looks outside quotes and the
     // X1, X2, X4 and C1 tests outside quotes and comments too. An empty string `""` or an empty markdown string gives no token
@@ -420,12 +493,17 @@ public class ChartParityTests
     [InlineData("quadrantChart", "stress-point-form-rescan")]
     [InlineData("xychart", "stress-md-string-50k")]
     [InlineData("xychart", "stress-unquoted-words-50k")]
+    // sankey's row scan (S1) holds each run of blanks once: blank rows, long runs dropped and kept, and quoted text.
+    [InlineData("sankey", "quirk-rows-stress-50k")]
+    [InlineData("sankey", "stress-rows-blanks-50k")]
+    [InlineData("sankey", "stress-rows-quoted-50k")]
     public void Grammar_fix_is_linear(string group, string name)
     {
         var text = Seed(group, name)["text"]!.GetValue<string>();
         Assert.True(text.Length is > 49000 and <= 50000);
         ExplainerCharts.Compile("quadrantChart\n  A: [0.5, 0.5]");   // warm up
         ExplainerCharts.Compile("xychart\n  title a b\n  line [1, 2]");
+        ExplainerCharts.Compile("sankey\n  a,b,1\n  \n  b,c,2");
         var clock = System.Diagnostics.Stopwatch.StartNew();
         ExplainerCharts.Compile(text);
         clock.Stop();

@@ -75,6 +75,21 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   `tests/fixtures/charts/quadrantChart.fuzz-deviations.json`. That file is port output, not a Node golden: delete it and
   run the fact twice to re-mint it after the seeds change.
 
+- `sankey` (Task 8): archify's tests have no sankey fence and charts.mjs passes no `sankey` config, so `archify-*`,
+  `fm-sankey-*` and `directive-config` pin the defaults and the type's own object. `corpus-docs-0` is the corpus entry with
+  `config:` front matter. Beyond the list above: `spec-*` (the energy file under both keywords, the `__proto__` ids and the
+  issue #7528 sample of `sankey.spec.ts`, built by hand because the spec builds them in code), `oracle-*` (the corpus
+  additions of `tests/sankey/oracle.test.ts`, and `oracle-reference-*`, Mermaid's own preparation of the corpus where it
+  differs), `layout-*` (the models of `tests/sankey/layout.test.ts` written as chart text), `render-hostile-*` (each
+  template of `sankey-security.test.ts` with two of its payloads), `render-extreme-*`, `stress-*` (the shapes of
+  `tests/sankey/stress.test.ts` at about 4,000 characters, plus the limit case verbatim), cycles, quoted names with `""`,
+  keywords, values, options, titles, error lines, CRLF/CR/BOM and empty bodies. `quirk-rows-*` and `quirk-entity-*`, and
+  the existing rows that `ChartParityTests.SankeyQuirkRows` names, are the upstream slips the port fixes: S1 the blanks at
+  a row's edges (Mermaid's `prepareTextForParsing` has no `m` flag) and S2 entities written undecoded in a label. Each
+  one's `-reference` row is the same chart written so that Node already reads it the corrected way. The `rows-*`,
+  `stress-rows-*` and `entity-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in
+  `FuzzDeviations`, and the port's output for them is pinned in `tests/fixtures/charts/sankey.fuzz-deviations.json`.
+
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).
 

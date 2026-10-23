@@ -1,0 +1,5 @@
+{
+  "error": "Sankey diagrams cannot have circular links, and \"b\" is part of one.",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}
