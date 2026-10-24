@@ -1,127 +1,131 @@
 [
   {
-    "index": 30,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 67,
-    "output": "{\n  \"error\": \"Parse error on line 12:\",\n  \"line\": 12,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 69,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
     "index": 75,
-    "output": "{\n  \"error\": \"unknown set identifier: A\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 148,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 163,
-    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 77,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 205,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"set-a\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"b\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"set-a\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">set-a</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"b\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">b</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "index": 127,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 131,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 156,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 171,
+    "output": "{\n  \"error\": \"Lexical error on line 6. Unrecognized text.\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 177,
+    "output": "{\n  \"error\": \"unknown set identifier: AA, B#x\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 206,
     "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 216,
-    "output": "{\n  \"error\": \"Parse error on line 13:\",\n  \"line\": 13,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 218,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 240,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 255,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 265,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 343 216\\\" width=\\\"343\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"set-theory\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"234.94\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"set-theory\\\"><text class=\\\"pele-label\\\" x=\\\"71.54\\\" y=\\\"109.76\\\" text-anchor=\\\"middle\\\">set-theory</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"271.41\\\" y=\\\"109.76\\\" text-anchor=\\\"middle\\\">B</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B|set-theory\\\"><text class=\\\"pele-label\\\" font-size=\\\"11\\\" x=\\\"171.47\\\" y=\\\"111.85\\\" text-anchor=\\\"middle\\\">oth</text></g></g></svg>\",\n  \"width\": 343,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 269,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 272,
-    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 297,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 387,
-    "output": "{\n  \"error\": \"Lexical error on line 10. Unrecognized text.\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 390,
-    "output": "{\n  \"error\": \"union requires multiple identifiers\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 404,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">A</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">B</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
-  },
-  {
-    "index": 451,
-    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 468,
     "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 484,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"104.05\\\" text-anchor=\\\"middle\\\">A</text><text class=\\\"pele-venn-text\\\" data-id=\\\"t\\\" font-size=\\\"11\\\" fill=\\\"var(--_m)\\\" x=\\\"108\\\" y=\\\"121.85\\\" text-anchor=\\\"middle\\\">t</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "index": 329,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 607,
+    "index": 352,
     "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 394,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 404,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 437,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 483,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 492,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 533,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 545,
+    "output": "{\n  \"error\": \"unknown set identifier: shared b#10;sey both\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 580,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 581,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 618,
     "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 632,
+    "index": 633,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 662,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 675,
-    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 700,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 708,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 343 216\\\" width=\\\"343\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"234.94\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"71.54\\\" y=\\\"109.76\\\" text-anchor=\\\"middle\\\">A</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"271.41\\\" y=\\\"109.76\\\" text-anchor=\\\"middle\\\">B</text></g></g></svg>\",\n  \"width\": 343,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
-  },
-  {
-    "index": 720,
-    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 722,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"104.05\\\" text-anchor=\\\"middle\\\">A</text><text class=\\\"pele-venn-text\\\" data-id=\\\"x\\\" font-size=\\\"11\\\" fill=\\\"var(--_m)\\\" x=\\\"108\\\" y=\\\"121.85\\\" text-anchor=\\\"middle\\\">x</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
-  },
-  {
-    "index": 728,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 739,
     "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 779,
-    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 804,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 805,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 814,
@@ -132,48 +136,84 @@
     "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 888,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 845,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 918,
-    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 936,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 937,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 945,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1006,
-    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 964,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"%% c\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"%% c\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">%% c</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+  },
+  {
+    "index": 1011,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1036,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1040,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1075,
     "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1146,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1080,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1091,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1114,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1175,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1181,
     "output": "{\n  \"error\": \"unknown set identifier: A, B&nope;\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1205,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1194,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"venn-beta-x\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"venn-beta-x\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">venn-beta-x</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
-    "index": 1215,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1240,
+    "output": "{\n  \"error\": \"unknown set identifier: B♥\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1238,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"SnnET-A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"Text-B\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"SnnET-A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">SnnET-A</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"Text-B\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">Text-B</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "index": 1244,
+    "output": "{\n  \"error\": \"unknown set identifier: javtext A 5sc#10;riptvenn-betax:alert(1)\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1281,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">A</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">B</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+  },
+  {
+    "index": 1325,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1364,
-    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1409,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1429,
@@ -184,100 +224,116 @@
     "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1480,
-    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1455,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1484,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1467,
+    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1500,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 1549,
-    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1529,
+    "output": "{\n  \"error\": \"unknown set identifier: A, B&#13;x\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1567,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"set-\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"text-filla\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"set-\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">set-</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"text-filla\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">text-filla</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
+    "index": 1574,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 1587,
-    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1594,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 1602,
-    "output": "{\n  \"error\": \"unknown set identifier: text-xB\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1606,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">A</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
-    "index": 1639,
+    "index": 1661,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1688,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1696,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1697,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1747,
     "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1779,
-    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
     "index": 1781,
     "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"style-guide\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"style-guide\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">style-guide</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
-  },
-  {
-    "index": 1810,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"104.05\\\" text-anchor=\\\"middle\\\">A</text><text class=\\\"pele-venn-text\\\" data-id=\\\"t\\\" font-size=\\\"11\\\" fill=\\\"var(--_m)\\\" x=\\\"108\\\" y=\\\"121.85\\\" text-anchor=\\\"middle\\\">t</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
     "index": 1816,
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1844,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">A</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "index": 1852,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1880,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1885,
+    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1895,
-    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 1901,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 1908,
     "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1912,
-    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1911,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 343 216\\\" width=\\\"343\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"234.94\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"71.54\\\" y=\\\"109.76\\\" text-anchor=\\\"middle\\\">A</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"271.41\\\" y=\\\"109.76\\\" text-anchor=\\\"middle\\\">B</text></g></g></svg>\",\n  \"width\": 343,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
-    "index": 1913,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1916,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1994,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"styguide\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"styguide\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">styguide</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "index": 1949,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 1998,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 1950,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2038,
+    "index": 1999,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2029,
     "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2095,
-    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2038,
+    "output": "{\n  \"error\": \"union requires multiple identifiers\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 2105,
@@ -288,68 +344,44 @@
     "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2114,
-    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2193,
-    "output": "{\n  \"error\": \"Parse error on line 12:\",\n  \"line\": 12,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2212,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"%%x\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"%%x\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">%%x</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">B</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
-  },
-  {
-    "index": 2224,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 248\\\" width=\\\"216\\\" height=\\\"248\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_tw:var(--pele-title-weight,bold);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><text class=\\\"pele-title\\\" font-weight=\\\"var(--_tw)\\\" text-anchor=\\\"middle\\\" xml:space=\\\"preserve\\\"><tspan x=\\\"108\\\" y=\\\"22.55\\\">Crlf</tspan></text><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"140\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"144.55\\\" text-anchor=\\\"middle\\\">A</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 248,\n  \"type\": \"venn\"\n}"
-  },
-  {
-    "index": 2257,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2278,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2301,
+    "index": 2138,
     "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2308,
-    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2310,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2340,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2357,
+    "index": 2145,
     "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2380,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2396,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2448,
+    "index": 2157,
     "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2474,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2201,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 373 216\\\" width=\\\"373\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"78.71\\\" cy=\\\"108\\\" r=\\\"70.71\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"B\\\" cx=\\\"264.42\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"78.71\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">A</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"B\\\"><text class=\\\"pele-label\\\" x=\\\"264.42\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">B</text></g></g></svg>\",\n  \"width\": 373,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
-    "index": 2481,
-    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2262,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2297,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2402,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2425,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2431,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2435,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 2484,
@@ -364,56 +396,68 @@
     "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
+    "index": 2493,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
     "index": 2506,
-    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2517,
-    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"A\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\" style=\\\"fill:r;\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"A\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">A</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
+    "index": 2539,
+    "output": "{\n  \"error\": \"unknown set identifier: #gggB#10;xstre-width:2px, C\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2526,
-    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2559,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2534,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2577,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 216 216\\\" width=\\\"216\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"rgbxA\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"rgbxA\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">rgbxA</text></g></g></svg>\",\n  \"width\": 216,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
     "index": 2580,
     "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2608,
-    "output": "{\n  \"error\": \"Lexical error on line 2. Unrecognized text.\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2676,
-    "output": "{\n  \"error\": \"unknown set identifier: set-theory\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2735,
+    "index": 2593,
     "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2742,
-    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2608,
+    "output": "{\n  \"error\": \"Lexical error on line 1. Unrecognized text.\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2751,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2609,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2814,
-    "output": "{\n  \"error\": \"Lexical error on line 3. Unrecognized text.\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2622,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2824,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2665,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-venn\\\" viewBox=\\\"0 0 431 216\\\" width=\\\"431\\\" height=\\\"216\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"venn\\\"><g class=\\\"pele-venn-sets\\\"><circle class=\\\"pele-venn-set\\\" data-id=\\\"Buz\\\" cx=\\\"108\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><circle class=\\\"pele-venn-set\\\" data-id=\\\"style-guide\\\" cx=\\\"323\\\" cy=\\\"108\\\" r=\\\"100\\\" fill=\\\"var(--pele-series-2,#f58518)\\\" fill-opacity=\\\"0.2\\\" stroke=\\\"var(--pele-series-2,#f58518)\\\" style=\\\"fill:red;\\\"/></g><g class=\\\"pele-venn-labels\\\"><g class=\\\"pele-venn-region\\\" data-id=\\\"Buz\\\"><text class=\\\"pele-label\\\" x=\\\"108\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">Buz</text></g><g class=\\\"pele-venn-region\\\" data-id=\\\"style-guide\\\"><text class=\\\"pele-label\\\" x=\\\"323\\\" y=\\\"112.55\\\" text-anchor=\\\"middle\\\">style-guide</text></g></g></svg>\",\n  \"width\": 431,\n  \"height\": 216,\n  \"type\": \"venn\"\n}"
   },
   {
-    "index": 2839,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2666,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2697,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2739,
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2746,
+    "output": "{\n  \"error\": \"Parse error on line 1:\",\n  \"line\": 1,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 2804,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 2877,
@@ -421,23 +465,11 @@
   },
   {
     "index": 2890,
-    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2904,
-    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2910,
     "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
-    "index": 2918,
-    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
-  },
-  {
-    "index": 2984,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "index": 2920,
+    "output": "{\n  \"error\": \"unknown set identifier: A, :1.B&x\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 2997,

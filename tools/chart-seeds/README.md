@@ -131,7 +131,11 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   Q1 the `[^}]%%` comment rule (`quirk-comment-*`), VN1 a keyword with a dash and more of a name after it
   (`quirk-keyword-dash-*`), VN2 a bare `title` taking the next line (`quirk-title-*`), and VN3 the "unknown set identifier"
   message writing ids undecoded (`quirk-message-*`). Each one's `-reference` row is the same chart written so that Node
-  already reads it the corrected way. The VN1 rows and `quirk-comment-string` write each such name with a stand-in of the
+  already reads it the corrected way. Fix round 1 adds `quirk-comment-header-*` and `quirk-comment-statement-end-comma` (a
+  one-character token after the header or a finished statement, then `%%`: upstream eats it and draws, the port reports
+  it; after the header a `-` is VN1 too) and `quirk-message-{line-break, carriage-return, raw-line-break}` (a line break in
+  an unknown id is written as `#10;`/`#13;`, so the message keeps every id; their expected messages are pinned in the
+  test, as no Node input writes them). The VN1 rows and `quirk-comment-string` write each such name with a stand-in of the
   same advance (s/z, t/f, u/a, v/k, S/K, and a zero-width U+200B before `%%`), which
   `ChartParityTests.Venn_stand_in_rows_are_the_stated_deviation` swaps back. The `comment-*`, `keyword-*`, `title-*` and
   `message-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`,

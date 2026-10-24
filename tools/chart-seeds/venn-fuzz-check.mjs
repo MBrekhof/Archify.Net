@@ -4,7 +4,8 @@
 //   Q1  the second comment rule `[^}]%%` takes only whitespace before `%%` with it;
 //   VN1 a keyword followed by `-` and more of a name (not a number) gives way to the name;
 //   VN2 the space after `title` is not a line break;
-//   VN3 the "unknown set identifier" message names the ids decoded (Pele's own decodeEntities);
+//   VN3 the "unknown set identifier" message names the ids decoded (Pele's own decodeEntities), line breaks written back
+//       as `#10;` and `#13;`;
 //   L1  (the line remap, UPSTREAM-007) an error's line is counted in the input as written: the input is prepared as Pele's
 //       core does, keeping where each character came from, Node's snippet must be that line of the preparation, and the
 //       error goes to the input's line; an error past the end is on the last content line.
@@ -31,7 +32,7 @@ const PATCHES = {
     'for(let[s,r]of xt)if(this.keyword(t,s)&&!(e.charCodeAt(t+s.length)===45&&!(/[0-9]/.test(e[t+s.length+1]??"")||e[t+s.length+1]==="."&&/[0-9]/.test(e[t+s.length+2]??""))))return',
   ],
   VN2: ['this.word(t,"title")&&F(e.charCodeAt(t+5))', 'this.word(t,"title")&&F(e.charCodeAt(t+5))&&!/[\\n\\r]/.test(e[t+5])'],
-  VN3: ['unknown set identifier: ${a.join(", ")}', 'unknown set identifier: ${a.map(x=>VN3decode(x)).join(", ")}'],
+  VN3: ['unknown set identifier: ${a.join(", ")}', 'unknown set identifier: ${a.map(x=>VN3decode(x).replace(/\\n/g,"#10;").replace(/\\r/g,"#13;")).join(", ")}'],
 };
 // VN3 needs Pele's decodeEntities, which the chunk does not import yet.
 const IMPORT = ['import{a as V,c as H,g as ft}from"./XTDUIGUI.js"', 'import{a as V,c as H,g as ft,d as VN3decode}from"./XTDUIGUI.js"'];

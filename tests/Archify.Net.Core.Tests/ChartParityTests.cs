@@ -21,7 +21,7 @@ public class ChartParityTests
         .. QuirkRows.SelectMany(group => group.Value.Select(row => (group.Key, row.Name))),
         .. SankeyUnicodeRows.Select(row => ("sankey", row.Name)), .. SankeyValueRows.Select(row => ("sankey", row.Name)),
         .. RadarBoundaryRows.Select(row => ("radar", row.Name)),
-        .. VennSwapRows.Select(row => ("venn", row.Name)),
+        .. VennSwapRows.Select(row => ("venn", row.Name)), .. VennMessageRows.Select(row => ("venn", row.Name)),
         .. LineRemapRows.Select(row => (row.Group, row.Name)),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
@@ -100,22 +100,23 @@ public class ChartParityTests
             [884] = "L1", [931] = "L1", [970] = "L1", [971] = "L1", [979] = "RA1", [994] = "L1",
         },
         ["venn"] = new() {
-            [30] = "L1", [67] = "L1", [69] = "L1", [75] = "VN1", [148] = "Q1", [163] = "L1", [205] = "VN1", [206] = "L1",
-            [216] = "L1", [240] = "Q1", [255] = "VN1", [265] = "VN1", [269] = "L1", [272] = "L1", [297] = "VN1", [387] = "L1",
-            [390] = "VN1", [404] = "Q1", [451] = "L1", [468] = "L1", [484] = "Q1", [607] = "VN2", [618] = "L1", [632] = "VN1",
-            [675] = "Q1", [708] = "Q1", [720] = "Q1", [722] = "Q1", [728] = "L1", [739] = "L1", [779] = "L1", [814] = "VN1",
-            [829] = "L1", [888] = "VN1", [918] = "Q1", [937] = "VN1", [1006] = "VN1", [1036] = "Q1", [1146] = "VN2",
-            [1181] = "VN1", [1205] = "VN1", [1215] = "VN1", [1238] = "VN1", [1364] = "L1", [1429] = "VN1", [1454] = "VN1",
-            [1480] = "L1", [1484] = "L1", [1500] = "VN1", [1549] = "L1", [1567] = "VN1", [1587] = "Q1", [1594] = "Q1",
-            [1602] = "VN1", [1606] = "VN1", [1639] = "Q1", [1747] = "VN1L1", [1779] = "VN2", [1781] = "VN1", [1810] = "Q1",
-            [1816] = "VN1", [1844] = "Q1", [1895] = "L1", [1908] = "L1", [1912] = "L1", [1913] = "VN1", [1994] = "VN1",
-            [1998] = "VN1", [2038] = "L1", [2095] = "VN1", [2105] = "VN1", [2109] = "VN1", [2114] = "L1", [2193] = "L1",
-            [2212] = "Q1", [2224] = "VN2", [2257] = "VN2", [2278] = "L1", [2301] = "VN1", [2308] = "VN1", [2310] = "L1",
-            [2340] = "VN1", [2357] = "VN1", [2380] = "L1", [2396] = "VN1", [2448] = "Q1", [2474] = "VN2", [2481] = "L1",
-            [2484] = "VN1", [2488] = "VN1", [2492] = "L1", [2506] = "L1", [2517] = "Q1", [2526] = "Q1", [2534] = "L1",
-            [2580] = "L1", [2608] = "Q1", [2676] = "VN1", [2735] = "VN1", [2742] = "L1", [2751] = "Q1", [2814] = "Q1",
-            [2824] = "VN1L1", [2839] = "L1", [2877] = "L1", [2890] = "VN2", [2904] = "L1", [2910] = "L1", [2918] = "VN1",
-            [2984] = "Q1", [2997] = "L1",
+            [75] = "VN1", [77] = "VN1", [127] = "Q1", [131] = "Q1VN1", [156] = "Q1", [171] = "L1", [177] = "VN3", [206] = "L1",
+            [218] = "VN2", [240] = "Q1", [269] = "L1", [272] = "L1", [329] = "Q1L1", [352] = "VN2", [394] = "Q1", [404] = "Q1",
+            [437] = "L1", [483] = "VN1", [492] = "Q1", [533] = "Q1", [545] = "VN3", [580] = "Q1", [581] = "Q1", [618] = "L1",
+            [633] = "L1", [662] = "VN2", [675] = "Q1", [700] = "L1", [708] = "Q1", [739] = "L1", [804] = "L1", [805] = "Q1VN1",
+            [814] = "VN1", [829] = "L1", [845] = "Q1", [936] = "L1", [945] = "L1", [964] = "Q1", [1011] = "Q1", [1036] = "Q1",
+            [1040] = "Q1", [1075] = "Q1", [1080] = "VN1", [1091] = "L1", [1114] = "Q1VN1", [1175] = "Q1VN1", [1181] = "VN1",
+            [1194] = "VN1", [1240] = "VN3", [1244] = "VN3", [1281] = "Q1", [1325] = "L1", [1364] = "L1", [1409] = "Q1",
+            [1429] = "VN1", [1454] = "VN1", [1455] = "L1", [1467] = "VN1", [1529] = "VN3", [1567] = "VN1", [1574] = "VN1",
+            [1587] = "Q1", [1594] = "Q1", [1606] = "VN1", [1661] = "L1", [1688] = "Q1", [1696] = "VN1", [1697] = "Q1",
+            [1747] = "VN1L1", [1781] = "VN1", [1816] = "VN1", [1852] = "Q1", [1880] = "L1", [1885] = "VN1", [1895] = "L1",
+            [1901] = "VN1", [1908] = "L1", [1911] = "Q1", [1916] = "Q1", [1949] = "Q1", [1950] = "VN1", [1999] = "Q1",
+            [2029] = "L1", [2038] = "VN1", [2105] = "VN1", [2109] = "VN1", [2138] = "Q1VN1", [2145] = "VN1", [2157] = "VN1",
+            [2201] = "Q1", [2262] = "Q1", [2297] = "VN1", [2402] = "Q1", [2425] = "Q1", [2431] = "VN1", [2435] = "VN1",
+            [2484] = "VN1", [2488] = "VN1", [2492] = "L1", [2493] = "Q1", [2506] = "VN1", [2539] = "VN3", [2559] = "VN1",
+            [2577] = "Q1", [2580] = "L1", [2593] = "Q1VN1", [2608] = "Q1", [2609] = "L1", [2622] = "Q1VN2", [2665] = "VN1",
+            [2666] = "VN2", [2697] = "VN1", [2739] = "Q1", [2746] = "Q1", [2804] = "L1", [2877] = "L1", [2890] = "VN2",
+            [2920] = "VN3", [2997] = "L1",
         },
     };
 
@@ -485,6 +486,13 @@ public class ChartParityTests
         .. new[] { "one-letter-id", "one-digit-size", "union-last-id", "comma", "colon", "sign", "bracket", "text-id", "style-value", "crlf" }
             .Select(name => ($"quirk-comment-{name}", "Q1", $"quirk-comment-{name}-reference")),
         ("stress-comments-after-every-char", "Q1", "error-statement"),
+        // Fix round 1: a one-character token after the header or a finished statement, then `%%`. Upstream eats it and draws
+        // the chart; the port reports it. After the header a `-` is VN1 too: `venn-beta-` is then a name, as `venn-betax` is.
+        ("quirk-comment-header-dash", "Q1VN1", "quirk-comment-header-dash-reference"),
+        ("quirk-comment-header-dash-no-space", "Q1VN1", "quirk-comment-header-dash-no-space-reference"),
+        .. new[] { "comma", "colon", "dot", "quote", "bracket", "dollar", "plus", "hash", "letter" }
+            .Select(name => ($"quirk-comment-header-{name}", "Q1", $"quirk-comment-header-{name}-reference")),
+        ("quirk-comment-statement-end-comma", "Q1", "quirk-comment-statement-end-comma-reference"),
         ("quirk-keyword-dash-statement", "VN1", "quirk-keyword-dash-statement-reference"), ("header-dash", "VN1", "header-glued"),
         .. new[] { "quirk-title-next-line", "quirk-title-next-line-crlf", "quirk-title-upper", "stress-title-word-alone" }
             .Select(name => (name, "VN2", "quirk-title-next-line-reference")),
@@ -502,6 +510,28 @@ public class ChartParityTests
         ("quirk-keyword-dash-upper", "VN1", [("KET-A", "SET-A"), ("Fext-B", "Text-B")]), ("quirk-keyword-dash-crlf", "VN1", [("zet-a", "set-a")]),
         ("quirk-comment-string", "Q1", [("​%%x", "%%x")]),
     ];
+
+    // VN3 with a line break in an unknown id (a code, or written in the quoted id): the break would end the message
+    // (charts.mjs shows its first line) and drop the rest of the ids, so the port writes it as its code. No Node input writes
+    // `#10;` in a message (Mermaid encodes it), so the expected message is pinned here; the rest of the result is Node's.
+    static (string Name, string Message)[] VennMessageRows =>
+    [
+        ("quirk-message-line-break", "unknown set identifier: B#10;x, C"),
+        ("quirk-message-carriage-return", "unknown set identifier: B&#13;x"),
+        ("quirk-message-raw-line-break", "unknown set identifier: B#10;x, C"),   // upstream: `unknown set identifier: B`
+    ];
+
+    [Fact] public void Venn_line_break_in_an_unknown_id_is_written_as_its_code()
+    {
+        foreach (var (name, message) in VennMessageRows)
+        {
+            Assert.True(QuirkIn("venn", Seed("venn", name)["text"]!.GetValue<string>()).Contains("VN3"), $"{name}: input shows no VN3");
+            var node = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden("venn", name)))!;
+            Assert.NotEqual(message, node["error"]!.GetValue<string>());
+            node["error"] = message;
+            Assert.Equal(ExplainerCharts.Json(node), Run(Seed("venn", name)));
+        }
+    }
 
     [Fact] public void Venn_stand_in_rows_are_the_stated_deviation()
     {
@@ -642,7 +672,11 @@ public class ChartParityTests
         var tail = bare.TrimEnd().Split(' ', '\t')[^1];
         bool Holds(string t) => written.Contains(t, StringComparison.Ordinal) || bare.Contains(t, StringComparison.Ordinal)
             || bare.Length < written.Length && tail != "" && t.StartsWith(tail, StringComparison.Ordinal);
-        return Holds(token) || Holds(RePlaceholder.Replace(token, "#$1;")) ? null : $"line {line} {Js.Quote(written)} has no {Js.Quote(token)}";
+        // Mermaid's encodeEntities first drops the last `;` of a `style …:…#…;` line, so the token may lack a `;` the fence has.
+        static string NoSemicolons(string s) => s.Replace(";", "", StringComparison.Ordinal);
+        return Holds(token) || Holds(RePlaceholder.Replace(token, "#$1;"))
+            || NoSemicolons(written).Contains(NoSemicolons(RePlaceholder.Replace(token, "#$1;")), StringComparison.Ordinal)
+            ? null : $"line {line} {Js.Quote(written)} has no {Js.Quote(token)}";
     }
 
     static string Token(string snippet, int caret)
@@ -870,12 +904,16 @@ public class ChartParityTests
     // a containment test on the text; tools/chart-seeds/venn-fuzz-check.mjs checks, against upstream with each fix written in,
     // that the fixes a listed case needs are among these.
     const string VennStart = "(?<![A-Za-z_][-A-Za-z0-9_]*|#[0-9A-Fa-f]*)";
-    static readonly Regex ReVennQ1 = new($@"(?:{VennStart}(?:[-A-Za-z_]|(?<![0-9.+-])[0-9])|[^-A-Za-z0-9_}}%{WsBody}\])])%%");
-    static readonly Regex ReVennKeywordDash = new($@"{VennStart}(?:[Vv][Ee][Nn][Nn]-[Bb][Ee][Tt][Aa]|[Ss][Ee][Tt]|[Uu][Nn][Ii][Oo][Nn]|[Tt][Ee][Xx][Tt]|[Ss][Tt][Yy][Ll][Ee])-(?![0-9]|\.[0-9])");
+    // A keyword ends its token, so a `-` right after one starts the next (`venn-beta-%%`).
+    static readonly Regex ReVennQ1 = new($@"(?:{VennStart}(?:[-A-Za-z_]|(?<![0-9.+-])[0-9])|{VennStart}{VennKeyword}-|[^-A-Za-z0-9_}}%{WsBody}\])])%%");
+    const string VennKeyword = "(?:[Vv][Ee][Nn][Nn]-[Bb][Ee][Tt][Aa]|[Ss][Ee][Tt]|[Uu][Nn][Ii][Oo][Nn]|[Tt][Ee][Xx][Tt]|[Ss][Tt][Yy][Ll][Ee])";
+    static readonly Regex ReVennKeywordDash = new($@"{VennStart}{VennKeyword}-(?![0-9]|\.[0-9])");
     static readonly Regex ReVennTitleBreak = new($"{VennStart}[Tt][Ii][Tt][Ll][Ee](?:\r\n|\n|\r)[^#;\n\r]");
     static readonly Regex ReVennQuoted = new("\"[^\"]*\"");
-    static bool VennIdEntity(string text) => ReVennQuoted.Matches(text).Any(m =>
-        ReMermaidCode.IsMatch(m.Value) || ReHtmlEntity.Matches(m.Value).Any(e => Pele.Entities.DecodeEntities(e.Value) != e.Value));
+    // Directives go first (preprocess takes them out, so `&#3%%{init}%%;` is an entity), and a line break in a quoted id
+    // counts too: upstream's message ends there, the port writes it as its code (fix round 1).
+    static bool VennIdEntity(string text) => ReVennQuoted.Matches(ReCommentLine.Replace(text, "")).Any(m => m.Value.AsSpan().IndexOfAny('\n', '\r') >= 0
+        || ReMermaidCode.IsMatch(m.Value) || ReHtmlEntity.Matches(m.Value).Any(e => Pele.Entities.DecodeEntities(e.Value) != e.Value));
 
     // radar. RA1: one of the five words at the start of a word, followed by more of a name (ID reads `[-\w]*\w` on); for
     // circle, polygon, true and false, not as the value of `graticule` or `showLegend`, which the fix leaves alone. RA2: a

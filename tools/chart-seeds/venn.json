@@ -1000,6 +1000,18 @@
     "text": "venn-beta\n  set A\n  set B\n  set C\n  set D\n  set E\n  union A,B,C,D,E[\"all\"]\n  style A,B,C,D,E fill:red"
   },
   {
+    "name": "four-all-sized-styled",
+    "text": "venn-beta\n  set A:40\n  set B:10\n  set C:20\n  set D:5\n  union A,B,C,D[\"x\"]\n  style A,B,C,D fill:red"
+  },
+  {
+    "name": "five-all-sized-styled",
+    "text": "venn-beta\n  set A:50\n  set B:5\n  set C:20\n  set D:10\n  set E:30\n  union A,B,C,D,E[\"x\"]\n  style A,B,C,D,E fill:red"
+  },
+  {
+    "name": "four-triples-styled",
+    "text": "venn-beta\n  set A\n  set B\n  set C\n  set D\n  union A,B,C[\"abc\"]\n  union B,C,D[\"bcd\"]\n  union A,C,D[\"acd\"]\n  style A,B,C fill:red\n  style B,C,D fill:blue\n  style A,C,D fill:green"
+  },
+  {
     "name": "five-ring-labels",
     "text": "venn-beta\n  set A[\"Alpha\"]\n  set B[\"Beta\"]\n  set C[\"Gamma\"]\n  set D[\"Delta\"]\n  set E[\"Epsilon\"]\n  union A,B[\"ab\"]\n  union B,C[\"bc\"]\n  union C,D[\"cd\"]\n  union D,E[\"de\"]\n  union E,A[\"ea\"]"
   },
@@ -1110,6 +1122,14 @@
   {
     "name": "label-empty-unquoted",
     "text": "venn-beta\n  set A[]"
+  },
+  {
+    "name": "label-unquoted-blank",
+    "text": "venn-beta\n  set A[ ]\n  set B[\t]\n  set C[　]\n  union A,B[ ]"
+  },
+  {
+    "name": "text-label-unquoted-blank",
+    "text": "venn-beta\n  set A\n    text x[ ]\n    text y[\t]"
   },
   {
     "name": "label-entities",
@@ -1584,6 +1604,102 @@
     "text": "venn-beta\r\n  set A %% c\r\n  set B"
   },
   {
+    "name": "quirk-comment-header-dash",
+    "text": "venn-beta-%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-dash-reference",
+    "text": "venn-betax %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-dash-no-space",
+    "text": "venn-beta-%%note\n  set A\n  set B"
+  },
+  {
+    "name": "quirk-comment-header-dash-no-space-reference",
+    "text": "venn-betax %%note\n  set A\n  set B"
+  },
+  {
+    "name": "quirk-comment-header-comma",
+    "text": "venn-beta,%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-comma-reference",
+    "text": "venn-beta, %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-colon",
+    "text": "venn-beta:%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-colon-reference",
+    "text": "venn-beta: %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-dot",
+    "text": "venn-beta.%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-dot-reference",
+    "text": "venn-beta. %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-quote",
+    "text": "venn-beta\"%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-quote-reference",
+    "text": "venn-beta\" %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-bracket",
+    "text": "venn-beta[%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-bracket-reference",
+    "text": "venn-beta[ %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-dollar",
+    "text": "venn-beta$%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-dollar-reference",
+    "text": "venn-beta$ %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-plus",
+    "text": "venn-beta+%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-plus-reference",
+    "text": "venn-beta+ %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-hash",
+    "text": "venn-beta#%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-hash-reference",
+    "text": "venn-beta# %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-letter",
+    "text": "venn-beta x%% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-header-letter-reference",
+    "text": "venn-beta x %% note\n  set A"
+  },
+  {
+    "name": "quirk-comment-statement-end-comma",
+    "text": "venn-beta\n  set A ,%% note\n  set B"
+  },
+  {
+    "name": "quirk-comment-statement-end-comma-reference",
+    "text": "venn-beta\n  set A , %% note\n  set B"
+  },
+  {
     "name": "quirk-comment-string",
     "text": "venn-beta\n  set \"%%x\"\n  set B"
   },
@@ -1798,6 +1914,18 @@
   {
     "name": "quirk-message-two-reference",
     "text": "venn-beta\n  set A\n  union A,\"x<y\",\"#z\""
+  },
+  {
+    "name": "quirk-message-line-break",
+    "text": "venn-beta\n  set A\n  union A,\"B#10;x\",C"
+  },
+  {
+    "name": "quirk-message-carriage-return",
+    "text": "venn-beta\n  set A\n  union A,\"B&#13;x\""
+  },
+  {
+    "name": "quirk-message-raw-line-break",
+    "text": "venn-beta\n  set A\n  union A,\"B\nx\",C"
   },
   {
     "name": "message-unknown-entity",

@@ -55,8 +55,13 @@ internal static partial class Pele
             {
                 var unknown = ids.Select(NormalizeText).Where(id => !known.Contains(id)).ToList();
                 // Deviation VN3 (PORT-008 Task 11): upstream writes the ids as parsed, so a Mermaid code shows as its internal
-                // placeholder (`ﬂ°°35¶ß`) and an HTML entity as typed. The port names them as the chart draws an id.
-                if (unknown.Count > 0) throw new PeleException($"unknown set identifier: {string.Join(", ", unknown.Select(Entities.DecodeEntities))}", "semantic");
+                // placeholder (`ﬂ°°35¶ß`) and an HTML entity as typed. The port names them as the chart draws an id, but with
+                // a line break written back as its code (`#10;`, `#13;`): the message is shown up to its first line break.
+                if (unknown.Count > 0)
+                {
+                    var named = unknown.Select(id => Entities.DecodeEntities(id).Replace("\n", "#10;", StringComparison.Ordinal).Replace("\r", "#13;", StringComparison.Ordinal));
+                    throw new PeleException($"unknown set identifier: {string.Join(", ", named)}", "semantic");
+                }
             }
 
             public List<string>? GetCurrentSets() => current;
