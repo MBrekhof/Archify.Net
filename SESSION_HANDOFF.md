@@ -62,7 +62,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Parity at `2c68fd8`: ChartParity 2226/2226. Test totals (`dotnet test`, Browser category included): Core 5288,
   Cli 964, Mcp 13, 0 failed, 0 warnings. Per-group counts are in `docs/status.md`.
 - Fixed upstream defects, each a stated deviation with a test and an upstream issue: `docs/deviations.md`, "Pele charts
-  (PORT-008)". The three final-wave entries still say "(upstream issue to follow)"; the controller fills in the links.
+  (PORT-008)".
 - Martin (2026-10-24): contrived-input ("fails late") findings now get a card and are parked, not fixed in more rounds.
   Wrong output on realistic input is still fixed. The final wave's parts B and C went to PORT-012.
 - Pele upstream is at 1.9.0. A future archify re-pin of Pele is its own card.

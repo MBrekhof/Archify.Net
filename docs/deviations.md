@@ -243,15 +243,15 @@ corrected result, and the fact asserts the port equals it.
   [pele#67](https://github.com/obsidianmd/pele/issues/67)):* `unknown set identifier` names ids with internal
   placeholders and is cut at a line break. The port names each id as the chart draws it and writes a line break as
   `#10;`/`#13;`. Pinned by `VennMessageRows` and `Venn_line_break_in_an_unknown_id_is_written_as_its_code`.
-- *XML-invalid characters (UPSTREAM-008, (upstream issue to follow)):* U+FFFE, U+FFFF and lone surrogate halves in any
+- *XML-invalid characters (UPSTREAM-008, obsidianmd/pele#72):* U+FFFE, U+FFFF and lone surrogate halves in any
   label, title or id reach the SVG, which is then not well-formed XML. Pele 1.9.0 still writes them. The port's escaper
   drops them, in every type, as it already drops C0 controls; the layout does not move. Pinned by `fixes/xml-*`,
   `radar/labels-xml-invalid-fffe`, `venn/id-xml-invalid`, `venn/label-xml-invalid-fffe` and
   `Xml_invalid_characters_are_dropped`.
-- *pie invalid-value message (PORT-011, (upstream issue to follow)):* the `"<label>" has invalid value` message writes
+- *pie invalid-value message (PORT-011, mermaid-js/mermaid#8545, obsidianmd/pele#73):* the `"<label>" has invalid value` message writes
   the label with internal placeholders and is cut at a line break. The port names the label as drawn, a line break as
   `#10;`/`#13;`. Pinned by `fixes/message-pie-*`, `Pie_invalid_value_names_the_label_as_drawn` and pie fuzz case 702.
-- *radar overflow near 1e308 (PORT-011, (upstream issue to follow)):* a value whose `radius * (value - min)` overflows
+- *radar overflow near 1e308 (PORT-011, mermaid-js/mermaid#8546, obsidianmd/pele#74):* a value whose `radius * (value - min)` overflows
   is drawn at the centre. The port divides first when the product overflows, so it draws the value at its true radius;
   every other value is computed as upstream. Pinned by `radar/values-overflow-radius`, `fixes/overflow-radar-half` and
   `Radar_overflow_is_the_stated_deviation`.
