@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Sizes",
+    "output": "size.html",
+    "quality_profile": "showcase"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 3,
+    "cellW": 241,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "gw",
+      "label": "A gateway with a rather long label",
+      "type": "external",
+      "row": 0,
+      "col": 0,
+      "size": [
+        241,
+        60
+      ]
+    },
+    {
+      "id": "svc",
+      "label": "Service",
+      "type": "backend",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "db",
+      "label": "DB",
+      "type": "database",
+      "row": 0,
+      "col": 2
+    }
+  ],
+  "connections": [
+    {
+      "id": "gw-to-svc-1",
+      "from": "gw",
+      "to": "svc",
+      "label": "calls",
+      "variant": "dashed"
+    },
+    {
+      "id": "svc-to-db-1",
+      "from": "svc",
+      "to": "db"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "phases",
+    "output": "phases.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "alert",
+      "label": "Alert",
+      "type": "external",
+      "lane": "flow",
+      "col": 0
+    },
+    {
+      "id": "window",
+      "label": "Window",
+      "type": "backend",
+      "lane": "flow",
+      "col": 1
+    },
+    {
+      "id": "sample",
+      "label": "Sample",
+      "type": "backend",
+      "lane": "flow",
+      "col": 2
+    },
+    {
+      "id": "fix",
+      "label": "Fix",
+      "type": "backend",
+      "lane": "flow",
+      "col": 3
+    }
+  ],
+  "lanes": [
+    {
+      "id": "flow",
+      "label": "phases"
+    }
+  ],
+  "phases": [
+    {
+      "id": "confirm",
+      "label": "Confirm",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "locate",
+      "label": "Locate",
+      "fromCol": 2,
+      "toCol": 3
+    }
+  ],
+  "edges": [
+    {
+      "id": "alert-to-window-1",
+      "from": "alert",
+      "to": "window"
+    },
+    {
+      "id": "window-to-sample-1",
+      "from": "window",
+      "to": "sample",
+      "label": "tail"
+    },
+    {
+      "id": "sample-to-fix-1",
+      "from": "sample",
+      "to": "fix"
+    }
+  ]
+}

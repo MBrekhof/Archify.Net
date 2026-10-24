@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Expected 3–4 pipe-separated fields.",
+    "code": [
+      {
+        "code": "explainer/diagram-row",
+        "severity": "error",
+        "message": "Expected 3–4 pipe-separated fields.",
+        "subject": {
+          "component": "diagram",
+          "line": 7,
+          "path": "/",
+          "diagram": "x",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-row",
+          "example": "Client | API | 请求记录 | return"
+        },
+        "supportedFixes": [
+          "Use this form: Client | API | 请求记录 | return"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "wide",
+    "output": "wide.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "wide · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "wide · 2"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "label": "Collect the request context",
+      "type": "backend",
+      "width": 217,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "b",
+      "label": "Check the authorization rules",
+      "type": "backend",
+      "width": 230,
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "c",
+      "label": "Decide which shard owns it？",
+      "type": "backend",
+      "width": 223,
+      "icon": "decision",
+      "col": 2,
+      "lane": "lane-0"
+    },
+    {
+      "id": "d",
+      "label": "Write through to the store",
+      "type": "backend",
+      "width": 210,
+      "col": 0,
+      "lane": "lane-1"
+    },
+    {
+      "id": "e",
+      "label": "Publish the change event",
+      "type": "backend",
+      "width": 197,
+      "col": 1,
+      "lane": "lane-1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b",
+      "label": "a long edge label here"
+    },
+    {
+      "id": "b-to-c-1",
+      "from": "b",
+      "to": "c",
+      "label": "another long edge label"
+    },
+    {
+      "id": "c-to-d-1",
+      "from": "c",
+      "to": "d",
+      "label": "yes, the shard is local"
+    },
+    {
+      "id": "d-to-e-1",
+      "from": "d",
+      "to": "e"
+    }
+  ]
+}

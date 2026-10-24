@@ -1,0 +1,136 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 167
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 167
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 167
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 167
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 167
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 167
+    },
+    "/panels/0/blocks/0/level": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 167
+    },
+    "/panels/0/blocks/0/title": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 167
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 167
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 167
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@callout title=\"Unclosed\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-directive",
+      "severity": "error",
+      "message": "Quoted directive value is not closed.",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "directive",
+        "path": "/",
+        "input": "bad.md"
+      },
+      "evidence": {
+        "reason": "Quoted directive value is not closed.",
+        "example": "title=\"A short title\""
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: title=\"A short title\""
+      ]
+    }
+  ]
+}

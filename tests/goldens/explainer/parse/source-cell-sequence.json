@@ -1,0 +1,316 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "flow",
+            "diagramType": "sequence",
+            "nodeSources": {
+              "a": "s"
+            },
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "Q",
+                "output": "flow.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "a",
+                  "label": "A",
+                  "type": "backend"
+                },
+                {
+                  "id": "b",
+                  "label": "B",
+                  "type": "external"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "a-to-b-1",
+                  "from": "a",
+                  "to": "b",
+                  "label": "hi",
+                  "y": 160
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "s",
+        "title": "S"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 29
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 29
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 29
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 30,
+      "end": 121
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 30,
+      "end": 121
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 30,
+      "end": 121
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 30,
+      "end": 121
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/nodeSources": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/nodeSources/a": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 9,
+      "column": 1,
+      "start": 41,
+      "end": 121
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@source s title=\"S\"\n\n## Q {#q}\n\n@sequence id=flow\n| actor a | A | backend | source:s |\n| a | B | hi | source:s |",
+  "diagnostics": []
+}

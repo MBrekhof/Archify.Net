@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "This architecture needs more than twelve native grid columns.",
+    "code": [
+      {
+        "code": "explainer/diagram-shorthand-limit",
+        "severity": "error",
+        "message": "This architecture needs more than twelve native grid columns.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagram": "cols",
+          "diagramType": "architecture"
+        },
+        "evidence": {
+          "reason": "diagram-shorthand-limit",
+          "example": "Use native JSON with explicit component positions."
+        },
+        "supportedFixes": [
+          "Use this form: Use native JSON with explicit component positions."
+        ]
+      }
+    ]
+  }
+}

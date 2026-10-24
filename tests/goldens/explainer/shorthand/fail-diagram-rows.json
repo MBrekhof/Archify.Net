@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A shorthand diagram needs at least one row.",
+    "code": [
+      {
+        "code": "explainer/diagram-rows",
+        "severity": "error",
+        "message": "A shorthand diagram needs at least one row.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-rows",
+          "example": "Client | API | 请求记录"
+        },
+        "supportedFixes": [
+          "Use this form: Client | API | 请求记录"
+        ]
+      }
+    ]
+  }
+}

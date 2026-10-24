@@ -1,0 +1,853 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "缓存未命中时，请求为什么变慢？",
+      "id": "mechanism",
+      "locale": "zh-CN",
+      "output": "delivery.html"
+    },
+    "answer": {
+      "summary": "缓存未命中后，请求要多等**数据库查询和同步写回缓存**两段。",
+      "reasons": [
+        "命中时，接口读到缓存值就能返回。",
+        "未命中时，接口必须先拿到数据库结果。",
+        "同步写回位于响应之前，写完缓存才能结束请求。"
+      ],
+      "scope": "示例采用旁路缓存：GET返回空值后查询PostgreSQL，查询成功后同步SET再响应；无并行、重试或其他缓存层。未实测耗时，具体慢多少由链路测量决定。"
+    },
+    "panels": [
+      {
+        "id": "timeline",
+        "title": "一次未命中，时间花在哪？",
+        "blocks": [
+          {
+            "type": "steps",
+            "id": "cache-path-steps",
+            "items": [
+              {
+                "id": "get-step",
+                "text": "读取缓存",
+                "detail": "GET返回空值，接口继续向数据库查询。[](source:get-doc)"
+              },
+              {
+                "id": "query-step",
+                "text": "查询PostgreSQL",
+                "detail": "等待数据库执行SQL并返回结果。"
+              },
+              {
+                "id": "set-step",
+                "text": "同步写回Redis",
+                "detail": "SET完成后，接口返回响应。[](source:set-doc)"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "diff",
+        "title": "命中和未命中，差在哪几步？",
+        "blocks": [
+          {
+            "type": "comparison",
+            "id": "cache-comparison",
+            "columns": [
+              "命中",
+              "未命中"
+            ],
+            "rows": [
+              {
+                "label": "读Redis",
+                "cells": [
+                  {
+                    "text": "取得值",
+                    "assessment": "good",
+                    "verdict": "直接返回"
+                  },
+                  {
+                    "text": "取得空值",
+                    "assessment": "caution",
+                    "verdict": "继续查询"
+                  }
+                ],
+                "id": "row-67fe9814e476"
+              },
+              {
+                "label": "查PostgreSQL",
+                "cells": [
+                  {
+                    "text": "跳过",
+                    "assessment": "good",
+                    "verdict": "省去查询"
+                  },
+                  {
+                    "text": "等待结果",
+                    "assessment": "caution",
+                    "verdict": "增加等待"
+                  }
+                ],
+                "id": "row-bb530b3792c8"
+              },
+              {
+                "label": "写回Redis",
+                "cells": [
+                  {
+                    "text": "跳过",
+                    "assessment": "good",
+                    "verdict": "省去写回"
+                  },
+                  {
+                    "text": "同步SET",
+                    "assessment": "caution",
+                    "verdict": "增加等待"
+                  }
+                ],
+                "id": "row-cbc9f8528502"
+              },
+              {
+                "label": "响应路径",
+                "cells": [
+                  {
+                    "text": "一段读取",
+                    "assessment": "good",
+                    "verdict": "路径短"
+                  },
+                  {
+                    "text": "三段顺序等待",
+                    "assessment": "caution",
+                    "verdict": "路径长"
+                  }
+                ],
+                "id": "row-d108c6645625"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "checks",
+        "title": "想缩短等待，先查什么？",
+        "blocks": [
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "记录`cache=hit`或`cache=miss`，区分请求路径。",
+              "分别观察GET、SQL和SET耗时，先处理最慢的一段。",
+              "检查SQL索引与执行计划；改为异步写回前，设计写入失败的恢复流程。"
+            ],
+            "id": "list-7e8599e477aa"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "get-doc",
+        "title": "Redis GET：不存在的键返回空值",
+        "url": "https://redis.io/docs/latest/commands/get/"
+      },
+      {
+        "id": "set-doc",
+        "title": "Redis SET：设置键值",
+        "url": "https://redis.io/docs/latest/commands/set/"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/schema_version": {
+      "line": 2,
+      "column": 21,
+      "start": 22,
+      "end": 23
+    },
+    "/diagram_type": {
+      "line": 3,
+      "column": 19,
+      "start": 43,
+      "end": 54
+    },
+    "/meta/title": {
+      "line": 5,
+      "column": 14,
+      "start": 81,
+      "end": 98
+    },
+    "/meta/id": {
+      "line": 6,
+      "column": 11,
+      "start": 110,
+      "end": 121
+    },
+    "/meta/locale": {
+      "line": 7,
+      "column": 15,
+      "start": 137,
+      "end": 144
+    },
+    "/meta": {
+      "line": 4,
+      "column": 11,
+      "start": 66,
+      "end": 148
+    },
+    "/answer/summary": {
+      "line": 10,
+      "column": 16,
+      "start": 179,
+      "end": 212
+    },
+    "/answer/reasons/0": {
+      "line": 12,
+      "column": 7,
+      "start": 237,
+      "end": 255
+    },
+    "/answer/reasons/1": {
+      "line": 13,
+      "column": 7,
+      "start": 263,
+      "end": 283
+    },
+    "/answer/reasons/2": {
+      "line": 14,
+      "column": 7,
+      "start": 291,
+      "end": 315
+    },
+    "/answer/reasons": {
+      "line": 11,
+      "column": 16,
+      "start": 229,
+      "end": 321
+    },
+    "/answer/scope": {
+      "line": 16,
+      "column": 14,
+      "start": 336,
+      "end": 414
+    },
+    "/answer": {
+      "line": 9,
+      "column": 13,
+      "start": 162,
+      "end": 418
+    },
+    "/panels/0/id": {
+      "line": 20,
+      "column": 13,
+      "start": 452,
+      "end": 462
+    },
+    "/panels/0/title": {
+      "line": 21,
+      "column": 16,
+      "start": 479,
+      "end": 493
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 24,
+      "column": 19,
+      "start": 541,
+      "end": 548
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 25,
+      "column": 17,
+      "start": 566,
+      "end": 584
+    },
+    "/panels/0/blocks/0/items/0/id": {
+      "line": 28,
+      "column": 21,
+      "start": 641,
+      "end": 651
+    },
+    "/panels/0/blocks/0/items/0/text": {
+      "line": 29,
+      "column": 23,
+      "start": 675,
+      "end": 681
+    },
+    "/panels/0/blocks/0/items/0/detail": {
+      "line": 30,
+      "column": 25,
+      "start": 707,
+      "end": 746
+    },
+    "/panels/0/blocks/0/items/0": {
+      "line": 27,
+      "column": 13,
+      "start": 619,
+      "end": 760
+    },
+    "/panels/0/blocks/0/items/1/id": {
+      "line": 33,
+      "column": 21,
+      "start": 796,
+      "end": 808
+    },
+    "/panels/0/blocks/0/items/1/text": {
+      "line": 34,
+      "column": 23,
+      "start": 832,
+      "end": 846
+    },
+    "/panels/0/blocks/0/items/1/detail": {
+      "line": 35,
+      "column": 25,
+      "start": 872,
+      "end": 890
+    },
+    "/panels/0/blocks/0/items/1": {
+      "line": 32,
+      "column": 13,
+      "start": 774,
+      "end": 904
+    },
+    "/panels/0/blocks/0/items/2/id": {
+      "line": 38,
+      "column": 21,
+      "start": 940,
+      "end": 950
+    },
+    "/panels/0/blocks/0/items/2/text": {
+      "line": 39,
+      "column": 23,
+      "start": 974,
+      "end": 985
+    },
+    "/panels/0/blocks/0/items/2/detail": {
+      "line": 40,
+      "column": 25,
+      "start": 1011,
+      "end": 1045
+    },
+    "/panels/0/blocks/0/items/2": {
+      "line": 37,
+      "column": 13,
+      "start": 918,
+      "end": 1059
+    },
+    "/panels/0/blocks/0/items": {
+      "line": 26,
+      "column": 20,
+      "start": 605,
+      "end": 1071
+    },
+    "/panels/0/blocks/0": {
+      "line": 23,
+      "column": 9,
+      "start": 521,
+      "end": 1081
+    },
+    "/panels/0/blocks": {
+      "line": 22,
+      "column": 17,
+      "start": 511,
+      "end": 1089
+    },
+    "/panels/0": {
+      "line": 19,
+      "column": 5,
+      "start": 438,
+      "end": 1095
+    },
+    "/panels/1/id": {
+      "line": 47,
+      "column": 13,
+      "start": 1115,
+      "end": 1121
+    },
+    "/panels/1/title": {
+      "line": 48,
+      "column": 16,
+      "start": 1138,
+      "end": 1153
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 51,
+      "column": 19,
+      "start": 1201,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 52,
+      "column": 17,
+      "start": 1231,
+      "end": 1249
+    },
+    "/panels/1/blocks/0/columns/0": {
+      "line": 54,
+      "column": 13,
+      "start": 1286,
+      "end": 1290
+    },
+    "/panels/1/blocks/0/columns/1": {
+      "line": 55,
+      "column": 13,
+      "start": 1304,
+      "end": 1309
+    },
+    "/panels/1/blocks/0/columns": {
+      "line": 53,
+      "column": 22,
+      "start": 1272,
+      "end": 1321
+    },
+    "/panels/1/blocks/0/rows/0/label": {
+      "line": 59,
+      "column": 24,
+      "start": 1380,
+      "end": 1388
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/text": {
+      "line": 62,
+      "column": 27,
+      "start": 1459,
+      "end": 1464
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/assessment": {
+      "line": 63,
+      "column": 33,
+      "start": 1498,
+      "end": 1504
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/verdict": {
+      "line": 64,
+      "column": 30,
+      "start": 1535,
+      "end": 1541
+    },
+    "/panels/1/blocks/0/rows/0/cells/0": {
+      "line": 61,
+      "column": 17,
+      "start": 1431,
+      "end": 1559
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/text": {
+      "line": 67,
+      "column": 27,
+      "start": 1605,
+      "end": 1611
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/assessment": {
+      "line": 68,
+      "column": 33,
+      "start": 1645,
+      "end": 1654
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/verdict": {
+      "line": 69,
+      "column": 30,
+      "start": 1685,
+      "end": 1691
+    },
+    "/panels/1/blocks/0/rows/0/cells/1": {
+      "line": 66,
+      "column": 17,
+      "start": 1577,
+      "end": 1709
+    },
+    "/panels/1/blocks/0/rows/0/cells": {
+      "line": 60,
+      "column": 24,
+      "start": 1413,
+      "end": 1725
+    },
+    "/panels/1/blocks/0/rows/0/id": {
+      "line": 72,
+      "column": 21,
+      "start": 1747,
+      "end": 1765
+    },
+    "/panels/1/blocks/0/rows/0": {
+      "line": 58,
+      "column": 13,
+      "start": 1355,
+      "end": 1779
+    },
+    "/panels/1/blocks/0/rows/1/label": {
+      "line": 75,
+      "column": 24,
+      "start": 1818,
+      "end": 1831
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/text": {
+      "line": 78,
+      "column": 27,
+      "start": 1902,
+      "end": 1906
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/assessment": {
+      "line": 79,
+      "column": 33,
+      "start": 1940,
+      "end": 1946
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/verdict": {
+      "line": 80,
+      "column": 30,
+      "start": 1977,
+      "end": 1983
+    },
+    "/panels/1/blocks/0/rows/1/cells/0": {
+      "line": 77,
+      "column": 17,
+      "start": 1874,
+      "end": 2001
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/text": {
+      "line": 83,
+      "column": 27,
+      "start": 2047,
+      "end": 2053
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/assessment": {
+      "line": 84,
+      "column": 33,
+      "start": 2087,
+      "end": 2096
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/verdict": {
+      "line": 85,
+      "column": 30,
+      "start": 2127,
+      "end": 2133
+    },
+    "/panels/1/blocks/0/rows/1/cells/1": {
+      "line": 82,
+      "column": 17,
+      "start": 2019,
+      "end": 2151
+    },
+    "/panels/1/blocks/0/rows/1/cells": {
+      "line": 76,
+      "column": 24,
+      "start": 1856,
+      "end": 2167
+    },
+    "/panels/1/blocks/0/rows/1/id": {
+      "line": 88,
+      "column": 21,
+      "start": 2189,
+      "end": 2207
+    },
+    "/panels/1/blocks/0/rows/1": {
+      "line": 74,
+      "column": 13,
+      "start": 1793,
+      "end": 2221
+    },
+    "/panels/1/blocks/0/rows/2/label": {
+      "line": 91,
+      "column": 24,
+      "start": 2260,
+      "end": 2269
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/text": {
+      "line": 94,
+      "column": 27,
+      "start": 2340,
+      "end": 2344
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/assessment": {
+      "line": 95,
+      "column": 33,
+      "start": 2378,
+      "end": 2384
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/verdict": {
+      "line": 96,
+      "column": 30,
+      "start": 2415,
+      "end": 2421
+    },
+    "/panels/1/blocks/0/rows/2/cells/0": {
+      "line": 93,
+      "column": 17,
+      "start": 2312,
+      "end": 2439
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/text": {
+      "line": 99,
+      "column": 27,
+      "start": 2485,
+      "end": 2492
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/assessment": {
+      "line": 100,
+      "column": 33,
+      "start": 2526,
+      "end": 2535
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/verdict": {
+      "line": 101,
+      "column": 30,
+      "start": 2566,
+      "end": 2572
+    },
+    "/panels/1/blocks/0/rows/2/cells/1": {
+      "line": 98,
+      "column": 17,
+      "start": 2457,
+      "end": 2590
+    },
+    "/panels/1/blocks/0/rows/2/cells": {
+      "line": 92,
+      "column": 24,
+      "start": 2294,
+      "end": 2606
+    },
+    "/panels/1/blocks/0/rows/2/id": {
+      "line": 104,
+      "column": 21,
+      "start": 2628,
+      "end": 2646
+    },
+    "/panels/1/blocks/0/rows/2": {
+      "line": 90,
+      "column": 13,
+      "start": 2235,
+      "end": 2660
+    },
+    "/panels/1/blocks/0/rows/3/label": {
+      "line": 107,
+      "column": 24,
+      "start": 2699,
+      "end": 2705
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/text": {
+      "line": 110,
+      "column": 27,
+      "start": 2776,
+      "end": 2782
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/assessment": {
+      "line": 111,
+      "column": 33,
+      "start": 2816,
+      "end": 2822
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/verdict": {
+      "line": 112,
+      "column": 30,
+      "start": 2853,
+      "end": 2858
+    },
+    "/panels/1/blocks/0/rows/3/cells/0": {
+      "line": 109,
+      "column": 17,
+      "start": 2748,
+      "end": 2876
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/text": {
+      "line": 115,
+      "column": 27,
+      "start": 2922,
+      "end": 2930
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/assessment": {
+      "line": 116,
+      "column": 33,
+      "start": 2964,
+      "end": 2973
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/verdict": {
+      "line": 117,
+      "column": 30,
+      "start": 3004,
+      "end": 3009
+    },
+    "/panels/1/blocks/0/rows/3/cells/1": {
+      "line": 114,
+      "column": 17,
+      "start": 2894,
+      "end": 3027
+    },
+    "/panels/1/blocks/0/rows/3/cells": {
+      "line": 108,
+      "column": 24,
+      "start": 2730,
+      "end": 3043
+    },
+    "/panels/1/blocks/0/rows/3/id": {
+      "line": 120,
+      "column": 21,
+      "start": 3065,
+      "end": 3083
+    },
+    "/panels/1/blocks/0/rows/3": {
+      "line": 106,
+      "column": 13,
+      "start": 2674,
+      "end": 3097
+    },
+    "/panels/1/blocks/0/rows": {
+      "line": 57,
+      "column": 19,
+      "start": 1341,
+      "end": 3109
+    },
+    "/panels/1/blocks/0": {
+      "line": 50,
+      "column": 9,
+      "start": 1181,
+      "end": 3119
+    },
+    "/panels/1/blocks": {
+      "line": 49,
+      "column": 17,
+      "start": 1171,
+      "end": 3127
+    },
+    "/panels/1": {
+      "line": 46,
+      "column": 5,
+      "start": 1101,
+      "end": 3133
+    },
+    "/panels/2/id": {
+      "line": 127,
+      "column": 13,
+      "start": 3153,
+      "end": 3161
+    },
+    "/panels/2/title": {
+      "line": 128,
+      "column": 16,
+      "start": 3178,
+      "end": 3191
+    },
+    "/panels/2/blocks/0/type": {
+      "line": 131,
+      "column": 19,
+      "start": 3239,
+      "end": 3245
+    },
+    "/panels/2/blocks/0/ordered": {
+      "line": 132,
+      "column": 22,
+      "start": 3268,
+      "end": 3273
+    },
+    "/panels/2/blocks/0/items/0": {
+      "line": 134,
+      "column": 13,
+      "start": 3308,
+      "end": 3344
+    },
+    "/panels/2/blocks/0/items/1": {
+      "line": 135,
+      "column": 13,
+      "start": 3358,
+      "end": 3387
+    },
+    "/panels/2/blocks/0/items/2": {
+      "line": 136,
+      "column": 13,
+      "start": 3401,
+      "end": 3436
+    },
+    "/panels/2/blocks/0/items": {
+      "line": 133,
+      "column": 20,
+      "start": 3294,
+      "end": 3448
+    },
+    "/panels/2/blocks/0/id": {
+      "line": 138,
+      "column": 17,
+      "start": 3466,
+      "end": 3485
+    },
+    "/panels/2/blocks/0": {
+      "line": 130,
+      "column": 9,
+      "start": 3219,
+      "end": 3495
+    },
+    "/panels/2/blocks": {
+      "line": 129,
+      "column": 17,
+      "start": 3209,
+      "end": 3503
+    },
+    "/panels/2": {
+      "line": 126,
+      "column": 5,
+      "start": 3139,
+      "end": 3509
+    },
+    "/panels": {
+      "line": 18,
+      "column": 13,
+      "start": 432,
+      "end": 3513
+    },
+    "/sources/0/id": {
+      "line": 145,
+      "column": 13,
+      "start": 3548,
+      "end": 3557
+    },
+    "/sources/0/title": {
+      "line": 146,
+      "column": 16,
+      "start": 3574,
+      "end": 3595
+    },
+    "/sources/0/url": {
+      "line": 147,
+      "column": 14,
+      "start": 3610,
+      "end": 3654
+    },
+    "/sources/0": {
+      "line": 144,
+      "column": 5,
+      "start": 3534,
+      "end": 3660
+    },
+    "/sources/1/id": {
+      "line": 150,
+      "column": 13,
+      "start": 3680,
+      "end": 3689
+    },
+    "/sources/1/title": {
+      "line": 151,
+      "column": 16,
+      "start": 3706,
+      "end": 3722
+    },
+    "/sources/1/url": {
+      "line": 152,
+      "column": 14,
+      "start": 3737,
+      "end": 3781
+    },
+    "/sources/1": {
+      "line": 149,
+      "column": 5,
+      "start": 3666,
+      "end": 3787
+    },
+    "/sources": {
+      "line": 143,
+      "column": 14,
+      "start": 3528,
+      "end": 3791
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 3793
+    }
+  },
+  "format": "json",
+  "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"title\": \"缓存未命中时，请求为什么变慢？\",\n    \"id\": \"mechanism\",\n    \"locale\": \"zh-CN\"\n  },\n  \"answer\": {\n    \"summary\": \"缓存未命中后，请求要多等**数据库查询和同步写回缓存**两段。\",\n    \"reasons\": [\n      \"命中时，接口读到缓存值就能返回。\",\n      \"未命中时，接口必须先拿到数据库结果。\",\n      \"同步写回位于响应之前，写完缓存才能结束请求。\"\n    ],\n    \"scope\": \"示例采用旁路缓存：GET返回空值后查询PostgreSQL，查询成功后同步SET再响应；无并行、重试或其他缓存层。未实测耗时，具体慢多少由链路测量决定。\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"timeline\",\n      \"title\": \"一次未命中，时间花在哪？\",\n      \"blocks\": [\n        {\n          \"type\": \"steps\",\n          \"id\": \"cache-path-steps\",\n          \"items\": [\n            {\n              \"id\": \"get-step\",\n              \"text\": \"读取缓存\",\n              \"detail\": \"GET返回空值，接口继续向数据库查询。[](source:get-doc)\"\n            },\n            {\n              \"id\": \"query-step\",\n              \"text\": \"查询PostgreSQL\",\n              \"detail\": \"等待数据库执行SQL并返回结果。\"\n            },\n            {\n              \"id\": \"set-step\",\n              \"text\": \"同步写回Redis\",\n              \"detail\": \"SET完成后，接口返回响应。[](source:set-doc)\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"diff\",\n      \"title\": \"命中和未命中，差在哪几步？\",\n      \"blocks\": [\n        {\n          \"type\": \"comparison\",\n          \"id\": \"cache-comparison\",\n          \"columns\": [\n            \"命中\",\n            \"未命中\"\n          ],\n          \"rows\": [\n            {\n              \"label\": \"读Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"取得值\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"直接返回\"\n                },\n                {\n                  \"text\": \"取得空值\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"继续查询\"\n                }\n              ],\n              \"id\": \"row-67fe9814e476\"\n            },\n            {\n              \"label\": \"查PostgreSQL\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去查询\"\n                },\n                {\n                  \"text\": \"等待结果\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-bb530b3792c8\"\n            },\n            {\n              \"label\": \"写回Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去写回\"\n                },\n                {\n                  \"text\": \"同步SET\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-cbc9f8528502\"\n            },\n            {\n              \"label\": \"响应路径\",\n              \"cells\": [\n                {\n                  \"text\": \"一段读取\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"路径短\"\n                },\n                {\n                  \"text\": \"三段顺序等待\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"路径长\"\n                }\n              ],\n              \"id\": \"row-d108c6645625\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"checks\",\n      \"title\": \"想缩短等待，先查什么？\",\n      \"blocks\": [\n        {\n          \"type\": \"list\",\n          \"ordered\": false,\n          \"items\": [\n            \"记录`cache=hit`或`cache=miss`，区分请求路径。\",\n            \"分别观察GET、SQL和SET耗时，先处理最慢的一段。\",\n            \"检查SQL索引与执行计划；改为异步写回前，设计写入失败的恢复流程。\"\n          ],\n          \"id\": \"list-7e8599e477aa\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"get-doc\",\n      \"title\": \"Redis GET：不存在的键返回空值\",\n      \"url\": \"https://redis.io/docs/latest/commands/get/\"\n    },\n    {\n      \"id\": \"set-doc\",\n      \"title\": \"Redis SET：设置键值\",\n      \"url\": \"https://redis.io/docs/latest/commands/set/\"\n    }\n  ]\n}\n",
+  "diagnostics": []
+}

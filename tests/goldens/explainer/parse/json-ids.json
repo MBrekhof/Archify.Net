@@ -1,0 +1,165 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta/id": {
+      "line": 1,
+      "column": 15,
+      "start": 14,
+      "end": 19
+    },
+    "/meta": {
+      "line": 1,
+      "column": 9,
+      "start": 8,
+      "end": 20
+    },
+    "/panels/0/id": {
+      "line": 1,
+      "column": 38,
+      "start": 37,
+      "end": 40
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 1,
+      "column": 58,
+      "start": 57,
+      "end": 60
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 1,
+      "column": 69,
+      "start": 68,
+      "end": 75
+    },
+    "/panels/0/blocks/0": {
+      "line": 1,
+      "column": 52,
+      "start": 51,
+      "end": 76
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 1,
+      "column": 84,
+      "start": 83,
+      "end": 91
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 1,
+      "column": 100,
+      "start": 99,
+      "end": 100
+    },
+    "/panels/0/blocks/1": {
+      "line": 1,
+      "column": 78,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/2": {
+      "line": 1,
+      "column": 103,
+      "start": 102,
+      "end": 106
+    },
+    "/panels/0/blocks/3": {
+      "line": 1,
+      "column": 108,
+      "start": 107,
+      "end": 110
+    },
+    "/panels/0/blocks": {
+      "line": 1,
+      "column": 51,
+      "start": 50,
+      "end": 111
+    },
+    "/panels/0": {
+      "line": 1,
+      "column": 32,
+      "start": 31,
+      "end": 112
+    },
+    "/panels/1/id": {
+      "line": 1,
+      "column": 120,
+      "start": 119,
+      "end": 124
+    },
+    "/panels/1": {
+      "line": 1,
+      "column": 114,
+      "start": 113,
+      "end": 125
+    },
+    "/panels": {
+      "line": 1,
+      "column": 31,
+      "start": 30,
+      "end": 126
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 127
+    }
+  },
+  "format": "json",
+  "sourceText": "{\"meta\":{\"id\":\"doc\"},\"panels\":[{\"id\":\"p\",\"blocks\":[{\"id\":\"p\",\"type\":\"facts\"},{\"id\":\"bad id\",\"type\":5},null,\"x\"]},{\"id\":\"doc\"}]}",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-facts",
+      "severity": "error",
+      "message": "Duplicate ID \"p\": the panel on line 1 already uses it. Panels, blocks, diagrams and steps share one ID namespace.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "facts",
+        "path": "/panels/0/blocks/0/id"
+      },
+      "evidence": {
+        "reason": "Duplicate ID \"p\": the panel on line 1 already uses it. Panels, blocks, diagrams and steps share one ID namespace.",
+        "example": "omit id=, or use id=p-facts"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: omit id=, or use id=p-facts"
+      ]
+    },
+    {
+      "code": "explainer/parse-5",
+      "severity": "error",
+      "message": "IDs must begin with an ASCII letter and contain letters, numbers, hyphens or underscores.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": 5,
+        "path": "/panels/0/blocks/1/id"
+      },
+      "evidence": {
+        "reason": "IDs must begin with an ASCII letter and contain letters, numbers, hyphens or underscores.",
+        "example": "id=cache-flow"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: id=cache-flow"
+      ]
+    },
+    {
+      "code": "explainer/parse-panel",
+      "severity": "error",
+      "message": "Duplicate ID \"doc\": the document on line 1 already uses it. Panels, blocks, diagrams and steps share one ID namespace.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "panel",
+        "path": "/panels/1/id"
+      },
+      "evidence": {
+        "reason": "Duplicate ID \"doc\": the document on line 1 already uses it. Panels, blocks, diagrams and steps share one ID namespace.",
+        "example": "## Another question? {#doc-2}"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## Another question? {#doc-2}"
+      ]
+    }
+  ]
+}

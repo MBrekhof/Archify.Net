@@ -1,0 +1,81 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 37
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 37
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 37
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 37
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@table\n| a | b |\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-directive",
+      "severity": "error",
+      "message": "Unsupported component @table.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "directive",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Unsupported component @table.",
+        "example": "@facts\n| key | value |"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: @facts\n| key | value |"
+      ]
+    }
+  ]
+}

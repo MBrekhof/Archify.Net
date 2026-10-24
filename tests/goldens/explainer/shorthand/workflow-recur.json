@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "recur",
+    "output": "recur.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "label": "Start",
+      "type": "backend",
+      "lane": "run",
+      "col": 0
+    },
+    {
+      "id": "do",
+      "label": "Do",
+      "type": "backend",
+      "lane": "work",
+      "col": 0
+    },
+    {
+      "id": "end",
+      "label": "Record",
+      "type": "backend",
+      "lane": "run",
+      "col": 1
+    }
+  ],
+  "lanes": [
+    {
+      "id": "run",
+      "label": "Orchestrate"
+    },
+    {
+      "id": "work",
+      "label": "Work"
+    }
+  ],
+  "edges": [
+    {
+      "id": "start-to-do-1",
+      "from": "start",
+      "to": "do"
+    },
+    {
+      "id": "do-to-end-1",
+      "from": "do",
+      "to": "end"
+    }
+  ]
+}

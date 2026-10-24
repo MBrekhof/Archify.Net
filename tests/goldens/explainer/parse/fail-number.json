@@ -1,0 +1,135 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 58
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 58
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 58
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 58
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 58
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 58
+    },
+    "/panels/0/blocks/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 58
+    },
+    "/panels/0/blocks/0/value": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 58
+    },
+    "/panels/0/blocks/0/limit": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 58
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 58
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@metric label=x value=abc limit=1e999\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-metric",
+      "severity": "error",
+      "message": "Numeric arguments require a finite number.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "metric",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Numeric arguments require a finite number.",
+        "example": "value=12.5"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: value=12.5"
+      ]
+    },
+    {
+      "code": "explainer/parse-metric",
+      "severity": "error",
+      "message": "Numeric arguments require a finite number.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "metric",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Numeric arguments require a finite number.",
+        "example": "value=12.5"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: value=12.5"
+      ]
+    }
+  ]
+}

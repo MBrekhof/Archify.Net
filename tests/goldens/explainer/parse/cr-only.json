@@ -1,0 +1,6 @@
+{
+  "thrown": {
+    "name": "TypeError",
+    "message": "Cannot read properties of null (reading '1')"
+  }
+}

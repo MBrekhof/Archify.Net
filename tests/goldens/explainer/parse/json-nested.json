@@ -1,0 +1,170 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "id": "artifact",
+      "title": "Title"
+    },
+    "answer": {
+      "summary": "Answer."
+    },
+    "panels": [
+      {
+        "id": "panel",
+        "title": "Why?",
+        "blocks": [
+          {
+            "id": "latency",
+            "type": "metric",
+            "label": "Latency",
+            "value": "wrong"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "facts",
+        "title": "Facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/schema_version": {
+      "line": 2,
+      "column": 18,
+      "start": 19,
+      "end": 20
+    },
+    "/diagram_type": {
+      "line": 3,
+      "column": 16,
+      "start": 37,
+      "end": 48
+    },
+    "/meta/id": {
+      "line": 4,
+      "column": 14,
+      "start": 63,
+      "end": 73
+    },
+    "/meta/title": {
+      "line": 4,
+      "column": 33,
+      "start": 82,
+      "end": 89
+    },
+    "/meta": {
+      "line": 4,
+      "column": 8,
+      "start": 57,
+      "end": 90
+    },
+    "/answer/summary": {
+      "line": 5,
+      "column": 21,
+      "start": 112,
+      "end": 121
+    },
+    "/answer": {
+      "line": 5,
+      "column": 10,
+      "start": 101,
+      "end": 122
+    },
+    "/panels/0/id": {
+      "line": 6,
+      "column": 17,
+      "start": 140,
+      "end": 147
+    },
+    "/panels/0/title": {
+      "line": 6,
+      "column": 33,
+      "start": 156,
+      "end": 162
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 6,
+      "start": 180,
+      "end": 189
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 23,
+      "start": 197,
+      "end": 205
+    },
+    "/panels/0/blocks/0/label": {
+      "line": 7,
+      "column": 40,
+      "start": 214,
+      "end": 223
+    },
+    "/panels/0/blocks/0/value": {
+      "line": 8,
+      "column": 9,
+      "start": 233,
+      "end": 240
+    },
+    "/panels/0/blocks/0": {
+      "line": 6,
+      "column": 50,
+      "start": 173,
+      "end": 242
+    },
+    "/panels/0/blocks": {
+      "line": 6,
+      "column": 49,
+      "start": 172,
+      "end": 243
+    },
+    "/panels/0": {
+      "line": 6,
+      "column": 11,
+      "start": 134,
+      "end": 244
+    },
+    "/panels": {
+      "line": 6,
+      "column": 10,
+      "start": 133,
+      "end": 245
+    },
+    "/sources/0/id": {
+      "line": 10,
+      "column": 18,
+      "start": 264,
+      "end": 271
+    },
+    "/sources/0/title": {
+      "line": 10,
+      "column": 34,
+      "start": 280,
+      "end": 287
+    },
+    "/sources/0": {
+      "line": 10,
+      "column": 12,
+      "start": 258,
+      "end": 288
+    },
+    "/sources": {
+      "line": 10,
+      "column": 11,
+      "start": 257,
+      "end": 289
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 291
+    }
+  },
+  "format": "json",
+  "sourceText": "{\n\"schema_version\":1,\n\"diagram_type\":\"explainer\",\n\"meta\":{\"id\":\"artifact\",\"title\":\"Title\"},\n\"answer\":{\"summary\":\"Answer.\"},\n\"panels\":[{\"id\":\"panel\",\"title\":\"Why?\",\"blocks\":[{\n\"id\":\"latency\",\"type\":\"metric\",\"label\":\"Latency\",\n\"value\":\"wrong\"\n}]}],\n\"sources\":[{\"id\":\"facts\",\"title\":\"Facts\"}]\n}",
+  "diagnostics": []
+}

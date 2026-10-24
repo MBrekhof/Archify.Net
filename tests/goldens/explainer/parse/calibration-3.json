@@ -1,0 +1,451 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "记录请求",
+      "id": "explainer-bee9c88146c3",
+      "output": "result.html"
+    },
+    "answer": {
+      "summary": "请求经 API 查询 Store，再返回 Client。"
+    },
+    "panels": [
+      {
+        "id": "panel-32b6360e41b5",
+        "title": "请求怎样往返？",
+        "blocks": [
+          {
+            "type": "diagram",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "请求怎样往返？",
+                "output": "diagram-983193abd15b.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "client",
+                  "label": "Client",
+                  "type": "external"
+                },
+                {
+                  "id": "api",
+                  "label": "API",
+                  "type": "external"
+                },
+                {
+                  "id": "store",
+                  "label": "Store",
+                  "type": "external"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "client-to-api-1",
+                  "from": "client",
+                  "to": "api",
+                  "label": "请求记录",
+                  "y": 160
+                },
+                {
+                  "id": "api-to-store-1",
+                  "from": "api",
+                  "to": "store",
+                  "label": "查询记录",
+                  "y": 208
+                },
+                {
+                  "id": "store-to-api-1",
+                  "from": "store",
+                  "to": "api",
+                  "label": "返回记录",
+                  "y": 256,
+                  "variant": "return"
+                },
+                {
+                  "id": "api-to-client-1",
+                  "from": "api",
+                  "to": "client",
+                  "label": "返回记录",
+                  "y": 304,
+                  "variant": "return"
+                }
+              ]
+            },
+            "id": "diagram-9f3fbfe34a80"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 7
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 7
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 7
+    },
+    "/answer": {
+      "line": 2,
+      "column": 1,
+      "start": 7,
+      "end": 36
+    },
+    "/answer/summary": {
+      "line": 2,
+      "column": 1,
+      "start": 7,
+      "end": 36
+    },
+    "/panels/0": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 154
+    },
+    "/panels/0/id": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 154
+    },
+    "/panels/0/title": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 154
+    },
+    "/panels/0/blocks": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 154
+    },
+    "/panels/0/blocks/0": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/2": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/2/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/2/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/participants/2/type": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/1": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/1/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/1/from": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/1/to": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/1/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/1/y": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2/from": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2/to": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2/y": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/2/variant": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3/from": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3/to": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3/label": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3/y": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/spec/messages/3/variant": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 154
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# 记录请求\n请求经 API 查询 Store，再返回 Client。\n\n## 请求怎样往返？\n@sequence\nClient | API | 请求记录\nAPI | Store | 查询记录\nStore | API | 返回记录 | return\nAPI | Client | 返回记录 | return\n",
+  "diagnostics": []
+}

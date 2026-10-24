@@ -1,0 +1,129 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 47
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 47
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 47
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 47
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/data": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/data/path": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/data/kind": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/data/x": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/data/y": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 47
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@chart type=bar data=x.csv\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-chart",
+      "severity": "error",
+      "message": "A data chart names its file, label column and value columns.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "chart",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "A data chart names its file, label column and value columns.",
+        "example": "@chart type=bar data=latency.csv x=day y=p50,p99"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: @chart type=bar data=latency.csv x=day y=p50,p99"
+      ]
+    }
+  ]
+}

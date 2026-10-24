@@ -1,0 +1,75 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/answer": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer/summary": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    }
+  },
+  "format": "markdown",
+  "sourceText": "null",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-answer",
+      "severity": "error",
+      "message": "The document title must precede the short answer.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "answer",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "The document title must precede the short answer.",
+        "example": "# A title\n\nA direct answer."
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: # A title\n\nA direct answer."
+      ]
+    },
+    {
+      "code": "explainer/parse-title",
+      "severity": "error",
+      "message": "A document requires one # title.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "title",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "A document requires one # title.",
+        "example": "# What should we choose?"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: # What should we choose?"
+      ]
+    },
+    {
+      "code": "explainer/parse-panel",
+      "severity": "error",
+      "message": "At least one question panel is required.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "panel",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "At least one question panel is required.",
+        "example": "## Why does this happen?"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## Why does this happen?"
+      ]
+    }
+  ]
+}

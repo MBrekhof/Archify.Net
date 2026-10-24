@@ -1,0 +1,125 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "list with tab"
+            ],
+            "id": "list-da2ba466be89"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 53
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 53
+    },
+    "/panels/0/blocks/0/ordered": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 53
+    },
+    "/panels/0/blocks/0/items": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 53
+    },
+    "/panels/0/blocks/0/items/0": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 53
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 53
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n#\tnot a heading\n\n-\tlist with tab\n",
+  "diagnostics": []
+}

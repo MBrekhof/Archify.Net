@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "wrapped",
+    "output": "wrapped.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "wrapped · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "wrapped · 2"
+    },
+    {
+      "id": "lane-2",
+      "label": "wrapped · 3"
+    },
+    {
+      "id": "lane-3",
+      "label": "wrapped · 4"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "step1",
+      "label": "Step 1 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "step2",
+      "label": "Step 2 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "step3",
+      "label": "Step 3 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 0,
+      "lane": "lane-1"
+    },
+    {
+      "id": "step4",
+      "label": "Step 4 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 1,
+      "lane": "lane-1"
+    },
+    {
+      "id": "step5",
+      "label": "Step 5 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 0,
+      "lane": "lane-2"
+    },
+    {
+      "id": "step6",
+      "label": "Step 6 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 1,
+      "lane": "lane-2"
+    },
+    {
+      "id": "step7",
+      "label": "Step 7 with a deliberately long label for width",
+      "type": "backend",
+      "width": 349,
+      "col": 0,
+      "lane": "lane-3"
+    }
+  ],
+  "edges": [
+    {
+      "id": "step1-to-step2-1",
+      "from": "step1",
+      "to": "step2"
+    },
+    {
+      "id": "step2-to-step3-1",
+      "from": "step2",
+      "to": "step3"
+    },
+    {
+      "id": "step3-to-step4-1",
+      "from": "step3",
+      "to": "step4"
+    },
+    {
+      "id": "step4-to-step5-1",
+      "from": "step4",
+      "to": "step5"
+    },
+    {
+      "id": "step5-to-step6-1",
+      "from": "step5",
+      "to": "step6"
+    },
+    {
+      "id": "step6-to-step7-1",
+      "from": "step6",
+      "to": "step7"
+    }
+  ]
+}

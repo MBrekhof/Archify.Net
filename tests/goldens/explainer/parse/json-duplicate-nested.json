@@ -1,0 +1,51 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta/id": {
+      "line": 2,
+      "column": 29,
+      "start": 30,
+      "end": 33
+    },
+    "/meta": {
+      "line": 2,
+      "column": 11,
+      "start": 12,
+      "end": 34
+    },
+    "/panels": {
+      "line": 3,
+      "column": 13,
+      "start": 48,
+      "end": 50
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 52
+    }
+  },
+  "format": "json",
+  "sourceText": "{\n  \"meta\": {\"id\": \"a\", \"id\": \"b\"},\n  \"panels\": []\n}",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-json",
+      "severity": "error",
+      "message": "Duplicate JSON keys would discard authored content.",
+      "subject": {
+        "line": 2,
+        "column": 1,
+        "component": "json",
+        "path": "/meta/id"
+      },
+      "evidence": {
+        "reason": "Duplicate JSON keys would discard authored content.",
+        "example": "Use each object key once."
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: Use each object key once."
+      ]
+    }
+  ]
+}

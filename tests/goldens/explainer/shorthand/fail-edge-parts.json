@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "An edge supports a label and optional native variant.",
+    "code": [
+      {
+        "code": "explainer/diagram-row",
+        "severity": "error",
+        "message": "An edge supports a label and optional native variant.",
+        "subject": {
+          "component": "diagram",
+          "line": 3,
+          "path": "/",
+          "diagramType": "architecture"
+        },
+        "evidence": {
+          "reason": "diagram-row",
+          "example": "api > redis | 查询 | dashed"
+        },
+        "supportedFixes": [
+          "Use this form: api > redis | 查询 | dashed"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "architecture",
+    "output": "diagram.html",
+    "quality_profile": "showcase"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 1,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "api",
+      "label": "API",
+      "type": "backend",
+      "row": 0,
+      "col": 0
+    }
+  ],
+  "connections": [
+    {
+      "id": "api-to-missing-1",
+      "from": "api",
+      "to": "missing",
+      "label": "Request"
+    }
+  ]
+}

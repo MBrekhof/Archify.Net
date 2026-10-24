@@ -1,0 +1,147 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 50
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 50
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 50
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 50
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    },
+    "/panels/0/blocks/0/labelColumn": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    },
+    "/panels/0/blocks/0/columns": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    },
+    "/panels/0/blocks/0/columns/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    },
+    "/panels/0/blocks/0/rows": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    },
+    "/panels/0/blocks/0/rows/0": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 50
+    },
+    "/panels/0/blocks/0/rows/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 50
+    },
+    "/panels/0/blocks/0/rows/0/cells": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 50
+    },
+    "/panels/0/blocks/0/rows/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 50
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 50
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n| a | b |\n| --- | --- |\n| c |\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-comparison",
+      "severity": "error",
+      "message": "All table rows must match the header width.",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "comparison",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "All table rows must match the header width.",
+        "example": "| Cost | Low {good} | High {bad} |"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: | Cost | Low {good} | High {bad} |"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 8,
+      "column": 1,
+      "start": 27,
+      "end": 38
+    },
+    "/panels/0/id": {
+      "line": 8,
+      "column": 1,
+      "start": 27,
+      "end": 38
+    },
+    "/panels/0/title": {
+      "line": 8,
+      "column": 1,
+      "start": 27,
+      "end": 38
+    },
+    "/panels/0/blocks": {
+      "line": 8,
+      "column": 1,
+      "start": 27,
+      "end": 38
+    },
+    "/panels/0/blocks/0": {
+      "line": 10,
+      "column": 1,
+      "start": 33,
+      "end": 38
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 10,
+      "column": 1,
+      "start": 33,
+      "end": 38
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 10,
+      "column": 1,
+      "start": 33,
+      "end": 38
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 10,
+      "column": 1,
+      "start": 33,
+      "end": 38
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@facts\n| a | b |\n\n## Q\n\nText.",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-facts",
+      "severity": "error",
+      "message": "Blocks must follow a question panel heading.",
+      "subject": {
+        "line": 5,
+        "column": 1,
+        "component": "facts",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Blocks must follow a question panel heading.",
+        "example": "## What should I know?"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## What should I know?"
+      ]
+    }
+  ]
+}

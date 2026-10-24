@@ -1,0 +1,124 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 161
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 161
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 161
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 161
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 161
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 161
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 156,
+      "end": 160
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 161
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@diff\n```diff\n+new\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-diff",
+      "severity": "error",
+      "message": "The diff fence is not closed.",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "diff",
+        "path": "/",
+        "input": "bad.md"
+      },
+      "evidence": {
+        "reason": "The diff fence is not closed.",
+        "example": "@diff\n```diff\n-old\n+new\n```"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: @diff\n```diff\n-old\n+new\n```"
+      ]
+    }
+  ]
+}

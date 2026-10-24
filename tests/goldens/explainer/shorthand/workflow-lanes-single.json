@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "single",
+    "output": "single.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "a",
+      "label": "A",
+      "type": "backend",
+      "lane": "flow",
+      "col": 0
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "type": "backend",
+      "lane": "flow",
+      "col": 1
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "type": "backend",
+      "lane": "flow",
+      "col": 2
+    }
+  ],
+  "lanes": [
+    {
+      "id": "flow",
+      "label": "single"
+    }
+  ],
+  "phases": [
+    {
+      "id": "in",
+      "label": "Intake",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "out",
+      "label": "Output",
+      "fromCol": 2,
+      "toCol": 2
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b"
+    },
+    {
+      "id": "b-to-c-1",
+      "from": "b",
+      "to": "c"
+    }
+  ]
+}

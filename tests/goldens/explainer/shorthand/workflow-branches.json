@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "branches",
+    "output": "branches.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "branches"
+    },
+    {
+      "id": "lane-1",
+      "label": "分支 1"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "label": "Start",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "b",
+      "label": "Left",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "c",
+      "label": "Right",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-1"
+    },
+    {
+      "id": "d",
+      "label": "Join",
+      "type": "backend",
+      "col": 2,
+      "lane": "lane-0"
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b",
+      "label": "yes"
+    },
+    {
+      "id": "a-to-c-1",
+      "from": "a",
+      "to": "c",
+      "label": "no"
+    },
+    {
+      "id": "b-to-d-1",
+      "from": "b",
+      "to": "d"
+    },
+    {
+      "id": "c-to-d-1",
+      "from": "c",
+      "to": "d"
+    }
+  ]
+}

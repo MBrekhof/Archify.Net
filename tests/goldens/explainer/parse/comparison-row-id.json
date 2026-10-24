@@ -1,0 +1,230 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Cache choice",
+      "id": "cache-choice"
+    },
+    "answer": {
+      "summary": "Read the cache first on the request path."
+    },
+    "panels": [
+      {
+        "id": "reasoning",
+        "title": "What follows?",
+        "blocks": [
+          {
+            "type": "comparison",
+            "columns": [
+              "A",
+              "B"
+            ],
+            "rows": [
+              {
+                "label": "Cost",
+                "id": "cost-row",
+                "cells": [
+                  {
+                    "text": "Low",
+                    "assessment": "good"
+                  },
+                  {
+                    "text": "High",
+                    "assessment": "bad"
+                  }
+                ]
+              }
+            ],
+            "id": "comparison-5ca0bdf2aa1c"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 211
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 211
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 211
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 211
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    },
+    "/panels/0/blocks/0/columns": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    },
+    "/panels/0/blocks/0/columns/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    },
+    "/panels/0/blocks/0/columns/1": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/label": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/id": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells/0": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/text": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/assessment": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells/1": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells/1/text": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/rows/0/cells/1/assessment": {
+      "line": 10,
+      "column": 1,
+      "start": 168,
+      "end": 211
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 211
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@comparison columns=\"A,B\"\nCost {#cost-row} | Low {good} | High {bad}\n",
+  "diagnostics": []
+}

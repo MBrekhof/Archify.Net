@@ -1,0 +1,321 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "临时数据方案",
+      "id": "explainer-c393bc4170fc",
+      "output": "result.html"
+    },
+    "answer": {
+      "summary": "结论：选 A。这是虚构场景：团队要存放临时预览数据。"
+    },
+    "panels": [
+      {
+        "id": "panel-2af81ac80675",
+        "title": "标准是否满足？",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "标准",
+            "columns": [
+              "A",
+              "B"
+            ],
+            "rows": [
+              {
+                "label": "数据无需跨重启保留",
+                "cells": [
+                  {
+                    "text": "ok"
+                  },
+                  {
+                    "text": "ok"
+                  }
+                ],
+                "id": "row-ef559d282c7d"
+              },
+              {
+                "label": "无需磁盘",
+                "cells": [
+                  {
+                    "text": "ok"
+                  },
+                  {
+                    "text": "no"
+                  }
+                ],
+                "id": "row-db76206e7883"
+              },
+              {
+                "label": "无需后台任务",
+                "cells": [
+                  {
+                    "text": "ok"
+                  },
+                  {
+                    "text": "no"
+                  }
+                ],
+                "id": "row-04d5638314d4"
+              }
+            ],
+            "id": "comparison-60499695ac20"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 9
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 9
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 9
+    },
+    "/answer": {
+      "line": 2,
+      "column": 1,
+      "start": 9,
+      "end": 36
+    },
+    "/answer/summary": {
+      "line": 2,
+      "column": 1,
+      "start": 9,
+      "end": 36
+    },
+    "/panels/0": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 141
+    },
+    "/panels/0/id": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 141
+    },
+    "/panels/0/title": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 141
+    },
+    "/panels/0/blocks": {
+      "line": 4,
+      "column": 1,
+      "start": 37,
+      "end": 141
+    },
+    "/panels/0/blocks/0": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/labelColumn": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/columns": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/columns/0": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/columns/1": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/0": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/cells": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/cells/0": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/cells/1": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/cells/1/text": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 77,
+      "end": 101
+    },
+    "/panels/0/blocks/0/rows/1": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/label": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/cells": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/cells/0": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/cells/0/text": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/cells/1": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/cells/1/text": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/1/id": {
+      "line": 8,
+      "column": 1,
+      "start": 101,
+      "end": 120
+    },
+    "/panels/0/blocks/0/rows/2": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/label": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/cells": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/cells/0": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/cells/0/text": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/cells/1": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/cells/1/text": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/rows/2/id": {
+      "line": 9,
+      "column": 1,
+      "start": 120,
+      "end": 141
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 48,
+      "end": 141
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# 临时数据方案\n结论：选 A。这是虚构场景：团队要存放临时预览数据。\n\n## 标准是否满足？\n| 标准 | A | B |\n|---|---|---|\n| 数据无需跨重启保留 | ok | ok |\n| 无需磁盘 | ok | no |\n| 无需后台任务 | ok | no |\n",
+  "diagnostics": []
+}

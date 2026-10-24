@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Expected 2–3 pipe-separated fields.",
+    "code": [
+      {
+        "code": "explainer/diagram-row",
+        "severity": "error",
+        "message": "Expected 2–3 pipe-separated fields.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "architecture"
+        },
+        "evidence": {
+          "reason": "diagram-row",
+          "example": "api | API | backend"
+        },
+        "supportedFixes": [
+          "Use this form: api | API | backend"
+        ]
+      }
+    ]
+  }
+}

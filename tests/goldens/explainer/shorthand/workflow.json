@@ -1,0 +1,52 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "workflow",
+    "output": "workflow.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "workflow"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "client",
+      "label": "Client",
+      "type": "external",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "done",
+      "label": "Done",
+      "type": "backend",
+      "col": 2,
+      "lane": "lane-0"
+    }
+  ],
+  "edges": [
+    {
+      "id": "client-to-api-1",
+      "from": "client",
+      "to": "api",
+      "label": "Request"
+    },
+    {
+      "id": "api-to-done-1",
+      "from": "api",
+      "to": "done",
+      "label": "Done"
+    }
+  ]
+}

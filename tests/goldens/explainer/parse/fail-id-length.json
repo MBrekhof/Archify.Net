@@ -1,0 +1,105 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 125
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 125
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 125
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 125
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 120,
+      "end": 125
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 120,
+      "end": 125
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 120,
+      "end": 125
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 120,
+      "end": 125
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}\n\nText.",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-panel",
+      "severity": "error",
+      "message": "IDs must begin with an ASCII letter and contain letters, numbers, hyphens or underscores.",
+      "subject": {
+        "line": 5,
+        "column": 1,
+        "component": "panel",
+        "path": "/panels/0/id"
+      },
+      "evidence": {
+        "reason": "IDs must begin with an ASCII letter and contain letters, numbers, hyphens or underscores.",
+        "example": "id=cache-flow"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: id=cache-flow"
+      ]
+    }
+  ]
+}

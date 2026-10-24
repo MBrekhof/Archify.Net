@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "cycle",
+    "output": "cycle.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "cycle"
+    },
+    {
+      "id": "lane-1",
+      "label": "Branch 1"
+    },
+    {
+      "id": "lane-2",
+      "label": "Branch 2"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "label": "A",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-1"
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-2"
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b"
+    },
+    {
+      "id": "b-to-c-1",
+      "from": "b",
+      "to": "c"
+    },
+    {
+      "id": "c-to-b-1",
+      "from": "c",
+      "to": "b"
+    },
+    {
+      "id": "a-to-a-1",
+      "from": "a",
+      "to": "a"
+    }
+  ]
+}

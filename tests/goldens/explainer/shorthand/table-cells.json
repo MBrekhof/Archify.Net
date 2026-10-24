@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "sequence",
+    "output": "diagram.html",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    {
+      "id": "client",
+      "label": "Client",
+      "type": "external"
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "type": "external"
+    }
+  ],
+  "messages": [
+    {
+      "id": "client-to-api-1",
+      "from": "client",
+      "to": "api",
+      "label": "Request",
+      "y": 160
+    }
+  ]
+}

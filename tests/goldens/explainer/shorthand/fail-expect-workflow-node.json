@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Expected 2–4 pipe-separated fields.",
+    "code": [
+      {
+        "code": "explainer/diagram-row",
+        "severity": "error",
+        "message": "Expected 2–4 pipe-separated fields.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "workflow"
+        },
+        "evidence": {
+          "reason": "diagram-row",
+          "example": "trace | Compare slow traces | backend | locate"
+        },
+        "supportedFixes": [
+          "Use this form: trace | Compare slow traces | backend | locate"
+        ]
+      }
+    ]
+  }
+}

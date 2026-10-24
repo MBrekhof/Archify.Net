@@ -1,0 +1,169 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Title",
+      "id": "explainer-7e8cd2056da7"
+    },
+    "answer": {
+      "summary": "Answer."
+    },
+    "panels": [
+      {
+        "id": "first",
+        "title": "Same?",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Text.",
+            "id": "prose-e59520166d36"
+          }
+        ]
+      },
+      {
+        "id": "second",
+        "title": "Same?",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Other.",
+            "id": "prose-d7f8d6c62867"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 44
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 70
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 70
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 70
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 37,
+      "end": 43
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 37,
+      "end": 43
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 37,
+      "end": 43
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 37,
+      "end": 43
+    },
+    "/panels/1": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 70
+    },
+    "/panels/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 70
+    },
+    "/panels/1/title": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 70
+    },
+    "/panels/1/blocks": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 70
+    },
+    "/panels/1/blocks/0": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 70
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 70
+    },
+    "/panels/1/blocks/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 70
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 70
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Title\n\nAnswer.\n\n## Same? {#first}\n\nText.\n\n## Same? {#second}\n\nOther.",
+  "diagnostics": []
+}

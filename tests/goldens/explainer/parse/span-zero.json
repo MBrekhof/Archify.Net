@@ -1,0 +1,117 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Title",
+      "id": "explainer-7e8cd2056da7"
+    },
+    "answer": {
+      "summary": "Answer."
+    },
+    "panels": [
+      {
+        "id": "why",
+        "title": "Why?",
+        "span": 0,
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Text.",
+            "id": "prose-4463d326811d"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 46
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 46
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 46
+    },
+    "/panels/0/span": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 46
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 46
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 41,
+      "end": 46
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 41,
+      "end": 46
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 41,
+      "end": 46
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 41,
+      "end": 46
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Title\n\nAnswer.\n\n## Why? {#why span=0}\n\nText.",
+  "diagnostics": []
+}

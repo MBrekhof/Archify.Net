@@ -1,0 +1,536 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "Trap",
+            "columns": [
+              "Verdict"
+            ],
+            "rows": [
+              {
+                "label": "Flood car",
+                "cells": [
+                  {
+                    "text": "Drop",
+                    "assessment": "bad",
+                    "verdict": "Drop"
+                  }
+                ],
+                "id": "row-65f66c2bc85b"
+              }
+            ],
+            "id": "comparison-b4e4dbb6b378"
+          },
+          {
+            "type": "diagram",
+            "id": "flow",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "Q",
+                "output": "flow.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "a",
+                  "label": "A",
+                  "type": "backend"
+                },
+                {
+                  "id": "b",
+                  "label": "B",
+                  "type": "backend"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "a-to-b-1",
+                  "from": "a",
+                  "to": "b",
+                  "label": "hi",
+                  "y": 160
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "walk",
+            "items": [
+              {
+                "id": "one",
+                "text": "Hello",
+                "detail": "Detail",
+                "target": {
+                  "diagram": "flow",
+                  "route": [
+                    "a",
+                    "b"
+                  ]
+                }
+              },
+              {
+                "id": "two",
+                "text": "Back",
+                "detail": "Detail",
+                "target": {
+                  "diagram": "flow",
+                  "node": "b"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 234
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 234
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 234
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 234
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/0/labelColumn": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/0/columns": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/0/columns/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/cells": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/cells/0": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/text": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/assessment": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/verdict": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/rows/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 53,
+      "end": 80
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 80
+    },
+    "/panels/0/blocks/1": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/diagramType": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/schema_version": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/diagram_type": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/meta": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/meta/title": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/meta/output": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/meta/quality_profile": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/0": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/1": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/1/label": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/participants/1/type": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages/0": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages/0/from": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages/0/to": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/1/spec/messages/0/y": {
+      "line": 11,
+      "column": 1,
+      "start": 81,
+      "end": 146
+    },
+    "/panels/0/blocks/2": {
+      "line": 16,
+      "column": 1,
+      "start": 147,
+      "end": 234
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 16,
+      "column": 1,
+      "start": 147,
+      "end": 234
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 16,
+      "column": 1,
+      "start": 147,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items": {
+      "line": 16,
+      "column": 1,
+      "start": 147,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/0": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/id": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/text": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/detail": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/target": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/target/diagram": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/target/route": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/target/route/0": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/0/target/route/1": {
+      "line": 17,
+      "column": 1,
+      "start": 162,
+      "end": 200
+    },
+    "/panels/0/blocks/2/items/1": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/1/id": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/1/text": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/1/detail": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/1/target": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/1/target/diagram": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    },
+    "/panels/0/blocks/2/items/1/target/node": {
+      "line": 18,
+      "column": 1,
+      "start": 200,
+      "end": 234
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n| Trap | Verdict |\n| --- | --- |\n| Flood car | {bad:Drop} |\n\n@sequence id=flow\n| actor a | A |\n| actor b | B |\n| a | b | hi |\n\n@steps id=walk\n| one | Hello | Detail | flow | a~b |\n| two | Back | Detail | flow | b |",
+  "diagnostics": []
+}

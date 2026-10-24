@@ -1,0 +1,147 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 34
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 34
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 34
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 34
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 29
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 29
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 29
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 29
+    },
+    "/panels/0/blocks/1": {
+      "line": 9,
+      "column": 1,
+      "start": 30,
+      "end": 34
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 9,
+      "column": 1,
+      "start": 30,
+      "end": 34
+    },
+    "/panels/0/blocks/1/text": {
+      "line": 9,
+      "column": 1,
+      "start": 30,
+      "end": 34
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 30,
+      "end": 34
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n> quoted\n\n***\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-prose",
+      "severity": "error",
+      "message": "This Markdown block is outside the restricted author grammar.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "prose",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "This Markdown block is outside the restricted author grammar.",
+        "example": "## What happens?\nA short paragraph."
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## What happens?\nA short paragraph."
+      ]
+    },
+    {
+      "code": "explainer/parse-prose",
+      "severity": "error",
+      "message": "This Markdown block is outside the restricted author grammar.",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "prose",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "This Markdown block is outside the restricted author grammar.",
+        "example": "## What happens?\nA short paragraph."
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## What happens?\nA short paragraph."
+      ]
+    }
+  ]
+}

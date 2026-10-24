@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Entity ids must be unique.",
+    "code": [
+      {
+        "code": "explainer/diagram-id-duplicate",
+        "severity": "error",
+        "message": "Entity ids must be unique.",
+        "subject": {
+          "component": "diagram",
+          "line": 2,
+          "path": "/",
+          "diagram": "dup",
+          "diagramType": "erd"
+        },
+        "evidence": {
+          "reason": "diagram-id-duplicate",
+          "example": "entity user | 用户"
+        },
+        "supportedFixes": [
+          "Use this form: entity user | 用户"
+        ]
+      }
+    ]
+  }
+}

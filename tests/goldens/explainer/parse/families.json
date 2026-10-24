@@ -1,0 +1,710 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Cache choice",
+      "id": "cache-choice"
+    },
+    "answer": {
+      "summary": "Read the cache first on the request path."
+    },
+    "panels": [
+      {
+        "id": "reasoning",
+        "title": "What follows?",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "A **direct** paragraph with [facts](source:docs).",
+            "id": "prose-d0516fc34678"
+          },
+          {
+            "type": "list",
+            "ordered": false,
+            "items": [
+              "First option",
+              "Second option"
+            ],
+            "id": "list-d1815baa224d"
+          },
+          {
+            "type": "comparison",
+            "labelColumn": "Criterion",
+            "columns": [
+              "Option A",
+              "Option B"
+            ],
+            "rows": [
+              {
+                "label": "Cost",
+                "cells": [
+                  {
+                    "text": "Low",
+                    "assessment": "good",
+                    "verdict": "Affordable"
+                  },
+                  {
+                    "text": "High",
+                    "assessment": "bad"
+                  }
+                ],
+                "id": "row-b11bcd83de20"
+              },
+              {
+                "label": "Syntax",
+                "cells": [
+                  {
+                    "text": "`a|b`",
+                    "assessment": "caution"
+                  },
+                  {
+                    "text": "x|y",
+                    "assessment": "good"
+                  }
+                ],
+                "id": "row-39e74a1f7ae4"
+              }
+            ],
+            "id": "comparison-67f0493c10e3"
+          },
+          {
+            "type": "callout",
+            "id": "caution",
+            "level": "warning",
+            "title": "Condition",
+            "text": "Check the premise first."
+          },
+          {
+            "type": "facts",
+            "id": "facts",
+            "entries": [
+              {
+                "key": "Token",
+                "value": "literal|value"
+              }
+            ]
+          },
+          {
+            "type": "metric",
+            "id": "metric",
+            "label": "Latency",
+            "unit": "ms",
+            "value": 12.5,
+            "limit": 20,
+            "typical": true
+          },
+          {
+            "type": "steps",
+            "id": "steps",
+            "items": [
+              {
+                "id": "first-step",
+                "text": "Read the explanation"
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "id": "snippet",
+            "source": "repo",
+            "language": "js"
+          },
+          {
+            "type": "image",
+            "id": "image",
+            "path": "images/path.png",
+            "alt": "Request path"
+          },
+          {
+            "type": "diff",
+            "id": "change",
+            "text": "-const tag = '<old>'; // | literal\n+const tag = '<new>'; // $HOME",
+            "caption": "Literal change"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 847
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 847
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 847
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 847
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 192
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 192
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 192
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 192
+    },
+    "/panels/0/blocks/1": {
+      "line": 11,
+      "column": 1,
+      "start": 193,
+      "end": 224
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 11,
+      "column": 1,
+      "start": 193,
+      "end": 224
+    },
+    "/panels/0/blocks/1/ordered": {
+      "line": 11,
+      "column": 1,
+      "start": 193,
+      "end": 224
+    },
+    "/panels/0/blocks/1/items": {
+      "line": 11,
+      "column": 1,
+      "start": 193,
+      "end": 224
+    },
+    "/panels/0/blocks/1/items/0": {
+      "line": 11,
+      "column": 1,
+      "start": 193,
+      "end": 208
+    },
+    "/panels/0/blocks/1/items/1": {
+      "line": 12,
+      "column": 1,
+      "start": 208,
+      "end": 224
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 193,
+      "end": 224
+    },
+    "/panels/0/blocks/2": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/labelColumn": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/columns": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/columns/0": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/columns/1": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/0": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/label": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/0": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/0/text": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/0/assessment": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/0/verdict": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/1": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/1/text": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/cells/1/assessment": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/0/id": {
+      "line": 16,
+      "column": 1,
+      "start": 281,
+      "end": 327
+    },
+    "/panels/0/blocks/2/rows/1": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/label": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells/0": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells/0/text": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells/0/assessment": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells/1": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells/1/text": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/cells/1/assessment": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/rows/1/id": {
+      "line": 17,
+      "column": 1,
+      "start": 327,
+      "end": 370
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 14,
+      "column": 1,
+      "start": 225,
+      "end": 370
+    },
+    "/panels/0/blocks/3": {
+      "line": 19,
+      "column": 1,
+      "start": 371,
+      "end": 452
+    },
+    "/panels/0/blocks/3/type": {
+      "line": 19,
+      "column": 1,
+      "start": 371,
+      "end": 452
+    },
+    "/panels/0/blocks/3/id": {
+      "line": 19,
+      "column": 1,
+      "start": 371,
+      "end": 452
+    },
+    "/panels/0/blocks/3/level": {
+      "line": 19,
+      "column": 1,
+      "start": 371,
+      "end": 452
+    },
+    "/panels/0/blocks/3/title": {
+      "line": 19,
+      "column": 1,
+      "start": 371,
+      "end": 452
+    },
+    "/panels/0/blocks/3/text": {
+      "line": 19,
+      "column": 1,
+      "start": 371,
+      "end": 452
+    },
+    "/panels/0/blocks/4": {
+      "line": 22,
+      "column": 1,
+      "start": 453,
+      "end": 496
+    },
+    "/panels/0/blocks/4/type": {
+      "line": 22,
+      "column": 1,
+      "start": 453,
+      "end": 496
+    },
+    "/panels/0/blocks/4/id": {
+      "line": 22,
+      "column": 1,
+      "start": 453,
+      "end": 496
+    },
+    "/panels/0/blocks/4/entries": {
+      "line": 22,
+      "column": 1,
+      "start": 453,
+      "end": 496
+    },
+    "/panels/0/blocks/4/entries/0": {
+      "line": 23,
+      "column": 1,
+      "start": 469,
+      "end": 496
+    },
+    "/panels/0/blocks/4/entries/0/key": {
+      "line": 23,
+      "column": 1,
+      "start": 469,
+      "end": 496
+    },
+    "/panels/0/blocks/4/entries/0/value": {
+      "line": 23,
+      "column": 1,
+      "start": 469,
+      "end": 496
+    },
+    "/panels/0/blocks/5": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/type": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/id": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/label": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/unit": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/value": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/limit": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/5/typical": {
+      "line": 25,
+      "column": 1,
+      "start": 497,
+      "end": 572
+    },
+    "/panels/0/blocks/6": {
+      "line": 27,
+      "column": 1,
+      "start": 573,
+      "end": 627
+    },
+    "/panels/0/blocks/6/type": {
+      "line": 27,
+      "column": 1,
+      "start": 573,
+      "end": 627
+    },
+    "/panels/0/blocks/6/id": {
+      "line": 27,
+      "column": 1,
+      "start": 573,
+      "end": 627
+    },
+    "/panels/0/blocks/6/items": {
+      "line": 27,
+      "column": 1,
+      "start": 573,
+      "end": 627
+    },
+    "/panels/0/blocks/6/items/0": {
+      "line": 28,
+      "column": 1,
+      "start": 589,
+      "end": 627
+    },
+    "/panels/0/blocks/6/items/0/id": {
+      "line": 28,
+      "column": 1,
+      "start": 589,
+      "end": 627
+    },
+    "/panels/0/blocks/6/items/0/text": {
+      "line": 28,
+      "column": 1,
+      "start": 589,
+      "end": 627
+    },
+    "/panels/0/blocks/7": {
+      "line": 30,
+      "column": 1,
+      "start": 628,
+      "end": 669
+    },
+    "/panels/0/blocks/7/type": {
+      "line": 30,
+      "column": 1,
+      "start": 628,
+      "end": 669
+    },
+    "/panels/0/blocks/7/id": {
+      "line": 30,
+      "column": 1,
+      "start": 628,
+      "end": 669
+    },
+    "/panels/0/blocks/7/source": {
+      "line": 30,
+      "column": 1,
+      "start": 628,
+      "end": 669
+    },
+    "/panels/0/blocks/7/language": {
+      "line": 30,
+      "column": 1,
+      "start": 628,
+      "end": 669
+    },
+    "/panels/0/blocks/8": {
+      "line": 32,
+      "column": 1,
+      "start": 670,
+      "end": 726
+    },
+    "/panels/0/blocks/8/type": {
+      "line": 32,
+      "column": 1,
+      "start": 670,
+      "end": 726
+    },
+    "/panels/0/blocks/8/id": {
+      "line": 32,
+      "column": 1,
+      "start": 670,
+      "end": 726
+    },
+    "/panels/0/blocks/8/path": {
+      "line": 32,
+      "column": 1,
+      "start": 670,
+      "end": 726
+    },
+    "/panels/0/blocks/8/alt": {
+      "line": 32,
+      "column": 1,
+      "start": 670,
+      "end": 726
+    },
+    "/panels/0/blocks/9": {
+      "line": 34,
+      "column": 1,
+      "start": 727,
+      "end": 846
+    },
+    "/panels/0/blocks/9/type": {
+      "line": 34,
+      "column": 1,
+      "start": 727,
+      "end": 846
+    },
+    "/panels/0/blocks/9/id": {
+      "line": 34,
+      "column": 1,
+      "start": 727,
+      "end": 846
+    },
+    "/panels/0/blocks/9/text": {
+      "line": 36,
+      "column": 1,
+      "start": 776,
+      "end": 841
+    },
+    "/panels/0/blocks/9/caption": {
+      "line": 34,
+      "column": 1,
+      "start": 727,
+      "end": 846
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\nA **direct** paragraph with [facts](source:docs).\n\n- First option\n- Second option\n\n| Criterion | Option A | Option B |\n| --- | --- | --- |\n| Cost | Low {good:Affordable} | High {bad} |\n| Syntax | `a|b` {caution} | x\\|y {good} |\n\n@callout id=caution level=warning title=\"Condition\"\n| Check the premise first. |\n\n@facts id=facts\n| Token | literal\\|value |\n\n@metric id=metric label=\"Latency\" value=12.5 limit=20 unit=ms typical=true\n\n@steps id=steps\n| first-step | Read the explanation |\n\n@code id=snippet source=repo language=js\n\n@image id=image path=images/path.png alt=\"Request path\"\n\n@diff id=change caption=\"Literal change\"\n```diff\n-const tag = '<old>'; // | literal\n+const tag = '<new>'; // $HOME\n```\n\n",
+  "diagnostics": []
+}

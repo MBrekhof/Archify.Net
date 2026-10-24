@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "phased",
+    "output": "phased.html",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    {
+      "id": "b",
+      "label": "Browser",
+      "type": "frontend"
+    },
+    {
+      "id": "s",
+      "label": "Server",
+      "type": "backend"
+    }
+  ],
+  "messages": [
+    {
+      "id": "b-to-s-1",
+      "from": "b",
+      "to": "s",
+      "label": "SYN",
+      "y": 160
+    },
+    {
+      "id": "s-to-b-1",
+      "from": "s",
+      "to": "b",
+      "label": "SYN-ACK",
+      "y": 208,
+      "variant": "return"
+    },
+    {
+      "id": "b-to-s-2",
+      "from": "b",
+      "to": "s",
+      "label": "ClientHello",
+      "y": 256
+    }
+  ],
+  "segments": [
+    {
+      "from": 138,
+      "to": 224,
+      "label": "TCP"
+    },
+    {
+      "from": 234,
+      "to": 272,
+      "label": "TLS"
+    }
+  ]
+}

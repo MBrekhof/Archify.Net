@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Sequence shorthand needs a message.",
+    "code": [
+      {
+        "code": "explainer/diagram-rows",
+        "severity": "error",
+        "message": "Sequence shorthand needs a message.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagram": "x",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-rows",
+          "example": "client | api | 请求记录"
+        },
+        "supportedFixes": [
+          "Use this form: client | api | 请求记录"
+        ]
+      }
+    ]
+  }
+}

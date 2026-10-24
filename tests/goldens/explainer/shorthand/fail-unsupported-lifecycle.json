@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The lifecycle type uses native JSON instead of shorthand rows.",
+    "code": [
+      {
+        "code": "explainer/diagram-shorthand-unsupported",
+        "severity": "error",
+        "message": "The lifecycle type uses native JSON instead of shorthand rows.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagram": "life",
+          "diagramType": "lifecycle"
+        },
+        "evidence": {
+          "reason": "diagram-shorthand-unsupported",
+          "example": "Use spec with diagram_type: lifecycle, or source: diagram.lifecycle.json."
+        },
+        "supportedFixes": [
+          "Use this form: Use spec with diagram_type: lifecycle, or source: diagram.lifecycle.json."
+        ]
+      }
+    ]
+  }
+}

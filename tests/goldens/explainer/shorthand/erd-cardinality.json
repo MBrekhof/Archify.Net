@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Relationship cardinality must be explicit.",
+    "code": [
+      {
+        "code": "explainer/diagram-cardinality",
+        "severity": "error",
+        "message": "Relationship cardinality must be explicit.",
+        "subject": {
+          "component": "diagram",
+          "line": 3,
+          "path": "/",
+          "diagramType": "erd"
+        },
+        "evidence": {
+          "reason": "diagram-cardinality",
+          "example": "order > user | many:one | 下单者"
+        },
+        "supportedFixes": [
+          "Use this form: order > user | many:one | 下单者"
+        ]
+      }
+    ]
+  }
+}

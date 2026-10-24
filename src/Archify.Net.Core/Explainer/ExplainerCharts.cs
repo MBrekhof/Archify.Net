@@ -205,7 +205,7 @@ internal static class ExplainerCharts
         var keys = row.Select(property => property.Key).ToList();
         return keys.Where(IsArrayIndex).OrderBy(key => ulong.Parse(key)).Concat(keys.Where(key => !IsArrayIndex(key)));
     }
-    static bool IsArrayIndex(string key) => key.Length is > 0 and <= 10 && key.All(char.IsAsciiDigit) && (key == "0" || key[0] != '0')
+    internal static bool IsArrayIndex(string key) => key.Length is > 0 and <= 10 && key.All(char.IsAsciiDigit) && (key == "0" || key[0] != '0')
         && ulong.Parse(key) < uint.MaxValue;
 
     // blank(row[column]) and String(row[column]): undefined and null are blank, otherwise String(v).trim() === ''.

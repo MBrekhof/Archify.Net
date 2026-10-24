@@ -1,0 +1,458 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "Option",
+            "columns": [
+              "Cost",
+              "Risk"
+            ],
+            "rows": [
+              {
+                "label": "A",
+                "id": "opt-a",
+                "cells": [
+                  {
+                    "text": "Low[](source:s) [x](source:s)",
+                    "assessment": "good",
+                    "verdict": "Win"
+                  },
+                  {
+                    "text": "Check",
+                    "assessment": "caution",
+                    "verdict": "Check"
+                  }
+                ]
+              },
+              {
+                "label": "B",
+                "cells": [
+                  {
+                    "text": "High",
+                    "assessment": "bad"
+                  },
+                  {
+                    "text": "plain"
+                  }
+                ],
+                "id": "row-109ca6feb516"
+              }
+            ],
+            "id": "comparison-68ac4a5600a9"
+          },
+          {
+            "type": "comparison",
+            "labelColumn": "Option",
+            "columns": [
+              "Cost",
+              "Risk"
+            ],
+            "rows": [
+              {
+                "label": "C",
+                "cells": [
+                  {
+                    "text": "Mid[](source:s)",
+                    "assessment": "good",
+                    "verdict": "Win"
+                  },
+                  {
+                    "text": "x"
+                  }
+                ],
+                "id": "row-ad4bdea4c867"
+              }
+            ],
+            "id": "comparison-d7eeee32270c"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "s",
+        "title": "S",
+        "url": "https://example.com"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/sources/0/url": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 53
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 54,
+      "end": 299
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 54,
+      "end": 299
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 54,
+      "end": 299
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 54,
+      "end": 299
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/labelColumn": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/columns": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/columns/0": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/columns/1": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/0": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/0": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/assessment": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/verdict": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/1": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/1/text": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/1/assessment": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/0/cells/1/verdict": {
+      "line": 11,
+      "column": 1,
+      "start": 110,
+      "end": 187
+    },
+    "/panels/0/blocks/0/rows/1": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/label": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/cells": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/cells/0": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/cells/0/text": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/cells/0/assessment": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/cells/1": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/cells/1/text": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/rows/1/id": {
+      "line": 12,
+      "column": 1,
+      "start": 187,
+      "end": 214
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 65,
+      "end": 214
+    },
+    "/panels/0/blocks/1": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/labelColumn": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/columns": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/columns/0": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/columns/1": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/label": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells/0": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells/0/text": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells/0/assessment": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells/0/verdict": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells/1": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/cells/1/text": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/rows/0/id": {
+      "line": 15,
+      "column": 1,
+      "start": 260,
+      "end": 299
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 14,
+      "column": 1,
+      "start": 215,
+      "end": 299
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@source s title=\"S\" url=https://example.com\n\n## Q {#q}\n\n| Option | Cost | Risk |\n| --- | --- | --- |\n| A {#opt-a} | Low {good:Win} [](source:s) [x](source:s) | {caution:Check} |\n| B | High {bad} | plain |\n\n@comparison columns=\"Cost,Risk\" label=Option\n| C | Mid {good:Win} [](source:s) | x |",
+  "diagnostics": []
+}

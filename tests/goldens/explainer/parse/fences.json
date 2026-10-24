@@ -1,0 +1,273 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Cache choice",
+      "id": "cache-choice"
+    },
+    "answer": {
+      "summary": "Read the cache first on the request path."
+    },
+    "panels": [
+      {
+        "id": "reasoning",
+        "title": "What follows?",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "Need",
+            "columns": [
+              "Output"
+            ],
+            "rows": [
+              {
+                "label": "Read",
+                "cells": [
+                  {
+                    "text": "Diagram"
+                  }
+                ],
+                "id": "row-8e135041f76c"
+              }
+            ],
+            "id": "comparison-c677b13736a5"
+          },
+          {
+            "type": "snippet",
+            "language": "bash",
+            "title": "Run tests",
+            "text": "npm test -- --grep \"a | b\"",
+            "id": "snippet-fc54abbce926"
+          },
+          {
+            "type": "diff",
+            "text": "--- a/x\n+++ b/x\n@@ -1 +1 @@\n-old\n+new",
+            "id": "diff-923f2f64e5c3"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 302
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 302
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 302
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 302
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/0/labelColumn": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/0/columns": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/0/columns/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows/0": {
+      "line": 11,
+      "column": 1,
+      "start": 174,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 174,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows/0/cells": {
+      "line": 11,
+      "column": 1,
+      "start": 174,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows/0/cells/0": {
+      "line": 11,
+      "column": 1,
+      "start": 174,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows/0/cells/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 174,
+      "end": 193
+    },
+    "/panels/0/blocks/0/rows/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 174,
+      "end": 193
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 193
+    },
+    "/panels/0/blocks/1": {
+      "line": 13,
+      "column": 1,
+      "start": 194,
+      "end": 251
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 13,
+      "column": 1,
+      "start": 194,
+      "end": 251
+    },
+    "/panels/0/blocks/1/language": {
+      "line": 13,
+      "column": 1,
+      "start": 194,
+      "end": 251
+    },
+    "/panels/0/blocks/1/title": {
+      "line": 13,
+      "column": 1,
+      "start": 194,
+      "end": 251
+    },
+    "/panels/0/blocks/1/text": {
+      "line": 14,
+      "column": 1,
+      "start": 220,
+      "end": 246
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 13,
+      "column": 1,
+      "start": 194,
+      "end": 251
+    },
+    "/panels/0/blocks/2": {
+      "line": 17,
+      "column": 1,
+      "start": 252,
+      "end": 302
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 17,
+      "column": 1,
+      "start": 252,
+      "end": 302
+    },
+    "/panels/0/blocks/2/text": {
+      "line": 18,
+      "column": 1,
+      "start": 260,
+      "end": 297
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 17,
+      "column": 1,
+      "start": 252,
+      "end": 302
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n| Need | Output |\n| --- | --- |\n| Read | Diagram |\n\n```bash title=\"Run tests\"\nnpm test -- --grep \"a | b\"\n```\n\n```diff\n--- a/x\n+++ b/x\n@@ -1 +1 @@\n-old\n+new\n```\n",
+  "diagnostics": []
+}

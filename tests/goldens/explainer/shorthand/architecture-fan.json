@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "fan",
+    "output": "fan.html",
+    "quality_profile": "showcase"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 2,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "api",
+      "label": "API",
+      "type": "frontend",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "a",
+      "label": "A",
+      "type": "backend",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "type": "backend",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "type": "backend",
+      "row": 2,
+      "col": 1
+    }
+  ],
+  "connections": [
+    {
+      "id": "api-to-a-1",
+      "from": "api",
+      "to": "a"
+    },
+    {
+      "id": "api-to-b-1",
+      "from": "api",
+      "to": "b"
+    },
+    {
+      "id": "api-to-c-1",
+      "from": "api",
+      "to": "c"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/reasons": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 36
+    },
+    "/answer/reasons/0": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 26
+    },
+    "/answer/reasons/1": {
+      "line": 6,
+      "column": 1,
+      "start": 26,
+      "end": 36
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Title\n\nAnswer.\n\n- First\n  - Nested",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-list",
+      "severity": "error",
+      "message": "Nested lists are unsupported.",
+      "subject": {
+        "line": 6,
+        "column": 1,
+        "component": "list",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Nested lists are unsupported.",
+        "example": "- One flat item"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: - One flat item"
+      ]
+    },
+    {
+      "code": "explainer/parse-panel",
+      "severity": "error",
+      "message": "At least one question panel is required.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "panel",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "At least one question panel is required.",
+        "example": "## Why does this happen?"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## Why does this happen?"
+      ]
+    }
+  ]
+}

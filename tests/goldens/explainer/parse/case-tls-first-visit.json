@@ -1,0 +1,1997 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "What happens when a browser opens an HTTPS site for the first time?",
+      "id": "first-visit",
+      "locale": "en"
+    },
+    "answer": {
+      "summary": "The browser resolves the hostname, opens TCP, then runs a **one-round-trip TLS 1.3 handshake**. It agrees fresh encryption keys and checks the server's identity before any request is sent.",
+      "reasons": [
+        "The browser sends its key share inside `ClientHello`, so one round trip is enough.[](source:rfc8446)",
+        "After `ServerHello` everything is encrypted, including the server's certificate.[](source:rfc8446)",
+        "`CertificateVerify` proves the server holds the certificate's private key.",
+        "Keys come from ephemeral shares, so a later leak of the private key cannot decrypt this session."
+      ],
+      "scope": "TLS 1.3 over TCP · first visit to a host · no proxy, no resumption"
+    },
+    "panels": [
+      {
+        "id": "wire",
+        "title": "What crosses the wire before the first request?",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "tls-visit",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "First HTTPS visit: DNS to first response",
+                "output": "tls-visit.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "browser",
+                  "label": "Browser",
+                  "type": "frontend"
+                },
+                {
+                  "id": "dns",
+                  "label": "DNS resolver",
+                  "type": "external"
+                },
+                {
+                  "id": "server",
+                  "label": "Web server",
+                  "type": "backend"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "browser-to-dns-1",
+                  "from": "browser",
+                  "to": "dns",
+                  "label": "DNS query: example.com",
+                  "y": 160
+                },
+                {
+                  "id": "dns-to-browser-1",
+                  "from": "dns",
+                  "to": "browser",
+                  "label": "IP address",
+                  "y": 208,
+                  "variant": "return"
+                },
+                {
+                  "id": "browser-to-server-1",
+                  "from": "browser",
+                  "to": "server",
+                  "label": "SYN",
+                  "y": 256
+                },
+                {
+                  "id": "server-to-browser-1",
+                  "from": "server",
+                  "to": "browser",
+                  "label": "SYN + ACK",
+                  "y": 304,
+                  "variant": "return"
+                },
+                {
+                  "id": "browser-to-server-2",
+                  "from": "browser",
+                  "to": "server",
+                  "label": "ACK",
+                  "y": 352
+                },
+                {
+                  "id": "browser-to-server-3",
+                  "from": "browser",
+                  "to": "server",
+                  "label": "ClientHello: suites, SNI, key share",
+                  "y": 400
+                },
+                {
+                  "id": "server-to-browser-2",
+                  "from": "server",
+                  "to": "browser",
+                  "label": "ServerHello: chosen suite, key share",
+                  "y": 448,
+                  "variant": "return"
+                },
+                {
+                  "id": "server-to-browser-3",
+                  "from": "server",
+                  "to": "browser",
+                  "label": "Certificate + CertificateVerify + Finished, encrypted",
+                  "y": 496,
+                  "variant": "return"
+                },
+                {
+                  "id": "browser-to-server-4",
+                  "from": "browser",
+                  "to": "server",
+                  "label": "Finished",
+                  "y": 544,
+                  "variant": "emphasis"
+                },
+                {
+                  "id": "browser-to-server-5",
+                  "from": "browser",
+                  "to": "server",
+                  "label": "GET /",
+                  "y": 592
+                },
+                {
+                  "id": "server-to-browser-4",
+                  "from": "server",
+                  "to": "browser",
+                  "label": "200 OK + page",
+                  "y": 640,
+                  "variant": "return"
+                }
+              ],
+              "segments": [
+                {
+                  "from": 138,
+                  "to": 224,
+                  "label": "Name lookup"
+                },
+                {
+                  "from": 234,
+                  "to": 368,
+                  "label": "TCP handshake · 1 RTT"
+                },
+                {
+                  "from": 378,
+                  "to": 560,
+                  "label": "TLS 1.3 handshake · 1 RTT"
+                },
+                {
+                  "from": 570,
+                  "to": 656,
+                  "label": "Encrypted HTTP"
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "visit-steps",
+            "items": [
+              {
+                "id": "resolve",
+                "text": "DNS resolver",
+                "detail": "Turns the hostname into an IP before the connection can start.",
+                "target": {
+                  "diagram": "tls-visit",
+                  "node": "dns"
+                }
+              },
+              {
+                "id": "hello",
+                "text": "Browser",
+                "detail": "Opens TCP and sends `ClientHello` with TLS 1.3, cipher suites, the hostname and an ephemeral key share.",
+                "target": {
+                  "diagram": "tls-visit",
+                  "node": "browser"
+                }
+              },
+              {
+                "id": "prove",
+                "text": "Web server",
+                "detail": "Sends its key share, then certificate and `Finished` under encryption; checks the client's `Finished`.",
+                "target": {
+                  "diagram": "tls-visit",
+                  "node": "server"
+                }
+              }
+            ]
+          },
+          {
+            "type": "callout",
+            "id": "quic",
+            "level": "note",
+            "title": "What about HTTP/3?",
+            "text": "With QUIC, the TCP steps disappear: QUIC runs the same TLS 1.3 handshake inside the transport, still in one round trip."
+          }
+        ]
+      },
+      {
+        "id": "trust",
+        "title": "How does the browser know this is the real site?",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "Check",
+            "columns": [
+              "What the browser verifies"
+            ],
+            "rows": [
+              {
+                "label": "Chain",
+                "cells": [
+                  {
+                    "text": "The certificate chains to a root CA in the browser's trust store."
+                  }
+                ],
+                "id": "row-4be7b77bb1db"
+              },
+              {
+                "label": "Hostname",
+                "cells": [
+                  {
+                    "text": "The site's name appears in the certificate's subject alternative name (SAN) list."
+                  }
+                ],
+                "id": "row-80ffe0de4f96"
+              },
+              {
+                "label": "Validity",
+                "cells": [
+                  {
+                    "text": "Today sits inside the certificate's not-before and not-after dates."
+                  }
+                ],
+                "id": "row-36c6c4c1ae7d"
+              },
+              {
+                "label": "Ownership",
+                "cells": [
+                  {
+                    "text": "`CertificateVerify` signs the handshake transcript; only the private-key holder could produce it."
+                  }
+                ],
+                "id": "row-7bade94aea6d"
+              },
+              {
+                "label": "Revocation",
+                "cells": [
+                  {
+                    "text": "Stapled OCSP or CRLs, checked best-effort; many browsers accept an unreachable check.",
+                    "assessment": "caution",
+                    "verdict": "Weak"
+                  }
+                ],
+                "id": "row-11f1c3120475"
+              }
+            ],
+            "id": "comparison-bb5a9b839cc3"
+          }
+        ]
+      },
+      {
+        "id": "keys",
+        "title": "Where do the session keys come from?",
+        "blocks": [
+          {
+            "type": "facts",
+            "id": "key-facts",
+            "entries": [
+              {
+                "key": "Key shares",
+                "value": "Each side sends an ephemeral Diffie-Hellman share, usually X25519."
+              },
+              {
+                "key": "Shared secret",
+                "value": "Each side combines its private share with the peer's public share."
+              },
+              {
+                "key": "Key schedule",
+                "value": "HKDF expands the secret plus the transcript into handshake, then traffic keys."
+              },
+              {
+                "key": "Forward secrecy",
+                "value": "Shares are discarded after use, so later key theft cannot decrypt this session."
+              },
+              {
+                "key": "Client `Finished`",
+                "value": "Confirms both sides hold the same keys; the request can now ride on them."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "revisit",
+        "title": "What changes on the next visit?",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "Aspect",
+            "columns": [
+              "First visit",
+              "Resumed visit"
+            ],
+            "rows": [
+              {
+                "label": "Server proof",
+                "cells": [
+                  {
+                    "text": "Full certificate and signature check"
+                  },
+                  {
+                    "text": "Pre-shared key from a `NewSessionTicket`"
+                  }
+                ],
+                "id": "row-f516c079dd45"
+              },
+              {
+                "label": "Round trips to first byte",
+                "cells": [
+                  {
+                    "text": "DNS + TCP + 1 RTT of TLS"
+                  },
+                  {
+                    "text": "TCP, then data can ride with `ClientHello`",
+                    "assessment": "good",
+                    "verdict": "0-RTT"
+                  }
+                ],
+                "id": "row-37195b147126"
+              },
+              {
+                "label": "Early data risk",
+                "cells": [
+                  {
+                    "text": "None; the request waits for `Finished`"
+                  },
+                  {
+                    "text": "0-RTT data can be replayed, so servers limit what it may do",
+                    "assessment": "caution",
+                    "verdict": "Replayable"
+                  }
+                ],
+                "id": "row-6293b8d366bb"
+              }
+            ],
+            "id": "comparison-c43d01ae0a4f"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "rfc8446",
+        "title": "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3",
+        "url": "https://www.rfc-editor.org/rfc/rfc8446"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 85
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 85
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 85
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 86,
+      "end": 275
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 86,
+      "end": 275
+    },
+    "/answer/reasons": {
+      "line": 5,
+      "column": 1,
+      "start": 276,
+      "end": 656
+    },
+    "/answer/reasons/0": {
+      "line": 5,
+      "column": 1,
+      "start": 276,
+      "end": 379
+    },
+    "/answer/reasons/1": {
+      "line": 6,
+      "column": 1,
+      "start": 379,
+      "end": 480
+    },
+    "/answer/reasons/2": {
+      "line": 7,
+      "column": 1,
+      "start": 480,
+      "end": 557
+    },
+    "/answer/reasons/3": {
+      "line": 8,
+      "column": 1,
+      "start": 557,
+      "end": 656
+    },
+    "/answer/scope": {
+      "line": 10,
+      "column": 1,
+      "start": 657,
+      "end": 740
+    },
+    "/meta/locale": {
+      "line": 11,
+      "column": 1,
+      "start": 740,
+      "end": 756
+    },
+    "/sources/0": {
+      "line": 12,
+      "column": 1,
+      "start": 756,
+      "end": 889
+    },
+    "/sources/0/id": {
+      "line": 12,
+      "column": 1,
+      "start": 756,
+      "end": 889
+    },
+    "/sources/0/title": {
+      "line": 12,
+      "column": 1,
+      "start": 756,
+      "end": 889
+    },
+    "/sources/0/url": {
+      "line": 12,
+      "column": 1,
+      "start": 756,
+      "end": 889
+    },
+    "/panels/0": {
+      "line": 14,
+      "column": 1,
+      "start": 890,
+      "end": 2384
+    },
+    "/panels/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 890,
+      "end": 3994
+    },
+    "/panels/0/title": {
+      "line": 14,
+      "column": 1,
+      "start": 890,
+      "end": 3994
+    },
+    "/panels/0/blocks": {
+      "line": 14,
+      "column": 1,
+      "start": 890,
+      "end": 3994
+    },
+    "/panels/0/blocks/0": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/2": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/2/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/2/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/participants/2/type": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/1/variant": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/2": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/2/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/2/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/2/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/2/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/2/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/3/variant": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/4": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/4/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/4/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/4/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/4/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/4/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/5": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/5/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/5/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/5/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/5/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/5/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/6/variant": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/7/variant": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/8/variant": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/9": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/9/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/9/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/9/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/9/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/9/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10/id": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10/y": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/messages/10/variant": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/0": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/0/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/0/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/0/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/1": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/1/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/1/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/1/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/2": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/2/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/2/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/2/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/3": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/3/from": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/3/to": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/0/spec/segments/3/label": {
+      "line": 16,
+      "column": 1,
+      "start": 950,
+      "end": 1775
+    },
+    "/panels/0/blocks/1": {
+      "line": 36,
+      "column": 1,
+      "start": 1776,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 36,
+      "column": 1,
+      "start": 1776,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 36,
+      "column": 1,
+      "start": 1776,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items": {
+      "line": 36,
+      "column": 1,
+      "start": 1776,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/0": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/0/id": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/0/text": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/0/detail": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/0/target": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/0/target/diagram": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/0/target/node": {
+      "line": 37,
+      "column": 1,
+      "start": 1798,
+      "end": 1908
+    },
+    "/panels/0/blocks/1/items/1": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/1/id": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/1/text": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/1/detail": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/1/target": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/1/target/diagram": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/1/target/node": {
+      "line": 38,
+      "column": 1,
+      "start": 1908,
+      "end": 2056
+    },
+    "/panels/0/blocks/1/items/2": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/2/id": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/2/text": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/2/detail": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/2/target": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/2/target/diagram": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/1/items/2/target/node": {
+      "line": 39,
+      "column": 1,
+      "start": 2056,
+      "end": 2205
+    },
+    "/panels/0/blocks/2": {
+      "line": 41,
+      "column": 1,
+      "start": 2206,
+      "end": 2383
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 41,
+      "column": 1,
+      "start": 2206,
+      "end": 2383
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 41,
+      "column": 1,
+      "start": 2206,
+      "end": 2383
+    },
+    "/panels/0/blocks/2/level": {
+      "line": 41,
+      "column": 1,
+      "start": 2206,
+      "end": 2383
+    },
+    "/panels/0/blocks/2/title": {
+      "line": 41,
+      "column": 1,
+      "start": 2206,
+      "end": 2383
+    },
+    "/panels/0/blocks/2/text": {
+      "line": 41,
+      "column": 1,
+      "start": 2206,
+      "end": 2383
+    },
+    "/panels/1": {
+      "line": 44,
+      "column": 1,
+      "start": 2384,
+      "end": 2989
+    },
+    "/panels/1/id": {
+      "line": 44,
+      "column": 1,
+      "start": 2384,
+      "end": 3994
+    },
+    "/panels/1/title": {
+      "line": 44,
+      "column": 1,
+      "start": 2384,
+      "end": 3994
+    },
+    "/panels/1/blocks": {
+      "line": 44,
+      "column": 1,
+      "start": 2384,
+      "end": 3994
+    },
+    "/panels/1/blocks/0": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/labelColumn": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/columns": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/columns/0": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/0": {
+      "line": 48,
+      "column": 1,
+      "start": 2498,
+      "end": 2576
+    },
+    "/panels/1/blocks/0/rows/0/label": {
+      "line": 48,
+      "column": 1,
+      "start": 2498,
+      "end": 2576
+    },
+    "/panels/1/blocks/0/rows/0/cells": {
+      "line": 48,
+      "column": 1,
+      "start": 2498,
+      "end": 2576
+    },
+    "/panels/1/blocks/0/rows/0/cells/0": {
+      "line": 48,
+      "column": 1,
+      "start": 2498,
+      "end": 2576
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/text": {
+      "line": 48,
+      "column": 1,
+      "start": 2498,
+      "end": 2576
+    },
+    "/panels/1/blocks/0/rows/0/id": {
+      "line": 48,
+      "column": 1,
+      "start": 2498,
+      "end": 2576
+    },
+    "/panels/1/blocks/0/rows/1": {
+      "line": 49,
+      "column": 1,
+      "start": 2576,
+      "end": 2673
+    },
+    "/panels/1/blocks/0/rows/1/label": {
+      "line": 49,
+      "column": 1,
+      "start": 2576,
+      "end": 2673
+    },
+    "/panels/1/blocks/0/rows/1/cells": {
+      "line": 49,
+      "column": 1,
+      "start": 2576,
+      "end": 2673
+    },
+    "/panels/1/blocks/0/rows/1/cells/0": {
+      "line": 49,
+      "column": 1,
+      "start": 2576,
+      "end": 2673
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/text": {
+      "line": 49,
+      "column": 1,
+      "start": 2576,
+      "end": 2673
+    },
+    "/panels/1/blocks/0/rows/1/id": {
+      "line": 49,
+      "column": 1,
+      "start": 2576,
+      "end": 2673
+    },
+    "/panels/1/blocks/0/rows/2": {
+      "line": 50,
+      "column": 1,
+      "start": 2673,
+      "end": 2756
+    },
+    "/panels/1/blocks/0/rows/2/label": {
+      "line": 50,
+      "column": 1,
+      "start": 2673,
+      "end": 2756
+    },
+    "/panels/1/blocks/0/rows/2/cells": {
+      "line": 50,
+      "column": 1,
+      "start": 2673,
+      "end": 2756
+    },
+    "/panels/1/blocks/0/rows/2/cells/0": {
+      "line": 50,
+      "column": 1,
+      "start": 2673,
+      "end": 2756
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/text": {
+      "line": 50,
+      "column": 1,
+      "start": 2673,
+      "end": 2756
+    },
+    "/panels/1/blocks/0/rows/2/id": {
+      "line": 50,
+      "column": 1,
+      "start": 2673,
+      "end": 2756
+    },
+    "/panels/1/blocks/0/rows/3": {
+      "line": 51,
+      "column": 1,
+      "start": 2756,
+      "end": 2870
+    },
+    "/panels/1/blocks/0/rows/3/label": {
+      "line": 51,
+      "column": 1,
+      "start": 2756,
+      "end": 2870
+    },
+    "/panels/1/blocks/0/rows/3/cells": {
+      "line": 51,
+      "column": 1,
+      "start": 2756,
+      "end": 2870
+    },
+    "/panels/1/blocks/0/rows/3/cells/0": {
+      "line": 51,
+      "column": 1,
+      "start": 2756,
+      "end": 2870
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/text": {
+      "line": 51,
+      "column": 1,
+      "start": 2756,
+      "end": 2870
+    },
+    "/panels/1/blocks/0/rows/3/id": {
+      "line": 51,
+      "column": 1,
+      "start": 2756,
+      "end": 2870
+    },
+    "/panels/1/blocks/0/rows/4": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/label": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/cells": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/cells/0": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/text": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/assessment": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/verdict": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/rows/4/id": {
+      "line": 52,
+      "column": 1,
+      "start": 2870,
+      "end": 2988
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 46,
+      "column": 1,
+      "start": 2446,
+      "end": 2988
+    },
+    "/panels/2": {
+      "line": 54,
+      "column": 1,
+      "start": 2989,
+      "end": 3528
+    },
+    "/panels/2/id": {
+      "line": 54,
+      "column": 1,
+      "start": 2989,
+      "end": 3994
+    },
+    "/panels/2/title": {
+      "line": 54,
+      "column": 1,
+      "start": 2989,
+      "end": 3994
+    },
+    "/panels/2/blocks": {
+      "line": 54,
+      "column": 1,
+      "start": 2989,
+      "end": 3994
+    },
+    "/panels/2/blocks/0": {
+      "line": 56,
+      "column": 1,
+      "start": 3038,
+      "end": 3527
+    },
+    "/panels/2/blocks/0/type": {
+      "line": 56,
+      "column": 1,
+      "start": 3038,
+      "end": 3527
+    },
+    "/panels/2/blocks/0/id": {
+      "line": 56,
+      "column": 1,
+      "start": 3038,
+      "end": 3527
+    },
+    "/panels/2/blocks/0/entries": {
+      "line": 56,
+      "column": 1,
+      "start": 3038,
+      "end": 3527
+    },
+    "/panels/2/blocks/0/entries/0": {
+      "line": 57,
+      "column": 1,
+      "start": 3058,
+      "end": 3142
+    },
+    "/panels/2/blocks/0/entries/0/key": {
+      "line": 57,
+      "column": 1,
+      "start": 3058,
+      "end": 3142
+    },
+    "/panels/2/blocks/0/entries/0/value": {
+      "line": 57,
+      "column": 1,
+      "start": 3058,
+      "end": 3142
+    },
+    "/panels/2/blocks/0/entries/1": {
+      "line": 58,
+      "column": 1,
+      "start": 3142,
+      "end": 3229
+    },
+    "/panels/2/blocks/0/entries/1/key": {
+      "line": 58,
+      "column": 1,
+      "start": 3142,
+      "end": 3229
+    },
+    "/panels/2/blocks/0/entries/1/value": {
+      "line": 58,
+      "column": 1,
+      "start": 3142,
+      "end": 3229
+    },
+    "/panels/2/blocks/0/entries/2": {
+      "line": 59,
+      "column": 1,
+      "start": 3229,
+      "end": 3327
+    },
+    "/panels/2/blocks/0/entries/2/key": {
+      "line": 59,
+      "column": 1,
+      "start": 3229,
+      "end": 3327
+    },
+    "/panels/2/blocks/0/entries/2/value": {
+      "line": 59,
+      "column": 1,
+      "start": 3229,
+      "end": 3327
+    },
+    "/panels/2/blocks/0/entries/3": {
+      "line": 60,
+      "column": 1,
+      "start": 3327,
+      "end": 3429
+    },
+    "/panels/2/blocks/0/entries/3/key": {
+      "line": 60,
+      "column": 1,
+      "start": 3327,
+      "end": 3429
+    },
+    "/panels/2/blocks/0/entries/3/value": {
+      "line": 60,
+      "column": 1,
+      "start": 3327,
+      "end": 3429
+    },
+    "/panels/2/blocks/0/entries/4": {
+      "line": 61,
+      "column": 1,
+      "start": 3429,
+      "end": 3527
+    },
+    "/panels/2/blocks/0/entries/4/key": {
+      "line": 61,
+      "column": 1,
+      "start": 3429,
+      "end": 3527
+    },
+    "/panels/2/blocks/0/entries/4/value": {
+      "line": 61,
+      "column": 1,
+      "start": 3429,
+      "end": 3527
+    },
+    "/panels/3": {
+      "line": 63,
+      "column": 1,
+      "start": 3528,
+      "end": 3994
+    },
+    "/panels/3/id": {
+      "line": 63,
+      "column": 1,
+      "start": 3528,
+      "end": 3994
+    },
+    "/panels/3/title": {
+      "line": 63,
+      "column": 1,
+      "start": 3528,
+      "end": 3994
+    },
+    "/panels/3/blocks": {
+      "line": 63,
+      "column": 1,
+      "start": 3528,
+      "end": 3994
+    },
+    "/panels/3/blocks/0": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/type": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/labelColumn": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/columns": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/columns/0": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/columns/1": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/0": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/label": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/cells": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/cells/0": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/cells/0/text": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/cells/1": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/cells/1/text": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/0/id": {
+      "line": 67,
+      "column": 1,
+      "start": 3636,
+      "end": 3735
+    },
+    "/panels/3/blocks/0/rows/1": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/label": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells/0": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells/0/text": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells/1": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells/1/text": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells/1/assessment": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/cells/1/verdict": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/1/id": {
+      "line": 68,
+      "column": 1,
+      "start": 3735,
+      "end": 3850
+    },
+    "/panels/3/blocks/0/rows/2": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/label": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells/0": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells/0/text": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells/1": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells/1/text": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells/1/assessment": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/cells/1/verdict": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/rows/2/id": {
+      "line": 69,
+      "column": 1,
+      "start": 3850,
+      "end": 3994
+    },
+    "/panels/3/blocks/0/id": {
+      "line": 65,
+      "column": 1,
+      "start": 3575,
+      "end": 3994
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# What happens when a browser opens an HTTPS site for the first time? {#first-visit}\n\nThe browser resolves the hostname, opens TCP, then runs a **one-round-trip TLS 1.3 handshake**. It agrees fresh encryption keys and checks the server's identity before any request is sent.\n\n- The browser sends its key share inside `ClientHello`, so one round trip is enough.[](source:rfc8446)\n- After `ServerHello` everything is encrypted, including the server's certificate.[](source:rfc8446)\n- `CertificateVerify` proves the server holds the certificate's private key.\n- Keys come from ephemeral shares, so a later leak of the private key cannot decrypt this session.\n\n@answer scope=\"TLS 1.3 over TCP · first visit to a host · no proxy, no resumption\"\n@meta locale=en\n@source rfc8446 title=\"RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3\" url=https://www.rfc-editor.org/rfc/rfc8446\n\n## What crosses the wire before the first request? {#wire}\n\n@sequence id=tls-visit title=\"First HTTPS visit: DNS to first response\"\n| actor browser | Browser | frontend |\n| actor dns | DNS resolver | external |\n| actor server | Web server | backend |\n| phase | Name lookup |\n| browser | dns | DNS query: example.com |\n| dns | browser | IP address | return |\n| phase | TCP handshake · 1 RTT |\n| browser | server | SYN |\n| server | browser | SYN + ACK | return |\n| browser | server | ACK |\n| phase | TLS 1.3 handshake · 1 RTT |\n| browser | server | ClientHello: suites, SNI, key share |\n| server | browser | ServerHello: chosen suite, key share | return |\n| server | browser | Certificate + CertificateVerify + Finished, encrypted | return |\n| browser | server | Finished | emphasis |\n| phase | Encrypted HTTP |\n| browser | server | GET / |\n| server | browser | 200 OK + page | return |\n\n@steps id=visit-steps\n| resolve | DNS resolver | Turns the hostname into an IP before the connection can start. | tls-visit | dns |\n| hello | Browser | Opens TCP and sends `ClientHello` with TLS 1.3, cipher suites, the hostname and an ephemeral key share. | tls-visit | browser |\n| prove | Web server | Sends its key share, then certificate and `Finished` under encryption; checks the client's `Finished`. | tls-visit | server |\n\n@callout id=quic level=note title=\"What about HTTP/3?\"\n| With QUIC, the TCP steps disappear: QUIC runs the same TLS 1.3 handshake inside the transport, still in one round trip.\n\n## How does the browser know this is the real site? {#trust}\n\n| Check | What the browser verifies |\n| --- | --- |\n| Chain | The certificate chains to a root CA in the browser's trust store. |\n| Hostname | The site's name appears in the certificate's subject alternative name (SAN) list. |\n| Validity | Today sits inside the certificate's not-before and not-after dates. |\n| Ownership | `CertificateVerify` signs the handshake transcript; only the private-key holder could produce it. |\n| Revocation | Stapled OCSP or CRLs, checked best-effort; many browsers accept an unreachable check. {caution:Weak} |\n\n## Where do the session keys come from? {#keys}\n\n@facts id=key-facts\n| Key shares | Each side sends an ephemeral Diffie-Hellman share, usually X25519. |\n| Shared secret | Each side combines its private share with the peer's public share. |\n| Key schedule | HKDF expands the secret plus the transcript into handshake, then traffic keys. |\n| Forward secrecy | Shares are discarded after use, so later key theft cannot decrypt this session. |\n| Client `Finished` | Confirms both sides hold the same keys; the request can now ride on them. |\n\n## What changes on the next visit? {#revisit}\n\n| Aspect | First visit | Resumed visit |\n| --- | --- | --- |\n| Server proof | Full certificate and signature check | Pre-shared key from a `NewSessionTicket` |\n| Round trips to first byte | DNS + TCP + 1 RTT of TLS | TCP, then data can ride with `ClientHello` {good:0-RTT} |\n| Early data risk | None; the request waits for `Finished` | 0-RTT data can be replayed, so servers limit what it may do {caution:Replayable} |\n",
+  "diagnostics": []
+}

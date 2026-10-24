@@ -1,0 +1,1993 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "第一次在大城市租房，签合同前要确认哪些事？",
+      "id": "first-rent",
+      "locale": "zh-CN"
+    },
+    "answer": {
+      "summary": "核心是三件事：**确认人、确认房、确认钱**。核实房东身份和产权，把关键条款写进合同，所有付款和交接留证据。",
+      "reasons": [
+        "签约前核对房东身份和产权，拒绝只靠口头承诺。",
+        "租金、押金、租期、违约、维修责任必须写进合同。",
+        "付款走可留痕的方式，交接时逐项验房拍照。"
+      ],
+      "scope": "中国大陆城市 · 普通住宅整租或合租 · 首次签约"
+    },
+    "panels": [
+      {
+        "id": "flow",
+        "title": "签约前按什么顺序确认？",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "rent-flow",
+            "diagramType": "workflow",
+            "spec": {
+              "schema_version": 2,
+              "diagram_type": "workflow",
+              "meta": {
+                "title": "签约前确认顺序",
+                "output": "rent-flow.html",
+                "quality_profile": "showcase"
+              },
+              "nodes": [
+                {
+                  "id": "see",
+                  "label": "实地看房",
+                  "type": "external",
+                  "lane": "verify",
+                  "col": 0
+                },
+                {
+                  "id": "id",
+                  "label": "核对身份和产权",
+                  "type": "backend",
+                  "width": 131,
+                  "lane": "verify",
+                  "col": 1
+                },
+                {
+                  "id": "ok",
+                  "label": "签约身份已核实？",
+                  "type": "backend",
+                  "width": 144,
+                  "icon": "decision",
+                  "lane": "verify",
+                  "col": 2
+                },
+                {
+                  "id": "walk",
+                  "label": "放弃这套房",
+                  "type": "external",
+                  "width": 104,
+                  "lane": "verify",
+                  "col": 3
+                },
+                {
+                  "id": "terms",
+                  "label": "条款写进合同",
+                  "type": "backend",
+                  "width": 118,
+                  "lane": "paper",
+                  "col": 3
+                },
+                {
+                  "id": "pay",
+                  "label": "付款并留凭证",
+                  "type": "backend",
+                  "width": 118,
+                  "lane": "paper",
+                  "col": 4
+                },
+                {
+                  "id": "check",
+                  "label": "逐项验房拍照",
+                  "type": "backend",
+                  "width": 118,
+                  "lane": "move",
+                  "col": 4
+                }
+              ],
+              "lanes": [
+                {
+                  "id": "verify",
+                  "label": "核实"
+                },
+                {
+                  "id": "paper",
+                  "label": "合同和钱"
+                },
+                {
+                  "id": "move",
+                  "label": "交接"
+                }
+              ],
+              "edges": [
+                {
+                  "id": "see-to-id-1",
+                  "from": "see",
+                  "to": "id"
+                },
+                {
+                  "id": "id-to-ok-1",
+                  "from": "id",
+                  "to": "ok"
+                },
+                {
+                  "id": "ok-to-walk-1",
+                  "from": "ok",
+                  "to": "walk",
+                  "label": "否",
+                  "variant": "dashed"
+                },
+                {
+                  "id": "ok-to-terms-1",
+                  "from": "ok",
+                  "to": "terms",
+                  "label": "是",
+                  "variant": "emphasis"
+                },
+                {
+                  "id": "terms-to-pay-1",
+                  "from": "terms",
+                  "to": "pay"
+                },
+                {
+                  "id": "pay-to-check-1",
+                  "from": "pay",
+                  "to": "check"
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "rent-steps",
+            "items": [
+              {
+                "id": "see",
+                "text": "实地看房",
+                "detail": "晚上和周末各看一次；测采光、噪音、水压、手机信号；查通勤时间。",
+                "target": {
+                  "diagram": "rent-flow",
+                  "node": "see"
+                }
+              },
+              {
+                "id": "id",
+                "text": "核对身份和产权",
+                "detail": "看身份证原件和房产证；核实签约人是产权人，或持有产权人授权委托书的代理人。",
+                "target": {
+                  "diagram": "rent-flow",
+                  "node": "id"
+                }
+              },
+              {
+                "id": "terms",
+                "text": "条款写进合同",
+                "detail": "为减少争议，将关键承诺写进合同或补充条款，并由双方确认。",
+                "target": {
+                  "diagram": "rent-flow",
+                  "node": "terms"
+                }
+              },
+              {
+                "id": "pay",
+                "text": "付款并留凭证",
+                "detail": "转账备注用途；要求收据，或在合同里注明已收金额。",
+                "target": {
+                  "diagram": "rent-flow",
+                  "node": "pay"
+                }
+              },
+              {
+                "id": "check",
+                "text": "逐项验房拍照",
+                "detail": "水电燃气表读数、家具家电、已有破损全部拍照存档。",
+                "target": {
+                  "diagram": "rent-flow",
+                  "node": "check"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "clauses",
+        "title": "合同里必须写清哪些条款？",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "条款",
+            "columns": [
+              "要确认什么",
+              "常见坑"
+            ],
+            "rows": [
+              {
+                "label": "租金和付款",
+                "cells": [
+                  {
+                    "text": "金额、支付周期、收款账户是房东本人"
+                  },
+                  {
+                    "text": "收款人不是房东",
+                    "assessment": "bad",
+                    "verdict": "风险高"
+                  }
+                ],
+                "id": "row-3e069d762745"
+              },
+              {
+                "label": "押金",
+                "cells": [
+                  {
+                    "text": "金额、退还条件、退还时限"
+                  },
+                  {
+                    "text": "以卫生费、损耗费名义克扣",
+                    "assessment": "bad",
+                    "verdict": "风险高"
+                  }
+                ],
+                "id": "row-8fcd9a2efb97"
+              },
+              {
+                "label": "租期和退租",
+                "cells": [
+                  {
+                    "text": "起止日期、提前退租违约金"
+                  },
+                  {
+                    "text": "违约扣全部押金",
+                    "assessment": "caution",
+                    "verdict": "注意"
+                  }
+                ],
+                "id": "row-5a7af815d6e9"
+              },
+              {
+                "label": "维修责任",
+                "cells": [
+                  {
+                    "text": "家电、水管、电路坏了谁修谁付钱"
+                  },
+                  {
+                    "text": "全部推给租客",
+                    "assessment": "caution",
+                    "verdict": "注意"
+                  }
+                ],
+                "id": "row-a7500412188b"
+              },
+              {
+                "label": "转租和续租",
+                "cells": [
+                  {
+                    "text": "能否转租、续租时涨租幅度"
+                  },
+                  {
+                    "text": "禁止转租又不让退租",
+                    "assessment": "caution",
+                    "verdict": "注意"
+                  }
+                ],
+                "id": "row-60c7dc5e8d26"
+              },
+              {
+                "label": "杂费承担",
+                "cells": [
+                  {
+                    "text": "水电气、物业、网费、取暖谁付"
+                  },
+                  {
+                    "text": "上任租客的欠费算到你头上",
+                    "assessment": "caution",
+                    "verdict": "注意"
+                  }
+                ],
+                "id": "row-f598b830b1b8"
+              }
+            ],
+            "id": "comparison-91100890c68f"
+          }
+        ]
+      },
+      {
+        "id": "day-of",
+        "title": "签约当天核对什么？",
+        "blocks": [
+          {
+            "type": "facts",
+            "id": "day-checks",
+            "entries": [
+              {
+                "key": "房东身份证",
+                "value": "原件核对，姓名与房产证一致"
+              },
+              {
+                "key": "房产证或不动产权证",
+                "value": "核对房屋地址和产权人"
+              },
+              {
+                "key": "代理人签约",
+                "value": "须有产权人签字的授权委托书"
+              },
+              {
+                "key": "首笔付款",
+                "value": "押金加首期租金，金额写进合同"
+              },
+              {
+                "key": "中介费",
+                "value": "常见为半个月到一个月租金，事先说定（经验值）"
+              }
+            ]
+          },
+          {
+            "type": "callout",
+            "level": "warning",
+            "title": "这些情况直接放弃",
+            "text": "只给看照片、不让实地看房，还催你先交定金锁房。\n拿不出产权证明，或二房东没有原房东同意转租的书面文件。\n要求现金或转账到第三方账户，且不给收据。\n新装修房有刺鼻气味，或明显是隔断间、群租房。",
+            "id": "callout-e4d55720f999"
+          }
+        ]
+      },
+      {
+        "id": "handover",
+        "title": "交接验房查什么？",
+        "blocks": [
+          {
+            "type": "list",
+            "ordered": false,
+            "checklist": true,
+            "items": [
+              "抄下水表、电表、燃气表读数，拍照留档",
+              "试空调、热水器、燃气灶、洗衣机、马桶下水",
+              "检查门窗锁、水压、渗漏",
+              "记录墙面和地板已有破损，拍照发给房东留证",
+              "清点钥匙和门禁卡数量",
+              "确认上任租客的水电燃气物业费已结清"
+            ],
+            "id": "list-5482f54a32d3"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 38
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 38
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 38
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 39,
+      "end": 94
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 39,
+      "end": 94
+    },
+    "/answer/reasons": {
+      "line": 5,
+      "column": 1,
+      "start": 95,
+      "end": 169
+    },
+    "/answer/reasons/0": {
+      "line": 5,
+      "column": 1,
+      "start": 95,
+      "end": 120
+    },
+    "/answer/reasons/1": {
+      "line": 6,
+      "column": 1,
+      "start": 120,
+      "end": 146
+    },
+    "/answer/reasons/2": {
+      "line": 7,
+      "column": 1,
+      "start": 146,
+      "end": 169
+    },
+    "/answer/scope": {
+      "line": 9,
+      "column": 1,
+      "start": 170,
+      "end": 212
+    },
+    "/meta/locale": {
+      "line": 10,
+      "column": 1,
+      "start": 212,
+      "end": 231
+    },
+    "/panels/0": {
+      "line": 12,
+      "column": 1,
+      "start": 232,
+      "end": 1094
+    },
+    "/panels/0/id": {
+      "line": 12,
+      "column": 1,
+      "start": 232,
+      "end": 1954
+    },
+    "/panels/0/title": {
+      "line": 12,
+      "column": 1,
+      "start": 232,
+      "end": 1954
+    },
+    "/panels/0/blocks": {
+      "line": 12,
+      "column": 1,
+      "start": 232,
+      "end": 1954
+    },
+    "/panels/0/blocks/0": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/0": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/0/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/0/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/0/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/0/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1/width": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/1/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/width": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/icon": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/2/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3/width": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/3/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4/width": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/4/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5/width": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/5/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6/type": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6/width": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6/lane": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/nodes/6/col": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/0": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/0/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/1": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/1/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/1/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/2": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/2/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/lanes/2/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/0": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/0/from": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/0/to": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/1": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/1/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/1/from": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/1/to": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/2": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/2/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/2/from": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/2/to": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/2/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/2/variant": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/3": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/3/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/3/from": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/3/to": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/3/label": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/3/variant": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/4": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/4/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/4/from": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/4/to": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/5": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/5/id": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/5/from": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/0/spec/edges/5/to": {
+      "line": 14,
+      "column": 1,
+      "start": 256,
+      "end": 732
+    },
+    "/panels/0/blocks/1": {
+      "line": 32,
+      "column": 1,
+      "start": 733,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 32,
+      "column": 1,
+      "start": 733,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 32,
+      "column": 1,
+      "start": 733,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items": {
+      "line": 32,
+      "column": 1,
+      "start": 733,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/0": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/0/id": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/0/text": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/0/detail": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/0/target": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/0/target/diagram": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/0/target/node": {
+      "line": 33,
+      "column": 1,
+      "start": 754,
+      "end": 821
+    },
+    "/panels/0/blocks/1/items/1": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/1/id": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/1/text": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/1/detail": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/1/target": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/1/target/diagram": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/1/target/node": {
+      "line": 34,
+      "column": 1,
+      "start": 821,
+      "end": 895
+    },
+    "/panels/0/blocks/1/items/2": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/2/id": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/2/text": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/2/detail": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/2/target": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/2/target/diagram": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/2/target/node": {
+      "line": 35,
+      "column": 1,
+      "start": 895,
+      "end": 965
+    },
+    "/panels/0/blocks/1/items/3": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/3/id": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/3/text": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/3/detail": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/3/target": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/3/target/diagram": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/3/target/node": {
+      "line": 36,
+      "column": 1,
+      "start": 965,
+      "end": 1027
+    },
+    "/panels/0/blocks/1/items/4": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/4/id": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/4/text": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/4/detail": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/4/target": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/4/target/diagram": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/0/blocks/1/items/4/target/node": {
+      "line": 37,
+      "column": 1,
+      "start": 1027,
+      "end": 1093
+    },
+    "/panels/1": {
+      "line": 39,
+      "column": 1,
+      "start": 1094,
+      "end": 1462
+    },
+    "/panels/1/id": {
+      "line": 39,
+      "column": 1,
+      "start": 1094,
+      "end": 1954
+    },
+    "/panels/1/title": {
+      "line": 39,
+      "column": 1,
+      "start": 1094,
+      "end": 1954
+    },
+    "/panels/1/blocks": {
+      "line": 39,
+      "column": 1,
+      "start": 1094,
+      "end": 1954
+    },
+    "/panels/1/blocks/0": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/labelColumn": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/columns": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/columns/0": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/columns/1": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/0": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/label": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells/0": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/text": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells/1": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/text": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/assessment": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/verdict": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/0/id": {
+      "line": 43,
+      "column": 1,
+      "start": 1163,
+      "end": 1213
+    },
+    "/panels/1/blocks/0/rows/1": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/label": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells/0": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/text": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells/1": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/text": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/assessment": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/verdict": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/1/id": {
+      "line": 44,
+      "column": 1,
+      "start": 1213,
+      "end": 1260
+    },
+    "/panels/1/blocks/0/rows/2": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/label": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells/0": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/text": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells/1": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/text": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/assessment": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/verdict": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/2/id": {
+      "line": 45,
+      "column": 1,
+      "start": 1260,
+      "end": 1308
+    },
+    "/panels/1/blocks/0/rows/3": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/label": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells/0": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/text": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells/1": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/text": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/assessment": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/verdict": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/3/id": {
+      "line": 46,
+      "column": 1,
+      "start": 1308,
+      "end": 1357
+    },
+    "/panels/1/blocks/0/rows/4": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/label": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells/0": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/text": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells/1": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells/1/text": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells/1/assessment": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/cells/1/verdict": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/4/id": {
+      "line": 47,
+      "column": 1,
+      "start": 1357,
+      "end": 1407
+    },
+    "/panels/1/blocks/0/rows/5": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/label": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells/0": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells/0/text": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells/1": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells/1/text": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells/1/assessment": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/cells/1/verdict": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/rows/5/id": {
+      "line": 48,
+      "column": 1,
+      "start": 1407,
+      "end": 1461
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 41,
+      "column": 1,
+      "start": 1122,
+      "end": 1461
+    },
+    "/panels/2": {
+      "line": 50,
+      "column": 1,
+      "start": 1462,
+      "end": 1791
+    },
+    "/panels/2/id": {
+      "line": 50,
+      "column": 1,
+      "start": 1462,
+      "end": 1954
+    },
+    "/panels/2/title": {
+      "line": 50,
+      "column": 1,
+      "start": 1462,
+      "end": 1954
+    },
+    "/panels/2/blocks": {
+      "line": 50,
+      "column": 1,
+      "start": 1462,
+      "end": 1954
+    },
+    "/panels/2/blocks/0": {
+      "line": 52,
+      "column": 1,
+      "start": 1486,
+      "end": 1645
+    },
+    "/panels/2/blocks/0/type": {
+      "line": 52,
+      "column": 1,
+      "start": 1486,
+      "end": 1645
+    },
+    "/panels/2/blocks/0/id": {
+      "line": 52,
+      "column": 1,
+      "start": 1486,
+      "end": 1645
+    },
+    "/panels/2/blocks/0/entries": {
+      "line": 52,
+      "column": 1,
+      "start": 1486,
+      "end": 1645
+    },
+    "/panels/2/blocks/0/entries/0": {
+      "line": 53,
+      "column": 1,
+      "start": 1507,
+      "end": 1533
+    },
+    "/panels/2/blocks/0/entries/0/key": {
+      "line": 53,
+      "column": 1,
+      "start": 1507,
+      "end": 1533
+    },
+    "/panels/2/blocks/0/entries/0/value": {
+      "line": 53,
+      "column": 1,
+      "start": 1507,
+      "end": 1533
+    },
+    "/panels/2/blocks/0/entries/1": {
+      "line": 54,
+      "column": 1,
+      "start": 1533,
+      "end": 1560
+    },
+    "/panels/2/blocks/0/entries/1/key": {
+      "line": 54,
+      "column": 1,
+      "start": 1533,
+      "end": 1560
+    },
+    "/panels/2/blocks/0/entries/1/value": {
+      "line": 54,
+      "column": 1,
+      "start": 1533,
+      "end": 1560
+    },
+    "/panels/2/blocks/0/entries/2": {
+      "line": 55,
+      "column": 1,
+      "start": 1560,
+      "end": 1586
+    },
+    "/panels/2/blocks/0/entries/2/key": {
+      "line": 55,
+      "column": 1,
+      "start": 1560,
+      "end": 1586
+    },
+    "/panels/2/blocks/0/entries/2/value": {
+      "line": 55,
+      "column": 1,
+      "start": 1560,
+      "end": 1586
+    },
+    "/panels/2/blocks/0/entries/3": {
+      "line": 56,
+      "column": 1,
+      "start": 1586,
+      "end": 1612
+    },
+    "/panels/2/blocks/0/entries/3/key": {
+      "line": 56,
+      "column": 1,
+      "start": 1586,
+      "end": 1612
+    },
+    "/panels/2/blocks/0/entries/3/value": {
+      "line": 56,
+      "column": 1,
+      "start": 1586,
+      "end": 1612
+    },
+    "/panels/2/blocks/0/entries/4": {
+      "line": 57,
+      "column": 1,
+      "start": 1612,
+      "end": 1645
+    },
+    "/panels/2/blocks/0/entries/4/key": {
+      "line": 57,
+      "column": 1,
+      "start": 1612,
+      "end": 1645
+    },
+    "/panels/2/blocks/0/entries/4/value": {
+      "line": 57,
+      "column": 1,
+      "start": 1612,
+      "end": 1645
+    },
+    "/panels/2/blocks/1": {
+      "line": 59,
+      "column": 1,
+      "start": 1646,
+      "end": 1790
+    },
+    "/panels/2/blocks/1/type": {
+      "line": 59,
+      "column": 1,
+      "start": 1646,
+      "end": 1790
+    },
+    "/panels/2/blocks/1/level": {
+      "line": 59,
+      "column": 1,
+      "start": 1646,
+      "end": 1790
+    },
+    "/panels/2/blocks/1/title": {
+      "line": 59,
+      "column": 1,
+      "start": 1646,
+      "end": 1790
+    },
+    "/panels/2/blocks/1/text": {
+      "line": 59,
+      "column": 1,
+      "start": 1646,
+      "end": 1790
+    },
+    "/panels/2/blocks/1/id": {
+      "line": 59,
+      "column": 1,
+      "start": 1646,
+      "end": 1790
+    },
+    "/panels/3": {
+      "line": 65,
+      "column": 1,
+      "start": 1791,
+      "end": 1954
+    },
+    "/panels/3/id": {
+      "line": 65,
+      "column": 1,
+      "start": 1791,
+      "end": 1954
+    },
+    "/panels/3/title": {
+      "line": 65,
+      "column": 1,
+      "start": 1791,
+      "end": 1954
+    },
+    "/panels/3/blocks": {
+      "line": 65,
+      "column": 1,
+      "start": 1791,
+      "end": 1954
+    },
+    "/panels/3/blocks/0": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1954
+    },
+    "/panels/3/blocks/0/type": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1954
+    },
+    "/panels/3/blocks/0/ordered": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1954
+    },
+    "/panels/3/blocks/0/checklist": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1954
+    },
+    "/panels/3/blocks/0/items": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1954
+    },
+    "/panels/3/blocks/0/items/0": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1841
+    },
+    "/panels/3/blocks/0/items/1": {
+      "line": 68,
+      "column": 1,
+      "start": 1841,
+      "end": 1868
+    },
+    "/panels/3/blocks/0/items/2": {
+      "line": 69,
+      "column": 1,
+      "start": 1868,
+      "end": 1886
+    },
+    "/panels/3/blocks/0/items/3": {
+      "line": 70,
+      "column": 1,
+      "start": 1886,
+      "end": 1913
+    },
+    "/panels/3/blocks/0/items/4": {
+      "line": 71,
+      "column": 1,
+      "start": 1913,
+      "end": 1930
+    },
+    "/panels/3/blocks/0/items/5": {
+      "line": 72,
+      "column": 1,
+      "start": 1930,
+      "end": 1954
+    },
+    "/panels/3/blocks/0/id": {
+      "line": 67,
+      "column": 1,
+      "start": 1816,
+      "end": 1954
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# 第一次在大城市租房，签合同前要确认哪些事？ {#first-rent}\n\n核心是三件事：**确认人、确认房、确认钱**。核实房东身份和产权，把关键条款写进合同，所有付款和交接留证据。\n\n- 签约前核对房东身份和产权，拒绝只靠口头承诺。\n- 租金、押金、租期、违约、维修责任必须写进合同。\n- 付款走可留痕的方式，交接时逐项验房拍照。\n\n@answer scope=\"中国大陆城市 · 普通住宅整租或合租 · 首次签约\"\n@meta locale=zh-CN\n\n## 签约前按什么顺序确认？ {#flow}\n\n@workflow id=rent-flow title=\"签约前确认顺序\"\n| lane verify | 核实 |\n| lane paper | 合同和钱 |\n| lane move | 交接 |\n| see | 实地看房 | external | verify |\n| id | 核对身份和产权 | backend | verify |\n| ok | 签约身份已核实？ | backend | verify |\n| walk | 放弃这套房 | external | verify |\n| terms | 条款写进合同 | backend | paper |\n| pay | 付款并留凭证 | backend | paper |\n| check | 逐项验房拍照 | backend | move |\n| see > id | |\n| id > ok | |\n| ok > walk | 否 | dashed |\n| ok > terms | 是 | emphasis |\n| terms > pay | |\n| pay > check | |\n\n@steps id=rent-steps\n| see | 实地看房 | 晚上和周末各看一次；测采光、噪音、水压、手机信号；查通勤时间。 | rent-flow | see |\n| id | 核对身份和产权 | 看身份证原件和房产证；核实签约人是产权人，或持有产权人授权委托书的代理人。 | rent-flow | id |\n| terms | 条款写进合同 | 为减少争议，将关键承诺写进合同或补充条款，并由双方确认。 | rent-flow | terms |\n| pay | 付款并留凭证 | 转账备注用途；要求收据，或在合同里注明已收金额。 | rent-flow | pay |\n| check | 逐项验房拍照 | 水电燃气表读数、家具家电、已有破损全部拍照存档。 | rent-flow | check |\n\n## 合同里必须写清哪些条款？ {#clauses}\n\n| 条款 | 要确认什么 | 常见坑 |\n| --- | --- | --- |\n| 租金和付款 | 金额、支付周期、收款账户是房东本人 | 收款人不是房东 {bad:风险高} |\n| 押金 | 金额、退还条件、退还时限 | 以卫生费、损耗费名义克扣 {bad:风险高} |\n| 租期和退租 | 起止日期、提前退租违约金 | 违约扣全部押金 {caution:注意} |\n| 维修责任 | 家电、水管、电路坏了谁修谁付钱 | 全部推给租客 {caution:注意} |\n| 转租和续租 | 能否转租、续租时涨租幅度 | 禁止转租又不让退租 {caution:注意} |\n| 杂费承担 | 水电气、物业、网费、取暖谁付 | 上任租客的欠费算到你头上 {caution:注意} |\n\n## 签约当天核对什么？ {#day-of}\n\n@facts id=day-checks\n| 房东身份证 | 原件核对，姓名与房产证一致 |\n| 房产证或不动产权证 | 核对房屋地址和产权人 |\n| 代理人签约 | 须有产权人签字的授权委托书 |\n| 首笔付款 | 押金加首期租金，金额写进合同 |\n| 中介费 | 常见为半个月到一个月租金，事先说定（经验值） |\n\n@callout level=warning title=\"这些情况直接放弃\"\n| 只给看照片、不让实地看房，还催你先交定金锁房。\n| 拿不出产权证明，或二房东没有原房东同意转租的书面文件。\n| 要求现金或转账到第三方账户，且不给收据。\n| 新装修房有刺鼻气味，或明显是隔断间、群租房。\n\n## 交接验房查什么？ {#handover}\n\n- [ ] 抄下水表、电表、燃气表读数，拍照留档\n- [ ] 试空调、热水器、燃气灶、洗衣机、马桶下水\n- [ ] 检查门窗锁、水压、渗漏\n- [ ] 记录墙面和地板已有破损，拍照发给房东留证\n- [ ] 清点钥匙和门禁卡数量\n- [ ] 确认上任租客的水电燃气物业费已结清\n",
+  "diagnostics": []
+}

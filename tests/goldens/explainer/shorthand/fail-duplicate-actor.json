@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Duplicate actor identity a.",
+    "code": [
+      {
+        "code": "explainer/diagram-id-duplicate",
+        "severity": "error",
+        "message": "Duplicate actor identity a.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagram": "dup",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-id-duplicate",
+          "example": "Use a unique id for every declaration."
+        },
+        "supportedFixes": [
+          "Use this form: Use a unique id for every declaration."
+        ]
+      }
+    ]
+  }
+}

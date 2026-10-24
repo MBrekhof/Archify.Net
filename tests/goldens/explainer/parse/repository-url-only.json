@@ -1,0 +1,145 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b",
+      "repository": {
+        "url": "https://github.com/a/b",
+        "provider": "github"
+      },
+      "locale": "en"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Text.",
+            "id": "prose-a760a9d03cc1"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/meta/repository": {
+      "line": 6,
+      "column": 1,
+      "start": 68,
+      "end": 84
+    },
+    "/meta/repository/url": {
+      "line": 6,
+      "column": 1,
+      "start": 68,
+      "end": 84
+    },
+    "/meta/repository/revision": {
+      "line": 6,
+      "column": 1,
+      "start": 68,
+      "end": 84
+    },
+    "/meta/repository/provider": {
+      "line": 6,
+      "column": 1,
+      "start": 68,
+      "end": 84
+    },
+    "/meta/locale": {
+      "line": 6,
+      "column": 1,
+      "start": 68,
+      "end": 84
+    },
+    "/panels/0": {
+      "line": 8,
+      "column": 1,
+      "start": 85,
+      "end": 101
+    },
+    "/panels/0/id": {
+      "line": 8,
+      "column": 1,
+      "start": 85,
+      "end": 101
+    },
+    "/panels/0/title": {
+      "line": 8,
+      "column": 1,
+      "start": 85,
+      "end": 101
+    },
+    "/panels/0/blocks": {
+      "line": 8,
+      "column": 1,
+      "start": 85,
+      "end": 101
+    },
+    "/panels/0/blocks/0": {
+      "line": 10,
+      "column": 1,
+      "start": 96,
+      "end": 101
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 10,
+      "column": 1,
+      "start": 96,
+      "end": 101
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 10,
+      "column": 1,
+      "start": 96,
+      "end": 101
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 10,
+      "column": 1,
+      "start": 96,
+      "end": 101
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@meta repo_url=https://github.com/a/b repo_provider=github\n@meta locale=en\n\n## Q {#q}\n\nText.",
+  "diagnostics": []
+}

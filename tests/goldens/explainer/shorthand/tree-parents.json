@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "diagram_type": "tree",
+  "meta": {
+    "title": "tree",
+    "output": "tree.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "label": "Root"
+    },
+    {
+      "id": "a",
+      "label": "A",
+      "parent": "root"
+    },
+    {
+      "id": "b",
+      "label": "B"
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "parent": "a"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A field must name an explicitly declared entity.",
+    "code": [
+      {
+        "code": "explainer/diagram-field",
+        "severity": "error",
+        "message": "A field must name an explicitly declared entity.",
+        "subject": {
+          "component": "diagram",
+          "line": 2,
+          "path": "/",
+          "diagramType": "erd"
+        },
+        "evidence": {
+          "reason": "diagram-field",
+          "example": "entity user | 用户\nuser.id | bigint | pk"
+        },
+        "supportedFixes": [
+          "Use this form: entity user | 用户\nuser.id | bigint | pk"
+        ]
+      }
+    ]
+  }
+}

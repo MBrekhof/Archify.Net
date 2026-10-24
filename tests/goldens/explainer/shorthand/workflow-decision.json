@@ -1,0 +1,41 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "short",
+    "output": "short.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "short"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ask",
+      "label": "Needs scaling?",
+      "type": "backend",
+      "width": 131,
+      "icon": "decision",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "keep",
+      "label": "Keep it",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-0"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ask-to-keep-1",
+      "from": "ask",
+      "to": "keep",
+      "label": "no"
+    }
+  ]
+}

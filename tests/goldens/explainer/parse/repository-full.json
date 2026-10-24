@@ -1,0 +1,146 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b",
+      "quality_profile": "compact",
+      "repository": {
+        "url": "https://github.com/a/b",
+        "revision": "abc123",
+        "link_mode": "blob"
+      }
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Text.",
+            "id": "prose-a760a9d03cc1"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/meta/quality_profile": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 112
+    },
+    "/meta/repository": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 112
+    },
+    "/meta/repository/url": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 112
+    },
+    "/meta/repository/revision": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 112
+    },
+    "/meta/repository/link_mode": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 112
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 113,
+      "end": 129
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 113,
+      "end": 129
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 113,
+      "end": 129
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 113,
+      "end": 129
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 124,
+      "end": 129
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 124,
+      "end": 129
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 9,
+      "column": 1,
+      "start": 124,
+      "end": 129
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 124,
+      "end": 129
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@meta repo_url=https://github.com/a/b repo_revision=abc123 repo_link_mode=blob quality_profile=compact\n\n## Q {#q}\n\nText.",
+  "diagnostics": []
+}

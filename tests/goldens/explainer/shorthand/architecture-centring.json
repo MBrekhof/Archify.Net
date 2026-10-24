@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "centre",
+    "output": "centre.html",
+    "quality_profile": "showcase"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 2,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "a",
+      "label": "A",
+      "type": "backend",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "type": "backend",
+      "row": 1,
+      "col": 0
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "type": "backend",
+      "row": 2,
+      "col": 0
+    },
+    {
+      "id": "d",
+      "label": "D",
+      "type": "backend",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "e",
+      "label": "E",
+      "type": "backend",
+      "row": 1,
+      "col": 1
+    }
+  ],
+  "connections": [
+    {
+      "id": "a-to-d-1",
+      "from": "a",
+      "to": "d"
+    },
+    {
+      "id": "b-to-d-1",
+      "from": "b",
+      "to": "d"
+    },
+    {
+      "id": "c-to-e-1",
+      "from": "c",
+      "to": "e"
+    },
+    {
+      "id": "a-to-e-1",
+      "from": "a",
+      "to": "e"
+    }
+  ]
+}

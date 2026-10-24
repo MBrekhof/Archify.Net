@@ -1,0 +1,115 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "wider",
+    "output": "wider.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "alert",
+      "label": "Alert",
+      "type": "external",
+      "lane": "confirm",
+      "col": 0
+    },
+    {
+      "id": "window",
+      "label": "Window",
+      "type": "backend",
+      "lane": "confirm",
+      "col": 1
+    },
+    {
+      "id": "sample",
+      "label": "Sample",
+      "type": "backend",
+      "lane": "locate",
+      "col": 0
+    },
+    {
+      "id": "fix",
+      "label": "Fix",
+      "type": "backend",
+      "lane": "locate",
+      "col": 1
+    },
+    {
+      "id": "a",
+      "label": "A",
+      "type": "backend",
+      "lane": "locate",
+      "col": 2
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "type": "backend",
+      "lane": "locate",
+      "col": 3
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "type": "backend",
+      "lane": "locate",
+      "col": 4
+    },
+    {
+      "id": "d",
+      "label": "D",
+      "type": "backend",
+      "lane": "locate",
+      "col": 5
+    }
+  ],
+  "lanes": [
+    {
+      "id": "confirm",
+      "label": "Confirm"
+    },
+    {
+      "id": "locate",
+      "label": "Locate"
+    }
+  ],
+  "edges": [
+    {
+      "id": "alert-to-window-1",
+      "from": "alert",
+      "to": "window"
+    },
+    {
+      "id": "window-to-sample-1",
+      "from": "window",
+      "to": "sample",
+      "label": "tail"
+    },
+    {
+      "id": "sample-to-fix-1",
+      "from": "sample",
+      "to": "fix"
+    },
+    {
+      "id": "fix-to-a-1",
+      "from": "fix",
+      "to": "a"
+    },
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b"
+    },
+    {
+      "id": "b-to-c-1",
+      "from": "b",
+      "to": "c"
+    },
+    {
+      "id": "c-to-d-1",
+      "from": "c",
+      "to": "d"
+    }
+  ]
+}

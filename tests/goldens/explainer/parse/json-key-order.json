@@ -1,0 +1,89 @@
+{
+  "document": {
+    "2": 3,
+    "10": 2,
+    "z": 1,
+    "a": [
+      {
+        "0": 1,
+        "1": 0
+      }
+    ],
+    "meta": {
+      "1": "x",
+      "title": "T",
+      "output": "c.html"
+    }
+  },
+  "sourceMap": {
+    "/z": {
+      "line": 1,
+      "column": 6,
+      "start": 5,
+      "end": 6
+    },
+    "/10": {
+      "line": 1,
+      "column": 13,
+      "start": 12,
+      "end": 13
+    },
+    "/2": {
+      "line": 1,
+      "column": 19,
+      "start": 18,
+      "end": 19
+    },
+    "/a/0/1": {
+      "line": 1,
+      "column": 31,
+      "start": 30,
+      "end": 31
+    },
+    "/a/0/0": {
+      "line": 1,
+      "column": 37,
+      "start": 36,
+      "end": 37
+    },
+    "/a/0": {
+      "line": 1,
+      "column": 26,
+      "start": 25,
+      "end": 38
+    },
+    "/a": {
+      "line": 1,
+      "column": 25,
+      "start": 24,
+      "end": 39
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 57,
+      "start": 56,
+      "end": 59
+    },
+    "/meta/1": {
+      "line": 1,
+      "column": 65,
+      "start": 64,
+      "end": 67
+    },
+    "/meta": {
+      "line": 1,
+      "column": 48,
+      "start": 47,
+      "end": 68
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 69
+    }
+  },
+  "format": "json",
+  "sourceText": "{\"z\":1,\"10\":2,\"2\":3,\"a\":[{\"1\":0,\"0\":1}],\"meta\":{\"title\":\"T\",\"1\":\"x\"}}",
+  "diagnostics": []
+}

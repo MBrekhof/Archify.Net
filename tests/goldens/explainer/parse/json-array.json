@@ -1,0 +1,30 @@
+{
+  "document": [
+    {
+      "a": 1
+    }
+  ],
+  "sourceMap": {
+    "/0/a": {
+      "line": 1,
+      "column": 7,
+      "start": 6,
+      "end": 7
+    },
+    "/0": {
+      "line": 1,
+      "column": 2,
+      "start": 1,
+      "end": 8
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 9
+    }
+  },
+  "format": "json",
+  "sourceText": "[{\"a\":1}]",
+  "diagnostics": []
+}

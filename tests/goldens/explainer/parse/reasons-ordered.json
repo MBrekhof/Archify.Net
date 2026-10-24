@@ -1,0 +1,87 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/reasons": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 28
+    },
+    "/answer/reasons/0": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 28
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Title\n\nAnswer.\n\n1. Ordered",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-answer",
+      "severity": "error",
+      "message": "Use one flat unordered reason list after the conclusion.",
+      "subject": {
+        "line": 5,
+        "column": 1,
+        "component": "answer",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Use one flat unordered reason list after the conclusion.",
+        "example": "A conclusion.\n\n- First reason\n- Second reason"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: A conclusion.\n\n- First reason\n- Second reason"
+      ]
+    },
+    {
+      "code": "explainer/parse-panel",
+      "severity": "error",
+      "message": "At least one question panel is required.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "panel",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "At least one question panel is required.",
+        "example": "## Why does this happen?"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ## Why does this happen?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,433 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "flow",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "Q",
+                "output": "flow.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "a",
+                  "label": "A",
+                  "type": "backend"
+                },
+                {
+                  "id": "b",
+                  "label": "B",
+                  "type": "backend"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "a-to-b-1",
+                  "from": "a",
+                  "to": "b",
+                  "label": "hi",
+                  "y": 160
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "walk",
+            "items": [
+              {
+                "id": "one",
+                "text": "Hello",
+                "target": {
+                  "diagram": "flow",
+                  "node": "a",
+                  "edges": [
+                    "a-to-b-1"
+                  ]
+                }
+              },
+              {
+                "id": "two",
+                "text": "Back",
+                "detail": "Detail",
+                "target": {
+                  "diagram": "flow",
+                  "route": [
+                    "a",
+                    "b"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 185
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 185
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 185
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 185
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 85
+    },
+    "/panels/0/blocks/1": {
+      "line": 12,
+      "column": 1,
+      "start": 86,
+      "end": 185
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 12,
+      "column": 1,
+      "start": 86,
+      "end": 185
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 12,
+      "column": 1,
+      "start": 86,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items": {
+      "line": 12,
+      "column": 1,
+      "start": 86,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/0": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/id": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/text": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/target": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/target/diagram": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/target/node": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/target/edges": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/0/target/edges/0": {
+      "line": 13,
+      "column": 1,
+      "start": 101,
+      "end": 144
+    },
+    "/panels/0/blocks/1/items/1": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/id": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/text": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/detail": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/target": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/target/diagram": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/target/route": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/target/route/0": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    },
+    "/panels/0/blocks/1/items/1/target/route/1": {
+      "line": 14,
+      "column": 1,
+      "start": 144,
+      "end": 185
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@sequence id=flow\n| actor a | A |\n| actor b | B |\n| a | b | hi |\n\n@steps id=walk\n| one | Hello | | flow | a | | a-to-b-1, |\n| two | Back | Detail | flow | | a~b | |\n",
+  "diagnostics": []
+}

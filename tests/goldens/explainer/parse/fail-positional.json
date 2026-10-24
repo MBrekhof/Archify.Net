@@ -1,0 +1,123 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 43
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 43
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 43
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 43
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 43
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 43
+    },
+    "/panels/0/blocks/0/entries": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 43
+    },
+    "/panels/0/blocks/0/entries/0": {
+      "line": 8,
+      "column": 1,
+      "start": 33,
+      "end": 43
+    },
+    "/panels/0/blocks/0/entries/0/key": {
+      "line": 8,
+      "column": 1,
+      "start": 33,
+      "end": 43
+    },
+    "/panels/0/blocks/0/entries/0/value": {
+      "line": 8,
+      "column": 1,
+      "start": 33,
+      "end": 43
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 43
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@facts first\n| a | b |\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-facts",
+      "severity": "error",
+      "message": "This directive accepts key=value arguments only.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "facts",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "This directive accepts key=value arguments only.",
+        "example": "@facts id=stable-id"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: @facts id=stable-id"
+      ]
+    }
+  ]
+}

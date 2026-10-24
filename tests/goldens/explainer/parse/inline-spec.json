@@ -1,0 +1,177 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "t",
+            "diagramType": "tree",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "tree",
+              "meta": {
+                "title": "T"
+              },
+              "nodes": [
+                {
+                  "id": "a",
+                  "label": "A"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 143
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 143
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 143
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 143
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/nodes": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/nodes/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/nodes/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    },
+    "/panels/0/blocks/0/spec/nodes/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 143
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@diagram tree id=t spec='{\"schema_version\":1,\"diagram_type\":\"tree\",\"meta\":{\"title\":\"T\"},\"nodes\":[{\"id\":\"a\",\"label\":\"A\"}]}'\n",
+  "diagnostics": []
+}

@@ -1,0 +1,135 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 46
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 46
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 46
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 46
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 46
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 46
+    },
+    "/panels/0/blocks/0/level": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 46
+    },
+    "/panels/0/blocks/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 46
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 46
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 46
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@callout title=\"a\"b\n| a |\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-directive",
+      "severity": "error",
+      "message": "Arguments must be separated by whitespace.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "directive",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Arguments must be separated by whitespace.",
+        "example": "label=\"Latency\" value=12"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: label=\"Latency\" value=12"
+      ]
+    },
+    {
+      "code": "explainer/parse-callout",
+      "severity": "error",
+      "message": "This directive accepts key=value arguments only.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "callout",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "This directive accepts key=value arguments only.",
+        "example": "@callout id=stable-id"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: @callout id=stable-id"
+      ]
+    }
+  ]
+}

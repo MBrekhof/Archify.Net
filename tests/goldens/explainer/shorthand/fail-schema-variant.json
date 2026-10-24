@@ -1,0 +1,52 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native diagram validation failed.",
+    "code": [
+      {
+        "code": "explainer/diagram-schema",
+        "severity": "error",
+        "message": "/components/0/type (id/label: \"a\") must be equal to one of the allowed values",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "architecture",
+          "diagram": "bad"
+        },
+        "evidence": {
+          "reason": "diagram-schema",
+          "example": "Use a valid native architecture JSON specification.",
+          "native": {
+            "code": "schema/enum",
+            "severity": "error",
+            "message": "/components/0/type (id/label: \"a\") must be equal to one of the allowed values",
+            "subject": {
+              "diagramType": "architecture",
+              "path": "/components/0/type",
+              "identity": "a"
+            },
+            "evidence": {
+              "keyword": "enum",
+              "allowedValues": [
+                "frontend",
+                "backend",
+                "database",
+                "cloud",
+                "security",
+                "messagebus",
+                "external"
+              ]
+            },
+            "supportedFixes": [
+              "choose one of the allowed values"
+            ]
+          }
+        },
+        "supportedFixes": [
+          "choose one of the allowed values"
+        ]
+      }
+    ]
+  }
+}

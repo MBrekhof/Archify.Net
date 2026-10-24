@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "unicode",
+    "output": "unicode.html",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    {
+      "id": "i-stanbul",
+      "label": "İstanbul",
+      "type": "external"
+    },
+    {
+      "id": "stra-e",
+      "label": "Straße",
+      "type": "external"
+    },
+    {
+      "id": "api",
+      "label": "Ａpi",
+      "type": "external"
+    },
+    {
+      "id": "actor-ec309ab207ef",
+      "label": "服务",
+      "type": "external"
+    },
+    {
+      "id": "mixed-case-label",
+      "label": "Mixed Case-Label!",
+      "type": "external"
+    }
+  ],
+  "messages": [
+    {
+      "id": "i-stanbul-to-stra-e-1",
+      "from": "i-stanbul",
+      "to": "stra-e",
+      "label": "hello",
+      "y": 160
+    },
+    {
+      "id": "api-to-actor-ec309ab207ef-1",
+      "from": "api",
+      "to": "actor-ec309ab207ef",
+      "label": "调用",
+      "y": 208
+    },
+    {
+      "id": "actor-ec309ab207ef-to-i-stanbul-1",
+      "from": "actor-ec309ab207ef",
+      "to": "i-stanbul",
+      "label": "back",
+      "y": 256,
+      "variant": "return"
+    },
+    {
+      "id": "mixed-case-label-to-api-1",
+      "from": "mixed-case-label",
+      "to": "api",
+      "label": "x",
+      "y": 304
+    }
+  ]
+}

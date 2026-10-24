@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Actor labels resolve to the same id; declare explicit actor identities.",
+    "code": [
+      {
+        "code": "explainer/diagram-actor-collision",
+        "severity": "error",
+        "message": "Actor labels resolve to the same id; declare explicit actor identities.",
+        "subject": {
+          "component": "diagram",
+          "line": 2,
+          "path": "/",
+          "diagram": "collide",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-actor-collision",
+          "example": "actor client | Client | frontend"
+        },
+        "supportedFixes": [
+          "Use this form: actor client | Client | frontend"
+        ]
+      }
+    ]
+  }
+}

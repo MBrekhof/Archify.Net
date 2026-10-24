@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Timeline lane ids must be unique.",
+    "code": [
+      {
+        "code": "explainer/diagram-id-duplicate",
+        "severity": "error",
+        "message": "Timeline lane ids must be unique.",
+        "subject": {
+          "component": "diagram",
+          "line": 2,
+          "path": "/",
+          "diagram": "dup",
+          "diagramType": "timeline"
+        },
+        "evidence": {
+          "reason": "diagram-id-duplicate",
+          "example": "lane release | 发布"
+        },
+        "supportedFixes": [
+          "Use this form: lane release | 发布"
+        ]
+      }
+    ]
+  }
+}

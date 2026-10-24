@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "sequence",
+    "output": "sequence.html",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    {
+      "id": "client",
+      "label": "Client",
+      "type": "frontend"
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "type": "backend"
+    },
+    {
+      "id": "redis",
+      "label": "Redis",
+      "type": "database"
+    }
+  ],
+  "messages": [
+    {
+      "id": "client-to-api-1",
+      "from": "client",
+      "to": "api",
+      "label": "Request",
+      "y": 160
+    },
+    {
+      "id": "api-to-redis-1",
+      "from": "api",
+      "to": "redis",
+      "label": "Read",
+      "y": 208
+    },
+    {
+      "id": "redis-to-api-1",
+      "from": "redis",
+      "to": "api",
+      "label": "Miss",
+      "y": 256,
+      "variant": "return"
+    }
+  ]
+}

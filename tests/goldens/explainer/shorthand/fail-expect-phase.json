@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Expected 2 pipe-separated fields.",
+    "code": [
+      {
+        "code": "explainer/diagram-row",
+        "severity": "error",
+        "message": "Expected 2 pipe-separated fields.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-row",
+          "example": "phase | TCP handshake"
+        },
+        "supportedFixes": [
+          "Use this form: phase | TCP handshake"
+        ]
+      }
+    ]
+  }
+}

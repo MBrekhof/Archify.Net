@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "architecture",
+    "output": "architecture.html",
+    "quality_profile": "showcase"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 3,
+    "cellW": 176,
+    "cellH": 76,
+    "gapX": 100,
+    "gapY": 110
+  },
+  "components": [
+    {
+      "id": "client",
+      "label": "Client",
+      "type": "external",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "type": "backend",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "redis",
+      "label": "Redis",
+      "type": "database",
+      "row": 0,
+      "col": 2
+    }
+  ],
+  "connections": [
+    {
+      "id": "client-to-api-1",
+      "from": "client",
+      "to": "api",
+      "label": "Request"
+    },
+    {
+      "id": "api-to-redis-1",
+      "from": "api",
+      "to": "redis",
+      "label": "Read"
+    }
+  ]
+}

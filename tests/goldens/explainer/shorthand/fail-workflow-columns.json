@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native workflow columns are limited to 0–5.",
+    "code": [
+      {
+        "code": "explainer/diagram-shorthand-limit",
+        "severity": "error",
+        "message": "Native workflow columns are limited to 0–5.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagram": "cols",
+          "diagramType": "workflow"
+        },
+        "evidence": {
+          "reason": "diagram-shorthand-limit",
+          "example": "Declare phase lanes with \"lane <id> | label\" rows and assign nodes to them."
+        },
+        "supportedFixes": [
+          "Use this form: Declare phase lanes with \"lane <id> | label\" rows and assign nodes to them."
+        ]
+      }
+    ]
+  }
+}

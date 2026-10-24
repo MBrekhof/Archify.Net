@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A phase needs at least one message after it.",
+    "code": [
+      {
+        "code": "explainer/diagram-row",
+        "severity": "error",
+        "message": "A phase needs at least one message after it.",
+        "subject": {
+          "component": "diagram",
+          "line": 2,
+          "path": "/",
+          "diagram": "empty",
+          "diagramType": "sequence"
+        },
+        "evidence": {
+          "reason": "diagram-row",
+          "example": "phase | TCP handshake\n| browser | server | SYN |"
+        },
+        "supportedFixes": [
+          "Use this form: phase | TCP handshake\n| browser | server | SYN |"
+        ]
+      }
+    ]
+  }
+}

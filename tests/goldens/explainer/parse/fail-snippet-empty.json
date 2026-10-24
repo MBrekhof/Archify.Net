@@ -1,0 +1,81 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 31
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 31
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 31
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 31
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n```js\n\n```\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-snippet",
+      "severity": "error",
+      "message": "A code fence needs content.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "snippet",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "A code fence needs content.",
+        "example": "```bash\nnpm test\n```"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ```bash\nnpm test\n```"
+      ]
+    }
+  ]
+}

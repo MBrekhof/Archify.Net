@@ -10,19 +10,24 @@ namespace Archify.Net.Tests;
 // (tools/explainer-seeds/run.mjs, run by tools/capture-fixtures.mjs). Seeds, goldens and tokens: tools/explainer-seeds/README.md.
 public partial class ExplainerParityTests
 {
-    // A group is compared once it is listed; each task adds its own (Task 2: parse, shorthand).
-    static readonly string[] Groups = [];
+    // A group is compared once it is listed; each task adds its own.
+    static readonly string[] Groups = ["parse", "shorthand"];
+    // Rows that differ from Node by a stated deviation (docs/deviations.md), each pinned by its own fact below.
+    static readonly HashSet<(string Group, string Name)> KnownDeviations = [("parse", "cr-only"), ("parse", "line-separator-heading")];
 
     public static TheoryData<string, string> Targets()
     {
         var data = new TheoryData<string, string>();
-        foreach (var group in Groups) foreach (var seed in SeedsOf(group)) data.Add(group, seed!["name"]!.GetValue<string>());
+        foreach (var group in Groups)
+            foreach (var seed in SeedsOf(group))
+                if (!KnownDeviations.Contains((group, seed!["name"]!.GetValue<string>()))) data.Add(group, seed["name"]!.GetValue<string>());
         return data;
     }
 
-    // xunit 2.9.3 fails a theory without data, so it is skipped until Task 2 lists the first group and removes the Skip.
-    [Theory(Skip = "no explainer seed group is listed until Task 2"), MemberData(nameof(Targets))]
-    public void Matches_node(string group, string name)
+    [Theory, MemberData(nameof(Targets))]
+    public void Matches_node(string group, string name) => Compare(group, name, Expected(group, name));
+
+    static void Compare(string group, string name, string expected)
     {
         var seed = Seed(group, name);
         var dir = Directory.CreateTempSubdirectory("axs-").FullName;
@@ -30,8 +35,7 @@ public partial class ExplainerParityTests
         try
         {
             WriteFiles(dir, seed["files"] as JsonObject);
-            var expected = Expected(group, name);
-            var actual = Tokenise(Run(seed, dir, repo), dir, repo);
+            var actual = Tokenise(NormalizePage(Run(seed, dir, repo)), dir, repo);
             if (expected != actual) Assert.Fail(ParityTests.FirstDifference(expected, actual));
         }
         finally
@@ -41,12 +45,28 @@ public partial class ExplainerParityTests
         }
     }
 
-    // The port of seed["call"]: a page as is, any other result through Json, a thrown ArchifyDiagnosticException through Thrown.
-    // Each task adds the arms of the calls it ports.
-    static string Run(JsonObject seed, string dir, string? repo) => seed["call"]!.GetValue<string>() switch
+    // The port of seed["call"], compared after NormalizePage as the golden is: a page as is, any other result through Json, a
+    // thrown ArchifyDiagnosticException through Thrown. Each task adds the arms of the calls it ports.
+    static string Run(JsonObject seed, string dir, string? repo)
     {
-        var call => throw new NotSupportedException($"{call} is not ported yet ({dir}, {repo})"),
-    };
+        var args = (JsonArray)Substitute(seed["args"] ?? new JsonArray(), dir, repo)!;
+        JsonNode? Arg(int i) => i < args.Count ? args[i] : null;
+        try
+        {
+            switch (seed["call"]!.GetValue<string>())
+            {
+                case "parseExplainer":
+                    return Json(ExplainerParser.Parse(Arg(0)!.GetValue<string>(), Arg(1).Str("inputPath"), Arg(1).Str("output")).ToJson());
+                case "compileExplainerDiagram":
+                    var options = Arg(2);
+                    return Json(ExplainerShorthand.Compile(Arg(0)?.GetValue<string>(),
+                        [.. Arg(1)!.AsArray().Select(row => new ShorthandRow([.. row!["cells"]!.AsArray().Select(c => c!.GetValue<string>())], (int)row["line"]!.D()))],
+                        new(options.Str("title"), options.Str("id"), (int?)options.Num("line") ?? 1, options.Str("quality") ?? "showcase", options.Str("locale"))));
+                case var call: throw new NotSupportedException($"{call} is not ported yet ({dir}, {repo})");
+            }
+        }
+        catch (ArchifyDiagnosticException e) { return Thrown(e); }
+    }
 
     // JSON.stringify(result, null, 2) + "\n" over the capture's JSON-level tokens.
     internal static string Json(JsonNode? result) => Js.Stringify(TokeniseValue(result), 2) + "\n";
@@ -171,6 +191,58 @@ public partial class ExplainerParityTests
         foreach (var s in Spellings(temp)) text = Regex.Replace(text, Regex.Escape(s) + @"(?:\\\\|\\|/)archify-explainer-[\w-]+", "<TMP>");
         foreach (var s in Spellings(temp)) Assert.False(text.Contains(s, StringComparison.Ordinal), $"untokenised temp path in output:\n{text[..Math.Min(text.Length, 2000)]}");
         return text;
+    }
+
+    // --- Task 2 facts ---
+    // Decision 2: a shorthand workflow's branch lanes read "分支 N" on a zh page only. The zh row equals Node; the en and
+    // default rows equal the corrected oracle's goldens, whose Node goldens carry upstream's "分支 1".
+    [Fact] public void Branch_lane_label_is_the_stated_deviation()
+    {
+        Assert.False(File.Exists(Fixtures.Golden("explainer/shorthand/workflow-branch-zh.fixed.json")));
+        var zh = Fixtures.Lf(Fixtures.Golden("explainer/shorthand/workflow-branch-zh.json"));
+        Assert.Contains("\"label\": \"分支 1\"", zh);
+        Compare("shorthand", "workflow-branch-zh", zh);
+        foreach (var name in new[] { "workflow-branch-en", "workflow-branch-default" })
+        {
+            var corrected = Fixtures.Lf(Fixtures.Golden($"explainer/shorthand/{name}.fixed.json"));
+            Assert.Contains("\"label\": \"分支 1\"", Fixtures.Lf(Fixtures.Golden($"explainer/shorthand/{name}.json")));
+            Assert.Contains("\"label\": \"Branch 1\"", corrected);
+            Compare("shorthand", name, corrected);
+        }
+    }
+
+    // Every .fixed golden is its Node golden with only Decisions 2 and 3 applied (分支 N → Branch N, lang="zh-CN" → lang="en"),
+    // the stable IDs and hashes that cover the changed text aside, and its seed never asks for a zh locale.
+    [Fact] public void Fixed_goldens_differ_only_by_the_decided_fixes()
+    {
+        static string Decided(string node) => Regex.Replace(node, "分支 ([0-9]+)", "Branch $1").Replace("lang=\"zh-CN\"", "lang=\"en\"");
+        static string Masked(string text) => Regex.Replace(text, "[0-9a-f]{12,}", "<hex>");
+        var files = Directory.GetFiles(Fixtures.Golden("explainer"), "*.fixed.*", SearchOption.AllDirectories);
+        Assert.NotEmpty(files);
+        foreach (var file in files)
+        {
+            var name = Path.GetFileName(file);
+            var seed = Js.Stringify(Seed(Path.GetFileName(Path.GetDirectoryName(file)!), name[..name.IndexOf(".fixed.", StringComparison.Ordinal)]));
+            Assert.DoesNotMatch("locale=zh|\"locale\":\"zh", seed);
+            var node = Fixtures.Lf(file.Replace(".fixed.", "."));
+            Assert.NotEqual(node, Fixtures.Lf(file));
+            Assert.Equal(Masked(Decided(node)), Masked(Fixtures.Lf(file)));
+        }
+    }
+
+    // UPSTREAM-DEVIATION heading-terminator (ExplainerParser.ReHeading): upstream's heading regex stops at a line terminator,
+    // so a heading line holding a lone CR (a CR-only draft) or U+2028 throws a TypeError out of parseExplainer. The port reads
+    // the whole line as the heading and reports the draft's ordinary diagnostics.
+    [Fact] public void Heading_with_a_line_terminator_is_a_diagnostic_not_a_crash()
+    {
+        foreach (var name in new[] { "cr-only", "line-separator-heading" })
+            Assert.Equal("""{"thrown":{"name":"TypeError","message":"Cannot read properties of null (reading '1')"}}""", Js.Stringify(JsonNode.Parse(Expected("parse", name))));
+        var crOnly = ExplainerParser.Parse(Seed("parse", "cr-only")["args"]![0]!.GetValue<string>());
+        Assert.Null(crOnly.Document);
+        Assert.Equal(["explainer/parse-answer", "explainer/parse-panel"], crOnly.Diagnostics.Select(d => d.Code));
+        var separator = ExplainerParser.Parse(Seed("parse", "line-separator-heading")["args"]![0]!.GetValue<string>());
+        Assert.Empty(separator.Diagnostics);
+        Assert.Equal("Q" + (char)0x2028 + "more", separator.Document!["panels"]![0]!["title"]!.GetValue<string>());
     }
 
     // --- Task 1 facts ---

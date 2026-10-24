@@ -1,0 +1,129 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 164
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 164
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 164
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 164
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 164
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 164
+    },
+    "/panels/0/blocks/0/language": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 164
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 10,
+      "column": 1,
+      "start": 158,
+      "end": 159
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 164
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n```js lines=1:2\nx\n```\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-snippet",
+      "severity": "error",
+      "message": "A code fence accepts a language and an optional title only.",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "snippet",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "A code fence accepts a language and an optional title only.",
+        "example": "```bash title=\"Run the tests\""
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: ```bash title=\"Run the tests\""
+      ]
+    }
+  ]
+}

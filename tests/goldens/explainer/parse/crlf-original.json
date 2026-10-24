@@ -1,0 +1,169 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "标题",
+      "id": "explainer-c3405f8c7d9d"
+    },
+    "answer": {
+      "summary": "结论。"
+    },
+    "panels": [
+      {
+        "id": "first",
+        "title": "第一个？",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "保留此段。",
+            "id": "prose-32b3f21a8a55"
+          }
+        ]
+      },
+      {
+        "id": "second",
+        "title": "第二个？",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "更改此段。",
+            "id": "prose-f9bf35d85928"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 6
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 6
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 6
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 8,
+      "end": 13
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 8,
+      "end": 13
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 15,
+      "end": 44
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 15,
+      "end": 72
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 15,
+      "end": 72
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 15,
+      "end": 72
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 35,
+      "end": 42
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 35,
+      "end": 42
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 35,
+      "end": 42
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 35,
+      "end": 42
+    },
+    "/panels/1": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 72
+    },
+    "/panels/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 72
+    },
+    "/panels/1/title": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 72
+    },
+    "/panels/1/blocks": {
+      "line": 9,
+      "column": 1,
+      "start": 44,
+      "end": 72
+    },
+    "/panels/1/blocks/0": {
+      "line": 11,
+      "column": 1,
+      "start": 65,
+      "end": 72
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 65,
+      "end": 72
+    },
+    "/panels/1/blocks/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 65,
+      "end": 72
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 65,
+      "end": 72
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# 标题\r\n\r\n结论。\r\n\r\n## 第一个？ {#first}\r\n\r\n保留此段。\r\n\r\n## 第二个？ {#second}\r\n\r\n更改此段。\r\n",
+  "diagnostics": []
+}

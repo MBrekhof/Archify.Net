@@ -1,0 +1,2367 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Archify finalize 经过哪些模块？失败时旧产物怎么保住？",
+      "id": "finalize-modules",
+      "locale": "zh-CN",
+      "repository": {
+        "url": "https://github.com/tt-a1i/archify",
+        "revision": "82c47ca31d83749020ff30d6b1172248e71d255d"
+      }
+    },
+    "answer": {
+      "summary": "`finalize` 是编排器，不是渲染器：`runFinalize` 按序调用 `deliver → check → browser-check` 三个子命令（validate 内嵌在 deliver 里），每道门用 sha256 与 `receiptId` 验收回执绑定的是本产物，第一道失败即停。旧产物只在 deliver 的提交点被替换。新 HTML 先在同目录 `.archify-delivery-*` 暂存区渲染并通过检查，提交时旧文件先备份、再用硬链接换上。中途失败自动回滚，连回滚都失败就保留恢复目录。",
+      "reasons": [
+        "三道门复用同一个 CLI；finalize 校验每份回执的类型、字节数与哈希。[](source:finalize-mjs)",
+        "提交前目标路径零写入；提交时先备份再 `linkSync`，任何绑定不符即中止。[](source:commit)",
+        "交付锁与 pending journal 让中断 fail-closed：并发被拒，残留态不可信。[](source:deliver)",
+        "边界：commit 成功后 check 或 browser-check 失败不回滚，旧产物只保到提交点。"
+      ],
+      "scope": "Archify @ 82c47ca · bin/finalize.mjs + archify.mjs · explainer 默认无 browser-check 门"
+    },
+    "panels": [
+      {
+        "id": "gates",
+        "title": "finalize 把一次交付拆成哪几道门？",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "explainer 候选先经 `prepareExplainerInput` 编译成冻结 bundle，每道门前后复核其依赖未变。原生图默认三道门全跑；explainer 只跑 `deliver + check`，加 `--browser-check` 才开浏览器门。",
+            "id": "prose-57aba6d6c551"
+          },
+          {
+            "type": "diagram",
+            "id": "finalize-gates",
+            "diagramType": "workflow",
+            "spec": {
+              "schema_version": 2,
+              "diagram_type": "workflow",
+              "meta": {
+                "title": "finalize 的模块链",
+                "output": "finalize-gates.html",
+                "quality_profile": "showcase"
+              },
+              "nodes": [
+                {
+                  "id": "cli",
+                  "label": "commandFinalize 解析参数",
+                  "type": "backend",
+                  "width": 197,
+                  "lane": "orch",
+                  "col": 0
+                },
+                {
+                  "id": "snap",
+                  "label": "快照候选·开收据",
+                  "type": "backend",
+                  "width": 137,
+                  "lane": "orch",
+                  "col": 1
+                },
+                {
+                  "id": "del",
+                  "label": "锁+journal+暂存渲染",
+                  "type": "backend",
+                  "width": 164,
+                  "lane": "del",
+                  "col": 0
+                },
+                {
+                  "id": "commit",
+                  "label": "commitDeliveryPair",
+                  "type": "backend",
+                  "width": 157,
+                  "lane": "del",
+                  "col": 1
+                },
+                {
+                  "id": "chk",
+                  "label": "check 严格复查",
+                  "type": "backend",
+                  "width": 131,
+                  "lane": "ver",
+                  "col": 0
+                },
+                {
+                  "id": "brw",
+                  "label": "browser-check Chrome",
+                  "type": "backend",
+                  "width": 170,
+                  "lane": "ver",
+                  "col": 1
+                },
+                {
+                  "id": "rec",
+                  "label": ".finalize.json 收据",
+                  "type": "database",
+                  "width": 164,
+                  "lane": "orch",
+                  "col": 2
+                }
+              ],
+              "lanes": [
+                {
+                  "id": "orch",
+                  "label": "编排 bin/finalize.mjs"
+                },
+                {
+                  "id": "del",
+                  "label": "交付 deliver 子命令"
+                },
+                {
+                  "id": "ver",
+                  "label": "验证子命令"
+                }
+              ],
+              "edges": [
+                {
+                  "id": "cli-to-snap-1",
+                  "from": "cli",
+                  "to": "snap"
+                },
+                {
+                  "id": "snap-to-del-1",
+                  "from": "snap",
+                  "to": "del"
+                },
+                {
+                  "id": "del-to-commit-1",
+                  "from": "del",
+                  "to": "commit"
+                },
+                {
+                  "id": "commit-to-chk-1",
+                  "from": "commit",
+                  "to": "chk",
+                  "label": "pass"
+                },
+                {
+                  "id": "chk-to-brw-1",
+                  "from": "chk",
+                  "to": "brw",
+                  "label": "pass"
+                },
+                {
+                  "id": "brw-to-rec-1",
+                  "from": "brw",
+                  "to": "rec"
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "gate-steps",
+            "items": [
+              {
+                "id": "parse",
+                "text": "commandFinalize 解析参数",
+                "detail": "解析质量、repo、out-dir；explainer 预编译为冻结 bundle；并行启动有界 update 检查。",
+                "target": {
+                  "diagram": "finalize-gates",
+                  "node": "cli"
+                }
+              },
+              {
+                "id": "snap",
+                "text": "快照候选·开收据",
+                "detail": "记录输入 sha256；两个收据路径先原子捕获再写。",
+                "target": {
+                  "diagram": "finalize-gates",
+                  "node": "snap"
+                }
+              },
+              {
+                "id": "del",
+                "text": "锁+journal+暂存渲染",
+                "detail": "拿交付锁、写 pending journal，渲染与自检都在暂存区；任一门失败即停并写诊断。",
+                "target": {
+                  "diagram": "finalize-gates",
+                  "node": "del"
+                }
+              },
+              {
+                "id": "chk",
+                "text": "check 严格复查",
+                "detail": "provenance=current 且 sha 匹配后跑严格检查，再过浏览器门。",
+                "target": {
+                  "diagram": "finalize-gates",
+                  "node": "chk"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "failure-matrix",
+        "title": "哪一步失败，旧产物处于什么状态？",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "失败点",
+            "columns": [
+              "输出路径上的旧产物",
+              "保护机制"
+            ],
+            "rows": [
+              {
+                "label": "参数、输入或 validate 失败",
+                "cells": [
+                  {
+                    "text": "原样未动",
+                    "assessment": "good",
+                    "verdict": "安全"
+                  },
+                  {
+                    "text": "渲染前不碰目标；交付锁都还没拿"
+                  }
+                ],
+                "id": "row-a973bc05d2a3"
+              },
+              {
+                "label": "暂存渲染或 deliver 内 artifact 检查失败",
+                "cells": [
+                  {
+                    "text": "原样未动",
+                    "assessment": "good",
+                    "verdict": "安全"
+                  },
+                  {
+                    "text": "候选只写 `.archify-delivery-*`；检查失败报 previous artifact was preserved"
+                  }
+                ],
+                "id": "row-de719efb2a4b"
+              },
+              {
+                "label": "`commitDeliveryPair` 中途失败",
+                "cells": [
+                  {
+                    "text": "自动回滚",
+                    "assessment": "good",
+                    "verdict": "安全"
+                  },
+                  {
+                    "text": "旧文件先备份成 `.previous-output` 与 `.previous-provenance`，异常时逐一 link 回目标并复核绑定"
+                  }
+                ],
+                "id": "row-9ad65018bf89"
+              },
+              {
+                "label": "回滚失败或锁丢失",
+                "cells": [
+                  {
+                    "text": "留在恢复目录",
+                    "assessment": "caution",
+                    "verdict": "需手工"
+                  },
+                  {
+                    "text": "`recoveryRequired`：暂存目录不清理，`recover-output.mjs` 可恢复旧文件"
+                  }
+                ],
+                "id": "row-ee848118c5a7"
+              },
+              {
+                "label": "并发另一次 deliver，或残留 lock/pending",
+                "cells": [
+                  {
+                    "text": "被锁挡住",
+                    "assessment": "good",
+                    "verdict": "安全"
+                  },
+                  {
+                    "text": "`delivery/concurrent-attempt` 或 `lock-stale`，新交付拒绝开始"
+                  }
+                ],
+                "id": "row-0cbe1173d378"
+              },
+              {
+                "label": "deliver 已提交后 check、browser-check 失败",
+                "cells": [
+                  {
+                    "text": "已被新产物替换",
+                    "assessment": "caution",
+                    "verdict": "边界"
+                  },
+                  {
+                    "text": "新产物已过自身检查；finalize 标 fail、写诊断，不自动回退"
+                  }
+                ],
+                "id": "row-7268d9a713fa"
+              }
+            ],
+            "id": "comparison-6f07742889a9"
+          }
+        ]
+      },
+      {
+        "id": "sidecars",
+        "title": "一次 finalize 在磁盘上留下哪些文件？",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "文件",
+            "columns": [
+              "角色"
+            ],
+            "rows": [
+              {
+                "label": "`<out>.delivery.json`",
+                "cells": [
+                  {
+                    "text": "成功 provenance：`receiptId`、spec 与 artifact 的 sha256、validation 摘要"
+                  }
+                ],
+                "id": "row-9b214e5a1c35"
+              },
+              {
+                "label": "`<out>.delivery-pending.json`",
+                "cells": [
+                  {
+                    "text": "进行中 journal；提交时删除，残留即交付中断的证据"
+                  }
+                ],
+                "id": "row-a64e9733fdf1"
+              },
+              {
+                "label": "`<out>.delivery-lock.json`",
+                "cells": [
+                  {
+                    "text": "交付锁；挡住并发与 stale 交付"
+                  }
+                ],
+                "id": "row-f2e546b36435"
+              },
+              {
+                "label": "`<out>.browser-check.json`",
+                "cells": [
+                  {
+                    "text": "浏览器证据回执；原生图默认产出"
+                  }
+                ],
+                "id": "row-e79b2894bd64"
+              },
+              {
+                "label": "`<out>.finalize.json` 与 `-summary.json`",
+                "cells": [
+                  {
+                    "text": "finalize 完整与压缩回执，经临时文件加绑定原子发布"
+                  }
+                ],
+                "id": "row-8c9ce3798bad"
+              },
+              {
+                "label": "`.archify-delivery-*` 目录",
+                "cells": [
+                  {
+                    "text": "暂存区：spec 快照、渲染候选、`.previous-*` 备份；正常清理，需恢复时保留"
+                  }
+                ],
+                "id": "row-98513e04cb01"
+              }
+            ],
+            "id": "comparison-3381a3c13503"
+          }
+        ]
+      },
+      {
+        "id": "recovery",
+        "title": "交付中断后按什么顺序确认？",
+        "blocks": [
+          {
+            "type": "list",
+            "ordered": false,
+            "checklist": true,
+            "items": [
+              "看 `.finalize-summary.json` 的 `failedStage` 与 `diagnostics[].supportedFixes`，定位停在哪道门。",
+              "报 `recoveryRequired` 时，运行 `node bin/recover-output.mjs <暂存目录>` 恢复保留的旧文件。",
+              "发现残留 lock 或 pending 时，按诊断先串行恢复再重试，不直接删文件。",
+              "需要回到旧版本时，提交点之后只能用自己的版本控制或备份。"
+            ],
+            "id": "list-f016d84db82b"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "finalize-mjs",
+        "title": "runFinalize 编排器",
+        "path": "archify/bin/finalize.mjs",
+        "lines": [
+          722,
+          1050
+        ]
+      },
+      {
+        "id": "commit",
+        "title": "commitDeliveryPair：备份、提交、回滚",
+        "path": "archify/bin/archify.mjs",
+        "lines": [
+          3236,
+          3624
+        ]
+      },
+      {
+        "id": "deliver",
+        "title": "commandDeliver 交付主流程",
+        "path": "archify/bin/archify.mjs",
+        "lines": [
+          4400,
+          5301
+        ]
+      },
+      {
+        "id": "check-cmd",
+        "title": "check 与 provenance 检查",
+        "path": "archify/bin/archify.mjs",
+        "lines": [
+          5418,
+          5659
+        ]
+      },
+      {
+        "id": "recover",
+        "title": "recover-output.mjs 恢复入口",
+        "path": "archify/bin/recover-output.mjs",
+        "lines": [
+          1,
+          41
+        ]
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 58
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 58
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 58
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 59,
+      "end": 320
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 59,
+      "end": 320
+    },
+    "/answer/reasons": {
+      "line": 5,
+      "column": 1,
+      "start": 321,
+      "end": 571
+    },
+    "/answer/reasons/0": {
+      "line": 5,
+      "column": 1,
+      "start": 321,
+      "end": 386
+    },
+    "/answer/reasons/1": {
+      "line": 6,
+      "column": 1,
+      "start": 386,
+      "end": 446
+    },
+    "/answer/reasons/2": {
+      "line": 7,
+      "column": 1,
+      "start": 446,
+      "end": 516
+    },
+    "/answer/reasons/3": {
+      "line": 8,
+      "column": 1,
+      "start": 516,
+      "end": 571
+    },
+    "/answer/scope": {
+      "line": 10,
+      "column": 1,
+      "start": 572,
+      "end": 671
+    },
+    "/meta/locale": {
+      "line": 11,
+      "column": 1,
+      "start": 671,
+      "end": 788
+    },
+    "/meta/repository": {
+      "line": 11,
+      "column": 1,
+      "start": 671,
+      "end": 788
+    },
+    "/meta/repository/url": {
+      "line": 11,
+      "column": 1,
+      "start": 671,
+      "end": 788
+    },
+    "/meta/repository/revision": {
+      "line": 11,
+      "column": 1,
+      "start": 671,
+      "end": 788
+    },
+    "/sources/0": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/0/id": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/0/title": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/0/path": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/0/lines": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/0/lines/0": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/0/lines/1": {
+      "line": 12,
+      "column": 1,
+      "start": 788,
+      "end": 878
+    },
+    "/sources/1": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/1/id": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/1/title": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/1/path": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/1/lines": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/1/lines/0": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/1/lines/1": {
+      "line": 13,
+      "column": 1,
+      "start": 878,
+      "end": 974
+    },
+    "/sources/2": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/2/id": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/2/title": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/2/path": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/2/lines": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/2/lines/0": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/2/lines/1": {
+      "line": 14,
+      "column": 1,
+      "start": 974,
+      "end": 1064
+    },
+    "/sources/3": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/3/id": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/3/title": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/3/path": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/3/lines": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/3/lines/0": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/3/lines/1": {
+      "line": 15,
+      "column": 1,
+      "start": 1064,
+      "end": 1157
+    },
+    "/sources/4": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/sources/4/id": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/sources/4/title": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/sources/4/path": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/sources/4/lines": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/sources/4/lines/0": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/sources/4/lines/1": {
+      "line": 16,
+      "column": 1,
+      "start": 1157,
+      "end": 1252
+    },
+    "/panels/0": {
+      "line": 18,
+      "column": 1,
+      "start": 1253,
+      "end": 2378
+    },
+    "/panels/0/id": {
+      "line": 18,
+      "column": 1,
+      "start": 1253,
+      "end": 3825
+    },
+    "/panels/0/title": {
+      "line": 18,
+      "column": 1,
+      "start": 1253,
+      "end": 3825
+    },
+    "/panels/0/blocks": {
+      "line": 18,
+      "column": 1,
+      "start": 1253,
+      "end": 3825
+    },
+    "/panels/0/blocks/0": {
+      "line": 20,
+      "column": 1,
+      "start": 1288,
+      "end": 1423
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 20,
+      "column": 1,
+      "start": 1288,
+      "end": 1423
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 20,
+      "column": 1,
+      "start": 1288,
+      "end": 1423
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 20,
+      "column": 1,
+      "start": 1288,
+      "end": 1423
+    },
+    "/panels/0/blocks/1": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/diagramType": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/schema_version": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/diagram_type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/meta": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/meta/title": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/meta/output": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/meta/quality_profile": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/0/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/1/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/2/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/3/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/4/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/5/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6/type": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6/width": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6/lane": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/nodes/6/col": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/0": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/0/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/0/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/1": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/1/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/1/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/2": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/2/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/lanes/2/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/0": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/0/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/0/from": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/0/to": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/1": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/1/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/1/from": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/1/to": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/2": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/2/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/2/from": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/2/to": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/3": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/3/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/3/from": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/3/to": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/3/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/4": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/4/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/4/from": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/4/to": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/4/label": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/5": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/5/id": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/5/from": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/1/spec/edges/5/to": {
+      "line": 22,
+      "column": 1,
+      "start": 1424,
+      "end": 1979
+    },
+    "/panels/0/blocks/2": {
+      "line": 40,
+      "column": 1,
+      "start": 1980,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 40,
+      "column": 1,
+      "start": 1980,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 40,
+      "column": 1,
+      "start": 1980,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items": {
+      "line": 40,
+      "column": 1,
+      "start": 1980,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/0": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/0/id": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/0/text": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/0/detail": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/0/target": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/0/target/diagram": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/0/target/node": {
+      "line": 41,
+      "column": 1,
+      "start": 2001,
+      "end": 2119
+    },
+    "/panels/0/blocks/2/items/1": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/1/id": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/1/text": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/1/detail": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/1/target": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/1/target/diagram": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/1/target/node": {
+      "line": 42,
+      "column": 1,
+      "start": 2119,
+      "end": 2192
+    },
+    "/panels/0/blocks/2/items/2": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/2/id": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/2/text": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/2/detail": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/2/target": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/2/target/diagram": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/2/target/node": {
+      "line": 43,
+      "column": 1,
+      "start": 2192,
+      "end": 2289
+    },
+    "/panels/0/blocks/2/items/3": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/3/id": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/3/text": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/3/detail": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/3/target": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/3/target/diagram": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/0/blocks/2/items/3/target/node": {
+      "line": 44,
+      "column": 1,
+      "start": 2289,
+      "end": 2377
+    },
+    "/panels/1": {
+      "line": 46,
+      "column": 1,
+      "start": 2378,
+      "end": 3063
+    },
+    "/panels/1/id": {
+      "line": 46,
+      "column": 1,
+      "start": 2378,
+      "end": 3825
+    },
+    "/panels/1/title": {
+      "line": 46,
+      "column": 1,
+      "start": 2378,
+      "end": 3825
+    },
+    "/panels/1/blocks": {
+      "line": 46,
+      "column": 1,
+      "start": 2378,
+      "end": 3825
+    },
+    "/panels/1/blocks/0": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/labelColumn": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/columns": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/columns/0": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/columns/1": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/0": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/label": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells/0": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/text": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/assessment": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells/0/verdict": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells/1": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/cells/1/text": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/0/id": {
+      "line": 50,
+      "column": 1,
+      "start": 2464,
+      "end": 2522
+    },
+    "/panels/1/blocks/0/rows/1": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/label": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells/0": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/text": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/assessment": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells/0/verdict": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells/1": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/cells/1/text": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/1/id": {
+      "line": 51,
+      "column": 1,
+      "start": 2522,
+      "end": 2640
+    },
+    "/panels/1/blocks/0/rows/2": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/label": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells/0": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/text": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/assessment": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells/0/verdict": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells/1": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/cells/1/text": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/2/id": {
+      "line": 52,
+      "column": 1,
+      "start": 2640,
+      "end": 2761
+    },
+    "/panels/1/blocks/0/rows/3": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/label": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells/0": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/text": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/assessment": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells/0/verdict": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells/1": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/cells/1/text": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/3/id": {
+      "line": 53,
+      "column": 1,
+      "start": 2761,
+      "end": 2854
+    },
+    "/panels/1/blocks/0/rows/4": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/label": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells/0": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/text": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/assessment": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells/0/verdict": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells/1": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/cells/1/text": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/4/id": {
+      "line": 54,
+      "column": 1,
+      "start": 2854,
+      "end": 2961
+    },
+    "/panels/1/blocks/0/rows/5": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/label": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells/0": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells/0/text": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells/0/assessment": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells/0/verdict": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells/1": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/cells/1/text": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/rows/5/id": {
+      "line": 55,
+      "column": 1,
+      "start": 2961,
+      "end": 3062
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 48,
+      "column": 1,
+      "start": 2417,
+      "end": 3062
+    },
+    "/panels/2": {
+      "line": 57,
+      "column": 1,
+      "start": 3063,
+      "end": 3542
+    },
+    "/panels/2/id": {
+      "line": 57,
+      "column": 1,
+      "start": 3063,
+      "end": 3825
+    },
+    "/panels/2/title": {
+      "line": 57,
+      "column": 1,
+      "start": 3063,
+      "end": 3825
+    },
+    "/panels/2/blocks": {
+      "line": 57,
+      "column": 1,
+      "start": 3063,
+      "end": 3825
+    },
+    "/panels/2/blocks/0": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/type": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/labelColumn": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/columns": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/columns/0": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows/0": {
+      "line": 61,
+      "column": 1,
+      "start": 3129,
+      "end": 3222
+    },
+    "/panels/2/blocks/0/rows/0/label": {
+      "line": 61,
+      "column": 1,
+      "start": 3129,
+      "end": 3222
+    },
+    "/panels/2/blocks/0/rows/0/cells": {
+      "line": 61,
+      "column": 1,
+      "start": 3129,
+      "end": 3222
+    },
+    "/panels/2/blocks/0/rows/0/cells/0": {
+      "line": 61,
+      "column": 1,
+      "start": 3129,
+      "end": 3222
+    },
+    "/panels/2/blocks/0/rows/0/cells/0/text": {
+      "line": 61,
+      "column": 1,
+      "start": 3129,
+      "end": 3222
+    },
+    "/panels/2/blocks/0/rows/0/id": {
+      "line": 61,
+      "column": 1,
+      "start": 3129,
+      "end": 3222
+    },
+    "/panels/2/blocks/0/rows/1": {
+      "line": 62,
+      "column": 1,
+      "start": 3222,
+      "end": 3287
+    },
+    "/panels/2/blocks/0/rows/1/label": {
+      "line": 62,
+      "column": 1,
+      "start": 3222,
+      "end": 3287
+    },
+    "/panels/2/blocks/0/rows/1/cells": {
+      "line": 62,
+      "column": 1,
+      "start": 3222,
+      "end": 3287
+    },
+    "/panels/2/blocks/0/rows/1/cells/0": {
+      "line": 62,
+      "column": 1,
+      "start": 3222,
+      "end": 3287
+    },
+    "/panels/2/blocks/0/rows/1/cells/0/text": {
+      "line": 62,
+      "column": 1,
+      "start": 3222,
+      "end": 3287
+    },
+    "/panels/2/blocks/0/rows/1/id": {
+      "line": 62,
+      "column": 1,
+      "start": 3222,
+      "end": 3287
+    },
+    "/panels/2/blocks/0/rows/2": {
+      "line": 63,
+      "column": 1,
+      "start": 3287,
+      "end": 3339
+    },
+    "/panels/2/blocks/0/rows/2/label": {
+      "line": 63,
+      "column": 1,
+      "start": 3287,
+      "end": 3339
+    },
+    "/panels/2/blocks/0/rows/2/cells": {
+      "line": 63,
+      "column": 1,
+      "start": 3287,
+      "end": 3339
+    },
+    "/panels/2/blocks/0/rows/2/cells/0": {
+      "line": 63,
+      "column": 1,
+      "start": 3287,
+      "end": 3339
+    },
+    "/panels/2/blocks/0/rows/2/cells/0/text": {
+      "line": 63,
+      "column": 1,
+      "start": 3287,
+      "end": 3339
+    },
+    "/panels/2/blocks/0/rows/2/id": {
+      "line": 63,
+      "column": 1,
+      "start": 3287,
+      "end": 3339
+    },
+    "/panels/2/blocks/0/rows/3": {
+      "line": 64,
+      "column": 1,
+      "start": 3339,
+      "end": 3388
+    },
+    "/panels/2/blocks/0/rows/3/label": {
+      "line": 64,
+      "column": 1,
+      "start": 3339,
+      "end": 3388
+    },
+    "/panels/2/blocks/0/rows/3/cells": {
+      "line": 64,
+      "column": 1,
+      "start": 3339,
+      "end": 3388
+    },
+    "/panels/2/blocks/0/rows/3/cells/0": {
+      "line": 64,
+      "column": 1,
+      "start": 3339,
+      "end": 3388
+    },
+    "/panels/2/blocks/0/rows/3/cells/0/text": {
+      "line": 64,
+      "column": 1,
+      "start": 3339,
+      "end": 3388
+    },
+    "/panels/2/blocks/0/rows/3/id": {
+      "line": 64,
+      "column": 1,
+      "start": 3339,
+      "end": 3388
+    },
+    "/panels/2/blocks/0/rows/4": {
+      "line": 65,
+      "column": 1,
+      "start": 3388,
+      "end": 3464
+    },
+    "/panels/2/blocks/0/rows/4/label": {
+      "line": 65,
+      "column": 1,
+      "start": 3388,
+      "end": 3464
+    },
+    "/panels/2/blocks/0/rows/4/cells": {
+      "line": 65,
+      "column": 1,
+      "start": 3388,
+      "end": 3464
+    },
+    "/panels/2/blocks/0/rows/4/cells/0": {
+      "line": 65,
+      "column": 1,
+      "start": 3388,
+      "end": 3464
+    },
+    "/panels/2/blocks/0/rows/4/cells/0/text": {
+      "line": 65,
+      "column": 1,
+      "start": 3388,
+      "end": 3464
+    },
+    "/panels/2/blocks/0/rows/4/id": {
+      "line": 65,
+      "column": 1,
+      "start": 3388,
+      "end": 3464
+    },
+    "/panels/2/blocks/0/rows/5": {
+      "line": 66,
+      "column": 1,
+      "start": 3464,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows/5/label": {
+      "line": 66,
+      "column": 1,
+      "start": 3464,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows/5/cells": {
+      "line": 66,
+      "column": 1,
+      "start": 3464,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows/5/cells/0": {
+      "line": 66,
+      "column": 1,
+      "start": 3464,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows/5/cells/0/text": {
+      "line": 66,
+      "column": 1,
+      "start": 3464,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/rows/5/id": {
+      "line": 66,
+      "column": 1,
+      "start": 3464,
+      "end": 3541
+    },
+    "/panels/2/blocks/0/id": {
+      "line": 59,
+      "column": 1,
+      "start": 3103,
+      "end": 3541
+    },
+    "/panels/3": {
+      "line": 68,
+      "column": 1,
+      "start": 3542,
+      "end": 3825
+    },
+    "/panels/3/id": {
+      "line": 68,
+      "column": 1,
+      "start": 3542,
+      "end": 3825
+    },
+    "/panels/3/title": {
+      "line": 68,
+      "column": 1,
+      "start": 3542,
+      "end": 3825
+    },
+    "/panels/3/blocks": {
+      "line": 68,
+      "column": 1,
+      "start": 3542,
+      "end": 3825
+    },
+    "/panels/3/blocks/0": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3825
+    },
+    "/panels/3/blocks/0/type": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3825
+    },
+    "/panels/3/blocks/0/ordered": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3825
+    },
+    "/panels/3/blocks/0/checklist": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3825
+    },
+    "/panels/3/blocks/0/items": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3825
+    },
+    "/panels/3/blocks/0/items/0": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3663
+    },
+    "/panels/3/blocks/0/items/1": {
+      "line": 71,
+      "column": 1,
+      "start": 3663,
+      "end": 3742
+    },
+    "/panels/3/blocks/0/items/2": {
+      "line": 72,
+      "column": 1,
+      "start": 3742,
+      "end": 3790
+    },
+    "/panels/3/blocks/0/items/3": {
+      "line": 73,
+      "column": 1,
+      "start": 3790,
+      "end": 3825
+    },
+    "/panels/3/blocks/0/id": {
+      "line": 70,
+      "column": 1,
+      "start": 3572,
+      "end": 3825
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Archify finalize 经过哪些模块？失败时旧产物怎么保住？ {#finalize-modules}\n\n`finalize` 是编排器，不是渲染器：`runFinalize` 按序调用 `deliver → check → browser-check` 三个子命令（validate 内嵌在 deliver 里），每道门用 sha256 与 `receiptId` 验收回执绑定的是本产物，第一道失败即停。旧产物只在 deliver 的提交点被替换。新 HTML 先在同目录 `.archify-delivery-*` 暂存区渲染并通过检查，提交时旧文件先备份、再用硬链接换上。中途失败自动回滚，连回滚都失败就保留恢复目录。\n\n- 三道门复用同一个 CLI；finalize 校验每份回执的类型、字节数与哈希。[](source:finalize-mjs)\n- 提交前目标路径零写入；提交时先备份再 `linkSync`，任何绑定不符即中止。[](source:commit)\n- 交付锁与 pending journal 让中断 fail-closed：并发被拒，残留态不可信。[](source:deliver)\n- 边界：commit 成功后 check 或 browser-check 失败不回滚，旧产物只保到提交点。\n\n@answer scope=\"Archify @ 82c47ca · bin/finalize.mjs + archify.mjs · explainer 默认无 browser-check 门\"\n@meta locale=zh-CN repo_url=https://github.com/tt-a1i/archify repo_revision=82c47ca31d83749020ff30d6b1172248e71d255d\n@source finalize-mjs title=\"runFinalize 编排器\" path=archify/bin/finalize.mjs lines=722:1050\n@source commit title=\"commitDeliveryPair：备份、提交、回滚\" path=archify/bin/archify.mjs lines=3236:3624\n@source deliver title=\"commandDeliver 交付主流程\" path=archify/bin/archify.mjs lines=4400:5301\n@source check-cmd title=\"check 与 provenance 检查\" path=archify/bin/archify.mjs lines=5418:5659\n@source recover title=\"recover-output.mjs 恢复入口\" path=archify/bin/recover-output.mjs lines=1:41\n\n## finalize 把一次交付拆成哪几道门？ {#gates}\n\nexplainer 候选先经 `prepareExplainerInput` 编译成冻结 bundle，每道门前后复核其依赖未变。原生图默认三道门全跑；explainer 只跑 `deliver + check`，加 `--browser-check` 才开浏览器门。\n\n@workflow id=finalize-gates title=\"finalize 的模块链\"\n| lane orch | 编排 bin/finalize.mjs |\n| lane del | 交付 deliver 子命令 |\n| lane ver | 验证子命令 |\n| cli | commandFinalize 解析参数 | backend | orch |\n| snap | 快照候选·开收据 | backend | orch |\n| del | 锁+journal+暂存渲染 | backend | del |\n| commit | commitDeliveryPair | backend | del |\n| chk | check 严格复查 | backend | ver |\n| brw | browser-check Chrome | backend | ver |\n| rec | .finalize.json 收据 | database | orch |\n| cli > snap | |\n| snap > del | |\n| del > commit | |\n| commit > chk | pass |\n| chk > brw | pass |\n| brw > rec | |\n\n@steps id=gate-steps\n| parse | commandFinalize 解析参数 | 解析质量、repo、out-dir；explainer 预编译为冻结 bundle；并行启动有界 update 检查。 | finalize-gates | cli |\n| snap | 快照候选·开收据 | 记录输入 sha256；两个收据路径先原子捕获再写。 | finalize-gates | snap |\n| del | 锁+journal+暂存渲染 | 拿交付锁、写 pending journal，渲染与自检都在暂存区；任一门失败即停并写诊断。 | finalize-gates | del |\n| chk | check 严格复查 | provenance=current 且 sha 匹配后跑严格检查，再过浏览器门。 | finalize-gates | chk |\n\n## 哪一步失败，旧产物处于什么状态？ {#failure-matrix}\n\n| 失败点 | 输出路径上的旧产物 | 保护机制 |\n| --- | --- | --- |\n| 参数、输入或 validate 失败 | 原样未动 {good:安全} | 渲染前不碰目标；交付锁都还没拿 |\n| 暂存渲染或 deliver 内 artifact 检查失败 | 原样未动 {good:安全} | 候选只写 `.archify-delivery-*`；检查失败报 previous artifact was preserved |\n| `commitDeliveryPair` 中途失败 | 自动回滚 {good:安全} | 旧文件先备份成 `.previous-output` 与 `.previous-provenance`，异常时逐一 link 回目标并复核绑定 |\n| 回滚失败或锁丢失 | 留在恢复目录 {caution:需手工} | `recoveryRequired`：暂存目录不清理，`recover-output.mjs` 可恢复旧文件 |\n| 并发另一次 deliver，或残留 lock/pending | 被锁挡住 {good:安全} | `delivery/concurrent-attempt` 或 `lock-stale`，新交付拒绝开始 |\n| deliver 已提交后 check、browser-check 失败 | 已被新产物替换 {caution:边界} | 新产物已过自身检查；finalize 标 fail、写诊断，不自动回退 |\n\n## 一次 finalize 在磁盘上留下哪些文件？ {#sidecars}\n\n| 文件 | 角色 |\n| --- | --- |\n| `<out>.delivery.json` | 成功 provenance：`receiptId`、spec 与 artifact 的 sha256、validation 摘要 |\n| `<out>.delivery-pending.json` | 进行中 journal；提交时删除，残留即交付中断的证据 |\n| `<out>.delivery-lock.json` | 交付锁；挡住并发与 stale 交付 |\n| `<out>.browser-check.json` | 浏览器证据回执；原生图默认产出 |\n| `<out>.finalize.json` 与 `-summary.json` | finalize 完整与压缩回执，经临时文件加绑定原子发布 |\n| `.archify-delivery-*` 目录 | 暂存区：spec 快照、渲染候选、`.previous-*` 备份；正常清理，需恢复时保留 |\n\n## 交付中断后按什么顺序确认？ {#recovery}\n\n- [ ] 看 `.finalize-summary.json` 的 `failedStage` 与 `diagnostics[].supportedFixes`，定位停在哪道门。\n- [ ] 报 `recoveryRequired` 时，运行 `node bin/recover-output.mjs <暂存目录>` 恢复保留的旧文件。\n- [ ] 发现残留 lock 或 pending 时，按诊断先串行恢复再重试，不直接删文件。\n- [ ] 需要回到旧版本时，提交点之后只能用自己的版本控制或备份。\n",
+  "diagnostics": []
+}

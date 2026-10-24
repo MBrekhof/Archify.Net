@@ -1,0 +1,26 @@
+{
+  "document": null,
+  "sourceMap": {},
+  "format": "json",
+  "sourceText": "{\n  \"a\": tru\n}",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-json",
+      "severity": "error",
+      "message": "Input is not valid JSON.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "json",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Input is not valid JSON.",
+        "example": "{\"schema_version\":1,\"diagram_type\":\"explainer\",...}"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: {\"schema_version\":1,\"diagram_type\":\"explainer\",...}"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,437 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b",
+      "locale": "en"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "flow",
+            "diagramType": "workflow",
+            "spec": {
+              "schema_version": 2,
+              "diagram_type": "workflow",
+              "meta": {
+                "title": "Q",
+                "output": "flow.html",
+                "quality_profile": "showcase"
+              },
+              "lanes": [
+                {
+                  "id": "lane-0",
+                  "label": "Q"
+                },
+                {
+                  "id": "lane-1",
+                  "label": "分支 1"
+                }
+              ],
+              "nodes": [
+                {
+                  "id": "a",
+                  "label": "Start",
+                  "type": "backend",
+                  "col": 0,
+                  "lane": "lane-0"
+                },
+                {
+                  "id": "b",
+                  "label": "Left",
+                  "type": "backend",
+                  "col": 1,
+                  "lane": "lane-0"
+                },
+                {
+                  "id": "c",
+                  "label": "Right",
+                  "type": "backend",
+                  "col": 1,
+                  "lane": "lane-1"
+                }
+              ],
+              "edges": [
+                {
+                  "id": "a-to-b-1",
+                  "from": "a",
+                  "to": "b",
+                  "label": "yes"
+                },
+                {
+                  "id": "a-to-c-1",
+                  "from": "a",
+                  "to": "c",
+                  "label": "no"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/meta/locale": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 25
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 157
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 157
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 157
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 157
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes/0": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes/1": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/lanes/1/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/0": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/0/col": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/0/lane": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/1": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/1/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/1/type": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/1/col": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/1/lane": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/2": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/2/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/2/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/2/type": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/2/col": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/nodes/2/lane": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/0": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/0/from": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/0/to": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/1": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/1/from": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/1/to": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    },
+    "/panels/0/blocks/0/spec/edges/1/label": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 157
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@meta locale=en\n\n## Q {#q}\n\n@workflow id=flow\n| a | Start | backend |\n| b | Left | backend |\n| c | Right | backend |\n| a > b | yes |\n| a > c | no |\n",
+  "diagnostics": []
+}

@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Workflow lane ids must be unique.",
+    "code": [
+      {
+        "code": "explainer/diagram-id-duplicate",
+        "severity": "error",
+        "message": "Workflow lane ids must be unique.",
+        "subject": {
+          "component": "diagram",
+          "line": 2,
+          "path": "/",
+          "diagram": "dup",
+          "diagramType": "workflow"
+        },
+        "evidence": {
+          "reason": "diagram-id-duplicate",
+          "example": "lane locate | Locate the cause"
+        },
+        "supportedFixes": [
+          "Use this form: lane locate | Locate the cause"
+        ]
+      }
+    ]
+  }
+}

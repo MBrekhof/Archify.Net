@@ -76,4 +76,11 @@ The capture deletes `tests/goldens/explainer/` before writing it.
 
 ## Groups
 
-A group is compared only once `ExplainerParityTests.Groups` lists it; each task adds its own.
+A group is compared only once `ExplainerParityTests.Groups` lists it; each task adds its own. A row that differs from
+Node by a stated deviation is listed in `ExplainerParityTests.KnownDeviations` and pinned by its own fact instead.
+
+- `parse` (Task 2): `parseExplainer(text, {inputPath, output}?)`, the upstream parser tests, the four case drafts, the
+  delivery example, every `fail` site of parse.mjs, the V8 `JSON.parse` message kinds, and CRLF and lone-CR drafts.
+- `shorthand` (Task 2): `compileExplainerDiagram(type, rows, {id, title, line, quality, locale})` with rows as
+  `{cells, line}` (the shape the parser passes; the port takes no text rows), and three `parseExplainer` drafts for the
+  lane label of Decision 2 (`workflow-branch-zh`, `-en`, `-default`).

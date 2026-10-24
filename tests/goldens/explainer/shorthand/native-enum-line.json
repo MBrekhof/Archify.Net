@@ -1,0 +1,50 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native diagram validation failed.",
+    "code": [
+      {
+        "code": "explainer/diagram-schema",
+        "severity": "error",
+        "message": "/messages/1/variant (id/label: \"api-to-client-1\") must be equal to one of the allowed values",
+        "subject": {
+          "component": "diagram",
+          "line": 23,
+          "path": "/",
+          "diagramType": "sequence",
+          "diagram": "request"
+        },
+        "evidence": {
+          "reason": "diagram-schema",
+          "example": "Use a valid native sequence JSON specification.",
+          "native": {
+            "code": "schema/enum",
+            "severity": "error",
+            "message": "/messages/1/variant (id/label: \"api-to-client-1\") must be equal to one of the allowed values",
+            "subject": {
+              "diagramType": "sequence",
+              "path": "/messages/1/variant",
+              "identity": "api-to-client-1"
+            },
+            "evidence": {
+              "keyword": "enum",
+              "allowedValues": [
+                "default",
+                "emphasis",
+                "security",
+                "dashed",
+                "return"
+              ]
+            },
+            "supportedFixes": [
+              "choose one of the allowed values"
+            ]
+          }
+        },
+        "supportedFixes": [
+          "choose one of the allowed values"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A workflow lane holds at most six nodes.",
+    "code": [
+      {
+        "code": "explainer/diagram-shorthand-limit",
+        "severity": "error",
+        "message": "A workflow lane holds at most six nodes.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagram": "six",
+          "diagramType": "workflow"
+        },
+        "evidence": {
+          "reason": "diagram-shorthand-limit",
+          "example": "Split the process into another lane."
+        },
+        "supportedFixes": [
+          "Use this form: Split the process into another lane."
+        ]
+      }
+    ]
+  }
+}

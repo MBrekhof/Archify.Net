@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Diagram identities must use the native identifier syntax.",
+    "code": [
+      {
+        "code": "explainer/diagram-id",
+        "severity": "error",
+        "message": "Diagram identities must use the native identifier syntax.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "workflow"
+        },
+        "evidence": {
+          "reason": "diagram-id",
+          "example": "api | API | backend"
+        },
+        "supportedFixes": [
+          "Use this form: api | API | backend"
+        ]
+      }
+    ]
+  }
+}

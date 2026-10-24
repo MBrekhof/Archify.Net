@@ -1,0 +1,2900 @@
+[
+  {
+    "name": "sequence",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor client",
+            "Client",
+            "frontend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "actor api",
+            "API",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "actor redis",
+            "Redis",
+            "database"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "client",
+            "api",
+            "Request"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "api",
+            "redis",
+            "Read"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "redis",
+            "api",
+            "Miss",
+            "return"
+          ],
+          "line": 6
+        }
+      ],
+      {
+        "id": "sequence"
+      }
+    ]
+  },
+  {
+    "name": "architecture",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "client",
+            "Client",
+            "external"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "api",
+            "API",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "redis",
+            "Redis",
+            "database"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "client > api",
+            "Request"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "api > redis",
+            "Read"
+          ],
+          "line": 5
+        }
+      ],
+      {
+        "id": "architecture"
+      }
+    ]
+  },
+  {
+    "name": "workflow",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "client",
+            "Client",
+            "external"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "api",
+            "API",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "done",
+            "Done",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "client > api",
+            "Request"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "api > done",
+            "Done"
+          ],
+          "line": 5
+        }
+      ],
+      {
+        "id": "workflow"
+      }
+    ]
+  },
+  {
+    "name": "tree",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "tree",
+      [
+        {
+          "cells": [
+            "root",
+            "平台"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "api",
+            "API",
+            "root"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "redis",
+            "Redis",
+            "root"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "tree"
+      }
+    ]
+  },
+  {
+    "name": "timeline",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "timeline",
+      [
+        {
+          "cells": [
+            "lane release",
+            "发布"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "deploy",
+            "2026-10-01T10:00:00+08:00",
+            "发布",
+            "release",
+            "change"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "alert",
+            "2026-10-01T10:05:00+08:00",
+            "告警",
+            "release",
+            "alert"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "timeline"
+      }
+    ]
+  },
+  {
+    "name": "erd",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity user",
+            "用户"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "entity order",
+            "订单"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "user.id",
+            "bigint",
+            "pk"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "order.id",
+            "bigint",
+            "pk"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "order.user_id",
+            "bigint",
+            "fk",
+            "user.id"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "order > user",
+            "many:one",
+            "下单者"
+          ],
+          "line": 6
+        }
+      ],
+      {
+        "id": "erd"
+      }
+    ]
+  },
+  {
+    "name": "native-enum-line",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "Client",
+            "API",
+            "Request"
+          ],
+          "line": 18
+        },
+        {
+          "cells": [
+            "API",
+            "Client",
+            "Reply",
+            "strange"
+          ],
+          "line": 23
+        }
+      ],
+      {
+        "id": "request",
+        "line": 17
+      }
+    ]
+  },
+  {
+    "name": "architecture-missing-node",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "api",
+            "API",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "api > missing",
+            "Request"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "class-unsupported",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "class",
+      [
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "table-cells",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "Client",
+            "API",
+            "Request"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "literal-pipe",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "Client",
+            "API",
+            "Request | Trace"
+          ],
+          "line": 81
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "erd-cardinality",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity users",
+            "Users"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "users.id",
+            "bigint",
+            "pk"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "users > users",
+            "ambiguous"
+          ],
+          "line": 3
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "workflow-phases",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane confirm",
+            "Confirm"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane locate",
+            "Locate"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "alert",
+            "Alert",
+            "external",
+            "confirm"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "window",
+            "Window",
+            "backend",
+            "confirm"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "sample",
+            "Sample",
+            "backend",
+            "locate"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "fix",
+            "Fix",
+            "backend",
+            "locate"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "alert > window"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "window > sample",
+            "tail"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "sample > fix"
+          ],
+          "line": 9
+        }
+      ],
+      {
+        "id": "phases"
+      }
+    ]
+  },
+  {
+    "name": "workflow-phases-long",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane confirm",
+            "Confirm"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane locate",
+            "Locate"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "alert",
+            "Alert",
+            "external",
+            "confirm"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "window",
+            "Window",
+            "backend",
+            "confirm"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "sample",
+            "Sample",
+            "backend",
+            "locate"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "fix",
+            "Fix",
+            "backend",
+            "locate"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "alert > window"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "window > sample",
+            "tail"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "sample > fix"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend",
+            "locate"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "b",
+            "B",
+            "backend",
+            "locate"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "c",
+            "C",
+            "backend",
+            "locate"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "fix > a"
+          ],
+          "line": 13
+        },
+        {
+          "cells": [
+            "a > b"
+          ],
+          "line": 14
+        },
+        {
+          "cells": [
+            "b > c"
+          ],
+          "line": 15
+        }
+      ],
+      {
+        "id": "long"
+      }
+    ]
+  },
+  {
+    "name": "workflow-phases-wider",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane confirm",
+            "Confirm"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane locate",
+            "Locate"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "alert",
+            "Alert",
+            "external",
+            "confirm"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "window",
+            "Window",
+            "backend",
+            "confirm"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "sample",
+            "Sample",
+            "backend",
+            "locate"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "fix",
+            "Fix",
+            "backend",
+            "locate"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "alert > window"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "window > sample",
+            "tail"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "sample > fix"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend",
+            "locate"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "b",
+            "B",
+            "backend",
+            "locate"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "c",
+            "C",
+            "backend",
+            "locate"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "d",
+            "D",
+            "backend",
+            "locate"
+          ],
+          "line": 13
+        },
+        {
+          "cells": [
+            "fix > a"
+          ],
+          "line": 14
+        },
+        {
+          "cells": [
+            "a > b"
+          ],
+          "line": 15
+        },
+        {
+          "cells": [
+            "b > c"
+          ],
+          "line": 16
+        },
+        {
+          "cells": [
+            "c > d"
+          ],
+          "line": 17
+        }
+      ],
+      {
+        "id": "wider"
+      }
+    ]
+  },
+  {
+    "name": "workflow-undeclared-lane",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane confirm",
+            "Confirm"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "alert",
+            "Alert",
+            "external",
+            "missing"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "phases"
+      }
+    ]
+  },
+  {
+    "name": "sequence-phases",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor b",
+            "Browser",
+            "frontend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "actor s",
+            "Server",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "phase",
+            "TCP"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "b",
+            "s",
+            "SYN"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "s",
+            "b",
+            "SYN-ACK",
+            "return"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "phase",
+            "TLS"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "b",
+            "s",
+            "ClientHello"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "phased"
+      }
+    ]
+  },
+  {
+    "name": "sequence-empty-phase",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "b",
+            "s",
+            "SYN"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "phase",
+            "Empty"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "empty"
+      }
+    ]
+  },
+  {
+    "name": "workflow-wrapped",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "step1",
+            "Step 1 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "step2",
+            "Step 2 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "step3",
+            "Step 3 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "step4",
+            "Step 4 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "step5",
+            "Step 5 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "step6",
+            "Step 6 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "step7",
+            "Step 7 with a deliberately long label for width",
+            "backend"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "step1 > step2"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "step2 > step3"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "step3 > step4"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "step4 > step5"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "step5 > step6"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "step6 > step7"
+          ],
+          "line": 13
+        }
+      ],
+      {
+        "id": "wrapped"
+      }
+    ]
+  },
+  {
+    "name": "workflow-decision",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "ask",
+            "Needs scaling?",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "keep",
+            "Keep it",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "ask > keep",
+            "no"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "short"
+      }
+    ]
+  },
+  {
+    "name": "architecture-fan",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "api",
+            "API",
+            "frontend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "b",
+            "B"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "c",
+            "C"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "api > a"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "api > b"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "api > c"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "fan"
+      }
+    ]
+  },
+  {
+    "name": "workflow-recur",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane run",
+            "Orchestrate"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane work",
+            "Work"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "start",
+            "Start",
+            "backend",
+            "run"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "do",
+            "Do",
+            "backend",
+            "work"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "end",
+            "Record",
+            "backend",
+            "run"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "start > do"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "do > end"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "recur"
+      }
+    ]
+  },
+  {
+    "name": "workflow-branches",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "a",
+            "Start",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "Left",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "c",
+            "Right",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "d",
+            "Join",
+            "backend"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "a > b",
+            "yes"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "a > c",
+            "no"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "b > d"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "c > d"
+          ],
+          "line": 8
+        }
+      ],
+      {
+        "id": "branches"
+      }
+    ]
+  },
+  {
+    "name": "workflow-branches-zh",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "a",
+            "开始",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "左",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "c",
+            "右",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "a > b"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "a > c"
+          ],
+          "line": 5
+        }
+      ],
+      {
+        "id": "branches",
+        "locale": "zh-CN",
+        "title": "分支"
+      }
+    ]
+  },
+  {
+    "name": "workflow-cycle",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "B",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "c",
+            "C",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "a > b"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "b > c"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "c > b"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "a > a"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "cycle"
+      }
+    ]
+  },
+  {
+    "name": "workflow-wide-labels",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "a",
+            "Collect the request context",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "Check the authorization rules",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "c",
+            "Decide which shard owns it？",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "d",
+            "Write through to the store",
+            "backend"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "e",
+            "Publish the change event",
+            "backend"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "a > b",
+            "a long edge label here"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "b > c",
+            "another long edge label"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "c > d",
+            "yes, the shard is local"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "d > e"
+          ],
+          "line": 9
+        }
+      ],
+      {
+        "id": "wide"
+      }
+    ]
+  },
+  {
+    "name": "workflow-lanes-single",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane in",
+            "Intake"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane out",
+            "Output"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend",
+            "in"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "b",
+            "B",
+            "backend"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "c",
+            "C",
+            "backend",
+            "out"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "a > b"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "b > c"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "single"
+      }
+    ]
+  },
+  {
+    "name": "architecture-size",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "gw",
+            "A gateway with a rather long label",
+            "external"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "svc",
+            "Service",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "db",
+            "DB",
+            "database"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "gw > svc",
+            "calls",
+            "dashed"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "svc > db"
+          ],
+          "line": 5
+        }
+      ],
+      {
+        "id": "size",
+        "title": "Sizes"
+      }
+    ]
+  },
+  {
+    "name": "architecture-centring",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "B"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "c",
+            "C"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "d",
+            "D"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "e",
+            "E"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "a > d"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "b > d"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "c > e"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "a > e"
+          ],
+          "line": 9
+        }
+      ],
+      {
+        "id": "centre"
+      }
+    ]
+  },
+  {
+    "name": "tree-parents",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "tree",
+      [
+        {
+          "cells": [
+            "root",
+            "Root"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "A",
+            "root"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "b",
+            "B",
+            "-"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "c",
+            "C",
+            "a"
+          ],
+          "line": 4
+        }
+      ],
+      {
+        "id": "tree"
+      }
+    ]
+  },
+  {
+    "name": "timeline-default-lane",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "timeline",
+      [
+        {
+          "cells": [
+            "e1",
+            "2026-01-01T09:00:00Z",
+            "First"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "e2",
+            "2026-01-02T09:00:00Z",
+            "Second",
+            "ops"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "lane ops",
+            "Operations"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "tl"
+      }
+    ]
+  },
+  {
+    "name": "erd-roles",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "entity b",
+            "B"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "a.id",
+            "bigint",
+            "pk"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "b.id",
+            "bigint",
+            "pk, uk"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "b.a_id",
+            "bigint",
+            "fk",
+            "a.id"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "b > a",
+            "many:one"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "a > b",
+            "one:many",
+            "owns"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "erd"
+      }
+    ]
+  },
+  {
+    "name": "inferred-ids",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "İstanbul",
+            "Straße",
+            "hello"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "Ａpi",
+            "服务",
+            "调用"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "服务",
+            "İstanbul",
+            "back",
+            "return"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "Mixed Case-Label!",
+            "Ａpi",
+            "x"
+          ],
+          "line": 4
+        }
+      ],
+      {
+        "id": "unicode"
+      }
+    ]
+  },
+  {
+    "name": "fail-diagram-type",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "flowchart",
+      [
+        {
+          "cells": [
+            "a",
+            "b",
+            "c"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-diagram-rows",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [],
+      {}
+    ]
+  },
+  {
+    "name": "fail-diagram-row-cells",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "a",
+            "b",
+            "c"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [],
+          "line": 5
+        }
+      ],
+      {
+        "id": "x"
+      }
+    ]
+  },
+  {
+    "name": "fail-diagram-id-actor",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor 1x",
+            "X"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "b",
+            "c"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-duplicate-actor",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "actor a",
+            "B"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "a",
+            "b",
+            "c"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-duplicate-node",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "B"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-duplicate-workflow-lane",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane x",
+            "X"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane x",
+            "Y"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-duplicate-timeline-lane",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "timeline",
+      [
+        {
+          "cells": [
+            "lane x",
+            "X"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "lane x",
+            "Y"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "e",
+            "2026",
+            "E",
+            "x"
+          ],
+          "line": 3
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-duplicate-entity",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "entity a",
+            "B"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-duplicate-event",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "timeline",
+      [
+        {
+          "cells": [
+            "e",
+            "2026",
+            "E"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "e",
+            "2027",
+            "F"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-duplicate-tree-node",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "tree",
+      [
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "B"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "dup"
+      }
+    ]
+  },
+  {
+    "name": "fail-actor-collision",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor api",
+            "Service"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "API",
+            "api",
+            "hi"
+          ],
+          "line": 2
+        }
+      ],
+      {
+        "id": "collide"
+      }
+    ]
+  },
+  {
+    "name": "fail-expect-message",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "a",
+            "b"
+          ],
+          "line": 7
+        }
+      ],
+      {
+        "id": "x"
+      }
+    ]
+  },
+  {
+    "name": "fail-expect-actor",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor a"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "b",
+            "c"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-expect-phase",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "phase"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "b",
+            "c"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-sequence-no-message",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "sequence",
+      [
+        {
+          "cells": [
+            "actor a",
+            "A"
+          ],
+          "line": 1
+        }
+      ],
+      {
+        "id": "x"
+      }
+    ]
+  },
+  {
+    "name": "fail-edge-parts",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "B"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "a > b",
+            "l",
+            "dashed",
+            "extra"
+          ],
+          "line": 3
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-expect-node",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend",
+            "extra"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-expect-workflow-node",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "a"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-expect-lane",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane x"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-lane-id",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane x",
+            "X"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend",
+            "9bad"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-node-id",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "9a",
+            "A"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-architecture-columns",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "n0",
+            "N0"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "n1",
+            "N1"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "n2",
+            "N2"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "n3",
+            "N3"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "n4",
+            "N4"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "n5",
+            "N5"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "n6",
+            "N6"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "n7",
+            "N7"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "n8",
+            "N8"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "n9",
+            "N9"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "n10",
+            "N10"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "n11",
+            "N11"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "n12",
+            "N12"
+          ],
+          "line": 13
+        },
+        {
+          "cells": [
+            "n0 > n1"
+          ],
+          "line": 14
+        },
+        {
+          "cells": [
+            "n1 > n2"
+          ],
+          "line": 15
+        },
+        {
+          "cells": [
+            "n2 > n3"
+          ],
+          "line": 16
+        },
+        {
+          "cells": [
+            "n3 > n4"
+          ],
+          "line": 17
+        },
+        {
+          "cells": [
+            "n4 > n5"
+          ],
+          "line": 18
+        },
+        {
+          "cells": [
+            "n5 > n6"
+          ],
+          "line": 19
+        },
+        {
+          "cells": [
+            "n6 > n7"
+          ],
+          "line": 20
+        },
+        {
+          "cells": [
+            "n7 > n8"
+          ],
+          "line": 21
+        },
+        {
+          "cells": [
+            "n8 > n9"
+          ],
+          "line": 22
+        },
+        {
+          "cells": [
+            "n9 > n10"
+          ],
+          "line": 23
+        },
+        {
+          "cells": [
+            "n10 > n11"
+          ],
+          "line": 24
+        },
+        {
+          "cells": [
+            "n11 > n12"
+          ],
+          "line": 25
+        }
+      ],
+      {
+        "id": "cols"
+      }
+    ]
+  },
+  {
+    "name": "fail-lane-six",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "lane x",
+            "X"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "n0",
+            "N0",
+            "backend",
+            "x"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "n1",
+            "N1",
+            "backend",
+            "x"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "n2",
+            "N2",
+            "backend",
+            "x"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "n3",
+            "N3",
+            "backend",
+            "x"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "n4",
+            "N4",
+            "backend",
+            "x"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "n5",
+            "N5",
+            "backend",
+            "x"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "n6",
+            "N6",
+            "backend",
+            "x"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "n0 > n1"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "n1 > n2"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "n2 > n3"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "n3 > n4"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "n4 > n5"
+          ],
+          "line": 13
+        },
+        {
+          "cells": [
+            "n5 > n6"
+          ],
+          "line": 14
+        }
+      ],
+      {
+        "id": "six"
+      }
+    ]
+  },
+  {
+    "name": "fail-workflow-columns",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "n0",
+            "A very long node label that keeps going and going so that no band of two ever fits 0",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "n1",
+            "A very long node label that keeps going and going so that no band of two ever fits 1",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "n2",
+            "A very long node label that keeps going and going so that no band of two ever fits 2",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "n3",
+            "A very long node label that keeps going and going so that no band of two ever fits 3",
+            "backend"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "n4",
+            "A very long node label that keeps going and going so that no band of two ever fits 4",
+            "backend"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "n5",
+            "A very long node label that keeps going and going so that no band of two ever fits 5",
+            "backend"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "n6",
+            "A very long node label that keeps going and going so that no band of two ever fits 6",
+            "backend"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "n0 > n1"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "n1 > n2"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "n2 > n3"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "n3 > n4"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "n4 > n5"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "n5 > n6"
+          ],
+          "line": 13
+        }
+      ],
+      {
+        "id": "cols"
+      }
+    ]
+  },
+  {
+    "name": "fail-erd-field",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b.id",
+            "bigint"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-erd-field-shape",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a.id.x",
+            "bigint"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-expect-erd-relationship",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "erd",
+      [
+        {
+          "cells": [
+            "entity a",
+            "A"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "a > a"
+          ],
+          "line": 2
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-unsupported-lifecycle",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "lifecycle",
+      [
+        {
+          "cells": [
+            "a",
+            "A"
+          ],
+          "line": 1
+        }
+      ],
+      {
+        "id": "life"
+      }
+    ]
+  },
+  {
+    "name": "fail-tree-parent-id",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "tree",
+      [
+        {
+          "cells": [
+            "a",
+            "A",
+            "1x"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-timeline-lane-id",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "timeline",
+      [
+        {
+          "cells": [
+            "e",
+            "2026",
+            "E",
+            "1x"
+          ],
+          "line": 1
+        }
+      ],
+      {}
+    ]
+  },
+  {
+    "name": "fail-schema-variant",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "architecture",
+      [
+        {
+          "cells": [
+            "a",
+            "A",
+            "nonsense"
+          ],
+          "line": 1
+        }
+      ],
+      {
+        "id": "bad"
+      }
+    ]
+  },
+  {
+    "name": "workflow-branch-zh",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta locale=zh-CN\n\n## Q {#q}\n\n@workflow id=flow\n| a | Start | backend |\n| b | Left | backend |\n| c | Right | backend |\n| a > b | yes |\n| a > c | no |\n"
+    ]
+  },
+  {
+    "name": "workflow-branch-en",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta locale=en\n\n## Q {#q}\n\n@workflow id=flow\n| a | Start | backend |\n| b | Left | backend |\n| c | Right | backend |\n| a > b | yes |\n| a > c | no |\n"
+    ]
+  },
+  {
+    "name": "workflow-branch-default",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@workflow id=flow\n| a | Start | backend |\n| b | Left | backend |\n| c | Right | backend |\n| a > b | yes |\n| a > c | no |\n"
+    ]
+  }
+]

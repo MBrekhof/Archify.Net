@@ -1,0 +1,54 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "分支",
+    "output": "branches.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "分支"
+    },
+    {
+      "id": "lane-1",
+      "label": "分支 1"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "label": "开始",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "b",
+      "label": "左",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "c",
+      "label": "右",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b"
+    },
+    {
+      "id": "a-to-c-1",
+      "from": "a",
+      "to": "c"
+    }
+  ]
+}

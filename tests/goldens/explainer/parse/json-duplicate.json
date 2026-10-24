@@ -1,0 +1,39 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/answer": {
+      "line": 1,
+      "column": 23,
+      "start": 22,
+      "end": 24
+    },
+    "": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 25
+    }
+  },
+  "format": "json",
+  "sourceText": "{\"answer\":{},\"answer\":{}}",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-json",
+      "severity": "error",
+      "message": "Duplicate JSON keys would discard authored content.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "json",
+        "path": "/answer"
+      },
+      "evidence": {
+        "reason": "Duplicate JSON keys would discard authored content.",
+        "example": "Use each object key once."
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: Use each object key once."
+      ]
+    }
+  ]
+}

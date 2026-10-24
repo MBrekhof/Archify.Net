@@ -1,0 +1,169 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "facts",
+            "id": "q-facts",
+            "entries": [
+              {
+                "key": "a",
+                "value": "b"
+              }
+            ]
+          },
+          {
+            "type": "callout",
+            "id": "q-callout",
+            "level": "note",
+            "text": "c"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 62
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 62
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 62
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 62
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 42
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 42
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 42
+    },
+    "/panels/0/blocks/0/entries": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 42
+    },
+    "/panels/0/blocks/0/entries/0": {
+      "line": 8,
+      "column": 1,
+      "start": 32,
+      "end": 42
+    },
+    "/panels/0/blocks/0/entries/0/key": {
+      "line": 8,
+      "column": 1,
+      "start": 32,
+      "end": 42
+    },
+    "/panels/0/blocks/0/entries/0/value": {
+      "line": 8,
+      "column": 1,
+      "start": 32,
+      "end": 42
+    },
+    "/panels/0/blocks/1": {
+      "line": 10,
+      "column": 1,
+      "start": 43,
+      "end": 62
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 10,
+      "column": 1,
+      "start": 43,
+      "end": 62
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 10,
+      "column": 1,
+      "start": 43,
+      "end": 62
+    },
+    "/panels/0/blocks/1/level": {
+      "line": 10,
+      "column": 1,
+      "start": 43,
+      "end": 62
+    },
+    "/panels/0/blocks/1/text": {
+      "line": 10,
+      "column": 1,
+      "start": 43,
+      "end": 62
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@facts id=q\n| a | b |\n\n@callout id=q\n| c |",
+  "diagnostics": []
+}

@@ -1,0 +1,1014 @@
+[
+  {
+    "name": "families",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\nA **direct** paragraph with [facts](source:docs).\n\n- First option\n- Second option\n\n| Criterion | Option A | Option B |\n| --- | --- | --- |\n| Cost | Low {good:Affordable} | High {bad} |\n| Syntax | `a|b` {caution} | x\\|y {good} |\n\n@callout id=caution level=warning title=\"Condition\"\n| Check the premise first. |\n\n@facts id=facts\n| Token | literal\\|value |\n\n@metric id=metric label=\"Latency\" value=12.5 limit=20 unit=ms typical=true\n\n@steps id=steps\n| first-step | Read the explanation |\n\n@code id=snippet source=repo language=js\n\n@image id=image path=images/path.png alt=\"Request path\"\n\n@diff id=change caption=\"Literal change\"\n```diff\n-const tag = '<old>'; // | literal\n+const tag = '<new>'; // $HOME\n```\n\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "headings-original",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n## What is A?\n\nA text.\n\n## What is B?\n\nB text.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "headings-inserted",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n## What is C?\n\nC text.\n\n## What is A?\n\nA text.\n\n## What is B?\n\nB text.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "headings-repeated",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n## Same?\n\nText.\n\n## Same?\n\nOther."
+    ]
+  },
+  {
+    "name": "headings-explicit",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n## Same? {#first}\n\nText.\n\n## Same? {#second}\n\nOther.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "crlf-original",
+    "call": "parseExplainer",
+    "args": [
+      "# 标题\r\n\r\n结论。\r\n\r\n## 第一个？ {#first}\r\n\r\n保留此段。\r\n\r\n## 第二个？ {#second}\r\n\r\n更改此段。\r\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "crlf-updated",
+    "call": "parseExplainer",
+    "args": [
+      "# 标题\r\n\r\n结论。\r\n\r\n## 第一个？ {#first}\r\n\r\n保留此段。\r\n\r\n## 第二个？ {#second}\r\n\r\n新内容。\r\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "json-nested",
+    "call": "parseExplainer",
+    "args": [
+      "{\n\"schema_version\":1,\n\"diagram_type\":\"explainer\",\n\"meta\":{\"id\":\"artifact\",\"title\":\"Title\"},\n\"answer\":{\"summary\":\"Answer.\"},\n\"panels\":[{\"id\":\"panel\",\"title\":\"Why?\",\"blocks\":[{\n\"id\":\"latency\",\"type\":\"metric\",\"label\":\"Latency\",\n\"value\":\"wrong\"\n}]}],\n\"sources\":[{\"id\":\"facts\",\"title\":\"Facts\"}]\n}",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "json-duplicate",
+    "call": "parseExplainer",
+    "args": [
+      "{\"answer\":{},\"answer\":{}}"
+    ]
+  },
+  {
+    "name": "json-wrong-shape",
+    "call": "parseExplainer",
+    "args": [
+      "{\"sources\":{}}"
+    ]
+  },
+  {
+    "name": "shorthand-api-redis",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@sequence id=request\n| actor api | API | backend |\n| actor redis | Redis | database |\n| api | redis | GET key |\n\n@diagram waterfall id=trace source=trace.waterfall.json\n\n@steps id=walkthrough\n| query | Read cache | | request | | api~redis | api-to-redis-1 |\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "restricted-1",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@unknown\n| x |\n",
+      {
+        "inputPath": "bad.md"
+      }
+    ]
+  },
+  {
+    "name": "restricted-2",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@facts\n| one |\n",
+      {
+        "inputPath": "bad.md"
+      }
+    ]
+  },
+  {
+    "name": "restricted-3",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@metric label=\"Latency\" value=Infinity\n",
+      {
+        "inputPath": "bad.md"
+      }
+    ]
+  },
+  {
+    "name": "restricted-4",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@callout title=\"Unclosed\n",
+      {
+        "inputPath": "bad.md"
+      }
+    ]
+  },
+  {
+    "name": "restricted-5",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@diff\n```diff\n+new\n",
+      {
+        "inputPath": "bad.md"
+      }
+    ]
+  },
+  {
+    "name": "restricted-6",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n### Unsupported deep heading\n",
+      {
+        "inputPath": "bad.md"
+      }
+    ]
+  },
+  {
+    "name": "calibration-1",
+    "call": "parseExplainer",
+    "args": [
+      "# 临时数据方案\n结论：选 A。这是虚构场景：团队要存放临时预览数据。\n\n## 标准是否满足？\n| 标准 | A | B |\n|---|---|---|\n| 数据无需跨重启保留 | ok | ok |\n| 无需磁盘 | ok | no |\n| 无需后台任务 | ok | no |\n",
+      {
+        "output": "/tmp/explainer-calibration/result.html"
+      }
+    ]
+  },
+  {
+    "name": "calibration-2",
+    "call": "parseExplainer",
+    "args": [
+      "# 缓存读取\n这里只说明流程，没有测量性能。\n\n## 命中和未命中怎样处理？\n1. API 先查 Redis。\n2. 命中时，API 直接返回缓存值。\n3. 未命中时，API 读取数据库。\n4. API 回填 Redis，再返回结果。\n",
+      {
+        "output": "/tmp/explainer-calibration/result.html"
+      }
+    ]
+  },
+  {
+    "name": "calibration-3",
+    "call": "parseExplainer",
+    "args": [
+      "# 记录请求\n请求经 API 查询 Store，再返回 Client。\n\n## 请求怎样往返？\n@sequence\nClient | API | 请求记录\nAPI | Store | 查询记录\nStore | API | 返回记录 | return\nAPI | Client | 返回记录 | return\n",
+      {
+        "output": "/tmp/explainer-calibration/result.html"
+      }
+    ]
+  },
+  {
+    "name": "literal-pipes-meta",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@meta locale=en\n\n@sequence id=trace\nactor api | API | backend\nactor store | Store | database\napi | store | Query\\|read\n\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "reasons-scope-span",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nChoose a modular monolith.\n\n- One deployment\n- Local transactions\n\n@answer scope=\"An eight-person team\"\n@source docs title=\"Reference\" url=https://example.com\n\n## Why? {#why span=7}\n\nRead [docs](source:docs). [](source:docs)\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "reasons-ordered",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n1. Ordered"
+    ]
+  },
+  {
+    "name": "reasons-nested",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n- First\n  - Nested"
+    ]
+  },
+  {
+    "name": "comparison-row-id",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@comparison columns=\"A,B\"\nCost {#cost-row} | Low {good} | High {bad}\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "reasons-separated",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n@answer scope=\"Scope\"\n\n- Late reason\n\n## Why?\n\nText."
+    ]
+  },
+  {
+    "name": "span-zero",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n## Why? {#why span=0}\n\nText.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "fences",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n| Need | Output |\n| --- | --- |\n| Read | Diagram |\n\n```bash title=\"Run tests\"\nnpm test -- --grep \"a | b\"\n```\n\n```diff\n--- a/x\n+++ b/x\n@@ -1 +1 @@\n-old\n+new\n```\n",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "fence-unclosed",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n```js\nopen()\n"
+    ]
+  },
+  {
+    "name": "fence-arguments",
+    "call": "parseExplainer",
+    "args": [
+      "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n```js lines=1:2\nx\n```\n"
+    ]
+  },
+  {
+    "name": "callout-paragraph",
+    "call": "parseExplainer",
+    "args": [
+      "# Title\n\nAnswer.\n\n## Pitfalls {#pitfalls}\n\n@callout id=pitfalls level=warning title=\"Stop first\"\n\nDo not pay before checking the deed.\nAsk for the owner ID.\n\n## Next {#next}\n\nText.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "diagram-panel-clash",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#flow}\n\n@sequence id=flow\n| a | b | hi |"
+    ]
+  },
+  {
+    "name": "citation-after-assessment",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@source law title=\"Civil code\" url=https://example.com/law\n\n## Q {#q}\n\n| Who | Risk |\n| --- | --- |\n| Sublet | Can be ended {bad:Lose both} [](source:law) |",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "source-cell",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## Q {#q}\n\n@architecture id=map\n| api | API | backend | source:router |\n| db | DB | database |\n| api > db | reads |",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "source-cell-missing",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@architecture id=map\n| api | API | backend | source:nope |\n| db | DB | database |\n| api > db | reads |",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "style-editorial",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta style=editorial\n\n## Q {#q}\n\nText.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "style-neon",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta style=neon\n\n## Q {#q}\n\nText.",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "badge-and-node-route",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n| Trap | Verdict |\n| --- | --- |\n| Flood car | {bad:Drop} |\n\n@sequence id=flow\n| actor a | A |\n| actor b | B |\n| a | b | hi |\n\n@steps id=walk\n| one | Hello | Detail | flow | a~b |\n| two | Back | Detail | flow | b |",
+      {
+        "inputPath": "answer.md"
+      }
+    ]
+  },
+  {
+    "name": "case-finalize-delivery",
+    "call": "parseExplainer",
+    "args": [
+      "# Archify finalize 经过哪些模块？失败时旧产物怎么保住？ {#finalize-modules}\n\n`finalize` 是编排器，不是渲染器：`runFinalize` 按序调用 `deliver → check → browser-check` 三个子命令（validate 内嵌在 deliver 里），每道门用 sha256 与 `receiptId` 验收回执绑定的是本产物，第一道失败即停。旧产物只在 deliver 的提交点被替换。新 HTML 先在同目录 `.archify-delivery-*` 暂存区渲染并通过检查，提交时旧文件先备份、再用硬链接换上。中途失败自动回滚，连回滚都失败就保留恢复目录。\n\n- 三道门复用同一个 CLI；finalize 校验每份回执的类型、字节数与哈希。[](source:finalize-mjs)\n- 提交前目标路径零写入；提交时先备份再 `linkSync`，任何绑定不符即中止。[](source:commit)\n- 交付锁与 pending journal 让中断 fail-closed：并发被拒，残留态不可信。[](source:deliver)\n- 边界：commit 成功后 check 或 browser-check 失败不回滚，旧产物只保到提交点。\n\n@answer scope=\"Archify @ 82c47ca · bin/finalize.mjs + archify.mjs · explainer 默认无 browser-check 门\"\n@meta locale=zh-CN repo_url=https://github.com/tt-a1i/archify repo_revision=82c47ca31d83749020ff30d6b1172248e71d255d\n@source finalize-mjs title=\"runFinalize 编排器\" path=archify/bin/finalize.mjs lines=722:1050\n@source commit title=\"commitDeliveryPair：备份、提交、回滚\" path=archify/bin/archify.mjs lines=3236:3624\n@source deliver title=\"commandDeliver 交付主流程\" path=archify/bin/archify.mjs lines=4400:5301\n@source check-cmd title=\"check 与 provenance 检查\" path=archify/bin/archify.mjs lines=5418:5659\n@source recover title=\"recover-output.mjs 恢复入口\" path=archify/bin/recover-output.mjs lines=1:41\n\n## finalize 把一次交付拆成哪几道门？ {#gates}\n\nexplainer 候选先经 `prepareExplainerInput` 编译成冻结 bundle，每道门前后复核其依赖未变。原生图默认三道门全跑；explainer 只跑 `deliver + check`，加 `--browser-check` 才开浏览器门。\n\n@workflow id=finalize-gates title=\"finalize 的模块链\"\n| lane orch | 编排 bin/finalize.mjs |\n| lane del | 交付 deliver 子命令 |\n| lane ver | 验证子命令 |\n| cli | commandFinalize 解析参数 | backend | orch |\n| snap | 快照候选·开收据 | backend | orch |\n| del | 锁+journal+暂存渲染 | backend | del |\n| commit | commitDeliveryPair | backend | del |\n| chk | check 严格复查 | backend | ver |\n| brw | browser-check Chrome | backend | ver |\n| rec | .finalize.json 收据 | database | orch |\n| cli > snap | |\n| snap > del | |\n| del > commit | |\n| commit > chk | pass |\n| chk > brw | pass |\n| brw > rec | |\n\n@steps id=gate-steps\n| parse | commandFinalize 解析参数 | 解析质量、repo、out-dir；explainer 预编译为冻结 bundle；并行启动有界 update 检查。 | finalize-gates | cli |\n| snap | 快照候选·开收据 | 记录输入 sha256；两个收据路径先原子捕获再写。 | finalize-gates | snap |\n| del | 锁+journal+暂存渲染 | 拿交付锁、写 pending journal，渲染与自检都在暂存区；任一门失败即停并写诊断。 | finalize-gates | del |\n| chk | check 严格复查 | provenance=current 且 sha 匹配后跑严格检查，再过浏览器门。 | finalize-gates | chk |\n\n## 哪一步失败，旧产物处于什么状态？ {#failure-matrix}\n\n| 失败点 | 输出路径上的旧产物 | 保护机制 |\n| --- | --- | --- |\n| 参数、输入或 validate 失败 | 原样未动 {good:安全} | 渲染前不碰目标；交付锁都还没拿 |\n| 暂存渲染或 deliver 内 artifact 检查失败 | 原样未动 {good:安全} | 候选只写 `.archify-delivery-*`；检查失败报 previous artifact was preserved |\n| `commitDeliveryPair` 中途失败 | 自动回滚 {good:安全} | 旧文件先备份成 `.previous-output` 与 `.previous-provenance`，异常时逐一 link 回目标并复核绑定 |\n| 回滚失败或锁丢失 | 留在恢复目录 {caution:需手工} | `recoveryRequired`：暂存目录不清理，`recover-output.mjs` 可恢复旧文件 |\n| 并发另一次 deliver，或残留 lock/pending | 被锁挡住 {good:安全} | `delivery/concurrent-attempt` 或 `lock-stale`，新交付拒绝开始 |\n| deliver 已提交后 check、browser-check 失败 | 已被新产物替换 {caution:边界} | 新产物已过自身检查；finalize 标 fail、写诊断，不自动回退 |\n\n## 一次 finalize 在磁盘上留下哪些文件？ {#sidecars}\n\n| 文件 | 角色 |\n| --- | --- |\n| `<out>.delivery.json` | 成功 provenance：`receiptId`、spec 与 artifact 的 sha256、validation 摘要 |\n| `<out>.delivery-pending.json` | 进行中 journal；提交时删除，残留即交付中断的证据 |\n| `<out>.delivery-lock.json` | 交付锁；挡住并发与 stale 交付 |\n| `<out>.browser-check.json` | 浏览器证据回执；原生图默认产出 |\n| `<out>.finalize.json` 与 `-summary.json` | finalize 完整与压缩回执，经临时文件加绑定原子发布 |\n| `.archify-delivery-*` 目录 | 暂存区：spec 快照、渲染候选、`.previous-*` 备份；正常清理，需恢复时保留 |\n\n## 交付中断后按什么顺序确认？ {#recovery}\n\n- [ ] 看 `.finalize-summary.json` 的 `failedStage` 与 `diagnostics[].supportedFixes`，定位停在哪道门。\n- [ ] 报 `recoveryRequired` 时，运行 `node bin/recover-output.mjs <暂存目录>` 恢复保留的旧文件。\n- [ ] 发现残留 lock 或 pending 时，按诊断先串行恢复再重试，不直接删文件。\n- [ ] 需要回到旧版本时，提交点之后只能用自己的版本控制或备份。\n",
+      {
+        "inputPath": "finalize-delivery.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "case-first-rental",
+    "call": "parseExplainer",
+    "args": [
+      "# 第一次在大城市租房，签合同前要确认哪些事？ {#first-rent}\n\n核心是三件事：**确认人、确认房、确认钱**。核实房东身份和产权，把关键条款写进合同，所有付款和交接留证据。\n\n- 签约前核对房东身份和产权，拒绝只靠口头承诺。\n- 租金、押金、租期、违约、维修责任必须写进合同。\n- 付款走可留痕的方式，交接时逐项验房拍照。\n\n@answer scope=\"中国大陆城市 · 普通住宅整租或合租 · 首次签约\"\n@meta locale=zh-CN\n\n## 签约前按什么顺序确认？ {#flow}\n\n@workflow id=rent-flow title=\"签约前确认顺序\"\n| lane verify | 核实 |\n| lane paper | 合同和钱 |\n| lane move | 交接 |\n| see | 实地看房 | external | verify |\n| id | 核对身份和产权 | backend | verify |\n| ok | 签约身份已核实？ | backend | verify |\n| walk | 放弃这套房 | external | verify |\n| terms | 条款写进合同 | backend | paper |\n| pay | 付款并留凭证 | backend | paper |\n| check | 逐项验房拍照 | backend | move |\n| see > id | |\n| id > ok | |\n| ok > walk | 否 | dashed |\n| ok > terms | 是 | emphasis |\n| terms > pay | |\n| pay > check | |\n\n@steps id=rent-steps\n| see | 实地看房 | 晚上和周末各看一次；测采光、噪音、水压、手机信号；查通勤时间。 | rent-flow | see |\n| id | 核对身份和产权 | 看身份证原件和房产证；核实签约人是产权人，或持有产权人授权委托书的代理人。 | rent-flow | id |\n| terms | 条款写进合同 | 为减少争议，将关键承诺写进合同或补充条款，并由双方确认。 | rent-flow | terms |\n| pay | 付款并留凭证 | 转账备注用途；要求收据，或在合同里注明已收金额。 | rent-flow | pay |\n| check | 逐项验房拍照 | 水电燃气表读数、家具家电、已有破损全部拍照存档。 | rent-flow | check |\n\n## 合同里必须写清哪些条款？ {#clauses}\n\n| 条款 | 要确认什么 | 常见坑 |\n| --- | --- | --- |\n| 租金和付款 | 金额、支付周期、收款账户是房东本人 | 收款人不是房东 {bad:风险高} |\n| 押金 | 金额、退还条件、退还时限 | 以卫生费、损耗费名义克扣 {bad:风险高} |\n| 租期和退租 | 起止日期、提前退租违约金 | 违约扣全部押金 {caution:注意} |\n| 维修责任 | 家电、水管、电路坏了谁修谁付钱 | 全部推给租客 {caution:注意} |\n| 转租和续租 | 能否转租、续租时涨租幅度 | 禁止转租又不让退租 {caution:注意} |\n| 杂费承担 | 水电气、物业、网费、取暖谁付 | 上任租客的欠费算到你头上 {caution:注意} |\n\n## 签约当天核对什么？ {#day-of}\n\n@facts id=day-checks\n| 房东身份证 | 原件核对，姓名与房产证一致 |\n| 房产证或不动产权证 | 核对房屋地址和产权人 |\n| 代理人签约 | 须有产权人签字的授权委托书 |\n| 首笔付款 | 押金加首期租金，金额写进合同 |\n| 中介费 | 常见为半个月到一个月租金，事先说定（经验值） |\n\n@callout level=warning title=\"这些情况直接放弃\"\n| 只给看照片、不让实地看房，还催你先交定金锁房。\n| 拿不出产权证明，或二房东没有原房东同意转租的书面文件。\n| 要求现金或转账到第三方账户，且不给收据。\n| 新装修房有刺鼻气味，或明显是隔断间、群租房。\n\n## 交接验房查什么？ {#handover}\n\n- [ ] 抄下水表、电表、燃气表读数，拍照留档\n- [ ] 试空调、热水器、燃气灶、洗衣机、马桶下水\n- [ ] 检查门窗锁、水压、渗漏\n- [ ] 记录墙面和地板已有破损，拍照发给房东留证\n- [ ] 清点钥匙和门禁卡数量\n- [ ] 确认上任租客的水电燃气物业费已结清\n",
+      {
+        "inputPath": "first-rental.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "case-p99-tail-latency",
+    "call": "parseExplainer",
+    "args": [
+      "# P99 从 80 ms 涨到 600 ms，平均值几乎没变：少数请求变慢了 {#p99-tail}\n\nP99 飙升、平均值不动，意思是最慢的 1%–2% 请求从 80 ms 恶化到 600 ms，其余请求基本正常。最常见原因是排队争用、个别实例或下游变慢、少数请求走了慢路径。排查从慢请求的 trace 开始，不是从全局指标开始。\n\n- 平均值对尾部不敏感：15/1000 个请求涨到 600 ms，平均值只涨约 8 ms。\n- 尾部恶化几乎总是某一部分请求出问题，不是接口整体变慢。\n- 顺序原则：先定位慢在哪一段，再按维度切分，最后对照变更和资源。\n\n@answer scope=\"数值为示意 · 假设常见 Web/微服务接口 · P99 按第 990/1000 个值计\"\n@meta locale=zh-CN\n\n## 为什么平均值没动？ {#why-mean-flat}\n\n```mermaid title=\"接口延迟前后对比\"\nxychart-beta\n  x-axis [\"平均值\", \"P50\", \"P99\"]\n  y-axis \"ms\" 0 --> 700\n  bar \"之前\" [80, 80, 80]\n  bar \"之后\" [88, 80, 600]\n```\n\n985 个请求 80 ms 加 15 个请求 600 ms：平均值 `(985×80 + 15×600) / 1000 = 87.8` ms，只多 7.8 ms；P99 取第 990 个值，正好落在 15 个慢请求里，于是跳到 600 ms。平均值掩盖尾部问题，这正是要监控 P95/P99 的原因。\n\n## 按什么顺序排查 {#triage-order}\n\n@workflow id=p99-triage title=\"排查顺序：先定位，再切分\"\n| lane locate | 先定位 |\n| lane split | 再切分 |\n| lane fix | 后对照 |\n| confirm | 确认指标口径 | external | locate |\n| trace | 抽样慢请求 trace | backend | locate |\n| dim | 按实例/下游/参数切分 | backend | split |\n| change | 对照发布与配置变更 | backend | fix |\n| res | 检查资源争用 | backend | fix |\n| confirm > trace | 现象属实 |\n| trace > dim | 慢在哪段 |\n| dim > change | 集中到某维度 |\n| change > res | 无变更则查资源 |\n\n@steps id=triage-steps\n| s1 | 确认指标口径 | 看 P50/P95 是否也涨，排除聚合或采样方式变化。 | p99-triage | confirm |\n| s2 | 抽样慢请求 trace | 抓至少 10 条 ≥500 ms 的 trace，看时间花在排队、下游还是自身处理。 | p99-triage | trace |\n| s3 | 按实例/下游/参数切分 | 慢请求集中在某个实例、某个下游，还是共享某个参数。 | p99-triage | dim |\n| s4 | 对照发布与配置变更 | 尖刺起点对齐 deploy、配置、feature flag、依赖升级。 | p99-triage | change |\n| s5 | 检查资源争用 | 看连接池等待、线程池队列、GC 暂停、CPU 限流、锁竞争。 | p99-triage | res |\n\n## 最可能的原因 {#causes}\n\n| 候选原因 | 典型迹象 | 怎么确认 |\n| --- | --- | --- |\n| 排队与资源争用 | trace 里等待占大头，延迟随负载波动 | 看连接池、线程池等待时间与队列深度 {caution:最常见} |\n| 单个坏实例 | 慢请求集中在一两个节点 | 按实例切 P99，找离群节点 |\n| 下游尾部变慢 | 慢 trace 中下游 span 占八成以上 | 查慢查询、锁等待、缓存命中率 |\n| 慢路径或异常参数 | 慢请求共享某参数、某用户或大请求体 | 对慢样本做特征聚类 |\n| GC 或运行时暂停 | 周期性尖刺，与 GC 日志时间重合 | 对比 STW 时长与尖刺时刻 |\n| 重试放大 | 下游偶发超时引发重试 | 看下游 QPS 是否同比放大 |\n\n## 动手清单 {#checklist}\n\n- [ ] 拉最近 1 小时 ≥500 ms 的 trace，至少 10 条\n- [ ] 按实例、下游、接口参数切分慢请求分布\n- [ ] 尖刺起点对照部署、配置、flag 变更时间线\n- [ ] 检查连接池/线程池等待、GC 暂停、CPU 限流指标\n- [ ] 确认 P50/P95 走势，区分尾部恶化与口径变化\n",
+      {
+        "inputPath": "p99-tail-latency.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "case-tls-first-visit",
+    "call": "parseExplainer",
+    "args": [
+      "# What happens when a browser opens an HTTPS site for the first time? {#first-visit}\n\nThe browser resolves the hostname, opens TCP, then runs a **one-round-trip TLS 1.3 handshake**. It agrees fresh encryption keys and checks the server's identity before any request is sent.\n\n- The browser sends its key share inside `ClientHello`, so one round trip is enough.[](source:rfc8446)\n- After `ServerHello` everything is encrypted, including the server's certificate.[](source:rfc8446)\n- `CertificateVerify` proves the server holds the certificate's private key.\n- Keys come from ephemeral shares, so a later leak of the private key cannot decrypt this session.\n\n@answer scope=\"TLS 1.3 over TCP · first visit to a host · no proxy, no resumption\"\n@meta locale=en\n@source rfc8446 title=\"RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3\" url=https://www.rfc-editor.org/rfc/rfc8446\n\n## What crosses the wire before the first request? {#wire}\n\n@sequence id=tls-visit title=\"First HTTPS visit: DNS to first response\"\n| actor browser | Browser | frontend |\n| actor dns | DNS resolver | external |\n| actor server | Web server | backend |\n| phase | Name lookup |\n| browser | dns | DNS query: example.com |\n| dns | browser | IP address | return |\n| phase | TCP handshake · 1 RTT |\n| browser | server | SYN |\n| server | browser | SYN + ACK | return |\n| browser | server | ACK |\n| phase | TLS 1.3 handshake · 1 RTT |\n| browser | server | ClientHello: suites, SNI, key share |\n| server | browser | ServerHello: chosen suite, key share | return |\n| server | browser | Certificate + CertificateVerify + Finished, encrypted | return |\n| browser | server | Finished | emphasis |\n| phase | Encrypted HTTP |\n| browser | server | GET / |\n| server | browser | 200 OK + page | return |\n\n@steps id=visit-steps\n| resolve | DNS resolver | Turns the hostname into an IP before the connection can start. | tls-visit | dns |\n| hello | Browser | Opens TCP and sends `ClientHello` with TLS 1.3, cipher suites, the hostname and an ephemeral key share. | tls-visit | browser |\n| prove | Web server | Sends its key share, then certificate and `Finished` under encryption; checks the client's `Finished`. | tls-visit | server |\n\n@callout id=quic level=note title=\"What about HTTP/3?\"\n| With QUIC, the TCP steps disappear: QUIC runs the same TLS 1.3 handshake inside the transport, still in one round trip.\n\n## How does the browser know this is the real site? {#trust}\n\n| Check | What the browser verifies |\n| --- | --- |\n| Chain | The certificate chains to a root CA in the browser's trust store. |\n| Hostname | The site's name appears in the certificate's subject alternative name (SAN) list. |\n| Validity | Today sits inside the certificate's not-before and not-after dates. |\n| Ownership | `CertificateVerify` signs the handshake transcript; only the private-key holder could produce it. |\n| Revocation | Stapled OCSP or CRLs, checked best-effort; many browsers accept an unreachable check. {caution:Weak} |\n\n## Where do the session keys come from? {#keys}\n\n@facts id=key-facts\n| Key shares | Each side sends an ephemeral Diffie-Hellman share, usually X25519. |\n| Shared secret | Each side combines its private share with the peer's public share. |\n| Key schedule | HKDF expands the secret plus the transcript into handshake, then traffic keys. |\n| Forward secrecy | Shares are discarded after use, so later key theft cannot decrypt this session. |\n| Client `Finished` | Confirms both sides hold the same keys; the request can now ride on them. |\n\n## What changes on the next visit? {#revisit}\n\n| Aspect | First visit | Resumed visit |\n| --- | --- | --- |\n| Server proof | Full certificate and signature check | Pre-shared key from a `NewSessionTicket` |\n| Round trips to first byte | DNS + TCP + 1 RTT of TLS | TCP, then data can ride with `ClientHello` {good:0-RTT} |\n| Early data risk | None; the request waits for `Finished` | 0-RTT data can be replayed, so servers limit what it may do {caution:Replayable} |\n",
+      {
+        "inputPath": "tls-first-visit.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "delivery-example",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"title\": \"缓存未命中时，请求为什么变慢？\",\n    \"id\": \"mechanism\",\n    \"locale\": \"zh-CN\"\n  },\n  \"answer\": {\n    \"summary\": \"缓存未命中后，请求要多等**数据库查询和同步写回缓存**两段。\",\n    \"reasons\": [\n      \"命中时，接口读到缓存值就能返回。\",\n      \"未命中时，接口必须先拿到数据库结果。\",\n      \"同步写回位于响应之前，写完缓存才能结束请求。\"\n    ],\n    \"scope\": \"示例采用旁路缓存：GET返回空值后查询PostgreSQL，查询成功后同步SET再响应；无并行、重试或其他缓存层。未实测耗时，具体慢多少由链路测量决定。\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"timeline\",\n      \"title\": \"一次未命中，时间花在哪？\",\n      \"blocks\": [\n        {\n          \"type\": \"steps\",\n          \"id\": \"cache-path-steps\",\n          \"items\": [\n            {\n              \"id\": \"get-step\",\n              \"text\": \"读取缓存\",\n              \"detail\": \"GET返回空值，接口继续向数据库查询。[](source:get-doc)\"\n            },\n            {\n              \"id\": \"query-step\",\n              \"text\": \"查询PostgreSQL\",\n              \"detail\": \"等待数据库执行SQL并返回结果。\"\n            },\n            {\n              \"id\": \"set-step\",\n              \"text\": \"同步写回Redis\",\n              \"detail\": \"SET完成后，接口返回响应。[](source:set-doc)\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"diff\",\n      \"title\": \"命中和未命中，差在哪几步？\",\n      \"blocks\": [\n        {\n          \"type\": \"comparison\",\n          \"id\": \"cache-comparison\",\n          \"columns\": [\n            \"命中\",\n            \"未命中\"\n          ],\n          \"rows\": [\n            {\n              \"label\": \"读Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"取得值\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"直接返回\"\n                },\n                {\n                  \"text\": \"取得空值\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"继续查询\"\n                }\n              ],\n              \"id\": \"row-67fe9814e476\"\n            },\n            {\n              \"label\": \"查PostgreSQL\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去查询\"\n                },\n                {\n                  \"text\": \"等待结果\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-bb530b3792c8\"\n            },\n            {\n              \"label\": \"写回Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去写回\"\n                },\n                {\n                  \"text\": \"同步SET\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-cbc9f8528502\"\n            },\n            {\n              \"label\": \"响应路径\",\n              \"cells\": [\n                {\n                  \"text\": \"一段读取\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"路径短\"\n                },\n                {\n                  \"text\": \"三段顺序等待\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"路径长\"\n                }\n              ],\n              \"id\": \"row-d108c6645625\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"checks\",\n      \"title\": \"想缩短等待，先查什么？\",\n      \"blocks\": [\n        {\n          \"type\": \"list\",\n          \"ordered\": false,\n          \"items\": [\n            \"记录`cache=hit`或`cache=miss`，区分请求路径。\",\n            \"分别观察GET、SQL和SET耗时，先处理最慢的一段。\",\n            \"检查SQL索引与执行计划；改为异步写回前，设计写入失败的恢复流程。\"\n          ],\n          \"id\": \"list-7e8599e477aa\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"get-doc\",\n      \"title\": \"Redis GET：不存在的键返回空值\",\n      \"url\": \"https://redis.io/docs/latest/commands/get/\"\n    },\n    {\n      \"id\": \"set-doc\",\n      \"title\": \"Redis SET：设置键值\",\n      \"url\": \"https://redis.io/docs/latest/commands/set/\"\n    }\n  ]\n}\n",
+      {
+        "inputPath": "delivery.explainer.json",
+        "output": "out\\delivery.html"
+      }
+    ]
+  },
+  {
+    "name": "fail-heading-second-title",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q\n\nText.\n\n# Again\n"
+    ]
+  },
+  {
+    "name": "fail-block-before-panel",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@facts\n| a | b |\n\n## Q\n\nText."
+    ]
+  },
+  {
+    "name": "fail-rows-unclosed-code",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts\n| a | `b |\n"
+    ]
+  },
+  {
+    "name": "fail-directive-malformed-args",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts =x\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "fail-directive-unclosed-quote",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@callout title=\"Open\n| a |\n"
+    ]
+  },
+  {
+    "name": "fail-directive-unseparated",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@callout title=\"a\"b\n| a |\n"
+    ]
+  },
+  {
+    "name": "fail-directive-duplicate-arg",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts id=a id=b\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "fail-row-width",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@steps\n| only |\n"
+    ]
+  },
+  {
+    "name": "fail-boolean",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@list ordered=yes\n| a |\n"
+    ]
+  },
+  {
+    "name": "fail-number",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@metric label=x value=abc limit=1e999\n"
+    ]
+  },
+  {
+    "name": "fail-directive-malformed",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@Facts\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "fail-unsupported-component",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@table\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "fail-unsupported-argument",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts foo=1 bar=2\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "fail-positional",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts first\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "fail-header-only-meta",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@meta locale=en\n| x |\n"
+    ]
+  },
+  {
+    "name": "fail-source-no-id",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@source title=\"x\"\n"
+    ]
+  },
+  {
+    "name": "fail-source-lines",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@source a lines=1-2\n"
+    ]
+  },
+  {
+    "name": "fail-source-rows",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@source a title=\"x\"\n| row |\n"
+    ]
+  },
+  {
+    "name": "fail-step-diagram",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@steps\n| s | Text | | | node |\n"
+    ]
+  },
+  {
+    "name": "fail-diagram-type-count",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@diagram id=d source=a.json\n"
+    ]
+  },
+  {
+    "name": "fail-diagram-type-count-rows",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@diagram id=d\n| a | b | c |\n"
+    ]
+  },
+  {
+    "name": "fail-diagram-spec-json",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@diagram sequence id=d spec='{bad'\n"
+    ]
+  },
+  {
+    "name": "fail-diagram-several",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@sequence id=d source=x.json\n| a | b | c |\n"
+    ]
+  },
+  {
+    "name": "fail-chart-names",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@chart type=bar data=x.csv\n"
+    ]
+  },
+  {
+    "name": "fail-chart-kind",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@chart type=area data=x.csv x=a y=b,c\n"
+    ]
+  },
+  {
+    "name": "fail-header-only-metric",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@metric value=1\n| x |\n"
+    ]
+  },
+  {
+    "name": "fail-snippet-empty",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n```js\n\n```\n"
+    ]
+  },
+  {
+    "name": "fail-table-shape",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n| a | b |\n| c | d |\n"
+    ]
+  },
+  {
+    "name": "fail-table-width",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n| a | b |\n| --- | --- |\n| c |\n"
+    ]
+  },
+  {
+    "name": "fail-checklist-mixed",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n- [ ] Check the deposit\n- Plain item\n"
+    ]
+  },
+  {
+    "name": "fail-answer-before-title",
+    "call": "parseExplainer",
+    "args": [
+      "Answer first.\n\n# T\n\n## Q\n\nText."
+    ]
+  },
+  {
+    "name": "fail-answer-two-paragraphs",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nOne.\n\n@answer scope=\"s\"\nTwo.\n\n## Q\n\nText."
+    ]
+  },
+  {
+    "name": "fail-empty-markdown",
+    "call": "parseExplainer",
+    "args": [
+      "null"
+    ]
+  },
+  {
+    "name": "fail-unsupported-quote",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n> quoted\n\n***\n"
+    ]
+  },
+  {
+    "name": "fail-id-syntax",
+    "call": "parseExplainer",
+    "args": [
+      "# T {#1bad}\n\nA.\n\n## Q {#q}\n\nText."
+    ]
+  },
+  {
+    "name": "fail-id-length",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}\n\nText."
+    ]
+  },
+  {
+    "name": "fail-id-duplicate-block",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts id=q2\n| a | b |\n\n@facts id=q2\n| c | d |\n"
+    ]
+  },
+  {
+    "name": "json-error-property-name",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": 1,\n  b: 2\n}"
+    ]
+  },
+  {
+    "name": "json-error-property-or-brace",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  b: 2\n}"
+    ]
+  },
+  {
+    "name": "json-error-comma-or-brace",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": 1\n  \"b\": 2\n}"
+    ]
+  },
+  {
+    "name": "json-error-comma-or-bracket",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": [1\n  2]\n}"
+    ]
+  },
+  {
+    "name": "json-error-colon",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\" 1\n}"
+    ]
+  },
+  {
+    "name": "json-error-unterminated-string",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": \"x"
+    ]
+  },
+  {
+    "name": "json-error-control-character",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": \"x\n\"}"
+    ]
+  },
+  {
+    "name": "json-error-non-whitespace",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": 1\n}\n}"
+    ]
+  },
+  {
+    "name": "json-error-end-of-input",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": [1,"
+    ]
+  },
+  {
+    "name": "json-error-token-trailing-comma",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": [1,]\n}"
+    ]
+  },
+  {
+    "name": "json-error-token-empty-value",
+    "call": "parseExplainer",
+    "args": [
+      "{\"a\":}"
+    ]
+  },
+  {
+    "name": "json-error-token-context",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"schema_version\": 1,\n  \"panels\": [1, 2,]\n}"
+    ]
+  },
+  {
+    "name": "json-error-token-line-in-source",
+    "call": "parseExplainer",
+    "args": [
+      "[\"see line 4\",]"
+    ]
+  },
+  {
+    "name": "json-error-bom",
+    "call": "parseExplainer",
+    "args": [
+      "﻿{\"schema_version\":1}"
+    ]
+  },
+  {
+    "name": "json-error-number",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": 01\n}"
+    ]
+  },
+  {
+    "name": "json-error-escape",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": \"\\x\"\n}"
+    ]
+  },
+  {
+    "name": "json-error-unicode-escape",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": \"\\u12g4\"\n}"
+    ]
+  },
+  {
+    "name": "json-error-minus",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": -\n}"
+    ]
+  },
+  {
+    "name": "json-error-fraction",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": 1.\n}"
+    ]
+  },
+  {
+    "name": "json-error-exponent",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": 1e\n}"
+    ]
+  },
+  {
+    "name": "json-error-literal",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"a\": tru\n}"
+    ]
+  },
+  {
+    "name": "json-error-crlf-position",
+    "call": "parseExplainer",
+    "args": [
+      "{\r\n  \"a\": 1,\r\n  b: 2\r\n}"
+    ]
+  },
+  {
+    "name": "json-empty-array",
+    "call": "parseExplainer",
+    "args": [
+      "[]"
+    ]
+  },
+  {
+    "name": "json-array",
+    "call": "parseExplainer",
+    "args": [
+      "[{\"a\":1}]"
+    ]
+  },
+  {
+    "name": "json-key-order",
+    "call": "parseExplainer",
+    "args": [
+      "{\"z\":1,\"10\":2,\"2\":3,\"a\":[{\"1\":0,\"0\":1}],\"meta\":{\"title\":\"T\",\"1\":\"x\"}}",
+      {
+        "output": "a\\b/c.html"
+      }
+    ]
+  },
+  {
+    "name": "json-duplicate-nested",
+    "call": "parseExplainer",
+    "args": [
+      "{\n  \"meta\": {\"id\": \"a\", \"id\": \"b\"},\n  \"panels\": []\n}"
+    ]
+  },
+  {
+    "name": "json-ids",
+    "call": "parseExplainer",
+    "args": [
+      "{\"meta\":{\"id\":\"doc\"},\"panels\":[{\"id\":\"p\",\"blocks\":[{\"id\":\"p\",\"type\":\"facts\"},{\"id\":\"bad id\",\"type\":5},null,\"x\"]},{\"id\":\"doc\"}]}"
+    ]
+  },
+  {
+    "name": "cr-only",
+    "call": "parseExplainer",
+    "args": [
+      "# T\r\rAnswer.\r\r## Q\r\rText.\r"
+    ]
+  },
+  {
+    "name": "line-separator-heading",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q more\n\nText."
+    ]
+  },
+  {
+    "name": "cr-in-prose",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q\n\na\rb\n"
+    ]
+  },
+  {
+    "name": "crlf-fence",
+    "call": "parseExplainer",
+    "args": [
+      "# T\r\n\r\nA.\r\n\r\n## Q {#q}\r\n\r\n```bash title=\"Run\"\r\nnpm test\r\n```\r\n\r\n@diff caption=\"c\"\r\n```diff\r\n-a\r\n+b\r\n```\r\n\r\n"
+    ]
+  },
+  {
+    "name": "crlf-directives",
+    "call": "parseExplainer",
+    "args": [
+      "# T\r\n\r\nA.\r\n\r\n## Q {#q}\r\n\r\n@facts id=f\r\n| a | b |\r\n| c | d |\r\n\r\n@callout\r\n\r\nLine one.\r\nLine two.\r\n\r\n"
+    ]
+  },
+  {
+    "name": "line-number-prefix",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts id=f\n|| key | value |\n  || other | thing |\n\n@steps id=s\n|| one | First |\n"
+    ]
+  },
+  {
+    "name": "output-option",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\nText.\n",
+      {
+        "output": "a\\b/c.html"
+      }
+    ]
+  },
+  {
+    "name": "checklist",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n- [ ] Check the deposit\n- [x] Photograph the meters\n"
+    ]
+  },
+  {
+    "name": "comparison-citations",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@source s title=\"S\" url=https://example.com\n\n## Q {#q}\n\n| Option | Cost | Risk |\n| --- | --- | --- |\n| A {#opt-a} | Low {good:Win} [](source:s) [x](source:s) | {caution:Check} |\n| B | High {bad} | plain |\n\n@comparison columns=\"Cost,Risk\" label=Option\n| C | Mid {good:Win} [](source:s) | x |"
+    ]
+  },
+  {
+    "name": "repository-url-only",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta repo_url=https://github.com/a/b repo_provider=github\n@meta locale=en\n\n## Q {#q}\n\nText."
+    ]
+  },
+  {
+    "name": "repository-full",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta repo_url=https://github.com/a/b repo_revision=abc123 repo_link_mode=blob quality_profile=compact\n\n## Q {#q}\n\nText."
+    ]
+  },
+  {
+    "name": "changes-without-colon",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@sequence id=flow changes=a,a-to-b-1:added\n| actor a | A |\n| actor b | B |\n| a | b | hi |\n"
+    ]
+  },
+  {
+    "name": "inline-spec",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@diagram tree id=t spec='{\"schema_version\":1,\"diagram_type\":\"tree\",\"meta\":{\"title\":\"T\"},\"nodes\":[{\"id\":\"a\",\"label\":\"A\"}]}'\n"
+    ]
+  },
+  {
+    "name": "source-cell-sequence",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@source s title=\"S\"\n\n## Q {#q}\n\n@sequence id=flow\n| actor a | A | backend | source:s |\n| a | B | hi | source:s |"
+    ]
+  },
+  {
+    "name": "steps-target-forms",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@sequence id=flow\n| actor a | A |\n| actor b | B |\n| a | b | hi |\n\n@steps id=walk\n| one | Hello | | flow | a | | a-to-b-1, |\n| two | Back | Detail | flow | | a~b | |\n"
+    ]
+  },
+  {
+    "name": "blocks-auto-ids",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\nPlain prose.\n\n@prose text=\"Inline text\"\n\n@list ordered=true\n| a |\n| b |\n\n1. one\n2. two\n\n@metric label=L value=-1.5e2 typical=false\n\n@image path=a.png\n\n@code source=s\n\n@diff\n| -a |\n| +b |\n\n```mermaid title=\"Pie\"\npie\n  \"A\" : 1\n```\n\n~~~\nplain\n~~~\n\n@chart type=line data=d.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n"
+    ]
+  },
+  {
+    "name": "heading-tab",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n#\tnot a heading\n\n-\tlist with tab\n"
+    ]
+  },
+  {
+    "name": "panel-block-same-id",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@facts id=q\n| a | b |\n\n@callout id=q\n| c |"
+    ]
+  },
+  {
+    "name": "meta-twice",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta locale=en\n\n## Q {#q}\n\n@meta style=editorial\n\nText."
+    ]
+  },
+  {
+    "name": "shorthand-error-in-draft",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@sequence id=flow\n| actor a | A |\n| a | b |\n"
+    ]
+  },
+  {
+    "name": "shorthand-schema-error",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n## Q {#q}\n\n@sequence id=flow\n| a | b | hi | strange |\n"
+    ]
+  },
+  {
+    "name": "shorthand-quality",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\nA.\n\n@meta quality_profile=compact\n\n## Q {#q}\n\n@tree\n| root | Root |\n| a | A | root |"
+    ]
+  }
+]

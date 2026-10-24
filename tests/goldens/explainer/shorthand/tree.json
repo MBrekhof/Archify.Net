@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "diagram_type": "tree",
+  "meta": {
+    "title": "tree",
+    "output": "tree.html",
+    "quality_profile": "showcase"
+  },
+  "nodes": [
+    {
+      "id": "root",
+      "label": "平台"
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "parent": "root"
+    },
+    {
+      "id": "redis",
+      "label": "Redis",
+      "parent": "root"
+    }
+  ]
+}

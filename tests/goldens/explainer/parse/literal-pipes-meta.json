@@ -1,0 +1,308 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Cache choice",
+      "id": "cache-choice",
+      "locale": "en"
+    },
+    "answer": {
+      "summary": "Read the cache first on the request path."
+    },
+    "panels": [
+      {
+        "id": "reasoning",
+        "title": "What follows?",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "trace",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "What follows?",
+                "output": "trace.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "api",
+                  "label": "API",
+                  "type": "backend"
+                },
+                {
+                  "id": "store",
+                  "label": "Store",
+                  "type": "database"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "api-to-store-1",
+                  "from": "api",
+                  "to": "store",
+                  "label": "Query|read",
+                  "y": 160
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 262
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 262
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 262
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 262
+    },
+    "/meta/locale": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 158
+    },
+    "/panels/0/blocks/0": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 11,
+      "column": 1,
+      "start": 159,
+      "end": 261
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@meta locale=en\n\n@sequence id=trace\nactor api | API | backend\nactor store | Store | database\napi | store | Query\\|read\n\n",
+  "diagnostics": []
+}

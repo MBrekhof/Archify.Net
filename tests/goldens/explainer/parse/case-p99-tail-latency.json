@@ -1,0 +1,1712 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "P99 从 80 ms 涨到 600 ms，平均值几乎没变：少数请求变慢了",
+      "id": "p99-tail",
+      "locale": "zh-CN"
+    },
+    "answer": {
+      "summary": "P99 飙升、平均值不动，意思是最慢的 1%–2% 请求从 80 ms 恶化到 600 ms，其余请求基本正常。最常见原因是排队争用、个别实例或下游变慢、少数请求走了慢路径。排查从慢请求的 trace 开始，不是从全局指标开始。",
+      "reasons": [
+        "平均值对尾部不敏感：15/1000 个请求涨到 600 ms，平均值只涨约 8 ms。",
+        "尾部恶化几乎总是某一部分请求出问题，不是接口整体变慢。",
+        "顺序原则：先定位慢在哪一段，再按维度切分，最后对照变更和资源。"
+      ],
+      "scope": "数值为示意 · 假设常见 Web/微服务接口 · P99 按第 990/1000 个值计"
+    },
+    "panels": [
+      {
+        "id": "why-mean-flat",
+        "title": "为什么平均值没动？",
+        "blocks": [
+          {
+            "type": "chart",
+            "title": "接口延迟前后对比",
+            "text": "xychart-beta\n  x-axis [\"平均值\", \"P50\", \"P99\"]\n  y-axis \"ms\" 0 --> 700\n  bar \"之前\" [80, 80, 80]\n  bar \"之后\" [88, 80, 600]",
+            "id": "chart-1a749e0d2203"
+          },
+          {
+            "type": "prose",
+            "text": "985 个请求 80 ms 加 15 个请求 600 ms：平均值 `(985×80 + 15×600) / 1000 = 87.8` ms，只多 7.8 ms；P99 取第 990 个值，正好落在 15 个慢请求里，于是跳到 600 ms。平均值掩盖尾部问题，这正是要监控 P95/P99 的原因。",
+            "id": "prose-a5b19c7f5706"
+          }
+        ]
+      },
+      {
+        "id": "triage-order",
+        "title": "按什么顺序排查",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "p99-triage",
+            "diagramType": "workflow",
+            "spec": {
+              "schema_version": 2,
+              "diagram_type": "workflow",
+              "meta": {
+                "title": "排查顺序：先定位，再切分",
+                "output": "p99-triage.html",
+                "quality_profile": "showcase"
+              },
+              "nodes": [
+                {
+                  "id": "confirm",
+                  "label": "确认指标口径",
+                  "type": "external",
+                  "width": 118,
+                  "lane": "flow",
+                  "col": 0
+                },
+                {
+                  "id": "trace",
+                  "label": "抽样慢请求 trace",
+                  "type": "backend",
+                  "width": 144,
+                  "lane": "flow",
+                  "col": 1
+                },
+                {
+                  "id": "dim",
+                  "label": "按实例/下游/参数切分",
+                  "type": "backend",
+                  "width": 170,
+                  "lane": "flow",
+                  "col": 2
+                },
+                {
+                  "id": "change",
+                  "label": "对照发布与配置变更",
+                  "type": "backend",
+                  "width": 157,
+                  "lane": "flow",
+                  "col": 3
+                },
+                {
+                  "id": "res",
+                  "label": "检查资源争用",
+                  "type": "backend",
+                  "width": 118,
+                  "lane": "flow",
+                  "col": 4
+                }
+              ],
+              "lanes": [
+                {
+                  "id": "flow",
+                  "label": "排查顺序：先定位，再切分"
+                }
+              ],
+              "phases": [
+                {
+                  "id": "locate",
+                  "label": "先定位",
+                  "fromCol": 0,
+                  "toCol": 1
+                },
+                {
+                  "id": "split",
+                  "label": "再切分",
+                  "fromCol": 2,
+                  "toCol": 2
+                },
+                {
+                  "id": "fix",
+                  "label": "后对照",
+                  "fromCol": 3,
+                  "toCol": 4
+                }
+              ],
+              "edges": [
+                {
+                  "id": "confirm-to-trace-1",
+                  "from": "confirm",
+                  "to": "trace",
+                  "label": "现象属实"
+                },
+                {
+                  "id": "trace-to-dim-1",
+                  "from": "trace",
+                  "to": "dim",
+                  "label": "慢在哪段"
+                },
+                {
+                  "id": "dim-to-change-1",
+                  "from": "dim",
+                  "to": "change",
+                  "label": "集中到某维度"
+                },
+                {
+                  "id": "change-to-res-1",
+                  "from": "change",
+                  "to": "res",
+                  "label": "无变更则查资源"
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "triage-steps",
+            "items": [
+              {
+                "id": "s1",
+                "text": "确认指标口径",
+                "detail": "看 P50/P95 是否也涨，排除聚合或采样方式变化。",
+                "target": {
+                  "diagram": "p99-triage",
+                  "node": "confirm"
+                }
+              },
+              {
+                "id": "s2",
+                "text": "抽样慢请求 trace",
+                "detail": "抓至少 10 条 ≥500 ms 的 trace，看时间花在排队、下游还是自身处理。",
+                "target": {
+                  "diagram": "p99-triage",
+                  "node": "trace"
+                }
+              },
+              {
+                "id": "s3",
+                "text": "按实例/下游/参数切分",
+                "detail": "慢请求集中在某个实例、某个下游，还是共享某个参数。",
+                "target": {
+                  "diagram": "p99-triage",
+                  "node": "dim"
+                }
+              },
+              {
+                "id": "s4",
+                "text": "对照发布与配置变更",
+                "detail": "尖刺起点对齐 deploy、配置、feature flag、依赖升级。",
+                "target": {
+                  "diagram": "p99-triage",
+                  "node": "change"
+                }
+              },
+              {
+                "id": "s5",
+                "text": "检查资源争用",
+                "detail": "看连接池等待、线程池队列、GC 暂停、CPU 限流、锁竞争。",
+                "target": {
+                  "diagram": "p99-triage",
+                  "node": "res"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "causes",
+        "title": "最可能的原因",
+        "blocks": [
+          {
+            "type": "comparison",
+            "labelColumn": "候选原因",
+            "columns": [
+              "典型迹象",
+              "怎么确认"
+            ],
+            "rows": [
+              {
+                "label": "排队与资源争用",
+                "cells": [
+                  {
+                    "text": "trace 里等待占大头，延迟随负载波动"
+                  },
+                  {
+                    "text": "看连接池、线程池等待时间与队列深度",
+                    "assessment": "caution",
+                    "verdict": "最常见"
+                  }
+                ],
+                "id": "row-1d0dc97e7d3c"
+              },
+              {
+                "label": "单个坏实例",
+                "cells": [
+                  {
+                    "text": "慢请求集中在一两个节点"
+                  },
+                  {
+                    "text": "按实例切 P99，找离群节点"
+                  }
+                ],
+                "id": "row-708490e98a63"
+              },
+              {
+                "label": "下游尾部变慢",
+                "cells": [
+                  {
+                    "text": "慢 trace 中下游 span 占八成以上"
+                  },
+                  {
+                    "text": "查慢查询、锁等待、缓存命中率"
+                  }
+                ],
+                "id": "row-cb52f85b06f4"
+              },
+              {
+                "label": "慢路径或异常参数",
+                "cells": [
+                  {
+                    "text": "慢请求共享某参数、某用户或大请求体"
+                  },
+                  {
+                    "text": "对慢样本做特征聚类"
+                  }
+                ],
+                "id": "row-2535582f45fe"
+              },
+              {
+                "label": "GC 或运行时暂停",
+                "cells": [
+                  {
+                    "text": "周期性尖刺，与 GC 日志时间重合"
+                  },
+                  {
+                    "text": "对比 STW 时长与尖刺时刻"
+                  }
+                ],
+                "id": "row-1e5edb1d2533"
+              },
+              {
+                "label": "重试放大",
+                "cells": [
+                  {
+                    "text": "下游偶发超时引发重试"
+                  },
+                  {
+                    "text": "看下游 QPS 是否同比放大"
+                  }
+                ],
+                "id": "row-273b30a07ca4"
+              }
+            ],
+            "id": "comparison-974325db7892"
+          }
+        ]
+      },
+      {
+        "id": "checklist",
+        "title": "动手清单",
+        "blocks": [
+          {
+            "type": "list",
+            "ordered": false,
+            "checklist": true,
+            "items": [
+              "拉最近 1 小时 ≥500 ms 的 trace，至少 10 条",
+              "按实例、下游、接口参数切分慢请求分布",
+              "尖刺起点对照部署、配置、flag 变更时间线",
+              "检查连接池/线程池等待、GC 暂停、CPU 限流指标",
+              "确认 P50/P95 走势，区分尾部恶化与口径变化"
+            ],
+            "id": "list-e073a762bc35"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 52
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 52
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 52
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 53,
+      "end": 168
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 53,
+      "end": 168
+    },
+    "/answer/reasons": {
+      "line": 5,
+      "column": 1,
+      "start": 169,
+      "end": 279
+    },
+    "/answer/reasons/0": {
+      "line": 5,
+      "column": 1,
+      "start": 169,
+      "end": 215
+    },
+    "/answer/reasons/1": {
+      "line": 6,
+      "column": 1,
+      "start": 215,
+      "end": 245
+    },
+    "/answer/reasons/2": {
+      "line": 7,
+      "column": 1,
+      "start": 245,
+      "end": 279
+    },
+    "/answer/scope": {
+      "line": 9,
+      "column": 1,
+      "start": 280,
+      "end": 341
+    },
+    "/meta/locale": {
+      "line": 10,
+      "column": 1,
+      "start": 341,
+      "end": 360
+    },
+    "/panels/0": {
+      "line": 12,
+      "column": 1,
+      "start": 361,
+      "end": 694
+    },
+    "/panels/0/id": {
+      "line": 12,
+      "column": 1,
+      "start": 361,
+      "end": 2067
+    },
+    "/panels/0/title": {
+      "line": 12,
+      "column": 1,
+      "start": 361,
+      "end": 2067
+    },
+    "/panels/0/blocks": {
+      "line": 12,
+      "column": 1,
+      "start": 361,
+      "end": 2067
+    },
+    "/panels/0/blocks/0": {
+      "line": 14,
+      "column": 1,
+      "start": 392,
+      "end": 541
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 14,
+      "column": 1,
+      "start": 392,
+      "end": 541
+    },
+    "/panels/0/blocks/0/title": {
+      "line": 14,
+      "column": 1,
+      "start": 392,
+      "end": 541
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 15,
+      "column": 1,
+      "start": 420,
+      "end": 536
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 392,
+      "end": 541
+    },
+    "/panels/0/blocks/1": {
+      "line": 22,
+      "column": 1,
+      "start": 542,
+      "end": 693
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 22,
+      "column": 1,
+      "start": 542,
+      "end": 693
+    },
+    "/panels/0/blocks/1/text": {
+      "line": 22,
+      "column": 1,
+      "start": 542,
+      "end": 693
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 22,
+      "column": 1,
+      "start": 542,
+      "end": 693
+    },
+    "/panels/1": {
+      "line": 24,
+      "column": 1,
+      "start": 694,
+      "end": 1524
+    },
+    "/panels/1/id": {
+      "line": 24,
+      "column": 1,
+      "start": 694,
+      "end": 2067
+    },
+    "/panels/1/title": {
+      "line": 24,
+      "column": 1,
+      "start": 694,
+      "end": 2067
+    },
+    "/panels/1/blocks": {
+      "line": 24,
+      "column": 1,
+      "start": 694,
+      "end": 2067
+    },
+    "/panels/1/blocks/0": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/diagramType": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/schema_version": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/diagram_type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/meta": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/meta/title": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/meta/output": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/meta/quality_profile": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0/type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0/width": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0/lane": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/0/col": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1/type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1/width": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1/lane": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/1/col": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2/type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2/width": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2/lane": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/2/col": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3/type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3/width": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3/lane": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/3/col": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4/type": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4/width": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4/lane": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/nodes/4/col": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/lanes": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/lanes/0": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/lanes/0/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/lanes/0/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/0": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/0/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/0/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/0/fromCol": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/0/toCol": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/1": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/1/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/1/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/1/fromCol": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/1/toCol": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/2": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/2/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/2/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/2/fromCol": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/phases/2/toCol": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/0": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/0/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/0/from": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/0/to": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/0/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/1": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/1/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/1/from": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/1/to": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/1/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/2": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/2/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/2/from": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/2/to": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/2/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/3": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/3/id": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/3/from": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/3/to": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/0/spec/edges/3/label": {
+      "line": 26,
+      "column": 1,
+      "start": 722,
+      "end": 1128
+    },
+    "/panels/1/blocks/1": {
+      "line": 40,
+      "column": 1,
+      "start": 1129,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/type": {
+      "line": 40,
+      "column": 1,
+      "start": 1129,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/id": {
+      "line": 40,
+      "column": 1,
+      "start": 1129,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items": {
+      "line": 40,
+      "column": 1,
+      "start": 1129,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/0": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/0/id": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/0/text": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/0/detail": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/0/target": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/0/target/diagram": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/0/target/node": {
+      "line": 41,
+      "column": 1,
+      "start": 1152,
+      "end": 1221
+    },
+    "/panels/1/blocks/1/items/1": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/1/id": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/1/text": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/1/detail": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/1/target": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/1/target/diagram": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/1/target/node": {
+      "line": 42,
+      "column": 1,
+      "start": 1221,
+      "end": 1308
+    },
+    "/panels/1/blocks/1/items/2": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/2/id": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/2/text": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/2/detail": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/2/target": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/2/target/diagram": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/2/target/node": {
+      "line": 43,
+      "column": 1,
+      "start": 1308,
+      "end": 1376
+    },
+    "/panels/1/blocks/1/items/3": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/3/id": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/3/text": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/3/detail": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/3/target": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/3/target/diagram": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/3/target/node": {
+      "line": 44,
+      "column": 1,
+      "start": 1376,
+      "end": 1455
+    },
+    "/panels/1/blocks/1/items/4": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/4/id": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/4/text": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/4/detail": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/4/target": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/4/target/diagram": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/1/blocks/1/items/4/target/node": {
+      "line": 45,
+      "column": 1,
+      "start": 1455,
+      "end": 1523
+    },
+    "/panels/2": {
+      "line": 47,
+      "column": 1,
+      "start": 1524,
+      "end": 1887
+    },
+    "/panels/2/id": {
+      "line": 47,
+      "column": 1,
+      "start": 1524,
+      "end": 2067
+    },
+    "/panels/2/title": {
+      "line": 47,
+      "column": 1,
+      "start": 1524,
+      "end": 2067
+    },
+    "/panels/2/blocks": {
+      "line": 47,
+      "column": 1,
+      "start": 1524,
+      "end": 2067
+    },
+    "/panels/2/blocks/0": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/type": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/labelColumn": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/columns": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/columns/0": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/columns/1": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/0": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/label": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells/0": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells/0/text": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells/1": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells/1/text": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells/1/assessment": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/cells/1/verdict": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/0/id": {
+      "line": 51,
+      "column": 1,
+      "start": 1588,
+      "end": 1657
+    },
+    "/panels/2/blocks/0/rows/1": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/label": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/cells": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/cells/0": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/cells/0/text": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/cells/1": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/cells/1/text": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/1/id": {
+      "line": 52,
+      "column": 1,
+      "start": 1657,
+      "end": 1698
+    },
+    "/panels/2/blocks/0/rows/2": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/label": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/cells": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/cells/0": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/cells/0/text": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/cells/1": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/cells/1/text": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/2/id": {
+      "line": 53,
+      "column": 1,
+      "start": 1698,
+      "end": 1751
+    },
+    "/panels/2/blocks/0/rows/3": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/label": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/cells": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/cells/0": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/cells/0/text": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/cells/1": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/cells/1/text": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/3/id": {
+      "line": 54,
+      "column": 1,
+      "start": 1751,
+      "end": 1796
+    },
+    "/panels/2/blocks/0/rows/4": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/label": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/cells": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/cells/0": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/cells/0/text": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/cells/1": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/cells/1/text": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/4/id": {
+      "line": 55,
+      "column": 1,
+      "start": 1796,
+      "end": 1847
+    },
+    "/panels/2/blocks/0/rows/5": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/label": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/cells": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/cells/0": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/cells/0/text": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/cells/1": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/cells/1/text": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/rows/5/id": {
+      "line": 56,
+      "column": 1,
+      "start": 1847,
+      "end": 1886
+    },
+    "/panels/2/blocks/0/id": {
+      "line": 49,
+      "column": 1,
+      "start": 1545,
+      "end": 1886
+    },
+    "/panels/3": {
+      "line": 58,
+      "column": 1,
+      "start": 1887,
+      "end": 2067
+    },
+    "/panels/3/id": {
+      "line": 58,
+      "column": 1,
+      "start": 1887,
+      "end": 2067
+    },
+    "/panels/3/title": {
+      "line": 58,
+      "column": 1,
+      "start": 1887,
+      "end": 2067
+    },
+    "/panels/3/blocks": {
+      "line": 58,
+      "column": 1,
+      "start": 1887,
+      "end": 2067
+    },
+    "/panels/3/blocks/0": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 2067
+    },
+    "/panels/3/blocks/0/type": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 2067
+    },
+    "/panels/3/blocks/0/ordered": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 2067
+    },
+    "/panels/3/blocks/0/checklist": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 2067
+    },
+    "/panels/3/blocks/0/items": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 2067
+    },
+    "/panels/3/blocks/0/items/0": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 1948
+    },
+    "/panels/3/blocks/0/items/1": {
+      "line": 61,
+      "column": 1,
+      "start": 1948,
+      "end": 1973
+    },
+    "/panels/3/blocks/0/items/2": {
+      "line": 62,
+      "column": 1,
+      "start": 1973,
+      "end": 2002
+    },
+    "/panels/3/blocks/0/items/3": {
+      "line": 63,
+      "column": 1,
+      "start": 2002,
+      "end": 2035
+    },
+    "/panels/3/blocks/0/items/4": {
+      "line": 64,
+      "column": 1,
+      "start": 2035,
+      "end": 2067
+    },
+    "/panels/3/blocks/0/id": {
+      "line": 60,
+      "column": 1,
+      "start": 1909,
+      "end": 2067
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# P99 从 80 ms 涨到 600 ms，平均值几乎没变：少数请求变慢了 {#p99-tail}\n\nP99 飙升、平均值不动，意思是最慢的 1%–2% 请求从 80 ms 恶化到 600 ms，其余请求基本正常。最常见原因是排队争用、个别实例或下游变慢、少数请求走了慢路径。排查从慢请求的 trace 开始，不是从全局指标开始。\n\n- 平均值对尾部不敏感：15/1000 个请求涨到 600 ms，平均值只涨约 8 ms。\n- 尾部恶化几乎总是某一部分请求出问题，不是接口整体变慢。\n- 顺序原则：先定位慢在哪一段，再按维度切分，最后对照变更和资源。\n\n@answer scope=\"数值为示意 · 假设常见 Web/微服务接口 · P99 按第 990/1000 个值计\"\n@meta locale=zh-CN\n\n## 为什么平均值没动？ {#why-mean-flat}\n\n```mermaid title=\"接口延迟前后对比\"\nxychart-beta\n  x-axis [\"平均值\", \"P50\", \"P99\"]\n  y-axis \"ms\" 0 --> 700\n  bar \"之前\" [80, 80, 80]\n  bar \"之后\" [88, 80, 600]\n```\n\n985 个请求 80 ms 加 15 个请求 600 ms：平均值 `(985×80 + 15×600) / 1000 = 87.8` ms，只多 7.8 ms；P99 取第 990 个值，正好落在 15 个慢请求里，于是跳到 600 ms。平均值掩盖尾部问题，这正是要监控 P95/P99 的原因。\n\n## 按什么顺序排查 {#triage-order}\n\n@workflow id=p99-triage title=\"排查顺序：先定位，再切分\"\n| lane locate | 先定位 |\n| lane split | 再切分 |\n| lane fix | 后对照 |\n| confirm | 确认指标口径 | external | locate |\n| trace | 抽样慢请求 trace | backend | locate |\n| dim | 按实例/下游/参数切分 | backend | split |\n| change | 对照发布与配置变更 | backend | fix |\n| res | 检查资源争用 | backend | fix |\n| confirm > trace | 现象属实 |\n| trace > dim | 慢在哪段 |\n| dim > change | 集中到某维度 |\n| change > res | 无变更则查资源 |\n\n@steps id=triage-steps\n| s1 | 确认指标口径 | 看 P50/P95 是否也涨，排除聚合或采样方式变化。 | p99-triage | confirm |\n| s2 | 抽样慢请求 trace | 抓至少 10 条 ≥500 ms 的 trace，看时间花在排队、下游还是自身处理。 | p99-triage | trace |\n| s3 | 按实例/下游/参数切分 | 慢请求集中在某个实例、某个下游，还是共享某个参数。 | p99-triage | dim |\n| s4 | 对照发布与配置变更 | 尖刺起点对齐 deploy、配置、feature flag、依赖升级。 | p99-triage | change |\n| s5 | 检查资源争用 | 看连接池等待、线程池队列、GC 暂停、CPU 限流、锁竞争。 | p99-triage | res |\n\n## 最可能的原因 {#causes}\n\n| 候选原因 | 典型迹象 | 怎么确认 |\n| --- | --- | --- |\n| 排队与资源争用 | trace 里等待占大头，延迟随负载波动 | 看连接池、线程池等待时间与队列深度 {caution:最常见} |\n| 单个坏实例 | 慢请求集中在一两个节点 | 按实例切 P99，找离群节点 |\n| 下游尾部变慢 | 慢 trace 中下游 span 占八成以上 | 查慢查询、锁等待、缓存命中率 |\n| 慢路径或异常参数 | 慢请求共享某参数、某用户或大请求体 | 对慢样本做特征聚类 |\n| GC 或运行时暂停 | 周期性尖刺，与 GC 日志时间重合 | 对比 STW 时长与尖刺时刻 |\n| 重试放大 | 下游偶发超时引发重试 | 看下游 QPS 是否同比放大 |\n\n## 动手清单 {#checklist}\n\n- [ ] 拉最近 1 小时 ≥500 ms 的 trace，至少 10 条\n- [ ] 按实例、下游、接口参数切分慢请求分布\n- [ ] 尖刺起点对照部署、配置、flag 变更时间线\n- [ ] 检查连接池/线程池等待、GC 暂停、CPU 限流指标\n- [ ] 确认 P50/P95 走势，区分尾部恶化与口径变化\n",
+  "diagnostics": []
+}

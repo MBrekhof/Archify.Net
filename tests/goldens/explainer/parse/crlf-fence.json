@@ -1,0 +1,160 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "snippet",
+            "language": "bash",
+            "title": "Run",
+            "text": "npm test",
+            "id": "snippet-344df87fd1b8"
+          },
+          {
+            "type": "diff",
+            "text": "-a\r\n+b",
+            "caption": "c",
+            "id": "diff-e76ffce7f0f2"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 5
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 5
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 5
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 7,
+      "end": 11
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 7,
+      "end": 11
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 13,
+      "end": 107
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 13,
+      "end": 107
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 13,
+      "end": 107
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 13,
+      "end": 107
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 62
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 62
+    },
+    "/panels/0/blocks/0/language": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 62
+    },
+    "/panels/0/blocks/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 62
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 8,
+      "column": 1,
+      "start": 47,
+      "end": 55
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 62
+    },
+    "/panels/0/blocks/1": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 105
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 105
+    },
+    "/panels/0/blocks/1/text": {
+      "line": 13,
+      "column": 1,
+      "start": 92,
+      "end": 98
+    },
+    "/panels/0/blocks/1/caption": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 105
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 64,
+      "end": 105
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\r\n\r\nA.\r\n\r\n## Q {#q}\r\n\r\n```bash title=\"Run\"\r\nnpm test\r\n```\r\n\r\n@diff caption=\"c\"\r\n```diff\r\n-a\r\n+b\r\n```\r\n\r\n",
+  "diagnostics": []
+}

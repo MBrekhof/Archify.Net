@@ -1,0 +1,169 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Title",
+      "id": "explainer-7e8cd2056da7"
+    },
+    "answer": {
+      "summary": "Answer."
+    },
+    "panels": [
+      {
+        "id": "panel-a132add7c5c7",
+        "title": "What is A?",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "A text.",
+            "id": "prose-f85efb21d2bf"
+          }
+        ]
+      },
+      {
+        "id": "panel-6db6e9aee0ff",
+        "title": "What is B?",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "B text.",
+            "id": "prose-8f87849e293a"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 42
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 64
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 64
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 64
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 33,
+      "end": 41
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 33,
+      "end": 41
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 33,
+      "end": 41
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 33,
+      "end": 41
+    },
+    "/panels/1": {
+      "line": 9,
+      "column": 1,
+      "start": 42,
+      "end": 64
+    },
+    "/panels/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 42,
+      "end": 64
+    },
+    "/panels/1/title": {
+      "line": 9,
+      "column": 1,
+      "start": 42,
+      "end": 64
+    },
+    "/panels/1/blocks": {
+      "line": 9,
+      "column": 1,
+      "start": 42,
+      "end": 64
+    },
+    "/panels/1/blocks/0": {
+      "line": 11,
+      "column": 1,
+      "start": 57,
+      "end": 64
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 57,
+      "end": 64
+    },
+    "/panels/1/blocks/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 57,
+      "end": 64
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 57,
+      "end": 64
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Title\n\nAnswer.\n\n## What is A?\n\nA text.\n\n## What is B?\n\nB text.",
+  "diagnostics": []
+}

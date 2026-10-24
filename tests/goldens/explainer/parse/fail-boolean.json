@@ -1,0 +1,117 @@
+{
+  "document": null,
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 44
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 44
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 44
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 44
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 44
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 44
+    },
+    "/panels/0/blocks/0/items": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 44
+    },
+    "/panels/0/blocks/0/items/0": {
+      "line": 8,
+      "column": 1,
+      "start": 38,
+      "end": 44
+    },
+    "/panels/0/blocks/0/ordered": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 44
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 44
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@list ordered=yes\n| a |\n",
+  "diagnostics": [
+    {
+      "code": "explainer/parse-list",
+      "severity": "error",
+      "message": "Boolean arguments require true or false.",
+      "subject": {
+        "line": 7,
+        "column": 1,
+        "component": "list",
+        "path": "/"
+      },
+      "evidence": {
+        "reason": "Boolean arguments require true or false.",
+        "example": "multiple=true"
+      },
+      "supportedFixes": [
+        "Use the documented syntax, for example: multiple=true"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Title",
+      "id": "explainer-7e8cd2056da7"
+    },
+    "answer": {
+      "summary": "Answer."
+    },
+    "panels": [
+      {
+        "id": "pitfalls",
+        "title": "Pitfalls",
+        "blocks": [
+          {
+            "type": "callout",
+            "id": "pitfalls-callout",
+            "level": "warning",
+            "title": "Stop first",
+            "text": "Do not pay before checking the deed.\nAsk for the owner ID."
+          }
+        ]
+      },
+      {
+        "id": "next",
+        "title": "Next",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Text.",
+            "id": "prose-f7dc90d86236"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 8
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 9,
+      "end": 17
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 158
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 180
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 180
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 18,
+      "end": 180
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 43,
+      "end": 157
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 43,
+      "end": 157
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 43,
+      "end": 157
+    },
+    "/panels/0/blocks/0/level": {
+      "line": 7,
+      "column": 1,
+      "start": 43,
+      "end": 157
+    },
+    "/panels/0/blocks/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 43,
+      "end": 157
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 7,
+      "column": 1,
+      "start": 43,
+      "end": 157
+    },
+    "/panels/1": {
+      "line": 12,
+      "column": 1,
+      "start": 158,
+      "end": 180
+    },
+    "/panels/1/id": {
+      "line": 12,
+      "column": 1,
+      "start": 158,
+      "end": 180
+    },
+    "/panels/1/title": {
+      "line": 12,
+      "column": 1,
+      "start": 158,
+      "end": 180
+    },
+    "/panels/1/blocks": {
+      "line": 12,
+      "column": 1,
+      "start": 158,
+      "end": 180
+    },
+    "/panels/1/blocks/0": {
+      "line": 14,
+      "column": 1,
+      "start": 175,
+      "end": 180
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 14,
+      "column": 1,
+      "start": 175,
+      "end": 180
+    },
+    "/panels/1/blocks/0/text": {
+      "line": 14,
+      "column": 1,
+      "start": 175,
+      "end": 180
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 14,
+      "column": 1,
+      "start": 175,
+      "end": 180
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Title\n\nAnswer.\n\n## Pitfalls {#pitfalls}\n\n@callout id=pitfalls level=warning title=\"Stop first\"\n\nDo not pay before checking the deed.\nAsk for the owner ID.\n\n## Next {#next}\n\nText.",
+  "diagnostics": []
+}

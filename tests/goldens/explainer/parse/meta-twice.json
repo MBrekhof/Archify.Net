@@ -1,0 +1,124 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b",
+      "locale": "en",
+      "style": "editorial"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "prose",
+            "text": "Text.",
+            "id": "prose-a760a9d03cc1"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/meta/locale": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 59
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 65
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 65
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 65
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 26,
+      "end": 65
+    },
+    "/meta/style": {
+      "line": 9,
+      "column": 1,
+      "start": 37,
+      "end": 59
+    },
+    "/panels/0/blocks/0": {
+      "line": 11,
+      "column": 1,
+      "start": 60,
+      "end": 65
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 60,
+      "end": 65
+    },
+    "/panels/0/blocks/0/text": {
+      "line": 11,
+      "column": 1,
+      "start": 60,
+      "end": 65
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 60,
+      "end": 65
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n@meta locale=en\n\n## Q {#q}\n\n@meta style=editorial\n\nText.",
+  "diagnostics": []
+}

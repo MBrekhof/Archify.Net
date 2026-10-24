@@ -1,0 +1,364 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "T",
+      "id": "explainer-e632b7095b0b"
+    },
+    "answer": {
+      "summary": "A."
+    },
+    "panels": [
+      {
+        "id": "q",
+        "title": "Q",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "map",
+            "diagramType": "architecture",
+            "nodeSources": {
+              "api": "nope"
+            },
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "architecture",
+              "meta": {
+                "title": "Q",
+                "output": "map.html",
+                "quality_profile": "showcase"
+              },
+              "layout": {
+                "mode": "grid",
+                "cols": 2,
+                "cellW": 176,
+                "cellH": 76,
+                "gapX": 100,
+                "gapY": 110
+              },
+              "components": [
+                {
+                  "id": "api",
+                  "label": "API",
+                  "type": "backend",
+                  "row": 0,
+                  "col": 0
+                },
+                {
+                  "id": "db",
+                  "label": "DB",
+                  "type": "database",
+                  "row": 0,
+                  "col": 1
+                }
+              ],
+              "connections": [
+                {
+                  "id": "api-to-db-1",
+                  "from": "api",
+                  "to": "db",
+                  "label": "reads"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 4
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 5,
+      "end": 8
+    },
+    "/panels/0": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 122
+    },
+    "/panels/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 122
+    },
+    "/panels/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 122
+    },
+    "/panels/0/blocks": {
+      "line": 5,
+      "column": 1,
+      "start": 9,
+      "end": 122
+    },
+    "/panels/0/blocks/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/nodeSources": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/nodeSources/api": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout/mode": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout/cols": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout/cellW": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout/cellH": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout/gapX": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/layout/gapY": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/0/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/0/row": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/0/col": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/1": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/1/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/1/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/1/type": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/1/row": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/components/1/col": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/connections": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/connections/0": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/connections/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/connections/0/from": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/connections/0/to": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    },
+    "/panels/0/blocks/0/spec/connections/0/label": {
+      "line": 7,
+      "column": 1,
+      "start": 20,
+      "end": 122
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# T\n\nA.\n\n## Q {#q}\n\n@architecture id=map\n| api | API | backend | source:nope |\n| db | DB | database |\n| api > db | reads |",
+  "diagnostics": []
+}

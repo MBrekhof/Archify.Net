@@ -1,0 +1,441 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Cache choice",
+      "id": "cache-choice"
+    },
+    "answer": {
+      "summary": "Read the cache first on the request path."
+    },
+    "panels": [
+      {
+        "id": "reasoning",
+        "title": "What follows?",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "request",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "What follows?",
+                "output": "request.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "api",
+                  "label": "API",
+                  "type": "backend"
+                },
+                {
+                  "id": "redis",
+                  "label": "Redis",
+                  "type": "database"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "api-to-redis-1",
+                  "from": "api",
+                  "to": "redis",
+                  "label": "GET key",
+                  "y": 160
+                }
+              ]
+            }
+          },
+          {
+            "type": "diagram",
+            "id": "trace",
+            "diagramType": "waterfall",
+            "source": "trace.waterfall.json"
+          },
+          {
+            "type": "steps",
+            "id": "walkthrough",
+            "items": [
+              {
+                "id": "query",
+                "text": "Read cache",
+                "target": {
+                  "diagram": "request",
+                  "route": [
+                    "api",
+                    "redis"
+                  ],
+                  "edges": [
+                    "api-to-redis-1"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 31
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 32,
+      "end": 74
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 75,
+      "end": 110
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 400
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 400
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 400
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 111,
+      "end": 400
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 9,
+      "column": 1,
+      "start": 142,
+      "end": 254
+    },
+    "/panels/0/blocks/1": {
+      "line": 14,
+      "column": 1,
+      "start": 255,
+      "end": 311
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 14,
+      "column": 1,
+      "start": 255,
+      "end": 311
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 14,
+      "column": 1,
+      "start": 255,
+      "end": 311
+    },
+    "/panels/0/blocks/1/diagramType": {
+      "line": 14,
+      "column": 1,
+      "start": 255,
+      "end": 311
+    },
+    "/panels/0/blocks/1/source": {
+      "line": 14,
+      "column": 1,
+      "start": 255,
+      "end": 311
+    },
+    "/panels/0/blocks/2": {
+      "line": 16,
+      "column": 1,
+      "start": 312,
+      "end": 400
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 16,
+      "column": 1,
+      "start": 312,
+      "end": 400
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 16,
+      "column": 1,
+      "start": 312,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items": {
+      "line": 16,
+      "column": 1,
+      "start": 312,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/id": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/text": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target/diagram": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target/route": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target/route/0": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target/route/1": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target/edges": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    },
+    "/panels/0/blocks/2/items/0/target/edges/0": {
+      "line": 17,
+      "column": 1,
+      "start": 334,
+      "end": 400
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Cache choice {#cache-choice}\n\nRead the cache first on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#reasoning}\n\n@sequence id=request\n| actor api | API | backend |\n| actor redis | Redis | database |\n| api | redis | GET key |\n\n@diagram waterfall id=trace source=trace.waterfall.json\n\n@steps id=walkthrough\n| query | Read cache | | request | | api~redis | api-to-redis-1 |\n",
+  "diagnostics": []
+}

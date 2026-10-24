@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "diagram_type": "erd",
+  "meta": {
+    "title": "erd",
+    "output": "erd.html",
+    "quality_profile": "showcase"
+  },
+  "relationships": [
+    {
+      "id": "b-to-a-1",
+      "from": "b",
+      "to": "a",
+      "fromCardinality": "many",
+      "toCardinality": "one"
+    },
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b",
+      "fromCardinality": "one",
+      "toCardinality": "many",
+      "label": "owns"
+    }
+  ],
+  "layout": {
+    "mode": "grid",
+    "gapX": 96,
+    "gapY": 64
+  },
+  "entities": [
+    {
+      "id": "a",
+      "label": "A",
+      "row": 0,
+      "col": 0,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": "pk"
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "row": 0,
+      "col": 1,
+      "attributes": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "key": [
+            "pk",
+            "uk"
+          ]
+        },
+        {
+          "name": "a_id",
+          "type": "bigint",
+          "key": "fk",
+          "references": "a.id"
+        }
+      ]
+    }
+  ]
+}

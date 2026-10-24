@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The class type uses native JSON instead of shorthand rows.",
+    "code": [
+      {
+        "code": "explainer/diagram-shorthand-unsupported",
+        "severity": "error",
+        "message": "The class type uses native JSON instead of shorthand rows.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/",
+          "diagramType": "class"
+        },
+        "evidence": {
+          "reason": "diagram-shorthand-unsupported",
+          "example": "Use spec with diagram_type: class, or source: diagram.class.json."
+        },
+        "supportedFixes": [
+          "Use this form: Use spec with diagram_type: class, or source: diagram.class.json."
+        ]
+      }
+    ]
+  }
+}

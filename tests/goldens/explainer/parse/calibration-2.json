@@ -1,0 +1,147 @@
+{
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "缓存读取",
+      "id": "explainer-1ded6559f626",
+      "output": "result.html"
+    },
+    "answer": {
+      "summary": "这里只说明流程，没有测量性能。"
+    },
+    "panels": [
+      {
+        "id": "panel-cd4ad3354784",
+        "title": "命中和未命中怎样处理？",
+        "blocks": [
+          {
+            "type": "list",
+            "ordered": true,
+            "items": [
+              "API 先查 Redis。",
+              "命中时，API 直接返回缓存值。",
+              "未命中时，API 读取数据库。",
+              "API 回填 Redis，再返回结果。"
+            ],
+            "id": "list-4aee15575f5c"
+          }
+        ]
+      }
+    ],
+    "sources": []
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 7
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 7
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 7
+    },
+    "/answer": {
+      "line": 2,
+      "column": 1,
+      "start": 7,
+      "end": 23
+    },
+    "/answer/summary": {
+      "line": 2,
+      "column": 1,
+      "start": 7,
+      "end": 23
+    },
+    "/panels/0": {
+      "line": 4,
+      "column": 1,
+      "start": 24,
+      "end": 118
+    },
+    "/panels/0/id": {
+      "line": 4,
+      "column": 1,
+      "start": 24,
+      "end": 118
+    },
+    "/panels/0/title": {
+      "line": 4,
+      "column": 1,
+      "start": 24,
+      "end": 118
+    },
+    "/panels/0/blocks": {
+      "line": 4,
+      "column": 1,
+      "start": 24,
+      "end": 118
+    },
+    "/panels/0/blocks/0": {
+      "line": 5,
+      "column": 1,
+      "start": 39,
+      "end": 118
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 5,
+      "column": 1,
+      "start": 39,
+      "end": 118
+    },
+    "/panels/0/blocks/0/ordered": {
+      "line": 5,
+      "column": 1,
+      "start": 39,
+      "end": 118
+    },
+    "/panels/0/blocks/0/items": {
+      "line": 5,
+      "column": 1,
+      "start": 39,
+      "end": 118
+    },
+    "/panels/0/blocks/0/items/0": {
+      "line": 5,
+      "column": 1,
+      "start": 39,
+      "end": 56
+    },
+    "/panels/0/blocks/0/items/1": {
+      "line": 6,
+      "column": 1,
+      "start": 56,
+      "end": 76
+    },
+    "/panels/0/blocks/0/items/2": {
+      "line": 7,
+      "column": 1,
+      "start": 76,
+      "end": 95
+    },
+    "/panels/0/blocks/0/items/3": {
+      "line": 8,
+      "column": 1,
+      "start": 95,
+      "end": 118
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 39,
+      "end": 118
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# 缓存读取\n这里只说明流程，没有测量性能。\n\n## 命中和未命中怎样处理？\n1. API 先查 Redis。\n2. 命中时，API 直接返回缓存值。\n3. 未命中时，API 读取数据库。\n4. API 回填 Redis，再返回结果。\n",
+  "diagnostics": []
+}
