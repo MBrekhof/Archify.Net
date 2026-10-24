@@ -20,7 +20,7 @@ internal static partial class Pele
             {
                 // Deviation PORT-011 (PORT-008 Task 11): upstream writes the label as parsed (model.ts:18), so a Mermaid code shows as
                 // its placeholder (`#35;x` as `ﬂ°°35¶ßx`) and an HTML entity as typed. The port names the slice as the chart draws
-                // it, as radar (RA2) and venn (VN3) do.
+                // it, as venn (VN3) does (radar RA2 decodes too, but still writes a line break raw: PORT-012).
                 if (value < 0)
                 {
                     throw new PeleException(

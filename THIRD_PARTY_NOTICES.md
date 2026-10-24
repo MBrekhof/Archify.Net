@@ -9,7 +9,9 @@ Pele (https://github.com/obsidianmd/pele) is the chart renderer that archify 3.2
 notice covers:
 
 - the C# port of Pele 1.3.0 in `src/Archify.Net.Core/Pele/`;
-- `tools/pele-internals/pele-internals.mjs`, a bundle of Pele 1.3.0 source that the fixture capture uses.
+- `tools/pele-internals/pele-internals.mjs`, a bundle of Pele 1.3.0 source that the fixture capture uses;
+- the seed inputs under `tools/chart-seeds/` taken from Pele's `tests/corpus`, `tests/compat` and `tests/render`, and
+  Pele's `random` and `mutator` (`tests/support/corpus.ts`), copied into `tools/capture-fixtures.mjs`.
 
 Pele's zoom controls, and the Lucide icon its license also names, are not ported.
 
