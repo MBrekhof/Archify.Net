@@ -141,7 +141,12 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   `message-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`,
   and the port's output for them is pinned in `tests/fixtures/charts/venn.fuzz-deviations.json`.
   `node tools/chart-seeds/venn-fuzz-check.mjs` checks them against upstream itself with each fix written into a copy of
-  its vendored venn chunk, and checks that the fixes change no other fuzz case; run it after a re-mint.
+  its vendored venn chunk (`venn-oracle.mjs`), and checks that the fixes change no other fuzz case; run it after a
+  re-mint. Q1 is also closed generically (fix round 2): `node tools/chart-seeds/venn-q1-grid.mjs` writes
+  `tests/fixtures/charts/venn-q1-grid.json`, every printable ASCII character and tab, NBSP, U+3000 and é placed directly
+  before `%%` in each of venn's lexer positions, with upstream's result as is, with Q1 alone and with all four fixes (a
+  drawn SVG as its SHA-256). `ChartParityTests.Venn_q1_grid_matches_the_patched_upstream` checks the port against the
+  patched results. The capture does not write this file; run the script after changing `venn-oracle.mjs`.
 - `lines` (the core line remap after Task 8, UPSTREAM-007): upstream counts an error's line in the text the diagram
   parsed, so front matter, `%%` comment lines, directives, leading blank lines, sankey's blank lines and rows of blanks,
   and archify's pie legend (`showData` on a later line, blanks after a slice's value) move it up; the port counts the

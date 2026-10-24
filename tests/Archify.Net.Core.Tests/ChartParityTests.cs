@@ -533,6 +533,37 @@ public class ChartParityTests
         }
     }
 
+    // Q1, closed generically (fix round 2): tools/chart-seeds/venn-q1-grid.mjs puts every printable ASCII character and a few
+    // others (tab, NBSP, U+3000, é) directly before `%%` in each lexer position venn has, and records upstream as is
+    // (`node`), with Q1 alone (`q1`) and with all four fixes (`fixed`), each fix written into upstream's own venn chunk
+    // (venn-oracle.mjs). A drawn SVG is kept as its SHA-256. The port must give `fixed` for every probe (with the error's
+    // line counted in the fence, LineOnly), and every probe the fixes change must be changed by Q1 alone, so the grid needs
+    // no hand-written row: a one-character token right before `%%` that upstream silently eats is read normally.
+    [Fact] public void Venn_q1_grid_matches_the_patched_upstream()
+    {
+        static string Compact(JsonObject result)
+        {
+            var copy = (JsonObject)result.DeepClone();
+            if (copy["svg"] is JsonValue svg && svg.TryGetValue<string>(out var text) && text.Length != 64)
+                copy["svg"] = Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(text)));
+            return ExplainerCharts.Json(copy);
+        }
+        var probes = (JsonArray)DiagramLoader.ParseNode(Fixtures.Lf(Fixtures.Fixture("charts/venn-q1-grid.json")))!;
+        Assert.True(probes.Count >= 14 * 99, $"{probes.Count} probes");
+        var failures = new List<string>();
+        var changed = 0;
+        foreach (var probe in probes.Cast<JsonObject>())
+        {
+            var input = probe["input"]!.GetValue<string>();
+            var (node, q1, oracle) = (Compact(probe["node"]!.AsObject()), Compact(probe["q1"]!.AsObject()), Compact(probe["fixed"]!.AsObject()));
+            if (oracle != node && ++changed > 0 && q1 == node) failures.Add($"{Js.Quote(input)}: the fixes change it, Q1 alone does not");
+            var port = Compact((JsonObject)DiagramLoader.ParseNode(RunText(input))!);
+            if (port != oracle && !LineOnly(oracle, port, input)) failures.Add($"{Js.Quote(input)}: port {port}\n  patched upstream {oracle}");
+        }
+        Assert.True(failures.Count == 0, string.Join("\n", failures.Take(20)));
+        Assert.True(changed > 500, $"{changed} probes changed");   // the grid reaches Q1, so it cannot pass vacuously
+    }
+
     [Fact] public void Venn_stand_in_rows_are_the_stated_deviation()
     {
         foreach (var (name, quirk, swaps) in VennSwapRows)
@@ -652,6 +683,12 @@ public class ChartParityTests
         try { ExplainerCharts.Render(fence); return "no error"; }
         catch (PeleException e) { error = e; }
         if (error.Line != line) return $"the error is on line {error.Line}";
+        return TokenOnLine(fence, line, error);
+    }
+
+    // Whether fence line `line` holds the text of `error` (FenceOracle's containment test, apart so a wrong line can be tried).
+    static string? TokenOnLine(string fence, int line, PeleException error)
+    {
         var lines = ReBreak.Split(fence);
         if (line < 1 || line > lines.Length) return $"line {line} of {lines.Length}";
         string token;
@@ -672,11 +709,39 @@ public class ChartParityTests
         var tail = bare.TrimEnd().Split(' ', '\t')[^1];
         bool Holds(string t) => written.Contains(t, StringComparison.Ordinal) || bare.Contains(t, StringComparison.Ordinal)
             || bare.Length < written.Length && tail != "" && t.StartsWith(tail, StringComparison.Ordinal);
-        // Mermaid's encodeEntities first drops the last `;` of a `style …:…#…;` line, so the token may lack a `;` the fence has.
-        static string NoSemicolons(string s) => s.Replace(";", "", StringComparison.Ordinal);
-        return Holds(token) || Holds(RePlaceholder.Replace(token, "#$1;"))
-            || NoSemicolons(written).Contains(NoSemicolons(RePlaceholder.Replace(token, "#$1;")), StringComparison.Ordinal)
+        // Mermaid's encodeEntities first drops the last `;` of a `style …:…#…;` (or classDef) line, so the token may lack that
+        // one `;`: the line is also tried with it dropped, by Mermaid's own rule. The token itself is never stripped.
+        var styled = ReStyleSemicolon.Replace(written, m => m.Value[..^1]);
+        bool HoldsStyled(string t) => styled != written && styled.Contains(t, StringComparison.Ordinal);
+        var coded = RePlaceholder.Replace(token, "#$1;");
+        return Holds(token) || Holds(coded) || HoldsStyled(token) || HoldsStyled(coded)
             ? null : $"line {line} {Js.Quote(written)} has no {Js.Quote(token)}";
+    }
+
+    // encodeEntities' /style.*:\S*#.*;/ and /classDef.*:\S*#.*;/ (JS `.` and `\S`), over one line.
+    static readonly Regex ReStyleSemicolon = new($@"(?:style|classDef)[^\n\r  ]*:[^{WsBody}]*#[^\n\r  ]*;");
+
+    // The containment test is not vacuous: a `;`-only error token needs a `;` on its line, and the style-line allowance
+    // drops one `;` from the written line only.
+    [Fact] public void Fence_oracle_rejects_a_wrong_line()
+    {
+        static PeleException ErrorOf(string fence)
+        {
+            try { ExplainerCharts.Render(fence); } catch (PeleException e) { return e; }
+            throw new InvalidOperationException("no error");
+        }
+        const string semicolon = "venn-beta\n  set A\n  ;\n  set B";
+        var error = ErrorOf(semicolon);
+        Assert.Equal(3, error.Line);
+        Assert.Null(TokenOnLine(semicolon, 3, error));
+        Assert.NotNull(TokenOnLine(semicolon, 2, error));
+        Assert.NotNull(TokenOnLine(semicolon, 4, error));
+        Assert.NotNull(FenceOracle(semicolon, 2));
+        // A style line whose last `;` encodeEntities drops: the token holds `&#62rgba`, the fence `&#62;rgba`.
+        const string style = "venn-beta\nset A\nstyle A fill:&#60;scrip.5t&#62;rgba(1,2,3)";
+        error = ErrorOf(style);
+        Assert.Null(FenceOracle(style, 3));
+        Assert.NotNull(TokenOnLine(style, 2, error));
     }
 
     static string Token(string snippet, int caret)
