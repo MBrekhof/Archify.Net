@@ -66,9 +66,11 @@ const fn = async (call) => {
 const EVIDENCE_HEAD = '77eb757055fa2c17900278114600cfe23c3957d1';
 const EXPLAINER_HEAD = 'f691b4b9368318ae74b3c16e3bd96e9d33788e34';
 const EXPLAINER_ORIGIN = 'https://github.com/example/evidence';
+// `repo: true` has that origin; `repo: {origin}` names another (null: no origin). One repository per origin, built once.
 let REPO;
-function evidenceRepo() {
-  if (REPO) return REPO;
+const REPOS = new Map();
+function evidenceRepo(origin) {
+  if (REPOS.has(origin)) return REPO = REPOS.get(origin);
   const root = temp('axs-repo-');
   const env = Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.toUpperCase().startsWith('GIT_')));
   Object.assign(env, { GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: process.platform === 'win32' ? 'NUL' : '/dev/null' });
@@ -78,11 +80,17 @@ function evidenceRepo() {
   const head = git(['rev-parse', 'HEAD']);
   if (head !== EVIDENCE_HEAD) throw new Error(`evidence-repo.fi builds ${head}, expected ${EVIDENCE_HEAD}`);
   git(['fast-import', '--quiet'], fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'evidence', 'explainer-repo.fi')));
-  git(['remote', 'add', 'origin', EXPLAINER_ORIGIN]);
+  if (origin !== null) git(['remote', 'add', 'origin', origin]);
   const explainer = git(['rev-parse', 'HEAD']);
   if (explainer !== EXPLAINER_HEAD) throw new Error(`explainer-repo.fi builds ${explainer}, expected ${EXPLAINER_HEAD}`);
+  REPOS.set(origin, root);
   return REPO = root;
 }
+const repoOrigin = (repo) => {
+  if (repo === true) return EXPLAINER_ORIGIN;
+  if (repo && typeof repo === 'object' && (repo.origin === null || typeof repo.origin === 'string')) return repo.origin;
+  throw new Error(`repo is true or {origin: string | null}, not ${JSON.stringify(repo)}`);
+};
 
 // --- seed inputs ---
 // `files`: {path: {text} | {base64, zeros?} | {zeros: n} | null}, written into (null: removed from) the seed's directory.
@@ -189,7 +197,7 @@ for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort())
     const dir = path.join(seedRoot, group, seed.name);
     fs.mkdirSync(dir, { recursive: true });
     writeFiles(dir, seed.files);
-    if (seed.repo) evidenceRepo();
+    REPO = seed.repo ? evidenceRepo(repoOrigin(seed.repo)) : undefined;
     process.chdir(dir);   // relative paths resolve inside the seed's directory
     let result;
     try {

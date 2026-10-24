@@ -32,7 +32,12 @@ public partial class ExplainerParityTests
     {
         var seed = Seed(group, name);
         var dir = Directory.CreateTempSubdirectory("axs-").FullName;
-        var repo = seed["repo"]?.GetValue<bool>() == true ? EvidenceRepo.CreateExplainer() : null;
+        var repo = seed["repo"] switch   // the runner's `repo: true` or `repo: {origin}` (README.md)
+        {
+            JsonValue v when v.GetValueKind() == System.Text.Json.JsonValueKind.True => EvidenceRepo.CreateExplainer(),
+            JsonObject o => EvidenceRepo.CreateExplainer(o.Str("origin")),
+            _ => null,
+        };
         try
         {
             WriteFiles(dir, seed["files"] as JsonObject);
@@ -427,6 +432,15 @@ public partial class ExplainerParityTests
             if (Directory.Exists(Path.Join(dir, "linked"))) Directory.Delete(Path.Join(dir, "linked"));   // the junction itself, not its target
             Directory.Delete(dir, recursive: true);
         }
+    }
+
+    // Task 4 review, Minor 1: a reparse point that is neither a symbolic link nor a junction (a OneDrive Files On-Demand
+    // placeholder, dedup) is read as the file it stands for, as libuv's lstat reads it; only a link target makes a link.
+    [Fact] public void Only_symbolic_links_and_junctions_are_links()
+    {
+        Assert.False(ExplainerSources.IsLink(FileAttributes.ReparsePoint | FileAttributes.Archive | FileAttributes.Offline, () => null));
+        Assert.True(ExplainerSources.IsLink(FileAttributes.ReparsePoint | FileAttributes.Directory, () => @"C:\target"));
+        Assert.False(ExplainerSources.IsLink(FileAttributes.Archive, () => throw new InvalidOperationException("a plain file's target is never read")));
     }
 
     // --- Task 1 facts ---

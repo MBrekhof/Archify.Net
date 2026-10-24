@@ -1,0 +1,37 @@
+{
+  "sources": {
+    "router": {
+      "id": "router",
+      "title": "Router",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "path": "src/router.js",
+      "lines": [
+        1,
+        3
+      ],
+      "text": "export function route(input) {\n  return input.kind;\n}",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54
+    }
+  },
+  "assets": {},
+  "charts": {},
+  "dependencies": [
+    {
+      "kind": "repository",
+      "id": "router",
+      "path": "src/router.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54,
+      "contentBase64": "ZXhwb3J0IGZ1bmN0aW9uIHJvdXRlKGlucHV0KSB7CiAgcmV0dXJuIGlucHV0LmtpbmQ7Cn0K"
+    }
+  ],
+  "repository": {
+    "url": "https://git.example.com/team/evidence",
+    "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+    "shortRevision": "f691b4b",
+    "label": "git.example.com/team/evidence",
+    "linkMode": "local-only"
+  }
+}

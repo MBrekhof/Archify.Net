@@ -156,9 +156,15 @@ internal static class ExplainerSources
     internal readonly record struct Stamp(long Size, DateTime Written);
     internal static Stamp StampOf(FileSystemInfo info) => new(info is FileInfo file ? file.Length : 0, info.LastWriteTimeUtc);
 
+    // What Node's lstat reports as a link: libuv reads a symbolic link or a junction (mount point) as one, and every other
+    // reparse point (a cloud-file placeholder, dedup, WCI) as the regular file or directory it stands for. LinkTarget is non-null
+    // for exactly those two tags. ponytail: libuv also counts an AppExecLink (the WindowsApps aliases), which LinkTarget does not
+    // read; no draft resource lives there.
+    internal static bool IsLink(FileAttributes attributes, Func<string?> linkTarget) => attributes.HasFlag(FileAttributes.ReparsePoint) && linkTarget() is not null;
+    static bool IsLink(FileSystemInfo info) => IsLink(info.Attributes, () => info.LinkTarget);
+
     // The shared walk of readContained (:130-168) and diagrams.mjs readSpec: the real root, then each component, refusing a
-    // symbolic link, junction or any other reparse point (Node's lstat reports junctions as links too). Returns the components
-    // and their stamps; `link` builds the refusal.
+    // symbolic link or junction (IsLink). Returns the components and their stamps; `link` builds the refusal.
     internal static List<(FileSystemInfo Info, Stamp Stamp)> Walk(string baseDir, string relative, Func<Exception> link)
     {
         var full = Path.GetFullPath(baseDir);
@@ -171,8 +177,8 @@ internal static class ExplainerSources
         {
             candidate = Path.Join(candidate, part);
             var attributes = File.GetAttributes(candidate);   // throws when the component is missing
-            if (attributes.HasFlag(FileAttributes.ReparsePoint)) throw link();
             FileSystemInfo info = attributes.HasFlag(FileAttributes.Directory) ? new DirectoryInfo(candidate) : new FileInfo(candidate);
+            if (IsLink(attributes, () => info.LinkTarget)) throw link();
             ancestors.Add((info, StampOf(info)));
         }
         return ancestors;
@@ -198,7 +204,7 @@ internal static class ExplainerSources
             && ancestors.All(entry =>
             {
                 entry.Info.Refresh();
-                return !entry.Info.Attributes.HasFlag(FileAttributes.ReparsePoint) && StampOf(entry.Info) == entry.Stamp;
+                return !IsLink(entry.Info) && StampOf(entry.Info) == entry.Stamp;
             });
         return (true, unchanged ? bytes : null);
     }

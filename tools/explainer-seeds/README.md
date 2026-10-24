@@ -23,7 +23,10 @@ nothing here is hand-written output.
   `77eb757055fa2c17900278114600cfe23c3957d1`), commits `tests/fixtures/evidence/explainer-repo.fi` on top (a secret,
   CRLF, Latin-1 and NUL file; HEAD `f691b4b9368318ae74b3c16e3bd96e9d33788e34`) and adds the origin
   `https://github.com/example/evidence`. It is set as `repoRoot` on the last argument, which must be an options object.
-  A draft-based seed gets it in the draft's prepare options instead.
+  A draft-based seed gets it in the draft's prepare options instead. `repo: {origin}` builds the same repository with
+  that origin instead (`null`: no origin at all), for the `deriveRepository` branches: no origin, a local path, a
+  credentialed, non-`git` SSH or query origin, and a non-provider host (`link_mode: local-only`). The C# side builds
+  each with `EvidenceRepo.CreateExplainer(origin)`.
 
 Each seed runs with its own fresh directory as the working directory, so relative paths resolve inside it.
 
