@@ -361,14 +361,80 @@ public partial class ExplainerParityTests
             var node = Fixtures.Lf(file.Replace(".fixed.", "."));
             var fixedText = Fixtures.Lf(file);
             Assert.NotEqual(node, fixedText);
-            if (name.EndsWith(".html", StringComparison.Ordinal))
-            {   // a page's default locale picks the whole reader dictionary, so the page differs beyond its lang
-                Assert.Contains("<html lang=\"zh-CN\"", node);
-                Assert.Contains("<html lang=\"en\"", fixedText);
-                Assert.DoesNotContain("lang=\"zh-CN\"", fixedText);
+            // Decision 3 (a page from a draft without a locale) switches the whole reader dictionary; a page fixed by
+            // Decision 2 alone (an en page with a shorthand branch lane) takes the text check below.
+            if (name.EndsWith(".html", StringComparison.Ordinal) && node.Contains("<html lang=\"zh-CN\"", StringComparison.Ordinal))
+            {
+                AssertDefaultLocaleOnly(node, fixedText);
                 continue;
             }
             Assert.Equal(Masked(Decided(node)), Masked(fixedText));
+        }
+    }
+
+    // Decision 3 changes no data and no markup: the revision and the prepared and manifest payloads are byte-equal, and with
+    // text nodes, the reader dictionary and the lang value stripped, tags and attributes are identical. Only lang differs.
+    internal static void AssertDefaultLocaleOnly(string node, string fixedText)
+    {
+        Assert.Contains("<html lang=\"zh-CN\"", node);
+        Assert.Contains("<html lang=\"en\"", fixedText);
+        Assert.DoesNotContain("lang=\"zh-CN\"", fixedText);
+        static string Revision(string page) => Regex.Match(page, "<html\\b[^>]*\\bdata-revision=\"([^\"]*)\"").Groups[1].Value;
+        Assert.NotEqual("", Revision(node));
+        Assert.Equal(Revision(node), Revision(fixedText));
+        foreach (var id in new[] { "archify-explainer-prepared", "explainer-manifest" })
+            Assert.Equal(ScriptBody(node, id), ScriptBody(fixedText, id));
+        // Attribute values (the toolbar's aria-labels) may differ only by the reader dictionary: its zh and en leaves zipped
+        // into a table, plus render.mjs's inline ternaries, applied longest first.
+        var table = new List<(string Zh, string En)>
+        {
+            ("跳至正文", "Skip to content"), ("主题", "Theme"), ("典型值说明", "Typical value notes"), ("上限", "Limit"), ("超限", "Over limit by"),
+            ("有利", "Favorable"), ("有代价", "Tradeoff"), ("不利", "Unfavorable"), ("原行", "Old"), ("新行", "New"), ("改动", "Change"), ("代码改动", "Code changes"),
+        };
+        void Zip(JsonNode? zh, JsonNode? en)
+        {
+            if (zh is JsonObject zo && en is JsonObject eo) foreach (var (key, value) in zo) Zip(value, eo[key]);
+            else if (zh is JsonArray za && en is JsonArray ea) for (var i = 0; i < Math.Min(za.Count, ea.Count); i++) Zip(za[i], ea[i]);
+            else if (zh is JsonValue zv && zv.TryGetValue<string>(out var z) && en is JsonValue ev && ev.TryGetValue<string>(out var e) && z != e) table.Add((z, e));
+        }
+        Zip(JsonNode.Parse(ScriptBody(node, "explainer-reader-words")), JsonNode.Parse(ScriptBody(fixedText, "explainer-reader-words")));
+        table.Sort((a, b) => b.Zh.Length - a.Zh.Length);
+        string Translate(string tag) => tag.StartsWith("<script", StringComparison.Ordinal) || tag.StartsWith("<style", StringComparison.Ordinal)
+            ? tag : table.Aggregate(tag, (t, pair) => t.Replace(pair.Zh, pair.En));
+        Assert.Equal(string.Concat(Skeleton(node).Select(Translate)), string.Concat(Skeleton(fixedText)));
+    }
+    static string ScriptBody(string page, string id)
+    {
+        var match = Regex.Match(page, $"<script type=\"application/json\" id=\"{id}\">(.*?)</script>", RegexOptions.Singleline);
+        Assert.True(match.Success, id);
+        return match.Groups[1].Value;
+    }
+    // Tags (with their attributes) and the raw text of <style> and <script> stay, one token each; text nodes, the reader
+    // dictionary's JSON and every lang value go.
+    static IEnumerable<string> Skeleton(string page)
+    {
+        page = Regex.Replace(page, "(<script type=\"application/json\" id=\"explainer-reader-words\">).*?(</script>)", "$1$2", RegexOptions.Singleline);
+        page = Regex.Replace(page, "\\blang=\"[^\"]*\"", "lang=\"\"");
+        return Regex.Matches(page, "<script\\b[^>]*>.*?</script>|<style\\b[^>]*>.*?</style>|<[^>]*>", RegexOptions.Singleline).Select(m => m.Value);
+    }
+
+    // The page check bites: a fixed page with a changed revision, an extra attribute or changed CSS fails it.
+    [Fact] public void Default_locale_page_check_rejects_other_changes()
+    {
+        var node = Fixtures.Lf(Fixtures.Golden("explainer/pages/no-locale.html"));
+        var fixedText = Fixtures.Lf(Fixtures.Golden("explainer/pages/no-locale.fixed.html"));
+        AssertDefaultLocaleOnly(node, fixedText);
+        var revision = Regex.Match(fixedText, "data-revision=\"([0-9a-f]+)\"").Groups[1].Value;
+        foreach (var mutated in new[]
+        {
+            fixedText.Replace($"data-revision=\"{revision}\"", $"data-revision=\"{revision[1..]}0\""),
+            fixedText.Replace("<html lang=\"en\"", "<html lang=\"en\" data-extra=\"x\""),
+            Regex.Replace(fixedText, "<style>", "<style>a{color:red}", RegexOptions.None, TimeSpan.FromSeconds(5)),
+            fixedText.Replace("aria-label=\"Theme\"", "aria-label=\"Themes\""),
+        })
+        {
+            Assert.NotEqual(fixedText, mutated);
+            Assert.ThrowsAny<Xunit.Sdk.XunitException>(() => AssertDefaultLocaleOnly(node, mutated));
         }
     }
 

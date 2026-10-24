@@ -1,5 +1,12 @@
 [
   {
+    "name": "span-spacer-diff-en",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# What changes? {#span-diff}\n\nThe read path changes.\n\n@meta locale=en\n\n## Where is the diff? {#where span=5}\n\n@diff id=change\n```diff\n-return db.get(key);\n+return cache.get(key) ?? db.get(key);\n```\n\n## Why? {#why span=4}\n\nBecause the cache answers first.\n"
+    }
+  },
+  {
     "name": "en-every-block",
     "call": "renderExplainer",
     "draft": {
