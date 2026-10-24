@@ -92,7 +92,8 @@ public partial class ExplainerCommandTests
     {
         var node = Load("explainer/doctor").Cli.Stdout;
         Assert.Contains("[ok] explainer renderer, schema, and example\n[ok] Explainer runtime and reader assets\n", node);
-        var (exit, stdout, _) = CliTestHost.Run(["doctor"]);
+        // git and Chromium injected as present (the real resource lookup stays), so the fact holds on a machine without either
+        var (exit, stdout, _) = CliTestHost.Run(["doctor"], services: CliServices.Default with { GitOnPath = () => true, HeadlessShell = () => "x" });
         Assert.Equal(0, exit);
         Assert.Contains("[ok] explainer schema and example\n[ok] Explainer runtime and reader assets\n", stdout);
     }
