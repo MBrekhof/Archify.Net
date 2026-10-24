@@ -103,7 +103,7 @@ sealed class PlaywrightInspector(IPlaywright playwright, IBrowser browser) : IBr
         {
             lock (pageErrors) pageErrors.Add(text);
         }
-        // Upstream's main session sees neither the out-of-process srcdoc Viewer's console nor its own (BC:93-98, :136).
+        // Upstream's main session does not see an out-of-process srcdoc Viewer's console (BC:93-98, :136); on the headless shell the Viewer is in process.
         created.Console += (_, message) =>
         {
             if (message.Type == "error" && !message.Location.StartsWith("about:srcdoc", StringComparison.Ordinal)) Record(message.Text);

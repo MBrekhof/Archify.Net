@@ -107,7 +107,7 @@ public sealed class ExplainerBrowserTests
 
     public static TheoryData<string> BrowserFixtures() => [.. CliTestHost.FixtureNames("explainer-browser")];
 
-    // The receipt's verdicts equal Node's, or Node's without the viewer-target defect where the capture wrote `verdictsFixed`.
+    // The receipt's verdicts equal Node's, or Node's without the viewer-target platform difference where the capture wrote `verdictsFixed`.
     [Trait("Category", "Browser")]
     [Theory, MemberData(nameof(BrowserFixtures))]
     public void Verdicts_match_node(string name)
@@ -132,9 +132,10 @@ public sealed class ExplainerBrowserTests
         if (!finalize) Assert.Equal("explainer", receipt["family"]?.GetValue<string>());
     }
 
-    // UPSTREAM-DEVIATION viewer-target: on this Chromium the sandboxed srcdoc Viewer is an in-process frame with no CDP target, so
-    // upstream's inspectNativeViewer (browser-check.mjs:131-133) never finds it and every step-linked page fails
-    // explainer/browser-diagram-focus. The port finds the frame among the page's frames. Each fixed verdict is Node's where upstream found
+    // Platform difference viewer-target (not an upstream defect): on the Playwright headless shell the sandboxed srcdoc Viewer is an
+    // in-process frame with no CDP target, so upstream's target-only lookup (browser-check.mjs:131-133) never finds it and every
+    // step-linked page fails explainer/browser-diagram-focus there. On upstream's default desktop Chrome (--headless=new) the Viewer is a
+    // target and both agree. The port finds the frame among the page's frames. Each fixed verdict is Node's where upstream found
     // no Viewer target at any viewport, with the diagram-focus codes gone, interactions failing only for another diagram-* code, and
     // ok, status and exit following from the rest.
     [Fact]

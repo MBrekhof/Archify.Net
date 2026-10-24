@@ -1492,9 +1492,9 @@ async function explainerGroup() {
   // With Chromium (Decision 4): only verdicts. A fixture keeps, instead of its output, `verdicts` = {exit, ok, status, each group's
   // status, the ordered diagnostic codes} of the browser receipt (finalize: {exit, gates, browserCheck} and the browser-check sidecar's
   // `browserVerdicts`), and `viewerTargets`: whether upstream's inspectNativeViewer found the Viewer, per observation.
-  // UPSTREAM-DEVIATION viewer-target: on this Chromium the sandboxed srcdoc Viewer is an in-process frame with no CDP target, so
+  // Platform difference viewer-target (not an upstream defect, upstream's default desktop Chrome finds the Viewer): on the Playwright headless shell the sandboxed srcdoc Viewer is an in-process frame with no CDP target, so
   // browser-check.mjs:131-133 never finds it and every step-linked page fails explainer/browser-diagram-focus. The port reads the frame
-  // among the page's frames; `verdictsFixed` is upstream's verdict without that defect: no diagram-focus code, interactions failing
+  // among the page's frames; `verdictsFixed` is upstream's verdict without that platform difference: no diagram-focus code, interactions failing
   // only for another diagram-* code, ok/status/exit following.
   craft('explainer/typical-draft.json', draft({ schema_version: 1, diagram_type: 'explainer', meta: { id: 'browser-case', title: 'A test explanation', locale: 'en' },
     answer: { summary: 'Read the cache first.', reasons: ['Fewer database queries'], scope: 'Illustrative request path' },
