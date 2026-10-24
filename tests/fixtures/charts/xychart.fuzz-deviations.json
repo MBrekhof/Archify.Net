@@ -21,7 +21,7 @@
   },
   {
     "index": 26,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 35,
@@ -113,7 +113,7 @@
   },
   {
     "index": 309,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 327,
@@ -249,7 +249,7 @@
   },
   {
     "index": 776,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 780,
@@ -281,7 +281,7 @@
   },
   {
     "index": 871,
-    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+    "output": "{\n  \"error\": \"Parse error on line 2:\",\n  \"line\": 2,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
   },
   {
     "index": 902,

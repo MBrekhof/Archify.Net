@@ -10,7 +10,7 @@
 //   L1 (the line remap, UPSTREAM-007): an error's line is counted in the input as written. The checker keeps, for each
 //      character of its own preparation, where it came from in the input, so Node's error (its line and column in the
 //      parsed text) and the S4 reader's value are both put on the input's line; an error past the parsed text's end is on
-//      the line just after the last character kept.
+//      the last content line (the line of the last kept character that is not blank).
 // Run from the repo root: node tools/chart-seeds/sankey-fuzz-check.mjs. It prints each case and exits 1 if one fails.
 import fs from 'node:fs';
 
@@ -43,7 +43,8 @@ const cut = (m, re) => edit(m, [...m.s.matchAll(re)].map((x) => ({ at: x.index, 
 const slice = (m, from, to = m.s.length) => ({ s: m.s.slice(from, to), o: m.o.slice(from, to) });
 // The input's line of an offset: \r\n, \n and a lone \r each end one.
 const inputLine = (input, at) => input.slice(0, at).split(/\r\n|\n|\r/).length;
-const lineOf = (input, m, at) => inputLine(input, at < m.o.length ? m.o[at] : m.o.length ? m.o[m.o.length - 1] + 1 : 0);
+// Past the end: the last content line, the line of the last kept character that is not blank.
+const lineOf = (input, m, at) => inputLine(input, at < m.o.length ? m.o[at] : m.o.findLast((k) => !/\s/.test(input[k])) ?? 0);
 
 // S1, as stated: outside quotes, a run of blanks at a row's start or end goes, unless a comma next to it makes it a field.
 function stripEdits(body) {

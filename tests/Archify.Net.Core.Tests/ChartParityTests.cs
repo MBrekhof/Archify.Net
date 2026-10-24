@@ -382,7 +382,8 @@ public class ChartParityTests
     // after front matter, `%%` comment lines, directives and leading blank lines (and in sankey blank lines and, with S1,
     // rows of blanks) are gone, and archify's pie legend drops a `showData` written on a later line than `pie` with the line
     // breaks before it. The port counts lines as written in the fence: `\r\n`, `\n` and a lone `\r` each end one, and an
-    // error at the end of the text is on the line of the last character kept, not on the line after the "\n" Pele appends.
+    // error at the end of the text is on the last content line (the line of the last kept character that is not blank), not
+    // on a blank or comment line after it, nor on the line after the "\n" Pele appends.
     // Each row's port output is Node's (for the row, or for its reference) with the line, in `line` and in the message, set
     // to the fence line written here by hand; FenceOracle checks that line holds the error's text too.
     static (string Group, string Name, int Line, string? Reference)[] LineRemapRows =>
@@ -399,6 +400,11 @@ public class ChartParityTests
         ("lines", "xychart-directive-before-error", 3, null), ("lines", "xychart-lexical", 3, null), ("lines", "xychart-eof", 4, null),
         ("lines", "quadrant-comment", 4, null), ("lines", "quadrant-front-matter", 5, null), ("lines", "quadrant-crlf", 3, null),
         ("lines", "quadrant-parse-error", 3, null), ("lines", "quadrant-eof", 4, null),
+        // An error at the end is on the last content line, not on a comment, break or blank lines after it.
+        ("lines", "quadrant-eof-then-comment", 2, null), ("lines", "quadrant-eof-then-break", 2, null),
+        ("lines", "quadrant-eof-then-blank-lines", 2, null), ("lines", "xychart-eof-then-comment", 2, null),
+        ("lines", "xychart-eof-then-break", 2, null), ("lines", "xychart-eof-then-blank-lines", 2, null),
+        ("lines", "sankey-eof-then-comment", 3, null),
         ("lines", "sankey-blank-lines", 6, null), ("lines", "sankey-leading-blank-line", 4, null), ("lines", "sankey-comment", 4, null),
         ("lines", "sankey-front-matter", 6, null), ("lines", "sankey-blank-row-reference", 4, null), ("lines", "sankey-crlf", 4, null),
         ("lines", "sankey-lone-cr", 4, null), ("lines", "sankey-eof", 3, null), ("lines", "sankey-name-check", 3, null),
@@ -414,7 +420,7 @@ public class ChartParityTests
         ("xychart", "spec-parse-line-data-throws-error-if-data-is-not-provided", 4, null),
         ("xychart", "spec-parse-bar-should-throw-error-if-data-is-not-provided", 4, null),
         ("xychart", "render-hostile-t1-p1", 3, null), ("xychart", "stress-unclosed-string", 2, null),
-        ("quadrantChart", "stress-unclosed-acc-descr", 1335, null), ("quadrantChart", "stress-unclosed-string", 2, null),
+        ("quadrantChart", "stress-unclosed-acc-descr", 1334, null), ("quadrantChart", "stress-unclosed-string", 2, null),
         ("quadrantChart", "stress-unclosed-md-string", 2, null), ("quadrantChart", "acc-descr-unclosed", 2, null),
     ];
 
@@ -448,7 +454,9 @@ public class ChartParityTests
     // An oracle apart from the port's map: the fence's line `line` holds the error's text. That is the text at the snippet's
     // caret up to a blank (or, at a blank or the line's end, the last text before it) with Mermaid's entity placeholders
     // written back as `#…;`; for an error past the snippet's last character, the line of the last character preprocessing
-    // keeps (KeptLine); for S4, the first line of the value it names. Returns why it does not hold, or null.
+    // keeps (KeptLine); for S4, the first line of the value it names. Returns why it does not hold, or null. It is a
+    // containment check: for a short token (`x`, `1`, `"`) a neighbouring line often holds it too, so it cannot tell
+    // neighbouring lines apart there; the hand-written LineRemapRows lines and the sankey checker cover that.
     static readonly Regex ReBreak = new(@"\r\n|\n|\r");
     static readonly Regex RePlaceholder = new("ﬂ°°?([A-Za-z0-9_]+)¶ß");
     static readonly Regex ReS4 = new(@"\ASankey diagrams need a number for each link's value, and (""(?:[^""\\]|\\.)*"") on line [0-9]+ is not one\.\z");
@@ -469,7 +477,7 @@ public class ChartParityTests
         {
             var parts = error.Message.Split('\n');
             token = Token(parts[1], parts[2].Length - 1);
-            if (token == "") return KeptLine(fence, Pele.DetectType(fence) == "sankey") is var kept && kept == line ? null : $"the text ends on line {kept}";
+            if (token == "") return KeptLine(fence) is var kept && kept == line ? null : $"the text ends on line {kept}";
         }
         // The token as written may hold a placeholder the fence spells `#…;`, or a directive the fence has inside it, or run on
         // past the end of the line when a directive took the line break with it (its trailing \s*).
@@ -500,16 +508,16 @@ public class ChartParityTests
     }
 
     // preprocess.ts:16-17 written again over the fence: comment lines (from a line start, with the blanks before them) and
-    // `%%{…}%%` directives go; sankey's preparation also trims blanks. An error at the end is on the line of the last
-    // character left.
+    // `%%{…}%%` directives go. An error at the end is on the last content line: the line of the last character left that is
+    // not blank, counting the line breaks before it.
     static readonly Regex ReDropped = new($@"%%\{{[{WsBody}]*[A-Za-z0-9_](?:(?!\}}%%)[\s\S])*(?:\}}%%)?|(?<=\A|[\n\r  ])[{WsBody}]*%%(?!\{{)[^\n\r]+(?:\r\n|\n|\r)?");
-    static int KeptLine(string fence, bool sankey)
+    static int KeptLine(string fence)
     {
         var dropped = new bool[fence.Length];
         foreach (Match m in ReDropped.Matches(fence)) Array.Fill(dropped, true, m.Index, m.Length);
         var last = fence.Length - 1;
-        while (last >= 0 && (dropped[last] || sankey && Js.IsSpace(fence[last]))) last--;
-        return 1 + ReBreak.Matches(fence[..(last + 1)]).Count;
+        while (last >= 0 && (dropped[last] || Js.IsSpace(fence[last]))) last--;
+        return 1 + ReBreak.Matches(fence[..Math.Max(last, 0)]).Count;
     }
 
     // Only the remap moves the error: Node's output and the port's differ only in the error's line, the port's parser stopped
@@ -822,7 +830,9 @@ public class ChartParityTests
                 var port = RunText(input);
                 if (node == port) continue;
                 // R1: quadrantChart round 1's empty-label deviation, which moves only point labels. L1: the line remap
-                // (LineRemapRows), when the outputs differ only by it (LineOnly); the quirks are those the text shows.
+                // (LineRemapRows), when the outputs differ only by it (LineOnly); the quirks are those the text shows. A case
+                // with another quirk can be moved by the remap too and carry no L1 (the parser stops on another parsed line,
+                // or Node has no error): quadrantChart 338, 429; sankey 83, 288, 432, 476, 518, 544, 607, 621, 968.
                 var why = QuirkIn(group, input)
                     + (group == "quadrantChart" && node.Contains("\"svg\"") && OutsidePointLabels(node) == OutsidePointLabels(port) ? "R1" : "")
                     + (LineOnly(node, port, input) ? "L1" : "");

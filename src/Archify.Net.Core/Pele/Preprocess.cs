@@ -13,13 +13,20 @@ internal sealed record Preprocessed(string Text, string? Title, JsonObject Confi
 // Deviation (PORT-008 Task 11, UPSTREAM-007: mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in
 // the text the diagram parsed, so every line that preparation removes before the error (front matter, `%%` comment lines,
 // `%%{...}%%` directives, leading blank lines, sankey's blank lines, and archify's pie legend before Pele) moves the number
-// up. The port reports the line as written in the fence. `origin[i]` is the source offset of the prepared text's character i: a kept character's own, a replaced
-// run's first (no replacement holds a line break but CRLF's, which takes the CR's). Past the last character (EOF, and the
-// "\n" Pele.Render appends) is just after the last kept source character. Lines are counted as Preprocess.Run normalises
-// them: `\r\n`, `\n` and a lone `\r` each end one, and line 1 is the fence's first.
+// up. The port reports the line as written in the fence. `origin[i]` is the source offset of the prepared text's
+// character i: a kept character's own, a replaced run's first (no replacement holds a line break but CRLF's, which takes
+// the CR's). An error past the last character (EOF, and the "\n" Pele.Render appends) is on the last content line: the
+// line of the last kept source character that is not blank (controller, fix round 1), never a blank or comment line after
+// it or a line past the fence's end. Lines are counted as Preprocess.Run normalises them: `\r\n`, `\n` and a lone `\r`
+// each end one, and line 1 is the fence's first.
 internal sealed class SourceMap(string source, int[] origin)
 {
-    public int Offset(int at) => at < origin.Length ? origin[at] : origin.Length == 0 ? 0 : origin[^1] + 1;
+    public int Offset(int at)
+    {
+        if (at < origin.Length) return origin[at];
+        for (var k = origin.Length - 1; k >= 0; k--) if (!Js.IsSpace(source[origin[k]])) return origin[k];
+        return 0;
+    }
 
     // A text prepared from this one, where inner[i] is the offset here of its character i (sankey's own preparation).
     public SourceMap Then(int[] inner) => new(source, Array.ConvertAll(inner, Offset));
