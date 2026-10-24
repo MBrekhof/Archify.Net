@@ -1,0 +1,118 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 2,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/duplicate-id",
+        "severity": "error",
+        "message": "Duplicate DOM ID: explainer-manifest.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "document",
+          "id": "explainer-manifest"
+        },
+        "evidence": {
+          "reason": "Duplicate DOM ID: explainer-manifest.",
+          "example": "Give each panel, block, source and SVG preview a unique stable ID."
+        },
+        "supportedFixes": [
+          "Give each panel, block, source and SVG preview a unique stable ID."
+        ]
+      },
+      {
+        "code": "explainer/payload",
+        "severity": "error",
+        "message": "Expected one application/json payload: explainer-manifest.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "document",
+          "id": "explainer-manifest"
+        },
+        "evidence": {
+          "reason": "Expected one application/json payload: explainer-manifest.",
+          "example": "<script type=\"application/json\" id=\"explainer-manifest\">…</script>"
+        },
+        "supportedFixes": [
+          "<script type=\"application/json\" id=\"explainer-manifest\">…</script>"
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/duplicate-id",
+      "severity": "error",
+      "message": "Duplicate DOM ID: explainer-manifest.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "document",
+        "id": "explainer-manifest"
+      },
+      "evidence": {
+        "reason": "Duplicate DOM ID: explainer-manifest.",
+        "example": "Give each panel, block, source and SVG preview a unique stable ID."
+      },
+      "supportedFixes": [
+        "Give each panel, block, source and SVG preview a unique stable ID."
+      ]
+    },
+    {
+      "code": "explainer/payload",
+      "severity": "error",
+      "message": "Expected one application/json payload: explainer-manifest.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "document",
+        "id": "explainer-manifest"
+      },
+      "evidence": {
+        "reason": "Expected one application/json payload: explainer-manifest.",
+        "example": "<script type=\"application/json\" id=\"explainer-manifest\">…</script>"
+      },
+      "supportedFixes": [
+        "<script type=\"application/json\" id=\"explainer-manifest\">…</script>"
+      ]
+    }
+  ]
+}

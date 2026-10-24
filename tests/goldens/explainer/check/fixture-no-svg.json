@@ -1,0 +1,139 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "5 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": false,
+      "details": [
+        "diagram: fail"
+      ]
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "showcase",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/native-check",
+        "severity": "error",
+        "message": "Native diagram failed its existing composition checks: diagram.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "diagram",
+          "id": "diagram"
+        },
+        "evidence": {
+          "reason": "Native diagram failed its existing composition checks: diagram.",
+          "example": "Fix the nested diagram using the native checker diagnostics."
+        },
+        "supportedFixes": [
+          "Fix the nested diagram using the native checker diagnostics."
+        ]
+      }
+    ],
+    "nativeDiagrams": [
+      {
+        "id": "diagram",
+        "receipt": {
+          "ok": false,
+          "file": "<TMP>\\child.html",
+          "artifact": "<artifact>",
+          "checks": [
+            {
+              "name": "single_svg",
+              "ok": false,
+              "details": [
+                "found 0 <svg> block(s)"
+              ]
+            }
+          ],
+          "composition": {
+            "schemaVersion": 1,
+            "profile": "standard",
+            "status": "pass",
+            "summary": {
+              "errors": 0,
+              "warnings": 0
+            },
+            "metrics": {
+              "properCrossings": 0,
+              "resolvedCrossovers": 0,
+              "ambiguousCorridors": 0,
+              "containerBorderRuns": 0,
+              "labelRouteClearanceIssues": 0,
+              "minLabelRouteClearance": null,
+              "labelCanvasOverflowIssues": 0,
+              "maxBends": 0,
+              "routesOverSuggestedBends": 0,
+              "maxStretch": null,
+              "routesOverSuggestedStretch": 0,
+              "minSegmentPx": null,
+              "minInteriorSegmentPx": null,
+              "shortSegmentCount": 0,
+              "shortEndpointSegmentCount": 0,
+              "shortInteriorSegmentCount": 0,
+              "microSegmentCount": 0,
+              "desktopReadabilityIssues": 0,
+              "minProjectedNodeTextPx": null
+            },
+            "suggestedLimits": {
+              "bendsPerRelationship": 2,
+              "stretch": 1.35,
+              "segmentPx": 16,
+              "microSegmentPx": 8
+            },
+            "issues": []
+          }
+        }
+      }
+    ]
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/native-check",
+      "severity": "error",
+      "message": "Native diagram failed its existing composition checks: diagram.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "diagram",
+        "id": "diagram"
+      },
+      "evidence": {
+        "reason": "Native diagram failed its existing composition checks: diagram.",
+        "example": "Fix the nested diagram using the native checker diagnostics."
+      },
+      "supportedFixes": [
+        "Fix the nested diagram using the native checker diagnostics."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "14 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/inline-handler",
+        "severity": "error",
+        "message": "Inline event attributes are not permitted.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "document",
+          "id": "x"
+        },
+        "evidence": {
+          "reason": "Inline event attributes are not permitted.",
+          "example": "Use the packaged reader event handlers."
+        },
+        "supportedFixes": [
+          "Use the packaged reader event handlers."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/inline-handler",
+      "severity": "error",
+      "message": "Inline event attributes are not permitted.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "document",
+        "id": "x"
+      },
+      "evidence": {
+        "reason": "Inline event attributes are not permitted.",
+        "example": "Use the packaged reader event handlers."
+      },
+      "supportedFixes": [
+        "Use the packaged reader event handlers."
+      ]
+    }
+  ]
+}

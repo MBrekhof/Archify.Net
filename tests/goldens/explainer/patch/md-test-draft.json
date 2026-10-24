@@ -1,0 +1,195 @@
+{
+  "bundle": {
+    "schemaVersion": 1,
+    "kind": "archify-explainer-prepared",
+    "document": {
+      "schema_version": 1,
+      "diagram_type": "explainer",
+      "meta": {
+        "title": "What changes?",
+        "id": "patch-document"
+      },
+      "answer": {
+        "summary": "One panel changes."
+      },
+      "panels": [
+        {
+          "id": "first",
+          "title": "Why?",
+          "blocks": [
+            {
+              "type": "prose",
+              "text": "New paragraph.",
+              "id": "prose-04c1f3510ab8"
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "title": "What stays?",
+          "blocks": [
+            {
+              "type": "prose",
+              "text": "Preserve this paragraph exactly.",
+              "id": "prose-fcd3fcdca136"
+            }
+          ]
+        }
+      ],
+      "sources": []
+    },
+    "sourceMap": {
+      "/meta": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 34
+      },
+      "/meta/title": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 34
+      },
+      "/meta/id": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 34
+      },
+      "/answer": {
+        "line": 3,
+        "column": 1,
+        "start": 35,
+        "end": 54
+      },
+      "/answer/summary": {
+        "line": 3,
+        "column": 1,
+        "start": 35,
+        "end": 54
+      },
+      "/panels/0": {
+        "line": 5,
+        "column": 1,
+        "start": 55,
+        "end": 89
+      },
+      "/panels/0/id": {
+        "line": 5,
+        "column": 1,
+        "start": 55,
+        "end": 148
+      },
+      "/panels/0/title": {
+        "line": 5,
+        "column": 1,
+        "start": 55,
+        "end": 148
+      },
+      "/panels/0/blocks": {
+        "line": 5,
+        "column": 1,
+        "start": 55,
+        "end": 148
+      },
+      "/panels/0/blocks/0": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 88
+      },
+      "/panels/0/blocks/0/type": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 88
+      },
+      "/panels/0/blocks/0/text": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 88
+      },
+      "/panels/0/blocks/0/id": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 88
+      },
+      "/panels/1": {
+        "line": 9,
+        "column": 1,
+        "start": 89,
+        "end": 148
+      },
+      "/panels/1/id": {
+        "line": 9,
+        "column": 1,
+        "start": 89,
+        "end": 148
+      },
+      "/panels/1/title": {
+        "line": 9,
+        "column": 1,
+        "start": 89,
+        "end": 148
+      },
+      "/panels/1/blocks": {
+        "line": 9,
+        "column": 1,
+        "start": 89,
+        "end": 148
+      },
+      "/panels/1/blocks/0": {
+        "line": 11,
+        "column": 1,
+        "start": 115,
+        "end": 148
+      },
+      "/panels/1/blocks/0/type": {
+        "line": 11,
+        "column": 1,
+        "start": 115,
+        "end": 148
+      },
+      "/panels/1/blocks/0/text": {
+        "line": 11,
+        "column": 1,
+        "start": 115,
+        "end": 148
+      },
+      "/panels/1/blocks/0/id": {
+        "line": 11,
+        "column": 1,
+        "start": 115,
+        "end": 148
+      }
+    },
+    "format": "markdown",
+    "sourceText": "# What changes? {#patch-document}\n\nOne panel changes.\n\n## Why? {#first}\n\nNew paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n",
+    "diagnostics": [],
+    "sourcePath": "<DIR>\\author.md",
+    "baseDir": "<DIR>",
+    "quality": "standard",
+    "writingMode": "warn",
+    "source": {
+      "sha256": "7f1cc086719116f9a65b83cd181d357b4a055901ab7d0233b9cf6c34f186a56f",
+      "bytes": 148
+    },
+    "preparedSources": {
+      "sources": {},
+      "assets": {}
+    },
+    "preparedDiagrams": {
+      "diagrams": {}
+    },
+    "dependencies": [],
+    "digest": "<digest>"
+  },
+  "sourceText": "# What changes? {#patch-document}\n\nOne panel changes.\n\n## Why? {#first}\n\nNew paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n",
+  "sourcePath": "<DIR>\\author.md",
+  "previousRevision": "7df1e3e990f60fc6a68a5206211d30b585ebd63459fa8ff8d49dffac60d30a1d",
+  "previousSourceSha256": "9dbf1ce39dd6e3d5830e6aa07babb2a67dd438e65af9799d9b148eaa89b64ee4",
+  "panelId": "first"
+}

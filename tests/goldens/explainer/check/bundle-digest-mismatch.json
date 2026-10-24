@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/bundle-hash",
+        "severity": "error",
+        "message": "The canonical prepared bundle does not match its digest.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The canonical prepared bundle does not match its digest.",
+          "example": "Re-prepare and render the original draft with immutable resources."
+        },
+        "supportedFixes": [
+          "Re-prepare and render the original draft with immutable resources."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/bundle-hash",
+      "severity": "error",
+      "message": "The canonical prepared bundle does not match its digest.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The canonical prepared bundle does not match its digest.",
+        "example": "Re-prepare and render the original draft with immutable resources."
+      },
+      "supportedFixes": [
+        "Re-prepare and render the original draft with immutable resources."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The requested panel does not exist.",
+    "code": [
+      {
+        "code": "explainer/patch-target",
+        "severity": "error",
+        "message": "The requested panel does not exist.",
+        "subject": {
+          "input": "<DIR>/page.html",
+          "panelId": "missing",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "target",
+          "example": "Choose a stable panel id from the original artifact."
+        },
+        "supportedFixes": [
+          "Choose a stable panel id from the original artifact."
+        ]
+      }
+    ]
+  }
+}

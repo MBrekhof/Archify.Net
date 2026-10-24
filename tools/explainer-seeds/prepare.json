@@ -6508,5 +6508,45 @@
         "checkDependencies": false
       }
     }
+  },
+  {
+    "name": "read-retained-frozen",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# What is retained? {#retained}\n\nA patch retains frozen bytes.\n\n## What does it show? {#show}\n\n@diagram tree id=layout source=tree.json\n"
+    },
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    },
+    "mutate": {
+      "signed": [
+        {
+          "from": "\"relativePath\":\"tree.json\",",
+          "to": "\"relativePath\":\"tree.json\",\"retained\":true,"
+        }
+      ]
+    }
+  },
+  {
+    "name": "read-retained-without-bytes",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# What is retained? {#retained}\n\nA patch retains frozen bytes.\n\n## What does it show? {#show}\n\n@diagram tree id=layout source=tree.json\n"
+    },
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    },
+    "mutate": {
+      "signed": [
+        {
+          "from": "\"relativePath\":\"tree.json\",\"sha256\":\"0f7293337bb568792f02224a9d1cd4f1f9abdd5c9e28d704562470f7bf314bfc\",\"bytes\":385,\"contentBase64\"",
+          "to": "\"relativePath\":\"tree.json\",\"retained\":true,\"sha256\":\"0f7293337bb568792f02224a9d1cd4f1f9abdd5c9e28d704562470f7bf314bfc\",\"bytes\":385,\"frozenBase64\""
+        }
+      ]
+    }
   }
 ]

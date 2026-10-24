@@ -1,0 +1,606 @@
+{
+  "bundle": {
+    "schemaVersion": 1,
+    "kind": "archify-explainer-prepared",
+    "document": {
+      "schema_version": 1,
+      "diagram_type": "explainer",
+      "meta": {
+        "title": "What changes?",
+        "id": "patch-resources",
+        "locale": "en"
+      },
+      "answer": {
+        "summary": "One panel changes."
+      },
+      "panels": [
+        {
+          "id": "first",
+          "title": "Why?",
+          "blocks": [
+            {
+              "type": "prose",
+              "text": "Old paragraph.",
+              "id": "prose-cdb64c130964"
+            },
+            {
+              "type": "image",
+              "id": "pixel",
+              "path": "tiny.png",
+              "alt": "Pixel"
+            },
+            {
+              "type": "chart",
+              "id": "latency",
+              "title": "Latency",
+              "data": {
+                "path": "latency.csv",
+                "kind": "bar",
+                "x": "day",
+                "y": [
+                  "p50",
+                  "p99"
+                ],
+                "unit": "ms"
+              }
+            },
+            {
+              "type": "diagram",
+              "id": "layout",
+              "diagramType": "tree",
+              "source": "tree.json"
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "title": "What stays?",
+          "blocks": [
+            {
+              "type": "prose",
+              "text": "Changed.",
+              "id": "prose-2610f8b44289"
+            }
+          ]
+        }
+      ],
+      "sources": []
+    },
+    "sourceMap": {
+      "/meta": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 35
+      },
+      "/meta/title": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 35
+      },
+      "/meta/id": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 35
+      },
+      "/answer": {
+        "line": 3,
+        "column": 1,
+        "start": 36,
+        "end": 55
+      },
+      "/answer/summary": {
+        "line": 3,
+        "column": 1,
+        "start": 36,
+        "end": 55
+      },
+      "/meta/locale": {
+        "line": 5,
+        "column": 1,
+        "start": 56,
+        "end": 72
+      },
+      "/panels/0": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 278
+      },
+      "/panels/0/id": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 313
+      },
+      "/panels/0/title": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 313
+      },
+      "/panels/0/blocks": {
+        "line": 7,
+        "column": 1,
+        "start": 73,
+        "end": 313
+      },
+      "/panels/0/blocks/0": {
+        "line": 9,
+        "column": 1,
+        "start": 91,
+        "end": 106
+      },
+      "/panels/0/blocks/0/type": {
+        "line": 9,
+        "column": 1,
+        "start": 91,
+        "end": 106
+      },
+      "/panels/0/blocks/0/text": {
+        "line": 9,
+        "column": 1,
+        "start": 91,
+        "end": 106
+      },
+      "/panels/0/blocks/0/id": {
+        "line": 9,
+        "column": 1,
+        "start": 91,
+        "end": 106
+      },
+      "/panels/0/blocks/1": {
+        "line": 11,
+        "column": 1,
+        "start": 107,
+        "end": 149
+      },
+      "/panels/0/blocks/1/type": {
+        "line": 11,
+        "column": 1,
+        "start": 107,
+        "end": 149
+      },
+      "/panels/0/blocks/1/id": {
+        "line": 11,
+        "column": 1,
+        "start": 107,
+        "end": 149
+      },
+      "/panels/0/blocks/1/path": {
+        "line": 11,
+        "column": 1,
+        "start": 107,
+        "end": 149
+      },
+      "/panels/0/blocks/1/alt": {
+        "line": 11,
+        "column": 1,
+        "start": 107,
+        "end": 149
+      },
+      "/panels/0/blocks/2": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/type": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/id": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/title": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/path": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/kind": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/x": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/y": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/y/0": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/y/1": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/2/data/unit": {
+        "line": 13,
+        "column": 1,
+        "start": 150,
+        "end": 234
+      },
+      "/panels/0/blocks/3": {
+        "line": 15,
+        "column": 1,
+        "start": 235,
+        "end": 276
+      },
+      "/panels/0/blocks/3/type": {
+        "line": 15,
+        "column": 1,
+        "start": 235,
+        "end": 276
+      },
+      "/panels/0/blocks/3/id": {
+        "line": 15,
+        "column": 1,
+        "start": 235,
+        "end": 276
+      },
+      "/panels/0/blocks/3/diagramType": {
+        "line": 15,
+        "column": 1,
+        "start": 235,
+        "end": 276
+      },
+      "/panels/0/blocks/3/source": {
+        "line": 15,
+        "column": 1,
+        "start": 235,
+        "end": 276
+      },
+      "/panels/1": {
+        "line": 18,
+        "column": 1,
+        "start": 278,
+        "end": 313
+      },
+      "/panels/1/id": {
+        "line": 18,
+        "column": 1,
+        "start": 278,
+        "end": 313
+      },
+      "/panels/1/title": {
+        "line": 18,
+        "column": 1,
+        "start": 278,
+        "end": 313
+      },
+      "/panels/1/blocks": {
+        "line": 18,
+        "column": 1,
+        "start": 278,
+        "end": 313
+      },
+      "/panels/1/blocks/0": {
+        "line": 20,
+        "column": 1,
+        "start": 304,
+        "end": 313
+      },
+      "/panels/1/blocks/0/type": {
+        "line": 20,
+        "column": 1,
+        "start": 304,
+        "end": 313
+      },
+      "/panels/1/blocks/0/text": {
+        "line": 20,
+        "column": 1,
+        "start": 304,
+        "end": 313
+      },
+      "/panels/1/blocks/0/id": {
+        "line": 20,
+        "column": 1,
+        "start": 304,
+        "end": 313
+      }
+    },
+    "format": "markdown",
+    "sourceText": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nChanged.\n",
+    "diagnostics": [],
+    "sourcePath": "<DIR>\\draft.archify.md",
+    "baseDir": "<DIR>",
+    "quality": "showcase",
+    "writingMode": "warn",
+    "source": {
+      "sha256": "4b53ab5225cbc7d9866738b8db47fc900b9258c8fa59695d87b4cdce73adb98c",
+      "bytes": 313
+    },
+    "preparedSources": {
+      "sources": {},
+      "assets": {
+        "pixel": {
+          "id": "pixel",
+          "alt": "Pixel",
+          "path": "tiny.png",
+          "mime": "image/png",
+          "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+          "bytes": 68,
+          "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+        }
+      },
+      "charts": {
+        "latency": "xychart-beta\n  x-axis [\"Mon\", \"Tue\"]\n  y-axis \"ms\"\n  bar \"p50\" [12, 1300]\n  bar \"p99\" [40, 55]"
+      }
+    },
+    "preparedDiagrams": {
+      "diagrams": {
+        "layout": {
+          "diagramType": "tree",
+          "spec": {
+            "schema_version": 1,
+            "diagram_type": "tree",
+            "meta": {
+              "title": "tree",
+              "output": "tree.html",
+              "quality_profile": "showcase"
+            },
+            "nodes": [
+              {
+                "id": "root",
+                "label": "Platform"
+              },
+              {
+                "id": "api",
+                "label": "API",
+                "parent": "root"
+              },
+              {
+                "id": "redis",
+                "label": "Redis",
+                "parent": "root"
+              }
+            ]
+          },
+          "html": "sha256:a0cf32a856ae6c4a60231949283ac4674fdc9671a580c1a7b3702f7f59e42ee1",
+          "svg": "<svg viewBox=\"0 0 372 246\" role=\"img\" lang=\"en\" aria-labelledby=\"archify-diagram-title archify-diagram-description\" data-animation=\"trace\" data-preset=\"classic\" data-quality-profile=\"showcase\" data-tree-ui=\"\" data-tree-direction=\"down\" data-reader-fit=\"intrinsic-height\" data-reader-min-text=\"7.5\">\n        <title id=\"archify-diagram-title\">tree</title>\n        <desc id=\"archify-diagram-description\">A hierarchy diagram generated by Archify.</desc>\n        <!-- Definitions -->\n        <defs>\n          <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-default\" />\n          </marker>\n          <marker id=\"arrowhead-emphasis\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-emphasis\" />\n          </marker>\n          <marker id=\"arrowhead-security\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-security\" />\n          </marker>\n          <marker id=\"arrowhead-dashed\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-dashed\" />\n          </marker>\n          <pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 40 0 L 0 0 0 40\" class=\"c-grid\" stroke-width=\"0.5\"/>\n          </pattern>\n        </defs>\n        <style>\n          svg[data-tree-ui] .tree-hue-root { --tree-hue: var(--text-muted); --tree-wash: transparent; }\n          svg[data-tree-ui] .tree-hue-backend { --tree-hue: var(--backend-stroke); --tree-wash: var(--backend-fill); }\n          svg[data-tree-ui] .tree-hue-database { --tree-hue: var(--database-stroke); --tree-wash: var(--database-fill); }\n          svg[data-tree-ui] .tree-hue-cloud { --tree-hue: var(--cloud-stroke); --tree-wash: var(--cloud-fill); }\n          svg[data-tree-ui] .tree-hue-frontend { --tree-hue: var(--frontend-stroke); --tree-wash: var(--frontend-fill); }\n          svg[data-tree-ui] .tree-hue-messagebus { --tree-hue: var(--messagebus-stroke); --tree-wash: var(--messagebus-fill); }\n          svg[data-tree-ui] .tree-hue-external { --tree-hue: var(--external-stroke); --tree-wash: var(--external-fill); }\n          svg[data-tree-ui] .tree-edge { stroke-linejoin: round; stroke-linecap: round; }\n          svg[data-tree-ui] .tree-edge-trunk { stroke: color-mix(in srgb, var(--text) 18%, var(--arrow)); }\n          svg[data-tree-ui] .tree-edge-hued { stroke: color-mix(in srgb, var(--tree-hue) 42%, var(--arrow)); }\n          svg[data-tree-ui] .tree-root { fill: var(--text); stroke: none; }\n          svg[data-tree-ui] [data-tree-depth=\"0\"] .tree-label { fill: var(--mask); }\n          svg[data-tree-ui] [data-tree-depth=\"0\"] .tree-sublabel { fill: var(--mask); opacity: 0.68; }\n          svg[data-tree-ui] .tree-branch { fill: var(--tree-wash); stroke: color-mix(in srgb, var(--tree-hue) 48%, var(--lane-stroke)); }\n          svg[data-tree-ui] .tree-leaf { fill: var(--mask); stroke: color-mix(in srgb, var(--tree-hue) 22%, var(--lane-stroke)); }\n          svg[data-tree-ui] .tree-socket { fill: var(--mask); stroke: var(--tree-hue); pointer-events: none; }\n          svg[data-tree-ui] .tree-accent { stroke: var(--tree-hue); pointer-events: none; }\n          svg[data-tree-ui] [data-tree-stack] { display: none; fill: var(--mask); stroke: color-mix(in srgb, var(--tree-hue) 70%, var(--lane-stroke)); }\n          svg[data-tree-ui] [data-tree-collapsed] [data-tree-stack] { display: inline; }\n          svg[data-tree-ui] [data-tree-hidden] { display: none; }\n          svg[data-tree-ui] .tree-toggle-hit { fill: transparent; }\n          svg[data-tree-ui] .tree-toggle-disc { fill: var(--mask); stroke: color-mix(in srgb, var(--tree-hue) 55%, var(--lane-stroke)); transition: stroke 0.15s ease, fill 0.15s ease; }\n          svg[data-tree-ui] .tree-toggle-glyph { stroke: var(--text-muted); fill: none; transition: stroke 0.15s ease; }\n          svg[data-tree-ui] .tree-toggle-count { display: none; }\n          svg[data-tree-ui] .tree-count-pill { fill: var(--tree-hue); stroke: none; }\n          svg[data-tree-ui] .tree-toggle-count text { fill: var(--mask); }\n          svg[data-tree-ui] [data-tree-toggle] { cursor: pointer; outline: none; }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"true\"] .tree-toggle-plus { display: none; }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"false\"] .tree-toggle-count { display: inline; }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"false\"] .tree-toggle-disc { fill: var(--tree-hue); stroke: var(--tree-hue); }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"false\"] .tree-toggle-glyph { stroke: var(--mask); }\n          svg[data-tree-ui] [data-tree-toggle]:hover .tree-toggle-disc,\n          svg[data-tree-ui] [data-tree-toggle]:focus-visible .tree-toggle-disc { stroke: var(--tree-hue); stroke-width: 2; }\n          svg[data-tree-ui] [data-tree-toggle]:hover .tree-toggle-glyph,\n          svg[data-tree-ui] [data-tree-toggle]:focus-visible .tree-toggle-glyph { stroke: var(--text); }\n          svg[data-tree-ui] [data-tree-expand-all] { cursor: pointer; outline: none; }\n          svg[data-tree-ui] [data-tree-expand-all] rect { fill: var(--mask); stroke: var(--lane-stroke); }\n          svg[data-tree-ui] [data-tree-expand-all]:is(:hover, :focus-visible) rect { stroke: var(--arrow-emphasis); stroke-width: 2; }\n          svg[data-tree-ui]:not([data-tree-any-collapsed]) [data-tree-expand-all] { display: none; }\n        </style>\n\n        <!-- Background Grid -->\n        <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />\n\n        <!-- Containment links -->\n        <path data-edge-from=\"root\" data-edge-to=\"api\" data-edge-key=\"0\" data-tree-ancestors=\"root\" data-composition-points=\"186,105;186,133;102,133;102,161\" d=\"M 186 105 L 186 123 Q 186 133 176 133 L 112 133 Q 102 133 102 143 L 102 161\" class=\"a-default tree-edge tree-edge-trunk\" data-animate=\"edge\" style=\"--step:1\" stroke-width=\"1.8\"/>\n        <path data-edge-from=\"root\" data-edge-to=\"redis\" data-edge-key=\"1\" data-tree-ancestors=\"root\" data-composition-points=\"186,105;186,133;270,133;270,161\" d=\"M 186 105 L 186 123 Q 186 133 196 133 L 260 133 Q 270 133 270 143 L 270 161\" class=\"a-default tree-edge tree-edge-trunk\" data-animate=\"edge\" style=\"--step:1\" stroke-width=\"1.8\"/>\n\n        <!-- Nodes -->\n        <g id=\"node-root\" data-node-id=\"root\" data-node-label=\"Platform\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Platform, Root\" aria-pressed=\"false\" data-node-kind=\"frontend\" data-node-context=\"Root\" data-tree-depth=\"0\" class=\"tree-hue-root\">\n          <title>Platform · Root</title>\n          <rect data-tree-stack=\"\" x=\"121\" y=\"69\" width=\"140\" height=\"41\" rx=\"10\" class=\"tree-stack-frontend\" stroke-width=\"1.2\"/>\n          <rect x=\"116\" y=\"64\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-mask\"/>\n          <rect x=\"116\" y=\"64\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-frontend tree-root\" data-animate=\"node\" style=\"--step:0\" stroke-width=\"0\"/>\n\n\n          <text data-node-label=\"\" x=\"186\" class=\"t-primary tree-label\" font-size=\"14.5\" font-weight=\"750\" text-anchor=\"middle\"><tspan x=\"186\" y=\"88.5\">Platform</tspan></text>\n\n        </g>\n        <g id=\"node-api\" data-node-id=\"api\" data-node-label=\"API\" tabindex=\"0\" role=\"button\" aria-label=\"Focus API, Leaf\" aria-pressed=\"false\" data-node-kind=\"external\" data-node-context=\"Leaf\" data-tree-depth=\"1\" data-tree-ancestors=\"root\" class=\"tree-hue-backend\">\n          <title>API · Leaf</title>\n\n          <rect x=\"32\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-mask\"/>\n          <rect x=\"32\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-external tree-leaf\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1\"/>\n\n          <circle cx=\"102\" cy=\"161\" r=\"2.6\" class=\"tree-socket\" stroke-width=\"1.4\"/>\n          <text data-node-label=\"\" x=\"102\" class=\"t-primary tree-label\" font-size=\"13\" font-weight=\"560\" text-anchor=\"middle\"><tspan x=\"102\" y=\"185.5\">API</tspan></text>\n\n        </g>\n        <g id=\"node-redis\" data-node-id=\"redis\" data-node-label=\"Redis\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Redis, Leaf\" aria-pressed=\"false\" data-node-kind=\"external\" data-node-context=\"Leaf\" data-tree-depth=\"1\" data-tree-ancestors=\"root\" class=\"tree-hue-database\">\n          <title>Redis · Leaf</title>\n\n          <rect x=\"200\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-mask\"/>\n          <rect x=\"200\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-external tree-leaf\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1\"/>\n\n          <circle cx=\"270\" cy=\"161\" r=\"2.6\" class=\"tree-socket\" stroke-width=\"1.4\"/>\n          <text data-node-label=\"\" x=\"270\" class=\"t-primary tree-label\" font-size=\"13\" font-weight=\"560\" text-anchor=\"middle\"><tspan x=\"270\" y=\"185.5\">Redis</tspan></text>\n\n        </g>\n\n        <!-- Branch toggles -->\n        <g data-tree-toggle=\"root\" data-tree-count=\"2\" data-tree-label-collapse=\"Collapse Platform (2 below)\" data-tree-label-expand=\"Expand Platform (2 hidden)\" role=\"button\" tabindex=\"0\" aria-expanded=\"true\" aria-label=\"Collapse Platform (2 below)\" class=\"tree-hue-root\">\n          <circle cx=\"186\" cy=\"105\" r=\"14.5\" class=\"tree-toggle-hit\"/>\n          <circle cx=\"186\" cy=\"105\" r=\"7.5\" class=\"tree-toggle-disc\" stroke-width=\"1.2\"/>\n          <path class=\"tree-toggle-glyph\" d=\"M 182.85 105 H 189.15\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n          <path class=\"tree-toggle-glyph tree-toggle-plus\" d=\"M 186 101.85 V 108.15\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n          <g class=\"tree-toggle-count\">\n            <rect x=\"196.5\" y=\"97.5\" width=\"17.2\" height=\"15\" rx=\"7.5\" class=\"tree-count-pill\"/>\n            <text x=\"205.1\" y=\"108.6\" class=\"t-primary\" font-size=\"10\" font-weight=\"700\" text-anchor=\"middle\">2</text>\n          </g>\n        </g>\n\n        <!-- Expand all (shown only while a branch is collapsed) -->\n        <g data-tree-expand-all=\"\" role=\"button\" tabindex=\"0\" aria-label=\"Expand all\">\n          <rect x=\"32\" y=\"18\" width=\"87\" height=\"24\" rx=\"12\" stroke-width=\"1.2\"/>\n          <text x=\"44\" y=\"34\" class=\"t-primary\" font-size=\"10.5\" font-weight=\"650\">Expand all</text>\n        </g>\n      </svg>",
+          "sha256": "a0cf32a856ae6c4a60231949283ac4674fdc9671a580c1a7b3702f7f59e42ee1",
+          "bytes": 805708,
+          "specification": {
+            "sha256": "0f7293337bb568792f02224a9d1cd4f1f9abdd5c9e28d704562470f7bf314bfc",
+            "bytes": 385,
+            "contentBase64": "ewogICJzY2hlbWFfdmVyc2lvbiI6IDEsCiAgImRpYWdyYW1fdHlwZSI6ICJ0cmVlIiwKICAibWV0YSI6IHsKICAgICJ0aXRsZSI6ICJ0cmVlIiwKICAgICJvdXRwdXQiOiAidHJlZS5odG1sIiwKICAgICJxdWFsaXR5X3Byb2ZpbGUiOiAic2hvd2Nhc2UiCiAgfSwKICAibm9kZXMiOiBbCiAgICB7CiAgICAgICJpZCI6ICJyb290IiwKICAgICAgImxhYmVsIjogIlBsYXRmb3JtIgogICAgfSwKICAgIHsKICAgICAgImlkIjogImFwaSIsCiAgICAgICJsYWJlbCI6ICJBUEkiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9LAogICAgewogICAgICAiaWQiOiAicmVkaXMiLAogICAgICAibGFiZWwiOiAiUmVkaXMiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9CiAgXQp9Cg=="
+          },
+          "checks": {
+            "validate": {
+              "ok": true
+            },
+            "render": {
+              "ok": true
+            },
+            "check": {
+              "ok": true,
+              "file": "<TMP>\\diagram.html",
+              "artifact": "<artifact>",
+              "checks": [
+                {
+                  "name": "single_svg",
+                  "ok": true,
+                  "details": [
+                    "found 1 <svg> block(s)"
+                  ]
+                },
+                {
+                  "name": "finite_svg",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "orthogonal_arrows",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "label_route_clearance",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "relationship_crossings",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "relationship_corridors",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "container_border_runs",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "route_rhythm",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "legend_clearance",
+                  "ok": true,
+                  "details": [
+                    "no legend marker found"
+                  ]
+                }
+              ],
+              "composition": {
+                "schemaVersion": 1,
+                "profile": "showcase",
+                "status": "pass",
+                "summary": {
+                  "errors": 0,
+                  "warnings": 0
+                },
+                "metrics": {
+                  "properCrossings": 0,
+                  "resolvedCrossovers": 0,
+                  "ambiguousCorridors": 0,
+                  "arrowheadCollisions": 0,
+                  "containerBorderRuns": 0,
+                  "labelRouteClearanceIssues": 0,
+                  "labelCanvasOverflowIssues": 0,
+                  "minLabelRouteClearance": null,
+                  "desktopReadabilityIssues": 0,
+                  "viewportHeightIssues": 0,
+                  "minProjectedNodeTextPx": 13,
+                  "maxBends": 0,
+                  "routesOverSuggestedBends": 0,
+                  "maxStretch": null,
+                  "routesOverSuggestedStretch": 0,
+                  "minSegmentPx": null,
+                  "minInteriorSegmentPx": null,
+                  "shortSegmentCount": 0,
+                  "shortEndpointSegmentCount": 0,
+                  "shortInteriorSegmentCount": 0,
+                  "microSegmentCount": 0
+                },
+                "suggestedLimits": {
+                  "bendsPerRelationship": 2,
+                  "stretch": 1.35,
+                  "segmentPx": 16,
+                  "microSegmentPx": 8
+                },
+                "routeReview": {
+                  "crossings": [],
+                  "detours": []
+                },
+                "leadingSpace": {
+                  "measured": false,
+                  "reviewSuggested": false
+                },
+                "desktopReadability": {
+                  "budgetBasis": "legacy-930",
+                  "readerContract": "declared-wide-v1",
+                  "availableDiagramWidth": 930,
+                  "actualBudgetPx": 930,
+                  "limit": "legacy",
+                  "requestedTargetPx": 7.5,
+                  "requestedTargetMet": true,
+                  "hardFloorPx": 6,
+                  "hardFloorMet": true,
+                  "minimumOwner": {
+                    "kind": "node",
+                    "id": "api"
+                  },
+                  "minimumSourceTextPx": 13,
+                  "minimumProjectedTextPx": 13,
+                  "semanticTextCount": 3
+                },
+                "issues": []
+              }
+            }
+          },
+          "semantic": {
+            "nodes": [
+              {
+                "id": "root",
+                "label": "Platform",
+                "svgId": "node-root"
+              },
+              {
+                "id": "api",
+                "label": "API",
+                "svgId": "node-api"
+              },
+              {
+                "id": "redis",
+                "label": "Redis",
+                "svgId": "node-redis"
+              }
+            ],
+            "edges": [
+              {
+                "id": "0",
+                "from": "root",
+                "to": "api",
+                "label": "",
+                "key": "0"
+              },
+              {
+                "id": "1",
+                "from": "root",
+                "to": "redis",
+                "label": "",
+                "key": "1"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "dependencies": [
+      {
+        "kind": "image",
+        "id": "pixel",
+        "path": "<DIR>\\tiny.png",
+        "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+        "bytes": 68,
+        "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+        "retained": true
+      },
+      {
+        "kind": "data",
+        "id": "latency",
+        "path": "<DIR>\\latency.csv",
+        "sha256": "ce8100df891745f9df8fe7de936f9c6c969277bc82540c139482944fc8bb0f20",
+        "bytes": 37,
+        "contentBase64": "ZGF5LHA1MCxwOTkKTW9uLDEyLDQwClR1ZSwiMSwzMDAiLDU1Cg==",
+        "retained": true
+      },
+      {
+        "kind": "diagram-spec",
+        "id": "layout",
+        "path": "<DIR>\\tree.json",
+        "relativePath": "tree.json",
+        "sha256": "0f7293337bb568792f02224a9d1cd4f1f9abdd5c9e28d704562470f7bf314bfc",
+        "bytes": 385,
+        "contentBase64": "ewogICJzY2hlbWFfdmVyc2lvbiI6IDEsCiAgImRpYWdyYW1fdHlwZSI6ICJ0cmVlIiwKICAibWV0YSI6IHsKICAgICJ0aXRsZSI6ICJ0cmVlIiwKICAgICJvdXRwdXQiOiAidHJlZS5odG1sIiwKICAgICJxdWFsaXR5X3Byb2ZpbGUiOiAic2hvd2Nhc2UiCiAgfSwKICAibm9kZXMiOiBbCiAgICB7CiAgICAgICJpZCI6ICJyb290IiwKICAgICAgImxhYmVsIjogIlBsYXRmb3JtIgogICAgfSwKICAgIHsKICAgICAgImlkIjogImFwaSIsCiAgICAgICJsYWJlbCI6ICJBUEkiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9LAogICAgewogICAgICAiaWQiOiAicmVkaXMiLAogICAgICAibGFiZWwiOiAiUmVkaXMiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9CiAgXQp9Cg==",
+        "retained": true
+      }
+    ],
+    "digest": "<digest>"
+  },
+  "sourceText": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nChanged.\n",
+  "sourcePath": "<DIR>\\draft.archify.md",
+  "previousRevision": "36c83accb9d5d37c9e78b3ea7a268cfb403e409435210401553bb921e8caf7fc",
+  "previousSourceSha256": "f6aa2518ff906090a5e06756c8c60872eed0551d4171108d57b4de1eea3050ed",
+  "panelId": "second"
+}

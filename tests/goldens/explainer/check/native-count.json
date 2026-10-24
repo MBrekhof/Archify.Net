@@ -1,0 +1,148 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "19 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "1 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": false,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 3,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/content-revision",
+        "severity": "error",
+        "message": "The content revision does not bind the draft and frozen resources.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The content revision does not bind the draft and frozen resources.",
+          "example": "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+        },
+        "supportedFixes": [
+          "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+        ]
+      },
+      {
+        "code": "explainer/native-count",
+        "severity": "error",
+        "message": "Native diagram payloads do not match canonical diagram blocks.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Native diagram payloads do not match canonical diagram blocks.",
+          "example": "Embed one native payload per diagram block; zero diagrams is valid."
+        },
+        "supportedFixes": [
+          "Embed one native payload per diagram block; zero diagrams is valid."
+        ]
+      },
+      {
+        "code": "explainer/native-hash",
+        "severity": "error",
+        "message": "Native diagram payload is corrupt: layout-two.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "diagram"
+        },
+        "evidence": {
+          "reason": "Native diagram payload is corrupt: layout-two.",
+          "example": "Re-render the native diagram and freeze its original HTML bytes."
+        },
+        "supportedFixes": [
+          "Re-render the native diagram and freeze its original HTML bytes."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/content-revision",
+      "severity": "error",
+      "message": "The content revision does not bind the draft and frozen resources.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The content revision does not bind the draft and frozen resources.",
+        "example": "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+      },
+      "supportedFixes": [
+        "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+      ]
+    },
+    {
+      "code": "explainer/native-count",
+      "severity": "error",
+      "message": "Native diagram payloads do not match canonical diagram blocks.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Native diagram payloads do not match canonical diagram blocks.",
+        "example": "Embed one native payload per diagram block; zero diagrams is valid."
+      },
+      "supportedFixes": [
+        "Embed one native payload per diagram block; zero diagrams is valid."
+      ]
+    },
+    {
+      "code": "explainer/native-hash",
+      "severity": "error",
+      "message": "Native diagram payload is corrupt: layout-two.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "diagram"
+      },
+      "evidence": {
+        "reason": "Native diagram payload is corrupt: layout-two.",
+        "example": "Re-render the native diagram and freeze its original HTML bytes."
+      },
+      "supportedFixes": [
+        "Re-render the native diagram and freeze its original HTML bytes."
+      ]
+    }
+  ]
+}

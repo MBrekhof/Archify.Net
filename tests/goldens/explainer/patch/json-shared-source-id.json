@@ -1,0 +1,860 @@
+{
+  "bundle": {
+    "schemaVersion": 1,
+    "kind": "archify-explainer-prepared",
+    "document": {
+      "schema_version": 1,
+      "diagram_type": "explainer",
+      "meta": {
+        "id": "patch-document",
+        "title": "What can change?",
+        "locale": "en",
+        "repository": {
+          "url": "https://github.com/example/evidence",
+          "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+        }
+      },
+      "answer": {
+        "summary": "One stable panel can be replaced."
+      },
+      "panels": [
+        {
+          "id": "first",
+          "title": "What changes?",
+          "blocks": [
+            {
+              "id": "first-text",
+              "type": "prose",
+              "text": "This text may change."
+            },
+            {
+              "id": "shared",
+              "type": "diagram",
+              "diagramType": "architecture",
+              "spec": {
+                "schema_version": 1,
+                "diagram_type": "architecture",
+                "meta": {
+                  "title": "Changed diagram title",
+                  "output": "native.html",
+                  "quality_profile": "standard"
+                },
+                "layout": {
+                  "mode": "grid",
+                  "cols": 2,
+                  "cellW": 176,
+                  "cellH": 76,
+                  "gapX": 100,
+                  "gapY": 110
+                },
+                "components": [
+                  {
+                    "id": "api",
+                    "label": "API",
+                    "type": "backend",
+                    "row": 0,
+                    "col": 0
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis",
+                    "type": "database",
+                    "row": 0,
+                    "col": 1
+                  }
+                ],
+                "connections": [
+                  {
+                    "id": "api-to-redis-1",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "Read"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "title": "What stays?",
+          "blocks": [
+            {
+              "id": "second-text",
+              "type": "prose",
+              "text": "This text remains exactly the same."
+            },
+            {
+              "id": "snippet",
+              "type": "code",
+              "source": "shared"
+            }
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "id": "shared",
+          "title": "Shared code",
+          "path": "src/router.js",
+          "lines": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "sourceMap": {
+      "/schema_version": {
+        "line": 2,
+        "column": 21,
+        "start": 22,
+        "end": 23
+      },
+      "/diagram_type": {
+        "line": 3,
+        "column": 19,
+        "start": 43,
+        "end": 54
+      },
+      "/meta/id": {
+        "line": 5,
+        "column": 11,
+        "start": 78,
+        "end": 94
+      },
+      "/meta/title": {
+        "line": 6,
+        "column": 14,
+        "start": 109,
+        "end": 127
+      },
+      "/meta/locale": {
+        "line": 7,
+        "column": 15,
+        "start": 143,
+        "end": 147
+      },
+      "/meta/repository/url": {
+        "line": 9,
+        "column": 14,
+        "start": 182,
+        "end": 219
+      },
+      "/meta/repository/revision": {
+        "line": 10,
+        "column": 19,
+        "start": 239,
+        "end": 281
+      },
+      "/meta/repository": {
+        "line": 8,
+        "column": 19,
+        "start": 167,
+        "end": 287
+      },
+      "/meta": {
+        "line": 4,
+        "column": 11,
+        "start": 66,
+        "end": 291
+      },
+      "/answer/summary": {
+        "line": 14,
+        "column": 16,
+        "start": 322,
+        "end": 357
+      },
+      "/answer": {
+        "line": 13,
+        "column": 13,
+        "start": 305,
+        "end": 361
+      },
+      "/panels/0/id": {
+        "line": 17,
+        "column": 11,
+        "start": 387,
+        "end": 394
+      },
+      "/panels/0/title": {
+        "line": 17,
+        "column": 27,
+        "start": 403,
+        "end": 418
+      },
+      "/panels/0/blocks/0/id": {
+        "line": 17,
+        "column": 59,
+        "start": 435,
+        "end": 447
+      },
+      "/panels/0/blocks/0/type": {
+        "line": 17,
+        "column": 79,
+        "start": 455,
+        "end": 462
+      },
+      "/panels/0/blocks/0/text": {
+        "line": 17,
+        "column": 94,
+        "start": 470,
+        "end": 493
+      },
+      "/panels/0/blocks/0": {
+        "line": 17,
+        "column": 53,
+        "start": 429,
+        "end": 494
+      },
+      "/panels/0/blocks/1/id": {
+        "line": 17,
+        "column": 125,
+        "start": 501,
+        "end": 509
+      },
+      "/panels/0/blocks/1/type": {
+        "line": 17,
+        "column": 141,
+        "start": 517,
+        "end": 526
+      },
+      "/panels/0/blocks/1/diagramType": {
+        "line": 17,
+        "column": 165,
+        "start": 541,
+        "end": 555
+      },
+      "/panels/0/blocks/1/spec/schema_version": {
+        "line": 17,
+        "column": 205,
+        "start": 581,
+        "end": 582
+      },
+      "/panels/0/blocks/1/spec/diagram_type": {
+        "line": 17,
+        "column": 222,
+        "start": 598,
+        "end": 612
+      },
+      "/panels/0/blocks/1/spec/meta/title": {
+        "line": 17,
+        "column": 253,
+        "start": 629,
+        "end": 652
+      },
+      "/panels/0/blocks/1/spec/meta/output": {
+        "line": 17,
+        "column": 286,
+        "start": 662,
+        "end": 675
+      },
+      "/panels/0/blocks/1/spec/meta/quality_profile": {
+        "line": 17,
+        "column": 318,
+        "start": 694,
+        "end": 704
+      },
+      "/panels/0/blocks/1/spec/meta": {
+        "line": 17,
+        "column": 244,
+        "start": 620,
+        "end": 705
+      },
+      "/panels/0/blocks/1/spec/layout/mode": {
+        "line": 17,
+        "column": 347,
+        "start": 723,
+        "end": 729
+      },
+      "/panels/0/blocks/1/spec/layout/cols": {
+        "line": 17,
+        "column": 361,
+        "start": 737,
+        "end": 738
+      },
+      "/panels/0/blocks/1/spec/layout/cellW": {
+        "line": 17,
+        "column": 371,
+        "start": 747,
+        "end": 750
+      },
+      "/panels/0/blocks/1/spec/layout/cellH": {
+        "line": 17,
+        "column": 383,
+        "start": 759,
+        "end": 761
+      },
+      "/panels/0/blocks/1/spec/layout/gapX": {
+        "line": 17,
+        "column": 393,
+        "start": 769,
+        "end": 772
+      },
+      "/panels/0/blocks/1/spec/layout/gapY": {
+        "line": 17,
+        "column": 404,
+        "start": 780,
+        "end": 783
+      },
+      "/panels/0/blocks/1/spec/layout": {
+        "line": 17,
+        "column": 339,
+        "start": 715,
+        "end": 784
+      },
+      "/panels/0/blocks/1/spec/components/0/id": {
+        "line": 17,
+        "column": 429,
+        "start": 805,
+        "end": 810
+      },
+      "/panels/0/blocks/1/spec/components/0/label": {
+        "line": 17,
+        "column": 443,
+        "start": 819,
+        "end": 824
+      },
+      "/panels/0/blocks/1/spec/components/0/type": {
+        "line": 17,
+        "column": 456,
+        "start": 832,
+        "end": 841
+      },
+      "/panels/0/blocks/1/spec/components/0/row": {
+        "line": 17,
+        "column": 472,
+        "start": 848,
+        "end": 849
+      },
+      "/panels/0/blocks/1/spec/components/0/col": {
+        "line": 17,
+        "column": 480,
+        "start": 856,
+        "end": 857
+      },
+      "/panels/0/blocks/1/spec/components/0": {
+        "line": 17,
+        "column": 423,
+        "start": 799,
+        "end": 858
+      },
+      "/panels/0/blocks/1/spec/components/1/id": {
+        "line": 17,
+        "column": 489,
+        "start": 865,
+        "end": 872
+      },
+      "/panels/0/blocks/1/spec/components/1/label": {
+        "line": 17,
+        "column": 505,
+        "start": 881,
+        "end": 888
+      },
+      "/panels/0/blocks/1/spec/components/1/type": {
+        "line": 17,
+        "column": 520,
+        "start": 896,
+        "end": 906
+      },
+      "/panels/0/blocks/1/spec/components/1/row": {
+        "line": 17,
+        "column": 537,
+        "start": 913,
+        "end": 914
+      },
+      "/panels/0/blocks/1/spec/components/1/col": {
+        "line": 17,
+        "column": 545,
+        "start": 921,
+        "end": 922
+      },
+      "/panels/0/blocks/1/spec/components/1": {
+        "line": 17,
+        "column": 483,
+        "start": 859,
+        "end": 923
+      },
+      "/panels/0/blocks/1/spec/components": {
+        "line": 17,
+        "column": 422,
+        "start": 798,
+        "end": 924
+      },
+      "/panels/0/blocks/1/spec/connections/0/id": {
+        "line": 17,
+        "column": 570,
+        "start": 946,
+        "end": 962
+      },
+      "/panels/0/blocks/1/spec/connections/0/from": {
+        "line": 17,
+        "column": 594,
+        "start": 970,
+        "end": 975
+      },
+      "/panels/0/blocks/1/spec/connections/0/to": {
+        "line": 17,
+        "column": 605,
+        "start": 981,
+        "end": 988
+      },
+      "/panels/0/blocks/1/spec/connections/0/label": {
+        "line": 17,
+        "column": 621,
+        "start": 997,
+        "end": 1003
+      },
+      "/panels/0/blocks/1/spec/connections/0": {
+        "line": 17,
+        "column": 564,
+        "start": 940,
+        "end": 1004
+      },
+      "/panels/0/blocks/1/spec/connections": {
+        "line": 17,
+        "column": 563,
+        "start": 939,
+        "end": 1005
+      },
+      "/panels/0/blocks/1/spec": {
+        "line": 17,
+        "column": 187,
+        "start": 563,
+        "end": 1006
+      },
+      "/panels/0/blocks/1": {
+        "line": 17,
+        "column": 119,
+        "start": 495,
+        "end": 1007
+      },
+      "/panels/0/blocks": {
+        "line": 17,
+        "column": 52,
+        "start": 428,
+        "end": 1008
+      },
+      "/panels/0": {
+        "line": 17,
+        "column": 5,
+        "start": 381,
+        "end": 1009
+      },
+      "/panels/1/id": {
+        "line": 19,
+        "column": 13,
+        "start": 1029,
+        "end": 1037
+      },
+      "/panels/1/title": {
+        "line": 20,
+        "column": 16,
+        "start": 1054,
+        "end": 1067
+      },
+      "/panels/1/blocks/0/id": {
+        "line": 23,
+        "column": 17,
+        "start": 1113,
+        "end": 1126
+      },
+      "/panels/1/blocks/0/type": {
+        "line": 24,
+        "column": 19,
+        "start": 1146,
+        "end": 1153
+      },
+      "/panels/1/blocks/0/text": {
+        "line": 25,
+        "column": 19,
+        "start": 1173,
+        "end": 1210
+      },
+      "/panels/1/blocks/0": {
+        "line": 22,
+        "column": 9,
+        "start": 1095,
+        "end": 1220
+      },
+      "/panels/1/blocks/1/id": {
+        "line": 28,
+        "column": 17,
+        "start": 1248,
+        "end": 1257
+      },
+      "/panels/1/blocks/1/type": {
+        "line": 29,
+        "column": 19,
+        "start": 1277,
+        "end": 1283
+      },
+      "/panels/1/blocks/1/source": {
+        "line": 30,
+        "column": 21,
+        "start": 1305,
+        "end": 1313
+      },
+      "/panels/1/blocks/1": {
+        "line": 27,
+        "column": 9,
+        "start": 1230,
+        "end": 1323
+      },
+      "/panels/1/blocks": {
+        "line": 21,
+        "column": 17,
+        "start": 1085,
+        "end": 1331
+      },
+      "/panels/1": {
+        "line": 18,
+        "column": 5,
+        "start": 1015,
+        "end": 1337
+      },
+      "/panels": {
+        "line": 16,
+        "column": 13,
+        "start": 375,
+        "end": 1341
+      },
+      "/sources/0/id": {
+        "line": 37,
+        "column": 13,
+        "start": 1376,
+        "end": 1384
+      },
+      "/sources/0/title": {
+        "line": 38,
+        "column": 16,
+        "start": 1401,
+        "end": 1414
+      },
+      "/sources/0/path": {
+        "line": 39,
+        "column": 15,
+        "start": 1430,
+        "end": 1445
+      },
+      "/sources/0/lines/0": {
+        "line": 41,
+        "column": 9,
+        "start": 1472,
+        "end": 1473
+      },
+      "/sources/0/lines/1": {
+        "line": 42,
+        "column": 9,
+        "start": 1483,
+        "end": 1484
+      },
+      "/sources/0/lines": {
+        "line": 40,
+        "column": 16,
+        "start": 1462,
+        "end": 1492
+      },
+      "/sources/0": {
+        "line": 36,
+        "column": 5,
+        "start": 1362,
+        "end": 1498
+      },
+      "/sources": {
+        "line": 35,
+        "column": 14,
+        "start": 1356,
+        "end": 1502
+      },
+      "": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 1504
+      }
+    },
+    "format": "json",
+    "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\",\n    \"repository\": {\n      \"url\": \"https://github.com/example/evidence\",\n      \"revision\": \"f691b4b9368318ae74b3c16e3bd96e9d33788e34\"\n    }\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"shared\",\"type\":\"diagram\",\"diagramType\":\"architecture\",\"spec\":{\"schema_version\":1,\"diagram_type\":\"architecture\",\"meta\":{\"title\":\"Changed diagram title\",\"output\":\"native.html\",\"quality_profile\":\"standard\"},\"layout\":{\"mode\":\"grid\",\"cols\":2,\"cellW\":176,\"cellH\":76,\"gapX\":100,\"gapY\":110},\"components\":[{\"id\":\"api\",\"label\":\"API\",\"type\":\"backend\",\"row\":0,\"col\":0},{\"id\":\"redis\",\"label\":\"Redis\",\"type\":\"database\",\"row\":0,\"col\":1}],\"connections\":[{\"id\":\"api-to-redis-1\",\"from\":\"api\",\"to\":\"redis\",\"label\":\"Read\"}]}}]},\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"snippet\",\n          \"type\": \"code\",\n          \"source\": \"shared\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"shared\",\n      \"title\": \"Shared code\",\n      \"path\": \"src/router.js\",\n      \"lines\": [\n        1,\n        1\n      ]\n    }\n  ]\n}\n",
+    "diagnostics": [],
+    "sourcePath": "<DIR>\\author.json",
+    "baseDir": "<DIR>",
+    "quality": "standard",
+    "writingMode": "warn",
+    "source": {
+      "sha256": "f8550e8b3390572ea93216992cb280fc21ab991d2fff768d06d32e2ba640ea67",
+      "bytes": 1505
+    },
+    "preparedSources": {
+      "sources": {
+        "shared": {
+          "id": "shared",
+          "title": "Shared code",
+          "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+          "path": "src/router.js",
+          "lines": [
+            1,
+            1
+          ],
+          "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/router.js#L1",
+          "text": "export function route(input) {",
+          "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+          "bytes": 54
+        }
+      },
+      "assets": {},
+      "repository": {
+        "url": "https://github.com/example/evidence",
+        "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+        "shortRevision": "f691b4b",
+        "label": "example/evidence",
+        "href": "https://github.com/example/evidence/tree/f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+      }
+    },
+    "preparedDiagrams": {
+      "diagrams": {
+        "shared": {
+          "diagramType": "architecture",
+          "spec": {
+            "schema_version": 1,
+            "diagram_type": "architecture",
+            "meta": {
+              "title": "Changed diagram title",
+              "output": "native.html",
+              "quality_profile": "standard"
+            },
+            "layout": {
+              "mode": "grid",
+              "cols": 2,
+              "cellW": 176,
+              "cellH": 76,
+              "gapX": 100,
+              "gapY": 110
+            },
+            "components": [
+              {
+                "id": "api",
+                "label": "API",
+                "type": "backend",
+                "row": 0,
+                "col": 0
+              },
+              {
+                "id": "redis",
+                "label": "Redis",
+                "type": "database",
+                "row": 0,
+                "col": 1
+              }
+            ],
+            "connections": [
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          },
+          "html": "sha256:138ea1ee178cdaa8abfdae833ee5d2588bdbd84084230f6ab74d1943e4d4288c",
+          "svg": "<svg viewBox=\"0 0 476 208\" role=\"img\" lang=\"en\" aria-labelledby=\"archify-diagram-title archify-diagram-description\" data-animation=\"trace\" data-preset=\"classic\" data-quality-profile=\"standard\" data-node-ui=\"\" data-reader-fit=\"intrinsic-height\" data-reader-min-text=\"7.5\" data-reader-primary-text=\"14\">\n        <title id=\"archify-diagram-title\">Changed diagram title</title>\n        <desc id=\"archify-diagram-description\">An architecture diagram generated by Archify.</desc>\n        <!-- Definitions -->\n        <defs>\n          <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-default\" />\n          </marker>\n          <marker id=\"arrowhead-emphasis\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-emphasis\" />\n          </marker>\n          <marker id=\"arrowhead-security\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-security\" />\n          </marker>\n          <marker id=\"arrowhead-dashed\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-dashed\" />\n          </marker>\n          <pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 40 0 L 0 0 0 40\" class=\"c-grid\" stroke-width=\"0.5\"/>\n          </pattern>\n        </defs>\n        <style>\n          svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, var(--frontend-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--frontend-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, var(--backend-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--backend-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, var(--database-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--database-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, var(--cloud-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--cloud-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, var(--security-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--security-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, var(--messagebus-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--messagebus-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, var(--external-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--external-stroke) 72%, var(--mask)); }\n          svg[data-node-ui]:is([data-preset=\"classic\"], [data-preset=\"signal-flow\"], [data-preset=\"editorial\"]) .c-region { fill: color-mix(in srgb, var(--cloud-stroke) 3%, transparent); stroke: color-mix(in srgb, var(--cloud-stroke) 42%, var(--lane-stroke)); stroke-dasharray: none; }\n          svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, var(--security-stroke) 58%, var(--lane-stroke)); }\n          svg[data-node-ui]:is([data-preset=\"classic\"], [data-preset=\"signal-flow\"], [data-preset=\"editorial\"]) .c-security-group { stroke-dasharray: 4 3; }\n          svg[data-node-ui]:is([data-preset=\"classic\"], [data-preset=\"signal-flow\"], [data-preset=\"editorial\"]) .c-lane { stroke: var(--lane-stroke); stroke-dasharray: none; }\n          svg[data-node-ui] [data-graph-role=\"structural-frame-label-mask\"] { rx: 5px; fill: color-mix(in srgb, var(--cloud-stroke) 10%, var(--mask)); stroke: color-mix(in srgb, var(--cloud-stroke) 38%, var(--mask)); stroke-width: .8px; }\n          svg[data-node-ui] [data-composition-frame-kind=\"security-group\"] > [data-graph-role=\"structural-frame-label-mask\"] { fill: color-mix(in srgb, var(--security-stroke) 9%, var(--mask)); stroke: color-mix(in srgb, var(--security-stroke) 36%, var(--mask)); }\n          svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }\n          svg[data-node-ui] .phase-chip { stroke: var(--lane-stroke); stroke-width: .75px; }\n          svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: var(--lane-stroke); stroke-width: .75px; }\n          svg[data-node-ui][data-preset=\"blueprint\"] :is([data-graph-role=\"structural-frame-label-mask\"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }\n          svg[data-node-ui][data-preset=\"editorial\"] :is([data-graph-role=\"structural-frame-label-mask\"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }\n        </style>\n\n        <!-- Background Grid -->\n        <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />\n\n        <!-- Boundaries (behind everything) -->\n\n\n        <!-- Connection paths (before components for correct z-order) -->\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:0\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 160 110 L 316 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"api\" data-edge-to=\"redis\" data-edge-label=\"Read\" data-edge-key=\"0\" data-edge-id=\"api-to-redis-1\" data-composition-points=\"160,110;316,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 160 110 L 316 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:0\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n\n        <!-- Components -->\n        <g id=\"node-api\" data-node-id=\"api\" data-node-label=\"API\" tabindex=\"0\" role=\"button\" aria-label=\"Focus API, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>API · Architecture component</title>\n          <rect x=\"40\" y=\"80\" width=\"120\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"40\" y=\"80\" width=\"120\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:0\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(46 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"100\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">API</text>\n        </g>\n\n        <g id=\"node-redis\" data-node-id=\"redis\" data-node-label=\"Redis\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Redis, Architecture component\" aria-pressed=\"false\" data-node-kind=\"database\" data-node-context=\"Architecture component\">\n          <title>Redis · Architecture component</title>\n          <rect x=\"316\" y=\"80\" width=\"120\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"316\" y=\"80\" width=\"120\" height=\"60\" rx=\"8\" class=\"c-database\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"database\" class=\"semantic-sigil s-database\" transform=\"translate(322 86) scale(0.6875)\">\n            <ellipse cx=\"8\" cy=\"4\" rx=\"5\" ry=\"2\"/>\n            <path d=\"M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2\"/>\n          </g>\n          <text data-node-label=\"\" x=\"376\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Redis</text>\n        </g>\n\n        <!-- Connection labels -->\n        <g data-detail=\"context\" data-edge-from=\"api\" data-edge-to=\"redis\" data-edge-label=\"Read\" data-edge-key=\"0\" data-edge-id=\"api-to-redis-1\">\n          <rect x=\"223\" y=\"90\" width=\"30\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"238\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">Read</text>\n        </g>\n\n        <!-- Boundary labels (foreground masks keep routes out of titles) -->\n\n\n        <!-- Legend -->\n        <g data-legend=\"\" data-legend-bridge=\"\">\n          <text x=\"40\" y=\"172\" class=\"t-primary\" font-size=\"12\" font-weight=\"650\">Legend</text>\n          <g data-legend-semantic-kind=\"backend\" data-legend-kind=\"backend\" data-legend-label=\"Backend\" data-legend-x=\"40\" data-legend-baseline=\"192\" data-legend-width=\"87\">\n            <rect x=\"40\" y=\"183\" width=\"16\" height=\"10\" rx=\"2.5\" class=\"c-backend\" stroke-width=\"1\"/>\n            <text x=\"62\" y=\"192\" class=\"t-muted\" font-size=\"10\" font-weight=\"500\">Backend</text>\n          </g>\n          <g data-legend-semantic-kind=\"database\" data-legend-kind=\"database\" data-legend-label=\"Database\" data-legend-x=\"149\" data-legend-baseline=\"192\" data-legend-width=\"93\">\n            <rect x=\"149\" y=\"183\" width=\"16\" height=\"10\" rx=\"2.5\" class=\"c-database\" stroke-width=\"1\"/>\n            <text x=\"171\" y=\"192\" class=\"t-muted\" font-size=\"10\" font-weight=\"500\">Database</text>\n          </g>\n        </g>\n      </svg>",
+          "sha256": "138ea1ee178cdaa8abfdae833ee5d2588bdbd84084230f6ab74d1943e4d4288c",
+          "bytes": 805015,
+          "specification": {
+            "sha256": "192ebfe3a77ff95c0b7eb0dc88715f7d635e56bf5982d495fc7498f9fc9c2d16",
+            "bytes": 443,
+            "contentBase64": "eyJzY2hlbWFfdmVyc2lvbiI6MSwiZGlhZ3JhbV90eXBlIjoiYXJjaGl0ZWN0dXJlIiwibWV0YSI6eyJ0aXRsZSI6IkNoYW5nZWQgZGlhZ3JhbSB0aXRsZSIsIm91dHB1dCI6Im5hdGl2ZS5odG1sIiwicXVhbGl0eV9wcm9maWxlIjoic3RhbmRhcmQifSwibGF5b3V0Ijp7Im1vZGUiOiJncmlkIiwiY29scyI6MiwiY2VsbFciOjE3NiwiY2VsbEgiOjc2LCJnYXBYIjoxMDAsImdhcFkiOjExMH0sImNvbXBvbmVudHMiOlt7ImlkIjoiYXBpIiwibGFiZWwiOiJBUEkiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjowfSx7ImlkIjoicmVkaXMiLCJsYWJlbCI6IlJlZGlzIiwidHlwZSI6ImRhdGFiYXNlIiwicm93IjowLCJjb2wiOjF9XSwiY29ubmVjdGlvbnMiOlt7ImlkIjoiYXBpLXRvLXJlZGlzLTEiLCJmcm9tIjoiYXBpIiwidG8iOiJyZWRpcyIsImxhYmVsIjoiUmVhZCJ9XX0="
+          },
+          "checks": {
+            "validate": {
+              "ok": true
+            },
+            "render": {
+              "ok": true
+            },
+            "check": {
+              "ok": true,
+              "file": "<TMP>\\diagram.html",
+              "artifact": "<artifact>",
+              "checks": [
+                {
+                  "name": "single_svg",
+                  "ok": true,
+                  "details": [
+                    "found 1 <svg> block(s)"
+                  ]
+                },
+                {
+                  "name": "finite_svg",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "orthogonal_arrows",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "label_route_clearance",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "relationship_crossings",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "relationship_corridors",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "container_border_runs",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "route_rhythm",
+                  "ok": true,
+                  "details": []
+                },
+                {
+                  "name": "legend_clearance",
+                  "ok": true,
+                  "details": []
+                }
+              ],
+              "composition": {
+                "schemaVersion": 1,
+                "profile": "standard",
+                "status": "pass",
+                "summary": {
+                  "errors": 0,
+                  "warnings": 0
+                },
+                "metrics": {
+                  "properCrossings": 0,
+                  "resolvedCrossovers": 0,
+                  "ambiguousCorridors": 0,
+                  "arrowheadCollisions": 0,
+                  "containerBorderRuns": 0,
+                  "labelRouteClearanceIssues": 0,
+                  "labelCanvasOverflowIssues": 0,
+                  "minLabelRouteClearance": null,
+                  "desktopReadabilityIssues": 0,
+                  "viewportHeightIssues": 0,
+                  "minProjectedNodeTextPx": 8,
+                  "maxBends": 0,
+                  "routesOverSuggestedBends": 0,
+                  "maxStretch": 1,
+                  "routesOverSuggestedStretch": 0,
+                  "minSegmentPx": 156,
+                  "minInteriorSegmentPx": null,
+                  "shortSegmentCount": 0,
+                  "shortEndpointSegmentCount": 0,
+                  "shortInteriorSegmentCount": 0,
+                  "microSegmentCount": 0
+                },
+                "suggestedLimits": {
+                  "bendsPerRelationship": 2,
+                  "stretch": 1.35,
+                  "segmentPx": 16,
+                  "microSegmentPx": 8
+                },
+                "routeReview": {
+                  "crossings": [],
+                  "detours": []
+                },
+                "leadingSpace": {
+                  "measured": true,
+                  "emptyTopPx": 80,
+                  "emptyTopRatio": 0.385,
+                  "occupiedTop": 80,
+                  "viewBoxTop": 0,
+                  "canvasHeight": 208,
+                  "typicalNodeHeight": 60,
+                  "reviewSuggested": false
+                },
+                "desktopReadability": {
+                  "budgetBasis": "recognized-declared-wide",
+                  "readerContract": "declared-wide-v1",
+                  "availableDiagramWidth": 930,
+                  "actualBudgetPx": 930,
+                  "actualReaderWidth": 960,
+                  "desiredReaderWidth": 960,
+                  "viewportCap": 1376,
+                  "limit": "source-size",
+                  "requestedTargetPx": 7.5,
+                  "requestedTargetMet": true,
+                  "hardFloorPx": 6,
+                  "hardFloorMet": true,
+                  "minimumOwner": {
+                    "kind": "edge",
+                    "id": "api-to-redis-1",
+                    "from": "api",
+                    "to": "redis"
+                  },
+                  "minimumSourceTextPx": 8,
+                  "minimumProjectedTextPx": 8,
+                  "semanticTextCount": 3
+                },
+                "issues": []
+              }
+            }
+          },
+          "semantic": {
+            "nodes": [
+              {
+                "id": "api",
+                "label": "API",
+                "svgId": "node-api"
+              },
+              {
+                "id": "redis",
+                "label": "Redis",
+                "svgId": "node-redis"
+              }
+            ],
+            "edges": [
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read",
+                "key": "0"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "dependencies": [
+      {
+        "kind": "repository",
+        "id": "shared",
+        "path": "src/router.js",
+        "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+        "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+        "bytes": 54,
+        "contentBase64": "ZXhwb3J0IGZ1bmN0aW9uIHJvdXRlKGlucHV0KSB7CiAgcmV0dXJuIGlucHV0LmtpbmQ7Cn0K",
+        "retained": true
+      },
+      {
+        "kind": "diagram-spec",
+        "id": "shared",
+        "inline": true,
+        "sha256": "192ebfe3a77ff95c0b7eb0dc88715f7d635e56bf5982d495fc7498f9fc9c2d16",
+        "bytes": 443,
+        "contentBase64": "eyJzY2hlbWFfdmVyc2lvbiI6MSwiZGlhZ3JhbV90eXBlIjoiYXJjaGl0ZWN0dXJlIiwibWV0YSI6eyJ0aXRsZSI6IkNoYW5nZWQgZGlhZ3JhbSB0aXRsZSIsIm91dHB1dCI6Im5hdGl2ZS5odG1sIiwicXVhbGl0eV9wcm9maWxlIjoic3RhbmRhcmQifSwibGF5b3V0Ijp7Im1vZGUiOiJncmlkIiwiY29scyI6MiwiY2VsbFciOjE3NiwiY2VsbEgiOjc2LCJnYXBYIjoxMDAsImdhcFkiOjExMH0sImNvbXBvbmVudHMiOlt7ImlkIjoiYXBpIiwibGFiZWwiOiJBUEkiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjowfSx7ImlkIjoicmVkaXMiLCJsYWJlbCI6IlJlZGlzIiwidHlwZSI6ImRhdGFiYXNlIiwicm93IjowLCJjb2wiOjF9XSwiY29ubmVjdGlvbnMiOlt7ImlkIjoiYXBpLXRvLXJlZGlzLTEiLCJmcm9tIjoiYXBpIiwidG8iOiJyZWRpcyIsImxhYmVsIjoiUmVhZCJ9XX0=",
+        "retained": false
+      }
+    ],
+    "digest": "<digest>"
+  },
+  "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\",\n    \"repository\": {\n      \"url\": \"https://github.com/example/evidence\",\n      \"revision\": \"f691b4b9368318ae74b3c16e3bd96e9d33788e34\"\n    }\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"shared\",\"type\":\"diagram\",\"diagramType\":\"architecture\",\"spec\":{\"schema_version\":1,\"diagram_type\":\"architecture\",\"meta\":{\"title\":\"Changed diagram title\",\"output\":\"native.html\",\"quality_profile\":\"standard\"},\"layout\":{\"mode\":\"grid\",\"cols\":2,\"cellW\":176,\"cellH\":76,\"gapX\":100,\"gapY\":110},\"components\":[{\"id\":\"api\",\"label\":\"API\",\"type\":\"backend\",\"row\":0,\"col\":0},{\"id\":\"redis\",\"label\":\"Redis\",\"type\":\"database\",\"row\":0,\"col\":1}],\"connections\":[{\"id\":\"api-to-redis-1\",\"from\":\"api\",\"to\":\"redis\",\"label\":\"Read\"}]}}]},\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"snippet\",\n          \"type\": \"code\",\n          \"source\": \"shared\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"shared\",\n      \"title\": \"Shared code\",\n      \"path\": \"src/router.js\",\n      \"lines\": [\n        1,\n        1\n      ]\n    }\n  ]\n}\n",
+  "sourcePath": "<DIR>\\author.json",
+  "previousRevision": "8999fb3f6869a33a8ba9f3262a285270bc261f149414d0c2455805d996d804d3",
+  "previousSourceSha256": "7135f5baf68c872c692b989e129b03ca55f60b57dd4e515aefb812cc2989f3b3",
+  "panelId": "first"
+}

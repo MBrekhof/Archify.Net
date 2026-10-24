@@ -1,0 +1,289 @@
+{
+  "bundle": {
+    "schemaVersion": 1,
+    "kind": "archify-explainer-prepared",
+    "document": {
+      "schema_version": 1,
+      "diagram_type": "explainer",
+      "meta": {
+        "id": "patch-document",
+        "title": "What can change?",
+        "locale": "en"
+      },
+      "answer": {
+        "summary": "One stable panel can be replaced."
+      },
+      "panels": [
+        {
+          "id": "first",
+          "title": "What changes?",
+          "blocks": [
+            {
+              "id": "first-text",
+              "type": "prose",
+              "text": "Only the prose changes."
+            },
+            {
+              "id": "first-image",
+              "type": "image",
+              "path": "asset.png",
+              "alt": "Contained original image"
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "title": "What stays?",
+          "blocks": [
+            {
+              "id": "second-text",
+              "type": "prose",
+              "text": "This text remains exactly the same."
+            }
+          ]
+        }
+      ],
+      "sources": []
+    },
+    "sourceMap": {
+      "/schema_version": {
+        "line": 2,
+        "column": 21,
+        "start": 22,
+        "end": 23
+      },
+      "/diagram_type": {
+        "line": 3,
+        "column": 19,
+        "start": 43,
+        "end": 54
+      },
+      "/meta/id": {
+        "line": 5,
+        "column": 11,
+        "start": 78,
+        "end": 94
+      },
+      "/meta/title": {
+        "line": 6,
+        "column": 14,
+        "start": 109,
+        "end": 127
+      },
+      "/meta/locale": {
+        "line": 7,
+        "column": 15,
+        "start": 143,
+        "end": 147
+      },
+      "/meta": {
+        "line": 4,
+        "column": 11,
+        "start": 66,
+        "end": 151
+      },
+      "/answer/summary": {
+        "line": 10,
+        "column": 16,
+        "start": 182,
+        "end": 217
+      },
+      "/answer": {
+        "line": 9,
+        "column": 13,
+        "start": 165,
+        "end": 221
+      },
+      "/panels/0/id": {
+        "line": 13,
+        "column": 11,
+        "start": 247,
+        "end": 254
+      },
+      "/panels/0/title": {
+        "line": 13,
+        "column": 27,
+        "start": 263,
+        "end": 278
+      },
+      "/panels/0/blocks/0/id": {
+        "line": 13,
+        "column": 59,
+        "start": 295,
+        "end": 307
+      },
+      "/panels/0/blocks/0/type": {
+        "line": 13,
+        "column": 79,
+        "start": 315,
+        "end": 322
+      },
+      "/panels/0/blocks/0/text": {
+        "line": 13,
+        "column": 94,
+        "start": 330,
+        "end": 355
+      },
+      "/panels/0/blocks/0": {
+        "line": 13,
+        "column": 53,
+        "start": 289,
+        "end": 356
+      },
+      "/panels/0/blocks/1/id": {
+        "line": 13,
+        "column": 127,
+        "start": 363,
+        "end": 376
+      },
+      "/panels/0/blocks/1/type": {
+        "line": 13,
+        "column": 148,
+        "start": 384,
+        "end": 391
+      },
+      "/panels/0/blocks/1/path": {
+        "line": 13,
+        "column": 163,
+        "start": 399,
+        "end": 410
+      },
+      "/panels/0/blocks/1/alt": {
+        "line": 13,
+        "column": 181,
+        "start": 417,
+        "end": 443
+      },
+      "/panels/0/blocks/1": {
+        "line": 13,
+        "column": 121,
+        "start": 357,
+        "end": 444
+      },
+      "/panels/0/blocks": {
+        "line": 13,
+        "column": 52,
+        "start": 288,
+        "end": 445
+      },
+      "/panels/0": {
+        "line": 13,
+        "column": 5,
+        "start": 241,
+        "end": 446
+      },
+      "/panels/1/id": {
+        "line": 15,
+        "column": 13,
+        "start": 466,
+        "end": 474
+      },
+      "/panels/1/title": {
+        "line": 16,
+        "column": 16,
+        "start": 491,
+        "end": 504
+      },
+      "/panels/1/blocks/0/id": {
+        "line": 19,
+        "column": 17,
+        "start": 550,
+        "end": 563
+      },
+      "/panels/1/blocks/0/type": {
+        "line": 20,
+        "column": 19,
+        "start": 583,
+        "end": 590
+      },
+      "/panels/1/blocks/0/text": {
+        "line": 21,
+        "column": 19,
+        "start": 610,
+        "end": 647
+      },
+      "/panels/1/blocks/0": {
+        "line": 18,
+        "column": 9,
+        "start": 532,
+        "end": 657
+      },
+      "/panels/1/blocks": {
+        "line": 17,
+        "column": 17,
+        "start": 522,
+        "end": 665
+      },
+      "/panels/1": {
+        "line": 14,
+        "column": 5,
+        "start": 452,
+        "end": 671
+      },
+      "/panels": {
+        "line": 12,
+        "column": 13,
+        "start": 235,
+        "end": 675
+      },
+      "/sources": {
+        "line": 26,
+        "column": 14,
+        "start": 690,
+        "end": 692
+      },
+      "": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 694
+      }
+    },
+    "format": "json",
+    "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"Only the prose changes.\"},{\"id\":\"first-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"Contained original image\"}]},\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+    "diagnostics": [],
+    "sourcePath": "<DIR>\\author.json",
+    "baseDir": "<DIR>",
+    "quality": "standard",
+    "writingMode": "warn",
+    "source": {
+      "sha256": "7ded532b9186d4635e8c374f4509e839b10855755961887b8d16d84ca0c6c072",
+      "bytes": 695
+    },
+    "preparedSources": {
+      "sources": {},
+      "assets": {
+        "first-image": {
+          "id": "first-image",
+          "alt": "Contained original image",
+          "path": "asset.png",
+          "mime": "image/png",
+          "sha256": "036fbab4541dea4c6c57a51d2968ef072668a07c92c5b875f29e1e3345226c1f",
+          "bytes": 68,
+          "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII="
+        }
+      }
+    },
+    "preparedDiagrams": {
+      "diagrams": {}
+    },
+    "dependencies": [
+      {
+        "kind": "image",
+        "id": "first-image",
+        "path": "<DIR>\\asset.png",
+        "sha256": "036fbab4541dea4c6c57a51d2968ef072668a07c92c5b875f29e1e3345226c1f",
+        "bytes": 68,
+        "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=",
+        "retained": true
+      }
+    ],
+    "digest": "<digest>"
+  },
+  "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"Only the prose changes.\"},{\"id\":\"first-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"Contained original image\"}]},\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+  "sourcePath": "<DIR>\\author.json",
+  "previousRevision": "cf7444d4c9c0162cae4277d5df5d109802765282f3b5ce2ee2ff6e0362a2dcc9",
+  "previousSourceSha256": "8faaf0e8628aeb12b237868f2e4c4e50f4a39ca00f65aef96ca66dddcf8f2002",
+  "panelId": "first"
+}

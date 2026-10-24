@@ -35,10 +35,21 @@ as `render-explainer.mjs` does: `prepareExplainer(text, {...options, inputPath})
 
 - `renderExplainer`: `{name, call, draft}` renders the prepared draft with
   `renderExplainer(bundle.document, {...bundle, preparedBundle: bundle, pageDirectory: <DIR>})`. The golden is the page.
-- `checkExplainerHtml` and `preparePanelPatch`: `page: {draft, tamper?, file = 'page.html'}` renders that page, applies
-  `tamper` (a list of exact `{from, to}` replacements, each `from` occurring exactly once), and writes it to
-  `<DIR>/<file>`. For `checkExplainerHtml` the page text is prepended to `args`; `preparePanelPatch` names the file in its
-  options (`artifactPath: "<DIR>/page.html"`). No input page is stored: each side renders it itself.
+- `checkExplainerHtml` and `preparePanelPatch`: `page: {draft | fixture, resign?, tamper?, file = 'page.html', after?}`
+  renders that page (with `pageDirectory` the file's directory), applies `resign`, then `tamper` (a list of exact
+  `{from, to}` replacements, each `from` occurring exactly once), writes it to `<DIR>/<file>`, and then applies `after`
+  (a `files` map: resources deleted or changed once the page exists). For `checkExplainerHtml` the page text is prepended
+  to `args`; `preparePanelPatch` names the file in its options (`artifactPath: "<DIR>/page.html"`). No input page is
+  stored: each side renders it itself.
+  - `resign`: `{from, to}` replacements over `JSON.stringify` of the page's unpacked prepared bundle; the digest is
+    recomputed (prepare.mjs:14) and the bundle is packed and embedded again in place with render.mjs's escaping. A bundle
+    change that leaves the digest valid.
+  - `fixture` (instead of `draft`): test/explainer-check.test.mjs's hand-built page `fixture({children, dependencies,
+    asset})` as written, plus `quality` (the bundle's quality instead of the test's choice). A child is `{example}` (a
+    file of v3.2.0's `archify/examples/`) or `{text}`, with optional `sha256` and `bytes` replacing its computed identity.
+- `preparePanelPatch` with `render: true`: the golden is the patched bundle rendered as render-explainer.mjs renders a
+  bundle (`pageDirectory: <DIR>`), a page.
+- `scanHtml(html)` and `isExplainerHtml(html)` take the text in `args`.
 - `readPreparedBundle` is two-step: `{name, call, draft, mutate?, read?}`. The runner prepares `draft` (draft A), writes
   its bundle with upstream's `writePreparedBundle(<DIR>, bundle)`, applies `mutate`, and calls
   `readPreparedBundle(file, read.text ?? draft.text, <DIR>/<read.file> or draft A's path, read.options)`. `read.text` with
@@ -72,7 +83,8 @@ case (the goldens live on Windows).
 ## Goldens
 
 - `tests/goldens/explainer/<group>/<name>.json` is `JSON.stringify(result, null, 2) + "\n"`, after the tokens below.
-- A `renderExplainer` or `deliver` page is `<group>/<name>.html`, as returned (packed children tokenised as below).
+- A `renderExplainer`, `deliver` or `render: true` page is `<group>/<name>.html`, as returned (packed children tokenised
+  as below).
 - A thrown error is `{"thrown": {"name", "message", "code"}}`. `code` is `error.archifyDiagnostics` when present (or the
   `diagnostics` that inline.mjs:120 attaches), otherwise `error.code`.
 - `<name>.fixed.json` or `.fixed.html` beside a golden comes from the corrected oracle: a copy of the skill with
@@ -128,3 +140,12 @@ Node by a stated deviation is listed in `ExplainerParityTests.KnownDeviations` a
   or `args: [document, options]` (the upstream renderer tests' documents with hand-written resources, the cross-volume and
   portable-path rows, and each thrown error). A page without a locale has a `.fixed.html` golden (Decision 3).
 - `cases` (Task 5): the four v3.2.0 showcase drafts through upstream's `deliver` (see `deliver` above).
+- `check` (Task 6): `checkExplainerHtml` on the check tests' fixtures and on rendered pages with one tampering per issue
+  code (`tamper` for markup and payload text, `resign` for a bundle change under a valid digest), plus `scanHtml` and
+  `isExplainerHtml`. A native child's receipt `file` is a `<TMP>` path.
+- `patch` (Task 6): `preparePanelPatch` on the patch tests' drafts and on Markdown, JSON and CRLF drafts: identity, scope,
+  target, encoding and changed-artifact failures, retained images, data charts and `source=` diagrams (`after` deletes
+  the files), a quality change, repository code, the payload failures, and one rendered page (`render: true`). The
+  `readPreparedBundle` rows `read-retained-*` in `prepare` read a bundle whose dependency is `retained` (patch.mjs:115).
+
+`--only <group>` runs one group into `--out`, for iterating on seeds; the capture never passes it.

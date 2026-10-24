@@ -1,0 +1,82 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "5 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": false,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "showcase",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/native-hash",
+        "severity": "error",
+        "message": "Native diagram payload is corrupt: diagram.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "diagram",
+          "id": "diagram"
+        },
+        "evidence": {
+          "reason": "Native diagram payload is corrupt: diagram.",
+          "example": "Re-render the native diagram and freeze its original HTML bytes."
+        },
+        "supportedFixes": [
+          "Re-render the native diagram and freeze its original HTML bytes."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/native-hash",
+      "severity": "error",
+      "message": "Native diagram payload is corrupt: diagram.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "diagram",
+        "id": "diagram"
+      },
+      "evidence": {
+        "reason": "Native diagram payload is corrupt: diagram.",
+        "example": "Re-render the native diagram and freeze its original HTML bytes."
+      },
+      "supportedFixes": [
+        "Re-render the native diagram and freeze its original HTML bytes."
+      ]
+    }
+  ]
+}

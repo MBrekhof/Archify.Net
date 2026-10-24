@@ -1,0 +1,82 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/payload-json",
+        "severity": "error",
+        "message": "Invalid JSON payload: explainer-manifest.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "document",
+          "id": "explainer-manifest"
+        },
+        "evidence": {
+          "reason": "Invalid JSON payload: explainer-manifest.",
+          "example": "Re-render the validated source instead of editing embedded payloads."
+        },
+        "supportedFixes": [
+          "Re-render the validated source instead of editing embedded payloads."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/payload-json",
+      "severity": "error",
+      "message": "Invalid JSON payload: explainer-manifest.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "document",
+        "id": "explainer-manifest"
+      },
+      "evidence": {
+        "reason": "Invalid JSON payload: explainer-manifest.",
+        "example": "Re-render the validated source instead of editing embedded payloads."
+      },
+      "supportedFixes": [
+        "Re-render the validated source instead of editing embedded payloads."
+      ]
+    }
+  ]
+}

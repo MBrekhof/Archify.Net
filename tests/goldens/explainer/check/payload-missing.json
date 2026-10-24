@@ -1,0 +1,148 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": false,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": false,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 3,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/payload",
+        "severity": "error",
+        "message": "Expected one application/json payload: archify-explainer-prepared.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Expected one application/json payload: archify-explainer-prepared.",
+          "example": "<script type=\"application/json\" id=\"archify-explainer-prepared\">…</script>"
+        },
+        "supportedFixes": [
+          "<script type=\"application/json\" id=\"archify-explainer-prepared\">…</script>"
+        ]
+      },
+      {
+        "code": "explainer/dependency-manifest",
+        "severity": "error",
+        "message": "The frozen dependency manifest is missing.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The frozen dependency manifest is missing.",
+          "example": "Store dependencies:[] even when no external resources are used."
+        },
+        "supportedFixes": [
+          "Store dependencies:[] even when no external resources are used."
+        ]
+      },
+      {
+        "code": "explainer/native-count",
+        "severity": "error",
+        "message": "Native diagram payloads do not match canonical diagram blocks.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Native diagram payloads do not match canonical diagram blocks.",
+          "example": "Embed one native payload per diagram block; zero diagrams is valid."
+        },
+        "supportedFixes": [
+          "Embed one native payload per diagram block; zero diagrams is valid."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/payload",
+      "severity": "error",
+      "message": "Expected one application/json payload: archify-explainer-prepared.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Expected one application/json payload: archify-explainer-prepared.",
+        "example": "<script type=\"application/json\" id=\"archify-explainer-prepared\">…</script>"
+      },
+      "supportedFixes": [
+        "<script type=\"application/json\" id=\"archify-explainer-prepared\">…</script>"
+      ]
+    },
+    {
+      "code": "explainer/dependency-manifest",
+      "severity": "error",
+      "message": "The frozen dependency manifest is missing.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The frozen dependency manifest is missing.",
+        "example": "Store dependencies:[] even when no external resources are used."
+      },
+      "supportedFixes": [
+        "Store dependencies:[] even when no external resources are used."
+      ]
+    },
+    {
+      "code": "explainer/native-count",
+      "severity": "error",
+      "message": "Native diagram payloads do not match canonical diagram blocks.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Native diagram payloads do not match canonical diagram blocks.",
+        "example": "Embed one native payload per diagram block; zero diagrams is valid."
+      },
+      "supportedFixes": [
+        "Embed one native payload per diagram block; zero diagrams is valid."
+      ]
+    }
+  ]
+}

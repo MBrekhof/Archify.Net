@@ -14,8 +14,8 @@ const UP = 'C:/projects/archify/archify';
 const ROOT = path.resolve(fileURLToPath(import.meta.url), '..', '..', '..');
 const SEEDS = path.join(ROOT, 'tools', 'explainer-seeds');
 const flag = (name) => { const i = process.argv.indexOf(name); return i > 1 ? process.argv[i + 1] : undefined; };
-const ORACLE = flag('--oracle'), OUT = flag('--out');
-if (!['node', 'fixed'].includes(ORACLE) || !OUT) throw new Error('usage: run.mjs --oracle node|fixed --out <dir>');
+const ORACLE = flag('--oracle'), OUT = flag('--out'), ONLY = flag('--only');   // --only <group>: a dev shortcut, never used by the capture
+if (!['node', 'fixed'].includes(ORACLE) || !OUT) throw new Error('usage: run.mjs --oracle node|fixed --out <dir> [--only <group>]');
 
 const sha256 = (data) => createHash('sha256').update(data).digest('hex');
 const temps = [];
@@ -54,7 +54,7 @@ const MODULES = {
   validateExplainer: 'validate', compileExplainerDiagram: 'diagrams', prepareExplainerDiagrams: 'diagrams', validateExplainerDiagramTarget: 'diagrams',
   resolveExplainerSources: 'sources',
   prepareExplainer: 'prepare', readPreparedBundle: 'prepare', layoutExplainerPanels: 'layout', renderExplainer: 'render',
-  checkExplainerHtml: 'check', preparePanelPatch: 'patch',
+  checkExplainerHtml: 'check', scanHtml: 'check', isExplainerHtml: 'check', preparePanelPatch: 'patch',
 };
 const fn = async (call) => {
   if (!MODULES[call]) throw new Error(`unknown call ${JSON.stringify(call)}`);
@@ -120,12 +120,54 @@ async function prepareDraft(seed, draft, dir) {
   const options = { ...substitute(draft.options ?? {}, dir), ...(seed.repo ? { repoRoot: REPO } : {}), inputPath };
   return { inputPath, bundle: await (await fn('prepareExplainer'))(draft.text, options) };
 }
-// The page render-explainer.mjs:23 writes for a draft, next to it.
+// The page render-explainer.mjs:23 writes for a draft, next to it: {draft | fixture, resign?, tamper?, file = 'page.html', after?}.
 async function renderDraft(seed, page, dir) {
-  const { bundle } = await prepareDraft(seed, page.draft, dir);
-  const html = tamper((await fn('renderExplainer'))(bundle.document, { ...bundle, preparedBundle: bundle, pageDirectory: dir }), page.tamper, `${seed.name} tamper`);
-  fs.writeFileSync(path.join(dir, page.file ?? 'page.html'), html);
+  const file = path.join(dir, page.file ?? 'page.html');
+  let html;
+  if (page.fixture) html = await checkFixture(page.fixture);
+  else {
+    const { bundle } = await prepareDraft(seed, page.draft, dir);
+    html = (await fn('renderExplainer'))(bundle.document, { ...bundle, preparedBundle: bundle, pageDirectory: path.dirname(file) });
+  }
+  if (page.resign) html = await resign(html, page.resign, `${seed.name} resign`);
+  html = tamper(html, page.tamper, `${seed.name} tamper`);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, html);
+  writeFiles(dir, page.after);   // resources removed or changed once the page exists
   return html;
+}
+const payloadJson = (value) => JSON.stringify(value).replace(/[<>&\u2028\u2029]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`);   // render.mjs:14
+// `resign`: {from, to} replacements over the page's unpacked prepared bundle (JSON.stringify), digest recomputed (prepare.mjs:14),
+// packed and embedded again in place.
+async function resign(html, edits, what) {
+  const opens = [...html.matchAll(/<script [^>]*id="archify-explainer-prepared"[^>]*>/g)];
+  if (opens.length !== 1) throw new Error(`${what}: the page has no single prepared payload`);
+  const start = opens[0].index + opens[0][0].length, end = html.indexOf('</script>', start);
+  const { packPageBundle, unpackPageBundle } = await import(pathToFileURL(path.join(SKILL, 'explainer', 'page-bundle.mjs')).href);
+  const bundle = JSON.parse(tamper(JSON.stringify(unpackPageBundle(JSON.parse(html.slice(start, end)))), edits, what));
+  bundle.digest = digest(bundle);
+  return html.slice(0, start) + payloadJson(packPageBundle(bundle)) + html.slice(end);
+}
+// `fixture`: test/explainer-check.test.mjs fixture() as written, a hand-built page with {children, dependencies, asset}, plus
+// `quality` (the bundle's quality instead of the test's choice). A child is {example} (a file of v3.2.0's archify/examples) or
+// {text}, with optional `sha256` and `bytes` that replace the computed identity in the bundle and the manifest.
+async function checkFixture({ children = {}, dependencies = [], asset, quality } = {}) {
+  const { computeExplainerRevision } = await import(pathToFileURL(path.join(SKILL, 'explainer', 'revision.mjs')).href);
+  const json = (value) => JSON.stringify(value).replace(/[<>&]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`);
+  const kids = Object.fromEntries(Object.entries(children).map(([id, child]) => {
+    const html = typeof child.text === 'string' ? child.text
+      : execFileSync('git', ['-C', 'C:/projects/archify', 'show', `v3.2.0:archify/examples/${child.example}`], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    return [id, { html, sha256: child.sha256 ?? sha256(html), bytes: child.bytes ?? Buffer.byteLength(html) }];
+  }));
+  const document = { schema_version: 1, diagram_type: 'explainer', meta: { id: 'case', title: 'Case' }, answer: { summary: 'Answer' }, panels: [{ id: 'question', title: 'Why?', blocks: [{ id: 'explanation', type: 'prose', text: 'Explanation' }, ...Object.keys(kids).map((id) => ({ id, type: 'diagram' }))] }], sources: [] };
+  const source = { text: JSON.stringify(document) };
+  const manifest = { version: 1, artifactId: 'case', revision: sha256(source.text), sourceSha256: sha256(source.text), documentSha256: sha256(JSON.stringify(document)), dependencies, children: Object.fromEntries(Object.entries(kids).map(([id, c]) => [id, { sha256: c.sha256, bytes: c.bytes }])), assets: asset ? { image: asset } : {}, sources: {} };
+  const bundle = { schemaVersion: 1, kind: 'archify-explainer-prepared', document, sourceText: source.text, source: { sha256: sha256(source.text), bytes: Buffer.byteLength(source.text) }, dependencies, preparedSources: { sources: {} }, preparedDiagrams: { diagrams: kids }, quality: quality ?? (Object.keys(kids).length ? 'showcase' : 'standard') };
+  bundle.digest = sha256(JSON.stringify(bundle));
+  manifest.revision = computeExplainerRevision(bundle);
+  delete manifest.dependencies;
+  const payloads = { 'archify-explainer-prepared': bundle, 'explainer-manifest': manifest };
+  return `<!doctype html><html data-archify-artifact="explainer" data-revision="${manifest.revision}"><head><title>Case</title></head><body><main id="question"><p id="explanation">Explanation</p>${Object.keys(kids).map((id) => `<div id="${id}">Diagram preview</div>`).join('')}${asset ? `<img alt="contained" src="data:${asset.mime};base64,${dependencies[0].contentBase64}">` : ''}</main>${Object.entries(payloads).map(([id, p]) => `<script id="${id}" type="application/json">${json(p)}</script>`).join('')}</body></html>`;
 }
 // `deliver` (the cases group): upstream's own CLI delivers a v3.2.0 case draft at standard quality, with no repository root, in
 // the seed's fresh directory; the golden is the page. The draft must be the tag's docs/cases/explainer/<name>.archify.md.
@@ -194,7 +236,7 @@ function tokeniseText(text, dir) {
 
 // --- the run: every tools/explainer-seeds/<group>.json, in name order ---
 const seedRoot = temp('axs-seeds-');
-for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort()) {
+for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json') && (!ONLY || f === `${ONLY}.json`)).sort()) {
   const group = f.slice(0, -'.json'.length);
   const seeds = JSON.parse(fs.readFileSync(path.join(SEEDS, f), 'utf8'));
   const names = new Set();
@@ -237,6 +279,8 @@ for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort())
           for (const text of seed.texts) html.push(await (await fn(seed.call))(text, context));
           result = { html, footnotes: context.footnotes, citations: [...(context.citations ?? new Map())] };
         } else result = await (await fn(seed.call))(...args);
+        // `render: true` (preparePanelPatch): the patched bundle rendered as render-explainer.mjs renders a bundle; the golden is the page.
+        if (seed.render) result = (await fn('renderExplainer'))(result.bundle.document, { ...result.bundle, preparedBundle: result.bundle, pageDirectory: dir });
       }
     } catch (error) {
       if (!(error instanceof Error)) throw error;
@@ -244,7 +288,7 @@ for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort())
     }
     process.chdir(ROOT);
     if (result === undefined) throw new Error(`${f}/${seed.name}: ${seed.call} returned undefined`);
-    const page = ['renderExplainer', 'deliver'].includes(seed.call) && typeof result === 'string';
+    const page = (['renderExplainer', 'deliver'].includes(seed.call) || seed.render === true) && typeof result === 'string';
     // Tokenised over the JSON view (JSON.parse(JSON.stringify)), so the golden is what JSON.stringify(result, null, 2) prints.
     const text = tokeniseText(page ? htmlGzip(result) : JSON.stringify(tokeniseValue(JSON.parse(JSON.stringify(result))), null, 2) + '\n', dir);
     const file = path.join(OUT, group, `${seed.name}.${page ? 'html' : 'json'}`);

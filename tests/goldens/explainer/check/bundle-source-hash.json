@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/bundle-source-hash",
+        "severity": "error",
+        "message": "The prepared source bytes do not match their identity.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The prepared source bytes do not match their identity.",
+          "example": "Freeze the exact original UTF-8 draft bytes."
+        },
+        "supportedFixes": [
+          "Freeze the exact original UTF-8 draft bytes."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/bundle-source-hash",
+      "severity": "error",
+      "message": "The prepared source bytes do not match their identity.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The prepared source bytes do not match their identity.",
+        "example": "Freeze the exact original UTF-8 draft bytes."
+      },
+      "supportedFixes": [
+        "Freeze the exact original UTF-8 draft bytes."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The original draft and normalized document disagree.",
+    "code": [
+      {
+        "code": "explainer/patch-payload",
+        "severity": "error",
+        "message": "The original draft and normalized document disagree.",
+        "subject": {
+          "input": "<DIR>/page.html",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "payload",
+          "example": "Rebuild the original artifact before patching."
+        },
+        "supportedFixes": [
+          "Rebuild the original artifact before patching."
+        ]
+      }
+    ]
+  }
+}

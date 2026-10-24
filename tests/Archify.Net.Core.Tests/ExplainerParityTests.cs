@@ -11,10 +11,11 @@ namespace Archify.Net.Tests;
 public partial class ExplainerParityTests
 {
     // A group is compared once it is listed; each task adds its own.
-    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare", "layout", "pages", "cases"];
+    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare", "layout", "pages", "cases", "check", "patch"];
     // Rows that differ from Node by a stated deviation (docs/deviations.md), each pinned by its own fact below.
     static readonly HashSet<(string Group, string Name)> KnownDeviations =
-        [("parse", "cr-only"), ("parse", "line-separator-heading"), ("writing", "rule-fold-long-s")];
+        [("parse", "cr-only"), ("parse", "line-separator-heading"), ("writing", "rule-fold-long-s"),
+         ("patch", "payload-missing"), ("patch", "payload-twice"), ("patch", "payload-invalid-json")];
 
     public static TheoryData<string, string> Targets()
     {
@@ -30,6 +31,13 @@ public partial class ExplainerParityTests
 
     static void Compare(string group, string name, string expected)
     {
+        var actual = Actual(group, name);
+        if (expected != actual) Assert.Fail(ParityTests.FirstDifference(expected, actual));
+    }
+
+    // The port's tokenised output for a seed, as Matches_node compares it.
+    static string Actual(string group, string name)
+    {
         var seed = Seed(group, name);
         var dir = Directory.CreateTempSubdirectory("axs-").FullName;
         var repo = seed["repo"] switch   // the runner's `repo: true` or `repo: {origin}` (README.md)
@@ -41,8 +49,7 @@ public partial class ExplainerParityTests
         try
         {
             WriteFiles(dir, seed["files"] as JsonObject);
-            var actual = Tokenise(NormalizePage(Run(seed, dir, repo)), dir, repo);
-            if (expected != actual) Assert.Fail(ParityTests.FirstDifference(expected, actual));
+            return Tokenise(NormalizePage(Run(seed, dir, repo)), dir, repo);
         }
         finally
         {
@@ -60,8 +67,22 @@ public partial class ExplainerParityTests
         JsonNode? Arg(int i) => i < args.Count ? args[i] : null;
         try
         {
+            var page = seed["page"] is JsonObject pageSeed ? BuildPage(pageSeed, dir, repo) : null;
             switch (seed["call"]!.GetValue<string>())
             {
+                case "checkExplainerHtml":
+                    var checkOptions = page is null ? Arg(1) : Arg(0);
+                    return Json(ExplainerCheck.Check(Encoding.UTF8.GetBytes(page ?? Arg(0)!.GetValue<string>()), checkOptions.Str("file") ?? "<html>", checkOptions.Bool("checkNative") ?? true));
+                case "scanHtml":
+                    var (elements, scripts) = ExplainerCheck.Scan(Arg(0)!.GetValue<string>());
+                    return Json(new JsonObject { ["elements"] = new JsonArray([.. elements.Select(e => (JsonNode?)Scanned(e))]), ["scripts"] = new JsonArray([.. scripts.Select(s => (JsonNode?)Scanned(s))]) });
+                case "isExplainerHtml":
+                    return Json(ExplainerCheck.IsExplainerHtml(Arg(0)!.GetValue<string>()));
+                case "preparePanelPatch":
+                    var patch = Arg(0);
+                    var patched = ExplainerPatch.Prepare(new(patch.Str("artifactPath")!, patch.Str("panelId")!, patch.Str("replacementPath")!, patch.Str("repoRoot"),
+                        patch.Str("quality"), patch.Str("writingMode"), patch.Obj("expectedArtifact")?.DeepClone().AsObject()));
+                    return seed["render"]?.GetValueKind() == System.Text.Json.JsonValueKind.True ? ExplainerPipeline.Render(patched.Bundle, dir) : Json(patched.ToJson());
                 case "layoutExplainerPanels":
                     return Json(ExplainerRender.Layout(Arg(0)!.AsObject(), Arg(1) as JsonObject));
                 case "renderExplainer" when seed["draft"] is not null:
@@ -140,9 +161,10 @@ public partial class ExplainerParityTests
     }
 
     // The runner's prepareDraft: the draft written to <DIR>/<file> and prepared as render-explainer.mjs does.
-    static JsonObject PrepareDraft(JsonObject seed, string dir, string? repo)
+    static JsonObject PrepareDraft(JsonObject seed, string dir, string? repo) => PrepareDraft(seed["draft"], dir, repo);
+    static JsonObject PrepareDraft(JsonNode? draftNode, string dir, string? repo)
     {
-        var draft = (JsonObject)Substitute(seed["draft"], dir, repo)!;
+        var draft = (JsonObject)Substitute(draftNode, dir, repo)!;
         var inputPath = Path.Join(dir, draft.Str("file") ?? "draft.archify.md");
         Directory.CreateDirectory(Path.GetDirectoryName(inputPath)!);
         File.WriteAllText(inputPath, draft.Str("text"));
@@ -150,6 +172,83 @@ public partial class ExplainerParityTests
         if (repo is not null) options["repoRoot"] = repo;
         options["inputPath"] = inputPath;
         return ExplainerPrepare.Prepare(draft.Str("text")!, Prepare(options));
+    }
+
+    // The runner's renderDraft: a `page` {draft | fixture, resign?, tamper?, file = 'page.html', after?} rendered by the port,
+    // written to <DIR>/<file>, then `after` applied.
+    static string BuildPage(JsonObject page, string dir, string? repo)
+    {
+        var file = Path.Join(dir, page.Str("file") ?? "page.html");
+        var html = page["fixture"] is JsonObject fixture ? CheckFixture(fixture) : ExplainerPipeline.Render(PrepareDraft(page["draft"], dir, repo), Path.GetDirectoryName(file));
+        if (page["resign"] is { } edits) html = Resign(html, edits);
+        html = Tamper(html, page["tamper"]);
+        Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+        File.WriteAllText(file, html);
+        WriteFiles(dir, page.Obj("after"));
+        return html;
+    }
+    static string PayloadJson(JsonNode? value) => Regex.Replace(Js.Stringify(value), @"[<>&  ]", m => $"\\u{(int)m.Value[0]:x4}");   // render.mjs:14
+    // `resign`: replacements over the page's unpacked prepared bundle, signed, packed and embedded again in place.
+    static string Resign(string html, JsonNode edits)
+    {
+        var open = Assert.Single(Regex.Matches(html, "<script [^>]*id=\"archify-explainer-prepared\"[^>]*>"));
+        var start = open.Index + open.Length;
+        var end = html.IndexOf("</script>", start, StringComparison.Ordinal);
+        var bundle = ParseJson(Tamper(Js.Stringify(ExplainerBundle.Unpack(ParseJson(html[start..end]))), edits));
+        bundle["digest"] = ExplainerPrepare.Digest(bundle);
+        return html[..start] + PayloadJson(ExplainerBundle.Pack(bundle)) + html[end..];
+    }
+    // test/explainer-check.test.mjs fixture(), as the runner's checkFixture builds it (README.md).
+    static string CheckFixture(JsonObject f)
+    {
+        static string Escaped(JsonNode? value) => Regex.Replace(Js.Stringify(value), "[<>&]", m => $"\\u{(int)m.Value[0]:x4}");
+        var kids = new JsonObject();
+        foreach (var (id, child) in f.Obj("children") ?? [])
+        {
+            var html = child.Str("text") ?? Fixtures.Lf(Fixtures.Upstream("examples/" + child.Str("example")));
+            kids[id] = new JsonObject
+            {
+                ["html"] = html, ["sha256"] = child?["sha256"]?.DeepClone() ?? Sha256(html), ["bytes"] = child?["bytes"]?.DeepClone() ?? Encoding.UTF8.GetByteCount(html),
+            };
+        }
+        var dependencies = f.Arr("dependencies") ?? [];
+        var asset = f.Obj("asset");
+        var blocks = new JsonArray(new JsonObject { ["id"] = "explanation", ["type"] = "prose", ["text"] = "Explanation" });
+        foreach (var (id, _) in kids) blocks.Add(new JsonObject { ["id"] = id, ["type"] = "diagram" });
+        var document = new JsonObject
+        {
+            ["schema_version"] = 1, ["diagram_type"] = "explainer", ["meta"] = new JsonObject { ["id"] = "case", ["title"] = "Case" },
+            ["answer"] = new JsonObject { ["summary"] = "Answer" },
+            ["panels"] = new JsonArray(new JsonObject { ["id"] = "question", ["title"] = "Why?", ["blocks"] = blocks }), ["sources"] = new JsonArray(),
+        };
+        var text = Js.Stringify(document);
+        var manifest = new JsonObject
+        {
+            ["version"] = 1, ["artifactId"] = "case", ["revision"] = Sha256(text), ["sourceSha256"] = Sha256(text), ["documentSha256"] = Sha256(Js.Stringify(document)),
+            ["dependencies"] = dependencies.DeepClone(),
+            ["children"] = new JsonObject(kids.Select(kv => KeyValuePair.Create(kv.Key, (JsonNode?)new JsonObject { ["sha256"] = kv.Value!["sha256"]!.DeepClone(), ["bytes"] = kv.Value["bytes"]!.DeepClone() }))),
+            ["assets"] = asset is null ? new JsonObject() : new JsonObject { ["image"] = asset.DeepClone() }, ["sources"] = new JsonObject(),
+        };
+        var bundle = new JsonObject
+        {
+            ["schemaVersion"] = 1, ["kind"] = "archify-explainer-prepared", ["document"] = document.DeepClone(), ["sourceText"] = text,
+            ["source"] = new JsonObject { ["sha256"] = Sha256(text), ["bytes"] = Encoding.UTF8.GetByteCount(text) }, ["dependencies"] = dependencies.DeepClone(),
+            ["preparedSources"] = new JsonObject { ["sources"] = new JsonObject() }, ["preparedDiagrams"] = new JsonObject { ["diagrams"] = kids.DeepClone() },
+            ["quality"] = f.Str("quality") ?? (kids.Count > 0 ? "showcase" : "standard"),
+        };
+        bundle["digest"] = Sha256(Js.Stringify(bundle));
+        manifest["revision"] = ExplainerBundle.Revision(bundle);
+        manifest.Remove("dependencies");
+        var image = asset is null ? "" : $"<img alt=\"contained\" src=\"data:{asset.Str("mime")};base64,{dependencies[0].Str("contentBase64")}\">";
+        return $"<!doctype html><html data-archify-artifact=\"explainer\" data-revision=\"{manifest.Str("revision")}\"><head><title>Case</title></head><body><main id=\"question\"><p id=\"explanation\">Explanation</p>"
+            + string.Concat(kids.Select(kv => $"<div id=\"{kv.Key}\">Diagram preview</div>")) + image + "</main>"
+            + $"<script id=\"archify-explainer-prepared\" type=\"application/json\">{Escaped(bundle)}</script><script id=\"explainer-manifest\" type=\"application/json\">{Escaped(manifest)}</script></body></html>";
+    }
+    static JsonObject Scanned(ScannedElement e)
+    {
+        var json = new JsonObject { ["tag"] = e.Tag, ["attrs"] = new JsonObject(e.Attrs.Select(kv => KeyValuePair.Create(kv.Key, (JsonNode?)kv.Value))), ["line"] = e.Line, ["index"] = e.Index };
+        if (e is ScannedScript s) json["text"] = s.Text;
+        return json;
     }
 
     static InlineContext Context(JsonNode? context) => new() { PanelId = context.Str("panelId"), Footnotes = context?["footnotes"] as JsonArray };
@@ -623,6 +722,89 @@ public partial class ExplainerParityTests
         Assert.False(ExplainerSources.IsLink(FileAttributes.ReparsePoint | FileAttributes.Archive | FileAttributes.Offline, () => null));
         Assert.True(ExplainerSources.IsLink(FileAttributes.ReparsePoint | FileAttributes.Directory, () => @"C:\target"));
         Assert.False(ExplainerSources.IsLink(FileAttributes.Archive, () => throw new InvalidOperationException("a plain file's target is never read")));
+    }
+
+    // --- Task 6 facts ---
+    // UPSTREAM-DEVIATION patch-payload-message: patch.mjs:26 rethrows a caught error only when it has `diagnostics`, but
+    // throwDiagnosticError attaches `archifyDiagnostics`, so embedded()'s own failure (no payload, two payloads, invalid JSON)
+    // comes out as "Embedded native diagram payload cannot be inflated." with the panel id. The port reports embedded()'s
+    // diagnostic, which names no panel.
+    [Theory]
+    [InlineData("payload-missing", "The artifact must contain one original draft and prepared resource payload.", "Use an artifact produced by the formal explainer CLI.")]
+    [InlineData("payload-twice", "The artifact must contain one original draft and prepared resource payload.", "Use an artifact produced by the formal explainer CLI.")]
+    [InlineData("payload-invalid-json", "Embedded draft payload is invalid.", "Rebuild the artifact from its original draft.")]
+    public void Patch_payload_failures_keep_their_own_message(string name, string message, string example)
+    {
+        var node = JsonNode.Parse(Expected("patch", name))!["thrown"]!;
+        Assert.Equal("Embedded native diagram payload cannot be inflated.", node.Str("message"));
+        Assert.Equal("first", node["code"]![0]!["subject"].Str("panelId"));
+        var port = JsonNode.Parse(Actual("patch", name))!["thrown"]!;
+        Assert.Equal(message, port.Str("message"));
+        var diagnostic = Assert.Single(port["code"]!.AsArray())!;
+        Assert.Equal(("explainer/patch-payload", message, example), (diagnostic.Str("code"), diagnostic.Str("message"), diagnostic["evidence"].Str("example")));
+        Assert.Equal("""{"input":"<DIR>/page.html","line":1,"component":"panel"}""", Js.Stringify(diagnostic["subject"]));
+    }
+
+    // check-render-output.mjs:44-48: an explainer page, by its marker or by its prepared payload alone, goes to the explainer
+    // checker, and the facade returns that report without `file`. Each native child is checked in process; its receipt names
+    // an unwritten <tmp>\archify-explainer-check-XXXXXX\child.html (stated deviation, as prepare's children).
+    [Fact] public void Check_routes_explainer_pages_to_the_explainer_checker()
+    {
+        var dir = Directory.CreateTempSubdirectory("axs-").FullName;
+        try
+        {
+            var page = BuildPage(Seed("check", "clean-native")["page"]!.AsObject(), dir, null);
+            var bytes = Encoding.UTF8.GetBytes(page);
+            var direct = ExplainerCheck.Check(bytes);
+            Assert.Equal("<html>", direct.Str("file"));
+            var child = direct["composition"]!["nativeDiagrams"]![0]!["receipt"]!.Str("file")!;
+            Assert.Matches(@"^" + Regex.Escape(Path.GetTempPath()) + @"archify-explainer-check-[A-Za-z0-9]{6}\\child\.html$", child);
+            Assert.False(Directory.Exists(Path.GetDirectoryName(child)));
+            foreach (var html in new[] { page, page.Replace(" data-archify-artifact=\"explainer\"", "") })
+            {
+                var check = ArchifyNet.Check(Encoding.UTF8.GetBytes(html));
+                Assert.Equal("explainer", check.Report.Str("family"));
+                Assert.False(check.Report.ContainsKey("file"));
+                Assert.Equal(html == page, check.Ok);
+            }
+            static string Stable(JsonObject report) => Regex.Replace(Js.Stringify(report), "archify-explainer-check-[A-Za-z0-9]{6}", "<tmp>");
+            var facade = ArchifyNet.Check(bytes).Report;
+            direct.Remove("file");
+            Assert.Equal(Stable(direct), Stable(facade));
+            Assert.Equal(["ok", "family", "artifact", "checks", "composition", "diagnostics"], facade.Select(kv => kv.Key));
+            Assert.Null(ArchifyNet.Check(Fixtures.Bytes(Fixtures.Upstream("examples/erd-orders-rendered.html"))).Report["family"]);   // native pages unchanged
+        }
+        finally { Directory.Delete(dir, recursive: true); }
+    }
+
+    // A matching expectedArtifact (the validated page's own identity) lets the patch through; no Node seed can name it, because
+    // the port's page bytes differ from Node's by the gzip stream (Decision 1).
+    [Fact] public void Patch_accepts_the_validated_artifact()
+    {
+        var dir = Directory.CreateTempSubdirectory("axs-").FullName;
+        try
+        {
+            var seed = Seed("patch", "md-panel");
+            WriteFiles(dir, (JsonObject)Substitute(seed["files"], dir, null)!);
+            BuildPage(seed["page"]!.AsObject(), dir, null);
+            var artifact = Path.Join(dir, "page.html");
+            var identity = ArchifyNet.Check(File.ReadAllBytes(artifact)).Report["artifact"]!.DeepClone().AsObject();
+            var result = ExplainerPipeline.Patch(new(artifact, "first", Path.Join(dir, "replacement.md"), ExpectedArtifact: identity));
+            Assert.Contains("New paragraph.", result.SourceText);
+            Assert.Equal(ExplainerPrepare.Digest(result.Bundle), result.Bundle.Str("digest"));
+        }
+        finally { Directory.Delete(dir, recursive: true); }
+    }
+
+    // Carry-forward (Task 5, concern 1): upstream's plain `new Error(...)` is the port's internal JsError; an unclassified one
+    // reports errorName "Error", as upstream's error.name does.
+    [Fact] public void Unclassified_JsError_is_named_Error()
+    {
+        var (error, diagnostics, _) = new DiagnosticSink().RendererFailure(new JsError("Bundle differs."));
+        Assert.Equal("Bundle differs.", error);
+        var diagnostic = Assert.Single(diagnostics);
+        Assert.Equal(("internal/unclassified", "Error"), (diagnostic.Code, diagnostic.Evidence.Str("errorName")));
+        Assert.Equal("InvalidOperationException", Assert.Single(new DiagnosticSink().RendererFailure(new InvalidOperationException("x")).diagnostics).Evidence.Str("errorName"));
     }
 
     // --- Task 1 facts ---

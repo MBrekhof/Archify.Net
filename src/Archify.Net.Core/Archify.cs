@@ -155,10 +155,18 @@ public static class ArchifyNet
     public static CheckResult Check(string html, CheckOptions? options = null) => Check(new UTF8Encoding(false).GetBytes(html), options);
 
     // The artifact's bytes, as upstream reads the file: sha256 and length over the bytes, the scan over bytes.toString('utf8').
+    // An explainer page goes to the explainer checker (check-render-output.mjs:44-48).
     public static CheckResult Check(byte[] html, CheckOptions? options = null)
     {
         if (options?.RequireProvenance == true) throw new NotSupportedException("provenance checks are in the archify CLI (check --require-provenance)");
-        var report = ArtifactChecker.Check(html);
+        ArgumentNullException.ThrowIfNull(html);
+        JsonObject report;
+        if (ExplainerCheck.IsExplainerHtml(Encoding.UTF8.GetString(html)))
+        {
+            report = ExplainerCheck.Check(html);
+            report.Remove("file");
+        }
+        else report = ArtifactChecker.Check(html);
         return new CheckResult(report["ok"]!.GetValue<bool>(), report);
     }
 

@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Panel replacement must contain valid UTF-8 bytes.",
+    "code": [
+      {
+        "code": "explainer/patch-source-encoding",
+        "severity": "error",
+        "message": "Panel replacement must contain valid UTF-8 bytes.",
+        "subject": {
+          "input": "<DIR>/replacement.json",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "source-encoding",
+          "example": "Save the replacement panel as UTF-8 text."
+        },
+        "supportedFixes": [
+          "Save the replacement panel as UTF-8 text."
+        ]
+      }
+    ]
+  }
+}

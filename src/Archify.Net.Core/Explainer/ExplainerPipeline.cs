@@ -26,6 +26,13 @@ public static class ExplainerPipeline
         ExplainerRender.Render(bundle["document"] as JsonObject ?? throw new ArgumentException("The bundle holds no document.", nameof(bundle)),
             RenderExplainerOptions.FromBundle(bundle, pageDirectory));
 
+    /// <summary>preparePanelPatch: one stable panel of an explainer page replaced from a file, every frozen resource outside it
+    /// retained. Returns the re-signed bundle; the caller renders and checks it.</summary>
+    public static PatchResult Patch(PatchRequest request) => ExplainerPatch.Prepare(request);
+
+    /// <summary>isExplainerHtml: the explainer family marker, or the prepared bundle's payload script.</summary>
+    public static bool IsExplainerHtml(string html) => ExplainerCheck.IsExplainerHtml(html);
+
     /// <summary>computeExplainerRevision(bundle): the authored-content identity a page carries as data-revision.</summary>
     public static string Revision(JsonObject bundle) => ExplainerBundle.Revision(bundle);
 }

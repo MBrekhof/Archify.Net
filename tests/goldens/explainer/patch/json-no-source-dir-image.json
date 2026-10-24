@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Local images require an input directory.",
+    "code": [
+      {
+        "code": "explainer/asset-root",
+        "severity": "error",
+        "message": "Local images require an input directory.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "image",
+          "input": "<DIR>/page.html",
+          "line": 13,
+          "column": 119
+        },
+        "evidence": {
+          "reason": "asset-root",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Provide the original input directory as baseDir."
+        ]
+      }
+    ]
+  }
+}

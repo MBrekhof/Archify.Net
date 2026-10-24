@@ -1,0 +1,114 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 2,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/unresolved-reference",
+        "severity": "error",
+        "message": "Unresolved anchor: #source-docs.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "reference"
+        },
+        "evidence": {
+          "reason": "Unresolved anchor: #source-docs.",
+          "example": "Link to an existing panel, block or source ID."
+        },
+        "supportedFixes": [
+          "Link to an existing panel, block or source ID."
+        ]
+      },
+      {
+        "code": "explainer/source-target",
+        "severity": "error",
+        "message": "Source target is missing: docs.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Source target is missing: docs.",
+          "example": "Render every declared source in the source list."
+        },
+        "supportedFixes": [
+          "Render every declared source in the source list."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "Unresolved anchor: #source-docs.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "reference"
+      },
+      "evidence": {
+        "reason": "Unresolved anchor: #source-docs.",
+        "example": "Link to an existing panel, block or source ID."
+      },
+      "supportedFixes": [
+        "Link to an existing panel, block or source ID."
+      ]
+    },
+    {
+      "code": "explainer/source-target",
+      "severity": "error",
+      "message": "Source target is missing: docs.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Source target is missing: docs.",
+        "example": "Render every declared source in the source list."
+      },
+      "supportedFixes": [
+        "Render every declared source in the source list."
+      ]
+    }
+  ]
+}

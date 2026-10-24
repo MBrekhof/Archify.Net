@@ -1,0 +1,31 @@
+{
+  "elements": [
+    {
+      "tag": "script",
+      "attrs": {
+        "type": "application/json"
+      },
+      "line": 1,
+      "index": 0
+    },
+    {
+      "tag": "p",
+      "attrs": {
+        "id": "real"
+      },
+      "line": 1,
+      "index": 69
+    }
+  ],
+  "scripts": [
+    {
+      "tag": "script",
+      "attrs": {
+        "type": "application/json"
+      },
+      "line": 1,
+      "index": 0,
+      "text": "{\"text\":\"<div id=\\\"fake\\\">\"}"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Explainer draft is invalid.",
+    "code": [
+      {
+        "code": "explainer/writing-light-verb",
+        "severity": "error",
+        "message": "A light-verb construction can obscure the action.",
+        "subject": {
+          "line": 13,
+          "component": "prose",
+          "panelId": "first",
+          "input": "<DIR>\\author.json"
+        },
+        "evidence": {
+          "rule": "light-verb",
+          "reason": "A light-verb construction can obscure the action.",
+          "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+          "matched": "perform an analysis of"
+        },
+        "supportedFixes": [
+          "Use the direct action verb where it preserves the meaning; name who performs the action."
+        ]
+      },
+      {
+        "code": "explainer/writing-redundancy",
+        "severity": "error",
+        "message": "Adjacent wording may repeat the same meaning.",
+        "subject": {
+          "line": 13,
+          "component": "prose",
+          "panelId": "first",
+          "input": "<DIR>\\author.json"
+        },
+        "evidence": {
+          "rule": "redundancy",
+          "reason": "Adjacent wording may repeat the same meaning.",
+          "example": "提前预先 → 提前; each and every → each",
+          "matched": "each and every"
+        },
+        "supportedFixes": [
+          "Keep one expression of the meaning unless both terms carry a necessary distinction."
+        ]
+      }
+    ]
+  }
+}

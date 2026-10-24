@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/artifact-family",
+        "severity": "error",
+        "message": "The document is missing its explainer family marker.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The document is missing its explainer family marker.",
+          "example": "<html data-archify-artifact=\"explainer\">"
+        },
+        "supportedFixes": [
+          "<html data-archify-artifact=\"explainer\">"
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/artifact-family",
+      "severity": "error",
+      "message": "The document is missing its explainer family marker.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The document is missing its explainer family marker.",
+        "example": "<html data-archify-artifact=\"explainer\">"
+      },
+      "supportedFixes": [
+        "<html data-archify-artifact=\"explainer\">"
+      ]
+    }
+  ]
+}

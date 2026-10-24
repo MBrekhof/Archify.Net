@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The replacement changes content outside the selected panel.",
+    "code": [
+      {
+        "code": "explainer/patch-scope",
+        "severity": "error",
+        "message": "The replacement changes content outside the selected panel.",
+        "subject": {
+          "input": "<DIR>/replacement.md",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "scope",
+          "example": "Replace only the target panel; preserve document metadata, sources and other panels."
+        },
+        "supportedFixes": [
+          "Replace only the target panel; preserve document metadata, sources and other panels."
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A panel replacement must retain the target stable id and panel count.",
+    "code": [
+      {
+        "code": "explainer/patch-identity",
+        "severity": "error",
+        "message": "A panel replacement must retain the target stable id and panel count.",
+        "subject": {
+          "input": "<DIR>/replacement.md",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "identity",
+          "example": "## Question? {#first}\n\nReplacement content."
+        },
+        "supportedFixes": [
+          "## Question? {#first}\n\nReplacement content."
+        ]
+      }
+    ]
+  }
+}

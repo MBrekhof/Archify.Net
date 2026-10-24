@@ -1,0 +1,114 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 2,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/unresolved-reference",
+        "severity": "error",
+        "message": "Unresolved anchor: #second.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "reference"
+        },
+        "evidence": {
+          "reason": "Unresolved anchor: #second.",
+          "example": "Link to an existing panel, block or source ID."
+        },
+        "supportedFixes": [
+          "Link to an existing panel, block or source ID."
+        ]
+      },
+      {
+        "code": "explainer/canonical-id",
+        "severity": "error",
+        "message": "Canonical ID is absent from the rendered document: second.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Canonical ID is absent from the rendered document: second.",
+          "example": "Render every authored panel and block with its stable ID."
+        },
+        "supportedFixes": [
+          "Render every authored panel and block with its stable ID."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "Unresolved anchor: #second.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "reference"
+      },
+      "evidence": {
+        "reason": "Unresolved anchor: #second.",
+        "example": "Link to an existing panel, block or source ID."
+      },
+      "supportedFixes": [
+        "Link to an existing panel, block or source ID."
+      ]
+    },
+    {
+      "code": "explainer/canonical-id",
+      "severity": "error",
+      "message": "Canonical ID is absent from the rendered document: second.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Canonical ID is absent from the rendered document: second.",
+        "example": "Render every authored panel and block with its stable ID."
+      },
+      "supportedFixes": [
+        "Render every authored panel and block with its stable ID."
+      ]
+    }
+  ]
+}

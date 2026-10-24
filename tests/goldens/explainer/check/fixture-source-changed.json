@@ -1,0 +1,216 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "4 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 5,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/bundle-hash",
+        "severity": "error",
+        "message": "The canonical prepared bundle does not match its digest.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The canonical prepared bundle does not match its digest.",
+          "example": "Re-prepare and render the original draft with immutable resources."
+        },
+        "supportedFixes": [
+          "Re-prepare and render the original draft with immutable resources."
+        ]
+      },
+      {
+        "code": "explainer/source-document-binding",
+        "severity": "error",
+        "message": "The canonical document differs from its embedded authored draft.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The canonical document differs from its embedded authored draft.",
+          "example": "Re-parse the embedded draft and render its normalized document."
+        },
+        "supportedFixes": [
+          "Re-parse the embedded draft and render its normalized document."
+        ]
+      },
+      {
+        "code": "explainer/bundle-source-hash",
+        "severity": "error",
+        "message": "The prepared source bytes do not match their identity.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The prepared source bytes do not match their identity.",
+          "example": "Freeze the exact original UTF-8 draft bytes."
+        },
+        "supportedFixes": [
+          "Freeze the exact original UTF-8 draft bytes."
+        ]
+      },
+      {
+        "code": "explainer/source-hash",
+        "severity": "error",
+        "message": "The embedded source does not match its immutable source hash.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The embedded source does not match its immutable source hash.",
+          "example": "Re-render the original draft and retain its exact SHA-256 source hash."
+        },
+        "supportedFixes": [
+          "Re-render the original draft and retain its exact SHA-256 source hash."
+        ]
+      },
+      {
+        "code": "explainer/content-revision",
+        "severity": "error",
+        "message": "The content revision does not bind the draft and frozen resources.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The content revision does not bind the draft and frozen resources.",
+          "example": "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+        },
+        "supportedFixes": [
+          "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/bundle-hash",
+      "severity": "error",
+      "message": "The canonical prepared bundle does not match its digest.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The canonical prepared bundle does not match its digest.",
+        "example": "Re-prepare and render the original draft with immutable resources."
+      },
+      "supportedFixes": [
+        "Re-prepare and render the original draft with immutable resources."
+      ]
+    },
+    {
+      "code": "explainer/source-document-binding",
+      "severity": "error",
+      "message": "The canonical document differs from its embedded authored draft.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The canonical document differs from its embedded authored draft.",
+        "example": "Re-parse the embedded draft and render its normalized document."
+      },
+      "supportedFixes": [
+        "Re-parse the embedded draft and render its normalized document."
+      ]
+    },
+    {
+      "code": "explainer/bundle-source-hash",
+      "severity": "error",
+      "message": "The prepared source bytes do not match their identity.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The prepared source bytes do not match their identity.",
+        "example": "Freeze the exact original UTF-8 draft bytes."
+      },
+      "supportedFixes": [
+        "Freeze the exact original UTF-8 draft bytes."
+      ]
+    },
+    {
+      "code": "explainer/source-hash",
+      "severity": "error",
+      "message": "The embedded source does not match its immutable source hash.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The embedded source does not match its immutable source hash.",
+        "example": "Re-render the original draft and retain its exact SHA-256 source hash."
+      },
+      "supportedFixes": [
+        "Re-render the original draft and retain its exact SHA-256 source hash."
+      ]
+    },
+    {
+      "code": "explainer/content-revision",
+      "severity": "error",
+      "message": "The content revision does not bind the draft and frozen resources.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The content revision does not bind the draft and frozen resources.",
+        "example": "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+      },
+      "supportedFixes": [
+        "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+      ]
+    }
+  ]
+}

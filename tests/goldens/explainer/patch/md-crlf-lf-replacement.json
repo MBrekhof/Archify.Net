@@ -1,0 +1,202 @@
+{
+  "bundle": {
+    "schemaVersion": 1,
+    "kind": "archify-explainer-prepared",
+    "document": {
+      "schema_version": 1,
+      "diagram_type": "explainer",
+      "meta": {
+        "title": "What changes?",
+        "id": "patch-document",
+        "locale": "en"
+      },
+      "answer": {
+        "summary": "One panel changes."
+      },
+      "panels": [
+        {
+          "id": "first",
+          "title": "Why?",
+          "blocks": [
+            {
+              "type": "prose",
+              "text": "Old paragraph.",
+              "id": "prose-cdb64c130964"
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "title": "What stays?",
+          "blocks": [
+            {
+              "type": "prose",
+              "text": "Still here.",
+              "id": "prose-5e28deaff7de"
+            }
+          ]
+        }
+      ],
+      "sources": []
+    },
+    "sourceMap": {
+      "/meta": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 35
+      },
+      "/meta/title": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 35
+      },
+      "/meta/id": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 35
+      },
+      "/answer": {
+        "line": 3,
+        "column": 1,
+        "start": 37,
+        "end": 57
+      },
+      "/answer/summary": {
+        "line": 3,
+        "column": 1,
+        "start": 37,
+        "end": 57
+      },
+      "/meta/locale": {
+        "line": 5,
+        "column": 1,
+        "start": 59,
+        "end": 76
+      },
+      "/panels/0": {
+        "line": 7,
+        "column": 1,
+        "start": 78,
+        "end": 116
+      },
+      "/panels/0/id": {
+        "line": 7,
+        "column": 1,
+        "start": 78,
+        "end": 154
+      },
+      "/panels/0/title": {
+        "line": 7,
+        "column": 1,
+        "start": 78,
+        "end": 154
+      },
+      "/panels/0/blocks": {
+        "line": 7,
+        "column": 1,
+        "start": 78,
+        "end": 154
+      },
+      "/panels/0/blocks/0": {
+        "line": 9,
+        "column": 1,
+        "start": 98,
+        "end": 114
+      },
+      "/panels/0/blocks/0/type": {
+        "line": 9,
+        "column": 1,
+        "start": 98,
+        "end": 114
+      },
+      "/panels/0/blocks/0/text": {
+        "line": 9,
+        "column": 1,
+        "start": 98,
+        "end": 114
+      },
+      "/panels/0/blocks/0/id": {
+        "line": 9,
+        "column": 1,
+        "start": 98,
+        "end": 114
+      },
+      "/panels/1": {
+        "line": 11,
+        "column": 1,
+        "start": 116,
+        "end": 154
+      },
+      "/panels/1/id": {
+        "line": 11,
+        "column": 1,
+        "start": 116,
+        "end": 154
+      },
+      "/panels/1/title": {
+        "line": 11,
+        "column": 1,
+        "start": 116,
+        "end": 154
+      },
+      "/panels/1/blocks": {
+        "line": 11,
+        "column": 1,
+        "start": 116,
+        "end": 154
+      },
+      "/panels/1/blocks/0": {
+        "line": 13,
+        "column": 1,
+        "start": 142,
+        "end": 154
+      },
+      "/panels/1/blocks/0/type": {
+        "line": 13,
+        "column": 1,
+        "start": 142,
+        "end": 154
+      },
+      "/panels/1/blocks/0/text": {
+        "line": 13,
+        "column": 1,
+        "start": 142,
+        "end": 154
+      },
+      "/panels/1/blocks/0/id": {
+        "line": 13,
+        "column": 1,
+        "start": 142,
+        "end": 154
+      }
+    },
+    "format": "markdown",
+    "sourceText": "# What changes? {#patch-document}\r\n\r\nOne panel changes.\r\n\r\n@meta locale=en\r\n\r\n## Why? {#first}\r\n\r\nOld paragraph.\r\n\r\n## What stays? {#second}\n\nStill here.\n",
+    "diagnostics": [],
+    "sourcePath": "<DIR>\\draft.archify.md",
+    "baseDir": "<DIR>",
+    "quality": "standard",
+    "writingMode": "warn",
+    "source": {
+      "sha256": "3ad772fe8e868771e549de5023763a22fa70806630bee8fad98b89bc415f56a2",
+      "bytes": 154
+    },
+    "preparedSources": {
+      "sources": {},
+      "assets": {}
+    },
+    "preparedDiagrams": {
+      "diagrams": {}
+    },
+    "dependencies": [],
+    "digest": "<digest>"
+  },
+  "sourceText": "# What changes? {#patch-document}\r\n\r\nOne panel changes.\r\n\r\n@meta locale=en\r\n\r\n## Why? {#first}\r\n\r\nOld paragraph.\r\n\r\n## What stays? {#second}\n\nStill here.\n",
+  "sourcePath": "<DIR>\\draft.archify.md",
+  "previousRevision": "8d842dbd1334408704ecd4c330ee1e5151f88cff9d72e2acf5bf5d9d78048be8",
+  "previousSourceSha256": "9dc31154fa946fe5ee464892a297d8006de56bf60998f8cd0d88478e37e7dacb",
+  "panelId": "second"
+}

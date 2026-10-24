@@ -1,0 +1,344 @@
+{
+  "bundle": {
+    "schemaVersion": 1,
+    "kind": "archify-explainer-prepared",
+    "document": {
+      "schema_version": 1,
+      "diagram_type": "explainer",
+      "meta": {
+        "id": "patch-document",
+        "title": "What can change?",
+        "locale": "en"
+      },
+      "answer": {
+        "summary": "One stable panel can be replaced."
+      },
+      "panels": [
+        {
+          "id": "first",
+          "title": "Changed title",
+          "blocks": [
+            {
+              "id": "first-text",
+              "type": "prose",
+              "text": "This text may change."
+            },
+            {
+              "id": "new-image",
+              "type": "image",
+              "path": "asset.png",
+              "alt": "New image"
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "title": "What stays?",
+          "blocks": [
+            {
+              "id": "second-text",
+              "type": "prose",
+              "text": "This text remains exactly the same."
+            },
+            {
+              "id": "retained-image",
+              "type": "image",
+              "path": "asset.png",
+              "alt": "Retained image"
+            }
+          ]
+        }
+      ],
+      "sources": []
+    },
+    "sourceMap": {
+      "/schema_version": {
+        "line": 2,
+        "column": 21,
+        "start": 22,
+        "end": 23
+      },
+      "/diagram_type": {
+        "line": 3,
+        "column": 19,
+        "start": 43,
+        "end": 54
+      },
+      "/meta/id": {
+        "line": 5,
+        "column": 11,
+        "start": 78,
+        "end": 94
+      },
+      "/meta/title": {
+        "line": 6,
+        "column": 14,
+        "start": 109,
+        "end": 127
+      },
+      "/meta/locale": {
+        "line": 7,
+        "column": 15,
+        "start": 143,
+        "end": 147
+      },
+      "/meta": {
+        "line": 4,
+        "column": 11,
+        "start": 66,
+        "end": 151
+      },
+      "/answer/summary": {
+        "line": 10,
+        "column": 16,
+        "start": 182,
+        "end": 217
+      },
+      "/answer": {
+        "line": 9,
+        "column": 13,
+        "start": 165,
+        "end": 221
+      },
+      "/panels/0/id": {
+        "line": 13,
+        "column": 11,
+        "start": 247,
+        "end": 254
+      },
+      "/panels/0/title": {
+        "line": 13,
+        "column": 27,
+        "start": 263,
+        "end": 278
+      },
+      "/panels/0/blocks/0/id": {
+        "line": 13,
+        "column": 59,
+        "start": 295,
+        "end": 307
+      },
+      "/panels/0/blocks/0/type": {
+        "line": 13,
+        "column": 79,
+        "start": 315,
+        "end": 322
+      },
+      "/panels/0/blocks/0/text": {
+        "line": 13,
+        "column": 94,
+        "start": 330,
+        "end": 353
+      },
+      "/panels/0/blocks/0": {
+        "line": 13,
+        "column": 53,
+        "start": 289,
+        "end": 354
+      },
+      "/panels/0/blocks/1/id": {
+        "line": 13,
+        "column": 125,
+        "start": 361,
+        "end": 372
+      },
+      "/panels/0/blocks/1/type": {
+        "line": 13,
+        "column": 144,
+        "start": 380,
+        "end": 387
+      },
+      "/panels/0/blocks/1/path": {
+        "line": 13,
+        "column": 159,
+        "start": 395,
+        "end": 406
+      },
+      "/panels/0/blocks/1/alt": {
+        "line": 13,
+        "column": 177,
+        "start": 413,
+        "end": 424
+      },
+      "/panels/0/blocks/1": {
+        "line": 13,
+        "column": 119,
+        "start": 355,
+        "end": 425
+      },
+      "/panels/0/blocks": {
+        "line": 13,
+        "column": 52,
+        "start": 288,
+        "end": 426
+      },
+      "/panels/0": {
+        "line": 13,
+        "column": 5,
+        "start": 241,
+        "end": 427
+      },
+      "/panels/1/id": {
+        "line": 15,
+        "column": 13,
+        "start": 447,
+        "end": 455
+      },
+      "/panels/1/title": {
+        "line": 16,
+        "column": 16,
+        "start": 472,
+        "end": 485
+      },
+      "/panels/1/blocks/0/id": {
+        "line": 19,
+        "column": 17,
+        "start": 531,
+        "end": 544
+      },
+      "/panels/1/blocks/0/type": {
+        "line": 20,
+        "column": 19,
+        "start": 564,
+        "end": 571
+      },
+      "/panels/1/blocks/0/text": {
+        "line": 21,
+        "column": 19,
+        "start": 591,
+        "end": 628
+      },
+      "/panels/1/blocks/0": {
+        "line": 18,
+        "column": 9,
+        "start": 513,
+        "end": 638
+      },
+      "/panels/1/blocks/1/id": {
+        "line": 24,
+        "column": 17,
+        "start": 666,
+        "end": 682
+      },
+      "/panels/1/blocks/1/type": {
+        "line": 25,
+        "column": 19,
+        "start": 702,
+        "end": 709
+      },
+      "/panels/1/blocks/1/path": {
+        "line": 26,
+        "column": 19,
+        "start": 729,
+        "end": 740
+      },
+      "/panels/1/blocks/1/alt": {
+        "line": 27,
+        "column": 18,
+        "start": 759,
+        "end": 775
+      },
+      "/panels/1/blocks/1": {
+        "line": 23,
+        "column": 9,
+        "start": 648,
+        "end": 785
+      },
+      "/panels/1/blocks": {
+        "line": 17,
+        "column": 17,
+        "start": 503,
+        "end": 793
+      },
+      "/panels/1": {
+        "line": 14,
+        "column": 5,
+        "start": 433,
+        "end": 799
+      },
+      "/panels": {
+        "line": 12,
+        "column": 13,
+        "start": 235,
+        "end": 803
+      },
+      "/sources": {
+        "line": 32,
+        "column": 14,
+        "start": 818,
+        "end": 820
+      },
+      "": {
+        "line": 1,
+        "column": 1,
+        "start": 0,
+        "end": 822
+      }
+    },
+    "format": "json",
+    "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\"id\":\"first\",\"title\":\"Changed title\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"new-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"New image\"}]},\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"retained-image\",\n          \"type\": \"image\",\n          \"path\": \"asset.png\",\n          \"alt\": \"Retained image\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+    "diagnostics": [],
+    "sourcePath": "<DIR>\\source\\draft.json",
+    "baseDir": "<DIR>\\source",
+    "quality": "standard",
+    "writingMode": "warn",
+    "source": {
+      "sha256": "4ce8f691e35fc2b77b079d6e3dd4e3c141461eca4361c2b1c29bfd032c33bb7e",
+      "bytes": 823
+    },
+    "preparedSources": {
+      "sources": {},
+      "assets": {
+        "retained-image": {
+          "id": "retained-image",
+          "alt": "Retained image",
+          "path": "asset.png",
+          "mime": "image/png",
+          "sha256": "036fbab4541dea4c6c57a51d2968ef072668a07c92c5b875f29e1e3345226c1f",
+          "bytes": 68,
+          "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII="
+        },
+        "new-image": {
+          "id": "new-image",
+          "alt": "New image",
+          "path": "asset.png",
+          "mime": "image/png",
+          "sha256": "036fbab4541dea4c6c57a51d2968ef072668a07c92c5b875f29e1e3345226c1f",
+          "bytes": 68,
+          "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII="
+        }
+      }
+    },
+    "preparedDiagrams": {
+      "diagrams": {}
+    },
+    "dependencies": [
+      {
+        "kind": "image",
+        "id": "retained-image",
+        "path": "<DIR>\\source\\asset.png",
+        "sha256": "036fbab4541dea4c6c57a51d2968ef072668a07c92c5b875f29e1e3345226c1f",
+        "bytes": 68,
+        "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=",
+        "retained": true
+      },
+      {
+        "kind": "image",
+        "id": "new-image",
+        "path": "<DIR>\\source\\asset.png",
+        "sha256": "036fbab4541dea4c6c57a51d2968ef072668a07c92c5b875f29e1e3345226c1f",
+        "bytes": 68,
+        "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=",
+        "retained": false
+      }
+    ],
+    "digest": "<digest>"
+  },
+  "sourceText": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\"id\":\"first\",\"title\":\"Changed title\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"new-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"New image\"}]},\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"retained-image\",\n          \"type\": \"image\",\n          \"path\": \"asset.png\",\n          \"alt\": \"Retained image\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+  "sourcePath": "<DIR>\\source\\draft.json",
+  "previousRevision": "4f5b8fded628e707955a1fada29a669fac0057b365897c6a77fe9c58f1d3810a",
+  "previousSourceSha256": "528ffa17fba6045a100c76e8d6c7dbd0a7f6d19c6d3dcca1a022d7c558aa7b46",
+  "panelId": "first"
+}

@@ -1,0 +1,1062 @@
+[
+  {
+    "name": "json-panel",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\n  \"id\": \"first\",\n  \"title\": \"What changed?\",\n  \"blocks\": [\n    {\n      \"id\": \"first-text\",\n      \"type\": \"prose\",\n      \"text\": \"The selected panel has new content.\"\n    }\n  ]\n}"
+      }
+    }
+  },
+  {
+    "name": "json-missing-target",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "missing",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\"id\":\"foreign-panel\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"}]}"
+      }
+    }
+  },
+  {
+    "name": "json-foreign-identity",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\"id\":\"foreign-panel\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"}]}"
+      }
+    }
+  },
+  {
+    "name": "json-invalid-utf8",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "base64": "/w=="
+      }
+    }
+  },
+  {
+    "name": "json-retained-image",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        },\n        {\n          \"id\": \"first-image\",\n          \"type\": \"image\",\n          \"path\": \"asset.png\",\n          \"alt\": \"Contained original image\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      },
+      "after": {
+        "asset.png": null,
+        "author.json": null
+      }
+    },
+    "files": {
+      "asset.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII="
+      },
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"Only the prose changes.\"},{\"id\":\"first-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"Contained original image\"}]}"
+      }
+    }
+  },
+  {
+    "name": "md-test-draft",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n",
+        "file": "author.md"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew paragraph.\n\n"
+      }
+    }
+  },
+  {
+    "name": "json-writing-strict",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json",
+        "writingMode": "strict"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"We will perform an analysis of each and every request.\"}]}"
+      }
+    }
+  },
+  {
+    "name": "json-writing-off",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json",
+        "writingMode": "off"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"We will perform an analysis of each and every request.\"}]}"
+      }
+    }
+  },
+  {
+    "name": "json-shared-source-id",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\",\n    \"repository\": {\n      \"url\": \"https://github.com/example/evidence\",\n      \"revision\": \"f691b4b9368318ae74b3c16e3bd96e9d33788e34\"\n    }\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        },\n        {\n          \"id\": \"shared\",\n          \"type\": \"diagram\",\n          \"diagramType\": \"architecture\",\n          \"spec\": {\n            \"schema_version\": 1,\n            \"diagram_type\": \"architecture\",\n            \"meta\": {\n              \"title\": \"native\",\n              \"output\": \"native.html\",\n              \"quality_profile\": \"standard\"\n            },\n            \"layout\": {\n              \"mode\": \"grid\",\n              \"cols\": 2,\n              \"cellW\": 176,\n              \"cellH\": 76,\n              \"gapX\": 100,\n              \"gapY\": 110\n            },\n            \"components\": [\n              {\n                \"id\": \"api\",\n                \"label\": \"API\",\n                \"type\": \"backend\",\n                \"row\": 0,\n                \"col\": 0\n              },\n              {\n                \"id\": \"redis\",\n                \"label\": \"Redis\",\n                \"type\": \"database\",\n                \"row\": 0,\n                \"col\": 1\n              }\n            ],\n            \"connections\": [\n              {\n                \"id\": \"api-to-redis-1\",\n                \"from\": \"api\",\n                \"to\": \"redis\",\n                \"label\": \"Read\"\n              }\n            ]\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"snippet\",\n          \"type\": \"code\",\n          \"source\": \"shared\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"shared\",\n      \"title\": \"Shared code\",\n      \"path\": \"src/router.js\",\n      \"lines\": [\n        1,\n        1\n      ]\n    }\n  ]\n}\n",
+        "file": "author.json"
+      }
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"shared\",\"type\":\"diagram\",\"diagramType\":\"architecture\",\"spec\":{\"schema_version\":1,\"diagram_type\":\"architecture\",\"meta\":{\"title\":\"Changed diagram title\",\"output\":\"native.html\",\"quality_profile\":\"standard\"},\"layout\":{\"mode\":\"grid\",\"cols\":2,\"cellW\":176,\"cellH\":76,\"gapX\":100,\"gapY\":110},\"components\":[{\"id\":\"api\",\"label\":\"API\",\"type\":\"backend\",\"row\":0,\"col\":0},{\"id\":\"redis\",\"label\":\"Redis\",\"type\":\"database\",\"row\":0,\"col\":1}],\"connections\":[{\"id\":\"api-to-redis-1\",\"from\":\"api\",\"to\":\"redis\",\"label\":\"Read\"}]}}]}"
+      }
+    },
+    "repo": true
+  },
+  {
+    "name": "json-quality-change",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json",
+        "quality": "showcase"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        },\n        {\n          \"id\": \"first-diagram\",\n          \"type\": \"diagram\",\n          \"diagramType\": \"architecture\",\n          \"spec\": {\n            \"schema_version\": 1,\n            \"diagram_type\": \"architecture\",\n            \"meta\": {\n              \"title\": \"native\",\n              \"output\": \"native.html\",\n              \"quality_profile\": \"standard\"\n            },\n            \"layout\": {\n              \"mode\": \"grid\",\n              \"cols\": 2,\n              \"cellW\": 176,\n              \"cellH\": 76,\n              \"gapX\": 100,\n              \"gapY\": 110\n            },\n            \"components\": [\n              {\n                \"id\": \"api\",\n                \"label\": \"API\",\n                \"type\": \"backend\",\n                \"row\": 0,\n                \"col\": 0\n              },\n              {\n                \"id\": \"redis\",\n                \"label\": \"Redis\",\n                \"type\": \"database\",\n                \"row\": 0,\n                \"col\": 1\n              }\n            ],\n            \"connections\": [\n              {\n                \"id\": \"api-to-redis-1\",\n                \"from\": \"api\",\n                \"to\": \"redis\",\n                \"label\": \"Read\"\n              }\n            ]\n          }\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"second-diagram\",\n          \"type\": \"diagram\",\n          \"diagramType\": \"architecture\",\n          \"source\": \"second.architecture.json\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      },
+      "after": {
+        "second.architecture.json": null
+      }
+    },
+    "files": {
+      "second.architecture.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"architecture\",\n  \"meta\": {\n    \"title\": \"native\",\n    \"output\": \"native.html\",\n    \"quality_profile\": \"standard\"\n  },\n  \"layout\": {\n    \"mode\": \"grid\",\n    \"cols\": 2,\n    \"cellW\": 176,\n    \"cellH\": 76,\n    \"gapX\": 100,\n    \"gapY\": 110\n  },\n  \"components\": [\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"type\": \"backend\",\n      \"row\": 0,\n      \"col\": 0\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"type\": \"database\",\n      \"row\": 0,\n      \"col\": 1\n    }\n  ],\n  \"connections\": [\n    {\n      \"id\": \"api-to-redis-1\",\n      \"from\": \"api\",\n      \"to\": \"redis\",\n      \"label\": \"Read\"\n    }\n  ]\n}\n"
+      },
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"What changes?\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"The selected panel has new prose.\"},{\"id\":\"first-diagram\",\"type\":\"diagram\",\"diagramType\":\"architecture\",\"spec\":{\"schema_version\":1,\"diagram_type\":\"architecture\",\"meta\":{\"title\":\"native\",\"output\":\"native.html\",\"quality_profile\":\"standard\"},\"layout\":{\"mode\":\"grid\",\"cols\":2,\"cellW\":176,\"cellH\":76,\"gapX\":100,\"gapY\":110},\"components\":[{\"id\":\"api\",\"label\":\"API\",\"type\":\"backend\",\"row\":0,\"col\":0},{\"id\":\"redis\",\"label\":\"Redis\",\"type\":\"database\",\"row\":0,\"col\":1}],\"connections\":[{\"id\":\"api-to-redis-1\",\"from\":\"api\",\"to\":\"redis\",\"label\":\"Read\"}]}}]}"
+      }
+    }
+  },
+  {
+    "name": "json-relocated-page",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/out/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        },\n        {\n          \"id\": \"retained-image\",\n          \"type\": \"image\",\n          \"path\": \"asset.png\",\n          \"alt\": \"Retained image\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "source/draft.json"
+      },
+      "file": "out/page.html"
+    },
+    "files": {
+      "source/asset.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII="
+      },
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"Changed title\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"new-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"New image\"}]}"
+      }
+    }
+  },
+  {
+    "name": "json-no-source-dir",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      },
+      "resign": [
+        {
+          "from": "\"sourcePath\":\"author.json\",\"baseDir\":\".\"",
+          "to": "\"sourcePath\":null,\"baseDir\":null"
+        }
+      ]
+    },
+    "files": {
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"Updated prose\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"}]}"
+      }
+    }
+  },
+  {
+    "name": "json-no-source-dir-image",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.json"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"id\": \"patch-document\",\n    \"title\": \"What can change?\",\n    \"locale\": \"en\"\n  },\n  \"answer\": {\n    \"summary\": \"One stable panel can be replaced.\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"first\",\n      \"title\": \"What changes?\",\n      \"blocks\": [\n        {\n          \"id\": \"first-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text may change.\"\n        }\n      ]\n    },\n    {\n      \"id\": \"second\",\n      \"title\": \"What stays?\",\n      \"blocks\": [\n        {\n          \"id\": \"second-text\",\n          \"type\": \"prose\",\n          \"text\": \"This text remains exactly the same.\"\n        }\n      ]\n    }\n  ],\n  \"sources\": []\n}\n",
+        "file": "author.json"
+      },
+      "resign": [
+        {
+          "from": "\"sourcePath\":\"author.json\",\"baseDir\":\".\"",
+          "to": "\"sourcePath\":null,\"baseDir\":null"
+        }
+      ]
+    },
+    "files": {
+      "asset.png": {
+        "text": "An unrelated file beside the HTML"
+      },
+      "replacement.json": {
+        "text": "{\"id\":\"first\",\"title\":\"Updated prose\",\"blocks\":[{\"id\":\"first-text\",\"type\":\"prose\",\"text\":\"This text may change.\"},{\"id\":\"new-image\",\"type\":\"image\",\"path\":\"asset.png\",\"alt\":\"New image\"}]}"
+      }
+    }
+  },
+  {
+    "name": "md-panel",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew paragraph.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-panel-render",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why changed? {#first}\n\nNew paragraph with **emphasis**.\n\n"
+      }
+    },
+    "render": true
+  },
+  {
+    "name": "md-crlf",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\r\n\r\nOne panel changes.\r\n\r\n@meta locale=en\r\n\r\n## Why? {#first}\r\n\r\nOld paragraph.\r\n\r\n## What stays? {#second}\r\n\r\nPreserve this paragraph exactly.\r\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\r\n\r\nNew paragraph.\r\n\r\n"
+      }
+    }
+  },
+  {
+    "name": "md-crlf-lf-replacement",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "second",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\r\n\r\nOne panel changes.\r\n\r\n@meta locale=en\r\n\r\n## Why? {#first}\r\n\r\nOld paragraph.\r\n\r\n## What stays? {#second}\r\n\r\nPreserve this paragraph exactly.\r\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## What stays? {#second}\n\nStill here.\n"
+      }
+    }
+  },
+  {
+    "name": "md-last-panel",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "second",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## What stays? {#second}\n\nA new last paragraph.\n"
+      }
+    }
+  },
+  {
+    "name": "md-rename-panel",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#renamed}\n\nNew paragraph.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-extra-panel",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n## And? {#extra}\n\nMore.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-scope-source",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew paragraph.\n\n@source extra title=\"Extra\"\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-scope-meta",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew paragraph.\n\n@meta style=swiss\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-missing-panel",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "nowhere",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-invalid-utf8",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "base64": "IyMgV2h5PyB7I2ZpcnN0fQoKwyg="
+      }
+    }
+  },
+  {
+    "name": "md-bom-replacement",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "﻿## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-invalid-replacement",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\n@metric id=m label=\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-artifact-changed",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md",
+        "expectedArtifact": {
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "bytes": 1
+        }
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-retained-unchanged",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n"
+      },
+      "after": {
+        "tiny.png": null,
+        "latency.csv": null,
+        "tree.json": null
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew paragraph.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-retained-changed-blocks",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "after": {
+        "tiny.png": null,
+        "latency.csv": null,
+        "tree.json": null
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel two\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency two\"\n\n@diagram tree id=layout source=tree.json changes=\"api:added\"\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-resources-reread",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "tiny2.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII="
+      },
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny2.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-resources-removed",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "after": {
+        "tiny.png": null,
+        "latency.csv": null,
+        "tree.json": null
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nOnly prose now.\n\n"
+      }
+    }
+  },
+  {
+    "name": "md-quality-same",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "second",
+        "replacementPath": "<DIR>/replacement.md",
+        "quality": "standard"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "after": {
+        "tiny.png": null,
+        "latency.csv": null,
+        "tree.json": null
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## What stays? {#second}\n\nChanged.\n"
+      }
+    }
+  },
+  {
+    "name": "md-quality-change-sources-gone",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "second",
+        "replacementPath": "<DIR>/replacement.md",
+        "quality": "showcase"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "after": {
+        "tiny.png": null,
+        "latency.csv": null,
+        "tree.json": null
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## What stays? {#second}\n\nChanged.\n"
+      }
+    }
+  },
+  {
+    "name": "md-code-retained",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "router",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# Where is the route handled? {#route}\n\nThe router returns the request kind.[](source:router)\n\n@meta locale=en\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## What does the router do? {#router}\n\n@code id=route-code source=router language=js\n\n## What stays? {#second}\n\nThe rest.\n"
+      }
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## What does the router do? {#router}\n\n@code id=route-code source=router language=javascript\n\n"
+      }
+    },
+    "repo": true
+  },
+  {
+    "name": "payload-missing",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"archify-explainer-prepared\"",
+          "to": "id=\"archify-explainer-other\""
+        }
+      ]
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "payload-twice",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "tamper": [
+        {
+          "from": "<script type=\"application/json\" id=\"explainer-manifest\">",
+          "to": "<script type=\"application/json\" id=\"archify-explainer-prepared\">{}</script><script type=\"application/json\" id=\"explainer-manifest\">"
+        }
+      ]
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "payload-invalid-json",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"archify-explainer-prepared\">{",
+          "to": "id=\"archify-explainer-prepared\">{,"
+        }
+      ]
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "payload-unbound",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "tamper": [
+        {
+          "from": "\"writingMode\":\"warn\"",
+          "to": "\"writingMode\":\"off\""
+        }
+      ]
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "payload-gzip",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n"
+      },
+      "tamper": [
+        {
+          "from": "\"htmlGzip\":\"",
+          "to": "\"htmlGzip\":\"AAAA"
+        }
+      ]
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "payload-document-disagrees",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-document}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "resign": [
+        {
+          "from": "\"id\":\"patch-document\"",
+          "to": "\"id\":\"patch-other\""
+        }
+      ]
+    },
+    "files": {
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nNew.\n\n"
+      }
+    }
+  },
+  {
+    "name": "payload-diagram-evidence-missing",
+    "call": "preparePanelPatch",
+    "args": [
+      {
+        "artifactPath": "<DIR>/page.html",
+        "panelId": "first",
+        "replacementPath": "<DIR>/replacement.md"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#patch-resources}\n\nOne panel changes.\n\n@meta locale=en\n\n## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json\n\n\n## What stays? {#second}\n\nPreserve this paragraph exactly.\n"
+      },
+      "resign": [
+        {
+          "from": "\"kind\":\"diagram-spec\"",
+          "to": "\"kind\":\"diagram-specification\""
+        }
+      ]
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      },
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "replacement.md": {
+        "text": "## Why? {#first}\n\nOld paragraph.\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n\n@diagram tree id=layout source=tree.json changes=\"api:added\"\n\n"
+      }
+    }
+  }
+]

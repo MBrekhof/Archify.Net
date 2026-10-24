@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/source-hash",
+        "severity": "error",
+        "message": "The embedded source does not match its immutable source hash.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The embedded source does not match its immutable source hash.",
+          "example": "Re-render the original draft and retain its exact SHA-256 source hash."
+        },
+        "supportedFixes": [
+          "Re-render the original draft and retain its exact SHA-256 source hash."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/source-hash",
+      "severity": "error",
+      "message": "The embedded source does not match its immutable source hash.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The embedded source does not match its immutable source hash.",
+        "example": "Re-render the original draft and retain its exact SHA-256 source hash."
+      },
+      "supportedFixes": [
+        "Re-render the original draft and retain its exact SHA-256 source hash."
+      ]
+    }
+  ]
+}

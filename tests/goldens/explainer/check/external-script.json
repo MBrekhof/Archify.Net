@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/external-runtime",
+        "severity": "error",
+        "message": "The explainer runtime must be self-contained.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The explainer runtime must be self-contained.",
+          "example": "Embed the packaged reader script."
+        },
+        "supportedFixes": [
+          "Embed the packaged reader script."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/external-runtime",
+      "severity": "error",
+      "message": "The explainer runtime must be self-contained.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The explainer runtime must be self-contained.",
+        "example": "Embed the packaged reader script."
+      },
+      "supportedFixes": [
+        "Embed the packaged reader script."
+      ]
+    }
+  ]
+}

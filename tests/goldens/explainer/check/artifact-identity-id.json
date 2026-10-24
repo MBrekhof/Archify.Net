@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/artifact-identity",
+        "severity": "error",
+        "message": "Artifact ID or revision disagrees with the manifest.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Artifact ID or revision disagrees with the manifest.",
+          "example": "Use the renderer-generated identity and revision."
+        },
+        "supportedFixes": [
+          "Use the renderer-generated identity and revision."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/artifact-identity",
+      "severity": "error",
+      "message": "Artifact ID or revision disagrees with the manifest.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Artifact ID or revision disagrees with the manifest.",
+        "example": "Use the renderer-generated identity and revision."
+      },
+      "supportedFixes": [
+        "Use the renderer-generated identity and revision."
+      ]
+    }
+  ]
+}

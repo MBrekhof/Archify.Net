@@ -1,0 +1,867 @@
+[
+  {
+    "name": "fixture-zero",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {}
+    }
+  },
+  {
+    "name": "fixture-erd",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "children": {
+          "diagram": {
+            "example": "erd-orders-rendered.html"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "fixture-erd-two",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "children": {
+          "first": {
+            "example": "erd-orders-rendered.html"
+          },
+          "second": {
+            "example": "erd-orders-rendered.html"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "fixture-no-svg",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "children": {
+          "diagram": {
+            "text": "<html><body>No SVG</body></html>"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "fixture-stale-revision",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {},
+      "resign": [
+        {
+          "from": "\"dependencies\":[]",
+          "to": "\"dependencies\":[{\"kind\":\"image\",\"id\":\"new-image\",\"sha256\":\"02029ec1bb33e35b201026d70bcd0184890a58ffd6b2ad8695905b278401b50e\",\"bytes\":19,\"contentBase64\":\"bmV3IGZyb3plbiByZXNvdXJjZQ==\"}]"
+        }
+      ]
+    }
+  },
+  {
+    "name": "fixture-image",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "dependencies": [
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw==",
+            "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+            "bytes": 16
+          }
+        ],
+        "asset": {
+          "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+          "bytes": 16,
+          "mime": "image/png"
+        }
+      }
+    }
+  },
+  {
+    "name": "fixture-dependency-hash",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "dependencies": [
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw==",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "bytes": 16
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "fixture-source-changed",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {},
+      "tamper": [
+        {
+          "from": "\"sourceText\":",
+          "to": "\"sourceText\":\"changed\",\"originalIgnored\":"
+        }
+      ]
+    }
+  },
+  {
+    "name": "fixture-unresolved-anchor",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {},
+      "tamper": [
+        {
+          "from": "Explanation</p>",
+          "to": "Explanation</p>\n<a href=\"#missing\">bad</a>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "clean",
+    "call": "checkExplainerHtml",
+    "args": [
+      {
+        "file": "<DIR>/page.html"
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      }
+    }
+  },
+  {
+    "name": "clean-native",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-native}\n\nThe API sits under the platform.\n\n@meta locale=en\n\n## How? {#how}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n"
+      }
+    }
+  },
+  {
+    "name": "clean-native-unchecked",
+    "call": "checkExplainerHtml",
+    "args": [
+      {
+        "checkNative": false
+      }
+    ],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-native}\n\nThe API sits under the platform.\n\n@meta locale=en\n\n## How? {#how}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n"
+      }
+    }
+  },
+  {
+    "name": "clean-image",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-image}\n\nOne pixel.\n\n@meta locale=en\n\n## What does it show? {#shows}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+      }
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "clean-code",
+    "call": "checkExplainerHtml",
+    "args": [
+      {}
+    ],
+    "page": {
+      "draft": {
+        "text": "# Where is the route handled? {#route}\n\nThe router returns the request kind.[](source:router)\n\n@meta locale=en\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## What does the router do? {#router}\n\n@code id=route-code source=router language=js\n"
+      }
+    },
+    "repo": true
+  },
+  {
+    "name": "family-marker-missing",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": " data-archify-artifact=\"explainer\"",
+          "to": ""
+        }
+      ]
+    }
+  },
+  {
+    "name": "duplicate-id",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<p id=\"first\">Again</p></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "inline-handler",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<p id=\"x\" onclick=\"go()\" ONLOAD=y>Click</p></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "external-script",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<script src=\"https://example.com/x.js\"></script></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "external-frames",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<iframe src=\"https://example.com/\"></iframe><object data=\"x\"></object><embed src=\"y\"></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "unsafe-urls",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<a href=\"JavaScript:alert(1)\">a</a><img src=\"vbscript:x\" alt=\"\"><use xlink:href=\"javascript:y\"></use></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "external-image",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<img src=\"https://example.com/x.png\" alt=\"x\"><img src=\"data:image/svg+xml;base64,AAAA\" alt=\"y\"><img alt=\"z\"></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "unresolved-anchors",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "\n<a href=\"#nowhere\">a</a>\n<a href=\"#fir%73t\">b</a>\n<a href=\"#%E0%A4%A\">c</a>\n<a href=\"#\">d</a>\n<a href=\"#a&amp;b\">e</a><b id=\"a&amp;b\"></b></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "payload-raw-markup",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"explainer-manifest\">{\"version\":1,",
+          "to": "id=\"explainer-manifest\">{\"x\":\"<b>& \",\"version\":1,"
+        }
+      ]
+    }
+  },
+  {
+    "name": "payload-invalid-json",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"explainer-manifest\">{\"version\":1,",
+          "to": "id=\"explainer-manifest\">{\"version\":1,,"
+        }
+      ]
+    }
+  },
+  {
+    "name": "payload-twice",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "</main>",
+          "to": "<script type=\"application/json\" id=\"explainer-manifest\">{}</script></main>"
+        }
+      ]
+    }
+  },
+  {
+    "name": "payload-wrong-type",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "<script type=\"application/json\" id=\"explainer-manifest\">",
+          "to": "<script type=\"text/plain\" id=\"explainer-manifest\">"
+        }
+      ]
+    }
+  },
+  {
+    "name": "payload-missing",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"archify-explainer-prepared\"",
+          "to": "id=\"archify-explainer-other\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "bundle-digest-mismatch",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "\"writingMode\":\"warn\"",
+          "to": "\"writingMode\":\"off\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "bundle-source-hash",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "resign": [
+        {
+          "from": "\"source\":{\"sha256\":\"",
+          "to": "\"source\":{\"sha256\":\"0"
+        }
+      ]
+    }
+  },
+  {
+    "name": "source-hash-mismatch",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "\"sourceSha256\":\"",
+          "to": "\"sourceSha256\":\"0"
+        }
+      ]
+    }
+  },
+  {
+    "name": "document-hash-mismatch",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "\"documentSha256\":\"",
+          "to": "\"documentSha256\":\"0"
+        }
+      ]
+    }
+  },
+  {
+    "name": "content-revision-mismatch",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "\"revision\":\"",
+          "to": "\"revision\":\"0"
+        }
+      ]
+    }
+  },
+  {
+    "name": "artifact-identity-revision",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "data-revision=\"",
+          "to": "data-revision=\"0"
+        }
+      ]
+    }
+  },
+  {
+    "name": "artifact-identity-id",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "\"artifactId\":\"check-page\"",
+          "to": "\"artifactId\":\"other\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "canonical-id-missing",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"second\"",
+          "to": "id=\"second-moved\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "source-target-missing",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "tamper": [
+        {
+          "from": "id=\"source-docs\"",
+          "to": "id=\"source-other\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "canonical-document",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-page}\n\nThe cache answers first.[](source:docs)\n\n@meta locale=en\n@source docs title=\"Docs\"\n\n## Why? {#first}\n\nBecause reads hit Redis.\n\n## What stays? {#second}\n\nWrites stay on the database.\n"
+      },
+      "resign": [
+        {
+          "from": "\"diagram_type\":\"explainer\"",
+          "to": "\"diagram_type\":\"tree\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "native-gzip-corrupt",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-native}\n\nThe API sits under the platform.\n\n@meta locale=en\n\n## How? {#how}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n"
+      },
+      "tamper": [
+        {
+          "from": "\"htmlGzip\":\"",
+          "to": "\"htmlGzip\":\"AAAA"
+        }
+      ]
+    }
+  },
+  {
+    "name": "native-payload-corrupt",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "children": {
+          "diagram": {
+            "example": "erd-orders-rendered.html",
+            "bytes": 1
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "native-nested-explainer",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "children": {
+          "inner": {
+            "text": "<!doctype html><html data-archify-artifact=\"explainer\"><body></body></html>"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "native-other-profile",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "children": {
+          "diagram": {
+            "example": "erd-orders-rendered.html"
+          }
+        },
+        "quality": "standard"
+      }
+    }
+  },
+  {
+    "name": "native-other-profile-page",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-native}\n\nThe API sits under the platform.\n\n@meta locale=en\n\n## How? {#how}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n"
+      },
+      "resign": [
+        {
+          "from": "\"quality\":\"standard\"",
+          "to": "\"quality\":\"showcase\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "native-count",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-native}\n\nThe API sits under the platform.\n\n@meta locale=en\n\n## How? {#how}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n"
+      },
+      "resign": [
+        {
+          "from": "\"diagrams\":{\"layout\":{",
+          "to": "\"diagrams\":{\"layout-two\":{"
+        }
+      ]
+    }
+  },
+  {
+    "name": "dependency-duplicate",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "dependencies": [
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw==",
+            "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+            "bytes": 16
+          },
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw==",
+            "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+            "bytes": 16
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "dependency-base64",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "dependencies": [
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw",
+            "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+            "bytes": 16
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name": "asset-binding",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "dependencies": [
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw==",
+            "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+            "bytes": 16
+          }
+        ],
+        "asset": {
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "bytes": 16,
+          "mime": "image/png"
+        }
+      }
+    }
+  },
+  {
+    "name": "asset-content",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "fixture": {
+        "dependencies": [
+          {
+            "kind": "image",
+            "id": "image",
+            "contentBase64": "c2FmZSBpbWFnZSBieXRlcw==",
+            "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+            "bytes": 16
+          }
+        ],
+        "asset": {
+          "sha256": "a5175be25b9b50ccdbaa45f004ce18de6f7e5f3fc84902b0ca22ea2ee4abd6b3",
+          "bytes": 16,
+          "mime": "image/png"
+        }
+      },
+      "tamper": [
+        {
+          "from": "src=\"data:image/png;base64,",
+          "to": "src=\"data:image/png;base64,AAAA"
+        }
+      ]
+    }
+  },
+  {
+    "name": "asset-content-page",
+    "call": "checkExplainerHtml",
+    "args": [],
+    "page": {
+      "draft": {
+        "text": "# What changes? {#check-image}\n\nOne pixel.\n\n@meta locale=en\n\n## What does it show? {#shows}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+      },
+      "tamper": [
+        {
+          "from": "src=\"data:image/png;base64,",
+          "to": "src=\"data:image/png;base64,AAAA"
+        }
+      ]
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "source-binding",
+    "call": "checkExplainerHtml",
+    "args": [
+      {}
+    ],
+    "page": {
+      "draft": {
+        "text": "# Where is the route handled? {#route}\n\nThe router returns the request kind.[](source:router)\n\n@meta locale=en\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## What does the router do? {#router}\n\n@code id=route-code source=router language=js\n"
+      },
+      "resign": [
+        {
+          "from": "\"kind\":\"repository\",\"id\":\"router\",\"path\":\"src/router.js\",\"revision\":\"f691b4b9368318ae74b3c16e3bd96e9d33788e34\"",
+          "to": "\"kind\":\"repository\",\"id\":\"router\",\"path\":\"src/router.js\",\"revision\":\"0000000000000000000000000000000000000000\""
+        }
+      ]
+    },
+    "repo": true
+  },
+  {
+    "name": "manifest-dependencies",
+    "call": "checkExplainerHtml",
+    "args": [
+      {}
+    ],
+    "page": {
+      "draft": {
+        "text": "# Where is the route handled? {#route}\n\nThe router returns the request kind.[](source:router)\n\n@meta locale=en\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## What does the router do? {#router}\n\n@code id=route-code source=router language=js\n"
+      },
+      "tamper": [
+        {
+          "from": "\"bytes\":54}],\"children\"",
+          "to": "\"bytes\":55}],\"children\""
+        }
+      ]
+    },
+    "repo": true
+  },
+  {
+    "name": "scan-raw-json",
+    "call": "scanHtml",
+    "args": [
+      "<script type=\"application/json\">{\"text\":\"<div id=\\\"fake\\\">\"}</script><p id=\"real\">real</p>"
+    ]
+  },
+  {
+    "name": "scan-lines",
+    "call": "scanHtml",
+    "args": [
+      "<!doctype html>\n<style>\ntext{fill:red}\n</style>\n<script type=\"application/json\">\n{\"content\":\"<p>not an element</p>\"}\n</script>\n<p id=\"last\">Text</p>\n<a href=\"#last\">Link</a>"
+    ]
+  },
+  {
+    "name": "scan-attributes",
+    "call": "scanHtml",
+    "args": [
+      "<!-- <p id=\"c\"> -->\n<P ID=\"a&amp;b&#x41;&#66;&#0;&#xD800;&QUOT;&#x110000;\" data-x='y' z=w flag CLASS = \"k\" title=\"a>b\">x</p></P><TextArea id=t><b id=inner></textarea ><svg:rect id=\"ns\"/><br/><x-y id=z>\n<!-- unterminated"
+    ]
+  },
+  {
+    "name": "is-explainer-marker",
+    "call": "isExplainerHtml",
+    "args": [
+      "<HTML lang=en Data-Archify-Artifact = 'explainer'>"
+    ]
+  },
+  {
+    "name": "is-explainer-payload",
+    "call": "isExplainerHtml",
+    "args": [
+      "<html><script type=\"application/json\" id=\"archify-explainer-prepared\">{}</script></html>"
+    ]
+  },
+  {
+    "name": "is-explainer-quoted-payload",
+    "call": "isExplainerHtml",
+    "args": [
+      "<html><script type=\"application/json\">{\"id\":\"archify-explainer-prepared\"}</script></html>"
+    ]
+  },
+  {
+    "name": "is-explainer-native",
+    "call": "isExplainerHtml",
+    "args": [
+      "<html data-archify-artifact=\"architecture\"><body></body></html>"
+    ]
+  }
+]

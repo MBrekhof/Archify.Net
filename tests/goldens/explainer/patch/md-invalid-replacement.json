@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Explainer draft is invalid.",
+    "code": [
+      {
+        "code": "explainer/schema-minLength",
+        "severity": "error",
+        "message": "/panels/0/blocks/0/label must NOT have fewer than 1 characters",
+        "subject": {
+          "line": 9,
+          "column": 1,
+          "component": "metric",
+          "path": "/panels/0/blocks/0/label",
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "reason": "/panels/0/blocks/0/label must NOT have fewer than 1 characters",
+          "example": "text=\"A direct explanation.\""
+        },
+        "supportedFixes": [
+          "Use a valid form, for example: text=\"A direct explanation.\""
+        ]
+      }
+    ]
+  }
+}

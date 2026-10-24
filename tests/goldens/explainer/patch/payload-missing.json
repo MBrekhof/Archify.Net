@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Embedded native diagram payload cannot be inflated.",
+    "code": [
+      {
+        "code": "explainer/patch-payload",
+        "severity": "error",
+        "message": "Embedded native diagram payload cannot be inflated.",
+        "subject": {
+          "input": "<DIR>/page.html",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "payload",
+          "example": "Rebuild the original artifact before patching."
+        },
+        "supportedFixes": [
+          "Rebuild the original artifact before patching."
+        ]
+      }
+    ]
+  }
+}

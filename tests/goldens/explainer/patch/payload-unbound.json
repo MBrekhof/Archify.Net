@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The embedded original draft is not bound to the prepared resources.",
+    "code": [
+      {
+        "code": "explainer/patch-payload",
+        "severity": "error",
+        "message": "The embedded original draft is not bound to the prepared resources.",
+        "subject": {
+          "input": "<DIR>/page.html",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "payload",
+          "example": "Rebuild the original artifact before patching."
+        },
+        "supportedFixes": [
+          "Rebuild the original artifact before patching."
+        ]
+      }
+    ]
+  }
+}

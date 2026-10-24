@@ -1,0 +1,148 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 3,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/external-image",
+        "severity": "error",
+        "message": "Images must contain their frozen local bytes.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "image"
+        },
+        "evidence": {
+          "reason": "Images must contain their frozen local bytes.",
+          "example": "Use a prepared local image with a data:image URL."
+        },
+        "supportedFixes": [
+          "Use a prepared local image with a data:image URL."
+        ]
+      },
+      {
+        "code": "explainer/external-image",
+        "severity": "error",
+        "message": "Images must contain their frozen local bytes.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "image"
+        },
+        "evidence": {
+          "reason": "Images must contain their frozen local bytes.",
+          "example": "Use a prepared local image with a data:image URL."
+        },
+        "supportedFixes": [
+          "Use a prepared local image with a data:image URL."
+        ]
+      },
+      {
+        "code": "explainer/external-image",
+        "severity": "error",
+        "message": "Images must contain their frozen local bytes.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "image"
+        },
+        "evidence": {
+          "reason": "Images must contain their frozen local bytes.",
+          "example": "Use a prepared local image with a data:image URL."
+        },
+        "supportedFixes": [
+          "Use a prepared local image with a data:image URL."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/external-image",
+      "severity": "error",
+      "message": "Images must contain their frozen local bytes.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "image"
+      },
+      "evidence": {
+        "reason": "Images must contain their frozen local bytes.",
+        "example": "Use a prepared local image with a data:image URL."
+      },
+      "supportedFixes": [
+        "Use a prepared local image with a data:image URL."
+      ]
+    },
+    {
+      "code": "explainer/external-image",
+      "severity": "error",
+      "message": "Images must contain their frozen local bytes.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "image"
+      },
+      "evidence": {
+        "reason": "Images must contain their frozen local bytes.",
+        "example": "Use a prepared local image with a data:image URL."
+      },
+      "supportedFixes": [
+        "Use a prepared local image with a data:image URL."
+      ]
+    },
+    {
+      "code": "explainer/external-image",
+      "severity": "error",
+      "message": "Images must contain their frozen local bytes.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "image"
+      },
+      "evidence": {
+        "reason": "Images must contain their frozen local bytes.",
+        "example": "Use a prepared local image with a data:image URL."
+      },
+      "supportedFixes": [
+        "Use a prepared local image with a data:image URL."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "elements": [
+    {
+      "tag": "style",
+      "attrs": {},
+      "line": 2,
+      "index": 16
+    },
+    {
+      "tag": "script",
+      "attrs": {
+        "type": "application/json"
+      },
+      "line": 5,
+      "index": 48
+    },
+    {
+      "tag": "p",
+      "attrs": {
+        "id": "last"
+      },
+      "line": 8,
+      "index": 127
+    },
+    {
+      "tag": "a",
+      "attrs": {
+        "href": "#last"
+      },
+      "line": 9,
+      "index": 149
+    }
+  ],
+  "scripts": [
+    {
+      "tag": "script",
+      "attrs": {
+        "type": "application/json"
+      },
+      "line": 5,
+      "index": 48,
+      "text": "\n{\"content\":\"<p>not an element</p>\"}\n"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "10 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": false,
+      "details": [
+        "1 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/asset-content",
+        "severity": "error",
+        "message": "Rendered image bytes differ from the frozen asset: pixel.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "Rendered image bytes differ from the frozen asset: pixel.",
+          "example": "Render the frozen data URL without replacing its bytes."
+        },
+        "supportedFixes": [
+          "Render the frozen data URL without replacing its bytes."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/asset-content",
+      "severity": "error",
+      "message": "Rendered image bytes differ from the frozen asset: pixel.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "Rendered image bytes differ from the frozen asset: pixel.",
+        "example": "Render the frozen data URL without replacing its bytes."
+      },
+      "supportedFixes": [
+        "Render the frozen data URL without replacing its bytes."
+      ]
+    }
+  ]
+}

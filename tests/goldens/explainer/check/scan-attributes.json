@@ -1,0 +1,48 @@
+{
+  "elements": [
+    {
+      "tag": "p",
+      "attrs": {
+        "id": "a&bAB�\ud800\"�",
+        "data-x": "y",
+        "z": "w",
+        "flag": "",
+        "class": "k",
+        "title": "a>b"
+      },
+      "line": 2,
+      "index": 20
+    },
+    {
+      "tag": "textarea",
+      "attrs": {
+        "id": "t"
+      },
+      "line": 2,
+      "index": 128
+    },
+    {
+      "tag": "svg:rect",
+      "attrs": {
+        "id": "ns"
+      },
+      "line": 2,
+      "index": 167
+    },
+    {
+      "tag": "br",
+      "attrs": {},
+      "line": 2,
+      "index": 186
+    },
+    {
+      "tag": "x-y",
+      "attrs": {
+        "id": "z"
+      },
+      "line": 2,
+      "index": 191
+    }
+  ],
+  "scripts": []
+}

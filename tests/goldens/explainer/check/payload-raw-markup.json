@@ -1,0 +1,82 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/payload-escaping",
+        "severity": "error",
+        "message": "Unsafe raw characters in explainer-manifest.",
+        "subject": {
+          "input": "<html>",
+          "line": 474,
+          "component": "document",
+          "id": "explainer-manifest"
+        },
+        "evidence": {
+          "reason": "Unsafe raw characters in explainer-manifest.",
+          "example": "Escape <, >, &, U+2028 and U+2029 as JSON Unicode escapes."
+        },
+        "supportedFixes": [
+          "Escape <, >, &, U+2028 and U+2029 as JSON Unicode escapes."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/payload-escaping",
+      "severity": "error",
+      "message": "Unsafe raw characters in explainer-manifest.",
+      "subject": {
+        "input": "<html>",
+        "line": 474,
+        "component": "document",
+        "id": "explainer-manifest"
+      },
+      "evidence": {
+        "reason": "Unsafe raw characters in explainer-manifest.",
+        "example": "Escape <, >, &, U+2028 and U+2029 as JSON Unicode escapes."
+      },
+      "supportedFixes": [
+        "Escape <, >, &, U+2028 and U+2029 as JSON Unicode escapes."
+      ]
+    }
+  ]
+}

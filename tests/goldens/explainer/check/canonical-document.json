@@ -1,0 +1,182 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": true,
+      "details": [
+        "13 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": false,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 4,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/source-document-binding",
+        "severity": "error",
+        "message": "The canonical document differs from its embedded authored draft.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The canonical document differs from its embedded authored draft.",
+          "example": "Re-parse the embedded draft and render its normalized document."
+        },
+        "supportedFixes": [
+          "Re-parse the embedded draft and render its normalized document."
+        ]
+      },
+      {
+        "code": "explainer/canonical-document",
+        "severity": "error",
+        "message": "The canonical explainer envelope is invalid.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The canonical explainer envelope is invalid.",
+          "example": "Use schema_version:1, diagram_type:\"explainer\", panels:[] and sources:[]."
+        },
+        "supportedFixes": [
+          "Use schema_version:1, diagram_type:\"explainer\", panels:[] and sources:[]."
+        ]
+      },
+      {
+        "code": "explainer/content-revision",
+        "severity": "error",
+        "message": "The content revision does not bind the draft and frozen resources.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The content revision does not bind the draft and frozen resources.",
+          "example": "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+        },
+        "supportedFixes": [
+          "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+        ]
+      },
+      {
+        "code": "explainer/document-hash",
+        "severity": "error",
+        "message": "The canonical document does not match its manifest hash.",
+        "subject": {
+          "input": "<html>",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "The canonical document does not match its manifest hash.",
+          "example": "Re-render after changing the canonical document."
+        },
+        "supportedFixes": [
+          "Re-render after changing the canonical document."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/source-document-binding",
+      "severity": "error",
+      "message": "The canonical document differs from its embedded authored draft.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The canonical document differs from its embedded authored draft.",
+        "example": "Re-parse the embedded draft and render its normalized document."
+      },
+      "supportedFixes": [
+        "Re-parse the embedded draft and render its normalized document."
+      ]
+    },
+    {
+      "code": "explainer/canonical-document",
+      "severity": "error",
+      "message": "The canonical explainer envelope is invalid.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The canonical explainer envelope is invalid.",
+        "example": "Use schema_version:1, diagram_type:\"explainer\", panels:[] and sources:[]."
+      },
+      "supportedFixes": [
+        "Use schema_version:1, diagram_type:\"explainer\", panels:[] and sources:[]."
+      ]
+    },
+    {
+      "code": "explainer/content-revision",
+      "severity": "error",
+      "message": "The content revision does not bind the draft and frozen resources.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The content revision does not bind the draft and frozen resources.",
+        "example": "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+      },
+      "supportedFixes": [
+        "Recompute the revision from the canonical draft, source locations, child diagrams and contained assets."
+      ]
+    },
+    {
+      "code": "explainer/document-hash",
+      "severity": "error",
+      "message": "The canonical document does not match its manifest hash.",
+      "subject": {
+        "input": "<html>",
+        "line": 1,
+        "component": "document"
+      },
+      "evidence": {
+        "reason": "The canonical document does not match its manifest hash.",
+        "example": "Re-render after changing the canonical document."
+      },
+      "supportedFixes": [
+        "Re-render after changing the canonical document."
+      ]
+    }
+  ]
+}

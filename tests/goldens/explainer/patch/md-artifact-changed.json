@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The original artifact changed after validation.",
+    "code": [
+      {
+        "code": "explainer/patch-artifact-changed",
+        "severity": "error",
+        "message": "The original artifact changed after validation.",
+        "subject": {
+          "input": "<DIR>/page.html",
+          "panelId": "first",
+          "line": 1,
+          "component": "panel"
+        },
+        "evidence": {
+          "reason": "artifact-changed",
+          "example": "Finish other writes to the artifact and retry the panel patch."
+        },
+        "supportedFixes": [
+          "Finish other writes to the artifact and retry the panel patch."
+        ]
+      }
+    ]
+  }
+}

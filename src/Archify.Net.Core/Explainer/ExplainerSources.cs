@@ -458,7 +458,7 @@ internal static class ExplainerSources
     const string B = $"(?:(?<={Word})(?!{Word})|(?<!{Word})(?={Word}))";
     const string Ws = Js.WsClass;
 
-    static string Ci(string literal)
+    internal static string Ci(string literal)
     {
         var sb = new StringBuilder();
         foreach (var c in literal) sb.Append(char.IsAsciiLetter(c) ? $"[{char.ToUpperInvariant(c)}{char.ToLowerInvariant(c)}]" : Regex.Escape(c.ToString()));

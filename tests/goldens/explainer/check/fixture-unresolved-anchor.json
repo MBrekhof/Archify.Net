@@ -1,0 +1,80 @@
+{
+  "ok": false,
+  "file": "<html>",
+  "family": "explainer",
+  "artifact": "<artifact>",
+  "checks": [
+    {
+      "name": "explainer_structure",
+      "ok": false,
+      "details": [
+        "4 unique DOM IDs"
+      ]
+    },
+    {
+      "name": "explainer_payload_identity",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "explainer_dependencies",
+      "ok": true,
+      "details": [
+        "0 frozen dependencies"
+      ]
+    },
+    {
+      "name": "explainer_native_diagrams",
+      "ok": true,
+      "details": []
+    }
+  ],
+  "composition": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "status": "fail",
+    "summary": {
+      "errors": 1,
+      "warnings": 0
+    },
+    "issues": [
+      {
+        "code": "explainer/unresolved-reference",
+        "severity": "error",
+        "message": "Unresolved anchor: #missing.",
+        "subject": {
+          "input": "<html>",
+          "line": 2,
+          "component": "reference"
+        },
+        "evidence": {
+          "reason": "Unresolved anchor: #missing.",
+          "example": "Link to an existing panel, block or source ID."
+        },
+        "supportedFixes": [
+          "Link to an existing panel, block or source ID."
+        ]
+      }
+    ],
+    "nativeDiagrams": []
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "Unresolved anchor: #missing.",
+      "subject": {
+        "input": "<html>",
+        "line": 2,
+        "component": "reference"
+      },
+      "evidence": {
+        "reason": "Unresolved anchor: #missing.",
+        "example": "Link to an existing panel, block or source ID."
+      },
+      "supportedFixes": [
+        "Link to an existing panel, block or source ID."
+      ]
+    }
+  ]
+}
