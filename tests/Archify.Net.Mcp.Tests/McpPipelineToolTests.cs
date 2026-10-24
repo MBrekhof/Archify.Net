@@ -263,6 +263,35 @@ public sealed class McpPipelineToolTests
         }
     }
 
+    // The tool descriptions say `writing` goes with type 'explainer' only: the CLI refuses it for the other types.
+    [Fact]
+    public async Task WritingParameter_IsRefusedForNativeTypes()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), "archify-mcp-writing-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            File.Copy(Path.Combine(McpTestHost.RepoRoot, "upstream", "examples", "web-app.architecture.json"), Path.Combine(tempDir, "web-app.architecture.json"));
+            await using var host = await McpTestHost.StartAsync(tempDir);
+            var result = await host.Client.CallToolAsync("archify_validate", new Dictionary<string, object?>
+            {
+                ["type"] = "architecture",
+                ["input"] = "web-app.architecture.json",
+                ["writing"] = "strict",
+            });
+            Assert.True(result.IsError);
+            using var doc = JsonDocument.Parse(McpTestHost.ExtractSingleText(result));
+            Assert.Equal("cli/unsupported-option", doc.RootElement.GetProperty("diagnostics")[0].GetProperty("code").GetString());
+        }
+        finally
+        {
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, recursive: true);
+            }
+        }
+    }
+
     [Trait("Category", "Browser")]
     [Fact]
     public async Task FinalizeTool_ExplainerWithBrowserCheck_RunsTheBrowserGate()

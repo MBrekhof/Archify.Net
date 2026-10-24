@@ -78,8 +78,7 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Showcase: `showcase/explainer/` (four drafts, four pages, `index.html`), committed without `.delivery.json` sidecars.
   Pages serve from `master`, so the URLs answer 200 only after the merge and push (https://mbrekhof.github.io/Archify.Net/showcase/explainer/).
 - Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1034, Mcp 16, 0 failed, 0 warnings.
-- Decisions (Martin, 2026-10-24): gzip payload is .NET's stream; branch lane label `Branch N` for non-zh locales (filed
-  upstream); default locale `en` (no issue); the explainer browser gate is compared by verdicts only.
+- Decisions (Martin, 2026-10-24): gzip payload is .NET's stream; branch lane label `Branch N` for non-zh locales (archify#1082); default locale `en` (no issue); the explainer browser gate is compared by verdicts only.
 - Open: `patch` embeds a relative path to the deleted temporary `patched-draft.json` (mirrored from upstream; Martin's decision
   pending). `viewer-target` is a stated platform difference of the headless shell, not an upstream defect. Parked items: card
   PORT-013 (CARD-2523), listed in `docs/deviations.md`.
@@ -150,7 +149,7 @@ The wave's 21 items and their outcome: `.superpowers/sdd/2026-10-15-phase5-cli/f
   patterns, the identity and the JSON readers (the UUID pattern now ends in `\z`); JSON.parse semantics for user files through Core's
   `DiagramLoader.ParseNode`; the browser gates' catch-all; an unwritable evidence directory refused before the browser; LF-only crash
   text; `Args.RepoRoot`; the Core provenance message; a lone surrogate in argv read as Node reads it (U+FFFD); `GitOnPath`'s PATHEXT;
-  `\\?` for long native paths; and the test gaps of Tasks 2, 8, 9, 10 and 11.
+  `\\?\` for long native paths; and the test gaps of Tasks 2, 8, 9, 10 and 11.
 - Found wrong: an `--out-dir` that is a regular file is not upstream's `viewer/evidence-write`. Upstream throws an indeterminate
   target sidecar namespace (a crash on the command line, like final review m7); the port does the same, now pinned by a Node fixture.
 - Card candidates from the final review: m7 (an indeterminate sidecar namespace crashes `check`/`browser-check` in a read-only

@@ -75,7 +75,7 @@ public sealed class ArchifyTools : IDisposable
         string? quality = null,
         [Description("Optional repository root path (--repo-root) for verifying source references.")]
         string? repoRoot = null,
-        [Description("Optional explainer writing-check mode: 'warn' (default), 'strict' or 'off'. Ignored for the other types.")]
+        [Description("Optional explainer writing-check mode: 'warn' (default), 'strict' or 'off'. Pass it only with type 'explainer': the other types refuse it (cli/unsupported-option).")]
         string? writing = null,
         [Description("Optional working directory used to resolve relative paths.")]
         string? cwd = null,
@@ -172,7 +172,7 @@ public sealed class ArchifyTools : IDisposable
         string? repoRoot = null,
         [Description("Optional expected SHA-256 hex digest of the input candidate file (--candidate-sha256).")]
         string? candidateSha256 = null,
-        [Description("Optional explainer writing-check mode: 'warn' (default), 'strict' or 'off'. Ignored for the other types.")]
+        [Description("Optional explainer writing-check mode: 'warn' (default), 'strict' or 'off'. Pass it only with type 'explainer': the other types refuse it (cli/unsupported-option).")]
         string? writing = null,
         [Description("For an explainer, also run the headless browser check (--browser-check); an explainer skips it otherwise. The other types always run it.")]
         bool browserCheck = false,

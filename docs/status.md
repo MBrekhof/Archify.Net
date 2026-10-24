@@ -137,6 +137,9 @@ The full suite (`dotnet test`) runs 7384 tests: 6334 in `Archify.Net.Core.Tests`
   a v3.2.0 render; every other child byte is equal.
 - Browser gate: compared with upstream by verdicts, group statuses and diagnostic codes (`Verdicts_match_node`). Of the showcase
   drafts, `tls-first-visit` passes `finalize explainer --browser-check`; `first-rental`, `p99-tail-latency` and
-  `finalize-delivery` fail it on `explainer/browser-readability` (small workflow text) in the port; not compared with Node for these runs.
+  `finalize-delivery` fail it on `explainer/browser-readability` (small workflow text) in the port. Upstream v3.2.0 on its default Chrome fails the same
+  three cases with the same codes and pixel values (`first-rental` and `finalize-delivery`: `explainer/browser-readability`;
+  `p99-tail-latency`: readability, `explainer/browser-diagram-fit` and `explainer/browser-diagram-text`), so it is not a port defect;
+  tracked as UPSTREAM-015 (unfiled).
 - Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1034, Mcp 16, 0 failed, 0 warnings. Without the
   Browser category: Core 6334, Cli 961, Mcp 13.

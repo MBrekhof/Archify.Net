@@ -329,7 +329,8 @@ other CLI deviations, in the "Explainer documents" bullet of [CLI (phase 5)](#cl
   `pages/no-locale` and `pages/r-no-locale` goldens. No upstream issue.
 - *Branch lane label (Decision 2, fixed upstream defect):* the workflow shorthand writes the lane label `分支 N`
   (diagrams.mjs:270) on a page of any locale; the port writes `Branch N` unless the locale starts with `zh`. Pinned by
-  `Branch_lane_label_is_the_stated_deviation` and the `.fixed` goldens of the shorthand rows. Filed upstream.
+  `Branch_lane_label_is_the_stated_deviation` and the `.fixed` goldens of the shorthand rows. Filed upstream:
+  [archify#1082](https://github.com/tt-a1i/archify/issues/1082).
 - *Prepared bundle in process:* `readPreparedBundle`'s `prepared-mismatch` reasons (`draft-path-mismatch`,
   `draft-or-bundle-digest-mismatch`, `quality-profile-mismatch`, `writing-mode-mismatch`, `normalized-document-mismatch`) need a
   bundle that does not belong to the draft. Upstream reaches them through a hand-made `ARCHIFY_EXPLAINER_PREPARED`; the CLI
@@ -380,13 +381,13 @@ other CLI deviations, in the "Explainer documents" bullet of [CLI (phase 5)](#cl
 - *Heading with a lone CR or U+2028:* `parseExplainer` throws a `TypeError` on a heading line that holds a lone carriage
   return or U+2028 (parse.mjs:86). The port reads the whole line as the heading and returns the ordinary diagnostics. Pinned by
   `parse/cr-only`, `parse/line-separator-heading` and `Heading_with_a_line_terminator_is_a_diagnostic_not_a_crash`. Filed
-  upstream.
+  upstream: [archify#1083](https://github.com/tt-a1i/archify/issues/1083).
 - *`patch` on a page with a missing, duplicated or invalid payload:* the port reports the real reason, `embedded()`'s own
   `explainer/patch-payload` diagnostic. Upstream says "Embedded native diagram payload cannot be inflated." because patch.mjs:26
   reads `error.diagnostics` where the diagnostics are in `archifyDiagnostics`. Pinned by `patch/payload-missing`,
   `patch/payload-twice`, `patch/payload-invalid-json` (known-deviation rows),
   `Patch_payload_failures_keep_their_own_message` and, at the CLI, `ExplainerCommandTests.Patch_of_a_native_page_keeps_the_ports_payload_message`.
-  Filed upstream.
+  Filed upstream: [archify#1084](https://github.com/tt-a1i/archify/issues/1084).
 
 ### Known leftovers (PORT-013)
 
