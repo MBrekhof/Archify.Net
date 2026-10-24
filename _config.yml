@@ -1,0 +1,4 @@
+# GitHub Pages (Jekyll) settings. Test fixtures are not site content, and some are deliberately invalid UTF-8,
+# which stops the Jekyll build.
+exclude:
+  - tests/
