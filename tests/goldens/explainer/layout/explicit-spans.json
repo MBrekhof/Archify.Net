@@ -1,0 +1,115 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 6,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "half",
+      "span": 6,
+      "min": 6,
+      "explicit": true,
+      "weight": 10,
+      "panel": {
+        "id": "half",
+        "title": "half",
+        "blocks": [
+          {
+            "id": "half-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 6
+      }
+    }
+  ],
+  [
+    {
+      "id": "other-half",
+      "span": 6,
+      "min": 6,
+      "explicit": true,
+      "weight": 16,
+      "panel": {
+        "id": "other-half",
+        "title": "other-half",
+        "blocks": [
+          {
+            "id": "other-half-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 6
+      }
+    },
+    {
+      "spacer": true,
+      "span": 6
+    }
+  ],
+  [
+    {
+      "id": "full",
+      "span": 12,
+      "min": 12,
+      "explicit": true,
+      "weight": 10,
+      "panel": {
+        "id": "full",
+        "title": "full",
+        "blocks": [
+          {
+            "id": "full-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 12
+      }
+    }
+  ],
+  [
+    {
+      "id": "five",
+      "span": 5,
+      "min": 5,
+      "explicit": true,
+      "weight": 10,
+      "panel": {
+        "id": "five",
+        "title": "five",
+        "blocks": [
+          {
+            "id": "five-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 5
+      }
+    },
+    {
+      "id": "free",
+      "span": 7,
+      "min": 4,
+      "explicit": false,
+      "weight": 10,
+      "panel": {
+        "id": "free",
+        "title": "free",
+        "blocks": [
+          {
+            "id": "free-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

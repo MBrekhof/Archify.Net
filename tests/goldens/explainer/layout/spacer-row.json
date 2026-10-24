@@ -1,0 +1,74 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 7,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "a",
+      "span": 5,
+      "min": 5,
+      "explicit": true,
+      "weight": 7,
+      "panel": {
+        "id": "a",
+        "title": "a",
+        "blocks": [
+          {
+            "id": "a-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 5
+      }
+    }
+  ],
+  [
+    {
+      "id": "b",
+      "span": 5,
+      "min": 5,
+      "explicit": true,
+      "weight": 7,
+      "panel": {
+        "id": "b",
+        "title": "b",
+        "blocks": [
+          {
+            "id": "b-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 5
+      }
+    },
+    {
+      "id": "c",
+      "span": 5,
+      "min": 5,
+      "explicit": true,
+      "weight": 7,
+      "panel": {
+        "id": "c",
+        "title": "c",
+        "blocks": [
+          {
+            "id": "c-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ],
+        "span": 5
+      }
+    },
+    {
+      "spacer": true,
+      "span": 2
+    }
+  ]
+]

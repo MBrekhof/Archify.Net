@@ -1,0 +1,1029 @@
+[
+  {
+    "name": "order-widths",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "compare",
+            "title": "compare",
+            "blocks": [
+              {
+                "id": "compare-body",
+                "type": "comparison",
+                "text": "Short.",
+                "columns": [
+                  "A",
+                  "B"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "short",
+            "title": "short",
+            "blocks": [
+              {
+                "id": "short-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "long",
+            "title": "long",
+            "blocks": [
+              {
+                "id": "long-body",
+                "type": "list",
+                "text": "Short.",
+                "items": [
+                  "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "third",
+            "title": "third",
+            "blocks": [
+              {
+                "id": "third-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "code",
+            "title": "code",
+            "blocks": [
+              {
+                "id": "code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "end",
+            "title": "end",
+            "blocks": [
+              {
+                "id": "end-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "mixed",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "large",
+            "title": "large",
+            "blocks": [
+              {
+                "id": "large-body",
+                "type": "comparison",
+                "text": "Short.",
+                "columns": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "short",
+            "title": "short",
+            "blocks": [
+              {
+                "id": "short-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "long",
+            "title": "long",
+            "blocks": [
+              {
+                "id": "long-body",
+                "type": "prose",
+                "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "figure",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "figure",
+            "title": "figure",
+            "blocks": [
+              {
+                "id": "figure-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      },
+      {
+        "figure-body": {
+          "svg": "<svg viewBox=\"0 0 900 500\">"
+        }
+      }
+    ]
+  },
+  {
+    "name": "growing",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "long",
+            "title": "long",
+            "blocks": [
+              {
+                "id": "long-body",
+                "type": "prose",
+                "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "empty",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "native-width-explicit",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "normal",
+            "title": "normal",
+            "blocks": [
+              {
+                "id": "normal-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "wide",
+            "title": "wide",
+            "blocks": [
+              {
+                "id": "wide-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "fixed",
+            "title": "fixed",
+            "blocks": [
+              {
+                "id": "fixed-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 3
+          },
+          {
+            "id": "fixed-other",
+            "title": "fixed-other",
+            "blocks": [
+              {
+                "id": "fixed-other-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 4
+          }
+        ],
+        "sources": []
+      },
+      {
+        "normal-body": {
+          "svg": "<svg viewBox=\"0 0 600 500\">"
+        },
+        "wide-body": {
+          "svg": "<svg viewBox=\"0 0 1100 500\">"
+        }
+      }
+    ]
+  },
+  {
+    "name": "explicit-spans",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "half",
+            "title": "half",
+            "blocks": [
+              {
+                "id": "half-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 6
+          },
+          {
+            "id": "other-half",
+            "title": "other-half",
+            "blocks": [
+              {
+                "id": "other-half-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 6
+          },
+          {
+            "id": "full",
+            "title": "full",
+            "blocks": [
+              {
+                "id": "full-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 12
+          },
+          {
+            "id": "five",
+            "title": "five",
+            "blocks": [
+              {
+                "id": "five-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 5
+          },
+          {
+            "id": "free",
+            "title": "free",
+            "blocks": [
+              {
+                "id": "free-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "shrink-to-minimums",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "code",
+            "title": "code",
+            "blocks": [
+              {
+                "id": "code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "diff",
+            "title": "diff",
+            "blocks": [
+              {
+                "id": "diff-body",
+                "type": "diff",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "chart",
+            "title": "chart",
+            "blocks": [
+              {
+                "id": "chart-body",
+                "type": "chart",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "spacer-row",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "a",
+            "title": "a",
+            "blocks": [
+              {
+                "id": "a-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 5
+          },
+          {
+            "id": "b",
+            "title": "b",
+            "blocks": [
+              {
+                "id": "b-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 5
+          },
+          {
+            "id": "c",
+            "title": "c",
+            "blocks": [
+              {
+                "id": "c-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ],
+            "span": 5
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "heavier-panel-takes-the-rest",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "heavy",
+            "title": "heavy",
+            "blocks": [
+              {
+                "id": "heavy-body",
+                "type": "prose",
+                "text": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+              }
+            ]
+          },
+          {
+            "id": "code",
+            "title": "code",
+            "blocks": [
+              {
+                "id": "code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "equal-weights-first-wins",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "abcdefghijklmnop"
+        },
+        "panels": [
+          {
+            "id": "same",
+            "title": "same",
+            "blocks": [
+              {
+                "id": "same-body",
+                "type": "prose",
+                "text": "abcdefghij"
+              }
+            ]
+          },
+          {
+            "id": "code",
+            "title": "code",
+            "blocks": [
+              {
+                "id": "code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "weight-counts-code-points",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "panels": [
+          {
+            "id": "e",
+            "title": "e",
+            "blocks": [
+              {
+                "id": "e-body",
+                "type": "prose",
+                "text": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+              }
+            ]
+          },
+          {
+            "id": "code",
+            "title": "code",
+            "blocks": [
+              {
+                "id": "code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "weight-skips-identity-keys",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "panels": [
+          {
+            "id": "k",
+            "title": "k",
+            "blocks": [
+              {
+                "id": "k-body",
+                "type": "code",
+                "text": "Short.",
+                "source": "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                "path": "pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp",
+                "url": "uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu",
+                "revision": "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                "target": "tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt",
+                "diagramType": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+              }
+            ]
+          },
+          {
+            "id": "code",
+            "title": "code",
+            "blocks": [
+              {
+                "id": "code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "diagram-canvas-wider-than-1000",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "canvas",
+            "title": "canvas",
+            "blocks": [
+              {
+                "id": "canvas-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "boxed",
+            "title": "boxed",
+            "blocks": [
+              {
+                "id": "boxed-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "commas",
+            "title": "commas",
+            "blocks": [
+              {
+                "id": "commas-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "exact",
+            "title": "exact",
+            "blocks": [
+              {
+                "id": "exact-body",
+                "type": "diagram",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      },
+      {
+        "canvas-body": {
+          "spec": {
+            "meta": {
+              "canvas": {
+                "width": 1200
+              }
+            }
+          }
+        },
+        "boxed-body": {
+          "svg": "<svg viewBox=\"0 0 900 500\">",
+          "spec": {
+            "meta": {
+              "canvas": {
+                "width": 1400
+              }
+            }
+          }
+        },
+        "commas-body": {
+          "svg": "<svg viewBox='0,0,1001,500'>"
+        },
+        "exact-body": {
+          "svg": "<svg viewBox=\"0 0 1000 500\">"
+        }
+      }
+    ]
+  },
+  {
+    "name": "snippet-48",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "snippet",
+            "title": "snippet",
+            "blocks": [
+              {
+                "id": "snippet-body",
+                "type": "snippet",
+                "text": "short\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nend"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "snippet-49",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "snippet",
+            "title": "snippet",
+            "blocks": [
+              {
+                "id": "snippet-body",
+                "type": "snippet",
+                "text": "short\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nend"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "snippet-72",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "snippet",
+            "title": "snippet",
+            "blocks": [
+              {
+                "id": "snippet-body",
+                "type": "snippet",
+                "text": "short\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nend"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "snippet-73",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "snippet",
+            "title": "snippet",
+            "blocks": [
+              {
+                "id": "snippet-body",
+                "type": "snippet",
+                "text": "short\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nend"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "comparison-2-and-3-columns",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "two",
+            "title": "two",
+            "blocks": [
+              {
+                "id": "two-body",
+                "type": "comparison",
+                "text": "Short.",
+                "columns": [
+                  "A",
+                  "B"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "three",
+            "title": "three",
+            "blocks": [
+              {
+                "id": "three-body",
+                "type": "comparison",
+                "text": "Short.",
+                "columns": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "every-width-tier",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "t-comparison",
+            "title": "t-comparison",
+            "blocks": [
+              {
+                "id": "t-comparison-body",
+                "type": "comparison",
+                "text": "Short.",
+                "columns": [
+                  "A"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "t-code",
+            "title": "t-code",
+            "blocks": [
+              {
+                "id": "t-code-body",
+                "type": "code",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "t-diff",
+            "title": "t-diff",
+            "blocks": [
+              {
+                "id": "t-diff-body",
+                "type": "diff",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "t-chart",
+            "title": "t-chart",
+            "blocks": [
+              {
+                "id": "t-chart-body",
+                "type": "chart",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "t-snippet",
+            "title": "t-snippet",
+            "blocks": [
+              {
+                "id": "t-snippet-body",
+                "type": "snippet",
+                "text": "Short."
+              }
+            ]
+          },
+          {
+            "id": "t-prose",
+            "title": "t-prose",
+            "blocks": [
+              {
+                "id": "t-prose-body",
+                "type": "prose",
+                "text": "Short."
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  },
+  {
+    "name": "widest-block-sizes-the-panel",
+    "call": "layoutExplainerPanels",
+    "args": [
+      {
+        "meta": {
+          "id": "board",
+          "title": "Board"
+        },
+        "answer": {
+          "summary": "Conclusion."
+        },
+        "panels": [
+          {
+            "id": "mixed",
+            "title": "mixed",
+            "blocks": [
+              {
+                "id": "m-prose",
+                "type": "prose",
+                "text": "Short."
+              },
+              {
+                "id": "m-chart",
+                "type": "chart",
+                "text": "pie"
+              },
+              {
+                "id": "m-code",
+                "type": "code",
+                "source": "x"
+              }
+            ]
+          }
+        ],
+        "sources": []
+      }
+    ]
+  }
+]

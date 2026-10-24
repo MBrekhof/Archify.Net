@@ -1,0 +1,91 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 12,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    }
+  ],
+  [
+    {
+      "id": "canvas",
+      "span": 12,
+      "min": 12,
+      "explicit": false,
+      "weight": 12,
+      "panel": {
+        "id": "canvas",
+        "title": "canvas",
+        "blocks": [
+          {
+            "id": "canvas-body",
+            "type": "diagram",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "boxed",
+      "span": 12,
+      "min": 8,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "boxed",
+        "title": "boxed",
+        "blocks": [
+          {
+            "id": "boxed-body",
+            "type": "diagram",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "commas",
+      "span": 12,
+      "min": 12,
+      "explicit": false,
+      "weight": 12,
+      "panel": {
+        "id": "commas",
+        "title": "commas",
+        "blocks": [
+          {
+            "id": "commas-body",
+            "type": "diagram",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "exact",
+      "span": 12,
+      "min": 8,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "exact",
+        "title": "exact",
+        "blocks": [
+          {
+            "id": "exact-body",
+            "type": "diagram",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

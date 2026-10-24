@@ -1,0 +1,29 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 4,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "figure",
+      "span": 8,
+      "min": 8,
+      "explicit": false,
+      "weight": 12,
+      "panel": {
+        "id": "figure",
+        "title": "figure",
+        "blocks": [
+          {
+            "id": "figure-body",
+            "type": "diagram",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

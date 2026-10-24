@@ -1,0 +1,39 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "mixed",
+      "span": 7,
+      "min": 7,
+      "explicit": false,
+      "weight": 14,
+      "panel": {
+        "id": "mixed",
+        "title": "mixed",
+        "blocks": [
+          {
+            "id": "m-prose",
+            "type": "prose",
+            "text": "Short."
+          },
+          {
+            "id": "m-chart",
+            "type": "chart",
+            "text": "pie"
+          },
+          {
+            "id": "m-code",
+            "type": "code",
+            "source": "x"
+          }
+        ]
+      }
+    }
+  ]
+]

@@ -11,7 +11,7 @@ namespace Archify.Net.Tests;
 public partial class ExplainerParityTests
 {
     // A group is compared once it is listed; each task adds its own.
-    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare"];
+    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare", "layout", "pages", "cases"];
     // Rows that differ from Node by a stated deviation (docs/deviations.md), each pinned by its own fact below.
     static readonly HashSet<(string Group, string Name)> KnownDeviations =
         [("parse", "cr-only"), ("parse", "line-separator-heading"), ("writing", "rule-fold-long-s")];
@@ -62,6 +62,18 @@ public partial class ExplainerParityTests
         {
             switch (seed["call"]!.GetValue<string>())
             {
+                case "layoutExplainerPanels":
+                    return Json(ExplainerRender.Layout(Arg(0)!.AsObject(), Arg(1) as JsonObject));
+                case "renderExplainer" when seed["draft"] is not null:
+                    return ExplainerPipeline.Render(PrepareDraft(seed, dir, repo), dir);
+                case "renderExplainer":
+                    var render = Arg(1);
+                    return ExplainerRender.Render(Arg(0)!.AsObject(), new(render.Obj("preparedBundle"), render.Str("sourceText"), render.Obj("sourceMap"),
+                        render.Str("sourcePath"), render.Obj("preparedSources"), render.Obj("preparedDiagrams"), render.Arr("diagnostics"), render.Str("pageDirectory")));
+                case "deliver":   // the cases group: deliver explainer <case>.archify.md <case>.html --quality standard, no repository root
+                    var draftFile = Path.Join(dir, seed["draft"].Str("file"));
+                    File.WriteAllText(draftFile, seed["draft"].Str("text"));
+                    return ExplainerPipeline.Render(ExplainerPipeline.Prepare(seed["draft"].Str("text")!, new(draftFile, Quality: "standard")), dir);
                 case "resolveExplainerSources":
                     return Json(ExplainerSources.Resolve(Arg(0)!.AsObject(), Resources(Arg(1))));
                 case "prepareExplainerDiagrams":
@@ -124,6 +136,20 @@ public partial class ExplainerParityTests
         // Upstream's TypeErrors are ArgumentExceptions; a front-matter PeleError crosses validateExplainer on purpose.
         catch (ArgumentException e) { return Json(new JsonObject { ["thrown"] = new JsonObject { ["name"] = "TypeError", ["message"] = e.Message } }); }
         catch (PeleException e) { return Json(new JsonObject { ["thrown"] = new JsonObject { ["name"] = "PeleError", ["message"] = e.Message, ["code"] = e.Code } }); }
+        catch (JsError e) { return Json(new JsonObject { ["thrown"] = new JsonObject { ["name"] = "Error", ["message"] = e.Message } }); }
+    }
+
+    // The runner's prepareDraft: the draft written to <DIR>/<file> and prepared as render-explainer.mjs does.
+    static JsonObject PrepareDraft(JsonObject seed, string dir, string? repo)
+    {
+        var draft = (JsonObject)Substitute(seed["draft"], dir, repo)!;
+        var inputPath = Path.Join(dir, draft.Str("file") ?? "draft.archify.md");
+        Directory.CreateDirectory(Path.GetDirectoryName(inputPath)!);
+        File.WriteAllText(inputPath, draft.Str("text"));
+        var options = draft.Obj("options")?.DeepClone().AsObject() ?? [];
+        if (repo is not null) options["repoRoot"] = repo;
+        options["inputPath"] = inputPath;
+        return ExplainerPrepare.Prepare(draft.Str("text")!, Prepare(options));
     }
 
     static InlineContext Context(JsonNode? context) => new() { PanelId = context.Str("panelId"), Footnotes = context?["footnotes"] as JsonArray };
@@ -333,8 +359,16 @@ public partial class ExplainerParityTests
             var seed = Js.Stringify(Seed(Path.GetFileName(Path.GetDirectoryName(file)!), name[..name.IndexOf(".fixed.", StringComparison.Ordinal)]));
             Assert.DoesNotMatch("locale=zh|\"locale\":\"zh", seed);
             var node = Fixtures.Lf(file.Replace(".fixed.", "."));
-            Assert.NotEqual(node, Fixtures.Lf(file));
-            Assert.Equal(Masked(Decided(node)), Masked(Fixtures.Lf(file)));
+            var fixedText = Fixtures.Lf(file);
+            Assert.NotEqual(node, fixedText);
+            if (name.EndsWith(".html", StringComparison.Ordinal))
+            {   // a page's default locale picks the whole reader dictionary, so the page differs beyond its lang
+                Assert.Contains("<html lang=\"zh-CN\"", node);
+                Assert.Contains("<html lang=\"en\"", fixedText);
+                Assert.DoesNotContain("lang=\"zh-CN\"", fixedText);
+                continue;
+            }
+            Assert.Equal(Masked(Decided(node)), Masked(fixedText));
         }
     }
 
@@ -432,6 +466,88 @@ public partial class ExplainerParityTests
             if (Directory.Exists(Path.Join(dir, "linked"))) Directory.Delete(Path.Join(dir, "linked"));   // the junction itself, not its target
             Directory.Delete(dir, recursive: true);
         }
+    }
+
+    // --- Task 5 facts ---
+    static JsonNode Script(string page, string id)
+    {
+        var match = Regex.Match(page, $"<script type=\"application/json\" id=\"{id}\">(.*?)</script>", RegexOptions.Singleline);
+        Assert.True(match.Success, id);
+        return JsonNode.Parse(match.Groups[1].Value)!;   // json() escapes < > & U+2028 U+2029 as \u, which JSON reads back
+    }
+
+    // UPSTREAM-DEVIATION gzip-stream (Decision 1): each packed child is .NET's GZip stream at level 9 (XFL 02), which inflates
+    // to the child HTML the manifest names. Nothing here claims the bytes differ from Node's zlib stream.
+    [Fact] public void Gzip_payload_is_the_stated_deviation()
+    {
+        var dir = Directory.CreateTempSubdirectory("axs-").FullName;
+        try
+        {
+            var page = ExplainerPipeline.Render(PrepareDraft(Seed("pages", "diagram-guided"), dir, null), dir);
+            var children = Script(page, "explainer-manifest")["children"]!.AsObject();
+            var diagrams = Script(page, "archify-explainer-prepared")["preparedDiagrams"]!["diagrams"]!.AsObject();
+            Assert.Equal(children.Select(kv => kv.Key), diagrams.Select(kv => kv.Key));
+            Assert.NotEmpty(diagrams);
+            foreach (var (id, child) in diagrams)
+            {
+                Assert.False(child!.AsObject().ContainsKey("html"));
+                var packed = Convert.FromBase64String(child["htmlGzip"]!.GetValue<string>());
+                Assert.Equal([0x1f, 0x8b, 0x08], packed[..3]);   // GZip, deflate
+                Assert.Equal(0x02, packed[8]);                    // XFL 02: maximum compression
+                using var gzip = new GZipStream(new MemoryStream(packed), CompressionMode.Decompress);
+                using var inflated = new MemoryStream();
+                gzip.CopyTo(inflated);
+                Assert.Equal(children[id]!["sha256"]!.GetValue<string>(), Sha256(inflated.ToArray()));
+                Assert.Equal(children[id]!["bytes"]!.GetValue<int>(), (int)inflated.Length);
+            }
+            var unpacked = ExplainerBundle.Unpack(Script(page, "archify-explainer-prepared").AsObject());
+            foreach (var (id, child) in unpacked["preparedDiagrams"]!["diagrams"]!.AsObject())
+                Assert.Equal(children[id]!["sha256"]!.GetValue<string>(), Sha256(child!["html"]!.GetValue<string>()));
+        }
+        finally { Directory.Delete(dir, recursive: true); }
+    }
+
+    // UPSTREAM-DEVIATION default-locale (Decision 3): a page from a draft without @meta locale is English (lang, controls, the
+    // footnote heading), where upstream's render.mjs:38 defaults to zh-CN. The port equals the corrected oracle's golden;
+    // Node's stays beside it.
+    [Fact] public void Default_locale_is_en_the_stated_deviation()
+    {
+        Assert.DoesNotContain("@meta", Seed("pages", "no-locale")["draft"].Str("text"));
+        var node = Fixtures.Lf(Fixtures.Golden("explainer/pages/no-locale.html"));
+        foreach (var zh in new[] { "<html lang=\"zh-CN\"", "跳至正文", "典型值说明", "\"answer\":\"结论\"" }) Assert.Contains(zh, node);
+        var corrected = Fixtures.Lf(Fixtures.Golden("explainer/pages/no-locale.fixed.html"));
+        foreach (var en in new[] { "<html lang=\"en\"", "Skip to content", "Typical value notes", "\"answer\":\"Answer\"" }) Assert.Contains(en, corrected);
+        Compare("pages", "no-locale", NormalizePage(corrected));
+    }
+
+    // The library facade prepares and renders; a draft problem, a front-matter PeleException and any other failure come back as
+    // Error and diagnostics through the renderer-failure mapping.
+    [Fact] public void RenderExplainer_returns_diagnostics_not_exceptions()
+    {
+        var dir = Directory.CreateTempSubdirectory("axs-").FullName;
+        try
+        {
+            var input = Path.Join(dir, "draft.archify.md");
+            var ok = ArchifyNet.RenderExplainer(Seed("pages", "no-locale")["draft"].Str("text")!, new(input));
+            Assert.StartsWith("<!doctype html>\n<html lang=\"en\"", ok.Html);
+            Assert.Equal(("", "", null, null), (ok.Svg, ok.Cards, ok.Layout, ok.Error));
+            Assert.Empty(ok.ThrownDiagnostics);
+            Assert.All(ok.Diagnostics, d => Assert.Equal(Severity.Warning, d.Severity));
+
+            var invalid = ArchifyNet.RenderExplainer("# T\n\nOne.\n\nTwo.\n\n## Q\n\nText.", new(input));
+            Assert.Equal(("", "Explainer draft could not be parsed."), (invalid.Html, invalid.Error));
+            Assert.Equal("explainer/parse-answer", Assert.Single(invalid.Diagnostics).Code);
+
+            var frontMatter = ArchifyNet.RenderExplainer(Seed("validate", "parsed-front-matter")["parsed"]!.GetValue<string>(), new(input));
+            Assert.Equal("", frontMatter.Html);
+            Assert.Equal("internal/unclassified", Assert.Single(frontMatter.Diagnostics).Code);
+            Assert.StartsWith("Front matter is not valid YAML.", frontMatter.Error);
+
+            var missing = ArchifyNet.RenderExplainer("# T\n\nA.\n\n## Q {#q}\n\n@image id=pic path=missing.png alt=\"x\"\n", new(input, QualityProfile.Showcase, WritingMode: "off", PageDirectory: dir));
+            Assert.Equal("", missing.Html);
+            Assert.StartsWith("explainer/asset", Assert.Single(missing.Diagnostics).Code);
+        }
+        finally { Directory.Delete(dir, recursive: true); }
     }
 
     // Task 4 review, Minor 1: a reparse point that is neither a symbolic link nor a junction (a OneDrive Files On-Demand

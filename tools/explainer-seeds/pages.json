@@ -1,0 +1,5992 @@
+[
+  {
+    "name": "en-every-block",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Which cache plan should we ship? {#cache-plan}\n\nShip the read-through cache: it **halves** read latency at a [typical](typical:measured on one staging host) cost.[](source:bench)\n\n- Reads hit Redis first.[](source:docs)\n- Writes stay on the database path.\n\n@answer scope=\"Order API · read path · staging numbers\"\n@meta locale=en\n@source docs title=\"Cache design notes\" url=https://example.com/cache\n@source bench title=\"Staging benchmark\"\n@source unused title=\"Background reading\"\n\n## What do the options cost? {#options}\n\n| Criterion | Read-through | Write-behind |\n| --- | --- | --- |\n| Latency {#latency-row} | 12 ms {good:Faster} | 20 ms {caution} |\n| Risk | Stale reads | Lost writes {bad:Data loss} |\n| Effort | Low | High |\n\n@facts id=facts\n| Owner | Platform team |\n| Rollout | One region first |\n\n## How close are we to the limits? {#limits}\n\n@metric id=p99 label=\"P99 latency\" value=180 limit=150 unit=ms typical=true note=\"Peak hour\"\n\n@metric id=capacity label=\"Capacity\" limit=10 unit=requests\n\n@metric id=float label=\"Error budget\" value=0.3 limit=0.1\n\n@metric id=within label=\"Hit rate\" value=80 limit=100 unit=%\n\n## What do we do first? {#first}\n\n1. Deploy the cache behind a flag.\n2. Measure the hit rate.\n\n@steps id=rollout\n| enable | Enable the flag | Start with 1% of reads. |\n| watch | Watch the hit rate | Expect [5 ms](typical:median, one host) reads. |\n\n@callout level=warning title=\"Before rollout\"\n| Check the eviction policy. |\n| A full cache evicts hot keys. |\n\n- [ ] Confirm the flag default\n- [ ] Record the baseline\n\n## What changes in the code? {#code-change}\n\n@diff id=change caption=\"Read through the cache\"\n```diff\n--- a/src/read.js\n+++ b/src/read.js\n@@ -1,2 +1,3 @@\n-return db.get(key);\n+const hit = await cache.get(key);\n+return hit ?? db.get(key);\n // done\n```\n\n```bash title=\"Run the cache tests\"\nnpm test -- cache\n```\n\n## How do the numbers compare? {#numbers}\n\n```mermaid title=\"Latency before and after (ms)\"\nxychart-beta\n  x-axis [\"Mean\", \"P50\", \"P99\"]\n  y-axis \"ms\" 0 --> 200\n  bar \"Before\" [40, 30, 180]\n  bar \"After\" [20, 15, 90]\n```\n\n@chart id=daily type=line data=latency.csv x=day y=p50,p99 unit=ms title=\"Daily latency\"\n\n@image id=shot path=shot.png alt=\"Dashboard \\\"before\\\"\" caption=\"The staging dashboard\"\n"
+    },
+    "files": {
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,14,55\nWed,13,48\n"
+      },
+      "shot.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "zh-every-block",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# 应该上线哪种缓存方案？ {#cache-plan}\n\n上线读穿透缓存：读延迟**减半**，成本为[典型值](typical:单台预发主机实测)。[](source:bench)\n\n- 读请求先查 Redis。[](source:docs)\n- 写请求仍走数据库。\n\n@answer scope=\"订单接口 · 读路径 · 预发数据\"\n@meta locale=zh-CN\n@source docs title=\"缓存设计说明\" url=https://example.com/cache\n@source bench title=\"预发压测\"\n\n## 两种方案的代价是什么？ {#options}\n\n| 维度 | 读穿透 | 写回 |\n| --- | --- | --- |\n| 延迟 | 12 ms {good:更快} | 20 ms {caution} |\n| 风险 | 读到旧值 | 丢写 {bad} |\n\n@facts id=facts\n| 负责人 | 平台组 |\n\n## 离上限还有多远？ {#limits}\n\n@metric id=p99 label=\"P99 延迟\" value=180 limit=150 unit=ms typical=true\n\n@metric id=capacity label=\"容量\" limit=10 unit=请求\n\n## 先做什么？ {#first}\n\n@steps id=rollout\n| enable | 打开开关 | 先放 1% 的读请求。 |\n| watch | 观察命中率 | 命中率稳定后再扩量。 |\n\n@callout level=note title=\"上线前\"\n| 检查淘汰策略。 |\n\n- [ ] 确认开关默认值\n- [ ] 记录基线\n\n## 代码改了什么？ {#code-change}\n\n@diff id=change\n```diff\n-return db.get(key);\n+return cache.get(key) ?? db.get(key);\n```\n"
+    }
+  },
+  {
+    "name": "no-locale",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Why is the queue slow? {#queue}\n\nThe consumer acknowledges each message one by one, which costs [2 ms](typical:one local sample) per message.\n\n## What should we change? {#change}\n\nBatch the acknowledgements.\n\n| Option | Effect |\n| --- | --- |\n| Batch acks | Fewer round trips {good:Faster} |\n| Prefetch | More memory {caution} |\n"
+    }
+  },
+  {
+    "name": "style-clean",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Which style is this? {#style-clean}\n\nThis page uses the **clean** style.\n\n@meta locale=en style=clean\n\n## What does it show? {#show}\n\nA short panel.\n\n@facts id=facts\n| Style | clean |\n"
+    }
+  },
+  {
+    "name": "style-editorial",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Which style is this? {#style-editorial}\n\nThis page uses the **editorial** style.\n\n@meta locale=en style=editorial\n\n## What does it show? {#show}\n\nA short panel.\n\n@facts id=facts\n| Style | editorial |\n"
+    }
+  },
+  {
+    "name": "style-product",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Which style is this? {#style-product}\n\nThis page uses the **product** style.\n\n@meta locale=en style=product\n\n## What does it show? {#show}\n\nA short panel.\n\n@facts id=facts\n| Style | product |\n"
+    }
+  },
+  {
+    "name": "style-swiss",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Which style is this? {#style-swiss}\n\nThis page uses the **swiss** style.\n\n@meta locale=en style=swiss\n\n## What does it show? {#show}\n\nA short panel.\n\n@facts id=facts\n| Style | swiss |\n"
+    }
+  },
+  {
+    "name": "code-repo",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# Where is the route handled? {#route}\n\nThe router returns the request kind.[](source:router)\n\n@meta locale=en\n@source router title=\"Router\" path=src/router.js lines=1:3\n@source config title=\"Config notes\"\n\n## What does the router do? {#router}\n\n@code id=route-code source=router language=js\n\nIt reads [the kind](source:router) and returns it.\n"
+    },
+    "repo": true
+  },
+  {
+    "name": "diagram-guided",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# How does an order move? {#order-flow}\n\nAn order is checked, then paid, then shipped.\n\n@meta locale=en\n@source checkout title=\"Checkout service\" url=https://example.com/checkout\n\n## Which steps does an order take? {#steps}\n\n@workflow id=order-path title=\"Order path\"\n| lane check | Check |\n| lane fulfil | Fulfil |\n| cart | Cart | frontend | check | source:checkout |\n| verify | Verify stock | backend | check |\n| pay | Take payment | backend | fulfil |\n| ship | Ship | external | fulfil |\n| cart > verify | |\n| verify > pay | in stock |\n| pay > ship | paid | emphasis |\n\n@steps id=walk\n| s-cart | Cart | The customer submits the [cart](node:order-path.cart). | order-path | cart |\n| s-verify | Verify stock | Stock is reserved. | order-path | verify |\n| s-pay | Take payment | Payment follows the [route](route:order-path.verify~pay). | order-path | | verify~pay |\n"
+    }
+  },
+  {
+    "name": "diagram-sequence-zh",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# 首次访问为什么多一次往返？ {#tls}\n\n浏览器和服务器先交换密钥，再发请求。\n\n@meta locale=zh-CN\n\n## 握手时交换了什么？ {#handshake}\n\n@sequence id=hello title=\"TLS 1.3 握手\"\n| actor browser | 浏览器 | frontend |\n| actor server | 服务器 | backend |\n| phase | 握手 |\n| browser | server | ClientHello |\n| server | browser | ServerHello | return |\n| browser | server | GET / | emphasis |\n\n[浏览器](node:hello.browser)先发送密钥份额。\n\n## 之后呢？ {#after}\n\n服务器返回页面。\n"
+    }
+  },
+  {
+    "name": "diagram-wide",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# What does the platform contain? {#platform}\n\nEight services form one chain from the edge to storage.\n\n@meta locale=en\n\n## How are the services connected? {#services}\n\n@architecture id=chain title=\"Service chain\"\n| edge | Edge proxy | frontend |\n| auth | Auth | security |\n| api | API gateway | backend |\n| orders | Orders | backend |\n| billing | Billing | backend |\n| queue | Event bus | messagebus |\n| worker | Worker | backend |\n| store | Storage | database |\n| edge > auth | |\n| auth > api | |\n| api > orders | |\n| orders > billing | |\n| billing > queue | |\n| queue > worker | |\n| worker > store | |\n\n## What else? {#else}\n\nNothing else.\n"
+    }
+  },
+  {
+    "name": "diagram-changes",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "# What changed in the package? {#package}\n\nThe explainer folder was added and the old preview removed.\n\n@meta locale=en\n\n## Which folders changed? {#folders}\n\n@tree id=layout title=\"Package layout\" changes=\"explainer:added,preview:removed,bin:modified\"\n| root | archify | - |\n| bin | bin | root |\n| explainer | explainer | root |\n| preview | preview | root |\n\nRead the [bin](node:layout.bin) folder first.\n"
+    }
+  },
+  {
+    "name": "delivery-explainer",
+    "call": "renderExplainer",
+    "draft": {
+      "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"title\": \"缓存未命中时，请求为什么变慢？\",\n    \"id\": \"mechanism\",\n    \"locale\": \"zh-CN\"\n  },\n  \"answer\": {\n    \"summary\": \"缓存未命中后，请求要多等**数据库查询和同步写回缓存**两段。\",\n    \"reasons\": [\n      \"命中时，接口读到缓存值就能返回。\",\n      \"未命中时，接口必须先拿到数据库结果。\",\n      \"同步写回位于响应之前，写完缓存才能结束请求。\"\n    ],\n    \"scope\": \"示例采用旁路缓存：GET返回空值后查询PostgreSQL，查询成功后同步SET再响应；无并行、重试或其他缓存层。未实测耗时，具体慢多少由链路测量决定。\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"timeline\",\n      \"title\": \"一次未命中，时间花在哪？\",\n      \"blocks\": [\n        {\n          \"type\": \"steps\",\n          \"id\": \"cache-path-steps\",\n          \"items\": [\n            {\n              \"id\": \"get-step\",\n              \"text\": \"读取缓存\",\n              \"detail\": \"GET返回空值，接口继续向数据库查询。[](source:get-doc)\"\n            },\n            {\n              \"id\": \"query-step\",\n              \"text\": \"查询PostgreSQL\",\n              \"detail\": \"等待数据库执行SQL并返回结果。\"\n            },\n            {\n              \"id\": \"set-step\",\n              \"text\": \"同步写回Redis\",\n              \"detail\": \"SET完成后，接口返回响应。[](source:set-doc)\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"diff\",\n      \"title\": \"命中和未命中，差在哪几步？\",\n      \"blocks\": [\n        {\n          \"type\": \"comparison\",\n          \"id\": \"cache-comparison\",\n          \"columns\": [\n            \"命中\",\n            \"未命中\"\n          ],\n          \"rows\": [\n            {\n              \"label\": \"读Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"取得值\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"直接返回\"\n                },\n                {\n                  \"text\": \"取得空值\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"继续查询\"\n                }\n              ],\n              \"id\": \"row-67fe9814e476\"\n            },\n            {\n              \"label\": \"查PostgreSQL\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去查询\"\n                },\n                {\n                  \"text\": \"等待结果\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-bb530b3792c8\"\n            },\n            {\n              \"label\": \"写回Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去写回\"\n                },\n                {\n                  \"text\": \"同步SET\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-cbc9f8528502\"\n            },\n            {\n              \"label\": \"响应路径\",\n              \"cells\": [\n                {\n                  \"text\": \"一段读取\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"路径短\"\n                },\n                {\n                  \"text\": \"三段顺序等待\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"路径长\"\n                }\n              ],\n              \"id\": \"row-d108c6645625\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"checks\",\n      \"title\": \"想缩短等待，先查什么？\",\n      \"blocks\": [\n        {\n          \"type\": \"list\",\n          \"ordered\": false,\n          \"items\": [\n            \"记录`cache=hit`或`cache=miss`，区分请求路径。\",\n            \"分别观察GET、SQL和SET耗时，先处理最慢的一段。\",\n            \"检查SQL索引与执行计划；改为异步写回前，设计写入失败的恢复流程。\"\n          ],\n          \"id\": \"list-7e8599e477aa\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"get-doc\",\n      \"title\": \"Redis GET：不存在的键返回空值\",\n      \"url\": \"https://redis.io/docs/latest/commands/get/\"\n    },\n    {\n      \"id\": \"set-doc\",\n      \"title\": \"Redis SET：设置键值\",\n      \"url\": \"https://redis.io/docs/latest/commands/set/\"\n    }\n  ]\n}\n",
+      "file": "delivery.explainer.json"
+    }
+  },
+  {
+    "name": "r-every-shape",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-script-breaking",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "</script><script>injected</script>",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "# draft\n</script>\n& literal text",
+        "preparedBundle": {
+          "sourceText": "# draft\n</script>\n& literal text",
+          "document": {
+            "schema_version": 1,
+            "diagram_type": "explainer",
+            "meta": {
+              "id": "test-explainer",
+              "title": "</script><script>injected</script>",
+              "locale": "en"
+            },
+            "answer": {
+              "summary": "Keep **the evidence** visible."
+            },
+            "panels": [
+              {
+                "id": "panel-main",
+                "title": "What do we know?",
+                "blocks": [
+                  {
+                    "id": "prose",
+                    "type": "prose",
+                    "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+                  },
+                  {
+                    "id": "list",
+                    "type": "list",
+                    "ordered": true,
+                    "items": [
+                      "First",
+                      "Second"
+                    ]
+                  },
+                  {
+                    "id": "callout",
+                    "type": "callout",
+                    "level": "warning",
+                    "title": "Bounded warning",
+                    "text": "Read the actual source."
+                  },
+                  {
+                    "id": "comparison",
+                    "type": "comparison",
+                    "columns": [
+                      "A",
+                      "B"
+                    ],
+                    "rows": [
+                      {
+                        "id": "comparison-row",
+                        "label": "Cost",
+                        "cells": [
+                          {
+                            "text": "Known",
+                            "assessment": "good",
+                            "verdict": "Low"
+                          },
+                          {
+                            "text": "Unknown",
+                            "assessment": "caution"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "facts",
+                    "type": "facts",
+                    "entries": [
+                      {
+                        "key": "Endpoint",
+                        "value": "api → redis"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "metric",
+                    "type": "metric",
+                    "label": "Capacity",
+                    "value": 3,
+                    "limit": 8,
+                    "unit": "requests",
+                    "typical": true,
+                    "note": "Illustrative only"
+                  },
+                  {
+                    "id": "steps",
+                    "type": "steps",
+                    "items": [
+                      {
+                        "id": "write-step",
+                        "text": "Write value",
+                        "detail": "Preserve the directed link.",
+                        "target": {
+                          "diagram": "native-diagram",
+                          "node": "api",
+                          "edges": [
+                            "write"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "native-diagram",
+                    "type": "diagram",
+                    "diagramType": "architecture",
+                    "spec": {},
+                    "changes": [
+                      {
+                        "target": "api",
+                        "change": "modified"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "code",
+                    "type": "code",
+                    "source": "code-source",
+                    "language": "js"
+                  },
+                  {
+                    "id": "diff",
+                    "type": "diff",
+                    "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                    "caption": "Literal changes"
+                  },
+                  {
+                    "id": "image",
+                    "type": "image",
+                    "path": "example.png",
+                    "alt": "Safe \"image\"",
+                    "caption": "Contained asset"
+                  }
+                ]
+              }
+            ],
+            "sources": [
+              {
+                "id": "code-source",
+                "title": "Real excerpt",
+                "path": "src/example.mjs",
+                "lines": [
+                  2,
+                  3
+                ]
+              },
+              {
+                "id": "external",
+                "title": "External",
+                "url": "https://example.org"
+              },
+              {
+                "id": "example",
+                "title": "Example"
+              },
+              {
+                "id": "inference",
+                "title": "Inference"
+              },
+              {
+                "id": "measurement",
+                "title": "Measured",
+                "text": "3 ms",
+                "method": "One local sample"
+              }
+            ]
+          },
+          "preparedSources": {
+            "sources": {
+              "code-source": {
+                "id": "code-source",
+                "title": "Real excerpt",
+                "path": "src/example.mjs",
+                "lines": [
+                  2,
+                  3
+                ],
+                "revision": "abc123",
+                "text": "const value = \"<actual>\";\nreturn value;"
+              },
+              "external": {
+                "title": "External",
+                "url": "https://example.org"
+              },
+              "example": {
+                "title": "Example"
+              },
+              "inference": {
+                "title": "Inference",
+                "text": "This is an inference"
+              },
+              "measurement": {
+                "title": "Measured",
+                "text": "3 ms",
+                "method": "One local sample"
+              }
+            },
+            "assets": {
+              "image": {
+                "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+                "sha256": "asset-hash",
+                "bytes": 8,
+                "mime": "image/png"
+              }
+            },
+            "dependencies": []
+          },
+          "preparedDiagrams": {
+            "diagrams": {
+              "native-diagram": {
+                "diagramType": "architecture",
+                "spec": {
+                  "meta": {
+                    "title": "Actual relationships"
+                  }
+                },
+                "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+                "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+                "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+                "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+                "bytes": 110,
+                "semantic": {
+                  "nodes": [
+                    {
+                      "id": "api",
+                      "label": "API"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis"
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "id": "write",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "writes"
+                    }
+                  ]
+                }
+              }
+            },
+            "dependencies": []
+          },
+          "dependencies": [],
+          "digest": "prepared-digest"
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-missing-diagram",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-hash-mismatch",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "false",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-byte-count-mismatch",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 1,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-two-diagrams",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          },
+          {
+            "id": "second-panel",
+            "title": "What is the second view?",
+            "blocks": [
+              {
+                "id": "second-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {}
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            },
+            "second-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Second actual view"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-revision-base",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "same authored draft"
+      }
+    ]
+  },
+  {
+    "name": "r-revision-source",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "different-git-revision",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "same authored draft"
+      }
+    ]
+  },
+  {
+    "name": "r-revision-relocated-a",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": [
+            {
+              "kind": "image",
+              "id": "image",
+              "sha256": "fixed-hash",
+              "bytes": 10,
+              "path": "/one/location",
+              "mtime": 1
+            }
+          ]
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "same authored draft"
+      }
+    ]
+  },
+  {
+    "name": "r-revision-relocated-b",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": [
+            {
+              "kind": "image",
+              "id": "image",
+              "sha256": "fixed-hash",
+              "bytes": 10,
+              "path": "/another/location",
+              "mtime": 9
+            }
+          ]
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "same authored draft"
+      }
+    ]
+  },
+  {
+    "name": "r-revision-reordered",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "same authored draft"
+      }
+    ]
+  },
+  {
+    "name": "r-metrics",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "overflow",
+                "type": "metric",
+                "label": "Requests",
+                "value": 12,
+                "limit": 10,
+                "unit": "requests",
+                "typical": true
+              },
+              {
+                "id": "capacity-only",
+                "type": "metric",
+                "label": "Capacity",
+                "limit": 10,
+                "unit": "requests"
+              },
+              {
+                "id": "float-overflow",
+                "type": "metric",
+                "label": "Budget",
+                "value": 0.30000000000000004,
+                "limit": 0.1
+              },
+              {
+                "id": "negative",
+                "type": "metric",
+                "label": "Drift",
+                "value": -2,
+                "limit": 5,
+                "unit": "ms"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-locale-es",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "es"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "overflow",
+                "type": "metric",
+                "label": "Requests",
+                "value": 12,
+                "limit": 10
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-locale-ko",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "ko"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "overflow",
+                "type": "metric",
+                "label": "Requests",
+                "value": 12,
+                "limit": 10
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-locale-zh-tw",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "zh-TW"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "overflow",
+                "type": "metric",
+                "label": "Requests",
+                "value": 12,
+                "limit": 10
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-no-locale",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "overflow",
+                "type": "metric",
+                "label": "Requests",
+                "value": 12,
+                "limit": 10,
+                "typical": true
+              },
+              {
+                "id": "note",
+                "type": "prose",
+                "text": "A [typical](typical:one sample) value."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-native-print",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style><style>@media print{:root,[data-theme=\"dark\"],[data-theme=\"light\"]{--native-ink:#456}}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-citation-order",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Read [second](source:external).",
+          "reasons": [
+            "Keep [](source:code-source) nearby."
+          ],
+          "scope": "Scope [](source:external)"
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "text",
+                "type": "prose",
+                "text": "Again [second](source:external) and [](source:example)."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-snippet-label-column",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ],
+                "labelColumn": "Criterion"
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              },
+              {
+                "id": "snippet",
+                "type": "snippet",
+                "language": "bash",
+                "title": "Run tests",
+                "text": "echo \"<b>\""
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-checker-file",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              },
+              "checks": {
+                "check": {
+                  "ok": true,
+                  "file": "/private/build-user/scratch/diagram.html",
+                  "artifact": {
+                    "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61"
+                  },
+                  "composition": {
+                    "profile": "standard"
+                  }
+                }
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourcePath": "/published/draft.json",
+        "pageDirectory": "/published"
+      }
+    ]
+  },
+  {
+    "name": "r-manifest-warnings",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "diagnostics": [
+          {
+            "code": "writing/test",
+            "severity": "warning",
+            "subject": {
+              "input": "/author/draft.md",
+              "output": "/published/page.html"
+            }
+          }
+        ],
+        "sourcePath": "/author/draft.md",
+        "pageDirectory": "/published"
+      }
+    ]
+  },
+  {
+    "name": "r-cross-volume",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "prose",
+                "type": "prose",
+                "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+              },
+              {
+                "id": "list",
+                "type": "list",
+                "ordered": true,
+                "items": [
+                  "First",
+                  "Second"
+                ]
+              },
+              {
+                "id": "callout",
+                "type": "callout",
+                "level": "warning",
+                "title": "Bounded warning",
+                "text": "Read the actual source."
+              },
+              {
+                "id": "comparison",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "comparison-row",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Known",
+                        "assessment": "good",
+                        "verdict": "Low"
+                      },
+                      {
+                        "text": "Unknown",
+                        "assessment": "caution"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "facts",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "Endpoint",
+                    "value": "api → redis"
+                  }
+                ]
+              },
+              {
+                "id": "metric",
+                "type": "metric",
+                "label": "Capacity",
+                "value": 3,
+                "limit": 8,
+                "unit": "requests",
+                "typical": true,
+                "note": "Illustrative only"
+              },
+              {
+                "id": "steps",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "write-step",
+                    "text": "Write value",
+                    "detail": "Preserve the directed link.",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "node": "api",
+                      "edges": [
+                        "write"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {},
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  }
+                ]
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "code-source",
+                "language": "js"
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                "caption": "Literal changes"
+              },
+              {
+                "id": "image",
+                "type": "image",
+                "path": "example.png",
+                "alt": "Safe \"image\"",
+                "caption": "Contained asset"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Actual relationships"
+                }
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        },
+        "sourceText": "{\"schema_version\":1,\"diagram_type\":\"explainer\",\"meta\":{\"id\":\"test-explainer\",\"title\":\"How <script> works?\",\"locale\":\"en\"},\"answer\":{\"summary\":\"Keep **the evidence** visible.\"},\"panels\":[{\"id\":\"panel-main\",\"title\":\"What do we know?\",\"blocks\":[{\"id\":\"prose\",\"type\":\"prose\",\"text\":\"Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here).\"},{\"id\":\"list\",\"type\":\"list\",\"ordered\":true,\"items\":[\"First\",\"Second\"]},{\"id\":\"callout\",\"type\":\"callout\",\"level\":\"warning\",\"title\":\"Bounded warning\",\"text\":\"Read the actual source.\"},{\"id\":\"comparison\",\"type\":\"comparison\",\"columns\":[\"A\",\"B\"],\"rows\":[{\"id\":\"comparison-row\",\"label\":\"Cost\",\"cells\":[{\"text\":\"Known\",\"assessment\":\"good\",\"verdict\":\"Low\"},{\"text\":\"Unknown\",\"assessment\":\"caution\"}]}]},{\"id\":\"facts\",\"type\":\"facts\",\"entries\":[{\"key\":\"Endpoint\",\"value\":\"api → redis\"}]},{\"id\":\"metric\",\"type\":\"metric\",\"label\":\"Capacity\",\"value\":3,\"limit\":8,\"unit\":\"requests\",\"typical\":true,\"note\":\"Illustrative only\"},{\"id\":\"steps\",\"type\":\"steps\",\"items\":[{\"id\":\"write-step\",\"text\":\"Write value\",\"detail\":\"Preserve the directed link.\",\"target\":{\"diagram\":\"native-diagram\",\"node\":\"api\",\"edges\":[\"write\"]}}]},{\"id\":\"native-diagram\",\"type\":\"diagram\",\"diagramType\":\"architecture\",\"spec\":{},\"changes\":[{\"target\":\"api\",\"change\":\"modified\"}]},{\"id\":\"code\",\"type\":\"code\",\"source\":\"code-source\",\"language\":\"js\"},{\"id\":\"diff\",\"type\":\"diff\",\"text\":\"--- a/file\\n+++ b/file\\n@@ -7 +9 @@\\n-old\\n+<unsafe>\",\"caption\":\"Literal changes\"},{\"id\":\"image\",\"type\":\"image\",\"path\":\"example.png\",\"alt\":\"Safe \\\"image\\\"\",\"caption\":\"Contained asset\"}]}],\"sources\":[{\"id\":\"code-source\",\"title\":\"Real excerpt\",\"path\":\"src/example.mjs\",\"lines\":[2,3]},{\"id\":\"external\",\"title\":\"External\",\"url\":\"https://example.org\"},{\"id\":\"example\",\"title\":\"Example\"},{\"id\":\"inference\",\"title\":\"Inference\"},{\"id\":\"measurement\",\"title\":\"Measured\",\"text\":\"3 ms\",\"method\":\"One local sample\"}]}",
+        "diagnostics": [
+          {
+            "code": "writing/test",
+            "severity": "warning",
+            "subject": {
+              "input": "D:\\author\\draft.md"
+            }
+          }
+        ],
+        "pageDirectory": "C:\\published",
+        "preparedBundle": {
+          "preparedSources": {
+            "sources": {
+              "code-source": {
+                "id": "code-source",
+                "title": "Real excerpt",
+                "path": "src/example.mjs",
+                "lines": [
+                  2,
+                  3
+                ],
+                "revision": "abc123",
+                "text": "const value = \"<actual>\";\nreturn value;"
+              },
+              "external": {
+                "title": "External",
+                "url": "https://example.org"
+              },
+              "example": {
+                "title": "Example"
+              },
+              "inference": {
+                "title": "Inference",
+                "text": "This is an inference"
+              },
+              "measurement": {
+                "title": "Measured",
+                "text": "3 ms",
+                "method": "One local sample"
+              }
+            },
+            "assets": {
+              "image": {
+                "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+                "sha256": "asset-hash",
+                "bytes": 8,
+                "mime": "image/png"
+              }
+            },
+            "dependencies": []
+          },
+          "preparedDiagrams": {
+            "diagrams": {
+              "native-diagram": {
+                "diagramType": "architecture",
+                "spec": {
+                  "meta": {
+                    "title": "Actual relationships"
+                  }
+                },
+                "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+                "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+                "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+                "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+                "bytes": 110,
+                "semantic": {
+                  "nodes": [
+                    {
+                      "id": "api",
+                      "label": "API"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis"
+                    }
+                  ],
+                  "edges": [
+                    {
+                      "id": "write",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "writes"
+                    }
+                  ]
+                }
+              }
+            },
+            "dependencies": []
+          },
+          "document": {
+            "schema_version": 1,
+            "diagram_type": "explainer",
+            "meta": {
+              "id": "test-explainer",
+              "title": "How <script> works?",
+              "locale": "en"
+            },
+            "answer": {
+              "summary": "Keep **the evidence** visible."
+            },
+            "panels": [
+              {
+                "id": "panel-main",
+                "title": "What do we know?",
+                "blocks": [
+                  {
+                    "id": "prose",
+                    "type": "prose",
+                    "text": "Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here)."
+                  },
+                  {
+                    "id": "list",
+                    "type": "list",
+                    "ordered": true,
+                    "items": [
+                      "First",
+                      "Second"
+                    ]
+                  },
+                  {
+                    "id": "callout",
+                    "type": "callout",
+                    "level": "warning",
+                    "title": "Bounded warning",
+                    "text": "Read the actual source."
+                  },
+                  {
+                    "id": "comparison",
+                    "type": "comparison",
+                    "columns": [
+                      "A",
+                      "B"
+                    ],
+                    "rows": [
+                      {
+                        "id": "comparison-row",
+                        "label": "Cost",
+                        "cells": [
+                          {
+                            "text": "Known",
+                            "assessment": "good",
+                            "verdict": "Low"
+                          },
+                          {
+                            "text": "Unknown",
+                            "assessment": "caution"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "facts",
+                    "type": "facts",
+                    "entries": [
+                      {
+                        "key": "Endpoint",
+                        "value": "api → redis"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "metric",
+                    "type": "metric",
+                    "label": "Capacity",
+                    "value": 3,
+                    "limit": 8,
+                    "unit": "requests",
+                    "typical": true,
+                    "note": "Illustrative only"
+                  },
+                  {
+                    "id": "steps",
+                    "type": "steps",
+                    "items": [
+                      {
+                        "id": "write-step",
+                        "text": "Write value",
+                        "detail": "Preserve the directed link.",
+                        "target": {
+                          "diagram": "native-diagram",
+                          "node": "api",
+                          "edges": [
+                            "write"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "native-diagram",
+                    "type": "diagram",
+                    "diagramType": "architecture",
+                    "spec": {},
+                    "changes": [
+                      {
+                        "target": "api",
+                        "change": "modified"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "code",
+                    "type": "code",
+                    "source": "code-source",
+                    "language": "js"
+                  },
+                  {
+                    "id": "diff",
+                    "type": "diff",
+                    "text": "--- a/file\n+++ b/file\n@@ -7 +9 @@\n-old\n+<unsafe>",
+                    "caption": "Literal changes"
+                  },
+                  {
+                    "id": "image",
+                    "type": "image",
+                    "path": "example.png",
+                    "alt": "Safe \"image\"",
+                    "caption": "Contained asset"
+                  }
+                ]
+              }
+            ],
+            "sources": [
+              {
+                "id": "code-source",
+                "title": "Real excerpt",
+                "path": "src/example.mjs",
+                "lines": [
+                  2,
+                  3
+                ]
+              },
+              {
+                "id": "external",
+                "title": "External",
+                "url": "https://example.org"
+              },
+              {
+                "id": "example",
+                "title": "Example"
+              },
+              {
+                "id": "inference",
+                "title": "Inference"
+              },
+              {
+                "id": "measurement",
+                "title": "Measured",
+                "text": "3 ms",
+                "method": "One local sample"
+              }
+            ]
+          },
+          "sourceText": "{\"schema_version\":1,\"diagram_type\":\"explainer\",\"meta\":{\"id\":\"test-explainer\",\"title\":\"How <script> works?\",\"locale\":\"en\"},\"answer\":{\"summary\":\"Keep **the evidence** visible.\"},\"panels\":[{\"id\":\"panel-main\",\"title\":\"What do we know?\",\"blocks\":[{\"id\":\"prose\",\"type\":\"prose\",\"text\":\"Untrusted `<img src=x onerror=alert(1)>` and [typical](typical:not measured here).\"},{\"id\":\"list\",\"type\":\"list\",\"ordered\":true,\"items\":[\"First\",\"Second\"]},{\"id\":\"callout\",\"type\":\"callout\",\"level\":\"warning\",\"title\":\"Bounded warning\",\"text\":\"Read the actual source.\"},{\"id\":\"comparison\",\"type\":\"comparison\",\"columns\":[\"A\",\"B\"],\"rows\":[{\"id\":\"comparison-row\",\"label\":\"Cost\",\"cells\":[{\"text\":\"Known\",\"assessment\":\"good\",\"verdict\":\"Low\"},{\"text\":\"Unknown\",\"assessment\":\"caution\"}]}]},{\"id\":\"facts\",\"type\":\"facts\",\"entries\":[{\"key\":\"Endpoint\",\"value\":\"api → redis\"}]},{\"id\":\"metric\",\"type\":\"metric\",\"label\":\"Capacity\",\"value\":3,\"limit\":8,\"unit\":\"requests\",\"typical\":true,\"note\":\"Illustrative only\"},{\"id\":\"steps\",\"type\":\"steps\",\"items\":[{\"id\":\"write-step\",\"text\":\"Write value\",\"detail\":\"Preserve the directed link.\",\"target\":{\"diagram\":\"native-diagram\",\"node\":\"api\",\"edges\":[\"write\"]}}]},{\"id\":\"native-diagram\",\"type\":\"diagram\",\"diagramType\":\"architecture\",\"spec\":{},\"changes\":[{\"target\":\"api\",\"change\":\"modified\"}]},{\"id\":\"code\",\"type\":\"code\",\"source\":\"code-source\",\"language\":\"js\"},{\"id\":\"diff\",\"type\":\"diff\",\"text\":\"--- a/file\\n+++ b/file\\n@@ -7 +9 @@\\n-old\\n+<unsafe>\",\"caption\":\"Literal changes\"},{\"id\":\"image\",\"type\":\"image\",\"path\":\"example.png\",\"alt\":\"Safe \\\"image\\\"\",\"caption\":\"Contained asset\"}]}],\"sources\":[{\"id\":\"code-source\",\"title\":\"Real excerpt\",\"path\":\"src/example.mjs\",\"lines\":[2,3]},{\"id\":\"external\",\"title\":\"External\",\"url\":\"https://example.org\"},{\"id\":\"example\",\"title\":\"Example\"},{\"id\":\"inference\",\"title\":\"Inference\"},{\"id\":\"measurement\",\"title\":\"Measured\",\"text\":\"3 ms\",\"method\":\"One local sample\"}]}",
+          "diagnostics": [
+            {
+              "code": "writing/test",
+              "severity": "warning",
+              "subject": {
+                "input": "D:\\author\\draft.md"
+              }
+            }
+          ],
+          "sourcePath": "D:\\author\\draft.md",
+          "baseDir": "D:\\author",
+          "dependencies": [
+            {
+              "kind": "image",
+              "id": "image",
+              "path": "D:\\author\\example.png"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-bundle-differs",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "p",
+                "type": "prose",
+                "text": "Text."
+              }
+            ],
+            "span": 3
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "sourceText": "one",
+        "preparedBundle": {
+          "sourceText": "two",
+          "document": {
+            "schema_version": 1,
+            "diagram_type": "explainer",
+            "meta": {
+              "id": "test-explainer",
+              "title": "How <script> works?",
+              "locale": "en"
+            },
+            "answer": {
+              "summary": "Keep **the evidence** visible."
+            },
+            "panels": [
+              {
+                "id": "panel-main",
+                "title": "What do we know?",
+                "blocks": [
+                  {
+                    "id": "p",
+                    "type": "prose",
+                    "text": "Text."
+                  }
+                ],
+                "span": 3
+              }
+            ],
+            "sources": [
+              {
+                "id": "code-source",
+                "title": "Real excerpt",
+                "path": "src/example.mjs",
+                "lines": [
+                  2,
+                  3
+                ]
+              },
+              {
+                "id": "external",
+                "title": "External",
+                "url": "https://example.org"
+              },
+              {
+                "id": "example",
+                "title": "Example"
+              },
+              {
+                "id": "inference",
+                "title": "Inference"
+              },
+              {
+                "id": "measurement",
+                "title": "Measured",
+                "text": "3 ms",
+                "method": "One local sample"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-unsupported-block",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "x",
+                "type": "video",
+                "text": "Text."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-malformed-diff",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "bad-diff",
+                "type": "diff",
+                "text": "@@ nonsense"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-missing-code",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "c",
+                "type": "code",
+                "source": "nope"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-missing-image",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "pic",
+                "type": "image",
+                "path": "x.png",
+                "alt": "x"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {},
+          "assets": {
+            "pic": {
+              "dataUrl": "data:image/svg+xml;base64,PHN2Zy8+"
+            }
+          }
+        },
+        "sourceMap": {
+          "/panels/0/blocks/0": {
+            "line": 7,
+            "column": 1
+          }
+        },
+        "sourcePath": "C:\\drafts\\a.md"
+      }
+    ]
+  },
+  {
+    "name": "r-missing-chart",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "ch",
+                "type": "chart",
+                "title": "Data"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "r-chart-error",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "ch",
+                "type": "chart",
+                "title": "Data"
+              },
+              {
+                "id": "bad",
+                "type": "chart",
+                "text": "flowchart LR\n  a --> b"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {},
+          "charts": {
+            "ch": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-guided-bare-lanes",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "workflow",
+                "spec": {},
+                "nodeSources": {
+                  "api": "external"
+                }
+              },
+              {
+                "id": "walk",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "w1",
+                    "text": "API",
+                    "target": {
+                      "diagram": "native-diagram",
+                      "route": [
+                        "api",
+                        "redis"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "w2",
+                    "text": "Plain step"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "meta": {
+                  "title": "Lanes"
+                },
+                "lanes": [
+                  {
+                    "id": "lane-0"
+                  },
+                  {
+                    "id": "lane-1"
+                  }
+                ]
+              },
+              "html": "<!doctype html><html><body><svg id=\"diagram-svg\"></svg><script>const sample = \"native\";</script></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "styles": "<style>:root,[data-theme=\"dark\"]{--native-ink:#eee}[data-theme=\"light\"]{--native-ink:#123}body{height:100vh}text{fill:var(--native-ink)}</style>",
+              "sha256": "79af31aaf8ba84f14a24f378f702380049923f85376578002b80709be2f2bd61",
+              "bytes": 110,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  },
+  {
+    "name": "r-single-lane-native-styles",
+    "call": "renderExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "test-explainer",
+          "title": "How <script> works?",
+          "locale": "en"
+        },
+        "answer": {
+          "summary": "Keep **the evidence** visible."
+        },
+        "panels": [
+          {
+            "id": "panel-main",
+            "title": "What do we know?",
+            "blocks": [
+              {
+                "id": "native-diagram",
+                "type": "diagram",
+                "diagramType": "workflow",
+                "spec": {}
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "code-source",
+            "title": "Real excerpt",
+            "path": "src/example.mjs",
+            "lines": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "external",
+            "title": "External",
+            "url": "https://example.org"
+          },
+          {
+            "id": "example",
+            "title": "Example"
+          },
+          {
+            "id": "inference",
+            "title": "Inference"
+          },
+          {
+            "id": "measurement",
+            "title": "Measured",
+            "text": "3 ms",
+            "method": "One local sample"
+          }
+        ]
+      },
+      {
+        "preparedSources": {
+          "sources": {
+            "code-source": {
+              "id": "code-source",
+              "title": "Real excerpt",
+              "path": "src/example.mjs",
+              "lines": [
+                2,
+                3
+              ],
+              "revision": "abc123",
+              "text": "const value = \"<actual>\";\nreturn value;"
+            },
+            "external": {
+              "title": "External",
+              "url": "https://example.org"
+            },
+            "example": {
+              "title": "Example"
+            },
+            "inference": {
+              "title": "Inference",
+              "text": "This is an inference"
+            },
+            "measurement": {
+              "title": "Measured",
+              "text": "3 ms",
+              "method": "One local sample"
+            }
+          },
+          "assets": {
+            "image": {
+              "dataUrl": "data:image/png;base64,iVBORw0KGgo=",
+              "sha256": "asset-hash",
+              "bytes": 8,
+              "mime": "image/png"
+            }
+          },
+          "dependencies": []
+        },
+        "preparedDiagrams": {
+          "diagrams": {
+            "native-diagram": {
+              "diagramType": "architecture",
+              "spec": {
+                "lanes": [
+                  {
+                    "id": "only"
+                  }
+                ]
+              },
+              "html": "<html><head><style>.chrome{x:1}/* note */svg .edge{stroke:url(#arrow)}@font-face{font-family:x}@media (max-width:600px){:root{--k:1}}#diagram-svg{a:b}html{c:d}</style></head><body><svg id=\"diagram-svg\"><g class=\"edge\"></g></svg></body></html>",
+              "svg": "<svg id=\"diagram-svg\" viewBox=\"0 0 200 80\"><defs><marker id=\"arrow\"></marker></defs><g data-node-id=\"api\"><text x=\"10\" y=\"30\">API</text></g><path data-edge-id=\"write\" data-edge-from=\"api\" data-edge-to=\"redis\" marker-end=\"url(#arrow)\"/><g data-node-id=\"redis\"><text x=\"90\" y=\"30\">Redis</text></g></svg>",
+              "sha256": "7b47de45868a0dcf99f3c58f62637e29a3496e84a7315239c0bb003409e24b0e",
+              "bytes": 242,
+              "semantic": {
+                "nodes": [
+                  {
+                    "id": "api",
+                    "label": "API"
+                  },
+                  {
+                    "id": "redis",
+                    "label": "Redis"
+                  }
+                ],
+                "edges": [
+                  {
+                    "id": "write",
+                    "from": "api",
+                    "to": "redis",
+                    "label": "writes"
+                  }
+                ]
+              }
+            }
+          },
+          "dependencies": []
+        }
+      }
+    ]
+  }
+]

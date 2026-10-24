@@ -116,6 +116,34 @@ public static class ArchifyNet
         }
     }
 
+    /// <summary>An explainer draft (Markdown or JSON) prepared and rendered as one page: render-explainer.mjs without the output
+    /// file. Problems come back as <c>Error</c> and diagnostics, never as exceptions; an unclassified failure is
+    /// <c>internal/unclassified</c>. On success <c>Diagnostics</c> are the draft's warnings. <c>Svg</c> and <c>Cards</c> are
+    /// empty and <c>Layout</c> is null.</summary>
+    /// <remarks>Deviations from upstream (docs/deviations.md): a page without <c>@meta locale</c> is English, where upstream
+    /// defaults to zh-CN; each native child's gzip payload is .NET's level-9 stream, which inflates to the same HTML as Node's.</remarks>
+    public static RenderResult RenderExplainer(string sourceText, ExplainerOptions options)
+    {
+        try
+        {
+            var bundle = ExplainerPipeline.Prepare(sourceText, new PrepareOptions(options.InputPath, RepoRoot: options.RepoRoot,
+                Quality: options.Quality?.Name(), WritingMode: options.WritingMode));
+            var html = ExplainerPipeline.Render(bundle, options.PageDirectory);
+            return new RenderResult(html, "", "", [.. bundle["diagnostics"].AsArrayOrEmpty().OfType<JsonObject>().Select(DiagnosticOf)], null, null, []);
+        }
+        catch (Exception ex)
+        {
+            var (error, diagnostics, thrown) = new DiagnosticSink().RendererFailure(ex);
+            return new RenderResult("", "", "", diagnostics, null, error, thrown);
+        }
+    }
+
+    // A diagnostic's JSON view (Diagnostic.ToJson) read back.
+    static Diagnostic DiagnosticOf(JsonObject json) => new(json.Str("code") ?? "", json.Str("severity") == "warning" ? Severity.Warning : Severity.Error,
+        json.Str("message") ?? "", json.Obj("subject")?.DeepClone().AsObject() ?? [], json.Obj("evidence")?.DeepClone().AsObject() ?? [],
+        [.. json["supportedFixes"].AsArrayOrEmpty().Select(Js.PrimitiveString)],
+        json["suppresses"] is JsonArray suppresses ? [.. suppresses.Select(Js.PrimitiveString)] : null);
+
     // An explainer is a Markdown or JSON draft, not a native diagram: Render, Layout and Validate refuse it with the facade's one
     // documented exception type.
     static void NativeOnly(DiagramType type)

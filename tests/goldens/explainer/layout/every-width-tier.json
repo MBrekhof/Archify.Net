@@ -1,0 +1,128 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "t-comparison",
+      "span": 7,
+      "min": 6,
+      "explicit": false,
+      "weight": 19,
+      "panel": {
+        "id": "t-comparison",
+        "title": "t-comparison",
+        "blocks": [
+          {
+            "id": "t-comparison-body",
+            "type": "comparison",
+            "text": "Short.",
+            "columns": [
+              "A"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "t-code",
+      "span": 12,
+      "min": 7,
+      "explicit": false,
+      "weight": 12,
+      "panel": {
+        "id": "t-code",
+        "title": "t-code",
+        "blocks": [
+          {
+            "id": "t-code-body",
+            "type": "code",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "t-diff",
+      "span": 7,
+      "min": 7,
+      "explicit": false,
+      "weight": 12,
+      "panel": {
+        "id": "t-diff",
+        "title": "t-diff",
+        "blocks": [
+          {
+            "id": "t-diff-body",
+            "type": "diff",
+            "text": "Short."
+          }
+        ]
+      }
+    },
+    {
+      "id": "t-chart",
+      "span": 5,
+      "min": 5,
+      "explicit": false,
+      "weight": 13,
+      "panel": {
+        "id": "t-chart",
+        "title": "t-chart",
+        "blocks": [
+          {
+            "id": "t-chart-body",
+            "type": "chart",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "t-snippet",
+      "span": 8,
+      "min": 4,
+      "explicit": false,
+      "weight": 15,
+      "panel": {
+        "id": "t-snippet",
+        "title": "t-snippet",
+        "blocks": [
+          {
+            "id": "t-snippet-body",
+            "type": "snippet",
+            "text": "Short."
+          }
+        ]
+      }
+    },
+    {
+      "id": "t-prose",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 13,
+      "panel": {
+        "id": "t-prose",
+        "title": "t-prose",
+        "blocks": [
+          {
+            "id": "t-prose-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

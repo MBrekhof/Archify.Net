@@ -4,11 +4,11 @@ using System.Text.Json.Nodes;
 namespace Archify.Net;
 
 // prepareExplainer's options. WritingMode is `options.writingMode || 'warn'`.
-internal sealed record PrepareOptions(string InputPath, string? BaseDir = null, string? RepoRoot = null, string? Quality = null,
+public sealed record PrepareOptions(string InputPath, string? BaseDir = null, string? RepoRoot = null, string? Quality = null,
     string WritingMode = "warn", string? Output = null);
 
 // readPreparedBundle's options; ExpectedInputPath is the caller's input path unless it names another.
-internal sealed record ReadPreparedOptions(string ExpectedInputPath, bool CheckDependencies = true, string? Quality = null, string? WritingMode = null);
+public sealed record ReadPreparedOptions(string ExpectedInputPath, bool CheckDependencies = true, string? Quality = null, string? WritingMode = null);
 
 // archify 3.2.0 explainer/prepare.mjs: the prepared bundle, a draft frozen with its resolved sources and native diagrams, and
 // the checks that bind a bundle to the draft it came from. The bundle file itself (writePreparedBundle, readPreparedBundle's

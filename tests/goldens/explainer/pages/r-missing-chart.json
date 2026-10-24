@@ -1,0 +1,22 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Missing prepared chart data: ch",
+    "code": [
+      {
+        "code": "explainer/render-resource",
+        "severity": "error",
+        "message": "Missing prepared chart data: ch",
+        "subject": {
+          "component": "chart",
+          "path": "/panels/0/blocks/0"
+        },
+        "evidence": {
+          "reason": "Missing prepared chart data: ch",
+          "example": "Prepare Git excerpts and native diagrams before rendering."
+        },
+        "supportedFixes": []
+      }
+    ]
+  }
+}

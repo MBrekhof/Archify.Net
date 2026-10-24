@@ -1,0 +1,22 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Mermaid flowchart is drawn with the native workflow or architecture shorthand, which Archify validates and lets readers explore.",
+    "code": [
+      {
+        "code": "explainer/render-resource",
+        "severity": "error",
+        "message": "Mermaid flowchart is drawn with the native workflow or architecture shorthand, which Archify validates and lets readers explore.",
+        "subject": {
+          "component": "chart",
+          "path": "/panels/0/blocks/1"
+        },
+        "evidence": {
+          "reason": "Mermaid flowchart is drawn with the native workflow or architecture shorthand, which Archify validates and lets readers explore.",
+          "example": "Prepare Git excerpts and native diagrams before rendering."
+        },
+        "supportedFixes": []
+      }
+    ]
+  }
+}

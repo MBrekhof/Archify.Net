@@ -1,0 +1,67 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "code",
+      "span": 7,
+      "min": 7,
+      "explicit": false,
+      "weight": 10,
+      "panel": {
+        "id": "code",
+        "title": "code",
+        "blocks": [
+          {
+            "id": "code-body",
+            "type": "code",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "diff",
+      "span": 7,
+      "min": 7,
+      "explicit": false,
+      "weight": 10,
+      "panel": {
+        "id": "diff",
+        "title": "diff",
+        "blocks": [
+          {
+            "id": "diff-body",
+            "type": "diff",
+            "text": "Short."
+          }
+        ]
+      }
+    },
+    {
+      "id": "chart",
+      "span": 5,
+      "min": 5,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "chart",
+        "title": "chart",
+        "blocks": [
+          {
+            "id": "chart-body",
+            "type": "chart",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

@@ -1,0 +1,130 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "compare",
+      "span": 7,
+      "min": 6,
+      "explicit": false,
+      "weight": 15,
+      "panel": {
+        "id": "compare",
+        "title": "compare",
+        "blocks": [
+          {
+            "id": "compare-body",
+            "type": "comparison",
+            "text": "Short.",
+            "columns": [
+              "A",
+              "B"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "short",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "short",
+        "title": "short",
+        "blocks": [
+          {
+            "id": "short-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ]
+      }
+    },
+    {
+      "id": "long",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 110,
+      "panel": {
+        "id": "long",
+        "title": "long",
+        "blocks": [
+          {
+            "id": "long-body",
+            "type": "list",
+            "text": "Short.",
+            "items": [
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "third",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "third",
+        "title": "third",
+        "blocks": [
+          {
+            "id": "third-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "code",
+      "span": 8,
+      "min": 7,
+      "explicit": false,
+      "weight": 10,
+      "panel": {
+        "id": "code",
+        "title": "code",
+        "blocks": [
+          {
+            "id": "code-body",
+            "type": "code",
+            "text": "Short."
+          }
+        ]
+      }
+    },
+    {
+      "id": "end",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 9,
+      "panel": {
+        "id": "end",
+        "title": "end",
+        "blocks": [
+          {
+            "id": "end-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

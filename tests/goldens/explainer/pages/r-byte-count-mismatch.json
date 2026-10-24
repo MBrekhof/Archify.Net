@@ -1,0 +1,6 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native child byte count mismatch: native-diagram"
+  }
+}

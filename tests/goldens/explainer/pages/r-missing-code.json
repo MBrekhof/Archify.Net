@@ -1,0 +1,22 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Code requires a Git excerpt: nope",
+    "code": [
+      {
+        "code": "explainer/render-resource",
+        "severity": "error",
+        "message": "Code requires a Git excerpt: nope",
+        "subject": {
+          "component": "code",
+          "path": "/panels/0/blocks/0"
+        },
+        "evidence": {
+          "reason": "Code requires a Git excerpt: nope",
+          "example": "Prepare Git excerpts and native diagrams before rendering."
+        },
+        "supportedFixes": []
+      }
+    ]
+  }
+}

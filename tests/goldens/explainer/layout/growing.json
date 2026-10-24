@@ -1,0 +1,29 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "long",
+      "span": 7,
+      "min": 4,
+      "explicit": false,
+      "weight": 404,
+      "panel": {
+        "id": "long",
+        "title": "long",
+        "blocks": [
+          {
+            "id": "long-body",
+            "type": "prose",
+            "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        ]
+      }
+    }
+  ]
+]

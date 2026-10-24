@@ -1,0 +1,6 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Prepared bundle differs from rendered source or canonical document."
+  }
+}

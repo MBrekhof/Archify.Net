@@ -1,0 +1,49 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 8,
+      "min": 4,
+      "weight": 30,
+      "answer": true
+    },
+    {
+      "id": "e",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 21,
+      "panel": {
+        "id": "e",
+        "title": "e",
+        "blocks": [
+          {
+            "id": "e-body",
+            "type": "prose",
+            "text": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "code",
+      "span": 12,
+      "min": 7,
+      "explicit": false,
+      "weight": 10,
+      "panel": {
+        "id": "code",
+        "title": "code",
+        "blocks": [
+          {
+            "id": "code-body",
+            "type": "code",
+            "text": "Short."
+          }
+        ]
+      }
+    }
+  ]
+]

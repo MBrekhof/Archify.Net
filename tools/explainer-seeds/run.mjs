@@ -127,6 +127,16 @@ async function renderDraft(seed, page, dir) {
   fs.writeFileSync(path.join(dir, page.file ?? 'page.html'), html);
   return html;
 }
+// `deliver` (the cases group): upstream's own CLI delivers a v3.2.0 case draft at standard quality, with no repository root, in
+// the seed's fresh directory; the golden is the page. The draft must be the tag's docs/cases/explainer/<name>.archify.md.
+function deliver(seed, dir) {
+  const file = seed.draft.file ?? `${seed.name}.archify.md`;
+  const pinned = execFileSync('git', ['-C', 'C:/projects/archify', 'show', `v3.2.0:docs/cases/explainer/${seed.name}.archify.md`], { encoding: 'utf8' });
+  if (seed.draft.text !== pinned) throw new Error(`${seed.name}: the draft differs from v3.2.0:docs/cases/explainer/${seed.name}.archify.md`);
+  fs.writeFileSync(path.join(dir, file), seed.draft.text);
+  execFileSync(process.execPath, [path.join(SKILL, 'bin', 'archify.mjs'), 'deliver', 'explainer', file, `${seed.name}.html`, '--quality', 'standard'], { cwd: dir, stdio: 'pipe' });
+  return fs.readFileSync(path.join(dir, `${seed.name}.html`), 'utf8');
+}
 const digest = (bundle) => sha256(JSON.stringify({ ...bundle, digest: undefined }));   // prepare.mjs:14
 // {draft, mutate, read}: prepare draft A, write its bundle, apply one mutation, read it back against draft B.
 async function readPrepared(seed, dir) {
@@ -201,7 +211,8 @@ for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort())
     process.chdir(dir);   // relative paths resolve inside the seed's directory
     let result;
     try {
-      if (seed.call === 'readPreparedBundle') result = await readPrepared(seed, dir);
+      if (seed.call === 'deliver') result = deliver(seed, dir);
+      else if (seed.call === 'readPreparedBundle') result = await readPrepared(seed, dir);
       else if (seed.call === 'renderExplainer' && seed.draft) result = await renderDraft(seed, { draft: seed.draft }, dir);
       else {
         const args = substitute(seed.args ?? [], dir);
@@ -233,7 +244,7 @@ for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort())
     }
     process.chdir(ROOT);
     if (result === undefined) throw new Error(`${f}/${seed.name}: ${seed.call} returned undefined`);
-    const page = seed.call === 'renderExplainer' && typeof result === 'string';
+    const page = ['renderExplainer', 'deliver'].includes(seed.call) && typeof result === 'string';
     // Tokenised over the JSON view (JSON.parse(JSON.stringify)), so the golden is what JSON.stringify(result, null, 2) prints.
     const text = tokeniseText(page ? htmlGzip(result) : JSON.stringify(tokeniseValue(JSON.parse(JSON.stringify(result))), null, 2) + '\n', dir);
     const file = path.join(OUT, group, `${seed.name}.${page ? 'html' : 'json'}`);

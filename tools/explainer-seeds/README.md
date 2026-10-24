@@ -54,6 +54,11 @@ as `render-explainer.mjs` does: `prepareExplainer(text, {...options, inputPath})
   reaches the check after it; `bytes` and `dependency` do not. The C# side reads the bundle in memory
   (`ExplainerPrepare.ReadPrepared`), so `bytes` must leave valid JSON.
 
+`deliver` (the `cases` group) is `{name, call: "deliver", draft: {text, file}}`: the runner checks that `text` is
+`v3.2.0:docs/cases/explainer/<name>.archify.md`, writes it to `<DIR>/<file>` and runs the oracle's own
+`bin/archify.mjs deliver explainer <file> <name>.html --quality standard` there, with no `--repo-root`. The golden is
+`<name>.html`. The C# side renders `ExplainerPipeline.Render(ExplainerPipeline.Prepare(text, standard), <DIR>)`.
+
 Two shapes prepare the arguments of a generic call:
 
 - `parsed: <text>` (with `validateExplainer`): the runner parses the text first (`parseExplainer(text, {inputPath:
@@ -67,7 +72,7 @@ case (the goldens live on Windows).
 ## Goldens
 
 - `tests/goldens/explainer/<group>/<name>.json` is `JSON.stringify(result, null, 2) + "\n"`, after the tokens below.
-- A `renderExplainer` page is `<group>/<name>.html` (`pages/<name>.html` for the `pages` group), as returned.
+- A `renderExplainer` or `deliver` page is `<group>/<name>.html`, as returned (packed children tokenised as below).
 - A thrown error is `{"thrown": {"name", "message", "code"}}`. `code` is `error.archifyDiagnostics` when present (or the
   `diagnostics` that inline.mjs:120 attaches), otherwise `error.code`.
 - `<name>.fixed.json` or `.fixed.html` beside a golden comes from the corrected oracle: a copy of the skill with
@@ -115,3 +120,11 @@ Node by a stated deviation is listed in `ExplainerParityTests.KnownDeviations` a
   quality profiles), `validateExplainerDiagramTarget` (`target-*`, against a hand-written semantic graph),
   `prepareExplainer` (`prep-*`, whole drafts and targets absent from the SVG) and `readPreparedBundle` (`read-*`, every
   `prepared-mismatch` reason and `dependency-changed`). The native child's checker `file` is a `<TMP>` path.
+- `layout` (Task 5): `layoutExplainerPanels(document, diagrams?)`, the upstream layout tests, explicit spans, a row that
+  shrinks to minimums, a spacer row, weights (code points, identity keys skipped), diagrams wider than 1000 (viewBox or
+  canvas width), snippets at 48, 49, 72 and 73 characters, and comparisons with 2 and 3 data columns.
+- `pages` (Task 5): `renderExplainer`, either a `draft` (an en, a zh and a no-locale page, the four styles, every block
+  type, `code` with `repo: true`, guided steps, `changes`, `nodeSources`, a wide architecture, `delivery.explainer.json`)
+  or `args: [document, options]` (the upstream renderer tests' documents with hand-written resources, the cross-volume and
+  portable-path rows, and each thrown error). A page without a locale has a `.fixed.html` golden (Decision 3).
+- `cases` (Task 5): the four v3.2.0 showcase drafts through upstream's `deliver` (see `deliver` above).

@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Malformed diff: bad-diff",
+    "code": [
+      {
+        "code": "explainer/diff-hunk-header",
+        "severity": "error",
+        "message": "A hunk header requires old and new start/count ranges.",
+        "subject": {
+          "line": 1,
+          "column": 1,
+          "component": "diff",
+          "panelId": "panel-main"
+        },
+        "evidence": {
+          "reason": "A hunk header requires old and new start/count ranges.",
+          "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+        },
+        "supportedFixes": [
+          "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "two",
+      "span": 7,
+      "min": 6,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "two",
+        "title": "two",
+        "blocks": [
+          {
+            "id": "two-body",
+            "type": "comparison",
+            "text": "Short.",
+            "columns": [
+              "A",
+              "B"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "three",
+      "span": 12,
+      "min": 7,
+      "explicit": false,
+      "weight": 14,
+      "panel": {
+        "id": "three",
+        "title": "three",
+        "blocks": [
+          {
+            "id": "three-body",
+            "type": "comparison",
+            "text": "Short.",
+            "columns": [
+              "A",
+              "B",
+              "C"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+]

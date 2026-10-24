@@ -1,0 +1,72 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "large",
+      "span": 7,
+      "min": 7,
+      "explicit": false,
+      "weight": 14,
+      "panel": {
+        "id": "large",
+        "title": "large",
+        "blocks": [
+          {
+            "id": "large-body",
+            "type": "comparison",
+            "text": "Short.",
+            "columns": [
+              "A",
+              "B",
+              "C"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  [
+    {
+      "id": "short",
+      "span": 4,
+      "min": 4,
+      "explicit": false,
+      "weight": 11,
+      "panel": {
+        "id": "short",
+        "title": "short",
+        "blocks": [
+          {
+            "id": "short-body",
+            "type": "prose",
+            "text": "Short."
+          }
+        ]
+      }
+    },
+    {
+      "id": "long",
+      "span": 8,
+      "min": 4,
+      "explicit": false,
+      "weight": 404,
+      "panel": {
+        "id": "long",
+        "title": "long",
+        "blocks": [
+          {
+            "id": "long-body",
+            "type": "prose",
+            "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        ]
+      }
+    }
+  ]
+]

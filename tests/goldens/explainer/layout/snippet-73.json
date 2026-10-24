@@ -1,0 +1,29 @@
+[
+  [
+    {
+      "id": "answer",
+      "span": 5,
+      "min": 4,
+      "weight": 11,
+      "answer": true
+    },
+    {
+      "id": "snippet",
+      "span": 7,
+      "min": 7,
+      "explicit": false,
+      "weight": 90,
+      "panel": {
+        "id": "snippet",
+        "title": "snippet",
+        "blocks": [
+          {
+            "id": "snippet-body",
+            "type": "snippet",
+            "text": "short\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nend"
+          }
+        ]
+      }
+    }
+  ]
+]
