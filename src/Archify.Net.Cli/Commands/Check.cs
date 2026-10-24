@@ -21,15 +21,25 @@ static class CheckCommand
         var provenance = DeliveryStore.InspectProvenance(artifactPath, args.Contains("--require-provenance"));
         if (!provenance.Ok) return Fail(io, artifactPath, provenance);
 
-        // check-render-output.mjs's report gains `file` at index 1 (it is the script's second key) and the provenance status.
-        var check = ArchifyNet.Check(provenance.Artifact);
-        check.Report.Insert(1, "file", artifactPath);
-        var verified = DeliveryStore.VerifyUnchanged(artifactPath, provenance, check.Report["artifact"] ?? new JsonObject());
+        // check-render-output.mjs's report (`file` at index 1), then the family against a current delivery (A:5636-5640), then the
+        // provenance status.
+        var (ok, report) = Cli.CheckArtifact(provenance.Artifact, artifactPath);
+        if (provenance.Status == "current" && (provenance.Type == "explainer") != (report.Str("family") == "explainer"))
+        {
+            ok = false;
+            report["ok"] = false;
+            var evidence = new JsonObject { ["expectedType"] = provenance.Type };
+            if (report["family"] is { } family) evidence["actualFamily"] = family.DeepClone();   // a native report has none: undefined
+            report["diagnostics"] = new JsonArray([.. report["diagnostics"].AsArrayOrEmpty().Select(d => d?.DeepClone()),
+                new Diagnostic("delivery/artifact-family-mismatch", Severity.Error, "The checked artifact family differs from its delivery provenance.",
+                    new JsonObject { ["artifact"] = artifactPath }, evidence, ["Rebuild the artifact from its original specification."], null).ToJson()]);
+        }
+        var verified = DeliveryStore.VerifyUnchanged(artifactPath, provenance, report["artifact"] ?? new JsonObject());
         if (!verified.Ok) return Fail(io, artifactPath, verified);
-        check.Report["provenance"] = provenance.Status;
-        if (provenance.ReceiptId is { } receiptId) check.Report["deliveryReceiptId"] = receiptId;
-        io.Out(Js.Stringify(check.Report, 2));
-        return check.Ok ? 0 : 1;
+        report["provenance"] = provenance.Status;
+        if (provenance.ReceiptId is { } receiptId) report["deliveryReceiptId"] = receiptId;
+        io.Out(Js.Stringify(report, 2));
+        return ok ? 0 : 1;
     }
 
     static int Fail(CliIo io, string artifactPath, Provenance provenance)

@@ -28,7 +28,10 @@ static class FinalizeCommand
         if (positional.Length != 3 || positional.Any(arg => arg.Length == 0))
             throw new CliArgumentException(Cli.Usage(), "cli/usage", supportedFixes: ["use: archify finalize <type> <input.json> <output.html> [options]"]);
         var (type, input, output) = (positional[0], positional[1], positional[2]);
-        Args.DiagramType(type);
+        // ponytail: PORT-009 Task 8 ports finalize explainer; until then it is refused before any stage runs.
+        if (Args.DiagramType(type) == DiagramType.Explainer)
+            throw new CliArgumentException("finalize explainer is not ported yet (PORT-009 Task 8).", "cli/unsupported-option",
+                new JsonObject { ["type"] = type }, supportedFixes: ["use validate and deliver for an explainer document"]);
         quality ??= "showcase";
 
         FinalizeResult result;

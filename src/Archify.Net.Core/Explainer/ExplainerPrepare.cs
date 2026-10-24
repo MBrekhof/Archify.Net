@@ -19,8 +19,8 @@ internal static class ExplainerPrepare
     static readonly HashSet<string> Skipped = new(StringComparer.Ordinal) { "spec", "source", "path", "language", "target", "changes" };
 
     // identity (:13): {sha256, bytes}
-    static JsonObject Identity(byte[] bytes) => new() { ["sha256"] = ExplainerSources.Sha256(bytes), ["bytes"] = bytes.Length };
-    static byte[] Utf8(string text) => Encoding.UTF8.GetBytes(text);   // Buffer.from: a lone surrogate becomes EF BF BD
+    internal static JsonObject Identity(byte[] bytes) => new() { ["sha256"] = ExplainerSources.Sha256(bytes), ["bytes"] = bytes.Length };
+    internal static byte[] Utf8(string text) => Encoding.UTF8.GetBytes(text);   // Buffer.from: a lone surrogate becomes EF BF BD
 
     /// <summary>digest (:14): sha256 of JSON.stringify(bundle) without its digest.</summary>
     internal static string Digest(JsonObject bundle)

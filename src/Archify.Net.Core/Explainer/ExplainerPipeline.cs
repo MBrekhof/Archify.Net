@@ -33,6 +33,21 @@ public static class ExplainerPipeline
     /// <summary>isExplainerHtml: the explainer family marker, or the prepared bundle's payload script.</summary>
     public static bool IsExplainerHtml(string html) => ExplainerCheck.IsExplainerHtml(html);
 
+    /// <summary>checkExplainerHtml(html, {file}): the report with <c>file</c> at index 1, as check-render-output.mjs prints it for
+    /// the artifact at <paramref name="file"/>; its diagnostics name that file.</summary>
+    public static JsonObject Check(byte[] html, string file) => ExplainerCheck.Check(html, file);
+
+    /// <summary>rebindPreparedBundle({...bundle, inputPath}, bundle's own parse): the bundle bound to the draft copy at
+    /// <paramref name="inputPath"/> and signed again (archify.mjs:5333-5335, patch).</summary>
+    public static JsonObject Rebind(JsonObject bundle, string inputPath)
+    {
+        var next = bundle.DeepClone().AsObject();
+        next["inputPath"] = inputPath;
+        next["source"] = ExplainerPrepare.Identity(ExplainerPrepare.Utf8(next.Str("sourceText") ?? ""));
+        next["digest"] = ExplainerPrepare.Digest(next);
+        return next;
+    }
+
     /// <summary>computeExplainerRevision(bundle): the authored-content identity a page carries as data-revision.</summary>
     public static string Revision(JsonObject bundle) => ExplainerBundle.Revision(bundle);
 }

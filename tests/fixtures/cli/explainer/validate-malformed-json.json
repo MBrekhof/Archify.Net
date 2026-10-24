@@ -1,0 +1,18 @@
+{
+  "args": [
+    "validate",
+    "explainer",
+    "author-draft.json",
+    "--json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/broken.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"render\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\author-draft.json\",\n  \"error\": \"Explainer draft could not be parsed.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/parse-json\",\n      \"severity\": \"error\",\n      \"message\": \"Input is not valid JSON.\",\n      \"subject\": {\n        \"line\": 2,\n        \"column\": 1,\n        \"component\": \"json\",\n        \"path\": \"/\",\n        \"input\": \"<WORK>\\\\author-draft.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Input is not valid JSON.\",\n        \"example\": \"{\\\"schema_version\\\":1,\\\"diagram_type\\\":\\\"explainer\\\",...}\"\n      },\n      \"supportedFixes\": [\n        \"Use the documented syntax, for example: {\\\"schema_version\\\":1,\\\"diagram_type\\\":\\\"explainer\\\",...}\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json"
+  ],
+  "sidecars": {}
+}

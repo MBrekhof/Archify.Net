@@ -18,7 +18,13 @@ static class DoctorCommand
         ("class", ["payments", "payment-processors"]),
         ("timeline", ["payment-incident", "archify-dev-activity"]),
         ("waterfall", ["checkout-request", "example-rebuild"]),
+        ("explainer", ["delivery"]),
     ];
+
+    // The explainer runtime line (A:6168-6170 at v3.2.0) under Q3: the reader assets Core embeds and the two page functions of the
+    // explainer browser gate the CLI embeds; the .mjs runtime is compiled in.
+    static readonly string[] ExplainerRuntime =
+        ["explainer/reader.css", "explainer/reader.js", "explainer-gate/measure-native-previews.js", "explainer-gate/measure-public-html.js"];
 
     static readonly string[] Locales = ["manifest", "en", "es", "ko", "zh-CN", "zh-TW", "ar"];
 
@@ -44,6 +50,7 @@ static class DoctorCommand
         };
         foreach (var (type, examples) in Types)
             checks.Add(($"{type} schema and example", Missing([$"schemas/{type}.schema.json", .. examples.Select(e => $"examples/{e}.{type}.json")]), 0));
+        checks.Add(("Explainer runtime and reader assets", Missing(ExplainerRuntime), 0));
         checks.Add(("git on PATH", 0, services.GitOnPath() ? 0 : 1));
         checks.Add(("Chromium for browser gates", 0, services.HeadlessShell() is null ? 1 : 0));
 

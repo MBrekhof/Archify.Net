@@ -18,7 +18,41 @@ static class RenderCommand
         var type = Args.DiagramType(rest[0]);
         var inputPath = NodePath.Resolve(io.Cwd, rest[1]);
         var output = rest.Length == 3 && rest[2].Length > 0 ? rest[2] : null;   // `...(output ? [output] : [])`
-        return RenderToFile(io, type, () => ReadDiagram(inputPath), inputPath, output, Args.RenderOptions(quality, repoRoot));
+        return type == DiagramType.Explainer
+            ? RenderExplainer(io, inputPath, output, quality, repoRoot)
+            : RenderToFile(io, type, () => ReadDiagram(inputPath), inputPath, output, Args.RenderOptions(quality, repoRoot));
+    }
+
+    // render-explainer.mjs in human mode: the draft read as 'utf8' text (no UTF-8 check), prepared, the output resolved, the page
+    // rendered for the output's directory, its frozen files re-checked, then written. Nothing is printed on success; a failure with
+    // diagnostics prints formatDiagnostics, exit 1.
+    static int RenderExplainer(CliIo io, string inputPath, string? requestedOutput, string? quality, string? repoRoot)
+    {
+        try
+        {
+            var bundle = ExplainerPipeline.Prepare(new UTF8Encoding(false).GetString(File.ReadAllBytes(inputPath)),
+                new PrepareOptions(inputPath, RepoRoot: repoRoot, Quality: quality));
+            var request = new OutputRequest(io.Cwd, requestedOutput, "explainer.html") { InputPaths = [inputPath, (string)bundle["sourcePath"]!] }
+                .WithAuthored(bundle["document"]!.AsObject());
+            var outPath = OutputPaths.Native.ResolveOutputPath(request).OutputPath;
+            Directory.CreateDirectory(Path.GetDirectoryName(outPath)!);
+            var html = ExplainerPipeline.Render(bundle, Path.GetDirectoryName(outPath));
+            ExplainerPipeline.AssertDependencies(bundle);
+            WriteHtml(outPath, html, request);
+            return 0;
+        }
+        catch (ArchifyDiagnosticException error)
+        {
+            io.Err(Cli.FormatDiagnostics(error.Message, error.Diagnostics));
+            return 1;
+        }
+        catch (Exception error) when (error is not (CliFailException or CliArgumentException))
+        {
+            // UPSTREAM-DEVIATION render-uncaught: an error without diagnostics (Pele's front-matter error, an unreadable draft) is
+            // uncaught upstream and Node prints its raw stack, exit 1. The port prints the message, exit 1 (Review Focus 1).
+            io.Err(error.Message);
+            return 1;
+        }
     }
 
     // One renderer run in human diagnostic mode (cli.mjs loadDiagram + writeDiagram, diagnostics.mjs's boundary): locale warnings
@@ -83,18 +117,24 @@ static class RenderCommand
 
     internal static JsonObject ReadDiagram(string inputPath, out byte[] bytes)
     {
-        try { bytes = File.ReadAllBytes(inputPath); }
+        bytes = ReadInput(inputPath);
+        try { return DiagramLoader.Parse(new UTF8Encoding(false).GetString(bytes)); }
+        catch (ArchifyDiagnosticException error)
+        {
+            throw new ArchifyDiagnosticException(error.Message, [.. error.Diagnostics.Select(d => d with { Subject = new JsonObject { ["input"] = inputPath } })]);
+        }
+    }
+
+    // readFileSync(inputPath): a failure is input/read with Node's fs text (inputDiagnostic, A:2646-2661).
+    internal static byte[] ReadInput(string inputPath)
+    {
+        try { return File.ReadAllBytes(inputPath); }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException)
         {
             var (systemCode, reason) = NodeReadError(error, inputPath);
             var message = $"Input could not be read: {reason}";
             throw new ArchifyDiagnosticException(message, [new("input/read", Severity.Error, message, new JsonObject { ["input"] = inputPath },
                 new JsonObject { ["systemCode"] = systemCode, ["reason"] = reason }, ["provide one readable JSON input file"], null)]);
-        }
-        try { return DiagramLoader.Parse(new UTF8Encoding(false).GetString(bytes)); }
-        catch (ArchifyDiagnosticException error)
-        {
-            throw new ArchifyDiagnosticException(error.Message, [.. error.Diagnostics.Select(d => d with { Subject = new JsonObject { ["input"] = inputPath } })]);
         }
     }
 

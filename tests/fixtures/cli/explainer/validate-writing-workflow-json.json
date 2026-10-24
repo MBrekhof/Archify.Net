@@ -1,0 +1,20 @@
+{
+  "args": [
+    "validate",
+    "workflow",
+    "author-draft.json",
+    "--writing",
+    "strict",
+    "--json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/writing-draft.json"
+  },
+  "exit": 2,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"validate\",\n  \"stage\": \"arguments\",\n  \"error\": \"--writing is supported for explainer documents only.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"cli/unsupported-option\",\n      \"severity\": \"error\",\n      \"message\": \"--writing is supported for explainer documents only.\",\n      \"subject\": {\n        \"command\": \"validate\",\n        \"option\": \"--writing\"\n      },\n      \"evidence\": {},\n      \"supportedFixes\": [\n        \"Remove --writing or use an explainer document.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json"
+  ],
+  "sidecars": {}
+}

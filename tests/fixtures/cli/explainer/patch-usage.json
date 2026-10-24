@@ -1,0 +1,36 @@
+{
+  "args": [
+    "patch",
+    "explainer",
+    "page.html",
+    "first"
+  ],
+  "files": {
+    "author.json": "tests/fixtures/cli/inputs/explainer/patch-author.json",
+    "replacement.json": "tests/fixtures/cli/inputs/explainer/patch-replacement.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "explainer",
+        "author.json",
+        "page.html",
+        "--json"
+      ],
+      "exit": 0
+    }
+  ],
+  "exit": 2,
+  "stdout": "",
+  "stderr": "Use: archify patch explainer <artifact.html> <panel-id> <replacement-file> <output.html> [--json]\n",
+  "entries": [
+    "author.json",
+    "page.delivery.json",
+    "page.html",
+    "replacement.json"
+  ],
+  "sidecars": {
+    "page.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\author.json\",\n  \"output\": \"<WORK>\\\\page.html\",\n  \"specification\": {\n    \"sha256\": \"5a24df65a76b8df7eb0933597e5a19e548735a19b5eb9915e2057043f778988e\",\n    \"bytes\": 695\n  },\n  \"artifact\": \"<artifact>\",\n  \"explainer\": {\n    \"preparedSha256\": \"<sha256>\",\n    \"dependencies\": []\n  }\n}\n"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "args": [
+    "check",
+    "page.html",
+    "--json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/author-draft.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "render",
+        "explainer",
+        "author-draft.json",
+        "page.html"
+      ],
+      "exit": 0
+    },
+    {
+      "append": "page.html",
+      "text": "<script src=\"https://example.com/x.js\"></script>\n"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"ok\": false,\n  \"file\": \"<WORK>\\\\page.html\",\n  \"family\": \"explainer\",\n  \"artifact\": \"<artifact>\",\n  \"checks\": [\n    {\n      \"name\": \"explainer_structure\",\n      \"ok\": false,\n      \"details\": [\n        \"10 unique DOM IDs\"\n      ]\n    },\n    {\n      \"name\": \"explainer_payload_identity\",\n      \"ok\": true,\n      \"details\": []\n    },\n    {\n      \"name\": \"explainer_dependencies\",\n      \"ok\": true,\n      \"details\": [\n        \"0 frozen dependencies\"\n      ]\n    },\n    {\n      \"name\": \"explainer_native_diagrams\",\n      \"ok\": true,\n      \"details\": []\n    }\n  ],\n  \"composition\": {\n    \"schemaVersion\": 1,\n    \"profile\": \"standard\",\n    \"status\": \"fail\",\n    \"summary\": {\n      \"errors\": 1,\n      \"warnings\": 0\n    },\n    \"issues\": [\n      {\n        \"code\": \"explainer/external-runtime\",\n        \"severity\": \"error\",\n        \"message\": \"The explainer runtime must be self-contained.\",\n        \"subject\": {\n          \"input\": \"<WORK>\\\\page.html\",\n          \"line\": 1140,\n          \"component\": \"document\"\n        },\n        \"evidence\": {\n          \"reason\": \"The explainer runtime must be self-contained.\",\n          \"example\": \"Embed the packaged reader script.\"\n        },\n        \"supportedFixes\": [\n          \"Embed the packaged reader script.\"\n        ]\n      }\n    ],\n    \"nativeDiagrams\": []\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/external-runtime\",\n      \"severity\": \"error\",\n      \"message\": \"The explainer runtime must be self-contained.\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\page.html\",\n        \"line\": 1140,\n        \"component\": \"document\"\n      },\n      \"evidence\": {\n        \"reason\": \"The explainer runtime must be self-contained.\",\n        \"example\": \"Embed the packaged reader script.\"\n      },\n      \"supportedFixes\": [\n        \"Embed the packaged reader script.\"\n      ]\n    }\n  ],\n  \"provenance\": \"unknown\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json",
+    "page.html"
+  ],
+  "sidecars": {}
+}

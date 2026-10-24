@@ -5,12 +5,12 @@ namespace Archify.Net.Cli;
 
 public static class Cli
 {
-    // COMMAND_USAGE (A:2192-2210 at v3.2.0), Q3: without compare, preview, migrate and brands; install-browser after doctor. The
-    // explainer lines (patch, the type, the writing block) wait for PORT-009.
+    // COMMAND_USAGE (A:2192-2210 at v3.2.0), Q3: without compare, preview, migrate and brands; install-browser after doctor.
     static readonly (string Command, string Form)[] CommandUsage =
     [
         ("render", "<type> <input.json> [output.html] [--quality standard|showcase] [--repo-root path]"),
         ("deliver", "<type> <input.json> [output.html] [--json] [--open] [--quality standard|showcase] [--repo-root path]"),
+        ("patch", "explainer <artifact.html> <panel-id> <replacement-file> <output.html> [--json] [--quality standard|showcase] [--repo-root path]"),
         ("finalize", "<type> <input.json> <output.html> [--json] [--browser-check] [--receipt path] [--out-dir <dir>] [--quality standard|showcase] [--repo-root path] [--candidate-sha256 hex]"),
         ("validate", "<type> <input.json> [--json] [--layout-json] [--quality standard|showcase] [--repo-root path]"),
         ("inspect", "<type> <input.json>"),
@@ -28,7 +28,8 @@ public static class Cli
     internal static string Usage() =>
         "Usage:\n" + string.Join("\n", CommandUsage.Select(u => $"  archify {u.Command}{(u.Form.Length > 0 ? " " + u.Form : "")}")) +
         "\n  (finalize --out-dir relocates browser-check and default finalize receipts; HTML and its delivery receipt stay at the requested output path)" +
-        "\n\nTypes:\n  architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall\n";
+        "\n\nTypes:\n  architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall, explainer\n" +
+        "\nExplainer writing checks (validate, deliver, finalize, patch):\n  --writing warn|strict|off (default: warn)\n";
 
     // The dispatch of A:7059-7138. Returns the exit code; a non-argument exception escapes (Program.Main: stack, exit 1).
     public static int Run(string[] argv, CliIo io)
@@ -48,6 +49,7 @@ public static class Cli
                     return 0;
                 case "render": return Commands.RenderCommand.Run(args, io);
                 case "deliver": return Commands.DeliverCommand.Run(args, io);
+                case "patch": return Commands.PatchCommand.Run(args, io);
                 case "finalize": return Commands.FinalizeCommand.Run(args, io);
                 case "validate": return Commands.ValidateCommand.Run(args, io);
                 case "inspect":
@@ -71,7 +73,7 @@ public static class Cli
                     throw new CliFailException($"Unknown command \"{command}\".\n\n{Usage()}");
             }
         }
-        catch (CliArgumentException error) when (command is "validate" or "deliver" or "finalize" or "inspect" && args.Contains("--json"))
+        catch (CliArgumentException error) when (command is "validate" or "deliver" or "finalize" or "inspect" or "patch" && args.Contains("--json"))
         {
             io.Out(Js.Stringify(ArgumentReceipt(command, error), 2));
             return 2;
@@ -100,6 +102,20 @@ public static class Cli
             var fixes = d!["supportedFixes"] as JsonArray ?? [];
             return $"[{d["code"]}] {d["message"]}{(fixes.Count > 0 ? $" Fix: {string.Join("; ", fixes.Select(f => f!.GetValue<string>()))}." : "")}";
         })]);
+
+    // check-render-output.mjs on an artifact's bytes read from `file`: the explainer checker for an explainer page (its diagnostics
+    // name the file), else the native checker. Either report has `file` at index 1.
+    internal static CheckResult CheckArtifact(byte[] bytes, string file)
+    {
+        if (ExplainerPipeline.IsExplainerHtml(Encoding.UTF8.GetString(bytes)))
+        {
+            var report = ExplainerPipeline.Check(bytes, file);
+            return new CheckResult(report["ok"]!.GetValue<bool>(), report);
+        }
+        var check = ArchifyNet.Check(bytes);
+        check.Report.Insert(1, "file", file);
+        return check;
+    }
 
     // reportArtifactFailure (A:4251-4273): the receipt on stdout, or formatDiagnostics on stderr; returns the exit status. The
     // `update` notice is dropped (Q5).

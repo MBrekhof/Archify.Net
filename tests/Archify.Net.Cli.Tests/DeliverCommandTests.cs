@@ -292,7 +292,7 @@ public partial class DeliverCommandTests
     [Fact]
     public void A_failed_final_check_keeps_the_previous_artifact_and_records_the_attempt()
     {
-        var failing = new DeliveryStore { Check = bytes => ArchifyNet.Check([.. bytes, .. Encoding.UTF8.GetBytes("<svg></svg>")]) };
+        var failing = new DeliveryStore { Check = (bytes, file) => Cli.CheckArtifact([.. bytes, .. Encoding.UTF8.GetBytes("<svg></svg>")], file) };
         var seed = new Dictionary<string, string>
         {
             ["web-app.architecture.json"] = Upstream + "web-app.architecture.json",

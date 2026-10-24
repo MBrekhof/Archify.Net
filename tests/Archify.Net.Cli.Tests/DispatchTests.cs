@@ -53,7 +53,8 @@ public class DispatchTests
     {
         Assert.Equal(Cli.Usage(), UsageEdit.Edited);
         Assert.DoesNotContain("brands", UsageEdit.Edited);
-        Assert.DoesNotContain("explainer", UsageEdit.Edited);   // PORT-009
+        Assert.Contains("  archify deliver <type> <input.json> [output.html] [--json] [--open] [--quality standard|showcase] [--repo-root path]\n  archify patch explainer ", UsageEdit.Edited);
+        Assert.EndsWith("waterfall, explainer\n\nExplainer writing checks (validate, deliver, finalize, patch):\n  --writing warn|strict|off (default: warn)\n", UsageEdit.Edited);
         Assert.Contains("  archify doctor\n  archify install-browser\n  archify demo [output-directory]\n", UsageEdit.Edited);
     }
 
@@ -70,19 +71,6 @@ public class DispatchTests
         var cwd = Path.GetTempPath();
         Assert.Equal(Path.Combine(cwd, "repo"), Args.RepoRoot(["--repo-root", "repo" + Path.DirectorySeparatorChar], cwd).RepoRoot);
         Assert.Equal(Path.GetPathRoot(cwd), Args.RepoRoot([$"--repo-root={Path.GetPathRoot(cwd)}"], cwd).RepoRoot);
-    }
-
-    // PORT-009 Task 1: Core knows DiagramType.Explainer, but no CLI command takes it until Task 7 (which removes this fact).
-    [Theory]
-    [InlineData("validate", "--json")]
-    [InlineData("validate")]
-    public void Explainer_is_still_an_unknown_type(params string[] command)
-    {
-        string[] Args(string type) => [command[0], type, "x", .. command[1..]];
-        var explainer = CliTestHost.Run(Args("explainer"));
-        Assert.Contains(command.Length > 1 ? "\"code\": \"cli/unknown-diagram-type\"" : "Unknown diagram type \"explainer\"", explainer.Item2 + explainer.Item3);
-        var bogus = CliTestHost.Run(Args("bogus"));
-        Assert.Equal((bogus.Item1, bogus.Item2.Replace("bogus", "explainer"), bogus.Item3.Replace("bogus", "explainer")), explainer);
     }
 
     static (string, string?) Pair((string[] Remaining, string? Value) r) => (string.Join(" ", r.Remaining), r.Value);

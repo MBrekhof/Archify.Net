@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "explainer",
+    "draft.archify.md",
+    "result.html",
+    "--json"
+  ],
+  "files": {
+    "draft.archify.md": "tests/fixtures/cli/inputs/explainer/invalid-utf8.archify.md"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"input\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\draft.archify.md\",\n  \"output\": \"<WORK>\\\\result.html\",\n  \"error\": \"Could not read delivery input \\\"<WORK>\\\\draft.archify.md\\\": Explainer draft must contain valid UTF-8 bytes.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/source-encoding\",\n      \"severity\": \"error\",\n      \"message\": \"Explainer draft must contain valid UTF-8 bytes.\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\draft.archify.md\",\n        \"line\": 1,\n        \"component\": \"document\"\n      },\n      \"evidence\": {\n        \"reason\": \"invalid-utf8\",\n        \"example\": \"Save the original draft as UTF-8 text.\"\n      },\n      \"supportedFixes\": [\n        \"Save the original draft as UTF-8 text.\"\n      ]\n    }\n  ],\n  \"provenance\": \"absent\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "draft.archify.md",
+    "result.delivery-pending.json"
+  ],
+  "sidecars": {
+    "result.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"<WORK>\\\\draft.archify.md\",\n  \"output\": \"<WORK>\\\\result.html\"\n}\n"
+  }
+}

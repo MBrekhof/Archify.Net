@@ -1,0 +1,18 @@
+{
+  "args": [
+    "render",
+    "explainer",
+    "draft.archify.md",
+    "result.html"
+  ],
+  "files": {
+    "draft.archify.md": "tests/fixtures/cli/inputs/explainer/front-matter.archify.md"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "<SKILL>/renderers/shared/diagnostics.mjs:169\r\n        process.nextTick(() => { throw error; });\r\n                                 ^\r\n\r\np [PeleError]: Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection\r\n    at ae (<SKILL>/explainer/vendor/pele/chunks/YAYTP6L5.js:6:40)\r\n    at tt (<SKILL>/explainer/vendor/pele/chunks/YAYTP6L5.js:9:311)\r\n    at compileExplainerChart (<SKILL>/explainer/charts.mjs:25:16)\r\n    at validateExplainer (<SKILL>/explainer/validate.mjs:119:67)\r\n    at parseValidatedExplainer (<SKILL>/explainer/prepare.mjs:25:21)\r\n    at prepareExplainer (<SKILL>/explainer/prepare.mjs:31:18)\r\n    at <SKILL>/renderers/explainer/render-explainer.mjs:14:11\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)\r\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  code: 'syntax',\r\n  type: null,\r\n  line: 0,\r\n  column: 0,\r\n  snippet: ''\r\n}\r\n\r\nNode.js v24.12.0\r\n",
+  "entries": [
+    "draft.archify.md"
+  ],
+  "sidecars": {}
+}

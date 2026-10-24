@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Dev-time only. Mints the expected outputs of upstream's `archify` CLI (bin/archify.mjs) for the C# CLI suite.
 // Usage: node tools/capture-cli-fixtures.mjs   (from repo root; needs C:\projects\archify at tag v3.2.0, commit 208acba8)
+// `--only explainer` is a development shortcut the capture never uses: it re-mints the explainer group alone and reads every
+// earlier fixture back from disk.
 //
 // Each case runs `node <SKILL>/bin/archify.mjs …args` in a fresh temp workdir seeded with `files` and writes
 // tests/fixtures/cli/<group>/<name>.json = {args, files, exit, stdout, stderr}. `files` maps a workdir-relative name to the
@@ -10,8 +12,10 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { gunzipSync } from 'node:zlib';
 
 const UP = 'C:/projects/archify/archify';
 const ROOT = path.resolve(fileURLToPath(import.meta.url), '..', '..');
@@ -47,6 +51,8 @@ const escaped = (p) => p.replaceAll('\\', '\\\\');
 function tokenise(text, work) {
   let t = text;
   for (const [p, token] of [[work, '<WORK>'], [SKILL, '<SKILL>'], [CHROME, '<CHROME>']]) t = t.replaceAll(escaped(p), token).replaceAll(p, token);
+  // A raw Node stack (render explainer, Review Focus 1) names modules by file URL.
+  t = t.replaceAll(pathToFileURL(SKILL).href, '<SKILL>');
   // Determinism guard: any temp path left over (an owned temp dir, a pid-named layout file) would make the fixture vary.
   if (t.includes(tmpRoot) || t.includes(escaped(tmpRoot)) || t.includes(path.basename(tmpRoot))) {
     throw new Error(`untokenised temp path in output:\n${t}`);
@@ -54,7 +60,9 @@ function tokenise(text, work) {
   return t;
 }
 
-fs.rmSync(repo(CLI_FIX), { recursive: true, force: true });
+const ONLY = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : undefined;
+if (ONLY !== undefined && ONLY !== 'explainer') throw new Error('--only takes explainer');
+fs.rmSync(repo(ONLY ? `${CLI_FIX}/explainer` : CLI_FIX), { recursive: true, force: true });
 const minted = new Set();
 // `setup` steps run in the workdir after seeding and before the recorded command; a C# test replays the same list. Each step is
 // one of {run: args, exit} (a CLI run that must exit so), {copy: from, to}, {delete: p}, {append: p, text}, {write: p, text},
@@ -62,11 +70,11 @@ const minted = new Set();
 // {symlink: p, target} (a file symbolic link to a workdir-relative target), {replace: p, from, to} (the one occurrence of `from` in a
 // text file) or {denyCreate: p} (a directory where Everyone is denied creating files and subdirectories: icacls (WD,AD)). Paths are
 // workdir-relative.
-function applySetup(work, steps) {
+function applySetup(work, steps, cliPath = cli) {
   const at = (p) => path.join(work, p);
   for (const step of steps) {
     if (step.run) {
-      const r = spawnSync(process.execPath, [cli, ...step.run], { cwd: work, env, encoding: 'utf8' });
+      const r = spawnSync(process.execPath, [cliPath, ...step.run], { cwd: work, env, encoding: 'utf8' });
       if (r.error) throw r.error;
       expect(r.status === step.exit, `setup ${step.run.join(' ')} exits ${step.exit}, got ${r.status}: ${r.stdout}${r.stderr}`);
     } else if (step.copy) fs.copyFileSync(at(step.copy), at(step.to));
@@ -92,6 +100,10 @@ function applySetup(work, steps) {
 function mint(group, name, args, files = {}, inspect = () => {}, setup = undefined, childEnv = env) {
   const rel = `${CLI_FIX}/${group}/${name}.json`;
   if (minted.has(rel)) throw new Error(`duplicate fixture ${rel}`);
+  if (ONLY && group !== ONLY && fs.existsSync(repo(rel))) {
+    minted.add(rel);
+    return { fixture: JSON.parse(fs.readFileSync(repo(rel), 'utf8')) };
+  }
   const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
   try {
     for (const [dest, src] of Object.entries(files)) {
@@ -168,7 +180,7 @@ craft('bad-meta-output.architecture.json', JSON.stringify(badMetaOutput, null, 2
 craft('bom.architecture.json', '\ufeff' + fs.readFileSync(repo(`${EX}/web-app.architecture.json`), 'utf8'));
 
 // --- help ---
-const IN_COMMANDS = ['render', 'deliver', 'finalize', 'validate', 'inspect', 'check', 'browser-check', 'visual-check', 'guide',
+const IN_COMMANDS = ['render', 'deliver', 'patch', 'finalize', 'validate', 'inspect', 'check', 'browser-check', 'visual-check', 'guide',
   'examples', 'doctor', 'demo'];
 mint('help', 'no-args', []);
 mint('help', 'double-dash-help', ['--help']);
@@ -251,7 +263,8 @@ mint('arguments', 'guide-lang-assignment-invalid', ['guide', '--lang=fr']);
 mint('arguments', 'guide-unknown-option', ['guide', '--bogus']);
 
 // --- validate: every example, json and human; standard-quality variants; failure receipts ---
-const EXAMPLES = fs.readdirSync(repo(EX)).filter((f) => f.endsWith('.json')).sort();
+// The ten diagram types; the explainer example (a document, not a diagram) has its own group below.
+const EXAMPLES = fs.readdirSync(repo(EX)).filter((f) => f.endsWith('.json') && !f.endsWith('.explainer.json')).sort();
 expect(EXAMPLES.length === 25, `25 examples, found ${EXAMPLES.length}`);
 const typeOf = (f) => f.split('.').at(-2);
 const stem = (f) => f.split('.').slice(0, -1).join('.');
@@ -561,6 +574,12 @@ for (const [name, files, setup, args, exit, status, code] of provenanceCases) {
   const receipt = JSON.parse(fixture.stdout);
   expect(fixture.exit === exit && receipt.provenance === status && fixture.stderr === '', `provenance ${name}: exit ${fixture.exit}, ${receipt.provenance}`);
   expect(code ? receipt.diagnostics[0].code === code : receipt.ok === true, `provenance ${name}: ${code ?? 'ok'}`);
+}
+
+await explainerGroup();
+if (ONLY) {
+  console.log(`minted the explainer group (${[...minted].filter((rel) => rel.includes('/explainer/')).length} fixtures); every other group read back`);
+  process.exit(0);
 }
 
 // --- paths: output-path.mjs and sidecar-path.mjs, called directly (pure, or on a real temp directory of this volume) ---
@@ -1224,3 +1243,218 @@ writeJson(`${CLI_FIX}/finalize-exit/outcomes.json`, outcomes);
 for (const o of outcomes.filter((x) => !x.ok)) console.log(`upstream finalize fails: ${o.example} --quality ${o.quality} at ${o.failedStage}: ${o.codes.join(', ')}`);
 
 console.log(`minted ${minted.size} CLI fixtures into ${CLI_FIX}, ${engineCount} browser-engine cases, four path tables, and upstream/recipes/scenarios.json`);
+
+// --- explainer (PORT-009 Task 7): validate, deliver, render, check, patch and doctor on explainer documents ---
+// A fixture gains `entries` and `sidecars` (as deliver's), and `page` when the command writes one: the HTML tokenised, each
+// "htmlGzip" payload as gz-sha256:<hex of the inflated bytes> (Decision 1). The fixed oracle (Decisions 2 and 3, the edits of
+// tools/explainer-seeds/run.mjs) runs every page fixture again; `pageFixed` holds its page where it differs, which must be exactly
+// the drafts without a locale. Masks (Q8): v4 ids <uuid>; `archify-explainer-*` temp directories <TMP>; every `artifact` identity
+// <artifact> and `explainer.preparedSha256` <sha256> (the gzip stream and the absolute paths a bundle digest covers); the human
+// `sha256` prefix <artifact>; a receipt's `update` is dropped (Q5).
+async function explainerGroup() {
+  const X = (name) => inputs[`explainer/${name}`];
+  const draft = (doc) => `${JSON.stringify(doc, null, 2)}\n`;
+  // T/explainer-cli.test.mjs fixture()
+  const base = () => ({ schema_version: 1, diagram_type: 'explainer', meta: { id: 'cli-document', title: 'How is a draft delivered?', locale: 'en' },
+    answer: { summary: 'A checked candidate preserves the authored draft.' },
+    panels: [{ id: 'delivery', title: 'What is checked?', blocks: [{ id: 'delivery-text', type: 'prose', text: 'The draft is parsed and checked before publication.' }] }],
+    sources: [] });
+  craft('explainer/author-draft.json', draft(base()));
+  const widget = base(); widget.panels[0].blocks[0].type = 'unsupported-widget';
+  craft('explainer/unsupported-widget.json', JSON.stringify(widget, null, 2));
+  craft('explainer/broken.json', '{\n  broken');
+  const image = base(); image.panels[0].blocks.push({ id: 'contained-image', type: 'image', path: 'asset.png', alt: 'A contained test image' });
+  craft('explainer/image-draft.json', draft(image));
+  craft('explainer/asset.png', Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a8XcAAAAASUVORK5CYII=', 'base64'));
+  const writing = base(); writing.panels[0].blocks[0].text = 'We will perform an analysis of each and every request.';
+  craft('explainer/writing-draft.json', draft(writing));
+  const noLocale = base(); delete noLocale.meta.locale;
+  craft('explainer/no-locale.json', draft(noLocale));
+  const french = base(); french.meta.locale = 'fr';   // specificationLocaleDiagnostics reads a JSON draft's meta (A:1877-1887)
+  craft('explainer/unbundled-locale.json', draft(french));
+  // Review Focus 1: a mermaid fence whose front matter is not valid YAML (tools/explainer-seeds/validate.json parsed-front-matter).
+  craft('explainer/front-matter.archify.md', '# Charts\n\nAnswer.\n\n## Data {#data}\n\n```mermaid\n---\ntitle: [unclosed\n---\npie\n  "A" : 1\n```\n');
+  craft('explainer/invalid-utf8.archify.md', Buffer.concat([Buffer.from('# Why is one byte wrong? {#bytes}\n\nThe draft holds a stray byte: '),
+    Buffer.from([0xc3, 0x28]), Buffer.from('.\n\n@meta locale=en\n\n## Where is it? {#where}\n\nIn the answer.\n')]));
+  // T/explainer-patch.test.mjs's JSON page (tools/explainer-seeds/patch.json json-panel) and replacements.
+  const patchPage = { schema_version: 1, diagram_type: 'explainer', meta: { id: 'patch-document', title: 'What can change?', locale: 'en' },
+    answer: { summary: 'One stable panel can be replaced.' },
+    panels: [
+      { id: 'first', title: 'What changes?', blocks: [{ id: 'first-text', type: 'prose', text: 'This text may change.' }] },
+      { id: 'second', title: 'What stays?', blocks: [{ id: 'second-text', type: 'prose', text: 'This text remains exactly the same.' }] }],
+    sources: [] };
+  craft('explainer/patch-author.json', draft(patchPage));
+  const panel = (text, extra = []) => draft({ id: 'first', title: 'What changed?', blocks: [{ id: 'first-text', type: 'prose', text }, ...extra] });
+  craft('explainer/patch-replacement.json', panel('The selected panel has new content.'));
+  craft('explainer/patch-writing.json', panel('We will perform an analysis of each and every request.'));
+  craft('explainer/patch-front-matter.json', panel('A chart follows.', [{ id: 'ch', type: 'chart', text: '---\ntitle: [unclosed\n---\npie\n  "A" : 1' }]));
+  // The four v3.2.0 cases, as the upstream checkout holds them.
+  const CASES = ['first-rental', 'finalize-delivery', 'p99-tail-latency', 'tls-first-visit'];
+  for (const c of CASES) craft(`explainer/${c}.archify.md`, execFileSync('git', ['-C', path.dirname(UP), 'show', `v3.2.0:docs/cases/explainer/${c}.archify.md`]));
+
+  // The fixed oracle: a copy of the skill with the decided fixes written in.
+  const SKILL_FIXED = path.join(tmpRoot, 'skill-fixed');
+  fs.cpSync(SKILL, SKILL_FIXED, { recursive: true });
+  const FIXES = {
+    'explainer/render.mjs': [["const locale = document.meta.locale || 'zh-CN';", "const locale = document.meta.locale || 'en';"]],
+    'explainer/diagrams.mjs': [
+      ["export function compileExplainerDiagram(diagramType, rows, { title, id, line = 1, quality = 'showcase' } = {}) {",
+        "export function compileExplainerDiagram(diagramType, rows, { title, id, line = 1, quality = 'showcase', locale } = {}) {"],
+      ['row ? `分支 ${row}` : spec.meta.title', "row ? (String(locale || 'en').startsWith('zh') ? `分支 ${row}` : `Branch ${row}`) : spec.meta.title"]],
+    'explainer/parse.mjs': [[',line:at+1,quality:document.meta.quality_profile});', ',line:at+1,quality:document.meta.quality_profile,locale:document.meta.locale});']],
+  };
+  for (const [file, edits] of Object.entries(FIXES)) {
+    let text = fs.readFileSync(path.join(SKILL_FIXED, file), 'utf8');
+    for (const [from, to] of edits) {
+      expect(text.split(from).length === 2, `fixed oracle ${file}: one ${JSON.stringify(from)}`);
+      text = text.replace(from, () => to);
+    }
+    fs.writeFileSync(path.join(SKILL_FIXED, file), text);
+  }
+  const cliFixed = path.join(SKILL_FIXED, 'bin', 'archify.mjs');
+
+  const reEscape = (s) => s.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+  const TMP = [new RegExp(`${reEscape(escaped(os.tmpdir()))}\\\\\\\\archify-explainer-[a-z]+-[A-Za-z0-9._]+`, 'gu'),
+    new RegExp(`${reEscape(os.tmpdir())}\\\\archify-explainer-[a-z]+-[A-Za-z0-9._]+`, 'gu')];
+  const maskValue = (value) => Array.isArray(value) ? value.map(maskValue)
+    : value && typeof value === 'object' ? Object.fromEntries(Object.entries(value).map(([k, v]) => [k,
+      k === 'preparedSha256' && typeof v === 'string' ? '<sha256>'
+        : k === 'artifact' && v && typeof v === 'object' && typeof v.sha256 === 'string' && typeof v.bytes === 'number' ? '<artifact>'
+          : maskValue(v)])) : value;
+  const mask = (text) => {
+    let t = text.replace(UUID_V4, '<uuid>');
+    for (const pattern of TMP) t = t.replace(pattern, '<TMP>');
+    t = t.replace(/; sha256 [0-9a-f]{12}$/gmu, '; sha256 <artifact>');
+    if (!t.startsWith('{')) return t;
+    const value = maskValue(JSON.parse(t));
+    delete value.update;   // Q5: no update check
+    return `${JSON.stringify(value, null, t.includes('\n  ') ? 2 : undefined)}\n`;
+  };
+  // A patched page's bundle is bound to the temporary draft (A:5333-5334): its `inputPath`, relative to the page, names that
+  // directory, and the bundle digest after which it is appended covers it. Both are masked there, and only there.
+  const portablePage = (html, work) => tokenise(html, work)
+    .replace(/"htmlGzip":"([A-Za-z0-9+/=]*)"/gu,
+      (_, base64) => `"htmlGzip":"gz-sha256:${createHash('sha256').update(gunzipSync(Buffer.from(base64, 'base64'))).digest('hex')}"`)
+    .replace(/"digest":"[0-9a-f]{64}","inputPath":"[^"]*?archify-explainer-patch-[A-Za-z0-9._]+/gu, '"digest":"<digest>","inputPath":"<TMP>');
+  const seed = (work, files) => {
+    for (const [dest, src] of Object.entries(files)) {
+      fs.mkdirSync(path.dirname(path.join(work, dest)), { recursive: true });
+      fs.copyFileSync(repo(src), path.join(work, dest));
+    }
+  };
+  // The same run through the fixed oracle: its exit and page.
+  function fixedRun(args, files, setup, page) {
+    const work = fs.mkdtempSync(path.join(tmpRoot, 'w-'));
+    try {
+      seed(work, files);
+      if (setup) applySetup(work, setup, cliFixed);
+      const r = spawnSync(process.execPath, [cliFixed, ...args], { cwd: work, env, encoding: 'utf8' });
+      if (r.error) throw r.error;
+      return { exit: r.status, page: portablePage(fs.readFileSync(path.join(work, page), 'utf8'), work) };
+    } finally {
+      fs.rmSync(work, { recursive: true, force: true });
+    }
+  }
+  function fixture(name, args, files, { setup, page, noLocale = false } = {}) {
+    return mint('explainer', name, args, files, (work, f) => {
+      f.stdout = mask(f.stdout);
+      f.stderr = mask(f.stderr);
+      f.entries = walk(work).sort();
+      f.sidecars = Object.fromEntries(f.entries.filter((e) => SIDECAR.test(path.basename(e)))
+        .map((e) => [e, mask(tokenise(fs.readFileSync(path.join(work, e), 'utf8'), work))]));
+      if (!page) return;
+      f.page = portablePage(fs.readFileSync(path.join(work, page), 'utf8'), work);
+      const fixed = fixedRun(args, files, setup, page);
+      expect(fixed.exit === f.exit && (fixed.page !== f.page) === noLocale, `${name}: the fixed oracle differs exactly for a draft without a locale`);
+      if (fixed.page !== f.page) f.pageFixed = fixed.page;
+    }, setup).fixture;
+  }
+  const author = { 'author-draft.json': X('author-draft.json') };
+  const deliverAuthor = { run: ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'], exit: 0 };
+  const withImage = { 'author-draft.json': X('image-draft.json'), 'asset.png': X('asset.png') };
+  const writingDraft = { 'author-draft.json': X('writing-draft.json') };
+  const frontMatter = { 'draft.archify.md': X('front-matter.archify.md') };
+  const ok = (f, exit = 0) => expect(f.exit === exit, `explainer fixture exits ${exit}, got ${f.exit}: ${f.stdout}${f.stderr}`);
+
+  // T/explainer-cli.test.mjs:21-30, without injected variables: validate, deliver, check --require-provenance.
+  ok(fixture('validate-json', ['validate', 'explainer', 'author-draft.json', '--json'], author));
+  ok(fixture('validate-human', ['validate', 'explainer', 'author-draft.json'], author));
+  ok(fixture('deliver-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'], author, { page: 'result.html' }));
+  ok(fixture('deliver-human', ['deliver', 'explainer', 'author-draft.json', 'result.html'], author, { page: 'result.html' }));
+  ok(fixture('check-require-provenance', ['check', 'result.html', '--json', '--require-provenance'], author, { setup: [deliverAuthor] }));
+  ok(fixture('check', ['check', 'result.html'], author, { setup: [deliverAuthor] }));
+  // An explainer page with no delivery, then one with an external script appended: the explainer checker names the file.
+  const rendered = { run: ['render', 'explainer', 'author-draft.json', 'page.html'], exit: 0 };
+  ok(fixture('check-undelivered', ['check', 'page.html'], author, { setup: [rendered] }));
+  ok(fixture('check-tampered', ['check', 'page.html', '--json'], author,
+    { setup: [rendered, { append: 'page.html', text: '<script src="https://example.com/x.js"></script>\n' }] }), 1);
+  // A:5636: a current delivery of the other family.
+  ok(fixture('check-family-native-receipt', ['check', 'result.html', '--require-provenance'], author,
+    { setup: [deliverAuthor, { set: 'result.delivery.json', key: 'type', value: 'architecture' }] }), 1);
+  ok(fixture('check-family-explainer-receipt', ['check', 'out.html', '--require-provenance'], exFiles(arch),
+    { setup: [{ run: ['deliver', 'architecture', arch, 'out.html', '--json'], exit: 0 }, { set: 'out.delivery.json', key: 'type', value: 'explainer' }] }), 1);
+  // T/explainer-cli.test.mjs:32-39: a semantic failure keeps the delivered page and records the failed attempt; a malformed draft.
+  ok(fixture('deliver-unsupported-block-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'],
+    { ...author, 'widget.json': X('unsupported-widget.json') }, { setup: [deliverAuthor, { copy: 'widget.json', to: 'author-draft.json' }], page: 'result.html' }), 1);
+  ok(fixture('deliver-malformed-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'], { 'author-draft.json': X('broken.json') }), 1);
+  ok(fixture('validate-malformed-json', ['validate', 'explainer', 'author-draft.json', '--json'], { 'author-draft.json': X('broken.json') }), 1);
+  // T/explainer-cli.test.mjs:54-58: render resolves the image against the draft's directory.
+  ok(fixture('render-image', ['render', 'explainer', 'author-draft.json', 'result.html'], withImage, { page: 'result.html' }));
+  ok(fixture('deliver-image-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'], withImage, { page: 'result.html' }));
+  // T/explainer-cli.test.mjs:75-84: the writing modes.
+  ok(fixture('deliver-writing-warn-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--writing', 'warn', '--json'], writingDraft,
+    { page: 'result.html' }));
+  ok(fixture('validate-writing-strict-json', ['validate', 'explainer', 'author-draft.json', '--writing', 'strict', '--json'], writingDraft), 1);
+  ok(fixture('deliver-writing-strict-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--writing', 'strict', '--json'], writingDraft), 1);
+  ok(fixture('deliver-writing-off-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--writing=off', '--json'], writingDraft,
+    { page: 'result.html' }));
+  ok(fixture('validate-writing-workflow-json', ['validate', 'workflow', 'author-draft.json', '--writing', 'strict', '--json'], writingDraft), 2);
+  ok(fixture('validate-writing-twice-json', ['validate', 'explainer', 'author-draft.json', '--writing', 'warn', '--writing', 'off', '--json'], author), 2);
+  // Review Focus 1: invalid chart front matter through each command's own catch.
+  ok(fixture('validate-front-matter-json', ['validate', 'explainer', 'draft.archify.md', '--json'], frontMatter), 1);
+  ok(fixture('validate-front-matter-human', ['validate', 'explainer', 'draft.archify.md'], frontMatter), 1);
+  ok(fixture('deliver-front-matter-json', ['deliver', 'explainer', 'draft.archify.md', 'result.html', '--json'], frontMatter), 1);
+  ok(fixture('render-front-matter', ['render', 'explainer', 'draft.archify.md', 'result.html'], frontMatter), 1);
+  // invalid UTF-8: deliver refuses it (explainer/source-encoding); render reads it as 'utf8' text.
+  const invalidUtf8 = { 'draft.archify.md': X('invalid-utf8.archify.md') };
+  ok(fixture('deliver-invalid-utf8-json', ['deliver', 'explainer', 'draft.archify.md', 'result.html', '--json'], invalidUtf8), 1);
+  ok(fixture('render-invalid-utf8', ['render', 'explainer', 'draft.archify.md', 'result.html'], invalidUtf8, { page: 'result.html' }));
+  // The upstream example and a draft without a locale (the fixed oracle's page).
+  const example = { 'delivery.explainer.json': `${EX}/delivery.explainer.json` };
+  ok(fixture('example-validate-json', ['validate', 'explainer', 'delivery.explainer.json', '--json'], example));
+  ok(fixture('example-deliver-json', ['deliver', 'explainer', 'delivery.explainer.json', 'result.html', '--json'], example, { page: 'result.html' }));
+  ok(fixture('no-locale-deliver-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'], { 'author-draft.json': X('no-locale.json') },
+    { page: 'result.html', noLocale: true }));
+  // A JSON draft's unbundled locale: the i18n/locale-fallback warning on stderr and in the receipt.
+  const unbundled = { 'author-draft.json': X('unbundled-locale.json') };
+  ok(fixture('validate-unbundled-locale-json', ['validate', 'explainer', 'author-draft.json', '--json'], unbundled));
+  ok(fixture('deliver-unbundled-locale-json', ['deliver', 'explainer', 'author-draft.json', 'result.html', '--json'], unbundled, { page: 'result.html' }));
+  // The four cases.
+  for (const c of CASES) {
+    const files = { [`${c}.archify.md`]: X(`${c}.archify.md`) };
+    ok(fixture(`case-${c}-validate-json`, ['validate', 'explainer', `${c}.archify.md`, '--json'], files));
+    ok(fixture(`case-${c}-deliver-json`, ['deliver', 'explainer', `${c}.archify.md`, `${c}.html`, '--json'], files, { page: `${c}.html` }));
+    ok(fixture(`case-${c}-render`, ['render', 'explainer', `${c}.archify.md`, `${c}.html`], files, { page: `${c}.html` }));
+  }
+  // patch (A:5304-5350): a delivered page, one panel replaced.
+  const patchFiles = (replacement = 'patch-replacement.json') => ({ 'author.json': X('patch-author.json'), 'replacement.json': X(replacement) });
+  const deliverPage = { run: ['deliver', 'explainer', 'author.json', 'page.html', '--json'], exit: 0 };
+  const patch = (...rest) => ['patch', 'explainer', 'page.html', ...rest];
+  ok(fixture('patch-json', patch('first', 'replacement.json', 'out.html', '--json'), patchFiles(), { setup: [deliverPage], page: 'out.html' }));
+  ok(fixture('patch-human', patch('first', 'replacement.json', 'out.html'), patchFiles(), { setup: [deliverPage], page: 'out.html' }));
+  ok(fixture('patch-usage-json', patch('first', '--json'), patchFiles(), { setup: [deliverPage] }), 2);
+  ok(fixture('patch-usage', patch('first'), patchFiles(), { setup: [deliverPage] }), 2);
+  ok(fixture('patch-missing-panel-json', patch('missing', 'replacement.json', 'out.html', '--json'), patchFiles(), { setup: [deliverPage] }), 1);
+  ok(fixture('patch-missing-artifact-json', ['patch', 'explainer', 'missing.html', 'first', 'replacement.json', 'out.html', '--json'], patchFiles()), 1);
+  ok(fixture('patch-tampered-artifact-json', patch('first', 'replacement.json', 'out.html', '--json'), patchFiles(),
+    { setup: [deliverPage, { append: 'page.html', text: '<script src="https://example.com/x.js"></script>\n' }] }), 1);
+  ok(fixture('patch-writing-strict-json', patch('first', 'replacement.json', 'out.html', '--writing', 'strict', '--json'), patchFiles('patch-writing.json'),
+    { setup: [deliverPage] }), 1);
+  ok(fixture('patch-front-matter-json', patch('first', 'replacement.json', 'out.html', '--json'), patchFiles('patch-front-matter.json'),
+    { setup: [deliverPage] }), 1);
+  // Patching a native page (UPSTREAM-DEVIATION patch-payload-message: upstream's message is the gzip one).
+  ok(fixture('patch-native-page-json', ['patch', 'explainer', 'page.html', 'first', 'replacement.json', 'out.html', '--json'],
+    { ...patchFiles(), 'page.html': `${EX}/web-app-rendered.html` }), 1);
+  // doctor's explainer lines (A:6151, :6168-6170), against which the port's Q3 doctor is checked.
+  ok(fixture('doctor', ['doctor'], {}));
+}

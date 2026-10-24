@@ -1,0 +1,24 @@
+{
+  "args": [
+    "deliver",
+    "explainer",
+    "author-draft.json",
+    "result.html",
+    "--writing",
+    "strict",
+    "--json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/writing-draft.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"input\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\author-draft.json\",\n  \"output\": \"<WORK>\\\\result.html\",\n  \"error\": \"Could not read delivery input \\\"<WORK>\\\\author-draft.json\\\": Explainer draft is invalid.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/writing-light-verb\",\n      \"severity\": \"error\",\n      \"message\": \"A light-verb construction can obscure the action.\",\n      \"subject\": {\n        \"line\": 20,\n        \"component\": \"prose\",\n        \"panelId\": \"delivery\",\n        \"input\": \"<WORK>\\\\author-draft.json\"\n      },\n      \"evidence\": {\n        \"rule\": \"light-verb\",\n        \"reason\": \"A light-verb construction can obscure the action.\",\n        \"example\": \"进行检查 → 检查；做出决定 → 决定; make a decision → decide\",\n        \"matched\": \"perform an analysis of\"\n      },\n      \"supportedFixes\": [\n        \"Use the direct action verb where it preserves the meaning; name who performs the action.\"\n      ]\n    },\n    {\n      \"code\": \"explainer/writing-redundancy\",\n      \"severity\": \"error\",\n      \"message\": \"Adjacent wording may repeat the same meaning.\",\n      \"subject\": {\n        \"line\": 20,\n        \"component\": \"prose\",\n        \"panelId\": \"delivery\",\n        \"input\": \"<WORK>\\\\author-draft.json\"\n      },\n      \"evidence\": {\n        \"rule\": \"redundancy\",\n        \"reason\": \"Adjacent wording may repeat the same meaning.\",\n        \"example\": \"提前预先 → 提前; each and every → each\",\n        \"matched\": \"each and every\"\n      },\n      \"supportedFixes\": [\n        \"Keep one expression of the meaning unless both terms carry a necessary distinction.\"\n      ]\n    }\n  ],\n  \"provenance\": \"absent\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json",
+    "result.delivery-pending.json"
+  ],
+  "sidecars": {
+    "result.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"<WORK>\\\\author-draft.json\",\n  \"output\": \"<WORK>\\\\result.html\"\n}\n"
+  }
+}

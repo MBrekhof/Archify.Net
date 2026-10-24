@@ -1,0 +1,17 @@
+{
+  "args": [
+    "validate",
+    "explainer",
+    "draft.archify.md"
+  ],
+  "files": {
+    "draft.archify.md": "tests/fixtures/cli/inputs/explainer/front-matter.archify.md"
+  },
+  "exit": 1,
+  "stdout": "",
+  "stderr": "Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection\n[input/read] Input could not be read: Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection Fix: provide one readable JSON input file.\n",
+  "entries": [
+    "draft.archify.md"
+  ],
+  "sidecars": {}
+}

@@ -93,8 +93,7 @@ static class Args
     }
 
     // extractExplainerWritingArgs (A:2397-2412 at v3.2.0), not the Extract above: `--writing` takes the next token whatever it is, a
-    // second occurrence is an error, and a valid value needs an explainer type. No explainer type is ported yet (PORT-009), so every
-    // valid use on a diagram type answers cli/unsupported-option.
+    // second occurrence is an error, and a valid value needs the first positional to be `explainer`.
     public static (string[] Remaining, string? WritingMode) ExtractExplainerWritingArgs(string[] args)
     {
         var rest = new List<string>();
@@ -121,13 +120,9 @@ static class Args
     // rendererPath (A:2237-2247): an unknown type is an argument error.
     public static DiagramType DiagramType(string type)
     {
-        const string types = "architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall";
-        // PORT-009: no CLI command takes explainer until Task 7, so it stays an unknown type here.
-        if (type != "explainer")
-        {
-            try { return DiagramTypes.Parse(type); }
-            catch (ArgumentException) { }
-        }
+        const string types = "architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall, explainer";
+        try { return DiagramTypes.Parse(type); }
+        catch (ArgumentException) { }
         throw new CliArgumentException($"Unknown diagram type \"{type}\". Expected one of: {types}", "cli/unknown-diagram-type",
             new JsonObject { ["type"] = type }, new JsonObject { ["supportedTypes"] = new JsonArray([.. types.Split(", ").Select(t => (JsonNode?)t)]) },
             [$"use one of: {types}"]);

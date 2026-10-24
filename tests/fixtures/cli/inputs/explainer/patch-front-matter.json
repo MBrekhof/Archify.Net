@@ -1,0 +1,16 @@
+{
+  "id": "first",
+  "title": "What changed?",
+  "blocks": [
+    {
+      "id": "first-text",
+      "type": "prose",
+      "text": "A chart follows."
+    },
+    {
+      "id": "ch",
+      "type": "chart",
+      "text": "---\ntitle: [unclosed\n---\npie\n  \"A\" : 1"
+    }
+  ]
+}

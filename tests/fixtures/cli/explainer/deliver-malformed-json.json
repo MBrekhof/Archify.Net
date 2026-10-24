@@ -1,0 +1,22 @@
+{
+  "args": [
+    "deliver",
+    "explainer",
+    "author-draft.json",
+    "result.html",
+    "--json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/broken.json"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"deliver\",\n  \"receiptId\": \"<uuid>\",\n  \"stage\": \"input\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\author-draft.json\",\n  \"output\": \"<WORK>\\\\result.html\",\n  \"error\": \"Could not read delivery input \\\"<WORK>\\\\author-draft.json\\\": Explainer draft could not be parsed.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/parse-json\",\n      \"severity\": \"error\",\n      \"message\": \"Input is not valid JSON.\",\n      \"subject\": {\n        \"line\": 2,\n        \"column\": 1,\n        \"component\": \"json\",\n        \"path\": \"/\",\n        \"input\": \"<WORK>\\\\author-draft.json\"\n      },\n      \"evidence\": {\n        \"reason\": \"Input is not valid JSON.\",\n        \"example\": \"{\\\"schema_version\\\":1,\\\"diagram_type\\\":\\\"explainer\\\",...}\"\n      },\n      \"supportedFixes\": [\n        \"Use the documented syntax, for example: {\\\"schema_version\\\":1,\\\"diagram_type\\\":\\\"explainer\\\",...}\"\n      ]\n    }\n  ],\n  \"provenance\": \"absent\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json",
+    "result.delivery-pending.json"
+  ],
+  "sidecars": {
+    "result.delivery-pending.json": "{\n  \"schemaVersion\": 1,\n  \"command\": \"deliver\",\n  \"status\": \"pending\",\n  \"receiptId\": \"<uuid>\",\n  \"input\": \"<WORK>\\\\author-draft.json\",\n  \"output\": \"<WORK>\\\\result.html\"\n}\n"
+  }
+}

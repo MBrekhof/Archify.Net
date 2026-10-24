@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "diagram_type": "explainer",
+  "meta": {
+    "id": "cli-document",
+    "title": "How is a draft delivered?",
+    "locale": "fr"
+  },
+  "answer": {
+    "summary": "A checked candidate preserves the authored draft."
+  },
+  "panels": [
+    {
+      "id": "delivery",
+      "title": "What is checked?",
+      "blocks": [
+        {
+          "id": "delivery-text",
+          "type": "prose",
+          "text": "The draft is parsed and checked before publication."
+        }
+      ]
+    }
+  ],
+  "sources": []
+}

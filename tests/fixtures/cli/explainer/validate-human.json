@@ -1,0 +1,17 @@
+{
+  "args": [
+    "validate",
+    "explainer",
+    "author-draft.json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/author-draft.json"
+  },
+  "exit": 0,
+  "stdout": "ok explainer <WORK>\\author-draft.json (4 artifact checks; composition standard: 0 errors, 0 warnings)\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json"
+  ],
+  "sidecars": {}
+}

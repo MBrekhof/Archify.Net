@@ -1,0 +1,25 @@
+{
+  "args": [
+    "patch",
+    "explainer",
+    "page.html",
+    "first",
+    "replacement.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "author.json": "tests/fixtures/cli/inputs/explainer/patch-author.json",
+    "replacement.json": "tests/fixtures/cli/inputs/explainer/patch-replacement.json",
+    "page.html": "upstream/examples/web-app-rendered.html"
+  },
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"patch\",\n  \"stage\": \"prepare\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\page.html\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"error\": \"Embedded native diagram payload cannot be inflated.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/patch-payload\",\n      \"severity\": \"error\",\n      \"message\": \"Embedded native diagram payload cannot be inflated.\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\page.html\",\n        \"panelId\": \"first\",\n        \"line\": 1,\n        \"component\": \"panel\"\n      },\n      \"evidence\": {\n        \"reason\": \"payload\",\n        \"example\": \"Rebuild the original artifact before patching.\"\n      },\n      \"supportedFixes\": [\n        \"Rebuild the original artifact before patching.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "author.json",
+    "page.html",
+    "replacement.json"
+  ],
+  "sidecars": {}
+}

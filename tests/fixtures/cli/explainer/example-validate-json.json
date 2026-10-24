@@ -1,0 +1,18 @@
+{
+  "args": [
+    "validate",
+    "explainer",
+    "delivery.explainer.json",
+    "--json"
+  ],
+  "files": {
+    "delivery.explainer.json": "upstream/examples/delivery.explainer.json"
+  },
+  "exit": 0,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": true,\n  \"command\": \"validate\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\delivery.explainer.json\",\n  \"candidate\": {\n    \"path\": \"<WORK>\\\\delivery.explainer.json\",\n    \"sha256\": \"188cf8777816ac034dd5a92b04bf427b0f1a8dbfa0956ae072b2d4091427806c\",\n    \"bytes\": 4570\n  },\n  \"candidateFrozen\": true,\n  \"nextAction\": {\n    \"command\": \"finalize\",\n    \"arguments\": [\n      \"explainer\",\n      \"<WORK>\\\\delivery.explainer.json\",\n      \"<output.html>\",\n      \"--quality\",\n      \"standard\",\n      \"--candidate-sha256\",\n      \"188cf8777816ac034dd5a92b04bf427b0f1a8dbfa0956ae072b2d4091427806c\",\n      \"--json\"\n    ]\n  },\n  \"checks\": [\n    {\n      \"name\": \"explainer_structure\",\n      \"ok\": true,\n      \"details\": [\n        \"23 unique DOM IDs\"\n      ]\n    },\n    {\n      \"name\": \"explainer_payload_identity\",\n      \"ok\": true,\n      \"details\": []\n    },\n    {\n      \"name\": \"explainer_dependencies\",\n      \"ok\": true,\n      \"details\": [\n        \"0 frozen dependencies\"\n      ]\n    },\n    {\n      \"name\": \"explainer_native_diagrams\",\n      \"ok\": true,\n      \"details\": []\n    }\n  ],\n  \"composition\": {\n    \"schemaVersion\": 1,\n    \"profile\": \"standard\",\n    \"status\": \"pass\",\n    \"summary\": {\n      \"errors\": 0,\n      \"warnings\": 0\n    },\n    \"issues\": [],\n    \"nativeDiagrams\": []\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/writing-scope-length\",\n      \"severity\": \"warning\",\n      \"message\": \"The scope reads as a disclaimer rather than a short label.\",\n      \"subject\": {\n        \"line\": 16,\n        \"component\": \"scope\",\n        \"input\": \"<WORK>\\\\delivery.explainer.json\"\n      },\n      \"evidence\": {\n        \"rule\": \"scope-length\",\n        \"reason\": \"The scope reads as a disclaimer rather than a short label.\",\n        \"example\": \"8 人团队 · 上线半年 · 峰值约 300 QPS / Eight people · six months live · ~300 QPS peak\",\n        \"units\": 56,\n        \"limit\": 50\n      },\n      \"supportedFixes\": [\n        \"Keep the conditions a reader must check, as short labels separated by “·”. Drop process notes about how the page was made.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "archify: The scope reads as a disclaimer rather than a short label.\n",
+  "entries": [
+    "delivery.explainer.json"
+  ],
+  "sidecars": {}
+}

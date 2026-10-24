@@ -46,9 +46,16 @@ Commands and configuration:
   `ARCHIFY_CHROME` and others). Use `--quality` and `--repo-root`.
 - `compare`, `brands`, `migrate` and `preview` are not ported. They answer `Unknown command` with exit 2.
 - Help is upstream's usage text minus those four commands, plus an `archify install-browser` line (a command upstream does not have).
-- The explainer type is withheld until PORT-009: no explainer usage lines (`archify patch`, `explainer` in Types, the
-  `--writing` block), no `patch` command, and no `--writing` acceptance. `--writing` is parsed as upstream parses it, but a valid
-  value answers `cli/unsupported-option` with any diagram type (`explainer` itself answers `cli/unknown-diagram-type`), and the unknown-type message lists the ten diagram types only.
+- Explainer documents (PORT-009): `validate`, `deliver`, `render`, `check` and `patch` take them as upstream does. `finalize
+  explainer` waits for PORT-009 Task 8 and is refused with `cli/unsupported-option`. Differences:
+  - `render explainer` on a draft whose chart front matter is not valid YAML (or an unreadable draft) prints the error's message,
+    exit 1. Upstream has no diagnostic boundary there and Node prints the raw stack.
+  - The prepared bundle is passed in memory (upstream's `ARCHIFY_EXPLAINER_PREPARED` file), so the bundle-file read failures of
+    `readPreparedBundle` (`explainer/prepared-invalid`: missing file, invalid JSON, over 64 MiB) cannot occur; the 64 MiB limit is
+    still checked. Pages are rendered and checked in process, so a checker diagnostic names the output (deliver) or a temporary
+    page path that is never written (validate) where upstream names its staged candidate.
+  - Patching a page that carries no explainer payload (a native diagram) reports the payload's own `explainer/patch-payload`
+    message; upstream reports "Embedded native diagram payload cannot be inflated." (patch.mjs:26 tests `error.diagnostics`).
 - `archify examples` writes to `./examples/` in the current directory (upstream writes into the installed skill folder). It checks
   an example's `meta.output` against the current directory, where upstream checks against the skill root.
 - `archify doctor` checks the .NET runtime, the embedded resources, git on PATH and the Playwright Chromium install, in upstream's

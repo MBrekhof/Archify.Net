@@ -1,0 +1,39 @@
+{
+  "args": [
+    "patch",
+    "explainer",
+    "page.html",
+    "first",
+    "replacement.json",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "author.json": "tests/fixtures/cli/inputs/explainer/patch-author.json",
+    "replacement.json": "tests/fixtures/cli/inputs/explainer/patch-front-matter.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "explainer",
+        "author.json",
+        "page.html",
+        "--json"
+      ],
+      "exit": 0
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"patch\",\n  \"stage\": \"prepare\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\page.html\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"error\": \"Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/patch-runtime\",\n      \"severity\": \"error\",\n      \"message\": \"Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection\",\n      \"subject\": {\n        \"input\": \"<WORK>\\\\page.html\",\n        \"line\": 1,\n        \"component\": \"panel\",\n        \"panelId\": \"first\"\n      },\n      \"evidence\": {\n        \"reason\": \"syntax\",\n        \"example\": \"Use a complete replacement panel with the same stable id.\"\n      },\n      \"supportedFixes\": [\n        \"Repair the replacement panel and retry.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "author.json",
+    "page.delivery.json",
+    "page.html",
+    "replacement.json"
+  ],
+  "sidecars": {
+    "page.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\author.json\",\n  \"output\": \"<WORK>\\\\page.html\",\n  \"specification\": {\n    \"sha256\": \"5a24df65a76b8df7eb0933597e5a19e548735a19b5eb9915e2057043f778988e\",\n    \"bytes\": 695\n  },\n  \"artifact\": \"<artifact>\",\n  \"explainer\": {\n    \"preparedSha256\": \"<sha256>\",\n    \"dependencies\": []\n  }\n}\n"
+  }
+}

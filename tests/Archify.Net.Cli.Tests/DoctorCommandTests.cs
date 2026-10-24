@@ -13,7 +13,8 @@ public class DoctorCommandTests
         $".NET {Environment.Version}", "Core template", "Locale catalogs", "Scenario recipe guide", "Viewer settle script", "Viewer metrics script",
         "architecture schema and example", "workflow schema and example", "sequence schema and example", "dataflow schema and example",
         "lifecycle schema and example", "erd schema and example", "tree schema and example", "class schema and example",
-        "timeline schema and example", "waterfall schema and example", "git on PATH", "Chromium for browser gates",
+        "timeline schema and example", "waterfall schema and example", "explainer schema and example", "Explainer runtime and reader assets",
+        "git on PATH", "Chromium for browser gates",
     ];
 
     static string Lines(Func<string, string> status) => "Archify doctor\n\n" + string.Concat(Labels.Select(l => $"[{status(l)}] {l}\n"));
@@ -30,18 +31,20 @@ public class DoctorCommandTests
     }
 
     // The default resource lookup finds every resource doctor asks for: template, 7 locale files (manifest + 6), recipes, 2 viewer-gate
-    // scripts, 10 schemas and 25 examples.
+    // scripts, 11 schemas, 26 examples, and the explainer's 2 reader assets and 2 gate scripts.
     [Fact]
     public void Every_checked_resource_is_embedded()
     {
         var asked = new List<string>();
         var services = Ready with { HasResource = name => { asked.Add(name); return CliServices.Default.HasResource(name); } };
         Assert.Equal((0, Lines(_ => "ok") + "\nArchify is ready.\n", ""), CliTestHost.Run(["doctor"], services: services));
-        Assert.Equal(46, asked.Distinct().Count());
-        Assert.Equal(25, asked.Count(n => n.StartsWith("examples/", StringComparison.Ordinal)));
-        Assert.Equal(10, asked.Count(n => n.StartsWith("schemas/", StringComparison.Ordinal)));
+        Assert.Equal(52, asked.Distinct().Count());
+        Assert.Equal(26, asked.Count(n => n.StartsWith("examples/", StringComparison.Ordinal)));
+        Assert.Equal(11, asked.Count(n => n.StartsWith("schemas/", StringComparison.Ordinal)));
         Assert.Contains("viewer-gate/settle.js", asked);
         Assert.Contains("viewer-gate/metrics.js", asked);
+        Assert.Contains("explainer/reader.js", asked);
+        Assert.Contains("explainer-gate/measure-public-html.js", asked);
         Assert.False(CliServices.Default.HasResource("examples/nope.json"));
     }
 

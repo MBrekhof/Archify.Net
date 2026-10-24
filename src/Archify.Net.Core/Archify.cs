@@ -212,6 +212,13 @@ public static class CheckerDiagnostics
 
     public static IReadOnlyList<Diagnostic> From(JsonObject? checker)
     {
+        // The explainer arm (A:2723 at v3.2.0): the checker's own error diagnostics, rebuilt through diagnostic().
+        var explainerErrors = checker.Str("family") == "explainer"
+            ? checker.Arr("diagnostics").AsArrayOrEmpty().OfType<JsonObject>().Where(entry => entry.Str("severity") == "error").ToList() : [];
+        if (explainerErrors.Count > 0)
+            return [.. explainerErrors.Select(entry => new Diagnostic(entry.Str("code")!, Severity.Error, entry.Str("message") ?? "",
+                entry.Obj("subject")?.DeepClone().AsObject() ?? [], entry.Obj("evidence")?.DeepClone().AsObject() ?? [],
+                [.. entry.Arr("supportedFixes").AsArrayOrEmpty().Select(Js.PrimitiveString)], null))];
         var diagnostics = new List<Diagnostic>();
         foreach (var node in checker.Obj("composition").Arr("issues").AsArrayOrEmpty())
         {

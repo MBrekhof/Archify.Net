@@ -1,0 +1,38 @@
+{
+  "args": [
+    "check",
+    "result.html",
+    "--require-provenance"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/author-draft.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "explainer",
+        "author-draft.json",
+        "result.html",
+        "--json"
+      ],
+      "exit": 0
+    },
+    {
+      "set": "result.delivery.json",
+      "key": "type",
+      "value": "architecture"
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"ok\": false,\n  \"file\": \"<WORK>\\\\result.html\",\n  \"family\": \"explainer\",\n  \"artifact\": \"<artifact>\",\n  \"checks\": [\n    {\n      \"name\": \"explainer_structure\",\n      \"ok\": true,\n      \"details\": [\n        \"10 unique DOM IDs\"\n      ]\n    },\n    {\n      \"name\": \"explainer_payload_identity\",\n      \"ok\": true,\n      \"details\": []\n    },\n    {\n      \"name\": \"explainer_dependencies\",\n      \"ok\": true,\n      \"details\": [\n        \"0 frozen dependencies\"\n      ]\n    },\n    {\n      \"name\": \"explainer_native_diagrams\",\n      \"ok\": true,\n      \"details\": []\n    }\n  ],\n  \"composition\": {\n    \"schemaVersion\": 1,\n    \"profile\": \"standard\",\n    \"status\": \"pass\",\n    \"summary\": {\n      \"errors\": 0,\n      \"warnings\": 0\n    },\n    \"issues\": [],\n    \"nativeDiagrams\": []\n  },\n  \"diagnostics\": [\n    {\n      \"code\": \"delivery/artifact-family-mismatch\",\n      \"severity\": \"error\",\n      \"message\": \"The checked artifact family differs from its delivery provenance.\",\n      \"subject\": {\n        \"artifact\": \"<WORK>\\\\result.html\"\n      },\n      \"evidence\": {\n        \"expectedType\": \"architecture\",\n        \"actualFamily\": \"explainer\"\n      },\n      \"supportedFixes\": [\n        \"Rebuild the artifact from its original specification.\"\n      ]\n    }\n  ],\n  \"provenance\": \"current\",\n  \"deliveryReceiptId\": \"<uuid>\"\n}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json",
+    "result.delivery.json",
+    "result.html"
+  ],
+  "sidecars": {
+    "result.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"architecture\",\n  \"input\": \"<WORK>\\\\author-draft.json\",\n  \"output\": \"<WORK>\\\\result.html\",\n  \"specification\": {\n    \"sha256\": \"6107e9a6b1f36d087d71ab7a61eace14a2b9d35b6c7a3a71184445ff6449bf75\",\n    \"bytes\": 532\n  },\n  \"artifact\": \"<artifact>\",\n  \"explainer\": {\n    \"preparedSha256\": \"<sha256>\",\n    \"dependencies\": []\n  }\n}\n"
+  }
+}

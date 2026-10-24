@@ -10,14 +10,15 @@ static partial class DeliverCommand
 {
     static readonly string[] KnownOptions = ["--json", "--open"];
 
-    // commandDeliver (A:4362-5240) after the cut (Q5): stages input, prepare, render, check, receipt, commit, release. A failure
-    // once the output is known goes through recordDeliveryFailure; one before it, or a lock failure, is reported as is.
-    public static int Run(string[] args, CliIo io, DeliveryStore? store = null)
+    // commandDeliver (A:4400-5302 at v3.2.0) after the cut (Q5): stages input, prepare, render, check, receipt, commit, release. A
+    // failure once the output is known goes through recordDeliveryFailure; one before it, or a lock failure, is reported as is.
+    // `prepared` is upstream's ARCHIFY_EXPLAINER_PREPARED for an explainer (patch): the bundle checked against the draft.
+    public static int Run(string[] args, CliIo io, DeliveryStore? store = null, JsonObject? prepared = null)
     {
         store ??= DeliveryStore.Native;
         var (afterQuality, quality) = Args.Quality(args);
         var (afterRepoRoot, repoRoot) = Args.RepoRoot(afterQuality, io.Cwd);
-        var (options, _) = Args.ExtractExplainerWritingArgs(afterRepoRoot);
+        var (options, writingMode) = Args.ExtractExplainerWritingArgs(afterRepoRoot);
         var json = options.Contains("--json");
         var open = options.Contains("--open");
         if (options.FirstOrDefault(arg => arg.StartsWith("--", StringComparison.Ordinal) && !KnownOptions.Contains(arg)) is { } unknown)
@@ -61,26 +62,40 @@ static partial class DeliverCommand
             });
         }
 
+        var explainer = type == DiagramType.Explainer;
         try
         {
-            // 1. input
-            byte[] specification;
+            // 1. input; an explainer draft is prepared here (A:4480-4499)
+            byte[] specification = [];
             JsonObject diagram;
-            try { diagram = RenderCommand.ReadDiagram(inputPath, out specification); }
-            catch (ArchifyDiagnosticException error)
+            JsonObject? bundle = null;
+            try
             {
-                var reason = error.Diagnostics[0].Evidence["reason"]!.GetValue<string>();
+                if (explainer)
+                {
+                    specification = RenderCommand.ReadInput(inputPath);
+                    bundle = ExplainerInput.Prepare(specification, inputPath, repoRoot, quality, writingMode, prepared);
+                    diagram = bundle["document"]!.AsObject();
+                }
+                else diagram = RenderCommand.ReadDiagram(inputPath, out specification);
+            }
+            catch (Exception error) when (error is ArchifyDiagnosticException || explainer && error is not (CliArgumentException or CliFailException))
+            {
+                // `error.archifyDiagnostics || [inputDiagnostic(error)]`; a read or JSON failure's message is Node's own reason.
+                var diagnostics = error is ArchifyDiagnosticException diagnosed ? diagnosed.Diagnostics : [ExplainerInput.InputDiagnostic(error, inputPath)];
+                var reason = diagnostics is [{ Code: "input/read" or "input/json-parse" } input] ? input.Evidence["reason"]!.GetValue<string>() : error.Message;
                 return ReportDelivery(Failure("input", NodePath.Resolve(io.Cwd, attemptedOutput ?? $"{typeName}.html"),
-                    $"Could not read delivery input \"{inputPath}\": {reason}", error.Diagnostics));
+                    $"Could not read delivery input \"{inputPath}\": {reason}", diagnostics));
             }
 
-            // 2. prepare: the authored path (validated even when absent, A:4462), the output, its physical spelling.
+            // 2. prepare: the authored path (validated even when absent, A:4506, except for an explainer), the output, its physical
+            // spelling.
             var request = new OutputRequest(io.Cwd, requestedOutput, $"{typeName}.html") { InputPaths = [inputPath] }.WithAuthored(diagram);
             var authoredText = request.AuthoredOutput is JsonValue authored && authored.TryGetValue<string>(out var text) ? text : null;
             string? outputPath = null;
             try
             {
-                OutputPaths.Native.ValidateAuthoredOutputPath(request.AuthoredOutput, io.Cwd);
+                if (!explainer || request.HasAuthoredOutput) OutputPaths.Native.ValidateAuthoredOutputPath(request.AuthoredOutput, io.Cwd);
                 outputPath = OutputPaths.Native.ResolveOutputPath(request).OutputPath;
                 outputPath = OutputPaths.Native.CanonicalFuturePath(outputPath);
             }
@@ -139,37 +154,74 @@ static partial class DeliverCommand
                     ["choose a writable output directory with a journal path distinct from the input"], null)]));
             }
 
-            // 5. render, in memory.
-            var result = ArchifyNet.Render(type, diagram, Args.RenderOptions(quality, repoRoot));
-            if (result.Error is not null)
-                return ReportDelivery(Failure("render", outputPath, result.Error, Cli.WithInput(result.Diagnostics, inputPath)));
-            var localeWarnings = result.Diagnostics.Where(d => d.Code.StartsWith("i18n/", StringComparison.Ordinal)).ToList();
-            foreach (var warning in localeWarnings) io.Err($"archify: {warning.Message}");
+            // The explainer bundle's freeze (writePreparedBundle into staging, A:4859-4870): only its size limit applies in memory.
+            if (bundle is not null)
+                try { ExplainerPipeline.CheckBundleSize(bundle); }
+                catch (ArchifyDiagnosticException error) { return ReportDelivery(Failure("prepare", outputPath, error.Message, error.Diagnostics)); }
 
-            // 6. check, on the bytes to be committed.
-            var artifact = new UTF8Encoding(false).GetBytes(result.Html);
-            var check = store.Check(artifact);
-            if (!check.Ok)
+            // 5. render, in memory; an explainer page is rendered for the output's directory (A:4871-4874).
+            string html;
+            List<JsonObject> localeWarnings;
+            if (bundle is not null)
             {
-                var checker = check.Report;
-                checker.Insert(1, "file", outputPath);   // the checker's own `file` key sits at index 1 upstream
-                return ReportDelivery(Failure("check", outputPath, "Final artifact check failed; the previous artifact was preserved.",
-                    CheckerDiagnostics.From(checker)) with { Checker = checker });
+                try { html = ExplainerPipeline.Render(bundle, outputDirectory); }
+                catch (Exception error) when (error is not (CliArgumentException or CliFailException))
+                {
+                    var (message, diagnostics, _) = new DiagnosticSink().RendererFailure(error);
+                    return ReportDelivery(Failure("render", outputPath, message, Cli.WithInput(diagnostics, inputPath)));
+                }
+                localeWarnings = ExplainerInput.Warnings(specification, bundle);
             }
+            else
+            {
+                var result = ArchifyNet.Render(type, diagram, Args.RenderOptions(quality, repoRoot));
+                if (result.Error is not null)
+                    return ReportDelivery(Failure("render", outputPath, result.Error, Cli.WithInput(result.Diagnostics, inputPath)));
+                html = result.Html;
+                localeWarnings = [.. result.Diagnostics.Where(d => d.Code.StartsWith("i18n/", StringComparison.Ordinal)).Select(d => d.ToJson())];
+            }
+            foreach (var warning in localeWarnings) io.Err($"archify: {warning.Str("message")}");
+
+            // 6. check, on the bytes to be committed; the report's `file` (index 1) names the output.
+            var artifact = new UTF8Encoding(false).GetBytes(html);
+            var check = store.Check(artifact, outputPath);
+            if (!check.Ok)
+                return ReportDelivery(Failure("check", outputPath, "Final artifact check failed; the previous artifact was preserved.",
+                    CheckerDiagnostics.From(check.Report)) with { Checker = check.Report });
 
             // 7. receipt
             JsonObject? sourceEvidence;
-            try { sourceEvidence = SourceEvidence(result.Html); }
+            try { sourceEvidence = SourceEvidence(html); }
             catch (Exception error) when (error is System.Text.Json.JsonException or FormatException)
             {
                 var message = $"Could not read the repository evidence receipt: {error.Message}";
                 return ReportDelivery(Failure("receipt", outputPath, message, [new("delivery/evidence-receipt-invalid", Severity.Error, message,
                     new JsonObject { ["output"] = outputPath }, new JsonObject { ["reason"] = error.Message }, [], null)]));
             }
-            var receipt = Receipt(receiptId, typeName, inputPath, outputPath, specification, artifact, check.Report, result.Html, sourceEvidence, localeWarnings);
+            var receipt = Receipt(receiptId, typeName, inputPath, outputPath, specification, artifact, check.Report, html, sourceEvidence, localeWarnings);
+            if (bundle is not null)
+                receipt.Insert(receipt.IndexOf("specification"), "explainer", new JsonObject
+                {
+                    ["preparedSha256"] = bundle["digest"]?.DeepClone(),
+                    ["dependencies"] = new JsonArray([.. bundle["dependencies"].AsArrayOrEmpty().Select(entry =>
+                    {
+                        var copy = entry!.DeepClone().AsObject();   // ({contentBase64, ...entry}) => entry
+                        copy.Remove("contentBase64");
+                        return (JsonNode)copy;
+                    })]),
+                });
 
-            // 8-9. commit: the artifact, then its provenance; the journal goes, then the backup.
-            try { store.Commit(attempt, artifact, DeliveryStore.SuccessProvenance(receipt)); }
+            // 8-9. commit: an explainer's frozen files re-checked (A:5120-5123), the artifact, then its provenance; the journal goes,
+            // then the backup.
+            try
+            {
+                if (bundle is not null) ExplainerPipeline.AssertDependencies(bundle);
+                store.Commit(attempt, artifact, DeliveryStore.SuccessProvenance(receipt));
+            }
+            catch (ArchifyDiagnosticException error)
+            {
+                return ReportDelivery(Failure("commit", outputPath, $"Could not commit verified delivery \"{outputPath}\": {error.Message}", error.Diagnostics));
+            }
             catch (Exception error)
             {
                 var message = $"Could not commit verified delivery \"{outputPath}\": {error.Message}";
@@ -245,7 +297,7 @@ static partial class DeliverCommand
 
     // The success receipt (A:4952-4990), without `update` (Q5).
     static JsonObject Receipt(string receiptId, string type, string input, string output, byte[] specification, byte[] artifact, JsonObject checker,
-        string html, JsonObject? sourceEvidence, List<Diagnostic> localeWarnings)
+        string html, JsonObject? sourceEvidence, List<JsonObject> localeWarnings)
     {
         var checks = checker["checks"]!.AsArray();
         var composition = checker["composition"]!;
@@ -276,7 +328,7 @@ static partial class DeliverCommand
             if (repository["linkMode"].Truthy()) evidence["linkMode"] = repository["linkMode"]!.DeepClone();
             receipt["evidence"] = evidence;
         }
-        if (localeWarnings.Count > 0) receipt["diagnostics"] = new JsonArray([.. localeWarnings.Select(d => (JsonNode)d.ToJson())]);
+        if (localeWarnings.Count > 0) receipt["diagnostics"] = new JsonArray([.. localeWarnings]);
         return receipt;
     }
 

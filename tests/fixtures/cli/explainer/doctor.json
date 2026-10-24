@@ -1,0 +1,11 @@
+{
+  "args": [
+    "doctor"
+  ],
+  "files": {},
+  "exit": 0,
+  "stdout": "Archify doctor\n\n[ok] Node.js v24.12.0 (requires >=18)\n[ok] Core template\n[ok] Example renderer\n[ok] Live preview runtime\n[ok] Visual-check runtime\n[ok] Finalize runtime\n[ok] Output path safety runtime\n[ok] Atomic output safety runtime\n[ok] Physical path semantics runtime\n[ok] Sidecar path naming runtime\n[ok] Portable path contract runtime\n[ok] Scenario recipe guide\n[ok] Progressive authoring references\n[ok] Architecture compare runtime and proof fixtures\n[ok] Standalone schema validators\n[ok] architecture renderer, schema, and example\n[ok] workflow renderer, schema, and example\n[ok] sequence renderer, schema, and example\n[ok] dataflow renderer, schema, and example\n[ok] lifecycle renderer, schema, and example\n[ok] erd renderer, schema, and example\n[ok] tree renderer, schema, and example\n[ok] class renderer, schema, and example\n[ok] timeline renderer, schema, and example\n[ok] waterfall renderer, schema, and example\n[ok] explainer renderer, schema, and example\n[ok] Explainer runtime and reader assets\n\nArchify is ready.\n",
+  "stderr": "",
+  "entries": [],
+  "sidecars": {}
+}

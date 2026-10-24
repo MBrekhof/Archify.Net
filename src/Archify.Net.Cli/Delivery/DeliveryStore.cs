@@ -41,9 +41,11 @@ internal sealed record FailureRecord(string Status, Diagnostic? Diagnostic = nul
 
 // inspectArtifactDeliveryProvenance's result: the gate's status (current | unknown | failed | locked | mismatch | invalid), the
 // delivery receiptId, its one failure diagnostic, and the bytes it read (the expected bindings verifyDeliveryUnchanged re-checks).
+// A current one also names the delivered type (A:2178).
 internal sealed record Provenance(bool Ok, string Status, string? ReceiptId = null, Diagnostic? Failure = null)
 {
     public IReadOnlyList<Diagnostic> Diagnostics => Failure is null ? [] : [Failure];
+    public string? Type { get; init; }
     public byte[] Artifact { get; init; } = [];
     public byte[]? Sidecar { get; init; }
 }
@@ -59,8 +61,8 @@ internal sealed class DeliveryStore
     // The write seam: every sidecar and the artifact go through it as (target, bytes, backup path or null).
     public Action<string, byte[], string?> Publish { get; init; } = PublishFile;
 
-    // The check seam: deliver's final artifact check (A:4847) on the bytes to be committed.
-    public Func<byte[], CheckResult> Check { get; init; } = bytes => ArchifyNet.Check(bytes);
+    // The check seam: deliver's final artifact check (A:4910) on the bytes to be committed, reported as the given file.
+    public Func<byte[], string, CheckResult> Check { get; init; } = Cli.CheckArtifact;
 
     static OutputPaths Paths => OutputPaths.Native;
 
@@ -217,13 +219,18 @@ internal sealed class DeliveryStore
         attempt.JournalWritten = true;
     }
 
-    // deliverySuccessProvenance (A:1889-1901), serialised.
-    public static byte[] SuccessProvenance(JsonObject receipt) => Sidecar(new JsonObject
+    // deliverySuccessProvenance (A:1889-1901), serialised; an explainer's receipt carries its `explainer` binding last.
+    public static byte[] SuccessProvenance(JsonObject receipt)
     {
-        ["schemaVersion"] = 1, ["receiptId"] = receipt["receiptId"]!.DeepClone(), ["status"] = "current", ["command"] = "deliver",
-        ["type"] = receipt["type"]!.DeepClone(), ["input"] = receipt["input"]!.DeepClone(), ["output"] = receipt["output"]!.DeepClone(),
-        ["specification"] = receipt["specification"]!.DeepClone(), ["artifact"] = receipt["artifact"]!.DeepClone(),
-    });
+        var provenance = new JsonObject
+        {
+            ["schemaVersion"] = 1, ["receiptId"] = receipt["receiptId"]!.DeepClone(), ["status"] = "current", ["command"] = "deliver",
+            ["type"] = receipt["type"]!.DeepClone(), ["input"] = receipt["input"]!.DeepClone(), ["output"] = receipt["output"]!.DeepClone(),
+            ["specification"] = receipt["specification"]!.DeepClone(), ["artifact"] = receipt["artifact"]!.DeepClone(),
+        };
+        if (receipt["explainer"].Truthy()) provenance["explainer"] = receipt["explainer"]!.DeepClone();
+        return Sidecar(provenance);
+    }
 
     // recordDeliveryFailure (A:1607-1872) minus the target snapshot: the lock (acquired here when the attempt holds none), the
     // journal (created if missing), then the failed marker when an artifact exists ('absent' otherwise), then the lock released.
@@ -383,6 +390,7 @@ internal sealed class DeliveryStore
 
     // --- the provenance gate (check --require-provenance, survey-delivery §2.4) ---
 
+    // TYPES (A:12 at v3.2.0): the ten diagram types and explainer.
     static readonly HashSet<string> Types = [.. Enum.GetValues<DiagramType>().Select(type => type.Name())];
 
     // inspectArtifactDeliveryProvenance (A:5309-5424): (a) the artifact's realpath read as a regular file, then gates (b)-(i). With
@@ -529,7 +537,7 @@ internal sealed class DeliveryStore
                     },
                     "restore the delivered artifact or rerun deliver to create a matching artifact and provenance pair", receiptId);
             // (i)
-            return new(true, "current", receiptId);
+            return new(true, "current", receiptId) { Type = Text(receipt["type"]) };
         }
     }
 

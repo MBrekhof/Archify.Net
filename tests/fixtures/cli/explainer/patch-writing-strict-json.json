@@ -1,0 +1,41 @@
+{
+  "args": [
+    "patch",
+    "explainer",
+    "page.html",
+    "first",
+    "replacement.json",
+    "out.html",
+    "--writing",
+    "strict",
+    "--json"
+  ],
+  "files": {
+    "author.json": "tests/fixtures/cli/inputs/explainer/patch-author.json",
+    "replacement.json": "tests/fixtures/cli/inputs/explainer/patch-writing.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "deliver",
+        "explainer",
+        "author.json",
+        "page.html",
+        "--json"
+      ],
+      "exit": 0
+    }
+  ],
+  "exit": 1,
+  "stdout": "{\n  \"schemaVersion\": 1,\n  \"ok\": false,\n  \"command\": \"patch\",\n  \"stage\": \"prepare\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\page.html\",\n  \"output\": \"<WORK>\\\\out.html\",\n  \"error\": \"Explainer draft is invalid.\",\n  \"diagnostics\": [\n    {\n      \"code\": \"explainer/writing-light-verb\",\n      \"severity\": \"error\",\n      \"message\": \"A light-verb construction can obscure the action.\",\n      \"subject\": {\n        \"line\": 20,\n        \"component\": \"prose\",\n        \"panelId\": \"first\",\n        \"input\": \"<WORK>\\\\author.json\"\n      },\n      \"evidence\": {\n        \"rule\": \"light-verb\",\n        \"reason\": \"A light-verb construction can obscure the action.\",\n        \"example\": \"进行检查 → 检查；做出决定 → 决定; make a decision → decide\",\n        \"matched\": \"perform an analysis of\"\n      },\n      \"supportedFixes\": [\n        \"Use the direct action verb where it preserves the meaning; name who performs the action.\"\n      ]\n    },\n    {\n      \"code\": \"explainer/writing-redundancy\",\n      \"severity\": \"error\",\n      \"message\": \"Adjacent wording may repeat the same meaning.\",\n      \"subject\": {\n        \"line\": 20,\n        \"component\": \"prose\",\n        \"panelId\": \"first\",\n        \"input\": \"<WORK>\\\\author.json\"\n      },\n      \"evidence\": {\n        \"rule\": \"redundancy\",\n        \"reason\": \"Adjacent wording may repeat the same meaning.\",\n        \"example\": \"提前预先 → 提前; each and every → each\",\n        \"matched\": \"each and every\"\n      },\n      \"supportedFixes\": [\n        \"Keep one expression of the meaning unless both terms carry a necessary distinction.\"\n      ]\n    }\n  ]\n}\n",
+  "stderr": "",
+  "entries": [
+    "author.json",
+    "page.delivery.json",
+    "page.html",
+    "replacement.json"
+  ],
+  "sidecars": {
+    "page.delivery.json": "{\n  \"schemaVersion\": 1,\n  \"receiptId\": \"<uuid>\",\n  \"status\": \"current\",\n  \"command\": \"deliver\",\n  \"type\": \"explainer\",\n  \"input\": \"<WORK>\\\\author.json\",\n  \"output\": \"<WORK>\\\\page.html\",\n  \"specification\": {\n    \"sha256\": \"5a24df65a76b8df7eb0933597e5a19e548735a19b5eb9915e2057043f778988e\",\n    \"bytes\": 695\n  },\n  \"artifact\": \"<artifact>\",\n  \"explainer\": {\n    \"preparedSha256\": \"<sha256>\",\n    \"dependencies\": []\n  }\n}\n"
+  }
+}
