@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archify.Net explainer showcase</title>
+<style>
+  :root { color-scheme: light dark; --bg: #fbfaf7; --fg: #1d1f24; --muted: #5d636e; --line: #d9d5cb; --link: #1b5fc1; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #15171b; --fg: #e8e8e4; --muted: #9aa0ab; --line: #343841; --link: #7fb0ff; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, sans-serif; }
+  main { max-width: 42rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+  h1 { font-size: 1.6rem; margin: 0 0 .5rem; }
+  p { color: var(--muted); }
+  ul { list-style: none; padding: 0; margin: 1.5rem 0; }
+  li { border-top: 1px solid var(--line); padding: .8rem 0; }
+  li:last-child { border-bottom: 1px solid var(--line); }
+  a { color: var(--link); font-weight: 600; }
+  small { display: block; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Archify.Net explainer showcase</h1>
+  <p>Four one-page explainers rendered by the Archify.Net port of archify 3.2.0 from their Markdown drafts
+  (<code>archify deliver explainer &lt;case&gt;.archify.md &lt;case&gt;.html --quality standard</code>).
+  Each page is the answer first, then structured panels with native diagrams.</p>
+  <ul>
+    <li><a href="first-rental.html">First rental</a><small>Chinese. A workflow diagram with linked steps, and a clause table. Draft: <a href="first-rental.archify.md">first-rental.archify.md</a></small></li>
+    <li><a href="p99-tail-latency.html">P99 tail latency</a><small>Chinese. A before and after chart, and a workflow diagram of the triage order. Draft: <a href="p99-tail-latency.archify.md">p99-tail-latency.archify.md</a></small></li>
+    <li><a href="tls-first-visit.html">TLS first visit</a><small>English. A sequence diagram of the first HTTPS handshake. Draft: <a href="tls-first-visit.archify.md">tls-first-visit.archify.md</a></small></li>
+    <li><a href="finalize-delivery.html">Finalize delivery</a><small>Chinese. A workflow of the finalize gates. Draft: <a href="finalize-delivery.archify.md">finalize-delivery.archify.md</a></small></li>
+  </ul>
+  <p>Upstream's live copies: <a href="https://tt-a1i.github.io/archify/cases/explainer/">tt-a1i.github.io/archify/cases/explainer</a>.</p>
+</main>
+</body>
+</html>

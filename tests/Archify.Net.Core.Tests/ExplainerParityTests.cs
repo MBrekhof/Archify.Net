@@ -444,6 +444,23 @@ public partial class ExplainerParityTests
         }
     }
 
+    // The pages committed under showcase/explainer (rendered by `archify deliver explainer <case>.archify.md <case>.html --quality standard`)
+    // equal the cases goldens, which are minted from upstream v3.2.0, after NormalizePage. Not upstream's committed docs/cases pages: those
+    // came from an older build.
+    [Theory]
+    [InlineData("first-rental")]
+    [InlineData("p99-tail-latency")]
+    [InlineData("tls-first-visit")]
+    [InlineData("finalize-delivery")]
+    public void Showcase_pages_match_upstream(string name)
+    {
+        var page = Path.Combine(Fixtures.RepoRoot, "showcase", "explainer", name + ".html");
+        Assert.True(File.Exists(page), page);
+        var expected = Expected("cases", name);
+        var actual = NormalizePage(Fixtures.Lf(page));
+        if (expected != actual) Assert.Fail(ParityTests.FirstDifference(expected, actual));
+    }
+
     // Every .fixed golden is its Node golden with only Decisions 2 and 3 applied (分支 N → Branch N, lang="zh-CN" → lang="en"),
     // the stable IDs and hashes that cover the changed text aside, and its seed never asks for a zh locale.
     [Fact] public void Fixed_goldens_differ_only_by_the_decided_fixes()

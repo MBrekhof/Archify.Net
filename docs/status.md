@@ -2,7 +2,7 @@
 
 Summary table in [`README.md`](../README.md#status).
 
-The full suite (`dotnet test`) runs 6265 tests: 5288 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 7384 tests: 6334 in `Archify.Net.Core.Tests`, 1034 in `Archify.Net.Cli.Tests` and 16 in `Archify.Net.Mcp.Tests`.
 
 ## Phase 1 — Foundation, validation gates, architecture renderer, artifact checker
 
@@ -116,3 +116,27 @@ The full suite (`dotnet test`) runs 6265 tests: 5288 in `Archify.Net.Core.Tests`
 - Test totals at `2c68fd8` (`dotnet test`, Browser category included): Core 5288, Cli 964, Mcp 13, 0 failed, 0 warnings.
 - Re-pin note: Pele upstream is now at 1.9.0, while archify 3.2.0 vendors 1.3.0. A future archify re-pin of Pele is its
   own card.
+
+## PORT-009 — the explainer type
+
+- Ported: parser, validator, preparation, renderer, checker and panel patch (`src/Archify.Net.Core/Explainer`); the CLI's
+  `validate`, `deliver`, `render`, `check`, `patch` and `finalize` on explainer drafts and the explainer browser gate
+  (`src/Archify.Net.Cli`); the `archify_patch` MCP tool and the `writing` / `browserCheck` parameters; `skill/archify/SKILL.md`
+  re-derived from the 3.2.0 skill (the explainer description, the `[archify explainer: ...]` mode rules and Output lines).
+- Parity: every expected value is a golden Node minted from upstream 3.2.0 (`tools/explainer-seeds`, `node
+  tools/capture-fixtures.mjs`, and `node tools/capture-cli-fixtures.mjs` for the CLI). Pages are compared byte for byte except
+  their gzip payloads, which are compared inflated (Decision 1). Stated deviations, fixed upstream defects and the parked cases
+  (card PORT-013, CARD-2523) are in [`deviations.md`](deviations.md#explainer-port-009). Both captures give the same hash on a
+  second run, and `git status --porcelain tests/` is empty after a re-capture.
+- Showcase: `showcase/explainer/` holds the four upstream cases (`first-rental`, `p99-tail-latency`, `tls-first-visit`,
+  `finalize-delivery`) rendered by the port with `archify deliver explainer <case>.archify.md <case>.html --quality standard`,
+  served by GitHub Pages (https://mbrekhof.github.io/Archify.Net/showcase/explainer/). `Showcase_pages_match_upstream` compares
+  each page with the cases golden minted from v3.2.0. Upstream's own committed `docs/cases/explainer/*.html` are not the
+  reference: they came from an older build, and each native child carries `<meta name="generator" content="archify 3.1.1-dev.1">`
+  where v3.2.0 writes `archify 3.2.0`. So their children's SHA-256, the manifest, the bundle digest and `data-revision` differ from
+  a v3.2.0 render; every other child byte is equal.
+- Browser gate: compared with upstream by verdicts, group statuses and diagnostic codes (`Verdicts_match_node`). Of the showcase
+  drafts, `tls-first-visit` passes `finalize explainer --browser-check`; `first-rental`, `p99-tail-latency` and
+  `finalize-delivery` fail it on `explainer/browser-readability` (small workflow text) in the port; not compared with Node for these runs.
+- Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1034, Mcp 16, 0 failed, 0 warnings. Without the
+  Browser category: Core 6334, Cli 961, Mcp 13.

@@ -162,6 +162,143 @@ public sealed class McpPipelineToolTests
         }
     }
 
+    private static string NewDirWithDraft(string prefix, string draft = "first-rental")
+    {
+        var dir = Path.Combine(Path.GetTempPath(), prefix + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(dir);
+        File.Copy(Path.Combine(McpTestHost.RepoRoot, "showcase", "explainer", draft + ".archify.md"), Path.Combine(dir, "answer.archify.md"));
+        return dir;
+    }
+
+    [Fact]
+    public async Task ExplainerTools_RenderValidateFinalizeAndPatch()
+    {
+        var tempDir = NewDirWithDraft("archify-mcp-explainer-");
+        try
+        {
+            await using var host = await McpTestHost.StartAsync(tempDir);
+
+            var validate = await host.Client.CallToolAsync("archify_validate", new Dictionary<string, object?>
+            {
+                ["type"] = "explainer",
+                ["input"] = "answer.archify.md",
+                ["quality"] = "standard",
+                ["writing"] = "strict",
+            });
+            Assert.NotEqual(true, validate.IsError);
+            using (var doc = JsonDocument.Parse(McpTestHost.ExtractSingleText(validate)))
+            {
+                Assert.True(doc.RootElement.GetProperty("ok").GetBoolean());
+                Assert.Equal("explainer", doc.RootElement.GetProperty("type").GetString());
+            }
+
+            var render = await host.Client.CallToolAsync("archify_render", new Dictionary<string, object?>
+            {
+                ["type"] = "explainer",
+                ["input"] = "answer.archify.md",
+                ["output"] = "rendered.html",
+            });
+            Assert.NotEqual(true, render.IsError);
+            Assert.True(File.Exists(Path.Combine(tempDir, "rendered.html")));
+
+            // An explainer runs its browser check only on request: without browserCheck no Chromium is needed.
+            var finalize = await host.Client.CallToolAsync("archify_finalize", new Dictionary<string, object?>
+            {
+                ["type"] = "explainer",
+                ["input"] = "answer.archify.md",
+                ["output"] = "answer.html",
+                ["quality"] = "standard",
+                ["writing"] = "warn",
+            });
+            Assert.NotEqual(true, finalize.IsError);
+            using (var doc = JsonDocument.Parse(McpTestHost.ExtractSingleText(finalize)))
+            {
+                var root = doc.RootElement;
+                Assert.True(root.GetProperty("ok").GetBoolean());
+                Assert.Equal("explainer", root.GetProperty("type").GetString());
+                Assert.Equal("pass", root.GetProperty("gates").GetProperty("deliver").GetString());
+                Assert.Equal("not-run", root.GetProperty("gates").GetProperty("browser-check").GetString());
+                Assert.False(root.GetProperty("browserCheck").GetProperty("requested").GetBoolean());
+            }
+
+            await File.WriteAllTextAsync(Path.Combine(tempDir, "replacement.md"), "## 合同里必须写清哪些条款？ {#clauses}\n\n只看三条：租金、押金、租期。\n");
+            var patch = await host.Client.CallToolAsync("archify_patch", new Dictionary<string, object?>
+            {
+                ["artifact"] = "answer.html",
+                ["panelId"] = "clauses",
+                ["replacement"] = "replacement.md",
+                ["output"] = "patched.html",
+                ["quality"] = "standard",
+                ["repoRoot"] = " ",
+                ["writing"] = "",
+                ["cwd"] = "",
+            });
+            Assert.NotEqual(true, patch.IsError);
+            using (var doc = JsonDocument.Parse(McpTestHost.ExtractSingleText(patch)))
+            {
+                Assert.True(doc.RootElement.GetProperty("ok").GetBoolean());
+                Assert.Equal("patch", doc.RootElement.GetProperty("command").GetString());
+            }
+
+            Assert.Contains("只看三条", await File.ReadAllTextAsync(Path.Combine(tempDir, "patched.html")), StringComparison.Ordinal);
+
+            // A panel id the page does not carry is a refusal, not an exception.
+            var missing = await host.Client.CallToolAsync("archify_patch", new Dictionary<string, object?>
+            {
+                ["artifact"] = "answer.html",
+                ["panelId"] = "nope",
+                ["replacement"] = "replacement.md",
+                ["output"] = "patched-2.html",
+            });
+            Assert.True(missing.IsError);
+            using var missingDoc = JsonDocument.Parse(McpTestHost.ExtractSingleText(missing));
+            Assert.False(missingDoc.RootElement.GetProperty("ok").GetBoolean());
+        }
+        finally
+        {
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, recursive: true);
+            }
+        }
+    }
+
+    [Trait("Category", "Browser")]
+    [Fact]
+    public async Task FinalizeTool_ExplainerWithBrowserCheck_RunsTheBrowserGate()
+    {
+        RequireChromium();
+
+        // tls-first-visit passes the browser gate; first-rental fails explainer/browser-readability on its workflow text.
+        var tempDir = NewDirWithDraft("archify-mcp-explainer-chrome-", "tls-first-visit");
+        try
+        {
+            await using var host = await McpTestHost.StartAsync(tempDir);
+            var result = await host.Client.CallToolAsync("archify_finalize", new Dictionary<string, object?>
+            {
+                ["type"] = "explainer",
+                ["input"] = "answer.archify.md",
+                ["output"] = "answer.html",
+                ["quality"] = "standard",
+                ["browserCheck"] = true,
+            });
+
+            Assert.NotEqual(true, result.IsError);
+            using var doc = JsonDocument.Parse(McpTestHost.ExtractSingleText(result));
+            var root = doc.RootElement;
+            Assert.True(root.GetProperty("ok").GetBoolean());
+            Assert.Equal("pass", root.GetProperty("gates").GetProperty("browser-check").GetString());
+            Assert.True(root.GetProperty("browserCheck").GetProperty("requested").GetBoolean());
+        }
+        finally
+        {
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, recursive: true);
+            }
+        }
+    }
+
     [Fact]
     public async Task StdioSubprocess_EndToEndSmokeTest()
     {
@@ -177,7 +314,7 @@ public sealed class McpPipelineToolTests
 
         await using var client = await McpClient.CreateAsync(transport);
         var tools = await client.ListToolsAsync();
-        Assert.Equal(4, tools.Count);
+        Assert.Equal(5, tools.Count);
 
         var guide = await client.CallToolAsync("archify_guide", new Dictionary<string, object?>
         {
@@ -231,7 +368,7 @@ public sealed class McpPipelineToolTests
             Assert.True(File.Exists(Path.Combine(tempDir, "out.html")));
 
             var toolsAfter = await client.ListToolsAsync();
-            Assert.Equal(4, toolsAfter.Count);
+            Assert.Equal(5, toolsAfter.Count);
         }
         finally
         {

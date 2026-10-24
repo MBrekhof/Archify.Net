@@ -45,9 +45,9 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 6 | MCP server and SKILL.md | Done |
 | PORT-007 | Re-pin to upstream 3.2.0: timeline DST ticks, waterfall time precision, erd bridges, migration contracts, CLI `browserCheck` | Done |
 | PORT-008 | Pele charts in C#: pie, xychart, quadrantChart, sankey, radar, venn | Done |
-| PORT-009 | The explainer type | Planned |
+| PORT-009 | The explainer type: one-page answers from a Markdown draft, `patch`, the explainer browser gate, `archify_patch` and the re-derived skill | Done |
 
-The full suite (`dotnet test`) runs 6265 tests: 5288 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 7384 tests: 6334 in `Archify.Net.Core.Tests`, 1034 in `Archify.Net.Cli.Tests` and 16 in `Archify.Net.Mcp.Tests` (0 failed, 0 warnings; 76 of them are in the `Browser` category and need Chromium).
 Per-phase parity results and test counts are in [`docs/status.md`](docs/status.md).
 
 ## Quick start
@@ -123,8 +123,25 @@ All ten types are ported.
 
 archify 3.2.0 draws charts for its explainer type with a vendored copy of Pele 1.3.0. `src/Archify.Net.Core/Pele` ports
 it. The six chart fence types (pie, xychart, quadrantChart, sankey, radar, venn) render to SVG as archify 3.2.0 does,
-byte for byte, apart from the deviations in [`docs/deviations.md`](docs/deviations.md#pele-charts-port-008). No public
-API or CLI command reaches the charts yet; the explainer type (PORT-009) will.
+byte for byte, apart from the deviations in [`docs/deviations.md`](docs/deviations.md#pele-charts-port-008). They are
+reached through the explainer type (below): a `mermaid` fence or a chart data file in an explainer draft.
+
+### Explainer
+
+archify 3.2.0's `explainer` type turns a Markdown (or JSON) draft into a one-page answer: the conclusion first, then
+structured panels with native diagrams and charts. `ArchifyNet.RenderExplainer` renders it from the library; the CLI takes it
+in `validate`, `deliver`, `render`, `check`, `patch` and `finalize` (`archify finalize explainer answer.archify.md answer.html
+--browser-check` adds the browser gate), and `archify-mcp` in `archify_validate`, `archify_render`, `archify_finalize` and
+`archify_patch`. A page equals upstream's byte for byte except its gzip payloads, which are .NET's stream and inflate to the
+same bytes (see [`docs/deviations.md`](docs/deviations.md#explainer-port-009)).
+
+Showcase: [`showcase/explainer/`](showcase/explainer/index.html) holds four explainers rendered by the port with
+`archify deliver explainer <case>.archify.md <case>.html --quality standard`, from the drafts of upstream's cases. Live at
+https://mbrekhof.github.io/Archify.Net/showcase/explainer/ next to upstream's own copies at
+https://tt-a1i.github.io/archify/cases/explainer/. The committed pages equal a v3.2.0 render (`Showcase_pages_match_upstream`),
+but upstream's committed `docs/cases/explainer/*.html` do not: each of their native children carries
+`<meta name="generator" content="archify 3.1.1-dev.1">` where v3.2.0 writes `archify 3.2.0`, from an older build. So their children's
+SHA-256, manifest, bundle digest and `data-revision` differ from a v3.2.0 render; every other child byte is equal.
 
 ## Source evidence
 
@@ -163,7 +180,8 @@ archify install-browser
 `finalize` need it; `archify doctor` reports whether it is installed.
 
 Commands, each with one example (`<type>` is one of architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class,
-timeline, waterfall; `archify --help` prints the full usage):
+timeline, waterfall, or `explainer` for `validate`, `deliver`, `render` and `finalize`, whose input is then a `.md` or `.json` draft;
+`archify --help` prints the full usage):
 
 | Command | Example |
 |---|---|
@@ -177,6 +195,7 @@ timeline, waterfall; `archify --help` prints the full usage):
 | `visual-check` | `archify visual-check web-app.html --out-dir evidence` |
 | `guide` | `archify guide "payment flow" --lang en` |
 | `examples` | `archify examples` (renders 15 example diagrams to HTML in `./examples/`) |
+| `patch` | `archify patch explainer answer.html clauses replacement.md revised.html --json` (explainer pages only) |
 | `doctor` | `archify doctor` |
 | `install-browser` | `archify install-browser` |
 | `demo` | `archify demo demo-out` (writes `demo-out/archify-demo.html`) |
@@ -195,7 +214,7 @@ arguments (`--out-dir` without a value still exits `2`).
 
 ## MCP server and skill
 
-`src/Archify.Net.Mcp` is the `archify-mcp` stdio MCP server (`ModelContextProtocol` 2.2.0). It dispatches its four tools in-process through `Archify.Net.Cli`.
+`src/Archify.Net.Mcp` is the `archify-mcp` stdio MCP server (`ModelContextProtocol` 2.2.0). It dispatches its five tools in-process through `Archify.Net.Cli`.
 
 Pack and install both dotnet tools (and the Chromium headless shell for `archify_finalize`):
 
@@ -233,9 +252,10 @@ Tools exposed by `archify-mcp`:
 | Tool | Parameters | Description |
 |---|---|---|
 | `archify_guide` | `query?`, `lang?` (`"en"` \| `"zh"`) | Recommend a diagram type and scenario recipe for a plain-language scenario or question, or list all scenario recipes when `query` is omitted. |
-| `archify_validate` | `type`, `input`, `layoutJson?`, `quality?`, `repoRoot?`, `cwd?` | Validate a JSON specification against schema, layout and composition rules, or emit the resolved layout geometry report (`--layout-json`) when `layoutJson` is `true`. |
+| `archify_validate` | `type`, `input`, `layoutJson?`, `quality?`, `repoRoot?`, `writing?`, `cwd?` | Validate a JSON specification against schema, layout and composition rules, or emit the resolved layout geometry report (`--layout-json`) when `layoutJson` is `true`. |
 | `archify_render` | `type`, `input`, `output?`, `quality?`, `repoRoot?`, `cwd?` | Render a JSON specification directly to a standalone HTML file and return the resolved output HTML path written by the CLI. |
-| `archify_finalize` | `type`, `input`, `output`, `receipt?`, `outDir?`, `quality?`, `repoRoot?`, `candidateSha256?`, `cwd?` | Run `validate`, `deliver`, strict `check` and headless Chromium `browser-check`, returning the compact JSON finalize receipt. |
+| `archify_finalize` | `type`, `input`, `output`, `receipt?`, `outDir?`, `quality?`, `repoRoot?`, `candidateSha256?`, `writing?`, `browserCheck?`, `cwd?` | Run `validate`, `deliver`, strict `check` and headless Chromium `browser-check`, returning the compact JSON finalize receipt. For an `explainer`, the browser check runs only when `browserCheck` is `true`. |
+| `archify_patch` | `artifact`, `panelId`, `replacement`, `output`, `quality?`, `repoRoot?`, `writing?`, `cwd?` | Replace one panel of a delivered explainer page with a Markdown panel of the same stable id, and return the JSON patch receipt. |
 
 CLI exit code `0` maps to `IsError = false`; exit codes `1` and `2` map to `IsError = true` with the full JSON receipt or diagnostic text in the tool result content.
 
@@ -291,20 +311,22 @@ src/Archify.Net.Core/        the library
   Erd/                       the erd renderer; Grid.cs, the banded grid, is shared with class
   Evidence/                  repository evidence verifier, remote URL parser, git runner
   Pele/                      the Pele 1.3.0 chart port (six chart types)
-  Explainer/                 ExplainerCharts: archify's chart fence and data-file entry points
+  Explainer/                 the explainer type: parser, validator, preparation, renderer, checker, panel patch, and the chart entry points
 src/Archify.Net.Cli/         the archify dotnet tool: dispatch, commands, delivery (lock, journal, sidecars), browser gates, finalize
-src/Archify.Net.Mcp/         the archify-mcp stdio MCP server (archify_guide, archify_validate, archify_render, archify_finalize)
+src/Archify.Net.Mcp/         the archify-mcp stdio MCP server (archify_guide, archify_validate, archify_render, archify_finalize, archify_patch)
 skill/archify/               self-contained agent skill package (SKILL.md, references/, schemas/, examples/)
 tests/Archify.Net.Core.Tests xUnit suite
 tests/Archify.Net.Cli.Tests  xUnit suite for the CLI (fixtures in tests/fixtures/cli)
 tests/Archify.Net.Mcp.Tests  xUnit suite for the MCP server and skill package
 tests/goldens/               upstream-rendered HTML and checker reports
 tests/fixtures/              diagram inputs, receipts, layout reports, Js fixtures, checker probes
+showcase/explainer/         four explainer drafts and their rendered pages (GitHub Pages)
 upstream/                    verbatim copy of the upstream skill package files the port embeds or tests against
                              (schemas, locales, viewer, template, brand marks, references, examples)
 tools/capture-fixtures.mjs   dev-time fixture minting from upstream (Node)
 tools/capture-cli-fixtures.mjs  dev-time CLI fixture minting: runs upstream's bin/archify.mjs, records args, exit, stdout, stderr
 tools/chart-seeds/           chart seed inputs and fuzz settings for the capture (see its README)
+tools/explainer-seeds/       explainer seed inputs for the capture (see its README)
 tools/pele-internals/        a bundle of Pele 1.3.0 internals the capture calls
 tools/v8-math/               V8 math fixture generator (sin, cos, acos, atan2, log10, pow)
 docs/status.md               per-phase parity results

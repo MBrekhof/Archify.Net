@@ -65,9 +65,9 @@ public sealed class ArchifyTools : IDisposable
         OpenWorld = false)]
     [Description("Validate an Archify JSON specification against schema, layout, and composition rules without writing an HTML file, or emit the resolved layout geometry report when layoutJson is true.")]
     public Task<CallToolResult> ValidateAsync(
-        [Description("Diagram type: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, or waterfall.")]
+        [Description("Diagram type: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall, or explainer (a one-page answer from a .md or .json draft).")]
         string type,
-        [Description("Path to the input JSON specification file (resolved relative to cwd when not absolute).")]
+        [Description("Path to the input JSON specification file, or the explainer draft (.md or .json) (resolved relative to cwd when not absolute).")]
         string input,
         [Description("When true, emit the resolved layout geometry report (--layout-json, supported for architecture and workflow) instead of the validation receipt.")]
         bool layoutJson = false,
@@ -75,6 +75,8 @@ public sealed class ArchifyTools : IDisposable
         string? quality = null,
         [Description("Optional repository root path (--repo-root) for verifying source references.")]
         string? repoRoot = null,
+        [Description("Optional explainer writing-check mode: 'warn' (default), 'strict' or 'off'. Ignored for the other types.")]
+        string? writing = null,
         [Description("Optional working directory used to resolve relative paths.")]
         string? cwd = null,
         CancellationToken cancellationToken = default)
@@ -97,6 +99,7 @@ public sealed class ArchifyTools : IDisposable
             argv.Add(repoRoot.Trim());
         }
 
+        AddWriting(argv, writing);
         return ExecuteCliAsync(argv, cwd, cancellationToken);
     }
 
@@ -109,9 +112,9 @@ public sealed class ArchifyTools : IDisposable
         OpenWorld = false)]
     [Description("Render an Archify JSON specification directly to a standalone interactive HTML file without provenance sidecars or browser gates. Returns the resolved output HTML path written by the CLI.")]
     public Task<CallToolResult> RenderAsync(
-        [Description("Diagram type: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, or waterfall.")]
+        [Description("Diagram type: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall, or explainer (a one-page answer from a .md or .json draft).")]
         string type,
-        [Description("Path to the input JSON specification file (resolved relative to cwd when not absolute).")]
+        [Description("Path to the input JSON specification file, or the explainer draft (.md or .json) (resolved relative to cwd when not absolute).")]
         string input,
         [Description("Optional output HTML file path. When omitted, uses meta.output from the JSON specification or <type>.html.")]
         string? output = null,
@@ -151,11 +154,11 @@ public sealed class ArchifyTools : IDisposable
         Idempotent = true,
         Destructive = false,
         OpenWorld = false)]
-    [Description("Run the complete Archify delivery pipeline (validate, deliver with provenance sidecar, strict artifact check, and headless Chromium browser-check) and return the compact JSON finalize receipt.")]
+    [Description("Run the complete Archify delivery pipeline (validate, deliver with provenance sidecar, strict artifact check, and headless Chromium browser-check) and return the compact JSON finalize receipt. An explainer runs the browser check only on request (browserCheck).")]
     public Task<CallToolResult> FinalizeAsync(
-        [Description("Diagram type: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, or waterfall.")]
+        [Description("Diagram type: architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall, or explainer (a one-page answer from a .md or .json draft).")]
         string type,
-        [Description("Path to the input JSON specification file (resolved relative to cwd when not absolute).")]
+        [Description("Path to the input JSON specification file, or the explainer draft (.md or .json) (resolved relative to cwd when not absolute).")]
         string input,
         [Description("Required output HTML file path (resolved relative to cwd when not absolute).")]
         string output,
@@ -169,6 +172,10 @@ public sealed class ArchifyTools : IDisposable
         string? repoRoot = null,
         [Description("Optional expected SHA-256 hex digest of the input candidate file (--candidate-sha256).")]
         string? candidateSha256 = null,
+        [Description("Optional explainer writing-check mode: 'warn' (default), 'strict' or 'off'. Ignored for the other types.")]
+        string? writing = null,
+        [Description("For an explainer, also run the headless browser check (--browser-check); an explainer skips it otherwise. The other types always run it.")]
+        bool browserCheck = false,
         [Description("Optional working directory used to resolve relative paths.")]
         string? cwd = null,
         CancellationToken cancellationToken = default)
@@ -204,7 +211,66 @@ public sealed class ArchifyTools : IDisposable
             argv.Add(candidateSha256.Trim());
         }
 
+        AddWriting(argv, writing);
+        if (browserCheck)
+        {
+            argv.Add("--browser-check");
+        }
+
         return ExecuteCliAsync(argv, cwd, cancellationToken);
+    }
+
+    [McpServerTool(
+        Name = "archify_patch",
+        Title = "Patch Archify Explainer Panel",
+        ReadOnly = false,
+        Idempotent = true,
+        Destructive = false,
+        OpenWorld = false)]
+    [Description("Replace one panel of a delivered explainer page: the original page is checked, the panel with the given stable id is swapped for the replacement (a Markdown file holding one '##' panel with the same id), and the result is delivered to a new output page. Returns the JSON patch receipt.")]
+    public Task<CallToolResult> PatchAsync(
+        [Description("Path to the delivered explainer HTML page to patch (resolved relative to cwd when not absolute).")]
+        string artifact,
+        [Description("Stable id of the panel to replace (the {#id} on its '##' heading).")]
+        string panelId,
+        [Description("Path to the replacement Markdown file holding one '##' panel with the same id.")]
+        string replacement,
+        [Description("Output HTML file path for the patched page (resolved relative to cwd when not absolute).")]
+        string output,
+        [Description("Optional quality profile: 'standard' or 'showcase'.")]
+        string? quality = null,
+        [Description("Optional repository root path (--repo-root) for verifying source references.")]
+        string? repoRoot = null,
+        [Description("Optional writing-check mode: 'warn' (default), 'strict' or 'off'.")]
+        string? writing = null,
+        [Description("Optional working directory used to resolve relative paths.")]
+        string? cwd = null,
+        CancellationToken cancellationToken = default)
+    {
+        var argv = new List<string> { "patch", "explainer", artifact ?? string.Empty, panelId ?? string.Empty, replacement ?? string.Empty, output ?? string.Empty, "--json" };
+        if (!string.IsNullOrWhiteSpace(quality))
+        {
+            argv.Add("--quality");
+            argv.Add(quality.Trim());
+        }
+
+        if (!string.IsNullOrWhiteSpace(repoRoot))
+        {
+            argv.Add("--repo-root");
+            argv.Add(repoRoot.Trim());
+        }
+
+        AddWriting(argv, writing);
+        return ExecuteCliAsync(argv, cwd, cancellationToken);
+    }
+
+    private static void AddWriting(List<string> argv, string? writing)
+    {
+        if (!string.IsNullOrWhiteSpace(writing))
+        {
+            argv.Add("--writing");
+            argv.Add(writing.Trim());
+        }
     }
 
     internal async Task<CallToolResult> ExecuteCliAsync(

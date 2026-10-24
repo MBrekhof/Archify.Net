@@ -4,7 +4,7 @@ Back to [`README.md`](../README.md).
 
 ## Core library, renderers and repository evidence
 
-- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is not ported until PORT-009. The charts came first, in PORT-008 (see [Pele charts](#pele-charts-port-008)). `upstream/` leaves out `schemas/explainer.schema.json`, `examples/delivery.explainer.json` and `references/explainer-authoring.md`, and `explainer` is an unknown diagram type. `skill/archify/SKILL.md` keeps its 3.1.0 wording except the `--out-dir` sentences; PORT-009 re-derives it against 3.2.0.
+- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is ported: the charts in PORT-008 (see [Pele charts](#pele-charts-port-008)), the type itself in PORT-009 (see [Explainer](#explainer-port-009)). `ArchifyNet.Render` and `ArchifyNet.Validate` still refuse `explainer` with `NotSupportedException`: it is reached through `ArchifyNet.RenderExplainer`, `ExplainerPipeline` and the CLI. `skill/archify/SKILL.md` is re-derived from the 3.2.0 skill.
 - `Check` throws `NotSupportedException` when `RequireProvenance` is set: provenance is checked by `archify check --require-provenance`.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
@@ -49,12 +49,12 @@ Commands and configuration:
 - Explainer documents (PORT-009): `validate`, `deliver`, `render`, `check`, `patch`, `finalize` (with `--browser-check`) and the
   explainer browser gate of `browser-check` and `visual-check` take them as upstream does. Differences:
   - The explainer browser gate reads the canonical Viewer from the page's srcdoc frame. Upstream looks for it as a separate CDP target
-    (browser-check.mjs:131-133); a sandboxed srcdoc frame that Chromium keeps in process (the Playwright headless shell does) has
-    none, so upstream fails `explainer/browser-diagram-focus` at every viewport of every page whose steps link a diagram, and
-    `finalize explainer --browser-check` fails its browser gate. The port's verdicts are upstream's without those failures.
+    (browser-check.mjs:131-133); the Playwright headless shell keeps the sandboxed srcdoc frame in process, so it has none, and
+    upstream driven at that shell would fail `explainer/browser-diagram-focus` at every viewport of every page whose steps link a
+    diagram (on upstream's default desktop Chrome both agree). The port's verdicts are upstream's without those failures.
   - The gate runs on Playwright, not raw CDP: a page with JavaScript disabled is a context with `JavaScriptEnabled = false`, and each
     reset opens a fresh context, so its storage starts empty (upstream clears `localStorage` on the first page only). Console errors
-    of the srcdoc Viewer are not collected (upstream's page session does not see them either), and the Viewer has no target id.
+    of the srcdoc Viewer are not collected (upstream does not see an out-of-process Viewer's either), and the Viewer has no target id.
     Measured values are not compared with upstream's, only verdicts, group statuses and diagnostic codes (Decision 4).
   - `render explainer` on a draft whose chart front matter is not valid YAML (or an unreadable draft) prints the error's message,
     exit 1. Upstream has no diagnostic boundary there and Node prints the raw stack.
@@ -296,13 +296,6 @@ blank row of spaces (S1), and `sankey/render-rejects-6`, "rejects Café" (S3). T
   few others before `%%`, in each lexer position). `node tools/chart-seeds/venn-q1-grid.mjs` regenerates it; run it
   after `tools/chart-seeds/venn-oracle.mjs` changes.
 
-### PORT-009 note
-
-`ExplainerCharts` exists, but no CLI path reaches it until PORT-009 brings the explainer type. Upstream's
-`compileExplainerChart` throws on a front-matter YAML error (`charts.mjs` runs `detectType` outside its `try`), and
-`ExplainerCharts.Compile` lets that `PeleException` propagate. So the CLI must handle it as upstream's top-level
-handler does.
-
 ### Known leftovers (PORT-012)
 
 Card PORT-012 collects the test and tooling minors of PORT-008 and these parked contrived-input cases:
@@ -313,3 +306,114 @@ Card PORT-012 collects the test and tooling minors of PORT-008 and these parked 
   at the centre;
 - error messages (JSON strings, not SVG) can still carry U+FFFE or lone surrogates from a label;
 - the venn test oracle's allowance for a styled line could accept a token that spans the dropped `;` on the right line.
+
+## Explainer (PORT-009)
+
+The explainer type of archify 3.2.0 is ported in `src/Archify.Net.Core/Explainer` (the parser, validator, preparation,
+renderer, checker and panel patch), with the `validate`, `deliver`, `render`, `check`, `patch` and `finalize` commands and
+the explainer browser gate in `src/Archify.Net.Cli`, and the `archify_patch` MCP tool. Pages equal upstream byte for byte
+apart from the stated deviations below. Test names are in `tests/Archify.Net.Core.Tests/ExplainerParityTests.cs` unless
+another file is named; row names are `group/name` seeds from `tools/explainer-seeds/`. The CLI deviations are listed with the
+other CLI deviations, in the "Explainer documents" bullet of [CLI (phase 5)](#cli-phase-5).
+
+### Stated deviations
+
+- *Gzip payload (Decision 1, platform difference):* a page embeds each native diagram as a gzip payload. The port writes
+  .NET's `GZipStream` at level 9; Node's zlib (Chromium's fork) writes a different, slightly smaller stream (`first-rental`'s
+  child: 207,794 bytes against 206,599). Both inflate to the same bytes, no digest covers the payload, and `patch`, `check` and
+  the reader all inflate it, so the difference is invisible to a reader. The tests compare the inflated payloads and the rest of
+  the page byte for byte (`NormalizePage`). Pinned by `Gzip_payload_is_the_stated_deviation`. No upstream issue.
+- *Default locale (Decision 3, product choice):* a draft without `@meta locale` renders as `en` (`lang="en"`, English controls)
+  where upstream defaults to `zh-CN` (render.mjs:38). Every affected row is compared with its `.fixed` golden; the Node golden
+  stays. Pinned by `Default_locale_is_en_the_stated_deviation`, `Fixed_goldens_differ_only_by_the_decided_fixes` and the
+  `pages/no-locale` and `pages/r-no-locale` goldens. No upstream issue.
+- *Branch lane label (Decision 2, fixed upstream defect):* the workflow shorthand writes the lane label `分支 N`
+  (diagrams.mjs:270) on a page of any locale; the port writes `Branch N` unless the locale starts with `zh`. Pinned by
+  `Branch_lane_label_is_the_stated_deviation` and the `.fixed` goldens of the shorthand rows. Filed upstream.
+- *Prepared bundle in process:* `readPreparedBundle`'s `prepared-mismatch` reasons (`draft-path-mismatch`,
+  `draft-or-bundle-digest-mismatch`, `quality-profile-mismatch`, `writing-mode-mismatch`, `normalized-document-mismatch`) need a
+  bundle that does not belong to the draft. Upstream reaches them through a hand-made `ARCHIFY_EXPLAINER_PREPARED`; the CLI
+  reads no environment variable and passes the bundle in memory, so the same reasons are reached only through
+  `ExplainerPipeline.ReadPrepared`, pinned by the `prepare/read-*` rows (`read-other-path`, `read-other-draft`,
+  `read-bytes-tampered`, `read-quality`, `read-writing-mode`, `read-document`). The file-read `prepared-invalid` reasons
+  (missing file, invalid JSON) cannot occur from the CLI; the 64 MiB limit is still checked.
+- *Native children in process:* `prepareExplainerDiagrams` and `checkExplainerHtml` render and check each child in process,
+  with no 120 s or 60 s timeout. The checker receipt's `file` for a child (`%TEMP%\archify-explainer-diagram-<8 hex>\diagram.html`,
+  `%TEMP%\archify-explainer-check-XXXXXX\child.html`) is named but never written; the goldens tokenise it as `<TMP>`. A failing
+  explainer check in `deliver` or `validate` names the output or an unwritten temporary page where upstream names its staged
+  candidate (unreachable from a valid draft).
+- *Frozen-file identity:* `readContained` and `readSpec` compare the size and the last-write time before and after a read,
+  where Node also compares `dev` and `ino`. A same-size, same-time swap during a read is not caught, so `asset-changed` and
+  `diagram-source-changed` are race-only. Reparse points: symbolic links and junctions are refused below the root, other
+  reparse points are read as files, as libuv does (`Reparse_points_below_the_root_are_refused`,
+  `Only_symbolic_links_and_junctions_are_links`). Input-path identity follows links and is case-insensitive on Windows for
+  existing paths.
+- *Front matter on `render` (stated):* `render explainer` on a draft whose chart front matter is not valid YAML prints the
+  `PeleException` message on stderr and exits 1. Upstream has no diagnostic boundary on that path and Node prints a raw
+  stack (exit 1, empty stdout). Pinned by `ExplainerCommandTests.Render_front_matter_error_is_the_stated_deviation`. The other
+  commands report it as upstream does.
+- *Browser gate compared by verdict (Decision 4):* the explainer gate is compared with upstream's receipts by verdicts, group
+  statuses and diagnostic codes only, not by measured values. Pinned by `ExplainerBrowserTests.Verdicts_match_node`.
+- *Viewer frame in the explainer browser gate (`viewer-target`, platform difference, not an upstream defect):* the port's browser
+  is the Playwright headless shell (Chromium 1243), which keeps the sandboxed srcdoc diagram Viewer in process
+  (`Page.getFrameTree` lists it as a child frame, `Target.getTargets` lists only the page). Upstream's target-only lookup
+  (browser-check.mjs:129-133) would not find it there, so every page whose steps link a diagram would fail
+  `explainer/browser-diagram-focus` at every viewport and `finalize explainer --browser-check` would fail its browser gate. On
+  upstream's default desktop Chrome (`--headless=new`) the Viewer is a target and both agree. The port finds the Viewer among the
+  page's frames. The oracle runs upstream on the headless shell, so the capture writes `verdictsFixed` (Node's verdict without the
+  diagram-focus codes); pinned by the `verdictsFixed` known-deviation rows and
+  `ExplainerBrowserTests.Fixed_verdicts_differ_only_by_the_viewer_target`. No upstream issue.
+- *Playwright instead of raw CDP:* each reset opens a fresh browser context (empty storage; upstream clears `localStorage` on
+  the first page only, and the reader stores only on a user action), a page with JavaScript disabled is a context with
+  `JavaScriptEnabled = false`, console errors of the srcdoc Viewer are not collected (upstream's page session does not see
+  them when the Viewer is out of process, which is the case on desktop Chrome; on the headless shell, where the Viewer is in
+  process, upstream would record them), the Viewer has no target id, and `PressAsync(" ")` is Playwright's `Space`.
+- *`patch` and the temporary draft (mirrored from upstream for now):* `commandPatch` rebinds the bundle to a temporary
+  `patched-draft.json` (archify.mjs:5333-5334) and the delivered page embeds a relative path to that deleted file, so a patched
+  page is not byte-reproducible. The port does the same and the tests mask the path (`PatchedBinding` in
+  `ExplainerCommandTests`). Whether to keep this is Martin's open decision.
+- *Writing rule `ſ`:* `/iu` folds U+017F to `s` in V8 but .NET's `IgnoreCase` does not. It affects the English phrase rules only.
+  Pinned by the `writing/rule-fold-long-s` known-deviation row and `Writing_rules_do_not_fold_long_s`. No upstream issue.
+
+### Fixed upstream defects
+
+- *Heading with a lone CR or U+2028:* `parseExplainer` throws a `TypeError` on a heading line that holds a lone carriage
+  return or U+2028 (parse.mjs:86). The port reads the whole line as the heading and returns the ordinary diagnostics. Pinned by
+  `parse/cr-only`, `parse/line-separator-heading` and `Heading_with_a_line_terminator_is_a_diagnostic_not_a_crash`. Filed
+  upstream.
+- *`patch` on a page with a missing, duplicated or invalid payload:* the port reports the real reason, `embedded()`'s own
+  `explainer/patch-payload` diagnostic. Upstream says "Embedded native diagram payload cannot be inflated." because patch.mjs:26
+  reads `error.diagnostics` where the diagnostics are in `archifyDiagnostics`. Pinned by `patch/payload-missing`,
+  `patch/payload-twice`, `patch/payload-invalid-json` (known-deviation rows),
+  `Patch_payload_failures_keep_their_own_message` and, at the CLI, `ExplainerCommandTests.Patch_of_a_native_page_keeps_the_ports_payload_message`.
+  Filed upstream.
+
+### Known leftovers (PORT-013)
+
+Card PORT-013 (CARD-2523) collects the parked contrived-input cases of Tasks 2 to 8 and the test and tooling minors of
+PORT-009:
+
+- Integer-like keys in a Markdown draft (`@facts 2=x 1=y`, `nodeSources` rows) keep insertion order where V8 lists integer keys
+  first; `@diagram ... spec='null'` drops the `spec` key; a label with a lone surrogate throws in `InferredId`; JSON nested
+  deeper than 512 levels reports "not valid JSON"; `Compile` takes cell rows only.
+- Writing and validation: the `ſ` fold above; `DiagramTarget` on a native spec whose node or edge list is not an array reads it as
+  empty (upstream throws a `TypeError`); a source-map `line` that is not a number; a `WritingEntry` with a JSON-`null`
+  `panelId`; non-ASCII URL hosts follow `IdnMapping` (five hosts WHATWG accepts are refused).
+- Sources and preparation: the file-id race and reparse-point cases; `resolveExplainerSources` on a document without `sources`;
+  the chart-data catch also maps a malformed `data` object to "not UTF-8 text" in Node only; `AssertDependencies` and `Unpack`
+  decode base64 strictly where Node skips invalid characters; a non-object `meta` in a native spec; `ErrorCode` maps four fs
+  errors; `RethrowNative`'s `checks` branch is unreached; AppExecLink reparse points are not refused; `diagram-svg` is
+  unreachable; `portableBundle` uses Windows path semantics only; a child whose `html` is not a string; non-number `metric`
+  values, a document without `meta`, non-array `lanes` or `lines`; integer-like source or diagram ids.
+- Patch and check: `Same` treats undefined and JSON `null` as one; non-object payload shapes read as empty where JS throws or
+  iterates; `Unpack` on a non-object `preparedDiagrams`; `computeExplainerRevision` with a non-string `sourceText`; integer-like
+  or `__proto__` attribute names in `scanHtml`; a null `baseDir` with a relative path; a dependency `kind` or `id` that is JSON
+  `null`; a truncated gzip child.
+- CLI: a failing explainer check's `subject.input` in deliver and validate; `delivery/artifact-family-mismatch` with a `null`
+  family; a patch whose in-process deliver returns non-object JSON; a `mkdir` failure on `render explainer` is a message here and
+  a raw stack there; the temporary directory of a patch that cannot be removed stays silently.
+- Browser gate: `finalize explainer` on an unreadable draft gives .NET's file error text; console errors of the srcdoc Viewer
+  during upstream's short `inspectNativeViewer` window are not recorded; a radio control without a `name` in keyboard traversal;
+  `Located` on a diagnostic whose `subject` is not an object; non-object entries in a browser receipt.
+- Documentation spelling: upstream's `explainer-authoring.md` writes `node archify/bin/archify.mjs` where the other references
+  write `node bin/archify.mjs`; the port substitutes both with `archify`.

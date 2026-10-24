@@ -1,9 +1,9 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-24: PORT-008 (Pele charts in C#) is complete on branch `port-008-pele-charts` and ready for the Fable
-whole-branch review, then the fast-forward of master and the push. Next are PORT-009 (the explainer type), then PORT-012.
-Martin's standing order for the arc: PORT-008, then PORT-009, each Fable-reviewed (plan and branch), then merge and
-push. No deploy.
+Updated 2026-10-24: PORT-009 (the explainer type) is implemented on branch `port-009-explainer` (Tasks 1 to 9) and waits
+for the controller's close-out: upstream issues, board cards, the Fable whole-branch review, the merge of master and the push,
+and the Pages URL checks. PORT-008 was merged before it. Then PORT-013 (the parked PORT-009 items) and PORT-012.
+Martin's standing order for the arc: each branch Fable-reviewed (plan and branch), then merge and push. No deploy.
 
 ## What this repo is
 
@@ -67,14 +67,29 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   Wrong output on realistic input is still fixed. The final wave's parts B and C went to PORT-012.
 - Pele upstream is at 1.9.0. A future archify re-pin of Pele is its own card.
 
+## State: PORT-009 (2026-10-24)
+
+- Plan: `docs/superpowers/plans/2026-10-24-port009-explainer.md`. SDD ledger and every task report:
+  `.superpowers/sdd/2026-10-24-port009-explainer/` (Task 9: `task-9-report.md`).
+- Branch `port-009-explainer`, cut from master `ddc86b3`; nine tasks: Core (parser, validator, preparation, renderer, checker,
+  patch), CLI (`validate`, `deliver`, `render`, `check`, `patch`, `finalize`), the explainer browser gate, then Task 9: the
+  `archify_patch` tool, `writing` and `browserCheck` parameters, SKILL.md re-derived from 3.2.0, README, status, deviations and
+  the showcase.
+- Showcase: `showcase/explainer/` (four drafts, four pages, `index.html`), committed without `.delivery.json` sidecars.
+  Pages serve from `master`, so the URLs answer 200 only after the merge and push (https://mbrekhof.github.io/Archify.Net/showcase/explainer/).
+- Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1034, Mcp 16, 0 failed, 0 warnings.
+- Decisions (Martin, 2026-10-24): gzip payload is .NET's stream; branch lane label `Branch N` for non-zh locales (filed
+  upstream); default locale `en` (no issue); the explainer browser gate is compared by verdicts only.
+- Open: `patch` embeds a relative path to the deleted temporary `patched-draft.json` (mirrored from upstream; Martin's decision
+  pending). `viewer-target` is a stated platform difference of the headless shell, not an upstream defect. Parked items: card
+  PORT-013 (CARD-2523), listed in `docs/deviations.md`.
+
 ## Next
 
-1. The Fable whole-branch review of `port-008-pele-charts`, settle it, fast-forward master, push.
-2. PORT-009 (the explainer type): plan, Fable plan review, SDD, Fable branch review, merge and push. The CLI must handle
-   the `PeleException` that `ExplainerCharts.Compile` lets out on a front-matter YAML error, as upstream's top-level
-   handler does (see the PORT-009 note in `docs/deviations.md`).
-3. PORT-012: the PORT-008 test and tooling minors and the parked contrived-input cases.
-4. Queued after PORT-009 (Martin, 2026-10-23, "fix, report as with the previous one"): UPSTREAM-002 (CARD-2182) and
+1. PORT-009 close-out (controller): upstream issues (lane label, heading line terminators, patch payload message), board
+   cards, the Fable whole-branch review, settle it, fast-forward master, push, check the showcase URLs.
+2. PORT-013: the parked PORT-009 cases. PORT-012: the PORT-008 test and tooling minors and parked cases.
+3. Queued after PORT-009 (Martin, 2026-10-23, "fix, report as with the previous one"): UPSTREAM-002 (CARD-2182) and
    PERF-003 (CARD-2186), each fixed on its own branch as a known deviation with a test.
 
 ## State at end of phase 6
@@ -135,7 +150,7 @@ The wave's 21 items and their outcome: `.superpowers/sdd/2026-10-15-phase5-cli/f
   patterns, the identity and the JSON readers (the UUID pattern now ends in `\z`); JSON.parse semantics for user files through Core's
   `DiagramLoader.ParseNode`; the browser gates' catch-all; an unwritable evidence directory refused before the browser; LF-only crash
   text; `Args.RepoRoot`; the Core provenance message; a lone surrogate in argv read as Node reads it (U+FFFD); `GitOnPath`'s PATHEXT;
-  `\\?\` for long native paths; and the test gaps of Tasks 2, 8, 9, 10 and 11.
+  `\\?` for long native paths; and the test gaps of Tasks 2, 8, 9, 10 and 11.
 - Found wrong: an `--out-dir` that is a regular file is not upstream's `viewer/evidence-write`. Upstream throws an indeterminate
   target sidecar namespace (a crash on the command line, like final review m7); the port does the same, now pinned by a Node fixture.
 - Card candidates from the final review: m7 (an indeterminate sidecar namespace crashes `check`/`browser-check` in a read-only

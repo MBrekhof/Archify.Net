@@ -7,3 +7,6 @@ tests/goldens/**   -text
 tests/fixtures/**  -text
 # The skill package is compared byte for byte with upstream's LF files (SkillPackageTests); autocrlf must not touch it.
 skill/**           -text
+
+# Showcase pages are served as committed (GitHub Pages) and compared by ExplainerParityTests.
+showcase/** -text

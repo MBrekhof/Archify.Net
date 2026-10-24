@@ -13,6 +13,7 @@ public sealed partial class SkillPackageTests
     [
         "archify_finalize",
         "archify_guide",
+        "archify_patch",
         "archify_render",
         "archify_validate",
     ];
@@ -86,6 +87,21 @@ public sealed partial class SkillPackageTests
             var fullPath = Path.Combine(SkillRoot, relPath.Replace('/', Path.DirectorySeparatorChar));
             Assert.True(File.Exists(fullPath), $"Relative path '{relPath}' in SKILL.md does not exist at {fullPath}");
         }
+    }
+
+    [Fact]
+    public void SkillMarkdown_CarriesTheExplainerModeRulesAndThePortsDifferences()
+    {
+        var text = File.ReadAllText(Path.Combine(SkillRoot, "SKILL.md"), new UTF8Encoding(false));
+        foreach (var mode in new[] { "[archify explainer: proactive]", "[archify explainer: always-on]", "[archify explainer: on-demand]" })
+        {
+            Assert.Contains(mode, text, StringComparison.Ordinal);
+        }
+
+        Assert.Contains("[Explainer authoring](references/explainer-authoring.md)", text, StringComparison.Ordinal);
+        var differences = text[text.IndexOf("## Archify.Net differences\n", StringComparison.Ordinal)..text.IndexOf("\n## Output\n", StringComparison.Ordinal)];
+        Assert.Contains("`patch explainer` maps to `archify patch` or `archify_patch`", differences, StringComparison.Ordinal);
+        Assert.Contains("different gzip byte stream", differences, StringComparison.Ordinal);
     }
 
     [Fact]

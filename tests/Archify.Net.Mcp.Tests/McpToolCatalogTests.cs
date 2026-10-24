@@ -10,12 +10,13 @@ public sealed class McpToolCatalogTests
     [
         "archify_finalize",
         "archify_guide",
+        "archify_patch",
         "archify_render",
         "archify_validate",
     ];
 
     [Fact]
-    public async Task ListToolsAsync_ExposesExactFourToolsWithDescriptionsAndSchemas()
+    public async Task ListToolsAsync_ExposesExactFiveToolsWithDescriptionsAndSchemas()
     {
         await using var host = await McpTestHost.StartAsync();
         var tools = await host.Client.ListToolsAsync();
@@ -217,6 +218,8 @@ public sealed class McpToolCatalogTests
                 () => tools.RenderAsync("architecture", "in.json", cancellationToken: cancelledCts.Token));
             await Assert.ThrowsAnyAsync<OperationCanceledException>(
                 () => tools.FinalizeAsync("architecture", "in.json", "out.html", cancellationToken: cancelledCts.Token));
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(
+                () => tools.PatchAsync("a.html", "panel", "r.md", "out.html", cancellationToken: cancelledCts.Token));
         }
 
         // 2. Two concurrent calls serialize via the semaphore without interleaving
