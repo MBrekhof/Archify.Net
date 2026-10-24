@@ -1,0 +1,5 @@
+{
+  "error": "Axes must be populated before curves for reference entries",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

@@ -1,0 +1,258 @@
+[
+  {
+    "index": 12,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 26,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 38,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 52,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 88,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 164,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 188,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 198,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 217,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 219,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 224,
+    "output": "{\n  \"error\": \"Missing entry for axis &x\",\n  \"line\": 0,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 229,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 232,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 243,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 254,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 257,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 274,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 284,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 292,
+    "output": "{\n  \"error\": \"Lexical error on line 10. Unrecognized text.\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 295,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 301,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 319,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 343,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 345,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 358,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 383,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 391,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 405,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 435,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 453,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 475,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 483,
+    "output": "{\n  \"error\": \"Lexical error on line 5. Unrecognized text.\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 500,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 517,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 529,
+    "output": "{\n  \"error\": \"Lexical error on line 7. Unrecognized text.\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 566,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 570,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 610,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 611,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-radar\\\" viewBox=\\\"0 0 418 398\\\" width=\\\"418\\\" height=\\\"398\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"radar\\\"><g transform=\\\"translate(184,199)\\\"><g class=\\\"pele-graticule\\\" fill=\\\"none\\\" stroke=\\\"var(--_a)\\\"><circle r=\\\"32\\\"/><circle r=\\\"64\\\"/><circle r=\\\"96\\\"/><circle r=\\\"128\\\"/><circle r=\\\"160\\\"/></g><path class=\\\"pele-axes\\\" d=\\\"M0,0L0,-160M0,0L0,160\\\" fill=\\\"none\\\" stroke=\\\"var(--_b)\\\"/><g class=\\\"pele-curves\\\" fill-opacity=\\\"0.2\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"><path class=\\\"pele-curve\\\" data-id=\\\"c\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\" d=\\\"M0,-80 C0,-80 0,160 0,160 C0,160 0,-80 0,-80 Z\\\"/></g><g class=\\\"pele-axis-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-axis-label\\\" data-id=\\\"titles\\\"><text x=\\\"0\\\" y=\\\"-178.65\\\" text-anchor=\\\"middle\\\">Titles</text></g><g class=\\\"pele-axis-label\\\" data-id=\\\"b\\\"><text x=\\\"0\\\" y=\\\"186.35\\\" text-anchor=\\\"middle\\\">b</text></g></g><g class=\\\"pele-legend\\\" font-size=\\\"11\\\"><g class=\\\"pele-legend-item\\\" data-id=\\\"c\\\"><rect x=\\\"200\\\" y=\\\"-6\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.4\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><text x=\\\"222.75\\\" y=\\\"3.85\\\" text-anchor=\\\"middle\\\">c</text></g></g></g></svg>\",\n  \"width\": 418,\n  \"height\": 398,\n  \"type\": \"radar\"\n}"
+  },
+  {
+    "index": 619,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-radar\\\" viewBox=\\\"0 0 418 398\\\" width=\\\"418\\\" height=\\\"398\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"radar\\\"><g transform=\\\"translate(184,199)\\\"><g class=\\\"pele-graticule\\\" fill=\\\"none\\\" stroke=\\\"var(--_a)\\\"><circle r=\\\"32\\\"/><circle r=\\\"64\\\"/><circle r=\\\"96\\\"/><circle r=\\\"128\\\"/><circle r=\\\"160\\\"/></g><path class=\\\"pele-axes\\\" d=\\\"M0,0L0,-160M0,0L0,160\\\" fill=\\\"none\\\" stroke=\\\"var(--_b)\\\"/><g class=\\\"pele-curves\\\" fill-opacity=\\\"0.2\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"><path class=\\\"pele-curve\\\" data-id=\\\"c\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\" d=\\\"M0,-80 C0,-80 0,160 0,160 C0,160 0,-80 0,-80 Z\\\"/></g><g class=\\\"pele-axis-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-axis-label\\\" data-id=\\\"trueNorth\\\"><text x=\\\"0\\\" y=\\\"-178.65\\\" text-anchor=\\\"middle\\\">North</text></g><g class=\\\"pele-axis-label\\\" data-id=\\\"b\\\"><text x=\\\"0\\\" y=\\\"186.35\\\" text-anchor=\\\"middle\\\">b</text></g></g><g class=\\\"pele-legend\\\" font-size=\\\"11\\\"><g class=\\\"pele-legend-item\\\" data-id=\\\"c\\\"><rect x=\\\"200\\\" y=\\\"-6\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.4\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><text x=\\\"222.75\\\" y=\\\"3.85\\\" text-anchor=\\\"middle\\\">c</text></g></g></g></svg>\",\n  \"width\": 418,\n  \"height\": 398,\n  \"type\": \"radar\"\n}"
+  },
+  {
+    "index": 643,
+    "output": "{\n  \"error\": \"Parse error on line 11:\",\n  \"line\": 11,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 665,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 667,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 686,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 692,
+    "output": "{\n  \"error\": \"Lexical error on line 6. Unrecognized text.\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 717,
+    "output": "{\n  \"error\": \"Lexical error on line 4. Unrecognized text.\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 737,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 759,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 767,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 806,
+    "output": "{\n  \"error\": \"Parse error on line 5:\",\n  \"line\": 5,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 838,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 847,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 851,
+    "output": "{\n  \"error\": \"Parse error on line 8:\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 852,
+    "output": "{\n  \"error\": \"Parse error on line 9:\",\n  \"line\": 9,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 871,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 872,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 882,
+    "output": "{\n  \"svg\": \"<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" class=\\\"pele pele-radar\\\" viewBox=\\\"0 0 418 398\\\" width=\\\"418\\\" height=\\\"398\\\" style=\\\"max-width:100%;height:auto;--_bg:var(--pele-bg,#fff);--_fg:var(--pele-fg,#1f1f1f);--_m:var(--pele-muted,#6e6e6e);--_l:var(--pele-line,#1f1f1f);--_s:var(--pele-surface,#f3f3f3);--_a:var(--pele-surface-alt,#e6e6e6);--_b:var(--pele-border,#8a8a8a);--_c:var(--pele-accent,#5b7bd5);color:var(--_fg);--_fm:var(--pele-font-mono,monospace);font:13px sans-serif;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;font-family:var(--pele-font,sans-serif)\\\" fill=\\\"var(--_fg)\\\" role=\\\"graphics-document document\\\" aria-roledescription=\\\"radar\\\"><g transform=\\\"translate(184,199)\\\"><g class=\\\"pele-graticule\\\" fill=\\\"none\\\" stroke=\\\"var(--_a)\\\"><circle r=\\\"32\\\"/><circle r=\\\"64\\\"/><circle r=\\\"96\\\"/><circle r=\\\"128\\\"/><circle r=\\\"160\\\"/></g><path class=\\\"pele-axes\\\" d=\\\"M0,0L0,-160M0,0L0,160\\\" fill=\\\"none\\\" stroke=\\\"var(--_b)\\\"/><g class=\\\"pele-curves\\\" fill-opacity=\\\"0.2\\\" stroke-width=\\\"1.5\\\" stroke-linejoin=\\\"round\\\"><path class=\\\"pele-curve\\\" data-id=\\\"c\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\" d=\\\"M0,-80 C0,-80 0,160 0,160 C0,160 0,-80 0,-80 Z\\\"/></g><g class=\\\"pele-axis-labels\\\" font-size=\\\"11\\\"><g class=\\\"pele-axis-label\\\" data-id=\\\"trueNor\\\"><text x=\\\"0\\\" y=\\\"-178.65\\\" text-anchor=\\\"middle\\\">North</text></g><g class=\\\"pele-axis-label\\\" data-id=\\\"b\\\"><text x=\\\"0\\\" y=\\\"186.35\\\" text-anchor=\\\"middle\\\">b</text></g></g><g class=\\\"pele-legend\\\" font-size=\\\"11\\\"><g class=\\\"pele-legend-item\\\" data-id=\\\"c\\\"><rect x=\\\"200\\\" y=\\\"-6\\\" width=\\\"12\\\" height=\\\"12\\\" rx=\\\"2\\\" fill=\\\"var(--pele-series-1,#4c78a8)\\\" fill-opacity=\\\"0.4\\\" stroke=\\\"var(--pele-series-1,#4c78a8)\\\"/><text x=\\\"222.75\\\" y=\\\"3.85\\\" text-anchor=\\\"middle\\\">c</text></g></g></g></svg>\",\n  \"width\": 418,\n  \"height\": 398,\n  \"type\": \"radar\"\n}"
+  },
+  {
+    "index": 884,
+    "output": "{\n  \"error\": \"Parse error on line 3:\",\n  \"line\": 3,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 900,
+    "output": "{\n  \"error\": \"Parse error on line 7:\",\n  \"line\": 7,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 903,
+    "output": "{\n  \"error\": \"Parse error on line 6:\",\n  \"line\": 6,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 915,
+    "output": "{\n  \"error\": \"Parse error on line 10:\",\n  \"line\": 10,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 934,
+    "output": "{\n  \"error\": \"Parse error on line 4:\",\n  \"line\": 4,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 970,
+    "output": "{\n  \"error\": \"Parse error on line 15:\",\n  \"line\": 15,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  },
+  {
+    "index": 971,
+    "output": "{\n  \"error\": \"Lexical error on line 8. Unrecognized text.\",\n  \"line\": 8,\n  \"example\": \"pie title Share\\n  \\\"A\\\" : 60\\n  \\\"B\\\" : 40\"\n}"
+  }
+]

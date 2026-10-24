@@ -54,5 +54,13 @@
   { "name": "sankey-eof", "text": "sankey-beta\n%% note\na,b" },
   { "name": "sankey-name-check", "text": "sankey-beta\n%% note\nA#65534;B,b,1" },
   { "name": "control-sankey-eof-trailing-blank-lines", "text": "sankey-beta\na,b\n\n\n" },
-  { "name": "control-sankey-nothing-removed", "text": "sankey-beta\na,b,1\nc d" }
+  { "name": "control-sankey-nothing-removed", "text": "sankey-beta\na,b,1\nc d" },
+  { "name": "radar-front-matter", "text": "---\ntitle: x\n---\nradar-beta\n  axis A\n  foo" },
+  { "name": "radar-comment", "text": "radar-beta\n%% note\n  axis A\n  curve c{1 2}" },
+  { "name": "radar-directive", "text": "%%{init: {\"theme\": \"dark\"}}%%\nradar-beta\n  axis A B" },
+  { "name": "radar-crlf-comment", "text": "radar-beta\r\n%% note\r\n  axis A\r\n  curve c{1 2}" },
+  { "name": "radar-eof-then-comment", "text": "radar-beta\n  axis A\n  curve c{\n%% c" },
+  { "name": "radar-eof-then-blank-lines", "text": "radar-beta\n  axis A\n  curve c{\n\n  \n" },
+  { "name": "radar-lexical", "text": "radar-beta\n%% note\n  axis A\n  @" },
+  { "name": "control-radar-nothing-removed", "text": "radar-beta\n  axis A\n  foo" }
 ]

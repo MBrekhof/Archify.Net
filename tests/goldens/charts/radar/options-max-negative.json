@@ -1,0 +1,5 @@
+{
+  "error": "Lexical error on line 3. Unrecognized text.",
+  "line": 3,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

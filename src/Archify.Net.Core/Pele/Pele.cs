@@ -33,7 +33,7 @@ internal static partial class Pele
     const int DefaultOutputLimit = 4_000_000;
 
     // pie, xychart, quadrantChart, sankey, radar, venn: each lands with its own PORT-008 task (5-10).
-    static readonly Dictionary<string, IPeleDiagram> Diagrams = new IPeleDiagram[] { new PieDiagram(), new XyChartDiagram(), new QuadrantChartDiagram(), new SankeyDiagram() }.ToDictionary(diagram => diagram.Id, StringComparer.Ordinal);
+    static readonly Dictionary<string, IPeleDiagram> Diagrams = new IPeleDiagram[] { new PieDiagram(), new XyChartDiagram(), new QuadrantChartDiagram(), new SankeyDiagram(), new RadarDiagram() }.ToDictionary(diagram => diagram.Id, StringComparer.Ordinal);
 
     public static string? DetectType(string text) => Detect.Run(Preprocess.Run(text).Text);
 

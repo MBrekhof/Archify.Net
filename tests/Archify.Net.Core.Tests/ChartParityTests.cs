@@ -8,7 +8,7 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "lines"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "radar", "lines"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
     static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
@@ -20,6 +20,7 @@ public class ChartParityTests
         ("quadrantChart", "phantom-empty-quadrant-label"), ("quadrantChart", "phantom-empty-point-label"), ("quadrantChart", "stress-points"),
         .. QuirkRows.SelectMany(group => group.Value.Select(row => (group.Key, row.Name))),
         .. SankeyUnicodeRows.Select(row => ("sankey", row.Name)), .. SankeyValueRows.Select(row => ("sankey", row.Name)),
+        .. RadarBoundaryRows.Select(row => ("radar", row.Name)),
         .. LineRemapRows.Select(row => (row.Group, row.Name)),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
@@ -84,6 +85,17 @@ public class ChartParityTests
             [838] = "S3S4", [844] = "S4L1", [852] = "S3", [868] = "S2L1", [871] = "S2L1", [873] = "S4L1", [883] = "S4L1",
             [884] = "L1", [894] = "S3", [907] = "S4", [925] = "L1", [928] = "S4", [933] = "S4L1", [942] = "S4", [947] = "L1",
             [950] = "L1", [958] = "S4L1", [967] = "S3", [968] = "S4", [970] = "L1", [980] = "S4", [990] = "L1", [995] = "S4L1",
+        },
+        ["radar"] = new() {
+            [12] = "L1", [26] = "L1", [38] = "L1", [52] = "L1", [88] = "L1", [164] = "L1", [188] = "L1", [198] = "L1",
+            [217] = "L1", [219] = "L1", [224] = "R2", [229] = "L1", [232] = "L1", [243] = "L1", [254] = "R2L1",
+            [257] = "L1", [274] = "L1", [284] = "L1", [292] = "L1", [295] = "L1", [301] = "L1", [319] = "L1", [343] = "L1",
+            [345] = "L1", [358] = "L1", [383] = "L1", [391] = "L1", [405] = "L1", [435] = "R1", [453] = "L1", [475] = "L1",
+            [483] = "L1", [500] = "L1", [517] = "R1", [529] = "L1", [566] = "L1", [570] = "R1", [610] = "L1", [611] = "R1",
+            [619] = "R1", [643] = "L1", [665] = "L1", [667] = "L1", [686] = "L1", [692] = "L1", [717] = "L1", [737] = "L1",
+            [759] = "L1", [767] = "L1", [806] = "L1", [838] = "L1", [847] = "L1", [851] = "L1", [852] = "L1", [871] = "L1",
+            [872] = "L1", [882] = "R1", [884] = "L1", [900] = "L1", [903] = "L1", [915] = "L1", [934] = "L1", [970] = "L1",
+            [971] = "L1",
         },
     };
 
@@ -378,6 +390,54 @@ public class ChartParityTests
         }
     }
 
+    // Upstream slips in radar, fixed in the port (Task 9):
+    //   R1 GRATICULE (`circle|polygon`), BOOLEAN (`true|false`) and TITLE (`title`, which may stand alone) end without a word
+    //      boundary, so a name that starts with one of those words (`circles`, `trueNorth`, `titles`) lexes as that token and
+    //      a name, and the chart fails to parse. The port reads such a name as a name: GRATICULE and BOOLEAN give way to a
+    //      longer ID, as the keywords do, and a bare `title` only where ID would read no more than `title`;
+    //   R2 the "Missing entry for axis" message writes the label as parsed, so a Mermaid code shows as its placeholder
+    //      (`ﬂ°°35¶ßx`) and an HTML entity as typed; the port decodes it, as the chart draws the label.
+    // R1 rows: the port's output is Node's for the reference (the same chart with a stand-in first letter on each such name,
+    // which upstream reads as a name) with the stand-ins swapped back. A stand-in letter has the advance of the letter it
+    // stands for (c/k, p/b, t/f), so a name drawn as its own label measures the same. R2 rows are in QuirkRows: the
+    // reference writes the label as the chart draws it.
+    static (string Name, string Reference, (string StandIn, string Word)[] Swaps)[] RadarBoundaryRows =>
+    [
+        .. new (string, (string, string)[])[]
+        {
+            ("quirk-boundary-graticule-axis", [("kircles", "circles")]), ("quirk-boundary-polygon-axis", [("bolygonal", "polygonal")]),
+            ("quirk-boundary-true-axis", [("frueNorth", "trueNorth")]), ("quirk-boundary-false-curve", [("talsePositives", "falsePositives")]),
+            ("quirk-boundary-circle-curve-second", [("kircleback", "circleback")]), ("quirk-boundary-title-axis", [("fitles", "titles")]),
+            ("quirk-boundary-title-after-comma", [("fitled", "titled")]), ("quirk-boundary-title-dash", [("fitle-x", "title-x")]),
+            ("quirk-boundary-title-curve", [("fitleCurve", "titleCurve")]),
+            ("quirk-boundary-named-entries", [("frueA", "trueA"), ("talseB", "falseB"), ("fitleC", "titleC")]),
+            ("quirk-boundary-crlf", [("bolygons", "polygons")]), ("quirk-boundary-stress-50k", [("kircles", "circles")]),
+        }.Select(row => (row.Item1, $"{row.Item1}-reference", row.Item2)),
+        ("oracle-23", "oracle-23-reference", [("kircles", "circles")]),   // `axis circles`, its own label
+    ];
+
+    static (string Name, string Quirk, string Reference)[] RadarQuirkRows =>
+        [.. new[] { "entity-code", "html-entity", "named-code", "numeric-html", "unknown-code" }.Select(name => ($"quirk-message-{name}", "R2", $"quirk-message-{name}-reference"))];
+
+    [Fact] public void Radar_name_boundaries_are_the_stated_deviation()
+    {
+        foreach (var (name, reference, swaps) in RadarBoundaryRows)
+        {
+            Assert.True(Fixtures.Lf(Golden("radar", name)).Contains("\"error\": \""), $"{name}: Node draws it");
+            Assert.True(QuirkIn("radar", Seed("radar", name)["text"]!.GetValue<string>()).Contains("R1"), $"{name}: input shows no R1");
+            var expected = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden("radar", reference)))!;
+            var svg = expected["svg"]!.GetValue<string>();
+            foreach (var (standIn, word) in swaps)
+            {
+                Assert.Equal(Pele.Measurer.Width(word, 1000, Pele.Style.None), Pele.Measurer.Width(standIn, 1000, Pele.Style.None));
+                Assert.Contains($"data-id=\"{standIn}\"", svg);
+                svg = svg.Replace(standIn, word, StringComparison.Ordinal);
+            }
+            expected["svg"] = svg;
+            Assert.Equal(ExplainerCharts.Json(expected), Run(Seed("radar", name)));
+        }
+    }
+
     // UPSTREAM-007 (mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in the text the diagram parsed,
     // after front matter, `%%` comment lines, directives and leading blank lines (and in sankey blank lines and, with S1,
     // rows of blanks) are gone, and archify's pie legend drops a `showData` written on a later line than `pie` with the line
@@ -410,18 +470,24 @@ public class ChartParityTests
         ("lines", "sankey-lone-cr", 4, null), ("lines", "sankey-eof", 3, null), ("lines", "sankey-name-check", 3, null),
         // S1 drops the row of blanks that Node stops at; the port then stops at `c d`, as Node does without that row.
         ("lines", "sankey-blank-row", 4, "sankey-blank-row-reference"),
+        ("lines", "radar-front-matter", 6, null), ("lines", "radar-comment", 4, null), ("lines", "radar-directive", 3, null),
+        ("lines", "radar-crlf-comment", 4, null), ("lines", "radar-eof-then-comment", 3, null), ("lines", "radar-eof-then-blank-lines", 3, null),
+        ("lines", "radar-lexical", 4, null),
         // Existing rows.
         ("wrapper", "front-matter-title-line-shift", 8, null),
         ("pie", "comment-above-syntax-error", 3, null), ("pie", "comment-first-line-error", 4, null), ("pie", "front-matter-syntax-error-line", 6, null),
         ("xychart", "fm-syntax-error-line", 6, null), ("quadrantChart", "fm-syntax-error-line", 6, null), ("quadrantChart", "comment-above-error", 4, null),
         ("sankey", "error-line-after-blank-lines", 6, null), ("sankey", "error-line-after-comment", 5, null),
         ("sankey", "error-line-after-front-matter", 6, null), ("sankey", "rows-blank-row-then-error", 4, null),
+        ("radar", "error-after-comment", 4, null), ("radar", "error-after-directive", 4, null), ("radar", "error-after-front-matter", 6, null),
+        ("radar", "error-eof-after-comment", 3, null),
         // An error at the end of the text, with nothing removed: Node counts the "\n" Pele appends as one more line.
         ("xychart", "spec-parse-line-data-throws-error-if-data-is-not-provided", 4, null),
         ("xychart", "spec-parse-bar-should-throw-error-if-data-is-not-provided", 4, null),
         ("xychart", "render-hostile-t1-p1", 3, null), ("xychart", "stress-unclosed-string", 2, null),
         ("quadrantChart", "stress-unclosed-acc-descr", 1334, null), ("quadrantChart", "stress-unclosed-string", 2, null),
         ("quadrantChart", "stress-unclosed-md-string", 2, null), ("quadrantChart", "acc-descr-unclosed", 2, null),
+        ("radar", "error-eof", 3, null), ("radar", "error-curve-unclosed", 3, null),
     ];
 
     [Fact] public void Error_lines_count_the_fence_as_written()
@@ -608,6 +674,14 @@ public class ChartParityTests
         // the error's line, trailing blank lines sankey trims, and a removed comment that an EOF past Pele's "\n" offsets.
         "lines/control-pie-nothing-removed", "lines/control-pie-comment-after-error", "lines/control-pie-directive-same-line",
         "lines/control-xychart-eof-one-comment", "lines/control-sankey-eof-trailing-blank-lines", "lines/control-sankey-nothing-removed",
+        "lines/control-radar-nothing-removed",
+        // R1 leaves whole words as upstream reads them (a name `circle`, `true` or `title` still fails), a bare `title` a title,
+        // and a glued option value an error on its line; other names that hold the words already read as names.
+        "radar/boundary-whole-circle", "radar/boundary-whole-true", "radar/boundary-whole-title", "radar/boundary-title-empty",
+        "radar/boundary-title-comment", "radar/boundary-title-dash-end", "radar/boundary-titles-statement", "radar/boundary-graticule-value-glued",
+        "radar/boundary-boolean-value-glued", "radar/boundary-title-tab", "radar/names-subtitle", "radar/names-keywords", "radar/names-acc-title",
+        // R2 changes only a message naming a label that decodes.
+        "radar/message-unknown-html-entity", "radar/message-no-entity", "radar/model-missing-entry-label",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -616,6 +690,7 @@ public class ChartParityTests
         ["quadrantChart"] = QuadrantQuirkRows,
         ["xychart"] = XyChartQuirkRows,
         ["sankey"] = SankeyQuirkRows,
+        ["radar"] = RadarQuirkRows,
     };
 
     [Fact] public void Grammar_slips_are_the_stated_deviations()
@@ -665,8 +740,17 @@ public class ChartParityTests
         "sankey" => string.Concat(SankeyRowBlanks(text) ? "S1" : "",
             ReHtmlEntity.Matches(text).Any(m => Pele.Entities.DecodeEntities(m.Value) != m.Value) ? "S2" : "",
             SankeyUnicode(text) ? "S3" : "", SankeyUnreadableValue(text) ? "S4" : ""),
+        "radar" => string.Concat(ReR1.IsMatch(text) ? "R1" : "", RadarLabelEntity(text) ? "R2" : ""),
         _ => "",
     };
+
+    // radar. R1: one of the five words at the start of a word, followed by more of a name (ID reads `[-\w]*\w` on). R2: a
+    // label (`[` and a quoted string) holding a Mermaid code or an HTML entity that decodes, which a "Missing entry" message
+    // may name.
+    static readonly Regex ReR1 = new("(?<![A-Za-z0-9_-])(?:circle|polygon|true|false|title)(?=[-A-Za-z0-9_]*[A-Za-z0-9_])");
+    static readonly Regex ReRadarLabel = new(@"\[[\t ]*(?:""((?:[^""\\]|\\.)*)""|'((?:[^'\\]|\\.)*)')");
+    static bool RadarLabelEntity(string text) => ReRadarLabel.Matches(text).Any(m => m.Value[1..] is var label
+        && (ReMermaidCode.IsMatch(label) || ReHtmlEntity.Matches(label).Any(e => Pele.Entities.DecodeEntities(e.Value) != e.Value)));
 
     // sankey. S1: outside front matter, comment and directive lines, with quoted fields (read as the lexer reads them) held
     // as `"Q"`, blanks (JS \s but a line break) that Node does not trim away and the port strips: a row of blanks only
@@ -868,6 +952,11 @@ public class ChartParityTests
     [InlineData("sankey", "stress-rows-blanks-50k")]
     [InlineData("sankey", "stress-rows-quoted-50k")]
     [InlineData("sankey", "stress-value-digits-50k")]   // S4's decimal test: 49,970 digits then `x`
+    // radar's R1: TITLE's lookahead over a 49,970-dash run, and 6,125 names that start with `circle`.
+    [InlineData("radar", "stress-title-dashes-50k")]
+    [InlineData("radar", "quirk-boundary-stress-50k")]
+    // Not a fix: upstream's own guard (parser.ts:73-86), which fails an `accDescr {` with no `}` after it at once.
+    [InlineData("radar", "stress-acc-descr-opened-50k")]
     public void Grammar_fix_is_linear(string group, string name)
     {
         var text = Seed(group, name)["text"]!.GetValue<string>();

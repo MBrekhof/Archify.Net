@@ -95,10 +95,28 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   `FuzzDeviations`, and the port's output for them is pinned in `tests/fixtures/charts/sankey.fuzz-deviations.json`.
   `node tools/chart-seeds/sankey-fuzz-check.mjs` checks each pinned case's attribution against Node, with the input
   corrected by hand for its stated quirk; run it after a re-mint.
+- `radar` (Task 9): archify's tests have no radar fence and charts.mjs passes no `radar` config, so `archify-*`,
+  `fm-radar-*`, `fm-other-key` and `directive-config*` pin the defaults and the type's own object. `corpus-docs-2` is the
+  corpus entry with `config:` front matter. Beyond the list above: `spec-*` (Mermaid's `radar.spec.ts`, the ticks loop
+  as three rows), `compat-*` (Mermaid's parser tests; `compat-error-*` are the six skipped error-message tests' inputs),
+  `oracle-*` (the corpus additions of `tests/radar/oracle.test.ts`), `render-*` (`radar.test.ts`, the degenerate inputs
+  as `render-degenerate-*`), `render-hostile-*` (each template of `radar-security.test.ts` with two of its payloads),
+  `stress-*` (the shapes of `tests/radar/stress.test.ts` at about 4,000 characters, plus the limit case verbatim), both
+  model errors (`model-*`, `render-missing-entry`, `render-axes-before-curves`), `graticule-*`, `{axis: v}` entries
+  (`entries-*`), values, options (`options-*`), every render option of `config.radar` (`config-*`), titles, `accDescr`
+  blocks, labels (entities, `<br>`, markup, escapes, Han, emoji, U+FFFE), names, keywords, comments, errors, CRLF/CR/BOM and
+  empty bodies. `quirk-boundary-*` and `oracle-23` are R1 (a name that starts with `circle`, `polygon`, `true`, `false` or
+  `title` fails upstream) and `quirk-message-*` are R2 (a "Missing entry" message writes the label's entity codes as
+  parsed), the upstream slips the port fixes. An R1 row's `-reference` writes each such name with a stand-in first letter
+  of the same width (c/k, p/b, t/f), which `ChartParityTests.Radar_name_boundaries_are_the_stated_deviation` swaps back;
+  an R2 row's `-reference` writes the label as the chart draws it. The `boundary-*` and `message-*` controls still equal
+  Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`, and the port's output for them is
+  pinned in `tests/fixtures/charts/radar.fuzz-deviations.json`. `node tools/chart-seeds/radar-fuzz-check.mjs` checks each
+  pinned case's attribution against Node, with the input corrected by hand for its stated quirk; run it after a re-mint.
 - `lines` (the core line remap after Task 8, UPSTREAM-007): upstream counts an error's line in the text the diagram
   parsed, so front matter, `%%` comment lines, directives, leading blank lines, sankey's blank lines and rows of blanks,
   and archify's pie legend (`showData` on a later line, blanks after a slice's value) move it up; the port counts the
-  fence as written. Each row is an error after removed lines in pie, xychart, quadrantChart or sankey (CRLF, lone CR,
+  fence as written. Each row is an error after removed lines in pie, xychart, quadrantChart, sankey or radar (CRLF, lone CR,
   multi-line and mid-line directives, indented front matter, entity codes and HTML attributes before the error, EOF), and
   `ChartParityTests.LineRemapRows` holds its line, written by hand; `control-*` rows still equal Node. It is not a type
   group, so it adds nothing to any fuzz corpus. Fuzz cases that differ only by the remap are `L1` in `FuzzDeviations`, and

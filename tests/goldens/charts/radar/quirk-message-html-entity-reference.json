@@ -1,0 +1,5 @@
+{
+  "error": "Missing entry for axis &x",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}
