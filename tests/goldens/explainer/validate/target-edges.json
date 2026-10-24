@@ -1,0 +1,106 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/meta must have required property 'output'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/meta",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "output",
+        "reason": "/meta must have required property 'output'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"output\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/messages/0 (id/label: \"m1\") must have required property 'y'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/messages/0",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "y",
+        "reason": "/messages/0 (id/label: \"m1\") must have required property 'y'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"y\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/messages/0 (id/label: \"m1\") must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/messages/0",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "type",
+        "reason": "/messages/0 (id/label: \"m1\") must NOT have additional properties",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"type\""
+      ]
+    },
+    {
+      "code": "explainer/duplicate-reference",
+      "severity": "error",
+      "message": "Each reference may occur only once.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "steps",
+        "path": "/panels/0/blocks/2/items/0/target/edges/1",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "Each reference may occur only once.",
+        "example": "Use each ID once."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use each ID once."
+      ]
+    },
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "The referenced identity does not exist or has the wrong component type.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "steps",
+        "path": "/panels/0/blocks/2/items/0/target/edges/2",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "The referenced identity does not exist or has the wrong component type.",
+        "example": "Use an edge ID from the native diagram."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use an edge ID from the native diagram."
+      ]
+    }
+  ]
+}

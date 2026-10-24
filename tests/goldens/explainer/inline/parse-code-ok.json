@@ -1,0 +1,18 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "a "
+    },
+    {
+      "type": "code",
+      "value": "<b>"
+    },
+    {
+      "type": "text",
+      "value": " c"
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

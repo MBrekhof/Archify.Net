@@ -11,9 +11,10 @@ namespace Archify.Net.Tests;
 public partial class ExplainerParityTests
 {
     // A group is compared once it is listed; each task adds its own.
-    static readonly string[] Groups = ["parse", "shorthand"];
+    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate"];
     // Rows that differ from Node by a stated deviation (docs/deviations.md), each pinned by its own fact below.
-    static readonly HashSet<(string Group, string Name)> KnownDeviations = [("parse", "cr-only"), ("parse", "line-separator-heading")];
+    static readonly HashSet<(string Group, string Name)> KnownDeviations =
+        [("parse", "cr-only"), ("parse", "line-separator-heading"), ("writing", "rule-fold-long-s")];
 
     public static TheoryData<string, string> Targets()
     {
@@ -62,11 +63,52 @@ public partial class ExplainerParityTests
                     return Json(ExplainerShorthand.Compile(Arg(0)?.GetValue<string>(),
                         [.. Arg(1)!.AsArray().Select(row => new ShorthandRow([.. row!["cells"]!.AsArray().Select(c => c!.GetValue<string>())], (int)row["line"]!.D()))],
                         new(options.Str("title"), options.Str("id"), (int?)options.Num("line") ?? 1, options.Str("quality") ?? "showcase", options.Str("locale"))));
+                case "parseInline":
+                    return Json(ExplainerInline.Parse(Arg(0)!.GetValue<string>(),
+                        new(Arg(1)?["line"] is JsonValue line && line.GetValueKind() == System.Text.Json.JsonValueKind.Number ? line.D() : null,
+                            Arg(1).Str("component"), Arg(1).Str("panelId"), Arg(1).Str("input"))).ToJson());
+                case "renderInline":
+                    if (seed["texts"] is JsonArray texts)
+                    {   // the runner's `texts` shape: one call per text with one shared context
+                        var shared = Context(Arg(0));
+                        var html = new JsonArray([.. texts.Select(text => (JsonNode?)ExplainerInline.Render(text!.GetValue<string>(), shared))]);
+                        var result = new JsonObject { ["html"] = html };
+                        if (shared.Footnotes is not null) result["footnotes"] = shared.Footnotes.DeepClone();
+                        result["citations"] = new JsonArray([.. shared.Citations.Entries.Select(kv => (JsonNode?)new JsonArray(kv.Key, kv.Value))]);
+                        return Json(result);
+                    }
+                    return Json(ExplainerInline.Render(Arg(0)!.GetValue<string>(), Context(Arg(1))));
+                case "parseExplainerDiff":
+                    var diff = Arg(1);
+                    return Json(ExplainerDiff.Parse(Arg(0)!.GetValue<string>(),
+                        new(diff.Num("line") ?? 1, diff.Str("component"), diff.Str("input"), diff.Str("panelId"), diff.Str("path"))).ToJson());
+                case "lintExplainerWriting":
+                    var lint = Arg(1);
+                    var entries = Arg(0)!.AsArray().Select(e => new WritingEntry(e.Str("text"), e.Num("line"), e.Str("component"), e.Str("panelId"), e.Str("pointer"), e.Str("raw"))).ToList();
+                    return Json(new JsonArray([.. ExplainerWriting.Lint(entries, lint.Str("mode") ?? "warn", lint.Str("locale") ?? "auto", lint.Obj("sentenceLimits"))
+                        .Select(d => (JsonNode?)d.ToJson())]));
+                case "validateExplainer":
+                    JsonNode document;
+                    JsonObject? sourceMap;
+                    JsonNode? validate;
+                    if (seed["parsed"] is JsonValue parsed)
+                    {   // the runner's `parsed` shape: the draft's document and source map, args[0] adding options
+                        var draft = ExplainerParser.Parse(parsed.GetValue<string>(), Arg(0).Str("inputPath"));
+                        (document, sourceMap, validate) = (draft.Document!, draft.SourceMap, Arg(0));
+                    }
+                    else (document, sourceMap, validate) = (Arg(0)!, Arg(1).Obj("sourceMap"), Arg(1));
+                    var (ok, diagnostics) = ExplainerValidator.Validate(document, sourceMap, validate.Str("inputPath"), validate.Str("writingMode") ?? "warn");
+                    return Json(new JsonObject { ["ok"] = ok, ["diagnostics"] = new JsonArray([.. diagnostics.Select(d => (JsonNode?)d.ToJson())]) });
                 case var call: throw new NotSupportedException($"{call} is not ported yet ({dir}, {repo})");
             }
         }
         catch (ArchifyDiagnosticException e) { return Thrown(e); }
+        // Upstream's TypeErrors are ArgumentExceptions; a front-matter PeleError crosses validateExplainer on purpose.
+        catch (ArgumentException e) { return Json(new JsonObject { ["thrown"] = new JsonObject { ["name"] = "TypeError", ["message"] = e.Message } }); }
+        catch (PeleException e) { return Json(new JsonObject { ["thrown"] = new JsonObject { ["name"] = "PeleError", ["message"] = e.Message, ["code"] = e.Code } }); }
     }
+
+    static InlineContext Context(JsonNode? context) => new() { PanelId = context.Str("panelId"), Footnotes = context?["footnotes"] as JsonArray };
 
     // JSON.stringify(result, null, 2) + "\n" over the capture's JSON-level tokens.
     internal static string Json(JsonNode? result) => Js.Stringify(TokeniseValue(result), 2) + "\n";
@@ -243,6 +285,17 @@ public partial class ExplainerParityTests
         var separator = ExplainerParser.Parse(Seed("parse", "line-separator-heading")["args"]![0]!.GetValue<string>());
         Assert.Empty(separator.Diagnostics);
         Assert.Equal("Q" + (char)0x2028 + "more", separator.Document!["panels"]![0]!["title"]!.GetValue<string>());
+    }
+
+    // --- Task 3 facts ---
+    // Parked (contrived): the writing rules' `/iu` folds U+017F (long s) to s, so V8 matches "ſeamless" and "utiliſe"; .NET's
+    // IgnoreCase | CultureInvariant does not. U+212A (Kelvin sign) folds to k in both.
+    [Fact] public void Writing_rules_do_not_fold_long_s()
+    {
+        var node = Fixtures.Lf(Fixtures.Golden("explainer/writing/rule-fold-long-s.json"));
+        foreach (var matched in new[] { "ſeamless", "maKe a decision", "utiliſe" }) Assert.Contains($"\"matched\": \"{matched}\"", node);
+        var text = Seed("writing", "rule-fold-long-s")["args"]![0]![0]!["text"]!.GetValue<string>();
+        Assert.Equal(["maKe a decision"],ExplainerWriting.Lint([new(text, 1, "prose")]).Select(d => d.Evidence.Str("matched")));
     }
 
     // --- Task 1 facts ---

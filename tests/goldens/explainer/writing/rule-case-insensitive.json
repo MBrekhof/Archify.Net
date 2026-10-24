@@ -1,0 +1,74 @@
+[
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "MAKE A DECISION"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "Seamless"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "SEAMLESS"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "In Summary"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  }
+]

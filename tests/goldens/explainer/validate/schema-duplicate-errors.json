@@ -1,0 +1,77 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/1/id must have required property 'id'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/1/id"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/1/id must have required property 'id'",
+        "example": "Add id to the prose."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add id to the prose."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/1/text must have required property 'text'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/1/text"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/1/text must have required property 'text'",
+        "example": "Add text to the prose."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add text to the prose."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/2/id must have required property 'id'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/2/id"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/2/id must have required property 'id'",
+        "example": "Add id to the prose."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add id to the prose."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/2/text must have required property 'text'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/2/text"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/2/text must have required property 'text'",
+        "example": "Add text to the prose."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add text to the prose."
+      ]
+    }
+  ]
+}

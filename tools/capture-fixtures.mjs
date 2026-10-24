@@ -2370,7 +2370,7 @@ write('fixtures/js/pele-tokens.json', {
 // --- PORT-009 explainer: Unicode property tables, then tools/explainer-seeds/<group>.json -> tests/goldens/explainer/<group>/<name>.<json|html>
 // (layout: tools/explainer-seeds/README.md) ---
 // The regex classes the explainer modules use, as inclusive [first, last] code point ranges over 0..0x10FFFF, read from V8.
-// JsTextTests.Unicode_properties_match_V8 checks Js.IsSpace, IsLatin, IsLetter and IsNumber against every code point.
+// JsTextTests.Unicode_properties_match_V8 checks Js.IsSpace, IsLatin, IsLetter, IsNumber and IsHan against every code point.
 const unicodeRanges = (re) => {
   const ranges = [];
   for (let cp = 0; cp <= 0x10FFFF; cp++) {
@@ -2381,6 +2381,7 @@ const unicodeRanges = (re) => {
 };
 write('fixtures/js/unicode-props.json', {
   space: unicodeRanges(/^\s$/u), latin: unicodeRanges(/^\p{Script=Latin}$/u), letter: unicodeRanges(/^\p{L}$/u), number: unicodeRanges(/^\p{N}$/u),
+  han: unicodeRanges(/^\p{Script=Han}$/u),
 });
 // The seed runner, as children with the scrubbed environment: Node's oracle writes the goldens, the corrected oracle (Decisions 2 and 3)
 // writes a scratch tree, and each of its files that differs lands beside the Node golden as <name>.fixed.<ext>.

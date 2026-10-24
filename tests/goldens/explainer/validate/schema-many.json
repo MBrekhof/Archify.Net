@@ -1,0 +1,95 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-additionalProperties",
+      "severity": "error",
+      "message": "/extra must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/extra"
+      },
+      "evidence": {
+        "reason": "/extra must NOT have additional properties",
+        "example": "Remove unsupported extra."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Remove unsupported extra."
+      ]
+    },
+    {
+      "code": "explainer/schema-enum",
+      "severity": "error",
+      "message": "/meta/style must be equal to one of the allowed values",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/meta/style"
+      },
+      "evidence": {
+        "reason": "/meta/style must be equal to one of the allowed values",
+        "example": "Choose \"clean\", \"editorial\", \"product\", \"swiss\"."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Choose \"clean\", \"editorial\", \"product\", \"swiss\"."
+      ]
+    },
+    {
+      "code": "explainer/schema-minLength",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/text must NOT have fewer than 1 characters",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/0/text"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/text must NOT have fewer than 1 characters",
+        "example": "text=\"A direct explanation.\""
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: text=\"A direct explanation.\""
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/1/entries/0/value must have required property 'value'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "facts",
+        "path": "/panels/0/blocks/1/entries/0/value"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/1/entries/0/value must have required property 'value'",
+        "example": "Add value to the facts."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add value to the facts."
+      ]
+    },
+    {
+      "code": "explainer/schema-minLength",
+      "severity": "error",
+      "message": "/sources/0/url must NOT have fewer than 1 characters",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "source",
+        "path": "/sources/0/url"
+      },
+      "evidence": {
+        "reason": "/sources/0/url must NOT have fewer than 1 characters",
+        "example": "text=\"A direct explanation.\""
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: text=\"A direct explanation.\""
+      ]
+    }
+  ]
+}

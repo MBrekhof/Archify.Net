@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "diagnostics": [
+    {
+      "code": "explainer/writing-vague-quantity",
+      "severity": "warning",
+      "message": "The quantity or comparison lacks a stated bound or measurement.",
+      "subject": {
+        "line": 1,
+        "component": "typical",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "rule": "vague-quantity",
+        "reason": "The quantity or comparison lacks a stated bound or measurement.",
+        "example": "大量请求 → 写明已知请求量或说明未测量；尽快 → 写明期限; significantly faster → give the measured comparison or say it is unmeasured",
+        "matched": "many users"
+      },
+      "supportedFixes": [
+        "Add a supported quantity, range, deadline or comparison basis; when unknown, state that it is unmeasured. Do not invent a number."
+      ]
+    },
+    {
+      "code": "explainer/writing-plain-word",
+      "severity": "warning",
+      "message": "A longer word replaces a common one with the same meaning.",
+      "subject": {
+        "line": 1,
+        "component": "typical",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "rule": "plain-word",
+        "reason": "A longer word replaces a common one with the same meaning.",
+        "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+        "matched": "in order to"
+      },
+      "supportedFixes": [
+        "Use the shorter common word."
+      ]
+    }
+  ]
+}

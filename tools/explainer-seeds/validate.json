@@ -1,0 +1,5102 @@
+[
+  {
+    "name": "base",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "base-options",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "inputPath": "draft.md",
+        "writingMode": "strict",
+        "sourceMap": {
+          "": {
+            "line": 3,
+            "column": 2
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "schema-additional-document",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ],
+        "preparedSources": {}
+      }
+    ]
+  },
+  {
+    "name": "schema-additional-source",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts",
+            "verified": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-additional-block",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy.",
+                "html": "<script>bad()</script>"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-required-meta",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-required-root",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-required-block",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-required-type",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-output-portable",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation",
+          "output": "../answer.html"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-output-type",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation",
+          "output": 5
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-output-ok",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation",
+          "output": "answer.html"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-number",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "m",
+                "type": "metric",
+                "label": "L",
+                "value": "12"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-boolean",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "l",
+                "type": "list",
+                "items": [
+                  "a"
+                ],
+                "ordered": "yes"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-array",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first.",
+          "reasons": "one"
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-object",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": "x",
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-string",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": 5
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-integer",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ],
+            "span": 2.5
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-type-root",
+    "call": "validateExplainer",
+    "args": [
+      []
+    ]
+  },
+  {
+    "name": "schema-const",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 2,
+        "diagram_type": "sequence",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-enum",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "c",
+                "type": "callout",
+                "level": "tip",
+                "text": "x"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-enum-type",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "table",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-oneof-diagram",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "dg",
+                "type": "diagram",
+                "diagramType": "sequence"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-oneof-both",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "dg",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {},
+                "source": "x.json"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-minimum",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ],
+            "span": 0
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-maximum",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ],
+            "span": 13
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-exclusive-minimum",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "m",
+                "type": "metric",
+                "label": "L",
+                "limit": 0
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-source-lines-minimum",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts",
+            "lines": [
+              0,
+              2
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-pattern-revision",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts",
+            "revision": "abc"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-pattern-id",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "1bad",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-pattern-meta-id",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "bad id",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-min-items",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": []
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-min-items-panels",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-min-length",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": ""
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-max-items-reasons",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first.",
+          "reasons": [
+            "Reason",
+            "Reason",
+            "Reason",
+            "Reason",
+            "Reason"
+          ]
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-max-length-panel",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-max-length-source",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-max-length-id",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-items-route",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "s",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "i",
+                    "text": "t",
+                    "target": {
+                      "diagram": "x",
+                      "route": [
+                        "a",
+                        "b",
+                        "c"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-property-names",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "dg",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "source": "a.json",
+                "nodeSources": {
+                  "bad key": "evidence"
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-max-properties",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "dg",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "source": "a.json",
+                "nodeSources": {
+                  "n0": "evidence",
+                  "n1": "evidence",
+                  "n2": "evidence",
+                  "n3": "evidence",
+                  "n4": "evidence",
+                  "n5": "evidence",
+                  "n6": "evidence",
+                  "n7": "evidence",
+                  "n8": "evidence",
+                  "n9": "evidence",
+                  "n10": "evidence",
+                  "n11": "evidence",
+                  "n12": "evidence",
+                  "n13": "evidence",
+                  "n14": "evidence",
+                  "n15": "evidence",
+                  "n16": "evidence",
+                  "n17": "evidence",
+                  "n18": "evidence",
+                  "n19": "evidence",
+                  "n20": "evidence",
+                  "n21": "evidence",
+                  "n22": "evidence",
+                  "n23": "evidence",
+                  "n24": "evidence",
+                  "n25": "evidence",
+                  "n26": "evidence",
+                  "n27": "evidence",
+                  "n28": "evidence",
+                  "n29": "evidence",
+                  "n30": "evidence",
+                  "n31": "evidence",
+                  "n32": "evidence",
+                  "n33": "evidence",
+                  "n34": "evidence",
+                  "n35": "evidence",
+                  "n36": "evidence",
+                  "n37": "evidence",
+                  "n38": "evidence",
+                  "n39": "evidence",
+                  "n40": "evidence",
+                  "n41": "evidence",
+                  "n42": "evidence",
+                  "n43": "evidence",
+                  "n44": "evidence",
+                  "n45": "evidence",
+                  "n46": "evidence",
+                  "n47": "evidence",
+                  "n48": "evidence",
+                  "n49": "evidence",
+                  "n50": "evidence",
+                  "n51": "evidence",
+                  "n52": "evidence",
+                  "n53": "evidence",
+                  "n54": "evidence",
+                  "n55": "evidence",
+                  "n56": "evidence",
+                  "n57": "evidence",
+                  "n58": "evidence",
+                  "n59": "evidence",
+                  "n60": "evidence",
+                  "n61": "evidence",
+                  "n62": "evidence",
+                  "n63": "evidence",
+                  "n64": "evidence",
+                  "n65": "evidence",
+                  "n66": "evidence",
+                  "n67": "evidence",
+                  "n68": "evidence",
+                  "n69": "evidence",
+                  "n70": "evidence",
+                  "n71": "evidence",
+                  "n72": "evidence",
+                  "n73": "evidence",
+                  "n74": "evidence",
+                  "n75": "evidence",
+                  "n76": "evidence",
+                  "n77": "evidence",
+                  "n78": "evidence",
+                  "n79": "evidence",
+                  "n80": "evidence",
+                  "n81": "evidence",
+                  "n82": "evidence",
+                  "n83": "evidence",
+                  "n84": "evidence",
+                  "n85": "evidence",
+                  "n86": "evidence",
+                  "n87": "evidence",
+                  "n88": "evidence",
+                  "n89": "evidence",
+                  "n90": "evidence",
+                  "n91": "evidence",
+                  "n92": "evidence",
+                  "n93": "evidence",
+                  "n94": "evidence",
+                  "n95": "evidence",
+                  "n96": "evidence",
+                  "n97": "evidence",
+                  "n98": "evidence",
+                  "n99": "evidence",
+                  "n100": "evidence",
+                  "n101": "evidence",
+                  "n102": "evidence",
+                  "n103": "evidence",
+                  "n104": "evidence",
+                  "n105": "evidence",
+                  "n106": "evidence",
+                  "n107": "evidence",
+                  "n108": "evidence",
+                  "n109": "evidence",
+                  "n110": "evidence",
+                  "n111": "evidence",
+                  "n112": "evidence",
+                  "n113": "evidence",
+                  "n114": "evidence",
+                  "n115": "evidence",
+                  "n116": "evidence",
+                  "n117": "evidence",
+                  "n118": "evidence",
+                  "n119": "evidence",
+                  "n120": "evidence",
+                  "n121": "evidence",
+                  "n122": "evidence",
+                  "n123": "evidence",
+                  "n124": "evidence",
+                  "n125": "evidence",
+                  "n126": "evidence",
+                  "n127": "evidence",
+                  "n128": "evidence",
+                  "n129": "evidence",
+                  "n130": "evidence",
+                  "n131": "evidence",
+                  "n132": "evidence",
+                  "n133": "evidence",
+                  "n134": "evidence",
+                  "n135": "evidence",
+                  "n136": "evidence",
+                  "n137": "evidence",
+                  "n138": "evidence",
+                  "n139": "evidence",
+                  "n140": "evidence",
+                  "n141": "evidence",
+                  "n142": "evidence",
+                  "n143": "evidence",
+                  "n144": "evidence",
+                  "n145": "evidence",
+                  "n146": "evidence",
+                  "n147": "evidence",
+                  "n148": "evidence",
+                  "n149": "evidence",
+                  "n150": "evidence",
+                  "n151": "evidence",
+                  "n152": "evidence",
+                  "n153": "evidence",
+                  "n154": "evidence",
+                  "n155": "evidence",
+                  "n156": "evidence",
+                  "n157": "evidence",
+                  "n158": "evidence",
+                  "n159": "evidence",
+                  "n160": "evidence",
+                  "n161": "evidence",
+                  "n162": "evidence",
+                  "n163": "evidence",
+                  "n164": "evidence",
+                  "n165": "evidence",
+                  "n166": "evidence",
+                  "n167": "evidence",
+                  "n168": "evidence",
+                  "n169": "evidence",
+                  "n170": "evidence",
+                  "n171": "evidence",
+                  "n172": "evidence",
+                  "n173": "evidence",
+                  "n174": "evidence",
+                  "n175": "evidence",
+                  "n176": "evidence",
+                  "n177": "evidence",
+                  "n178": "evidence",
+                  "n179": "evidence",
+                  "n180": "evidence",
+                  "n181": "evidence",
+                  "n182": "evidence",
+                  "n183": "evidence",
+                  "n184": "evidence",
+                  "n185": "evidence",
+                  "n186": "evidence",
+                  "n187": "evidence",
+                  "n188": "evidence",
+                  "n189": "evidence",
+                  "n190": "evidence",
+                  "n191": "evidence",
+                  "n192": "evidence",
+                  "n193": "evidence",
+                  "n194": "evidence",
+                  "n195": "evidence",
+                  "n196": "evidence",
+                  "n197": "evidence",
+                  "n198": "evidence",
+                  "n199": "evidence",
+                  "n200": "evidence",
+                  "n201": "evidence",
+                  "n202": "evidence",
+                  "n203": "evidence",
+                  "n204": "evidence",
+                  "n205": "evidence",
+                  "n206": "evidence",
+                  "n207": "evidence",
+                  "n208": "evidence",
+                  "n209": "evidence",
+                  "n210": "evidence",
+                  "n211": "evidence",
+                  "n212": "evidence",
+                  "n213": "evidence",
+                  "n214": "evidence",
+                  "n215": "evidence",
+                  "n216": "evidence",
+                  "n217": "evidence",
+                  "n218": "evidence",
+                  "n219": "evidence",
+                  "n220": "evidence",
+                  "n221": "evidence",
+                  "n222": "evidence",
+                  "n223": "evidence",
+                  "n224": "evidence",
+                  "n225": "evidence",
+                  "n226": "evidence",
+                  "n227": "evidence",
+                  "n228": "evidence",
+                  "n229": "evidence",
+                  "n230": "evidence",
+                  "n231": "evidence",
+                  "n232": "evidence",
+                  "n233": "evidence",
+                  "n234": "evidence",
+                  "n235": "evidence",
+                  "n236": "evidence",
+                  "n237": "evidence",
+                  "n238": "evidence",
+                  "n239": "evidence",
+                  "n240": "evidence",
+                  "n241": "evidence",
+                  "n242": "evidence",
+                  "n243": "evidence",
+                  "n244": "evidence",
+                  "n245": "evidence",
+                  "n246": "evidence",
+                  "n247": "evidence",
+                  "n248": "evidence",
+                  "n249": "evidence",
+                  "n250": "evidence",
+                  "n251": "evidence",
+                  "n252": "evidence",
+                  "n253": "evidence",
+                  "n254": "evidence",
+                  "n255": "evidence",
+                  "n256": "evidence",
+                  "n257": "evidence",
+                  "n258": "evidence",
+                  "n259": "evidence",
+                  "n260": "evidence",
+                  "n261": "evidence",
+                  "n262": "evidence",
+                  "n263": "evidence",
+                  "n264": "evidence",
+                  "n265": "evidence",
+                  "n266": "evidence",
+                  "n267": "evidence",
+                  "n268": "evidence",
+                  "n269": "evidence",
+                  "n270": "evidence",
+                  "n271": "evidence",
+                  "n272": "evidence",
+                  "n273": "evidence",
+                  "n274": "evidence",
+                  "n275": "evidence",
+                  "n276": "evidence",
+                  "n277": "evidence",
+                  "n278": "evidence",
+                  "n279": "evidence",
+                  "n280": "evidence",
+                  "n281": "evidence",
+                  "n282": "evidence",
+                  "n283": "evidence",
+                  "n284": "evidence",
+                  "n285": "evidence",
+                  "n286": "evidence",
+                  "n287": "evidence",
+                  "n288": "evidence",
+                  "n289": "evidence",
+                  "n290": "evidence",
+                  "n291": "evidence",
+                  "n292": "evidence",
+                  "n293": "evidence",
+                  "n294": "evidence",
+                  "n295": "evidence",
+                  "n296": "evidence",
+                  "n297": "evidence",
+                  "n298": "evidence",
+                  "n299": "evidence",
+                  "n300": "evidence",
+                  "n301": "evidence",
+                  "n302": "evidence",
+                  "n303": "evidence",
+                  "n304": "evidence",
+                  "n305": "evidence",
+                  "n306": "evidence",
+                  "n307": "evidence",
+                  "n308": "evidence",
+                  "n309": "evidence",
+                  "n310": "evidence",
+                  "n311": "evidence",
+                  "n312": "evidence",
+                  "n313": "evidence",
+                  "n314": "evidence",
+                  "n315": "evidence",
+                  "n316": "evidence",
+                  "n317": "evidence",
+                  "n318": "evidence",
+                  "n319": "evidence",
+                  "n320": "evidence",
+                  "n321": "evidence",
+                  "n322": "evidence",
+                  "n323": "evidence",
+                  "n324": "evidence",
+                  "n325": "evidence",
+                  "n326": "evidence",
+                  "n327": "evidence",
+                  "n328": "evidence",
+                  "n329": "evidence",
+                  "n330": "evidence",
+                  "n331": "evidence",
+                  "n332": "evidence",
+                  "n333": "evidence",
+                  "n334": "evidence",
+                  "n335": "evidence",
+                  "n336": "evidence",
+                  "n337": "evidence",
+                  "n338": "evidence",
+                  "n339": "evidence",
+                  "n340": "evidence",
+                  "n341": "evidence",
+                  "n342": "evidence",
+                  "n343": "evidence",
+                  "n344": "evidence",
+                  "n345": "evidence",
+                  "n346": "evidence",
+                  "n347": "evidence",
+                  "n348": "evidence",
+                  "n349": "evidence",
+                  "n350": "evidence",
+                  "n351": "evidence",
+                  "n352": "evidence",
+                  "n353": "evidence",
+                  "n354": "evidence",
+                  "n355": "evidence",
+                  "n356": "evidence",
+                  "n357": "evidence",
+                  "n358": "evidence",
+                  "n359": "evidence",
+                  "n360": "evidence",
+                  "n361": "evidence",
+                  "n362": "evidence",
+                  "n363": "evidence",
+                  "n364": "evidence",
+                  "n365": "evidence",
+                  "n366": "evidence",
+                  "n367": "evidence",
+                  "n368": "evidence",
+                  "n369": "evidence",
+                  "n370": "evidence",
+                  "n371": "evidence",
+                  "n372": "evidence",
+                  "n373": "evidence",
+                  "n374": "evidence",
+                  "n375": "evidence",
+                  "n376": "evidence",
+                  "n377": "evidence",
+                  "n378": "evidence",
+                  "n379": "evidence",
+                  "n380": "evidence",
+                  "n381": "evidence",
+                  "n382": "evidence",
+                  "n383": "evidence",
+                  "n384": "evidence",
+                  "n385": "evidence",
+                  "n386": "evidence",
+                  "n387": "evidence",
+                  "n388": "evidence",
+                  "n389": "evidence",
+                  "n390": "evidence",
+                  "n391": "evidence",
+                  "n392": "evidence",
+                  "n393": "evidence",
+                  "n394": "evidence",
+                  "n395": "evidence",
+                  "n396": "evidence",
+                  "n397": "evidence",
+                  "n398": "evidence",
+                  "n399": "evidence",
+                  "n400": "evidence",
+                  "n401": "evidence",
+                  "n402": "evidence",
+                  "n403": "evidence",
+                  "n404": "evidence",
+                  "n405": "evidence",
+                  "n406": "evidence",
+                  "n407": "evidence",
+                  "n408": "evidence",
+                  "n409": "evidence",
+                  "n410": "evidence",
+                  "n411": "evidence",
+                  "n412": "evidence",
+                  "n413": "evidence",
+                  "n414": "evidence",
+                  "n415": "evidence",
+                  "n416": "evidence",
+                  "n417": "evidence",
+                  "n418": "evidence",
+                  "n419": "evidence",
+                  "n420": "evidence",
+                  "n421": "evidence",
+                  "n422": "evidence",
+                  "n423": "evidence",
+                  "n424": "evidence",
+                  "n425": "evidence",
+                  "n426": "evidence",
+                  "n427": "evidence",
+                  "n428": "evidence",
+                  "n429": "evidence",
+                  "n430": "evidence",
+                  "n431": "evidence",
+                  "n432": "evidence",
+                  "n433": "evidence",
+                  "n434": "evidence",
+                  "n435": "evidence",
+                  "n436": "evidence",
+                  "n437": "evidence",
+                  "n438": "evidence",
+                  "n439": "evidence",
+                  "n440": "evidence",
+                  "n441": "evidence",
+                  "n442": "evidence",
+                  "n443": "evidence",
+                  "n444": "evidence",
+                  "n445": "evidence",
+                  "n446": "evidence",
+                  "n447": "evidence",
+                  "n448": "evidence",
+                  "n449": "evidence",
+                  "n450": "evidence",
+                  "n451": "evidence",
+                  "n452": "evidence",
+                  "n453": "evidence",
+                  "n454": "evidence",
+                  "n455": "evidence",
+                  "n456": "evidence",
+                  "n457": "evidence",
+                  "n458": "evidence",
+                  "n459": "evidence",
+                  "n460": "evidence",
+                  "n461": "evidence",
+                  "n462": "evidence",
+                  "n463": "evidence",
+                  "n464": "evidence",
+                  "n465": "evidence",
+                  "n466": "evidence",
+                  "n467": "evidence",
+                  "n468": "evidence",
+                  "n469": "evidence",
+                  "n470": "evidence",
+                  "n471": "evidence",
+                  "n472": "evidence",
+                  "n473": "evidence",
+                  "n474": "evidence",
+                  "n475": "evidence",
+                  "n476": "evidence",
+                  "n477": "evidence",
+                  "n478": "evidence",
+                  "n479": "evidence",
+                  "n480": "evidence",
+                  "n481": "evidence",
+                  "n482": "evidence",
+                  "n483": "evidence",
+                  "n484": "evidence",
+                  "n485": "evidence",
+                  "n486": "evidence",
+                  "n487": "evidence",
+                  "n488": "evidence",
+                  "n489": "evidence",
+                  "n490": "evidence",
+                  "n491": "evidence",
+                  "n492": "evidence",
+                  "n493": "evidence",
+                  "n494": "evidence",
+                  "n495": "evidence",
+                  "n496": "evidence",
+                  "n497": "evidence",
+                  "n498": "evidence",
+                  "n499": "evidence",
+                  "n500": "evidence"
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-chart-data",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "data": {
+                  "path": "a.csv",
+                  "kind": "area",
+                  "x": "d",
+                  "y": []
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-many",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation",
+          "style": "bold"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": ""
+              },
+              {
+                "id": "x",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "k"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts",
+            "url": ""
+          }
+        ],
+        "extra": 1
+      }
+    ]
+  },
+  {
+    "name": "schema-duplicate-errors",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "type": "prose"
+              },
+              {
+                "type": "prose"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-block-type-number",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": 5,
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "schema-sources-object",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": {}
+      }
+    ]
+  },
+  {
+    "name": "schema-source-map",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation",
+          "output": "C:/x.html"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "inputPath": "in.md",
+        "sourceMap": {
+          "/meta": {
+            "line": 4,
+            "column": 1
+          },
+          "/meta/output": {
+            "line": 6,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "reserved-board",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "board",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "reserved-explainer",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "explainer-x",
+                "type": "prose",
+                "text": "Another block."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "reserved-source-collision",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "source-evidence",
+                "type": "prose",
+                "text": "Another block."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "reserved-panel",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "toast",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "reserved-dialog",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "diagram-dialog-title",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "duplicate-id",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "reasoning",
+                "type": "prose",
+                "text": "Another block."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "duplicate-answer",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "answer",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "duplicate-source",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          },
+          {
+            "id": "evidence",
+            "title": "Again"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "duplicate-row",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "cmp",
+                "type": "comparison",
+                "columns": [
+                  "A"
+                ],
+                "rows": [
+                  {
+                    "id": "claim",
+                    "label": "L",
+                    "cells": [
+                      {
+                        "text": "x"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "source-and-block-same-id",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "evidence",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ref-source-ok",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [facts](source:evidence) and [](source:evidence)."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ref-source-missing",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "[](source:missing)"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ref-block-answer",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [answer](block:answer) and [r](#reasoning)."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ref-block-missing",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [x](block:nope) and [s](#evidence)."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "ref-node-no-diagram",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [x](node:nope.a) and [y](route:claim.a~b)."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "code-source-kind",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "evidence"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "code-source-missing",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "missing"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "code-source-ok",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "code",
+                "type": "code",
+                "source": "evidence"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts",
+            "path": "src/a.js"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "node-sources",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "dg",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "source": "a.json",
+                "nodeSources": {
+                  "api": "evidence",
+                  "db": "missing",
+                  "a~b": "gone"
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "source-lines-order",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts",
+            "lines": [
+              5,
+              2
+            ],
+            "path": "a.js"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "source-url-bad",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          },
+          {
+            "id": "u1",
+            "title": "a",
+            "url": "ftp://example.com"
+          },
+          {
+            "id": "u2",
+            "title": "b",
+            "url": "https://u:p@example.com"
+          },
+          {
+            "id": "u3",
+            "title": "c",
+            "url": "not a url"
+          },
+          {
+            "id": "u4",
+            "title": "d",
+            "url": "https://example.com/a b"
+          },
+          {
+            "id": "u5",
+            "title": "e",
+            "url": "HTTPS://example.com"
+          },
+          {
+            "id": "u6",
+            "title": "f",
+            "url": "http:example.com"
+          },
+          {
+            "id": "u7",
+            "title": "g",
+            "url": "https://"
+          },
+          {
+            "id": "u8",
+            "title": "h",
+            "url": "https://example.com:99999"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "table-width",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "compare",
+                "type": "comparison",
+                "columns": [
+                  "A",
+                  "B"
+                ],
+                "rows": [
+                  {
+                    "id": "cost",
+                    "label": "Cost",
+                    "cells": [
+                      {
+                        "text": "Low",
+                        "assessment": "good"
+                      }
+                    ]
+                  },
+                  {
+                    "id": "risk",
+                    "label": "Risk",
+                    "cells": [
+                      {
+                        "text": "a"
+                      },
+                      {
+                        "text": "b",
+                        "verdict": "**bad"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-ok",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "st",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "a",
+                    "text": "A",
+                    "target": {
+                      "diagram": "flow",
+                      "node": "api",
+                      "edges": [
+                        "m1"
+                      ]
+                    }
+                  },
+                  {
+                    "id": "b",
+                    "text": "B",
+                    "detail": "D",
+                    "target": {
+                      "diagram": "flow",
+                      "route": [
+                        "api",
+                        "redis"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-exclusive",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "st",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "a",
+                    "text": "A",
+                    "target": {
+                      "diagram": "flow",
+                      "node": "api",
+                      "route": [
+                        "api",
+                        "redis"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-node-missing",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [missing](node:flow.missing) and [r](route:flow.api~nope)."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-route-missing",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "st",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "a",
+                    "text": "A",
+                    "target": {
+                      "diagram": "flow",
+                      "route": [
+                        "x",
+                        "y"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-edges",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "st",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "a",
+                    "text": "A",
+                    "target": {
+                      "diagram": "flow",
+                      "edges": [
+                        "m1",
+                        "m1",
+                        "nope"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-wrong-kind",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [x](node:claim.api)."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "st",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "a",
+                    "text": "A",
+                    "target": {
+                      "diagram": "reasoning"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-source-diagram",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Read [x](node:flow.anything)."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "source": "flow.json"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "target-tree-edges",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "t",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "tree",
+                  "meta": {
+                    "title": "T"
+                  },
+                  "root": "r",
+                  "nodes": [
+                    {
+                      "id": "r",
+                      "label": "R"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "st",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "a",
+                    "text": "A",
+                    "target": {
+                      "diagram": "t",
+                      "node": "r",
+                      "edges": [
+                        "e"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "diagram-type-mismatch",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "native-schema-error",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "bogus"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ],
+                  "extra": 1
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "inputPath": "draft.md",
+        "sourceMap": {
+          "/panels/0/blocks/1": {
+            "line": 9,
+            "column": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "native-output",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "Flow",
+                    "output": "/abs.html"
+                  },
+                  "participants": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "m1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "GET",
+                      "type": "sync"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "native-root-type",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "flow",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "diagram_type": "sequence"
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "inline-fields",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Title <b>"
+        },
+        "answer": {
+          "summary": "Sum **x",
+          "reasons": [
+            "ok",
+            "~~r~~"
+          ],
+          "scope": "scope `x"
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "P ![i](x)",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "cl",
+                "type": "callout",
+                "level": "note",
+                "title": "<t>",
+                "text": "**c"
+              },
+              {
+                "id": "li",
+                "type": "list",
+                "items": [
+                  "<a>",
+                  "ok"
+                ]
+              },
+              {
+                "id": "fa",
+                "type": "facts",
+                "entries": [
+                  {
+                    "key": "**k",
+                    "value": "`v"
+                  }
+                ]
+              },
+              {
+                "id": "me",
+                "type": "metric",
+                "label": "<l>",
+                "value": 3,
+                "unit": "ms",
+                "note": "**n"
+              },
+              {
+                "id": "cm",
+                "type": "comparison",
+                "labelColumn": "<lc>",
+                "columns": [
+                  "<c1>"
+                ],
+                "rows": [
+                  {
+                    "id": "r1",
+                    "label": "**rl",
+                    "cells": [
+                      {
+                        "text": "`ct",
+                        "verdict": "<v>"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "sp",
+                "type": "steps",
+                "items": [
+                  {
+                    "id": "s1",
+                    "text": "<st>",
+                    "detail": "**sd"
+                  }
+                ]
+              },
+              {
+                "id": "sn",
+                "type": "snippet",
+                "title": "<sn>",
+                "text": "<raw> **not checked"
+              },
+              {
+                "id": "im",
+                "type": "image",
+                "path": "a.png",
+                "alt": "<alt>",
+                "caption": "**cap"
+              },
+              {
+                "id": "df",
+                "type": "diff",
+                "text": "+<script>literal</script>",
+                "caption": "<cap>"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "<i>src</i>"
+          }
+        ]
+      },
+      {
+        "inputPath": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "inline-safety",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "Literal `<script>` is code; [safe](https://example.com)."
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "+<script>literal diff</script>\n-[link](javascript:bad)"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "inline-javascript",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "[bad](javascript:alert(1))"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "diff-errors",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "diff",
+                "type": "diff",
+                "text": "@@ -1 +1 @@\nold\n+new\n+api_key: \"abcdefgh\""
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "inputPath": "draft.md",
+        "sourceMap": {
+          "/panels/0/blocks/1/text": {
+            "line": 12,
+            "column": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "chart-text-and-data",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "text": "pie\n \"A\" : 1",
+                "data": {
+                  "path": "a.csv",
+                  "kind": "bar",
+                  "x": "x",
+                  "y": [
+                    "y"
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "chart-neither",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "title": "**t"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "chart-ok",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "title": "Share",
+                "text": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "chart-error-line",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "text": "xychart-beta\n  x-axis [a, b]\n  bar [1, 2\n"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "sourceMap": {
+          "/panels/0/blocks/1/text": {
+            "line": 10,
+            "column": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "chart-native",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "text": "sequenceDiagram\n  A->>B: hi"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "chart-unsupported",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "text": "gitGraph\n  commit"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "chart-front-matter",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              },
+              {
+                "id": "ch",
+                "type": "chart",
+                "text": "---\ntitle: [unclosed\n---\npie\n  \"A\" : 1"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "parsed-chart-error",
+    "call": "validateExplainer",
+    "parsed": "# Charts\n\nAnswer.\n\n## Data {#data}\n\n```mermaid\npie\n  \"A\" : x\n```\n",
+    "args": [
+      {
+        "inputPath": "draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "parsed-front-matter",
+    "call": "validateExplainer",
+    "parsed": "# Charts\n\nAnswer.\n\n## Data {#data}\n\n```mermaid\n---\ntitle: [unclosed\n---\npie\n  \"A\" : 1\n```\n",
+    "args": [
+      {
+        "inputPath": "draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "parsed-diff-crlf",
+    "call": "validateExplainer",
+    "parsed": "# Review\r\n\r\nApply the stated change.\r\n\r\n## What changed? {#review}\r\n\r\n@diff id=change\r\n```diff\r\n@@ -1 +1 @@\r\nold\r\n+new\r\n```\r\n",
+    "args": [
+      {
+        "inputPath": "review.md"
+      }
+    ]
+  },
+  {
+    "name": "parsed-diagram-refs",
+    "call": "validateExplainer",
+    "parsed": "# Request\n\nRead the cache.\n\n## How? {#how}\n\n@sequence id=flow\n| actor api | API | backend |\n| actor redis | Redis | database |\n| api | redis | GET key |\n\nRead [Redis](node:flow.redis) and [M](node:flow.missing).\n\n@steps id=steps\n| lookup | Lookup | | flow | redis | | api-to-redis-1 |\n| bad | Bad | | flow | nope | | nope-edge |",
+    "args": [
+      {
+        "inputPath": "draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "parsed-writing",
+    "call": "validateExplainer",
+    "parsed": "# 选择\n\n综上所述，很多用户进行分析。\n\n- 进行检查\n\n@answer scope=\"示例，未实测，仅供参考 [5 ms](typical:illustrative, not measured)\"\n\n## 为什么？ {#why}\n\n负责处理用户提交的订单的服务的日志很大。[快](typical:很多用户) 值得注意的是。\n",
+    "args": [
+      {
+        "inputPath": "w.md",
+        "writingMode": "warn"
+      }
+    ]
+  },
+  {
+    "name": "parsed-writing-strict",
+    "call": "validateExplainer",
+    "parsed": "# Choice\n\nIn summary, many users utilize it.\n\n## Why? {#why}\n\nIn order to read, perform an analysis of it.\n",
+    "args": [
+      {
+        "writingMode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "parsed-writing-off",
+    "call": "validateExplainer",
+    "parsed": "# Choice\n\nIn summary, many users utilize it.\n\n## Why? {#why}\n\nIn order to read.\n",
+    "args": [
+      {
+        "writingMode": "off"
+      }
+    ]
+  },
+  {
+    "name": "writing-warn",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "进行检查，大量请求。"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "writing-strict",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "进行检查，大量请求。"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "writingMode": "strict",
+        "inputPath": "x.md"
+      }
+    ]
+  },
+  {
+    "name": "writing-off",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "进行检查，大量请求。"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "writingMode": "off"
+      }
+    ]
+  },
+  {
+    "name": "writing-code-excluded",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "`进行检查，大量请求。`"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "writing-scope-sources",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first.",
+          "reasons": [
+            "Lower latency",
+            "Local transactions"
+          ],
+          "scope": "示例，未实测，仅供参考 [5 ms](typical:illustrative, not measured)"
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "illustrative, not measured"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "writing-summary",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "示例判断",
+          "reasons": [
+            "本例适用"
+          ]
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "writing-locale",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation",
+          "locale": "zh-CN"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "... ???"
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "writing-typical-entry",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "It is [fast](typical:many users see it in order to wait)."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "writing-bad-mode",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "Read the cache first."
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "writingMode": "loud"
+      }
+    ]
+  },
+  {
+    "name": "writing-verdict",
+    "call": "validateExplainer",
+    "args": [
+      {
+        "schema_version": 1,
+        "diagram_type": "explainer",
+        "meta": {
+          "id": "artifact",
+          "title": "Cache explanation"
+        },
+        "answer": {
+          "summary": "**先做模块化单体，等模块边界稳定后再拆分服务。**"
+        },
+        "panels": [
+          {
+            "id": "reasoning",
+            "title": "Why does it work?",
+            "blocks": [
+              {
+                "id": "claim",
+                "type": "prose",
+                "text": "A cache stores a temporary copy."
+              }
+            ]
+          }
+        ],
+        "sources": [
+          {
+            "id": "evidence",
+            "title": "Stated facts"
+          }
+        ]
+      },
+      {
+        "inputPath": "v.md"
+      }
+    ]
+  }
+]

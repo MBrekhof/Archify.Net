@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "emoji 😀 and 𠀀 and é"
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

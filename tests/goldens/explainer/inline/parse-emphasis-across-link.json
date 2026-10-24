@@ -1,0 +1,19 @@
+{
+  "tokens": [
+    {
+      "type": "em",
+      "children": [
+        {
+          "type": "text",
+          "value": "a [b"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": "](source:x)"
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

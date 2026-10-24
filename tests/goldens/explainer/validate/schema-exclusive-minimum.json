@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-exclusiveMinimum",
+      "severity": "error",
+      "message": "/panels/0/blocks/1/limit must be > 0",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "metric",
+        "path": "/panels/0/blocks/1/limit"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/1/limit must be > 0",
+        "example": "Use a finite value satisfying the stated bound, such as 1."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use a finite value satisfying the stated bound, such as 1."
+      ]
+    }
+  ]
+}

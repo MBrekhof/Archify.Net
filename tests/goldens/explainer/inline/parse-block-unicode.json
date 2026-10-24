@@ -1,0 +1,45 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "block:日本_語-1",
+      "reference": {
+        "kind": "block",
+        "id": "日本_語-1",
+        "offset": 0,
+        "end": 17
+      }
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "link",
+      "label": "b",
+      "href": "source:é",
+      "reference": {
+        "kind": "source",
+        "id": "é",
+        "offset": 18,
+        "end": 31
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "block",
+      "id": "日本_語-1",
+      "offset": 0,
+      "end": 17
+    },
+    {
+      "kind": "source",
+      "id": "é",
+      "offset": 18,
+      "end": 31
+    }
+  ],
+  "diagnostics": []
+}

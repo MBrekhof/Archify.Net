@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "diagnostics": [
+    {
+      "code": "explainer/writing-verdict-emphasis",
+      "severity": "warning",
+      "message": "Most of the conclusion is bold, so nothing stands out.",
+      "subject": {
+        "line": 1,
+        "component": "answer",
+        "input": "v.md"
+      },
+      "evidence": {
+        "rule": "verdict-emphasis",
+        "reason": "Most of the conclusion is bold, so nothing stands out.",
+        "example": "先做**模块化单体**，等边界稳定后再拆。 / Keep a **modular monolith** until boundaries settle."
+      },
+      "supportedFixes": [
+        "Bold only the few words that carry the decision."
+      ]
+    }
+  ]
+}

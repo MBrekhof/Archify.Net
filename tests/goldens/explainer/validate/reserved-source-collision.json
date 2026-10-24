@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/reserved-id",
+      "severity": "error",
+      "message": "This identity collides with a generated source anchor.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "source",
+        "path": "/panels/0/blocks/1/id"
+      },
+      "evidence": {
+        "reason": "This identity collides with a generated source anchor.",
+        "example": "id=reader-section"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: id=reader-section"
+      ]
+    }
+  ]
+}

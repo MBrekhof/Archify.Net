@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "\\ ` * _ [ ] ( ) ! < > ~ | \\x \\é end\\ "
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

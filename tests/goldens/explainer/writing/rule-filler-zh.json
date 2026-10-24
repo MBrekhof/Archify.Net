@@ -1,0 +1,255 @@
+[
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "下面我来"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-paragraph-length",
+    "severity": "warning",
+    "message": "This paragraph has 8 sentences and 67 reading units; long paragraphs are what the page should replace.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "paragraph-length",
+      "reason": "This paragraph has 8 sentences and 67 reading units; long paragraphs are what the page should replace.",
+      "example": "把并列要点写成列表，把先后动作写成 @steps，把方案差异写成对比表。 / Turn parallel points into a list, ordered actions into @steps and option differences into a comparison.",
+      "units": 67,
+      "limit": 120
+    },
+    "supportedFixes": [
+      "Split the paragraph into a list, steps or a comparison; keep at most two or three short sentences of prose."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "接下来我将"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "让我们来"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "让我来"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "总的来说"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "综上所述"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "总而言之"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "值得注意的是"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "众所周知"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "毋庸置疑"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "希望这对你有所帮助"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "希望对您有帮助"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "如有疑问"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  }
+]

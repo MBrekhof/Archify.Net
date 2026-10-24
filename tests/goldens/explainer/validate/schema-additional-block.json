@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-additionalProperties",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/html must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/0/html"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/html must NOT have additional properties",
+        "example": "Remove unsupported html."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Remove unsupported html."
+      ]
+    }
+  ]
+}

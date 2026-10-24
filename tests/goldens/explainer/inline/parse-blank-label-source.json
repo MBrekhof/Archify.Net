@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": " ",
+      "href": "source:x",
+      "reference": {
+        "kind": "source",
+        "id": "x",
+        "offset": 0,
+        "end": 13
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "source",
+      "id": "x",
+      "offset": 0,
+      "end": 13
+    }
+  ],
+  "diagnostics": []
+}

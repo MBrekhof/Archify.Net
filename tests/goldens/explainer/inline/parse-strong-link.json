@@ -1,0 +1,33 @@
+{
+  "tokens": [
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "link",
+          "label": "a",
+          "href": "source:x",
+          "reference": {
+            "kind": "source",
+            "id": "x",
+            "offset": 2,
+            "end": 15
+          }
+        },
+        {
+          "type": "text",
+          "value": " b"
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "kind": "source",
+      "id": "x",
+      "offset": 2,
+      "end": 15
+    }
+  ],
+  "diagnostics": []
+}

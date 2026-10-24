@@ -1,0 +1,127 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/diagram-type",
+      "severity": "error",
+      "message": "The native specification must match the declared diagram type.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/diagram_type",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "The native specification must match the declared diagram type.",
+        "example": "@sequence source=request.sequence.json"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: @sequence source=request.sequence.json"
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/ must have required property 'components'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "components",
+        "reason": "/ must have required property 'components'",
+        "example": "Use valid native architecture JSON."
+      },
+      "supportedFixes": [
+        "add required property \"components\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/ must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "participants",
+        "reason": "/ must NOT have additional properties",
+        "example": "Use valid native architecture JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"participants\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/ must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "messages",
+        "reason": "/ must NOT have additional properties",
+        "example": "Use valid native architecture JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"messages\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/const",
+      "severity": "error",
+      "message": "/diagram_type must be equal to constant",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/diagram_type",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "const",
+        "allowedValue": "architecture",
+        "reason": "/diagram_type must be equal to constant",
+        "example": "Use valid native architecture JSON."
+      },
+      "supportedFixes": []
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/meta must have required property 'output'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/meta",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "output",
+        "reason": "/meta must have required property 'output'",
+        "example": "Use valid native architecture JSON."
+      },
+      "supportedFixes": [
+        "add required property \"output\""
+      ]
+    }
+  ]
+}

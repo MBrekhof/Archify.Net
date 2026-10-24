@@ -1,0 +1,538 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 7,
+        "component": "title",
+        "input": "draft.md",
+        "path": "/meta/title"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 5,
+        "component": "answer",
+        "input": "draft.md",
+        "path": "/answer/summary"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-decoration",
+      "severity": "error",
+      "message": "Strikethrough is unsupported; use a diff or an explicit change block.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "answer",
+        "input": "draft.md",
+        "path": "/answer/reasons/1"
+      },
+      "evidence": {
+        "reason": "Strikethrough is unsupported; use a diff or an explicit change block.",
+        "example": "Changed: **new behavior**"
+      },
+      "supportedFixes": [
+        "Use the supported form: Changed: **new behavior**"
+      ]
+    },
+    {
+      "code": "explainer/inline-decoration",
+      "severity": "error",
+      "message": "Strikethrough is unsupported; use a diff or an explicit change block.",
+      "subject": {
+        "line": 1,
+        "column": 4,
+        "component": "answer",
+        "input": "draft.md",
+        "path": "/answer/reasons/1"
+      },
+      "evidence": {
+        "reason": "Strikethrough is unsupported; use a diff or an explicit change block.",
+        "example": "Changed: **new behavior**"
+      },
+      "supportedFixes": [
+        "Use the supported form: Changed: **new behavior**"
+      ]
+    },
+    {
+      "code": "explainer/inline-code",
+      "severity": "error",
+      "message": "Inline code must have one closing backtick on the same line.",
+      "subject": {
+        "line": 1,
+        "column": 7,
+        "component": "scope",
+        "input": "draft.md",
+        "path": "/answer/scope"
+      },
+      "evidence": {
+        "reason": "Inline code must have one closing backtick on the same line.",
+        "example": "`cache.get(key)`"
+      },
+      "supportedFixes": [
+        "Use the supported form: `cache.get(key)`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "source",
+        "input": "draft.md",
+        "path": "/sources/0/title"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 7,
+        "component": "source",
+        "input": "draft.md",
+        "path": "/sources/0/title"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-image",
+      "severity": "error",
+      "message": "Inline Markdown images are unsupported. Use a contained image block.",
+      "subject": {
+        "line": 1,
+        "column": 3,
+        "component": "panel",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/title"
+      },
+      "evidence": {
+        "reason": "Inline Markdown images are unsupported. Use a contained image block.",
+        "example": "@image path=diagram.png alt=\"Request path\""
+      },
+      "supportedFixes": [
+        "Use the supported form: @image path=diagram.png alt=\"Request path\""
+      ]
+    },
+    {
+      "code": "explainer/inline-target",
+      "severity": "error",
+      "message": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+      "subject": {
+        "line": 1,
+        "column": 4,
+        "component": "panel",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/title"
+      },
+      "evidence": {
+        "reason": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+        "example": "[Redis](node:read-path.redis)"
+      },
+      "supportedFixes": [
+        "Use the supported form: [Redis](node:read-path.redis)"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "callout",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/1/text"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "callout",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/1/title"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "list",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/2/items/0"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "facts",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/3/entries/0/key"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-code",
+      "severity": "error",
+      "message": "Inline code must have one closing backtick on the same line.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "facts",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/3/entries/0/value"
+      },
+      "evidence": {
+        "reason": "Inline code must have one closing backtick on the same line.",
+        "example": "`cache.get(key)`"
+      },
+      "supportedFixes": [
+        "Use the supported form: `cache.get(key)`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "metric",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/4/label"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "metric",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/4/note"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "comparison",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/5/columns/0"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "comparison",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/5/labelColumn"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "comparison",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/5/rows/0/label"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-code",
+      "severity": "error",
+      "message": "Inline code must have one closing backtick on the same line.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "comparison",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/5/rows/0/cells/0/text"
+      },
+      "evidence": {
+        "reason": "Inline code must have one closing backtick on the same line.",
+        "example": "`cache.get(key)`"
+      },
+      "supportedFixes": [
+        "Use the supported form: `cache.get(key)`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "comparison",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/5/rows/0/cells/0/verdict"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "steps",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/6/items/0/text"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "steps",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/6/items/0/detail"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "snippet",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/7/title"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "image",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/8/caption"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "image",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/8/alt"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    },
+    {
+      "code": "explainer/inline-html",
+      "severity": "error",
+      "message": "Raw HTML is not part of the explainer inline language.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diff",
+        "panelId": "reasoning",
+        "input": "draft.md",
+        "path": "/panels/0/blocks/9/caption"
+      },
+      "evidence": {
+        "reason": "Raw HTML is not part of the explainer inline language.",
+        "example": "**Important** or `[literal <tag>]`"
+      },
+      "supportedFixes": [
+        "Use the supported form: **Important** or `[literal <tag>]`"
+      ]
+    }
+  ]
+}

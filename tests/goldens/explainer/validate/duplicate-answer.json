@@ -1,0 +1,24 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/duplicate-id",
+      "severity": "error",
+      "message": "This identity is already used. Use an explicit distinct ID.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/0/id",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "This identity is already used. Use an explicit distinct ID.",
+        "example": "id=request-path-branch"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: id=request-path-branch"
+      ]
+    }
+  ]
+}

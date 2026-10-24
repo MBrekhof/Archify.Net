@@ -1,0 +1,45 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/ must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "root",
+        "reason": "/ must NOT have additional properties",
+        "example": "Use valid native tree JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"root\""
+      ]
+    },
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "The referenced identity does not exist or has the wrong component type.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "steps",
+        "path": "/panels/0/blocks/2/items/0/target/edges/0",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "The referenced identity does not exist or has the wrong component type.",
+        "example": "Use an edge ID from the native diagram."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use an edge ID from the native diagram."
+      ]
+    }
+  ]
+}

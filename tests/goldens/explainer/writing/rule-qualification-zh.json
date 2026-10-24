@@ -1,0 +1,74 @@
+[
+  {
+    "code": "explainer/writing-qualification",
+    "severity": "warning",
+    "message": "把限定条件写进 scope 或来源",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "qualification",
+      "reason": "把限定条件写进 scope 或来源",
+      "example": "@answer scope=\"适用于当前请求路径\"",
+      "matched": "本例"
+    },
+    "supportedFixes": [
+      "把限定条件写进 scope 或来源，正文直接解释判断和原因。"
+    ]
+  },
+  {
+    "code": "explainer/writing-qualification",
+    "severity": "warning",
+    "message": "把限定条件写进 scope 或来源",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "qualification",
+      "reason": "把限定条件写进 scope 或来源",
+      "example": "@answer scope=\"适用于当前请求路径\"",
+      "matched": "不代表"
+    },
+    "supportedFixes": [
+      "把限定条件写进 scope 或来源，正文直接解释判断和原因。"
+    ]
+  },
+  {
+    "code": "explainer/writing-qualification",
+    "severity": "warning",
+    "message": "把限定条件写进 scope 或来源",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "qualification",
+      "reason": "把限定条件写进 scope 或来源",
+      "example": "@answer scope=\"适用于当前请求路径\"",
+      "matched": "未实测"
+    },
+    "supportedFixes": [
+      "把限定条件写进 scope 或来源，正文直接解释判断和原因。"
+    ]
+  },
+  {
+    "code": "explainer/writing-qualification",
+    "severity": "warning",
+    "message": "把限定条件写进 scope 或来源",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "qualification",
+      "reason": "把限定条件写进 scope 或来源",
+      "example": "@answer scope=\"适用于当前请求路径\"",
+      "matched": "仅供参考"
+    },
+    "supportedFixes": [
+      "把限定条件写进 scope 或来源，正文直接解释判断和原因。"
+    ]
+  }
+]

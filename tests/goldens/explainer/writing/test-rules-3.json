@@ -1,0 +1,38 @@
+[
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "In order to"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "utilize"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  }
+]

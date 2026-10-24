@@ -1,0 +1,49 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "plain\n~~removed~~"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-decoration",
+      "severity": "error",
+      "message": "Strikethrough is unsupported; use a diff or an explicit change block.",
+      "subject": {
+        "line": 21,
+        "column": 1,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "reason": "Strikethrough is unsupported; use a diff or an explicit change block.",
+        "example": "Changed: **new behavior**"
+      },
+      "supportedFixes": [
+        "Use the supported form: Changed: **new behavior**"
+      ]
+    },
+    {
+      "code": "explainer/inline-decoration",
+      "severity": "error",
+      "message": "Strikethrough is unsupported; use a diff or an explicit change block.",
+      "subject": {
+        "line": 21,
+        "column": 10,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "reason": "Strikethrough is unsupported; use a diff or an explicit change block.",
+        "example": "Changed: **new behavior**"
+      },
+      "supportedFixes": [
+        "Use the supported form: Changed: **new behavior**"
+      ]
+    }
+  ]
+}

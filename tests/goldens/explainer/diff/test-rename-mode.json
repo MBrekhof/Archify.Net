@@ -1,0 +1,76 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "diff --git a/old.txt b/new.txt",
+      "text": "diff --git a/old.txt b/new.txt",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "similarity index 100%",
+      "text": "similarity index 100%",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "rename from old.txt",
+      "text": "rename from old.txt",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "rename to new.txt",
+      "text": "rename to new.txt",
+      "ending": "\n",
+      "sourceLine": 4,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "diff --git a/script.sh b/script.sh",
+      "text": "diff --git a/script.sh b/script.sh",
+      "ending": "\n",
+      "sourceLine": 5,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "old mode 100644",
+      "text": "old mode 100644",
+      "ending": "\n",
+      "sourceLine": 6,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "new mode 100755",
+      "text": "new mode 100755",
+      "ending": "\n",
+      "sourceLine": 7,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 2
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

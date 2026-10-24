@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-maxItems",
+      "severity": "error",
+      "message": "/answer/reasons must NOT have more than 4 items",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/answer/reasons"
+      },
+      "evidence": {
+        "reason": "/answer/reasons must NOT have more than 4 items",
+        "example": "@document id=example"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: @document id=example"
+      ]
+    }
+  ]
+}

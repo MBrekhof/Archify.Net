@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/source-lines",
+      "severity": "error",
+      "message": "The repository line range must be ordered.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "source",
+        "path": "/sources/0/lines"
+      },
+      "evidence": {
+        "reason": "The repository line range must be ordered.",
+        "example": "lines=10:20"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: lines=10:20"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "综上所述"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "做出决定"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "加以验证"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  }
+]

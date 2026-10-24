@@ -1,0 +1,146 @@
+[
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "Here is an overview"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "Let’s dive"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "Let's take a look"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "In conclusion"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "in summary"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "it is worth noting that"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "as we all know"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  },
+  {
+    "code": "explainer/writing-filler",
+    "severity": "warning",
+    "message": "Opening, closing or signposting filler delays the facts.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "filler",
+      "reason": "Opening, closing or signposting filler delays the facts.",
+      "example": "综上所述，选 A → 选 A; In summary, use A → Use A",
+      "matched": "I hope this helps"
+    },
+    "supportedFixes": [
+      "Delete the phrase; open with the claim and stop after the last supported point."
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-enum",
+      "severity": "error",
+      "message": "/panels/0/blocks/1/level must be equal to one of the allowed values",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "callout",
+        "path": "/panels/0/blocks/1/level"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/1/level must be equal to one of the allowed values",
+        "example": "Choose \"note\", \"warning\", \"open-question\"."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Choose \"note\", \"warning\", \"open-question\"."
+      ]
+    }
+  ]
+}

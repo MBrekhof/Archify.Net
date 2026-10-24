@@ -1,0 +1,97 @@
+{
+  "tokens": [
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": "先查"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "code",
+      "value": "GET <key>"
+    },
+    {
+      "type": "text",
+      "value": "，再看 "
+    },
+    {
+      "type": "link",
+      "label": "Redis",
+      "href": "node:path.redis",
+      "reference": {
+        "kind": "node",
+        "diagram": "path",
+        "node": "redis",
+        "offset": 22,
+        "end": 46
+      }
+    },
+    {
+      "type": "text",
+      "value": "、"
+    },
+    {
+      "type": "link",
+      "label": "请求路径",
+      "href": "route:path.api~db",
+      "reference": {
+        "kind": "route",
+        "diagram": "path",
+        "from": "api",
+        "to": "db",
+        "offset": 47,
+        "end": 72
+      }
+    },
+    {
+      "type": "text",
+      "value": " 和 "
+    },
+    {
+      "type": "link",
+      "label": "依据",
+      "href": "source:trace",
+      "reference": {
+        "kind": "source",
+        "id": "trace",
+        "offset": 75,
+        "end": 93
+      }
+    },
+    {
+      "type": "text",
+      "value": "。*"
+    }
+  ],
+  "references": [
+    {
+      "kind": "node",
+      "diagram": "path",
+      "node": "redis",
+      "offset": 22,
+      "end": 46
+    },
+    {
+      "kind": "route",
+      "diagram": "path",
+      "from": "api",
+      "to": "db",
+      "offset": 47,
+      "end": 72
+    },
+    {
+      "kind": "source",
+      "id": "trace",
+      "offset": 75,
+      "end": 93
+    }
+  ],
+  "diagnostics": []
+}

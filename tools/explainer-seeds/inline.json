@@ -1,0 +1,1380 @@
+[
+  {
+    "name": "parse-test-semantics",
+    "call": "parseInline",
+    "args": [
+      "**先查** `GET <key>`，再看 [Redis](node:path.redis)、[请求路径](route:path.api~db) 和 [依据](source:trace)。\\*"
+    ]
+  },
+  {
+    "name": "render-test-semantics",
+    "call": "renderInline",
+    "args": [
+      "**先查** `GET <key>`，再看 [Redis](node:path.redis)、[请求路径](route:path.api~db) 和 [依据](source:trace)。\\*"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-0",
+    "call": "parseInline",
+    "args": [
+      "plain\n<img src=x onerror=alert(1)>",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-0",
+    "call": "renderInline",
+    "args": [
+      "<img src=x onerror=alert(1)>"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-1",
+    "call": "parseInline",
+    "args": [
+      "plain\n[run](javascript:alert(1))",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-1",
+    "call": "renderInline",
+    "args": [
+      "[run](javascript:alert(1))"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-2",
+    "call": "parseInline",
+    "args": [
+      "plain\n[run](data:text/html,test)",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-2",
+    "call": "renderInline",
+    "args": [
+      "[run](data:text/html,test)"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-3",
+    "call": "parseInline",
+    "args": [
+      "plain\n[run](https://user:password@example.com)",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-3",
+    "call": "renderInline",
+    "args": [
+      "[run](https://user:password@example.com)"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-4",
+    "call": "parseInline",
+    "args": [
+      "plain\n[unclosed](source:foo",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-4",
+    "call": "renderInline",
+    "args": [
+      "[unclosed](source:foo"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-5",
+    "call": "parseInline",
+    "args": [
+      "plain\n![image](image.png)",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-5",
+    "call": "renderInline",
+    "args": [
+      "![image](image.png)"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-6",
+    "call": "parseInline",
+    "args": [
+      "plain\n~~removed~~",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-6",
+    "call": "renderInline",
+    "args": [
+      "~~removed~~"
+    ]
+  },
+  {
+    "name": "parse-test-unsafe-7",
+    "call": "parseInline",
+    "args": [
+      "plain\n**unclosed",
+      {
+        "line": 20,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      }
+    ]
+  },
+  {
+    "name": "render-test-unsafe-7",
+    "call": "renderInline",
+    "args": [
+      "**unclosed"
+    ]
+  },
+  {
+    "name": "parse-test-http-parens",
+    "call": "parseInline",
+    "args": [
+      "[A & B](https://example.com/topic_(one)?x=1&y=2)"
+    ]
+  },
+  {
+    "name": "render-test-http-parens",
+    "call": "renderInline",
+    "args": [
+      "[A & B](https://example.com/topic_(one)?x=1&y=2)"
+    ]
+  },
+  {
+    "name": "parse-test-escape-text",
+    "call": "parseInline",
+    "args": [
+      "a < b & c > d"
+    ]
+  },
+  {
+    "name": "render-test-escape-text",
+    "call": "renderInline",
+    "args": [
+      "a < b & c > d"
+    ]
+  },
+  {
+    "name": "parse-test-escaped-backslash",
+    "call": "parseInline",
+    "args": [
+      "**path\\\\**"
+    ]
+  },
+  {
+    "name": "render-test-escaped-backslash",
+    "call": "renderInline",
+    "args": [
+      "**path\\\\**"
+    ]
+  },
+  {
+    "name": "parse-test-escaped-star",
+    "call": "parseInline",
+    "args": [
+      "**literal\\* still bold**"
+    ]
+  },
+  {
+    "name": "render-test-escaped-star",
+    "call": "renderInline",
+    "args": [
+      "**literal\\* still bold**"
+    ]
+  },
+  {
+    "name": "parse-code-unclosed",
+    "call": "parseInline",
+    "args": [
+      "run `npm test"
+    ]
+  },
+  {
+    "name": "render-code-unclosed",
+    "call": "renderInline",
+    "args": [
+      "run `npm test"
+    ]
+  },
+  {
+    "name": "parse-code-newline",
+    "call": "parseInline",
+    "args": [
+      "run `npm\ntest` now"
+    ]
+  },
+  {
+    "name": "render-code-newline",
+    "call": "renderInline",
+    "args": [
+      "run `npm\ntest` now"
+    ]
+  },
+  {
+    "name": "parse-code-ok",
+    "call": "parseInline",
+    "args": [
+      "a `<b>` c"
+    ]
+  },
+  {
+    "name": "render-code-ok",
+    "call": "renderInline",
+    "args": [
+      "a `<b>` c"
+    ]
+  },
+  {
+    "name": "parse-html-tag",
+    "call": "parseInline",
+    "args": [
+      "x <b>bold</b> y"
+    ]
+  },
+  {
+    "name": "render-html-tag",
+    "call": "renderInline",
+    "args": [
+      "x <b>bold</b> y"
+    ]
+  },
+  {
+    "name": "parse-html-close",
+    "call": "parseInline",
+    "args": [
+      "x </div> y"
+    ]
+  },
+  {
+    "name": "render-html-close",
+    "call": "renderInline",
+    "args": [
+      "x </div> y"
+    ]
+  },
+  {
+    "name": "parse-html-comment",
+    "call": "parseInline",
+    "args": [
+      "x <!-- note --> y"
+    ]
+  },
+  {
+    "name": "render-html-comment",
+    "call": "renderInline",
+    "args": [
+      "x <!-- note --> y"
+    ]
+  },
+  {
+    "name": "parse-html-not-tag",
+    "call": "parseInline",
+    "args": [
+      "a <3 b and <a no close"
+    ]
+  },
+  {
+    "name": "render-html-not-tag",
+    "call": "renderInline",
+    "args": [
+      "a <3 b and <a no close"
+    ]
+  },
+  {
+    "name": "parse-html-digit",
+    "call": "parseInline",
+    "args": [
+      "a <1> b"
+    ]
+  },
+  {
+    "name": "render-html-digit",
+    "call": "renderInline",
+    "args": [
+      "a <1> b"
+    ]
+  },
+  {
+    "name": "parse-image",
+    "call": "parseInline",
+    "args": [
+      "see ![alt](x.png) here"
+    ]
+  },
+  {
+    "name": "render-image",
+    "call": "renderInline",
+    "args": [
+      "see ![alt](x.png) here"
+    ]
+  },
+  {
+    "name": "parse-decoration",
+    "call": "parseInline",
+    "args": [
+      "a ~~b~~ c"
+    ]
+  },
+  {
+    "name": "render-decoration",
+    "call": "renderInline",
+    "args": [
+      "a ~~b~~ c"
+    ]
+  },
+  {
+    "name": "parse-decoration-single",
+    "call": "parseInline",
+    "args": [
+      "a ~b~ c"
+    ]
+  },
+  {
+    "name": "render-decoration-single",
+    "call": "renderInline",
+    "args": [
+      "a ~b~ c"
+    ]
+  },
+  {
+    "name": "parse-emphasis-unclosed",
+    "call": "parseInline",
+    "args": [
+      "a **b"
+    ]
+  },
+  {
+    "name": "render-emphasis-unclosed",
+    "call": "renderInline",
+    "args": [
+      "a **b"
+    ]
+  },
+  {
+    "name": "parse-emphasis-empty-strong",
+    "call": "parseInline",
+    "args": [
+      "a **** b"
+    ]
+  },
+  {
+    "name": "render-emphasis-empty-strong",
+    "call": "renderInline",
+    "args": [
+      "a **** b"
+    ]
+  },
+  {
+    "name": "parse-emphasis-empty-em",
+    "call": "parseInline",
+    "args": [
+      "a ** b"
+    ]
+  },
+  {
+    "name": "render-emphasis-empty-em",
+    "call": "renderInline",
+    "args": [
+      "a ** b"
+    ]
+  },
+  {
+    "name": "parse-emphasis-em",
+    "call": "parseInline",
+    "args": [
+      "a *b* c"
+    ]
+  },
+  {
+    "name": "render-emphasis-em",
+    "call": "renderInline",
+    "args": [
+      "a *b* c"
+    ]
+  },
+  {
+    "name": "parse-emphasis-strong-em",
+    "call": "parseInline",
+    "args": [
+      "**a *b* c**"
+    ]
+  },
+  {
+    "name": "render-emphasis-strong-em",
+    "call": "renderInline",
+    "args": [
+      "**a *b* c**"
+    ]
+  },
+  {
+    "name": "parse-emphasis-deep",
+    "call": "parseInline",
+    "args": [
+      "**1 *2* **3 *4* **5 *6 *7* 6* 5** 4** 3** 2** 1**"
+    ]
+  },
+  {
+    "name": "render-emphasis-deep",
+    "call": "renderInline",
+    "args": [
+      "**1 *2* **3 *4* **5 *6 *7* 6* 5** 4** 3** 2** 1**"
+    ]
+  },
+  {
+    "name": "parse-emphasis-stars",
+    "call": "parseInline",
+    "args": [
+      "***x***"
+    ]
+  },
+  {
+    "name": "render-emphasis-stars",
+    "call": "renderInline",
+    "args": [
+      "***x***"
+    ]
+  },
+  {
+    "name": "parse-emphasis-across-link",
+    "call": "parseInline",
+    "args": [
+      "*a [b*](source:x)"
+    ]
+  },
+  {
+    "name": "render-emphasis-across-link",
+    "call": "renderInline",
+    "args": [
+      "*a [b*](source:x)"
+    ]
+  },
+  {
+    "name": "parse-link-unclosed",
+    "call": "parseInline",
+    "args": [
+      "[unclosed](source:foo"
+    ]
+  },
+  {
+    "name": "render-link-unclosed",
+    "call": "renderInline",
+    "args": [
+      "[unclosed](source:foo"
+    ]
+  },
+  {
+    "name": "parse-link-nested-parens",
+    "call": "parseInline",
+    "args": [
+      "[a](https://e.com/a(b(c))d)"
+    ]
+  },
+  {
+    "name": "render-link-nested-parens",
+    "call": "renderInline",
+    "args": [
+      "[a](https://e.com/a(b(c))d)"
+    ]
+  },
+  {
+    "name": "parse-link-escaped-paren",
+    "call": "parseInline",
+    "args": [
+      "[a](https://e.com/a\\)b)"
+    ]
+  },
+  {
+    "name": "render-link-escaped-paren",
+    "call": "renderInline",
+    "args": [
+      "[a](https://e.com/a\\)b)"
+    ]
+  },
+  {
+    "name": "parse-link-escaped-in-label",
+    "call": "parseInline",
+    "args": [
+      "[a\\]b](source:x)"
+    ]
+  },
+  {
+    "name": "render-link-escaped-in-label",
+    "call": "renderInline",
+    "args": [
+      "[a\\]b](source:x)"
+    ]
+  },
+  {
+    "name": "parse-link-no-paren",
+    "call": "parseInline",
+    "args": [
+      "[a] b"
+    ]
+  },
+  {
+    "name": "render-link-no-paren",
+    "call": "renderInline",
+    "args": [
+      "[a] b"
+    ]
+  },
+  {
+    "name": "parse-link-space-paren",
+    "call": "parseInline",
+    "args": [
+      "[a] (source:x)"
+    ]
+  },
+  {
+    "name": "render-link-space-paren",
+    "call": "renderInline",
+    "args": [
+      "[a] (source:x)"
+    ]
+  },
+  {
+    "name": "parse-target-javascript",
+    "call": "parseInline",
+    "args": [
+      "[x](javascript:alert(1))"
+    ]
+  },
+  {
+    "name": "render-target-javascript",
+    "call": "renderInline",
+    "args": [
+      "[x](javascript:alert(1))"
+    ]
+  },
+  {
+    "name": "parse-target-empty-label-web",
+    "call": "parseInline",
+    "args": [
+      "[](https://example.com)"
+    ]
+  },
+  {
+    "name": "render-target-empty-label-web",
+    "call": "renderInline",
+    "args": [
+      "[](https://example.com)"
+    ]
+  },
+  {
+    "name": "parse-target-blank-label-block",
+    "call": "parseInline",
+    "args": [
+      "[  ](block:answer)"
+    ]
+  },
+  {
+    "name": "render-target-blank-label-block",
+    "call": "renderInline",
+    "args": [
+      "[  ](block:answer)"
+    ]
+  },
+  {
+    "name": "parse-target-unknown",
+    "call": "parseInline",
+    "args": [
+      "[x](ftp://example.com)"
+    ]
+  },
+  {
+    "name": "render-target-unknown",
+    "call": "renderInline",
+    "args": [
+      "[x](ftp://example.com)"
+    ]
+  },
+  {
+    "name": "parse-target-relative",
+    "call": "parseInline",
+    "args": [
+      "[x](docs/readme.md)"
+    ]
+  },
+  {
+    "name": "render-target-relative",
+    "call": "renderInline",
+    "args": [
+      "[x](docs/readme.md)"
+    ]
+  },
+  {
+    "name": "parse-footnote",
+    "call": "parseInline",
+    "args": [
+      "a [^1] b"
+    ]
+  },
+  {
+    "name": "render-footnote",
+    "call": "renderInline",
+    "args": [
+      "a [^1] b"
+    ]
+  },
+  {
+    "name": "parse-footnote-link",
+    "call": "parseInline",
+    "args": [
+      "[^1](source:x)"
+    ]
+  },
+  {
+    "name": "render-footnote-link",
+    "call": "renderInline",
+    "args": [
+      "[^1](source:x)"
+    ]
+  },
+  {
+    "name": "parse-empty-label-source",
+    "call": "parseInline",
+    "args": [
+      "[](source:x)"
+    ]
+  },
+  {
+    "name": "render-empty-label-source",
+    "call": "renderInline",
+    "args": [
+      "[](source:x)"
+    ]
+  },
+  {
+    "name": "parse-blank-label-source",
+    "call": "parseInline",
+    "args": [
+      "[ ](source:x)"
+    ]
+  },
+  {
+    "name": "render-blank-label-source",
+    "call": "renderInline",
+    "args": [
+      "[ ](source:x)"
+    ]
+  },
+  {
+    "name": "parse-escapes",
+    "call": "parseInline",
+    "args": [
+      "\\\\ \\` \\* \\_ \\[ \\] \\( \\) \\! \\< \\> \\~ \\| \\x \\é end\\ "
+    ]
+  },
+  {
+    "name": "render-escapes",
+    "call": "renderInline",
+    "args": [
+      "\\\\ \\` \\* \\_ \\[ \\] \\( \\) \\! \\< \\> \\~ \\| \\x \\é end\\ "
+    ]
+  },
+  {
+    "name": "parse-escape-last",
+    "call": "parseInline",
+    "args": [
+      "trailing\\"
+    ]
+  },
+  {
+    "name": "render-escape-last",
+    "call": "renderInline",
+    "args": [
+      "trailing\\"
+    ]
+  },
+  {
+    "name": "parse-url-userinfo",
+    "call": "parseInline",
+    "args": [
+      "[a](https://u:p@x)"
+    ]
+  },
+  {
+    "name": "render-url-userinfo",
+    "call": "renderInline",
+    "args": [
+      "[a](https://u:p@x)"
+    ]
+  },
+  {
+    "name": "parse-url-user-only",
+    "call": "parseInline",
+    "args": [
+      "[a](https://u@x.com)"
+    ]
+  },
+  {
+    "name": "render-url-user-only",
+    "call": "renderInline",
+    "args": [
+      "[a](https://u@x.com)"
+    ]
+  },
+  {
+    "name": "parse-url-empty-userinfo",
+    "call": "parseInline",
+    "args": [
+      "[a](https://@x.com)"
+    ]
+  },
+  {
+    "name": "render-url-empty-userinfo",
+    "call": "renderInline",
+    "args": [
+      "[a](https://@x.com)"
+    ]
+  },
+  {
+    "name": "parse-url-space",
+    "call": "parseInline",
+    "args": [
+      "[a](https://exa mple.com)"
+    ]
+  },
+  {
+    "name": "render-url-space",
+    "call": "renderInline",
+    "args": [
+      "[a](https://exa mple.com)"
+    ]
+  },
+  {
+    "name": "parse-url-space-path",
+    "call": "parseInline",
+    "args": [
+      "[a](https://example.com/a b)"
+    ]
+  },
+  {
+    "name": "render-url-space-path",
+    "call": "renderInline",
+    "args": [
+      "[a](https://example.com/a b)"
+    ]
+  },
+  {
+    "name": "parse-url-tab",
+    "call": "parseInline",
+    "args": [
+      "[a](https://example.com/\ta)"
+    ]
+  },
+  {
+    "name": "render-url-tab",
+    "call": "renderInline",
+    "args": [
+      "[a](https://example.com/\ta)"
+    ]
+  },
+  {
+    "name": "parse-url-del",
+    "call": "parseInline",
+    "args": [
+      "[a](https://example.com/a)"
+    ]
+  },
+  {
+    "name": "render-url-del",
+    "call": "renderInline",
+    "args": [
+      "[a](https://example.com/a)"
+    ]
+  },
+  {
+    "name": "parse-url-uppercase",
+    "call": "parseInline",
+    "args": [
+      "[a](HTTPS://EXAMPLE.COM/A)"
+    ]
+  },
+  {
+    "name": "render-url-uppercase",
+    "call": "renderInline",
+    "args": [
+      "[a](HTTPS://EXAMPLE.COM/A)"
+    ]
+  },
+  {
+    "name": "parse-url-empty-host",
+    "call": "parseInline",
+    "args": [
+      "[a](https://)"
+    ]
+  },
+  {
+    "name": "render-url-empty-host",
+    "call": "renderInline",
+    "args": [
+      "[a](https://)"
+    ]
+  },
+  {
+    "name": "parse-url-empty-host-path",
+    "call": "parseInline",
+    "args": [
+      "[a](https:///x)"
+    ]
+  },
+  {
+    "name": "render-url-empty-host-path",
+    "call": "renderInline",
+    "args": [
+      "[a](https:///x)"
+    ]
+  },
+  {
+    "name": "parse-url-bad-port",
+    "call": "parseInline",
+    "args": [
+      "[a](https://a.com:99999/)"
+    ]
+  },
+  {
+    "name": "render-url-bad-port",
+    "call": "renderInline",
+    "args": [
+      "[a](https://a.com:99999/)"
+    ]
+  },
+  {
+    "name": "parse-url-port",
+    "call": "parseInline",
+    "args": [
+      "[a](https://a.com:8080/x?y=1#z)"
+    ]
+  },
+  {
+    "name": "render-url-port",
+    "call": "renderInline",
+    "args": [
+      "[a](https://a.com:8080/x?y=1#z)"
+    ]
+  },
+  {
+    "name": "parse-url-ipv6",
+    "call": "parseInline",
+    "args": [
+      "[a](http://[::1]/)"
+    ]
+  },
+  {
+    "name": "render-url-ipv6",
+    "call": "renderInline",
+    "args": [
+      "[a](http://[::1]/)"
+    ]
+  },
+  {
+    "name": "parse-url-bad-host",
+    "call": "parseInline",
+    "args": [
+      "[a](https://exa%20mple.com)"
+    ]
+  },
+  {
+    "name": "render-url-bad-host",
+    "call": "renderInline",
+    "args": [
+      "[a](https://exa%20mple.com)"
+    ]
+  },
+  {
+    "name": "parse-url-backslash",
+    "call": "parseInline",
+    "args": [
+      "[a](https://example.com\\x)"
+    ]
+  },
+  {
+    "name": "render-url-backslash",
+    "call": "renderInline",
+    "args": [
+      "[a](https://example.com\\x)"
+    ]
+  },
+  {
+    "name": "parse-url-idn",
+    "call": "parseInline",
+    "args": [
+      "[a](https://bücher.example/)"
+    ]
+  },
+  {
+    "name": "render-url-idn",
+    "call": "renderInline",
+    "args": [
+      "[a](https://bücher.example/)"
+    ]
+  },
+  {
+    "name": "parse-url-percent",
+    "call": "parseInline",
+    "args": [
+      "[a](https://example.com/%E4%BD%A0)"
+    ]
+  },
+  {
+    "name": "render-url-percent",
+    "call": "renderInline",
+    "args": [
+      "[a](https://example.com/%E4%BD%A0)"
+    ]
+  },
+  {
+    "name": "parse-url-quote",
+    "call": "parseInline",
+    "args": [
+      "[a](https://example.com/?q=\"x\"&y='z')"
+    ]
+  },
+  {
+    "name": "render-url-quote",
+    "call": "renderInline",
+    "args": [
+      "[a](https://example.com/?q=\"x\"&y='z')"
+    ]
+  },
+  {
+    "name": "parse-typical-no-footnotes",
+    "call": "parseInline",
+    "args": [
+      "[1 ms](typical:示意值，不是本页实测)"
+    ]
+  },
+  {
+    "name": "render-typical-no-footnotes",
+    "call": "renderInline",
+    "args": [
+      "[1 ms](typical:示意值，不是本页实测)"
+    ]
+  },
+  {
+    "name": "render-typical-footnotes",
+    "call": "renderInline",
+    "args": [
+      "[1 ms](typical:示意值) and [快速](typical:  取决于数据量  )",
+      {
+        "footnotes": []
+      }
+    ]
+  },
+  {
+    "name": "render-typical-footnotes-existing",
+    "call": "renderInline",
+    "args": [
+      "[x](typical:y)",
+      {
+        "footnotes": [
+          {
+            "id": "explainer-typical-1",
+            "index": 1,
+            "text": "old",
+            "label": "old"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "parse-typical-blank",
+    "call": "parseInline",
+    "args": [
+      "[x](typical:   )"
+    ]
+  },
+  {
+    "name": "render-typical-blank",
+    "call": "renderInline",
+    "args": [
+      "[x](typical:   )"
+    ]
+  },
+  {
+    "name": "parse-typical-escape",
+    "call": "parseInline",
+    "args": [
+      "[a<b](typical:c&\"d\")"
+    ]
+  },
+  {
+    "name": "render-typical-escape",
+    "call": "renderInline",
+    "args": [
+      "[a<b](typical:c&\"d\")"
+    ]
+  },
+  {
+    "name": "render-typical-escape-footnotes",
+    "call": "renderInline",
+    "args": [
+      "[a<b](typical:c&\"d\")",
+      {
+        "footnotes": []
+      }
+    ]
+  },
+  {
+    "name": "parse-block-ref",
+    "call": "parseInline",
+    "args": [
+      "[a](block:answer) [b](#reasoning) [c](#bad id)"
+    ]
+  },
+  {
+    "name": "render-block-ref",
+    "call": "renderInline",
+    "args": [
+      "[a](block:answer) [b](#reasoning) [c](#bad id)"
+    ]
+  },
+  {
+    "name": "parse-block-unicode",
+    "call": "parseInline",
+    "args": [
+      "[a](block:日本_語-1) [b](source:é)"
+    ]
+  },
+  {
+    "name": "render-block-unicode",
+    "call": "renderInline",
+    "args": [
+      "[a](block:日本_語-1) [b](source:é)"
+    ]
+  },
+  {
+    "name": "parse-node-ref",
+    "call": "parseInline",
+    "args": [
+      "[a](node:flow.redis) [b](node:flow.a.b) [c](node:flow.a:b)"
+    ]
+  },
+  {
+    "name": "render-node-ref",
+    "call": "renderInline",
+    "args": [
+      "[a](node:flow.redis) [b](node:flow.a.b) [c](node:flow.a:b)"
+    ]
+  },
+  {
+    "name": "parse-node-bad",
+    "call": "parseInline",
+    "args": [
+      "[a](node:.redis)"
+    ]
+  },
+  {
+    "name": "render-node-bad",
+    "call": "renderInline",
+    "args": [
+      "[a](node:.redis)"
+    ]
+  },
+  {
+    "name": "parse-node-empty-target",
+    "call": "parseInline",
+    "args": [
+      "[a](node:flow.)"
+    ]
+  },
+  {
+    "name": "render-node-empty-target",
+    "call": "renderInline",
+    "args": [
+      "[a](node:flow.)"
+    ]
+  },
+  {
+    "name": "parse-node-no-dot",
+    "call": "parseInline",
+    "args": [
+      "[a](node:flow)"
+    ]
+  },
+  {
+    "name": "render-node-no-dot",
+    "call": "renderInline",
+    "args": [
+      "[a](node:flow)"
+    ]
+  },
+  {
+    "name": "parse-node-bad-diagram",
+    "call": "parseInline",
+    "args": [
+      "[a](node:fl:ow.x)"
+    ]
+  },
+  {
+    "name": "render-node-bad-diagram",
+    "call": "renderInline",
+    "args": [
+      "[a](node:fl:ow.x)"
+    ]
+  },
+  {
+    "name": "parse-route-ref",
+    "call": "parseInline",
+    "args": [
+      "[a](route:flow.api~redis)"
+    ]
+  },
+  {
+    "name": "render-route-ref",
+    "call": "renderInline",
+    "args": [
+      "[a](route:flow.api~redis)"
+    ]
+  },
+  {
+    "name": "parse-route-three",
+    "call": "parseInline",
+    "args": [
+      "[a](route:flow.a~b~c)"
+    ]
+  },
+  {
+    "name": "render-route-three",
+    "call": "renderInline",
+    "args": [
+      "[a](route:flow.a~b~c)"
+    ]
+  },
+  {
+    "name": "parse-route-one",
+    "call": "parseInline",
+    "args": [
+      "[a](route:flow.a)"
+    ]
+  },
+  {
+    "name": "render-route-one",
+    "call": "renderInline",
+    "args": [
+      "[a](route:flow.a)"
+    ]
+  },
+  {
+    "name": "parse-route-encode",
+    "call": "parseInline",
+    "args": [
+      "[a](route:flow.a.b~c:d) [b](node:flow.é)"
+    ]
+  },
+  {
+    "name": "render-route-encode",
+    "call": "renderInline",
+    "args": [
+      "[a](route:flow.a.b~c:d) [b](node:flow.é)"
+    ]
+  },
+  {
+    "name": "parse-link-label-markup",
+    "call": "parseInline",
+    "args": [
+      "[**b** <i>](source:x)"
+    ]
+  },
+  {
+    "name": "render-link-label-markup",
+    "call": "renderInline",
+    "args": [
+      "[**b** <i>](source:x)"
+    ]
+  },
+  {
+    "name": "parse-strong-link",
+    "call": "parseInline",
+    "args": [
+      "**[a](source:x) b**"
+    ]
+  },
+  {
+    "name": "render-strong-link",
+    "call": "renderInline",
+    "args": [
+      "**[a](source:x) b**"
+    ]
+  },
+  {
+    "name": "parse-code-in-label",
+    "call": "parseInline",
+    "args": [
+      "[`x`](block:answer)"
+    ]
+  },
+  {
+    "name": "render-code-in-label",
+    "call": "renderInline",
+    "args": [
+      "[`x`](block:answer)"
+    ]
+  },
+  {
+    "name": "parse-options-line-fraction",
+    "call": "parseInline",
+    "args": [
+      "a\n**b",
+      {
+        "line": 2.5,
+        "component": "title"
+      }
+    ]
+  },
+  {
+    "name": "parse-options-line-string",
+    "call": "parseInline",
+    "args": [
+      "a\n**b",
+      {
+        "line": "7"
+      }
+    ]
+  },
+  {
+    "name": "parse-options-component-empty",
+    "call": "parseInline",
+    "args": [
+      "**b",
+      {
+        "component": "",
+        "panelId": "",
+        "input": ""
+      }
+    ]
+  },
+  {
+    "name": "parse-options-multiline",
+    "call": "parseInline",
+    "args": [
+      "one\ntwo\nthree `x",
+      {
+        "line": 5
+      }
+    ]
+  },
+  {
+    "name": "parse-options-crlf",
+    "call": "parseInline",
+    "args": [
+      "one\r\ntwo `x",
+      {
+        "line": 1
+      }
+    ]
+  },
+  {
+    "name": "render-render-panel-thrown",
+    "call": "renderInline",
+    "args": [
+      "**b",
+      {
+        "panelId": "p1"
+      }
+    ]
+  },
+  {
+    "name": "parse-empty",
+    "call": "parseInline",
+    "args": [
+      ""
+    ]
+  },
+  {
+    "name": "render-empty",
+    "call": "renderInline",
+    "args": [
+      ""
+    ]
+  },
+  {
+    "name": "parse-unicode",
+    "call": "parseInline",
+    "args": [
+      "emoji 😀 and 𠀀 and é"
+    ]
+  },
+  {
+    "name": "render-unicode",
+    "call": "renderInline",
+    "args": [
+      "emoji 😀 and 𠀀 and é"
+    ]
+  },
+  {
+    "name": "render-citations-three",
+    "call": "renderInline",
+    "args": [
+      {
+        "footnotes": []
+      }
+    ],
+    "texts": [
+      "[a](source:x) and [b](source:y)",
+      "[c](source:y) [t](typical:one)",
+      "[d](source:z) [e](source:x) [t2](typical:two)"
+    ]
+  },
+  {
+    "name": "render-citations-no-footnotes",
+    "call": "renderInline",
+    "args": [
+      {}
+    ],
+    "texts": [
+      "[a](source:x)",
+      "[b](source:y) [t](typical:z)",
+      "[c](source:x)"
+    ]
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "+++ b/file.txt",
+      "text": "+++ b/file.txt",
+      "ending": "\n",
+      "sourceLine": 30,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "file.txt"
+    },
+    {
+      "kind": "added",
+      "raw": "+new",
+      "text": "new",
+      "ending": "",
+      "sourceLine": 31,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "file.txt"
+    }
+  ],
+  "counts": {
+    "added": 1,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-header-order",
+      "severity": "error",
+      "message": "A new-file header needs its preceding old-file header.",
+      "subject": {
+        "line": 30,
+        "column": 1,
+        "component": "diff",
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      },
+      "evidence": {
+        "reason": "A new-file header needs its preceding old-file header.",
+        "example": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "unified"
+}

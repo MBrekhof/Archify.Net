@@ -1,0 +1,17 @@
+{
+  "html": [
+    "a<sup class=\"cite\"><a href=\"#source-x\">1</a></sup>",
+    "b<sup class=\"cite\"><a href=\"#source-y\">2</a></sup> <span class=\"typical\">t<small class=\"typical-note\"> (z)</small></span>",
+    "c<sup class=\"cite\"><a href=\"#source-x\">1</a></sup>"
+  ],
+  "citations": [
+    [
+      "x",
+      1
+    ],
+    [
+      "y",
+      2
+    ]
+  ]
+}

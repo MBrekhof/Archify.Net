@@ -1,0 +1,89 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/ must have required property 'schema_version'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "schema_version",
+        "reason": "/ must have required property 'schema_version'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"schema_version\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/ must have required property 'meta'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "meta",
+        "reason": "/ must have required property 'meta'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"meta\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/ must have required property 'participants'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "participants",
+        "reason": "/ must have required property 'participants'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"participants\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/ must have required property 'messages'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "messages",
+        "reason": "/ must have required property 'messages'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"messages\""
+      ]
+    }
+  ]
+}

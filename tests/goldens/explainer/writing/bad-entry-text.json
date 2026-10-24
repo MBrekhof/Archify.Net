@@ -1,0 +1,6 @@
+{
+  "thrown": {
+    "name": "TypeError",
+    "message": "Writing entries require text strings"
+  }
+}

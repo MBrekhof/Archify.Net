@@ -1,0 +1,28 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "one\r\ntwo `x"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-code",
+      "severity": "error",
+      "message": "Inline code must have one closing backtick on the same line.",
+      "subject": {
+        "line": 2,
+        "column": 5,
+        "component": "inline"
+      },
+      "evidence": {
+        "reason": "Inline code must have one closing backtick on the same line.",
+        "example": "`cache.get(key)`"
+      },
+      "supportedFixes": [
+        "Use the supported form: `cache.get(key)`"
+      ]
+    }
+  ]
+}

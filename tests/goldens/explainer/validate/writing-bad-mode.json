@@ -1,0 +1,6 @@
+{
+  "thrown": {
+    "name": "TypeError",
+    "message": "Writing mode must be warn, strict or off"
+  }
+}

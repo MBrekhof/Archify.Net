@@ -1,0 +1,49 @@
+{
+  "rows": [
+    {
+      "kind": "context",
+      "raw": " a",
+      "text": "a",
+      "ending": "\r\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "removed",
+      "raw": "-b",
+      "text": "b",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "added",
+      "raw": "+c",
+      "text": "c",
+      "ending": "\r\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "context",
+      "raw": " d",
+      "text": "d",
+      "ending": "",
+      "sourceLine": 4,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 1,
+    "removed": 1,
+    "context": 2,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [],
+  "format": "fragment"
+}

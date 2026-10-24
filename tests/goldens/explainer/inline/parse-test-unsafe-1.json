@@ -1,0 +1,30 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "plain\n[run](javascript:alert(1))"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-target",
+      "severity": "error",
+      "message": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+      "subject": {
+        "line": 21,
+        "column": 1,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "reason": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+        "example": "[Redis](node:read-path.redis)"
+      },
+      "supportedFixes": [
+        "Use the supported form: [Redis](node:read-path.redis)"
+      ]
+    }
+  ]
+}

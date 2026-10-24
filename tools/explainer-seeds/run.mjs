@@ -194,7 +194,19 @@ for (const f of fs.readdirSync(SEEDS).filter((f) => f.endsWith('.json')).sort())
           const html = await renderDraft(seed, seed.page, dir);
           if (seed.call === 'checkExplainerHtml') args.unshift(html);
         }
-        result = await (await fn(seed.call))(...args);
+        // `parsed`: a draft text parsed first; its document and source map lead the arguments (args[0] adds options).
+        if (typeof seed.parsed === 'string') {
+          const draft = (await fn('parseExplainer'))(seed.parsed, { inputPath: args[0]?.inputPath });
+          if (!draft.document) throw new Error(`${f}/${seed.name}: parsed draft does not parse: ${JSON.stringify(draft.diagnostics)}`);
+          args.splice(0, 1, draft.document, { sourceMap: draft.sourceMap, ...(args[0] ?? {}) });
+        }
+        // `texts`: one call per text with the same context object (args[0]), as render.mjs shares footnotes and citations.
+        if (Array.isArray(seed.texts)) {
+          const context = args[0] ?? {};
+          const html = [];
+          for (const text of seed.texts) html.push(await (await fn(seed.call))(text, context));
+          result = { html, footnotes: context.footnotes, citations: [...(context.citations ?? new Map())] };
+        } else result = await (await fn(seed.call))(...args);
       }
     } catch (error) {
       if (!(error instanceof Error)) throw error;

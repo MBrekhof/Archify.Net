@@ -1,0 +1,121 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "--- a/f",
+      "text": "--- a/f",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "f"
+    },
+    {
+      "kind": "header",
+      "raw": "+++ b/f",
+      "text": "+++ b/f",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "f"
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -1 +1 @@",
+      "text": "@@ -1 +1 @@",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 1,
+      "oldCount": 1,
+      "newStart": 1,
+      "newCount": 1,
+      "filePath": "f"
+    },
+    {
+      "kind": "removed",
+      "raw": "-x",
+      "text": "x",
+      "ending": "\n",
+      "sourceLine": 4,
+      "oldLine": 1,
+      "newLine": null,
+      "filePath": "f"
+    },
+    {
+      "kind": "added",
+      "raw": "+y",
+      "text": "y",
+      "ending": "\n",
+      "sourceLine": 5,
+      "oldLine": null,
+      "newLine": 1,
+      "filePath": "f"
+    },
+    {
+      "kind": "header",
+      "raw": "--- a/g",
+      "text": "--- a/g",
+      "ending": "\n",
+      "sourceLine": 6,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "g"
+    },
+    {
+      "kind": "header",
+      "raw": "+++ b/g",
+      "text": "+++ b/g",
+      "ending": "\n",
+      "sourceLine": 7,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "g"
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -1 +1 @@",
+      "text": "@@ -1 +1 @@",
+      "ending": "\n",
+      "sourceLine": 8,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 1,
+      "oldCount": 1,
+      "newStart": 1,
+      "newCount": 1,
+      "filePath": "g"
+    },
+    {
+      "kind": "removed",
+      "raw": "-p",
+      "text": "p",
+      "ending": "\n",
+      "sourceLine": 9,
+      "oldLine": 1,
+      "newLine": null,
+      "filePath": "g"
+    },
+    {
+      "kind": "added",
+      "raw": "+q",
+      "text": "q",
+      "ending": "\n",
+      "sourceLine": 10,
+      "oldLine": null,
+      "newLine": 1,
+      "filePath": "g"
+    }
+  ],
+  "counts": {
+    "added": 2,
+    "removed": 2,
+    "context": 0,
+    "hunks": 2,
+    "files": 2
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

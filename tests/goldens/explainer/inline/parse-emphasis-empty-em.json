@@ -1,0 +1,28 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "a ** b"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 1,
+        "column": 3,
+        "component": "inline"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "The referenced identity does not exist or has the wrong component type.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "code",
+        "path": "/panels/0/blocks/1/source",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "The referenced identity does not exist or has the wrong component type.",
+        "example": "source=repository-snippet"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: source=repository-snippet"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "thrown": {
+    "name": "TypeError",
+    "message": "Sentence limits must be positive integers"
+  }
+}

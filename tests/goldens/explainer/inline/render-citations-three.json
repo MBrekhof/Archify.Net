@@ -1,0 +1,35 @@
+{
+  "html": [
+    "a<sup class=\"cite\"><a href=\"#source-x\">1</a></sup> and b<sup class=\"cite\"><a href=\"#source-y\">2</a></sup>",
+    "c<sup class=\"cite\"><a href=\"#source-y\">2</a></sup> <span class=\"typical\" title=\"one\">t<sup><a href=\"#explainer-typical-1\" role=\"doc-noteref\" class=\"typical-ref\">[1]</a></sup></span>",
+    "d<sup class=\"cite\"><a href=\"#source-z\">3</a></sup> e<sup class=\"cite\"><a href=\"#source-x\">1</a></sup> <span class=\"typical\" title=\"two\">t2<sup><a href=\"#explainer-typical-2\" role=\"doc-noteref\" class=\"typical-ref\">[2]</a></sup></span>"
+  ],
+  "footnotes": [
+    {
+      "id": "explainer-typical-1",
+      "index": 1,
+      "text": "one",
+      "label": "t"
+    },
+    {
+      "id": "explainer-typical-2",
+      "index": 2,
+      "text": "two",
+      "label": "t2"
+    }
+  ],
+  "citations": [
+    [
+      "x",
+      1
+    ],
+    [
+      "y",
+      2
+    ],
+    [
+      "z",
+      3
+    ]
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "route:flow.a.b~c:d",
+      "reference": {
+        "kind": "route",
+        "diagram": "flow",
+        "from": "a.b",
+        "to": "c:d",
+        "offset": 0,
+        "end": 23
+      }
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "link",
+      "label": "b",
+      "href": "node:flow.é",
+      "reference": {
+        "kind": "node",
+        "diagram": "flow",
+        "node": "é",
+        "offset": 24,
+        "end": 40
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "route",
+      "diagram": "flow",
+      "from": "a.b",
+      "to": "c:d",
+      "offset": 0,
+      "end": 23
+    },
+    {
+      "kind": "node",
+      "diagram": "flow",
+      "node": "é",
+      "offset": 24,
+      "end": 40
+    }
+  ],
+  "diagnostics": []
+}

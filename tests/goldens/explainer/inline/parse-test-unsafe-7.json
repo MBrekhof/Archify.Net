@@ -1,0 +1,30 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "plain\n**unclosed"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-emphasis",
+      "severity": "error",
+      "message": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+      "subject": {
+        "line": 21,
+        "column": 1,
+        "component": "prose",
+        "panelId": "overview",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "reason": "Emphasis needs matching nonempty delimiters. Escape a literal asterisk.",
+        "example": "**important** or \\*"
+      },
+      "supportedFixes": [
+        "Use the supported form: **important** or \\*"
+      ]
+    }
+  ]
+}

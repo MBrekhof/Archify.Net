@@ -1,0 +1,21 @@
+[
+  {
+    "code": "explainer/writing-scope-length",
+    "severity": "warning",
+    "message": "The scope reads as a disclaimer rather than a short label.",
+    "subject": {
+      "line": 1,
+      "component": "scope"
+    },
+    "evidence": {
+      "rule": "scope-length",
+      "reason": "The scope reads as a disclaimer rather than a short label.",
+      "example": "8 人团队 · 上线半年 · 峰值约 300 QPS / Eight people · six months live · ~300 QPS peak",
+      "units": 51,
+      "limit": 50
+    },
+    "supportedFixes": [
+      "Keep the conditions a reader must check, as short labels separated by “·”. Drop process notes about how the page was made."
+    ]
+  }
+]

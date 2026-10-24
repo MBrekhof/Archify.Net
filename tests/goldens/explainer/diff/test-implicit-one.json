@@ -1,0 +1,44 @@
+{
+  "rows": [
+    {
+      "kind": "hunk",
+      "raw": "@@ -12 +14 @@ function",
+      "text": "@@ -12 +14 @@ function",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 12,
+      "oldCount": 1,
+      "newStart": 14,
+      "newCount": 1
+    },
+    {
+      "kind": "removed",
+      "raw": "-old",
+      "text": "old",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": 12,
+      "newLine": null
+    },
+    {
+      "kind": "added",
+      "raw": "+new",
+      "text": "new",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": 14
+    }
+  ],
+  "counts": {
+    "added": 1,
+    "removed": 1,
+    "context": 0,
+    "hunks": 1,
+    "files": 0
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

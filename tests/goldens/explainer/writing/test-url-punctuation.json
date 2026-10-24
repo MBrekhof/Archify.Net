@@ -1,0 +1,21 @@
+[
+  {
+    "code": "explainer/writing-sentence-length",
+    "severity": "warning",
+    "message": "Sentence has 10 reading units, above the configured en limit of 5.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "sentence-length",
+      "reason": "Sentence has 10 reading units, above the configured en limit of 5.",
+      "example": "先查缓存。未命中时再查数据库。 / Check the cache first. Query the database on a miss.",
+      "units": 10,
+      "limit": 5
+    },
+    "supportedFixes": [
+      "Split at a logical action or condition boundary while preserving qualifications and causal links."
+    ]
+  }
+]

@@ -1,0 +1,350 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "diff --git a/added.txt b/added.txt",
+      "text": "diff --git a/added.txt b/added.txt",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "new file mode 100644",
+      "text": "new file mode 100644",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "index 0000000..fde6fd3",
+      "text": "index 0000000..fde6fd3",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "--- /dev/null",
+      "text": "--- /dev/null",
+      "ending": "\n",
+      "sourceLine": 4,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "+++ b/added.txt",
+      "text": "+++ b/added.txt",
+      "ending": "\n",
+      "sourceLine": 5,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "added.txt"
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -0,0 +1 @@",
+      "text": "@@ -0,0 +1 @@",
+      "ending": "\n",
+      "sourceLine": 6,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 0,
+      "oldCount": 0,
+      "newStart": 1,
+      "newCount": 1,
+      "filePath": "added.txt"
+    },
+    {
+      "kind": "added",
+      "raw": "+fresh",
+      "text": "fresh",
+      "ending": "\n",
+      "sourceLine": 7,
+      "oldLine": null,
+      "newLine": 1,
+      "filePath": "added.txt"
+    },
+    {
+      "kind": "header",
+      "raw": "diff --git a/no-newline.txt b/no-newline.txt",
+      "text": "diff --git a/no-newline.txt b/no-newline.txt",
+      "ending": "\n",
+      "sourceLine": 8,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "index 3367afd..3e75765 100644",
+      "text": "index 3367afd..3e75765 100644",
+      "ending": "\n",
+      "sourceLine": 9,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "--- a/no-newline.txt",
+      "text": "--- a/no-newline.txt",
+      "ending": "\n",
+      "sourceLine": 10,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "header",
+      "raw": "+++ b/no-newline.txt",
+      "text": "+++ b/no-newline.txt",
+      "ending": "\n",
+      "sourceLine": 11,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -1 +1 @@",
+      "text": "@@ -1 +1 @@",
+      "ending": "\n",
+      "sourceLine": 12,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 1,
+      "oldCount": 1,
+      "newStart": 1,
+      "newCount": 1,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "removed",
+      "raw": "-old",
+      "text": "old",
+      "ending": "\n",
+      "sourceLine": 13,
+      "oldLine": 1,
+      "newLine": null,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "no-newline",
+      "raw": "\\ No newline at end of file",
+      "text": "\\ No newline at end of file",
+      "ending": "\n",
+      "sourceLine": 14,
+      "oldLine": null,
+      "newLine": null,
+      "forLine": 13,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "added",
+      "raw": "+new",
+      "text": "new",
+      "ending": "\n",
+      "sourceLine": 15,
+      "oldLine": null,
+      "newLine": 1,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "no-newline",
+      "raw": "\\ No newline at end of file",
+      "text": "\\ No newline at end of file",
+      "ending": "\n",
+      "sourceLine": 16,
+      "oldLine": null,
+      "newLine": null,
+      "forLine": 15,
+      "filePath": "no-newline.txt"
+    },
+    {
+      "kind": "header",
+      "raw": "diff --git a/removed.txt b/removed.txt",
+      "text": "diff --git a/removed.txt b/removed.txt",
+      "ending": "\n",
+      "sourceLine": 17,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "deleted file mode 100644",
+      "text": "deleted file mode 100644",
+      "ending": "\n",
+      "sourceLine": 18,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "index 7c5e9e9..0000000",
+      "text": "index 7c5e9e9..0000000",
+      "ending": "\n",
+      "sourceLine": 19,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "--- a/removed.txt",
+      "text": "--- a/removed.txt",
+      "ending": "\n",
+      "sourceLine": 20,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "removed.txt"
+    },
+    {
+      "kind": "header",
+      "raw": "+++ /dev/null",
+      "text": "+++ /dev/null",
+      "ending": "\n",
+      "sourceLine": 21,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "removed.txt"
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -1 +0,0 @@",
+      "text": "@@ -1 +0,0 @@",
+      "ending": "\n",
+      "sourceLine": 22,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 1,
+      "oldCount": 1,
+      "newStart": 0,
+      "newCount": 0,
+      "filePath": "removed.txt"
+    },
+    {
+      "kind": "removed",
+      "raw": "-gone",
+      "text": "gone",
+      "ending": "\n",
+      "sourceLine": 23,
+      "oldLine": 1,
+      "newLine": null,
+      "filePath": "removed.txt"
+    },
+    {
+      "kind": "header",
+      "raw": "diff --git a/sample.txt b/sample.txt",
+      "text": "diff --git a/sample.txt b/sample.txt",
+      "ending": "\n",
+      "sourceLine": 24,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "index 8c2a0a4..f9e4a1d 100644",
+      "text": "index 8c2a0a4..f9e4a1d 100644",
+      "ending": "\n",
+      "sourceLine": 25,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "--- a/sample.txt",
+      "text": "--- a/sample.txt",
+      "ending": "\n",
+      "sourceLine": 26,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "header",
+      "raw": "+++ b/sample.txt",
+      "text": "+++ b/sample.txt",
+      "ending": "\n",
+      "sourceLine": 27,
+      "oldLine": null,
+      "newLine": null,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -1,3 +1,4 @@",
+      "text": "@@ -1,3 +1,4 @@",
+      "ending": "\n",
+      "sourceLine": 28,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 1,
+      "oldCount": 3,
+      "newStart": 1,
+      "newCount": 4,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "context",
+      "raw": " first",
+      "text": "first",
+      "ending": "\n",
+      "sourceLine": 29,
+      "oldLine": 1,
+      "newLine": 1,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "removed",
+      "raw": "-old",
+      "text": "old",
+      "ending": "\n",
+      "sourceLine": 30,
+      "oldLine": 2,
+      "newLine": null,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "added",
+      "raw": "+new",
+      "text": "new",
+      "ending": "\n",
+      "sourceLine": 31,
+      "oldLine": null,
+      "newLine": 2,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "context",
+      "raw": " last",
+      "text": "last",
+      "ending": "\n",
+      "sourceLine": 32,
+      "oldLine": 3,
+      "newLine": 3,
+      "filePath": "sample.txt"
+    },
+    {
+      "kind": "added",
+      "raw": "+extra",
+      "text": "extra",
+      "ending": "\n",
+      "sourceLine": 33,
+      "oldLine": null,
+      "newLine": 4,
+      "filePath": "sample.txt"
+    }
+  ],
+  "counts": {
+    "added": 4,
+    "removed": 3,
+    "context": 2,
+    "hunks": 4,
+    "files": 4
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

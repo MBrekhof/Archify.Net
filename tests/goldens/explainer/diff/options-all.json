@@ -1,0 +1,31 @@
+{
+  "rows": [
+    {
+      "kind": "added",
+      "raw": "+x",
+      "text": "x",
+      "ending": "\n",
+      "sourceLine": 5,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "removed",
+      "raw": "-y",
+      "text": "y",
+      "ending": "",
+      "sourceLine": 6,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 1,
+    "removed": 1,
+    "context": 0,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [],
+  "format": "fragment"
+}

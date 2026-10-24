@@ -120,7 +120,7 @@ public class JsTextTests
     [Fact] public void Unicode_properties_match_V8()
     {
         var fx = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture("js/unicode-props.json")))!.AsObject();
-        (string Name, Func<int, bool> Test)[] properties = [("space", Js.IsSpace), ("latin", Js.IsLatin), ("letter", Js.IsLetter), ("number", Js.IsNumber)];
+        (string Name, Func<int, bool> Test)[] properties = [("space", Js.IsSpace), ("latin", Js.IsLatin), ("letter", Js.IsLetter), ("number", Js.IsNumber), ("han", Js.IsHan)];
         foreach (var (name, test) in properties)
         {
             var v8 = new bool[0x110000];

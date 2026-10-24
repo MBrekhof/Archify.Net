@@ -1,0 +1,31 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "diff --git a/a b/a",
+      "text": "diff --git a/a b/a",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "index abc..DEF 100755",
+      "text": "index abc..DEF 100755",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 1
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

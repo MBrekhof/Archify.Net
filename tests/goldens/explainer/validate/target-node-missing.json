@@ -1,0 +1,106 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/diagram-node",
+      "severity": "error",
+      "message": "The node does not exist in the authored native diagram.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/0/text/node",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "The node does not exist in the authored native diagram.",
+        "example": "node=api"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: node=api"
+      ]
+    },
+    {
+      "code": "explainer/diagram-route",
+      "severity": "error",
+      "message": "A route endpoint does not exist in the authored native diagram.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/0/text/route",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "A route endpoint does not exist in the authored native diagram.",
+        "example": "route=api~redis"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: route=api~redis"
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/meta must have required property 'output'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/meta",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "output",
+        "reason": "/meta must have required property 'output'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"output\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/messages/0 (id/label: \"m1\") must have required property 'y'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/messages/0",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "y",
+        "reason": "/messages/0 (id/label: \"m1\") must have required property 'y'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"y\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/messages/0 (id/label: \"m1\") must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/messages/0",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "type",
+        "reason": "/messages/0 (id/label: \"m1\") must NOT have additional properties",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"type\""
+      ]
+    }
+  ]
+}

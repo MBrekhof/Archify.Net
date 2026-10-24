@@ -1,0 +1,49 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "diff --git a/a b/b",
+      "text": "diff --git a/a b/b",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "dissimilarity index 40%",
+      "text": "dissimilarity index 40%",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "copy from a",
+      "text": "copy from a",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "copy to b",
+      "text": "copy to b",
+      "ending": "\n",
+      "sourceLine": 4,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 1
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

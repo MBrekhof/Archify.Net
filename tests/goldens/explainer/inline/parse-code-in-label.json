@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "`x`",
+      "href": "block:answer",
+      "reference": {
+        "kind": "block",
+        "id": "answer",
+        "offset": 0,
+        "end": 19
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "block",
+      "id": "answer",
+      "offset": 0,
+      "end": 19
+    }
+  ],
+  "diagnostics": []
+}

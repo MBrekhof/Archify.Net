@@ -12,7 +12,7 @@ namespace Archify.Net;
 // at that group's position, as ajv does.
 public static class SchemaValidator
 {
-    sealed record Error(string Keyword, string InstancePath, JsonObject Params, string Message);
+    internal sealed record SchemaError(string Keyword, string InstancePath, JsonObject Params, string Message);
 
     static readonly Dictionary<string, JsonObject> SchemasById = new(StringComparer.Ordinal);   // lookups only
     static readonly Dictionary<DiagramType, string> TypeSchemaIds = [];
@@ -52,21 +52,8 @@ public static class SchemaValidator
     // validator.mjs validateSchema (:38-83)
     public static void Validate(DiagramType type, JsonObject data, DiagnosticSink sink)
     {
-        var errors = new List<Error>();
-        var id = TypeSchemaIds[type];
-        if (Evaluate(SchemasById[id], data, "", id, errors))
-        {
-            if (data["meta"] is JsonObject meta && meta["output"] is JsonValue output && output.TryGetValue<string>(out var outputPath))
-            {
-                try { PortablePath.Validate(outputPath, "output"); }
-                catch (PortablePathException error)
-                {
-                    errors.Add(new("portablePath", "/meta/output", new JsonObject { ["reason"] = error.Reason },
-                        "must satisfy the portable output path contract"));
-                }
-            }
-            if (errors.Count == 0) return;
-        }
+        var errors = Errors(type, data);
+        if (errors.Count == 0) return;
 
         var diagramType = type.Name();
         var diagnostics = errors.Select(error =>
@@ -83,7 +70,26 @@ public static class SchemaValidator
         throw sink.ThrowDiagnosticError($"{diagramType} schema validation failed:\n{FormatErrors(errors, data)}", diagnostics);
     }
 
-    static IReadOnlyList<string> SupportedFixes(Error error, string path)
+    // The generated validator's `errors` (generate-validators.mjs:62-87): the schema's errors in ajv allErrors order, or, once
+    // the schema passes, the single portablePath entry for a bad meta.output. Empty when the data is valid.
+    internal static IReadOnlyList<SchemaError> Errors(DiagramType type, JsonNode data)
+    {
+        var errors = new List<SchemaError>();
+        var id = TypeSchemaIds[type];
+        if (Evaluate(SchemasById[id], data, "", id, errors)
+            && data is JsonObject root && root["meta"] is JsonObject meta && meta["output"] is JsonValue output && output.TryGetValue<string>(out var outputPath))
+        {
+            try { PortablePath.Validate(outputPath, "output"); }
+            catch (PortablePathException error)
+            {
+                errors.Add(new("portablePath", "/meta/output", new JsonObject { ["reason"] = error.Reason },
+                    "must satisfy the portable output path contract"));
+            }
+        }
+        return errors;
+    }
+
+    static IReadOnlyList<string> SupportedFixes(SchemaError error, string path)
     {
         string Param(string key) => Js.Stringify(error.Params[key]);
         string Plain(string key) => error.Params[key] is JsonValue v && v.TryGetValue<string>(out var s) ? s : Js.Stringify(error.Params[key]);
@@ -132,12 +138,12 @@ public static class SchemaValidator
         return identity is not null ? $"{path} (id/label: {Js.Quote(identity)})" : path;
     }
 
-    static string FormatErrors(List<Error> errors, JsonNode data) => string.Join("\n", errors.Select(e =>
+    static string FormatErrors(IReadOnlyList<SchemaError> errors, JsonNode data) => string.Join("\n", errors.Select(e =>
         $"  {AnnotatePath(e.InstancePath, data)} {e.Message}{(e.Params.Count > 0 ? " " + Js.Stringify(e.Params) : "")}"));
 
     // ---- evaluator ----
 
-    static bool Evaluate(JsonNode schemaNode, JsonNode? data, string path, string docId, List<Error>? errors)
+    static bool Evaluate(JsonNode schemaNode, JsonNode? data, string path, string docId, List<SchemaError>? errors)
     {
         if (schemaNode is JsonValue boolean)
         {
@@ -148,7 +154,7 @@ public static class SchemaValidator
         var schema = schemaNode.AsObject();
         var valid = true;
         void Fail(string keyword, JsonObject parameters, string message) { valid = false; errors?.Add(new(keyword, path, parameters, message)); }
-        bool Sub(JsonNode sub, JsonNode? subData, string subPath, List<Error>? into) => Evaluate(sub, subData, subPath, docId, into);
+        bool Sub(JsonNode sub, JsonNode? subData, string subPath, List<SchemaError>? into) => Evaluate(sub, subData, subPath, docId, into);
 
         // type: up front, or deferred to its group's else-branch (ajv coerceAndCheckDataType / schemaKeywords)
         var typeNode = schema["type"];
@@ -172,7 +178,7 @@ public static class SchemaValidator
             Fail("not", [], "must NOT be valid");
         if (schema["anyOf"] is JsonArray anyOf)
         {
-            var scratch = errors is null ? null : new List<Error>();
+            var scratch = errors is null ? null : new List<SchemaError>();
             if (!anyOf.Any(branch => Sub(branch!, data, path, scratch)))   // Any stops at the first passing branch, as ajv does
             {
                 errors?.AddRange(scratch!);
@@ -181,7 +187,7 @@ public static class SchemaValidator
         }
         if (schema["oneOf"] is JsonArray oneOf)
         {
-            var scratch = errors is null ? null : new List<Error>();
+            var scratch = errors is null ? null : new List<SchemaError>();
             int? first = null; JsonNode? passingSchemas = null;
             for (var i = 0; i < oneOf.Count; i++)
             {
@@ -273,7 +279,7 @@ public static class SchemaValidator
                 }
                 if (schema["contains"] is JsonNode contains)
                 {   // minContains 1: stop at the first match; on failure ajv keeps every item's errors and adds its own
-                    var scratch = errors is null ? null : new List<Error>();
+                    var scratch = errors is null ? null : new List<SchemaError>();
                     var found = false;
                     for (var i = 0; i < arr.Count && !found; i++) found = Sub(contains, arr[i], $"{path}/{Js.Num(i)}", scratch);
                     if (!found)

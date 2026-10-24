@@ -1,0 +1,1454 @@
+[
+  {
+    "name": "test-bilingual",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "进行分析，赋能业务，很多用户会使用。提前预先检查。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "Perform an analysis of the cache. At the end of the day, many users need each and every result.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-direct",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "接口检查缓存。实测 3.5 ms，样本为 120 次请求。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "Analyze the cache. The limit is 32 requests per second. Read https://example.test/many-users/future-plans.",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "当前计划与未来计划分别覆盖两个时间段。Make a request to the API.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-long",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "缓存读取返回空值后接口等待数据库再写回缓存。",
+          "line": 4,
+          "component": "prose"
+        },
+        {
+          "text": "Latency is 3.5 ms and the database returns the result before the cache is updated.",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "zh": 12,
+          "en": 8
+        }
+      }
+    ]
+  },
+  {
+    "name": "test-short-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "缓存读取返回空值。接口等待数据库。然后写回缓存。",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "zh": 12
+        }
+      }
+    ]
+  },
+  {
+    "name": "test-strict",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "很多用户。",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-off",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "很多用户。",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "off"
+      }
+    ]
+  },
+  {
+    "name": "test-bad-mode",
+    "call": "lintExplainerWriting",
+    "args": [
+      [],
+      {
+        "mode": "silent"
+      }
+    ]
+  },
+  {
+    "name": "test-bad-limit",
+    "call": "lintExplainerWriting",
+    "args": [
+      [],
+      {
+        "sentenceLimits": {
+          "en": 0
+        }
+      }
+    ]
+  },
+  {
+    "name": "test-offsets",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "接口读取缓存。\n\n进行检查。\n很多用户。",
+          "line": 20,
+          "component": "answer",
+          "panelId": "recommendation"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-url-punctuation",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Read https://example.test/a.b?q=3.5. Then read the measured result before changing the cache behavior.",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "en": 5
+        },
+        "locale": "en-US"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-0",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "[依据](https://example.com)。很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-1",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "[依据](https://example.com)很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-2",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "[依据](https://example.com).很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-3",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "https://example.com。很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-4",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "https://example.com，很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-5",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "https://example.com！很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-zh-6",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "[依据](https://example.com/topic_(one))。\n很多用户进行分析。",
+          "line": 10,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-url-balanced",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "[依据](https://example.com/future%20plans/many-users/topic_(choose-a-path))。检查缓存。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "Read https://example.com/(future-plans)/many-users?q=3.5. Check the cache.",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "[资料](https://example.com/资料)。检查缓存。",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "test-paragraph",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "一。二。三。四。五。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-list-short",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "一。二。三。",
+          "line": 1,
+          "component": "list"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-verdict-bold",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "先做模块化单体，等模块边界稳定后再拆分服务。",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "**先做模块化单体，等模块边界稳定后再拆分服务。**"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-verdict-partial",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "先做模块化单体，等模块边界稳定后再拆分服务。",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "先做**模块化单体**，等模块边界稳定后再拆分服务。"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-scope-long",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "本页讨论功能方向，尚未实现。依据用户陈述，本次没有核对历史记录。页面只是阅读体验样例，不构成任何法律审查意见，也没有经过实际运行验证。",
+          "line": 1,
+          "component": "scope"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-scope-short",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "示例 · 8 人团队",
+          "line": 1,
+          "component": "scope"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-rules-0",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "综上所述，先做出决定再加以验证。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-rules-1",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "重试 3 次以上会放大延迟。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-rules-2",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "负责处理用户提交的订单的服务的日志很大。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-rules-3",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "In order to utilize the cache, read it first.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-rules-4",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "In summary, this cutting-edge design is seamless.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "test-quiet",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "任务进行中。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "目的的确清楚。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "重试超过 3 次。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "服务以下游为准。",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "Use the cache before the database.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-qualification-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "本例不代表线上数据，未实测，仅供参考。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-qualification-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "This is illustrative and not measured.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-light-verb-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "我们进行排查，予以处理，作出调整。进行中的任务。进行时间不定。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-light-verb-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "We perform an analysis of logs, carry out an investigation of it, make a decision, give consideration to it and conduct a review of it, conduct an analysis of it.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-cliche-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "赋能抓手，全方位多维度深度融合，至关重要且不可或缺的一站式底层逻辑。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-cliche-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "At the end of the day, in today’s fast-paced world we unlock the full potential of a game-changer, game changer, cutting edge, seamlessly delve into it.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-filler-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "下面我来讲。接下来我将说明。让我们来看。让我来看。总的来说，综上所述，总而言之，值得注意的是，众所周知，毋庸置疑。希望这对你有所帮助。希望对您有帮助。如有疑问。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-filler-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Here is an overview. Let’s dive in. Let's take a look. In conclusion, in summary, it is worth noting that, as we all know, I hope this helps.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-vague-quantity-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "大量请求、大量用户、很多数据、若干、尽快。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-vague-quantity-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Many users see a large number of requests; it is significantly faster; reply as soon as possible.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-number-boundary-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "3 次以上，5秒以内，10 MB以下，100%以上，2 个 以上，七次以上，3 QPS以内，4 倍以下。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-number-boundary-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Over 3 retries 以上 is not zh-only.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-plain-word-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "利用 utilize 也算。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-plain-word-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Utilize, utilizes, utilised, utilization, prior to, in order to, commence, commenced, facilitates, subsequently, in the event that, due to the fact that, at this point in time, endeavour, endeavor.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-redundancy-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "提前预先，重复重复，基本基础。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-redundancy-en",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Each and every future plans completely eliminate.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-case-insensitive",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "MAKE A DECISION. Seamless. SEAMLESS. In Summary.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-word-boundary",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "remake a decisions; seamlessness; xin order to; 很多用户make a decision.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-fold-long-s",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "ſeamless and maKe a decision and utiliſe.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "rule-fold-dotted-i",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "İn order to go. In order to go.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "scope-50",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "scope"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "scope-51",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "scope"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "scope-words",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "w0 w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 w20 w21 w22 w23 w24 w25 w26 w27 w28 w29 w30 w31 w32 w33 w34 w35 w36 w37 w38 w39 w40 w41 w42 w43 w44 w45 w46 w47 w48 w49 w50",
+          "line": 1,
+          "component": "scope"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-11",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "**测测测测测测测测测测测**"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-12",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "**测测测测测测测测测测测测**"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-ratio-60",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "**测测测测测测测测测**测测测测测测"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-ratio-over",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "**测测测测测测测测测测**测测测测测"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-other-pointer",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/reasons/0",
+          "raw": "**测测测测测测测测测测测测测测测**"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-raw-missing",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "verdict-multi-bold",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Use the cache first then the database later on.",
+          "line": 1,
+          "component": "answer",
+          "pointer": "/answer/summary",
+          "raw": "**Use the cache** first **then the database later** on."
+        }
+      ]
+    ]
+  },
+  {
+    "name": "paragraph-120",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测，测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测，测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "paragraph-121",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测，测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测，测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "paragraph-4-sentences",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "一。二。三。四。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "paragraph-5-blank",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "一。二。三。四。 ",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "paragraph-other-component",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "一。二。三。四。五。六。",
+          "line": 1,
+          "component": "answer"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "de-chain-2",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "我的书的封面。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "de-chain-3",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "  我的书的封面的颜色。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "de-chain-excluded",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "目的的确的话的书。我的的话。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "sentence-zh-50",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "sentence-zh-51",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "sentence-en-28",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "sentence-en-29",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "sentence-limits",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "one two three. 一二三四。",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "zh": 3,
+          "en": 2,
+          "fr": 9
+        }
+      }
+    ]
+  },
+  {
+    "name": "sentence-locale-zh",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "... !!! ???",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "locale": "zh-CN",
+        "sentenceLimits": {
+          "zh": 1,
+          "en": 1
+        }
+      }
+    ]
+  },
+  {
+    "name": "sentence-mixed",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Use 缓存 for every read and write in the hot path today.",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "zh": 5,
+          "en": 5
+        }
+      }
+    ]
+  },
+  {
+    "name": "units-latin",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "It’s don't snake_case kebab-case 3.5 v1.2.3 café naïve Ωmega 𝐀bc 1,000 e.g.",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "en": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "units-han-supplementary",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "𠀀𠀁𠀂测试〇々",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "zh": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "sentences-decimal",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Pi is 3.14 ok. Version 2. 5 end.",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "en": 2
+        }
+      }
+    ]
+  },
+  {
+    "name": "sentences-paragraph",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "first line\n\nsecond line has words\n \nthird",
+          "line": 1,
+          "component": "prose"
+        }
+      ],
+      {
+        "sentenceLimits": {
+          "en": 2
+        }
+      }
+    ]
+  },
+  {
+    "name": "url-trailing-paren-dot",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "See (https://example.com/a). Many users wait here.",
+          "line": 1,
+          "component": "prose"
+        },
+        {
+          "text": "Link [x](https://example.com/many-users)). In order to read.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "url-tail-punct",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "Visit https://example.com/in-order-to?!,; many users.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "url-angle",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "<https://example.com/many-users> in order to",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "url-uppercase",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "HTTPS://EXAMPLE.COM/many-users/ in order to",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "url-no-mask-ftp",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "ftp://example.com/many-users",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ties-offset-zero",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "综上所述测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测的的的。测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测。测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测。",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "ties-mixed",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "In summary seamless prior to it. Many users.",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "mode-strict-mixed",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "In summary, x.",
+          "line": 1,
+          "component": "answer"
+        },
+        {
+          "text": "测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测测",
+          "line": 1,
+          "component": "scope"
+        }
+      ],
+      {
+        "mode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "mode-off-bad-entry",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": 5
+        }
+      ],
+      {
+        "mode": "off"
+      }
+    ]
+  },
+  {
+    "name": "bad-entry-text",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": 5,
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "bad-limit-fraction",
+    "call": "lintExplainerWriting",
+    "args": [
+      [],
+      {
+        "sentenceLimits": {
+          "zh": 1.5
+        }
+      }
+    ]
+  },
+  {
+    "name": "bad-limit-extra",
+    "call": "lintExplainerWriting",
+    "args": [
+      [],
+      {
+        "sentenceLimits": {
+          "fr": "x"
+        }
+      }
+    ]
+  },
+  {
+    "name": "bad-limit-unsafe",
+    "call": "lintExplainerWriting",
+    "args": [
+      [],
+      {
+        "sentenceLimits": {
+          "en": 9007199254740992
+        }
+      }
+    ]
+  },
+  {
+    "name": "source-skipped",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "很多用户",
+          "line": 1,
+          "component": "source"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "entry-lines",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "a\n很多用户",
+          "line": 0,
+          "component": "prose"
+        },
+        {
+          "text": "很多用户",
+          "line": 2.5,
+          "component": "prose"
+        },
+        {
+          "text": "很多用户",
+          "line": -3,
+          "component": "prose"
+        },
+        {
+          "text": "x\n\n很多用户",
+          "line": 7,
+          "component": "prose"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "entry-panel",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "很多用户",
+          "line": 1,
+          "component": "prose",
+          "panelId": "p1"
+        },
+        {
+          "text": "很多用户",
+          "line": 1,
+          "component": "prose",
+          "panelId": ""
+        }
+      ]
+    ]
+  },
+  {
+    "name": "typical-component",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "很多用户",
+          "line": 1,
+          "component": "typical"
+        }
+      ]
+    ]
+  },
+  {
+    "name": "empty-entries",
+    "call": "lintExplainerWriting",
+    "args": [
+      []
+    ]
+  },
+  {
+    "name": "empty-text",
+    "call": "lintExplainerWriting",
+    "args": [
+      [
+        {
+          "text": "",
+          "line": 1,
+          "component": "prose"
+        }
+      ]
+    ]
+  }
+]

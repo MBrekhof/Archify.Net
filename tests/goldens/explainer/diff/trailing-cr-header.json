@@ -1,0 +1,40 @@
+{
+  "rows": [
+    {
+      "kind": "hunk",
+      "raw": "@@ -1 +1 @@\r",
+      "text": "@@ -1 +1 @@\r",
+      "ending": "",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-hunk-header",
+      "severity": "error",
+      "message": "A hunk header requires old and new start/count ranges.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diff"
+      },
+      "evidence": {
+        "reason": "A hunk header requires old and new start/count ranges.",
+        "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "unified"
+}

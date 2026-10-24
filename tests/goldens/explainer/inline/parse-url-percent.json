@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "https://example.com/%E4%BD%A0",
+      "reference": {
+        "kind": "web",
+        "url": "https://example.com/%E4%BD%A0",
+        "offset": 0,
+        "end": 34
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "web",
+      "url": "https://example.com/%E4%BD%A0",
+      "offset": 0,
+      "end": 34
+    }
+  ],
+  "diagnostics": []
+}

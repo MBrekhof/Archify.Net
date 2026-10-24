@@ -93,14 +93,14 @@ internal static class RepositoryLocation
 
     // ---- WHATWG URL, the authority part only -------------------------------------------------------------------------------------
 
-    sealed record Url(string Protocol, string Username, string Password, string Hostname, string Port)
+    internal sealed record Url(string Protocol, string Username, string Password, string Hostname, string Port)
     {
         public string Host => Port.Length > 0 ? Hostname + ":" + Port : Hostname;
     }
 
     // Authority state, host state and port state for `<scheme>://<authority>/`. Username and password are kept raw: the caller only
     // compares the username with "git" and tests both for emptiness, and percent-encoding preserves both answers.
-    static Url? Authority(string scheme, string authority)
+    internal static Url? Authority(string scheme, string authority)
     {
         var protocol = scheme.ToLowerInvariant() + ":";   // the regex admits only ASCII letters here
         var special = protocol != "ssh:";

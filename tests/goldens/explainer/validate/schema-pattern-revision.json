@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-pattern",
+      "severity": "error",
+      "message": "/sources/0/revision must match pattern \"^[a-fA-F0-9]{40}$\"",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "source",
+        "path": "/sources/0/revision"
+      },
+      "evidence": {
+        "reason": "/sources/0/revision must match pattern \"^[a-fA-F0-9]{40}$\"",
+        "example": "revision=0123456789abcdef0123456789abcdef01234567"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: revision=0123456789abcdef0123456789abcdef01234567"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-not",
+      "severity": "error",
+      "message": "/meta/output must NOT be valid",
+      "subject": {
+        "line": 6,
+        "column": 9,
+        "component": "document",
+        "path": "/meta/output",
+        "input": "in.md"
+      },
+      "evidence": {
+        "reason": "/meta/output must NOT be valid",
+        "example": "\"output\":\"answer.html\""
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: \"output\":\"answer.html\""
+      ]
+    }
+  ]
+}

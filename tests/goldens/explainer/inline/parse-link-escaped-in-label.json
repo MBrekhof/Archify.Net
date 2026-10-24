@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "[a]b](source:x)"
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

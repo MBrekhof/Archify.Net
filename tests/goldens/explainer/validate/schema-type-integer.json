@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-type",
+      "severity": "error",
+      "message": "/panels/0/span must be integer",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "panel",
+        "path": "/panels/0/span"
+      },
+      "evidence": {
+        "reason": "/panels/0/span must be integer",
+        "example": "\"text\":\"A direct explanation.\""
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: \"text\":\"A direct explanation.\""
+      ]
+    }
+  ]
+}

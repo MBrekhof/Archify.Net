@@ -1,0 +1,257 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/type must have required property 'type'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/type"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/type must have required property 'type'",
+        "example": "Add type to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add type to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/items must have required property 'items'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/items"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/items must have required property 'items'",
+        "example": "Add items to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add items to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-additionalProperties",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/text must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/text"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/text must NOT have additional properties",
+        "example": "Remove unsupported text."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Remove unsupported text."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/level must have required property 'level'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/level"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/level must have required property 'level'",
+        "example": "Add level to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add level to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/columns must have required property 'columns'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/columns"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/columns must have required property 'columns'",
+        "example": "Add columns to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add columns to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/rows must have required property 'rows'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/rows"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/rows must have required property 'rows'",
+        "example": "Add rows to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add rows to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/entries must have required property 'entries'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/entries"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/entries must have required property 'entries'",
+        "example": "Add entries to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add entries to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/label must have required property 'label'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/label"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/label must have required property 'label'",
+        "example": "Add label to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add label to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/spec must have required property 'spec'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/spec"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/spec must have required property 'spec'",
+        "example": "Add spec to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add spec to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/source must have required property 'source'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/source"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/source must have required property 'source'",
+        "example": "Add source to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add source to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-oneOf",
+      "severity": "error",
+      "message": "/panels/0/blocks/0 must match exactly one schema in oneOf",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0 must match exactly one schema in oneOf",
+        "example": "@block id=example"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: @block id=example"
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/diagramType must have required property 'diagramType'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/diagramType"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/diagramType must have required property 'diagramType'",
+        "example": "Add diagramType to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add diagramType to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/path must have required property 'path'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/path"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/path must have required property 'path'",
+        "example": "Add path to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add path to the block."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/alt must have required property 'alt'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "block",
+        "path": "/panels/0/blocks/0/alt"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/alt must have required property 'alt'",
+        "example": "Add alt to the block."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add alt to the block."
+      ]
+    }
+  ]
+}

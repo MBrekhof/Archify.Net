@@ -1,0 +1,28 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "[unclosed](source:foo"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-link",
+      "severity": "error",
+      "message": "The link destination is not closed.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "inline"
+      },
+      "evidence": {
+        "reason": "The link destination is not closed.",
+        "example": "[Evidence](source:cache-read)"
+      },
+      "supportedFixes": [
+        "Use the supported form: [Evidence](source:cache-read)"
+      ]
+    }
+  ]
+}

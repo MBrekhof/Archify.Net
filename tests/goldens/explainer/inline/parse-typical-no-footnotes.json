@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "1 ms",
+      "href": "typical:示意值，不是本页实测",
+      "reference": {
+        "kind": "typical",
+        "text": "示意值，不是本页实测",
+        "offset": 0,
+        "end": 26
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "typical",
+      "text": "示意值，不是本页实测",
+      "offset": 0,
+      "end": 26
+    }
+  ],
+  "diagnostics": []
+}

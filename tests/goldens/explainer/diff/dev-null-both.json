@@ -1,0 +1,44 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "--- /dev/null",
+      "text": "--- /dev/null",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "+++ /dev/null",
+      "text": "+++ /dev/null",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "hunk",
+      "raw": "@@ -0,0 +0,0 @@",
+      "text": "@@ -0,0 +0,0 @@",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 0,
+      "oldCount": 0,
+      "newStart": 0,
+      "newCount": 0
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 1,
+    "files": 1
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

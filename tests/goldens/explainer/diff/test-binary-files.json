@@ -1,0 +1,49 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "diff --git a/picture.png b/picture.png",
+      "text": "diff --git a/picture.png b/picture.png",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "Binary files a/picture.png and b/picture.png differ",
+      "text": "Binary files a/picture.png and b/picture.png differ",
+      "ending": "",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 1
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-binary",
+      "severity": "error",
+      "message": "Binary patches are unsupported. Describe the binary change separately.",
+      "subject": {
+        "line": 2,
+        "column": 1,
+        "component": "diff"
+      },
+      "evidence": {
+        "reason": "Binary patches are unsupported. Describe the binary change separately.",
+        "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "unified"
+}

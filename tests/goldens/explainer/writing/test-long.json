@@ -1,0 +1,40 @@
+[
+  {
+    "code": "explainer/writing-sentence-length",
+    "severity": "warning",
+    "message": "Sentence has 21 reading units, above the configured zh limit of 12.",
+    "subject": {
+      "line": 4,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "sentence-length",
+      "reason": "Sentence has 21 reading units, above the configured zh limit of 12.",
+      "example": "先查缓存。未命中时再查数据库。 / Check the cache first. Query the database on a miss.",
+      "units": 21,
+      "limit": 12
+    },
+    "supportedFixes": [
+      "Split at a logical action or condition boundary while preserving qualifications and causal links."
+    ]
+  },
+  {
+    "code": "explainer/writing-sentence-length",
+    "severity": "warning",
+    "message": "Sentence has 15 reading units, above the configured en limit of 8.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "sentence-length",
+      "reason": "Sentence has 15 reading units, above the configured en limit of 8.",
+      "example": "先查缓存。未命中时再查数据库。 / Check the cache first. Query the database on a miss.",
+      "units": 15,
+      "limit": 8
+    },
+    "supportedFixes": [
+      "Split at a logical action or condition boundary while preserving qualifications and causal links."
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-maximum",
+      "severity": "error",
+      "message": "/panels/0/span must be <= 12",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "panel",
+        "path": "/panels/0/span"
+      },
+      "evidence": {
+        "reason": "/panels/0/span must be <= 12",
+        "example": "Use a finite value satisfying the stated bound, such as 12."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use a finite value satisfying the stated bound, such as 12."
+      ]
+    }
+  ]
+}

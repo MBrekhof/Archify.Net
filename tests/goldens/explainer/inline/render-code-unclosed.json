@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Inline code must have one closing backtick on the same line.",
+    "code": [
+      {
+        "code": "explainer/inline-code",
+        "severity": "error",
+        "message": "Inline code must have one closing backtick on the same line.",
+        "subject": {
+          "line": 1,
+          "column": 5,
+          "component": "inline"
+        },
+        "evidence": {
+          "reason": "Inline code must have one closing backtick on the same line.",
+          "example": "`cache.get(key)`"
+        },
+        "supportedFixes": [
+          "Use the supported form: `cache.get(key)`"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "block:answer",
+      "reference": {
+        "kind": "block",
+        "id": "answer",
+        "offset": 0,
+        "end": 17
+      }
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "link",
+      "label": "b",
+      "href": "#reasoning",
+      "reference": {
+        "kind": "block",
+        "id": "reasoning",
+        "offset": 18,
+        "end": 33
+      }
+    },
+    {
+      "type": "text",
+      "value": " [c](#bad id)"
+    }
+  ],
+  "references": [
+    {
+      "kind": "block",
+      "id": "answer",
+      "offset": 0,
+      "end": 17
+    },
+    {
+      "kind": "block",
+      "id": "reasoning",
+      "offset": 18,
+      "end": 33
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-target",
+      "severity": "error",
+      "message": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+      "subject": {
+        "line": 1,
+        "column": 35,
+        "component": "inline"
+      },
+      "evidence": {
+        "reason": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+        "example": "[Redis](node:read-path.redis)"
+      },
+      "supportedFixes": [
+        "Use the supported form: [Redis](node:read-path.redis)"
+      ]
+    }
+  ]
+}

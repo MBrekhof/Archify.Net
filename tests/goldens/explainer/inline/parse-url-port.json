@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "https://a.com:8080/x?y=1#z",
+      "reference": {
+        "kind": "web",
+        "url": "https://a.com:8080/x?y=1#z",
+        "offset": 0,
+        "end": 31
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "web",
+      "url": "https://a.com:8080/x?y=1#z",
+      "offset": 0,
+      "end": 31
+    }
+  ],
+  "diagnostics": []
+}

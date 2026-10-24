@@ -1,0 +1,63 @@
+{
+  "rows": [
+    {
+      "kind": "removed",
+      "raw": "-old",
+      "text": "old",
+      "ending": "\n",
+      "sourceLine": 30,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "no-newline",
+      "raw": "\\ No newline at end of file",
+      "text": "\\ No newline at end of file",
+      "ending": "\n",
+      "sourceLine": 31,
+      "oldLine": null,
+      "newLine": null,
+      "forLine": 30
+    },
+    {
+      "kind": "no-newline",
+      "raw": "\\ No newline at end of file",
+      "text": "\\ No newline at end of file",
+      "ending": "",
+      "sourceLine": 32,
+      "oldLine": null,
+      "newLine": null,
+      "forLine": 30
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 1,
+    "context": 0,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-newline-marker",
+      "severity": "error",
+      "message": "A no-newline marker must immediately follow one content row and cannot repeat for that row.",
+      "subject": {
+        "line": 32,
+        "column": 1,
+        "component": "diff",
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      },
+      "evidence": {
+        "reason": "A no-newline marker must immediately follow one content row and cannot repeat for that row.",
+        "example": "@@ -1 +1 @@\n-old\n\\ No newline at end of file\n+new\n\\ No newline at end of file"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1 +1 @@\n-old\n\\ No newline at end of file\n+new\n\\ No newline at end of file"
+      ]
+    }
+  ],
+  "format": "fragment"
+}

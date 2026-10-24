@@ -1,0 +1,24 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/reserved-id",
+      "severity": "error",
+      "message": "This identity is reserved for reader controls or generated footnotes.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/1/id",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "reason": "This identity is reserved for reader controls or generated footnotes.",
+        "example": "id=request-path"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: id=request-path"
+      ]
+    }
+  ]
+}

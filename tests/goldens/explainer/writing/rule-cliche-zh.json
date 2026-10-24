@@ -1,0 +1,164 @@
+[
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "赋能"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "抓手"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "全方位"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "多维度"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "深度融合"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "至关重要"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "不可或缺"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "一站式"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "底层逻辑"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  }
+]

@@ -1,0 +1,42 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Inline Markdown images are unsupported. Use a contained image block.",
+    "code": [
+      {
+        "code": "explainer/inline-image",
+        "severity": "error",
+        "message": "Inline Markdown images are unsupported. Use a contained image block.",
+        "subject": {
+          "line": 1,
+          "column": 1,
+          "component": "inline"
+        },
+        "evidence": {
+          "reason": "Inline Markdown images are unsupported. Use a contained image block.",
+          "example": "@image path=diagram.png alt=\"Request path\""
+        },
+        "supportedFixes": [
+          "Use the supported form: @image path=diagram.png alt=\"Request path\""
+        ]
+      },
+      {
+        "code": "explainer/inline-target",
+        "severity": "error",
+        "message": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+        "subject": {
+          "line": 1,
+          "column": 2,
+          "component": "inline"
+        },
+        "evidence": {
+          "reason": "Use a nonempty label and an HTTP(S), source, block, node, route or typical destination.",
+          "example": "[Redis](node:read-path.redis)"
+        },
+        "supportedFixes": [
+          "Use the supported form: [Redis](node:read-path.redis)"
+        ]
+      }
+    ]
+  }
+}

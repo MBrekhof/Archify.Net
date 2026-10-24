@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "trailing\\"
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

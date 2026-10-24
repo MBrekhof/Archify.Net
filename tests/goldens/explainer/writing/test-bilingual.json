@@ -1,0 +1,146 @@
+[
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "进行分析"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "赋能"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-vague-quantity",
+    "severity": "warning",
+    "message": "The quantity or comparison lacks a stated bound or measurement.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "vague-quantity",
+      "reason": "The quantity or comparison lacks a stated bound or measurement.",
+      "example": "大量请求 → 写明已知请求量或说明未测量；尽快 → 写明期限; significantly faster → give the measured comparison or say it is unmeasured",
+      "matched": "很多用户"
+    },
+    "supportedFixes": [
+      "Add a supported quantity, range, deadline or comparison basis; when unknown, state that it is unmeasured. Do not invent a number."
+    ]
+  },
+  {
+    "code": "explainer/writing-redundancy",
+    "severity": "warning",
+    "message": "Adjacent wording may repeat the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "redundancy",
+      "reason": "Adjacent wording may repeat the same meaning.",
+      "example": "提前预先 → 提前; each and every → each",
+      "matched": "提前预先"
+    },
+    "supportedFixes": [
+      "Keep one expression of the meaning unless both terms carry a necessary distinction."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "Perform an analysis of"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-cliche",
+    "severity": "warning",
+    "message": "This stock phrase gives little information about the concrete outcome.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "cliche",
+      "reason": "This stock phrase gives little information about the concrete outcome.",
+      "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+      "matched": "At the end of the day"
+    },
+    "supportedFixes": [
+      "Replace the stock phrase with the specific action or outcome the reader needs."
+    ]
+  },
+  {
+    "code": "explainer/writing-vague-quantity",
+    "severity": "warning",
+    "message": "The quantity or comparison lacks a stated bound or measurement.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "vague-quantity",
+      "reason": "The quantity or comparison lacks a stated bound or measurement.",
+      "example": "大量请求 → 写明已知请求量或说明未测量；尽快 → 写明期限; significantly faster → give the measured comparison or say it is unmeasured",
+      "matched": "many users"
+    },
+    "supportedFixes": [
+      "Add a supported quantity, range, deadline or comparison basis; when unknown, state that it is unmeasured. Do not invent a number."
+    ]
+  },
+  {
+    "code": "explainer/writing-redundancy",
+    "severity": "warning",
+    "message": "Adjacent wording may repeat the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "redundancy",
+      "reason": "Adjacent wording may repeat the same meaning.",
+      "example": "提前预先 → 提前; each and every → each",
+      "matched": "each and every"
+    },
+    "supportedFixes": [
+      "Keep one expression of the meaning unless both terms carry a necessary distinction."
+    ]
+  }
+]

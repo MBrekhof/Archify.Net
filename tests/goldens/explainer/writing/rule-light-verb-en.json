@@ -1,0 +1,129 @@
+[
+  {
+    "code": "explainer/writing-sentence-length",
+    "severity": "warning",
+    "message": "Sentence has 30 reading units, above the configured en limit of 28.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "sentence-length",
+      "reason": "Sentence has 30 reading units, above the configured en limit of 28.",
+      "example": "先查缓存。未命中时再查数据库。 / Check the cache first. Query the database on a miss.",
+      "units": 30,
+      "limit": 28
+    },
+    "supportedFixes": [
+      "Split at a logical action or condition boundary while preserving qualifications and causal links."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "perform an analysis of"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "carry out an investigation of"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "make a decision"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "give consideration to"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "conduct a review of"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "conduct an analysis of"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+"<strong>先查</strong> <code>GET &lt;key&gt;</code>，再看 <a class=\"diagram-link\" href=\"#path\" data-diagram-link=\"path\" data-diagram-hash=\"focus=redis\">Redis</a>、<a class=\"diagram-link\" href=\"#path\" data-diagram-link=\"path\" data-diagram-hash=\"route=api~db\">请求路径</a> 和 依据<sup class=\"cite\"><a href=\"#source-trace\">1</a></sup>。*"

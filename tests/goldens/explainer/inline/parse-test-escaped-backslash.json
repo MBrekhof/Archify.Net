@@ -1,0 +1,15 @@
+{
+  "tokens": [
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": "path\\"
+        }
+      ]
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

@@ -1,0 +1,23 @@
+{
+  "ok": true,
+  "diagnostics": [
+    {
+      "code": "explainer/writing-paragraph-length",
+      "severity": "warning",
+      "message": "This paragraph has 6 sentences and 0 reading units; long paragraphs are what the page should replace.",
+      "subject": {
+        "line": 1,
+        "component": "prose",
+        "panelId": "reasoning"
+      },
+      "evidence": {
+        "rule": "paragraph-length",
+        "reason": "This paragraph has 6 sentences and 0 reading units; long paragraphs are what the page should replace.",
+        "example": "把并列要点写成列表，把先后动作写成 @steps，把方案差异写成对比表。 / Turn parallel points into a list, ordered actions into @steps and option differences into a comparison."
+      },
+      "supportedFixes": [
+        "Split the paragraph into a list, steps or a comparison; keep at most two or three short sentences of prose."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "tokens": [
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": "a "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "b"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " c"
+        }
+      ]
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

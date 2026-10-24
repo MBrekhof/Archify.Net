@@ -1,0 +1,41 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-const",
+      "severity": "error",
+      "message": "/schema_version must be equal to constant",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/schema_version"
+      },
+      "evidence": {
+        "reason": "/schema_version must be equal to constant",
+        "example": "Use 1."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use 1."
+      ]
+    },
+    {
+      "code": "explainer/schema-const",
+      "severity": "error",
+      "message": "/diagram_type must be equal to constant",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/diagram_type"
+      },
+      "evidence": {
+        "reason": "/diagram_type must be equal to constant",
+        "example": "Use \"explainer\"."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use \"explainer\"."
+      ]
+    }
+  ]
+}

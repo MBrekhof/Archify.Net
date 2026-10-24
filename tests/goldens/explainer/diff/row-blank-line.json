@@ -1,0 +1,71 @@
+{
+  "rows": [
+    {
+      "kind": "hunk",
+      "raw": "@@ -1,2 +1,2 @@",
+      "text": "@@ -1,2 +1,2 @@",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 1,
+      "oldCount": 2,
+      "newStart": 1,
+      "newCount": 2
+    },
+    {
+      "kind": "context",
+      "raw": " a",
+      "text": "a",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": 1,
+      "newLine": 1
+    },
+    {
+      "kind": "header",
+      "raw": "",
+      "text": "",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "context",
+      "raw": " b",
+      "text": "b",
+      "ending": "",
+      "sourceLine": 4,
+      "oldLine": 2,
+      "newLine": 2
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 2,
+    "hunks": 1,
+    "files": 0
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-row",
+      "severity": "error",
+      "message": "Diff content rows must start with a space, + or -.",
+      "subject": {
+        "line": 3,
+        "column": 1,
+        "component": "diff"
+      },
+      "evidence": {
+        "reason": "Diff content rows must start with a space, + or -.",
+        "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "unified"
+}

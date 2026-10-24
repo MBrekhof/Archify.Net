@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "http://[::1]/",
+      "reference": {
+        "kind": "web",
+        "url": "http://[::1]/",
+        "offset": 0,
+        "end": 18
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "web",
+      "url": "http://[::1]/",
+      "offset": 0,
+      "end": 18
+    }
+  ],
+  "diagnostics": []
+}

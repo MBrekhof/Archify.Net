@@ -1,0 +1,7 @@
+{
+  "thrown": {
+    "name": "PeleError",
+    "message": "Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection",
+    "code": "syntax"
+  }
+}

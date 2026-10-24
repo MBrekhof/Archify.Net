@@ -1,0 +1,66 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "delta 12",
+      "text": "delta 12",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "literal 4",
+      "text": "literal 4",
+      "ending": "",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-binary",
+      "severity": "error",
+      "message": "Binary patches are unsupported. Describe the binary change separately.",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "diff"
+      },
+      "evidence": {
+        "reason": "Binary patches are unsupported. Describe the binary change separately.",
+        "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    },
+    {
+      "code": "explainer/diff-binary",
+      "severity": "error",
+      "message": "Binary patches are unsupported. Describe the binary change separately.",
+      "subject": {
+        "line": 2,
+        "column": 1,
+        "component": "diff"
+      },
+      "evidence": {
+        "reason": "Binary patches are unsupported. Describe the binary change separately.",
+        "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "fragment"
+}

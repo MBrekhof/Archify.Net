@@ -1,0 +1,123 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/ must have required property 'meta'",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "meta",
+        "reason": "/ must have required property 'meta'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"meta\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/ must NOT have additional properties",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec",
+        "panelId": "reasoning",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "extra",
+        "reason": "/ must NOT have additional properties",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"extra\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/enum",
+      "severity": "error",
+      "message": "/participants/0/type (id/label: \"api\") must be equal to one of the allowed values",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/participants/0/type",
+        "panelId": "reasoning",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "keyword": "enum",
+        "allowedValues": [
+          "frontend",
+          "backend",
+          "database",
+          "cloud",
+          "security",
+          "messagebus",
+          "external"
+        ],
+        "reason": "/participants/0/type (id/label: \"api\") must be equal to one of the allowed values",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "choose one of the allowed values"
+      ]
+    },
+    {
+      "code": "explainer/native-schema/required",
+      "severity": "error",
+      "message": "/messages/0 (id/label: \"m1\") must have required property 'y'",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/messages/0",
+        "panelId": "reasoning",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "keyword": "required",
+        "missingProperty": "y",
+        "reason": "/messages/0 (id/label: \"m1\") must have required property 'y'",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "add required property \"y\""
+      ]
+    },
+    {
+      "code": "explainer/native-schema/additionalProperties",
+      "severity": "error",
+      "message": "/messages/0 (id/label: \"m1\") must NOT have additional properties",
+      "subject": {
+        "line": 9,
+        "column": 1,
+        "component": "diagram",
+        "path": "/panels/0/blocks/1/spec/messages/0",
+        "panelId": "reasoning",
+        "input": "draft.md"
+      },
+      "evidence": {
+        "keyword": "additionalProperties",
+        "additionalProperty": "type",
+        "reason": "/messages/0 (id/label: \"m1\") must NOT have additional properties",
+        "example": "Use valid native sequence JSON."
+      },
+      "supportedFixes": [
+        "remove unsupported property \"type\""
+      ]
+    }
+  ]
+}

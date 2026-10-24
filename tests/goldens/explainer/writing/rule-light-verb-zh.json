@@ -1,0 +1,56 @@
+[
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "进行排查"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "予以处理"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "作出调整"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  }
+]

@@ -1,0 +1,737 @@
+[
+  {
+    "name": "test-git",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/added.txt b/added.txt\nnew file mode 100644\nindex 0000000..fde6fd3\n--- /dev/null\n+++ b/added.txt\n@@ -0,0 +1 @@\n+fresh\ndiff --git a/no-newline.txt b/no-newline.txt\nindex 3367afd..3e75765 100644\n--- a/no-newline.txt\n+++ b/no-newline.txt\n@@ -1 +1 @@\n-old\n\\ No newline at end of file\n+new\n\\ No newline at end of file\ndiff --git a/removed.txt b/removed.txt\ndeleted file mode 100644\nindex 7c5e9e9..0000000\n--- a/removed.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-gone\ndiff --git a/sample.txt b/sample.txt\nindex 8c2a0a4..f9e4a1d 100644\n--- a/sample.txt\n+++ b/sample.txt\n@@ -1,3 +1,4 @@\n first\n-old\n+new\n last\n+extra\n"
+    ]
+  },
+  {
+    "name": "test-crlf-fragment",
+    "call": "parseExplainerDiff",
+    "args": [
+      " context\r\n-old\r\n+new",
+      {
+        "line": 20
+      }
+    ]
+  },
+  {
+    "name": "test-zero-insert",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -0,0 +1,2 @@\n+first\n+second\n"
+    ]
+  },
+  {
+    "name": "test-zero-delete",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1,2 +0,0 @@\n-first\n-second\n"
+    ]
+  },
+  {
+    "name": "test-implicit-one",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -12 +14 @@ function\n-old\n+new\n"
+    ]
+  },
+  {
+    "name": "test-hunk-count",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1,2 +1,2 @@\n-old\n+new",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-hunk-count-2",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\n unchanged\n+extra",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-hunk-range",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -0 +1 @@\n-old\n+new",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-hunk-range-unsafe",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -9007199254740992 +1 @@\n-old\n+new",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-hunk-header",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1@@\n-old\n+new",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-row",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\nold\n+new",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-newline-marker",
+    "call": "parseExplainerDiff",
+    "args": [
+      "\\ No newline at end of file",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-newline-marker-repeat",
+    "call": "parseExplainerDiff",
+    "args": [
+      "-old\n\\ No newline at end of file\n\\ No newline at end of file",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-header-order",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+++ b/file.txt\n+new",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-header",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/f b/f\nindex invalid",
+      {
+        "line": 30,
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      }
+    ]
+  },
+  {
+    "name": "test-combined",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --cc file\n@@@ -1,1 -1,1 +1,1 @@@"
+    ]
+  },
+  {
+    "name": "test-binary-files",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/picture.png b/picture.png\nBinary files a/picture.png and b/picture.png differ"
+    ]
+  },
+  {
+    "name": "test-binary-patch",
+    "call": "parseExplainerDiff",
+    "args": [
+      "GIT binary patch\nliteral 4\nAAAA"
+    ]
+  },
+  {
+    "name": "test-rename-mode",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/old.txt b/new.txt\nsimilarity index 100%\nrename from old.txt\nrename to new.txt\ndiff --git a/script.sh b/script.sh\nold mode 100644\nnew mode 100755\n"
+    ]
+  },
+  {
+    "name": "test-secret-quoted",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+const api_key = \"example-private-credential\";",
+      {
+        "line": 10
+      }
+    ]
+  },
+  {
+    "name": "test-secret-key",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+-----BEGIN PRIVATE KEY-----",
+      {
+        "line": 10
+      }
+    ]
+  },
+  {
+    "name": "test-secret-yaml",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/config.yaml b/config.yaml\n--- a/config.yaml\n+++ b/config.yaml\n@@ -0,0 +1 @@\n+api_key: example-private-credential",
+      {
+        "line": 10
+      }
+    ]
+  },
+  {
+    "name": "test-no-secret",
+    "call": "parseExplainerDiff",
+    "args": [
+      "-const timeout = 100;\n+const timeout = 200;"
+    ]
+  },
+  {
+    "name": "test-header-content",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n--- old value\n+++ new value\n"
+    ]
+  },
+  {
+    "name": "test-rename-secret",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/config.yaml b/notes.txt\n--- a/config.yaml\n+++ b/notes.txt\n@@ -1 +1 @@\n-api_key: example-private-credential\n+Public notes"
+    ]
+  },
+  {
+    "name": "combined-word",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --combined file\n"
+    ]
+  },
+  {
+    "name": "combined-at",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@@ -1 -1 +1 @@@\n"
+    ]
+  },
+  {
+    "name": "binary-delta",
+    "call": "parseExplainerDiff",
+    "args": [
+      "delta 12\nliteral 4"
+    ]
+  },
+  {
+    "name": "binary-literal-suffix",
+    "call": "parseExplainerDiff",
+    "args": [
+      "literal 4x"
+    ]
+  },
+  {
+    "name": "header-git-one-path",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/only\n@@ -1 +1 @@\n-a\n+b"
+    ]
+  },
+  {
+    "name": "header-similarity-over",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/b\nsimilarity index 101%\n"
+    ]
+  },
+  {
+    "name": "header-dissimilarity",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/b\ndissimilarity index 40%\ncopy from a\ncopy to b\n"
+    ]
+  },
+  {
+    "name": "header-mode-bad",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/a\nnew file mode 10064\n"
+    ]
+  },
+  {
+    "name": "header-index-mode",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/a\nindex abc..DEF 100755\n"
+    ]
+  },
+  {
+    "name": "header-rename-empty",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/b\nrename from \n"
+    ]
+  },
+  {
+    "name": "hunk-header-section",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1,1 +1,1 @@ fn main()\n-a\n+b"
+    ]
+  },
+  {
+    "name": "hunk-header-tab",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\tctx\n-a\n+b"
+    ]
+  },
+  {
+    "name": "hunk-header-garbage",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@x\n-a\n+b"
+    ]
+  },
+  {
+    "name": "hunk-range-new-zero",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +0 @@\n-a\n+b"
+    ]
+  },
+  {
+    "name": "hunk-range-huge",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +99999999999999999999999 @@\n-a"
+    ]
+  },
+  {
+    "name": "hunk-range-sum",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -9007199254740990,5 +1 @@\n-a"
+    ]
+  },
+  {
+    "name": "hunk-count-extra",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\n-a\n+b\n+c"
+    ]
+  },
+  {
+    "name": "header-order-end",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/a\n--- a/a"
+    ]
+  },
+  {
+    "name": "header-order-twice",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/a\n--- a/b\n+++ b/b\n@@ -1 +1 @@\n-x\n+y"
+    ]
+  },
+  {
+    "name": "header-order-plus-first",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+++ b/a\n--- a/a\n+++ b/a\n@@ -1 +1 @@\n-x\n+y"
+    ]
+  },
+  {
+    "name": "newline-marker-first",
+    "call": "parseExplainerDiff",
+    "args": [
+      "\\ No newline at end of file\n-a"
+    ]
+  },
+  {
+    "name": "newline-marker-after-header",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\n\\ No newline at end of file\n-a\n+b"
+    ]
+  },
+  {
+    "name": "newline-marker-repeated-row",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\n-a\n\\ No newline at end of file\n+b\n\\ No newline at end of file\n\\ No newline at end of file"
+    ]
+  },
+  {
+    "name": "newline-marker-crlf",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\r\n-a\r\n\\ No newline at end of file\r\n+b\r\n\\ No newline at end of file"
+    ]
+  },
+  {
+    "name": "row-blank-line",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1,2 +1,2 @@\n a\n\n b"
+    ]
+  },
+  {
+    "name": "row-plain",
+    "call": "parseExplainerDiff",
+    "args": [
+      "just text"
+    ]
+  },
+  {
+    "name": "empty",
+    "call": "parseExplainerDiff",
+    "args": [
+      ""
+    ]
+  },
+  {
+    "name": "empty-newline",
+    "call": "parseExplainerDiff",
+    "args": [
+      "\n"
+    ]
+  },
+  {
+    "name": "only-newline-crlf",
+    "call": "parseExplainerDiff",
+    "args": [
+      "\r\n"
+    ]
+  },
+  {
+    "name": "within-hunk-headers",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/f\n+++ b/f\n@@ -1,2 +1,2 @@\n--- not a header\n+++ not a header\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "after-hunk-new-file",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/f\n+++ b/f\n@@ -1 +1 @@\n-x\n+y\n--- a/g\n+++ b/g\n@@ -1 +1 @@\n-p\n+q\n"
+    ]
+  },
+  {
+    "name": "plus-inside-unfinished",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/f\n+++ b/f\n@@ -1,1 +1,2 @@\n-x\n+++ added\n+y\n"
+    ]
+  },
+  {
+    "name": "quoted-names",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- \"a/sp ace.txt\"\n+++ \"b/sp ace.txt\"\n@@ -1 +1 @@\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "quoted-octal",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- \"a/\\303\\251.txt\"\n+++ \"b/\\303\\251.txt\"\n@@ -1 +1 @@\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "quoted-escape",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- \"a/x\\ty.txt\"\n+++ \"b/x\\u00e9.txt\"\n@@ -1 +1 @@\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "quoted-lone",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- \"\n+++ \"\"\n@@ -1 +1 @@\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "tab-timestamp",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/f.txt\t2024-01-01 00:00:00\n+++ b/f.txt\t2024-01-02 00:00:00\n@@ -1 +1 @@\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "dev-null-both",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- /dev/null\n+++ /dev/null\n@@ -0,0 +0,0 @@\n"
+    ]
+  },
+  {
+    "name": "no-prefix",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- f.txt\n+++ f.txt\n@@ -1 +1 @@\n-x\n+y\n"
+    ]
+  },
+  {
+    "name": "crlf-unified",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/f b/f\r\nindex 1234567..abcdef0 100644\r\n--- a/f\r\n+++ b/f\r\n@@ -1,2 +1,2 @@\r\n ctx\r\n-old\r\n+new\r\n"
+    ]
+  },
+  {
+    "name": "crlf-mixed",
+    "call": "parseExplainerDiff",
+    "args": [
+      " a\r\n-b\n+c\r\n d"
+    ]
+  },
+  {
+    "name": "crlf-last-cr",
+    "call": "parseExplainerDiff",
+    "args": [
+      " a\n-b\r"
+    ]
+  },
+  {
+    "name": "lone-cr",
+    "call": "parseExplainerDiff",
+    "args": [
+      " a\r-b\r+c"
+    ]
+  },
+  {
+    "name": "line-separator",
+    "call": "parseExplainerDiff",
+    "args": [
+      " a b\n+c"
+    ]
+  },
+  {
+    "name": "trailing-cr-header",
+    "call": "parseExplainerDiff",
+    "args": [
+      "@@ -1 +1 @@\r"
+    ]
+  },
+  {
+    "name": "options-all",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+x\n-y",
+      {
+        "line": 5,
+        "component": "snippet",
+        "input": "in.md",
+        "panelId": "p",
+        "path": "/x"
+      }
+    ]
+  },
+  {
+    "name": "options-empty",
+    "call": "parseExplainerDiff",
+    "args": [
+      "bad",
+      {
+        "input": "",
+        "panelId": "",
+        "path": ""
+      }
+    ]
+  },
+  {
+    "name": "secret-env-quoted",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/.env b/.env\n--- a/.env\n+++ b/.env\n@@ -0,0 +1,2 @@\n+API_KEY=\"abcd1234\"\n+NAME=x\n"
+    ]
+  },
+  {
+    "name": "secret-env-unquoted",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/.env b/.env\n--- a/.env\n+++ b/.env\n@@ -0,0 +1 @@\n+API_KEY=abcd1234\n"
+    ]
+  },
+  {
+    "name": "secret-js-quoted",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/src/a.js b/src/a.js\n--- a/src/a.js\n+++ b/src/a.js\n@@ -1 +1,2 @@\n const a = 1;\n+const password = 'hunter22';\n"
+    ]
+  },
+  {
+    "name": "secret-js-reference",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/src/a.js b/src/a.js\n--- a/src/a.js\n+++ b/src/a.js\n@@ -1 +1 @@\n-x\n+const apiKey = process.env.API_KEY;\n"
+    ]
+  },
+  {
+    "name": "secret-js-unquoted",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+const secret = loadSecret();\n+const token: string = x;"
+    ]
+  },
+  {
+    "name": "secret-sh",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/run.sh\n+++ b/run.sh\n@@ -1 +1 @@\n-x\n+PASSWORD=swordfish # local\n"
+    ]
+  },
+  {
+    "name": "secret-ini-null",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/a.ini\n+++ b/a.ini\n@@ -1,3 +1,3 @@\n-password = null\n+secret: ~\n+api-key = ${API_KEY}\n"
+    ]
+  },
+  {
+    "name": "secret-short-quote",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+password = \"abc\""
+    ]
+  },
+  {
+    "name": "secret-env-ref-quoted",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+password = \"$DB_PASSWORD\""
+    ]
+  },
+  {
+    "name": "secret-getenv",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+client_secret = os.getenv( \"CLIENT_SECRET\" )"
+    ]
+  },
+  {
+    "name": "secret-aws",
+    "call": "parseExplainerDiff",
+    "args": [
+      " x AKIAABCDEFGHIJKLMNOP y"
+    ]
+  },
+  {
+    "name": "secret-gh",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+token ghp_abcdefghijklmnopqrstuvwxyz"
+    ]
+  },
+  {
+    "name": "secret-sk",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+sk-proj-abcdefghijklmnopqrstuvwx-"
+    ]
+  },
+  {
+    "name": "secret-split-rows",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/c.yaml\n+++ b/c.yaml\n@@ -1 +1,2 @@\n-x\n+password:\n+  \"longvalue\"\n"
+    ]
+  },
+  {
+    "name": "secret-two-files",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/a.txt\n+++ b/a.txt\n@@ -1 +1 @@\n-x\n+y\n--- a/b.toml\n+++ b/b.toml\n@@ -1 +1 @@\n-x\n+auth_token = abcdef\n"
+    ]
+  },
+  {
+    "name": "secret-header-row",
+    "call": "parseExplainerDiff",
+    "args": [
+      "diff --git a/a b/a\n+api_key=\"zzzzzzzz\""
+    ]
+  },
+  {
+    "name": "secret-uppercase-path",
+    "call": "parseExplainerDiff",
+    "args": [
+      "--- a/C.YAML\n+++ b/C.YAML\n@@ -1 +1 @@\n-x\n+secret: plain\n"
+    ]
+  },
+  {
+    "name": "secret-long-s",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+paſſword = \"abcdefgh\"\n+private ſecret = \"abcdefgh\""
+    ]
+  },
+  {
+    "name": "secret-kelvin",
+    "call": "parseExplainerDiff",
+    "args": [
+      " -----BEGIN RSA PRIVATE KEY-----"
+    ]
+  },
+  {
+    "name": "secret-begin-lower",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+-----begin openssh private key-----"
+    ]
+  },
+  {
+    "name": "secret-comma",
+    "call": "parseExplainerDiff",
+    "args": [
+      "+secret: ,\n+password: \"x\";"
+    ]
+  }
+]

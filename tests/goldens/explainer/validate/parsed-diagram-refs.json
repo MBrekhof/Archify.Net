@@ -1,0 +1,65 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/diagram-node",
+      "severity": "error",
+      "message": "The node does not exist in the authored native diagram.",
+      "subject": {
+        "line": 12,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/1/text/node",
+        "panelId": "how",
+        "input": "draft.archify.md"
+      },
+      "evidence": {
+        "reason": "The node does not exist in the authored native diagram.",
+        "example": "node=api"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: node=api"
+      ]
+    },
+    {
+      "code": "explainer/diagram-node",
+      "severity": "error",
+      "message": "The node does not exist in the authored native diagram.",
+      "subject": {
+        "line": 16,
+        "column": 1,
+        "component": "steps",
+        "path": "/panels/0/blocks/2/items/1/target/node",
+        "panelId": "how",
+        "input": "draft.archify.md"
+      },
+      "evidence": {
+        "reason": "The node does not exist in the authored native diagram.",
+        "example": "node=api"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: node=api"
+      ]
+    },
+    {
+      "code": "explainer/unresolved-reference",
+      "severity": "error",
+      "message": "The referenced identity does not exist or has the wrong component type.",
+      "subject": {
+        "line": 16,
+        "column": 1,
+        "component": "steps",
+        "path": "/panels/0/blocks/2/items/1/target/edges/0",
+        "panelId": "how",
+        "input": "draft.archify.md"
+      },
+      "evidence": {
+        "reason": "The referenced identity does not exist or has the wrong component type.",
+        "example": "Use an edge ID from the native diagram."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Use an edge ID from the native diagram."
+      ]
+    }
+  ]
+}

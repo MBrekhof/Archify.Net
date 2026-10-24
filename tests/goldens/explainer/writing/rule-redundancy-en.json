@@ -1,0 +1,56 @@
+[
+  {
+    "code": "explainer/writing-redundancy",
+    "severity": "warning",
+    "message": "Adjacent wording may repeat the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "redundancy",
+      "reason": "Adjacent wording may repeat the same meaning.",
+      "example": "提前预先 → 提前; each and every → each",
+      "matched": "Each and every"
+    },
+    "supportedFixes": [
+      "Keep one expression of the meaning unless both terms carry a necessary distinction."
+    ]
+  },
+  {
+    "code": "explainer/writing-redundancy",
+    "severity": "warning",
+    "message": "Adjacent wording may repeat the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "redundancy",
+      "reason": "Adjacent wording may repeat the same meaning.",
+      "example": "提前预先 → 提前; each and every → each",
+      "matched": "future plans"
+    },
+    "supportedFixes": [
+      "Keep one expression of the meaning unless both terms carry a necessary distinction."
+    ]
+  },
+  {
+    "code": "explainer/writing-redundancy",
+    "severity": "warning",
+    "message": "Adjacent wording may repeat the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "redundancy",
+      "reason": "Adjacent wording may repeat the same meaning.",
+      "example": "提前预先 → 提前; each and every → each",
+      "matched": "completely eliminate"
+    },
+    "supportedFixes": [
+      "Keep one expression of the meaning unless both terms carry a necessary distinction."
+    ]
+  }
+]

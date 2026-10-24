@@ -1,0 +1,106 @@
+{
+  "tokens": [
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": "1 "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " "
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": "3 "
+    },
+    {
+      "type": "em",
+      "children": [
+        {
+          "type": "text",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": "5 "
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": "6 "
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "7"
+        },
+        {
+          "type": "em",
+          "children": [
+            {
+              "type": "text",
+              "value": " 6"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " 5"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": " 4"
+    },
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": " 3"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "value": " 2"
+    },
+    {
+      "type": "strong",
+      "children": [
+        {
+          "type": "text",
+          "value": " 1"
+        }
+      ]
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

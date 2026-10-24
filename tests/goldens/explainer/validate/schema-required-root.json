@@ -1,0 +1,41 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/answer must have required property 'answer'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/answer"
+      },
+      "evidence": {
+        "reason": "/answer must have required property 'answer'",
+        "example": "Add answer to the document."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add answer to the document."
+      ]
+    },
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/sources must have required property 'sources'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/sources"
+      },
+      "evidence": {
+        "reason": "/sources must have required property 'sources'",
+        "example": "Add sources to the document."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add sources to the document."
+      ]
+    }
+  ]
+}

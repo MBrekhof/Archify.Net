@@ -1,0 +1,49 @@
+{
+  "rows": [
+    {
+      "kind": "header",
+      "raw": "diff --git a/a b/a",
+      "text": "diff --git a/a b/a",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "header",
+      "raw": "new file mode 10064",
+      "text": "new file mode 10064",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 0,
+    "context": 0,
+    "hunks": 0,
+    "files": 1
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-header",
+      "severity": "error",
+      "message": "This git metadata header is malformed.",
+      "subject": {
+        "line": 2,
+        "column": 1,
+        "component": "diff"
+      },
+      "evidence": {
+        "reason": "This git metadata header is malformed.",
+        "example": "diff --git a/file.txt b/file.txt\nindex 1234567..abcdef0 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\ndiff --git a/file.txt b/file.txt\nindex 1234567..abcdef0 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "unified"
+}

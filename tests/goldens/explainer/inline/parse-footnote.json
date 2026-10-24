@@ -1,0 +1,28 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "a [^1] b"
+    }
+  ],
+  "references": [],
+  "diagnostics": [
+    {
+      "code": "explainer/inline-footnote",
+      "severity": "error",
+      "message": "Arbitrary Markdown footnotes are unsupported. Use a source or typical-value reference.",
+      "subject": {
+        "line": 1,
+        "column": 3,
+        "component": "inline"
+      },
+      "evidence": {
+        "reason": "Arbitrary Markdown footnotes are unsupported. Use a source or typical-value reference.",
+        "example": "[Claim](source:trace)"
+      },
+      "supportedFixes": [
+        "Use the supported form: [Claim](source:trace)"
+      ]
+    }
+  ]
+}

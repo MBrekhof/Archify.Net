@@ -1,0 +1,20 @@
+[
+  {
+    "code": "explainer/writing-number-boundary",
+    "severity": "warning",
+    "message": "“以上/以下/以内” after a number leaves the endpoint unclear.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "number-boundary",
+      "reason": "“以上/以下/以内” after a number leaves the endpoint unclear.",
+      "example": "3 次以上 → 超过 3 次 / 不少于 3 次；1 秒以内 → 不超过 1 秒",
+      "matched": "以上"
+    },
+    "supportedFixes": [
+      "Say whether the endpoint is included: 超过/不少于, 低于/不超过."
+    ]
+  }
+]

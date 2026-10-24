@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-additionalProperties",
+      "severity": "error",
+      "message": "/sources/0/verified must NOT have additional properties",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "source",
+        "path": "/sources/0/verified"
+      },
+      "evidence": {
+        "reason": "/sources/0/verified must NOT have additional properties",
+        "example": "Remove unsupported verified."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Remove unsupported verified."
+      ]
+    }
+  ]
+}

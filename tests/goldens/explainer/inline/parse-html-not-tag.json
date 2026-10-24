@@ -1,0 +1,10 @@
+{
+  "tokens": [
+    {
+      "type": "text",
+      "value": "a <3 b and <a no close"
+    }
+  ],
+  "references": [],
+  "diagnostics": []
+}

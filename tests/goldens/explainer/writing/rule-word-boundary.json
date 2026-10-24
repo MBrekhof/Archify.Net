@@ -1,0 +1,38 @@
+[
+  {
+    "code": "explainer/writing-vague-quantity",
+    "severity": "warning",
+    "message": "The quantity or comparison lacks a stated bound or measurement.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "vague-quantity",
+      "reason": "The quantity or comparison lacks a stated bound or measurement.",
+      "example": "大量请求 → 写明已知请求量或说明未测量；尽快 → 写明期限; significantly faster → give the measured comparison or say it is unmeasured",
+      "matched": "很多用户"
+    },
+    "supportedFixes": [
+      "Add a supported quantity, range, deadline or comparison basis; when unknown, state that it is unmeasured. Do not invent a number."
+    ]
+  },
+  {
+    "code": "explainer/writing-light-verb",
+    "severity": "warning",
+    "message": "A light-verb construction can obscure the action.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "light-verb",
+      "reason": "A light-verb construction can obscure the action.",
+      "example": "进行检查 → 检查；做出决定 → 决定; make a decision → decide",
+      "matched": "make a decision"
+    },
+    "supportedFixes": [
+      "Use the direct action verb where it preserves the meaning; name who performs the action."
+    ]
+  }
+]

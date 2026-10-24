@@ -1,0 +1,31 @@
+{
+  "rows": [
+    {
+      "kind": "context",
+      "raw": " a",
+      "text": "a",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "removed",
+      "raw": "-b\r",
+      "text": "b\r",
+      "ending": "",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 0,
+    "removed": 1,
+    "context": 1,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [],
+  "format": "fragment"
+}

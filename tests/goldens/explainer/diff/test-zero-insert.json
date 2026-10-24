@@ -1,0 +1,44 @@
+{
+  "rows": [
+    {
+      "kind": "hunk",
+      "raw": "@@ -0,0 +1,2 @@",
+      "text": "@@ -0,0 +1,2 @@",
+      "ending": "\n",
+      "sourceLine": 1,
+      "oldLine": null,
+      "newLine": null,
+      "oldStart": 0,
+      "oldCount": 0,
+      "newStart": 1,
+      "newCount": 2
+    },
+    {
+      "kind": "added",
+      "raw": "+first",
+      "text": "first",
+      "ending": "\n",
+      "sourceLine": 2,
+      "oldLine": null,
+      "newLine": 1
+    },
+    {
+      "kind": "added",
+      "raw": "+second",
+      "text": "second",
+      "ending": "\n",
+      "sourceLine": 3,
+      "oldLine": null,
+      "newLine": 2
+    }
+  ],
+  "counts": {
+    "added": 2,
+    "removed": 0,
+    "context": 0,
+    "hunks": 1,
+    "files": 0
+  },
+  "diagnostics": [],
+  "format": "unified"
+}

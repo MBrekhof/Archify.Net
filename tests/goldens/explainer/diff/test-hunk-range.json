@@ -1,0 +1,61 @@
+{
+  "rows": [
+    {
+      "kind": "hunk",
+      "raw": "@@ -0 +1 @@",
+      "text": "@@ -0 +1 @@",
+      "ending": "\n",
+      "sourceLine": 30,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "removed",
+      "raw": "-old",
+      "text": "old",
+      "ending": "\n",
+      "sourceLine": 31,
+      "oldLine": null,
+      "newLine": null
+    },
+    {
+      "kind": "added",
+      "raw": "+new",
+      "text": "new",
+      "ending": "",
+      "sourceLine": 32,
+      "oldLine": null,
+      "newLine": null
+    }
+  ],
+  "counts": {
+    "added": 1,
+    "removed": 1,
+    "context": 0,
+    "hunks": 0,
+    "files": 0
+  },
+  "diagnostics": [
+    {
+      "code": "explainer/diff-hunk-range",
+      "severity": "error",
+      "message": "Hunk ranges must use safe nonnegative integers; a nonempty range starts at line 1 or later.",
+      "subject": {
+        "line": 30,
+        "column": 1,
+        "component": "diff",
+        "input": "change.md",
+        "panelId": "review",
+        "path": "/panels/0/blocks/0/text"
+      },
+      "evidence": {
+        "reason": "Hunk ranges must use safe nonnegative integers; a nonempty range starts at line 1 or later.",
+        "example": "@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      },
+      "supportedFixes": [
+        "Use a valid unified diff, for example:\n@@ -1,2 +1,2 @@\n unchanged\n-old value\n+new value"
+      ]
+    }
+  ],
+  "format": "unified"
+}

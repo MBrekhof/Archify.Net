@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a<b",
+      "href": "typical:c&\"d\"",
+      "reference": {
+        "kind": "typical",
+        "text": "c&\"d\"",
+        "offset": 0,
+        "end": 20
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "typical",
+      "text": "c&\"d\"",
+      "offset": 0,
+      "end": 20
+    }
+  ],
+  "diagnostics": []
+}

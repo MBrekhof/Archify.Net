@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Raw HTML is not part of the explainer inline language.",
+    "code": [
+      {
+        "code": "explainer/inline-html",
+        "severity": "error",
+        "message": "Raw HTML is not part of the explainer inline language.",
+        "subject": {
+          "line": 1,
+          "column": 3,
+          "component": "inline"
+        },
+        "evidence": {
+          "reason": "Raw HTML is not part of the explainer inline language.",
+          "example": "**Important** or `[literal <tag>]`"
+        },
+        "supportedFixes": [
+          "Use the supported form: **Important** or `[literal <tag>]`"
+        ]
+      }
+    ]
+  }
+}

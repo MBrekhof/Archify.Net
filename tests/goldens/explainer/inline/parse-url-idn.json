@@ -1,0 +1,24 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "https://bücher.example/",
+      "reference": {
+        "kind": "web",
+        "url": "https://bücher.example/",
+        "offset": 0,
+        "end": 28
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "web",
+      "url": "https://bücher.example/",
+      "offset": 0,
+      "end": 28
+    }
+  ],
+  "diagnostics": []
+}

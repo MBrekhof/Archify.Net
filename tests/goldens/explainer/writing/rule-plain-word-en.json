@@ -1,0 +1,291 @@
+[
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "Utilize"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-sentence-length",
+    "severity": "warning",
+    "message": "Sentence has 29 reading units, above the configured en limit of 28.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "sentence-length",
+      "reason": "Sentence has 29 reading units, above the configured en limit of 28.",
+      "example": "先查缓存。未命中时再查数据库。 / Check the cache first. Query the database on a miss.",
+      "units": 29,
+      "limit": 28
+    },
+    "supportedFixes": [
+      "Split at a logical action or condition boundary while preserving qualifications and causal links."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "utilizes"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "utilised"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "utilization"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "prior to"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "in order to"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "commence"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "commenced"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "facilitates"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "subsequently"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "in the event that"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "due to the fact that"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "at this point in time"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "endeavour"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  },
+  {
+    "code": "explainer/writing-plain-word",
+    "severity": "warning",
+    "message": "A longer word replaces a common one with the same meaning.",
+    "subject": {
+      "line": 1,
+      "component": "prose"
+    },
+    "evidence": {
+      "rule": "plain-word",
+      "reason": "A longer word replaces a common one with the same meaning.",
+      "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+      "matched": "endeavor"
+    },
+    "supportedFixes": [
+      "Use the shorter common word."
+    ]
+  }
+]

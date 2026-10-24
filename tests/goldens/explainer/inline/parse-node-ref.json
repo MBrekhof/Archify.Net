@@ -1,0 +1,72 @@
+{
+  "tokens": [
+    {
+      "type": "link",
+      "label": "a",
+      "href": "node:flow.redis",
+      "reference": {
+        "kind": "node",
+        "diagram": "flow",
+        "node": "redis",
+        "offset": 0,
+        "end": 20
+      }
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "link",
+      "label": "b",
+      "href": "node:flow.a.b",
+      "reference": {
+        "kind": "node",
+        "diagram": "flow",
+        "node": "a.b",
+        "offset": 21,
+        "end": 39
+      }
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "link",
+      "label": "c",
+      "href": "node:flow.a:b",
+      "reference": {
+        "kind": "node",
+        "diagram": "flow",
+        "node": "a:b",
+        "offset": 40,
+        "end": 58
+      }
+    }
+  ],
+  "references": [
+    {
+      "kind": "node",
+      "diagram": "flow",
+      "node": "redis",
+      "offset": 0,
+      "end": 20
+    },
+    {
+      "kind": "node",
+      "diagram": "flow",
+      "node": "a.b",
+      "offset": 21,
+      "end": 39
+    },
+    {
+      "kind": "node",
+      "diagram": "flow",
+      "node": "a:b",
+      "offset": 40,
+      "end": 58
+    }
+  ],
+  "diagnostics": []
+}

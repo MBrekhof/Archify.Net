@@ -45,6 +45,13 @@ as `render-explainer.mjs` does: `prepareExplainer(text, {...options, inputPath})
   `path`, `quality`, `writingMode` and `document` recompute the bundle's digest (prepare.mjs:14), so the read reaches the
   check after it; `bytes` and `dependency` do not.
 
+Two shapes prepare the arguments of a generic call:
+
+- `parsed: <text>` (with `validateExplainer`): the runner parses the text first (`parseExplainer(text, {inputPath:
+  args[0].inputPath})`, which must yield a document) and calls `validateExplainer(document, {sourceMap, ...args[0]})`.
+- `texts: [...]` (with `renderInline`): one call per text with the same context object `args[0]`, as render.mjs shares
+  footnotes and citations across fields. The golden is `{html: [...], footnotes, citations: [[id, number], ...]}`.
+
 The capture refuses a seed name that is not `[\w.-]+`, that ends in `.fixed`, or that repeats within its group ignoring
 case (the goldens live on Windows).
 
@@ -84,3 +91,12 @@ Node by a stated deviation is listed in `ExplainerParityTests.KnownDeviations` a
 - `shorthand` (Task 2): `compileExplainerDiagram(type, rows, {id, title, line, quality, locale})` with rows as
   `{cells, line}` (the shape the parser passes; the port takes no text rows), and three `parseExplainer` drafts for the
   lane label of Decision 2 (`workflow-branch-zh`, `-en`, `-default`).
+- `inline` (Task 3): `parseInline(text, options?)` and `renderInline(text, context?)` (`parse-*` and `render-*` rows of
+  the same input), every problem code, link targets and URLs, typical-value footnotes, citations across three calls.
+- `diff` (Task 3): `parseExplainerDiff(text, options?)`, the upstream diff tests (the git test as a literal), every
+  `explainer/diff-*` code, quoted file names, CRLF and lone-CR rows, and the secret scanner.
+- `writing` (Task 3): `lintExplainerWriting(entries, options?)`, each rule in zh and en, the structural rules at their
+  bounds, URL masking, offset ties, the three modes and the TypeErrors (thrown rows `{name: "TypeError", message}`).
+- `validate` (Task 3): `validateExplainer(document, options?)` or the `parsed` shape: each `schema-<keyword>` example,
+  reserved and duplicate IDs, references and diagram targets, charts (a front-matter PeleError is a thrown row), native
+  specs, and writing modes.

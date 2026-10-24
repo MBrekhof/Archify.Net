@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-minItems",
+      "severity": "error",
+      "message": "/panels must NOT have fewer than 1 items",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "document",
+        "path": "/panels"
+      },
+      "evidence": {
+        "reason": "/panels must NOT have fewer than 1 items",
+        "example": "| a | First option |\n| b | Second option |"
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: | a | First option |\n| b | Second option |"
+      ]
+    }
+  ]
+}

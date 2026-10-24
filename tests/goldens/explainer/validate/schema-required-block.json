@@ -1,0 +1,23 @@
+{
+  "ok": false,
+  "diagnostics": [
+    {
+      "code": "explainer/schema-required",
+      "severity": "error",
+      "message": "/panels/0/blocks/0/text must have required property 'text'",
+      "subject": {
+        "line": 1,
+        "column": 1,
+        "component": "prose",
+        "path": "/panels/0/blocks/0/text"
+      },
+      "evidence": {
+        "reason": "/panels/0/blocks/0/text must have required property 'text'",
+        "example": "Add text to the prose."
+      },
+      "supportedFixes": [
+        "Use a valid form, for example: Add text to the prose."
+      ]
+    }
+  ]
+}
