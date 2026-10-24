@@ -105,11 +105,12 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   model errors (`model-*`, `render-missing-entry`, `render-axes-before-curves`), `graticule-*`, `{axis: v}` entries
   (`entries-*`), values, options (`options-*`), every render option of `config.radar` (`config-*`), titles, `accDescr`
   blocks, labels (entities, `<br>`, markup, escapes, Han, emoji, U+FFFE), names, keywords, comments, errors, CRLF/CR/BOM and
-  empty bodies. `quirk-boundary-*` and `oracle-23` are R1 (a name that starts with `circle`, `polygon`, `true`, `false` or
-  `title` fails upstream) and `quirk-message-*` are R2 (a "Missing entry" message writes the label's entity codes as
-  parsed), the upstream slips the port fixes. An R1 row's `-reference` writes each such name with a stand-in first letter
-  of the same width (c/k, p/b, t/f), which `ChartParityTests.Radar_name_boundaries_are_the_stated_deviation` swaps back;
-  an R2 row's `-reference` writes the label as the chart draws it. The `boundary-*` and `message-*` controls still equal
+  empty bodies. `quirk-boundary-*` and `oracle-23` are RA1 (a name that starts with `circle`, `polygon`, `true`, `false`
+  or `title` fails upstream) and `quirk-message-*` are RA2 (a "Missing entry" message writes the label's entity codes as
+  parsed), the upstream slips the port fixes. An RA1 row's `-reference` writes each such name with a stand-in first
+  letter of the same width (c/k, p/b, t/f), which `ChartParityTests.Radar_name_boundaries_are_the_stated_deviation` swaps
+  back; an RA2 row's `-reference` writes the label as the chart draws it. The `boundary-*`, `glue-*` (an option value
+  glued to the next keyword or statement, which draws upstream and is not a name) and `message-*` controls still equal
   Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`, and the port's output for them is
   pinned in `tests/fixtures/charts/radar.fuzz-deviations.json`. `node tools/chart-seeds/radar-fuzz-check.mjs` checks each
   pinned case's attribution against Node, with the input corrected by hand for its stated quirk; run it after a re-mint.

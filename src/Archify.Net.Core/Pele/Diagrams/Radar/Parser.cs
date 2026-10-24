@@ -91,10 +91,11 @@ internal static partial class Pele
 
         static readonly TokenType RadarKeyword = Tokens.Keyword("radar-beta");
 
-        // Deviation R1 (PORT-008 Task 11): upstream's GRATICULE, BOOLEAN and TITLE end without a word boundary, so a name that
+        // Deviation RA1 (PORT-008 Task 11): upstream's GRATICULE, BOOLEAN and TITLE end without a word boundary, so a name that
         // starts with `circle`, `polygon`, `true`, `false` or `title` (`circles`, `trueNorth`, `titles`) lexes as that token and
-        // a name after it, and the chart fails. GRATICULE and BOOLEAN take ID as a longer alternative, as the keywords do; the
-        // empty form of TITLE (`title` with nothing after it) does not match where ID would read more than `title`.
+        // a name after it, and the chart fails. The empty form of TITLE (`title` with nothing after it) does not match where ID
+        // would read more than `title`. GRATICULE and BOOLEAN keep upstream's tokens, as an option value glued to the next
+        // statement (`graticule polygonaxis a`) draws upstream; Parse reads them as part of a name only where it reads a name.
         public static readonly TokenType[] RadarTokens =
         [
             Mark("radar-beta:"),
@@ -112,8 +113,8 @@ internal static partial class Pele
             Mark("]"),
             Mark("{"),
             Mark("}"),
-            new() { Name = "GRATICULE", Pattern = Tokens.Sticky("circle|polygon"), Longer = [Id] },
-            new() { Name = "BOOLEAN", Pattern = Tokens.Sticky("true|false"), Longer = [Id] },
+            new() { Name = "GRATICULE", Pattern = Tokens.Sticky("circle|polygon") },
+            new() { Name = "BOOLEAN", Pattern = Tokens.Sticky("true|false") },
             new() { Name = Tokens.AccDescr.Name, Pattern = Tokens.AccDescr.Pattern, First = Tokens.AccDescr.First, Scanner = AccDescrScanner },
             Tokens.AccTitle,
             new()
@@ -157,23 +158,53 @@ internal static partial class Pele
                 return text;
             }
 
+            // RA1: where upstream reads a name (an axis, a curve, an entry's axis), a GRATICULE or BOOLEAN token that ID would read
+            // further is the start of the name, and the tokens ID covers are taken with it. The index of the token after the
+            // name, or -1: not such a token, or ID ends inside a token (`circle5.3`), where the read fails as upstream's does.
+            int NameEnd()
+            {
+                if (r.Kind != TGraticuleValue && r.Kind != TBoolean) return -1;
+                var t = r.Tokens;
+                var m = Id.Pattern!.Match(t.Src, t.Starts[r.I]);
+                var end = m.Index + m.Length;
+                if (end <= t.Ends[r.I]) return -1;
+                var k = r.I;
+                while (t.Ends[k] < end)
+                {
+                    if (t.Kinds[k + 1] == -1 || t.Starts[k + 1] != t.Ends[k]) return -1;
+                    k++;
+                }
+                return t.Ends[k] == end ? k + 1 : -1;
+            }
+
+            bool AtName() => r.Kind == TId || NameEnd() >= 0;
+
+            string Name()
+            {
+                var next = NameEnd();
+                if (next < 0) return r.Expect(TId);
+                var text = r.Tokens.Src[r.Tokens.Starts[r.I]..r.Tokens.Ends[next - 1]];
+                r.I = next;
+                return text;
+            }
+
             RadarEntryAst Entry(bool detailed)
             {
                 if (!detailed) return new(null, Js.ToNumber(r.Expect(TNumber)));
-                var axis = r.Expect(TId);
+                var axis = Name();
                 r.Accept(TColon);
                 return new(axis, Js.ToNumber(r.Expect(TNumber)));
             }
 
             RadarCurveAst Curve()
             {
-                var name = r.Expect(TId);
+                var name = Name();
                 var text = Label();
                 var node = new RadarCurveAst(name, text, []);
                 r.Expect(TOpenBrace);
                 Newlines();
-                if (r.Kind != TNumber && r.Kind != TId) r.Fail("a number or an axis name");
-                var detailed = r.Kind == TId;
+                if (r.Kind != TNumber && !AtName()) r.Fail("a number or an axis name");
+                var detailed = AtName();
                 node.Entries.Add(Entry(detailed));
                 while (r.Accept(TComma))
                 {
@@ -187,7 +218,7 @@ internal static partial class Pele
 
             RadarAxisAst Axis()
             {
-                var name = r.Expect(TId);
+                var name = Name();
                 return new(name, Label());
             }
 

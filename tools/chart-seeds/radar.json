@@ -1612,6 +1612,70 @@
     "text": "radar-beta\n  axis A\n  curve c{"
   },
   {
+    "name": "glue-graticule-polygonaxis",
+    "text": "radar-beta\ngraticule polygonaxis a, b, c\ncurve x{1,2,3}"
+  },
+  {
+    "name": "glue-graticule-circlemax",
+    "text": "radar-beta\naxis a, b, c\ngraticule circlemax 5\ncurve x{1,2,3}"
+  },
+  {
+    "name": "glue-graticule-polygonshowlegend",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\ngraticule polygonshowLegend false"
+  },
+  {
+    "name": "glue-graticule-circleaccdescr",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\ngraticule circleaccDescr { described }"
+  },
+  {
+    "name": "glue-graticule-circletitle",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\ngraticule circletitle Glued"
+  },
+  {
+    "name": "glue-show-legend-falsecurve",
+    "text": "radar-beta\naxis a, b, c\nshowLegend falsecurve x{1,2,3}"
+  },
+  {
+    "name": "glue-show-legend-truetitle",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\nshowLegend truetitle Hello"
+  },
+  {
+    "name": "glue-show-legend-trueacctitle",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\nshowLegend trueaccTitle: hi"
+  },
+  {
+    "name": "glue-show-legend-trueticks",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\nshowLegend trueticks 3"
+  },
+  {
+    "name": "glue-show-legend-truemin",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\nshowLegend truemin 1"
+  },
+  {
+    "name": "glue-show-legend-falsegraticule",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\nshowLegend falsegraticule polygon"
+  },
+  {
+    "name": "glue-show-legend-truemax-comma",
+    "text": "radar-beta\naxis a, b, c\ncurve x{1,2,3}\nshowLegend truemax 9, ticks 2"
+  },
+  {
+    "name": "boundary-name-ends-in-number",
+    "text": "radar-beta\n  axis circle5.3\n  curve c{1}"
+  },
+  {
+    "name": "boundary-name-ends-in-title",
+    "text": "radar-beta\n  axis truetitle x\n  curve c{1}"
+  },
+  {
+    "name": "boundary-name-ends-in-acc-title",
+    "text": "radar-beta\n  axis trueaccTitle: hi\n  curve c{1}"
+  },
+  {
+    "name": "boundary-entry-bare-boolean",
+    "text": "radar-beta\n  axis A\n  curve c{ true 1 }"
+  },
+  {
     "name": "quirk-boundary-graticule-axis",
     "text": "radar-beta\n  axis circles[\"Circles\"], b\n  curve c{1, 2}"
   },
@@ -1698,6 +1762,30 @@
   {
     "name": "quirk-boundary-crlf-reference",
     "text": "radar-beta\r\n  axis bolygons[\"P\"], b\r\n  curve c{1, 2}\r\n"
+  },
+  {
+    "name": "quirk-boundary-keyword-tail",
+    "text": "radar-beta\n  axis polygonaxis[\"P\"], b\n  curve c{1, 2}"
+  },
+  {
+    "name": "quirk-boundary-keyword-tail-reference",
+    "text": "radar-beta\n  axis bolygonaxis[\"P\"], b\n  curve c{1, 2}"
+  },
+  {
+    "name": "quirk-boundary-first-entry",
+    "text": "radar-beta\n  axis trueA[\"A\"], b\n  curve c{ trueA: 1, b: 2 }"
+  },
+  {
+    "name": "quirk-boundary-first-entry-reference",
+    "text": "radar-beta\n  axis frueA[\"A\"], b\n  curve c{ frueA: 1, b: 2 }"
+  },
+  {
+    "name": "quirk-boundary-keyword-tail-curve",
+    "text": "radar-beta\n  axis a, b\n  curve falsecurve[\"F\"]{1, 2}"
+  },
+  {
+    "name": "quirk-boundary-keyword-tail-curve-reference",
+    "text": "radar-beta\n  axis a, b\n  curve talsecurve[\"F\"]{1, 2}"
   },
   {
     "name": "oracle-23-reference",

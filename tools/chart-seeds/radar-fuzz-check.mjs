@@ -2,10 +2,12 @@
 // ChartParityTests.Fuzz_deviations_are_the_stated_quirks: each case listed in tests/fixtures/charts/radar.fuzz-deviations.json
 // (the port's output) must be what Node draws once the input is corrected by hand for the stated quirks, using code
 // written apart from the port:
-//   R1 a name that starts with circle, polygon, true, false or title: its first letter becomes one of the same advance
-//      (c/k, p/b, t/f, f/t), which upstream reads as a name, and Node's output gets the word back;
-//   R2 an entity code in a label: the label written as the chart draws it (Mermaid's `#…;` codes as their characters, then
-//      HTML entities), so a "Missing entry" message names it decoded;
+//   RA1 a name that starts with circle, polygon, true, false or title: its first letter becomes one of the same advance
+//       (c/k, p/b, t/f, f/t), which upstream reads as a name, and Node's output gets the word back. The value of
+//       `graticule` or `showLegend` is not a name (the port reads it as upstream does, fix round 1), so it keeps its letter:
+//       a stand-in there would turn a glued value (`graticule polygonaxis`) into an error the port does not make;
+//   RA2 an entity code in a label: the label written as the chart draws it (Mermaid's `#…;` codes as their characters, then
+//       HTML entities), so a "Missing entry" message names it decoded;
 //   L1 (the line remap, UPSTREAM-007): an error's line is counted in the input as written. The checker prepares the text
 //      as Pele's core does (line breaks, front matter, directives, comment lines, leading blanks, entity placeholders),
 //      keeping where each character came from, checks that Node's snippet is that line of its preparation, and puts Node's
@@ -19,18 +21,18 @@ const fuzz = JSON.parse(fs.readFileSync('tests/goldens/charts/radar/fuzz.json', 
 const pinned = JSON.parse(fs.readFileSync('tests/fixtures/charts/radar.fuzz-deviations.json', 'utf8'));
 const run = (t) => { try { return compileExplainerChart(t); } catch (e) { return { thrown: { name: 'PeleError', message: e.message, code: e.code, line: e.line } }; } };
 
-// R1. The stand-in is the word with its first letter swapped; `words` records each one to swap back in Node's output.
+// RA1. The stand-in is the word with its first letter swapped; `words` records each one to swap back in Node's output.
 const STAND = { c: 'k', p: 'b', t: 'f', f: 't' };
-const R1 = /(?<![A-Za-z0-9_-])(?:circle|polygon|true|false|title)(?=[-A-Za-z0-9_]*[A-Za-z0-9_])[-A-Za-z0-9_]*/g;
+const RA1 = /(?<![A-Za-z0-9_-])(?:(?<!(?<![-A-Za-z0-9_])(?:graticule|showLegend)[\t ]+)(?:circle|polygon|true|false)|title)(?=[-A-Za-z0-9_]*[A-Za-z0-9_])[-A-Za-z0-9_]*/g;
 function standIns(text, words) {
-  return text.replace(R1, (word) => {
+  return text.replace(RA1, (word) => {
     const standIn = STAND[word[0]] + word.slice(1);
     words.set(standIn, word);
     return standIn;
   });
 }
 
-// R2. A label is `[` then a quoted string; its entity codes are written as their characters. A character that would read
+// RA2. A label is `[` then a quoted string; its entity codes are written as their characters. A character that would read
 // as something else in a label (a quote, a backslash, markup, another entity) leaves the case unchecked.
 const NAMED = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: '\u00a0', hearts: '\u2665', euro: '\u20ac' };
 const code = (n) => (/^\+?\d+$/.test(n) ? String.fromCodePoint(+n) : NAMED[n] ?? `&${n};`);
