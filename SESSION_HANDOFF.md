@@ -77,10 +77,12 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   the showcase.
 - Showcase: `showcase/explainer/` (four drafts, four pages, `index.html`), committed without `.delivery.json` sidecars.
   Pages serve from `master`, so the URLs answer 200 only after the merge and push (https://mbrekhof.github.io/Archify.Net/showcase/explainer/).
-- Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1034, Mcp 17, 0 failed, 0 warnings.
+- Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1037, Mcp 17, 0 failed, 0 warnings.
 - Decisions (Martin, 2026-10-24): gzip payload is .NET's stream; branch lane label `Branch N` for non-zh locales (archify#1082); default locale `en` (no issue); the explainer browser gate is compared by verdicts only.
-- Open: `patch` embeds a relative path to the deleted temporary `patched-draft.json` (mirrored from upstream; Martin's decision
-  pending). `viewer-target` is a stated platform difference of the headless shell, not an upstream defect. Parked items: card
+- UPSTREAM-016 (branch `upstream-016-patch-binding`, Martin's option a): a patched page no longer embeds the temporary
+  `patched-draft.json`; fixed, not mirrored ([archify#1085](https://github.com/tt-a1i/archify/issues/1085)), see
+  `docs/deviations.md`.
+- Open: `viewer-target` is a stated platform difference of the headless shell, not an upstream defect. Parked items: card
   PORT-013 (CARD-2523), listed in `docs/deviations.md`.
 
 ## Next

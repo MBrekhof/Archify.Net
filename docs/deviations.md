@@ -369,10 +369,6 @@ other CLI deviations, in the "Explainer documents" bullet of [CLI (phase 5)](#cl
   `JavaScriptEnabled = false`, console errors of the srcdoc Viewer are not collected (upstream's page session does not see
   them when the Viewer is out of process, which is the case on desktop Chrome; on the headless shell, where the Viewer is in
   process, upstream would record them), the Viewer has no target id, and `PressAsync(" ")` is Playwright's `Space`.
-- *`patch` and the temporary draft (mirrored from upstream for now):* `commandPatch` rebinds the bundle to a temporary
-  `patched-draft.json` (archify.mjs:5333-5334) and the delivered page embeds a relative path to that deleted file, so a patched
-  page is not byte-reproducible. The port does the same and the tests mask the path (`PatchedBinding` in
-  `ExplainerCommandTests`). Whether to keep this is Martin's open decision.
 - *Writing rule `ſ`:* `/iu` folds U+017F to `s` in V8 but .NET's `IgnoreCase` does not. It affects the English phrase rules only.
   Pinned by the `writing/rule-fold-long-s` known-deviation row and `Writing_rules_do_not_fold_long_s`. No upstream issue.
 
@@ -388,6 +384,18 @@ other CLI deviations, in the "Explainer documents" bullet of [CLI (phase 5)](#cl
   `patch/payload-twice`, `patch/payload-invalid-json` (known-deviation rows),
   `Patch_payload_failures_keep_their_own_message` and, at the CLI, `ExplainerCommandTests.Patch_of_a_native_page_keeps_the_ports_payload_message`.
   Filed upstream: [archify#1084](https://github.com/tt-a1i/archify/issues/1084).
+- *A patched page embeds the temporary draft (UPSTREAM-016):* `commandPatch` writes the patched draft to an owned temp directory
+  and rebinds the bundle with `inputPath` = that `patched-draft.json` (archify.mjs:5330-5335) so its child `deliver` accepts it;
+  the page then carries that path (relative to the page, so outside the temp folder it names the user's profile) and a bundle
+  digest over it, so it names a deleted file and two identical patches give different bytes. The port's deliver drops the
+  binding once it has read the bundle against the draft (`ExplainerPipeline.Unbind`, called from `ExplainerInput.Prepare`): the
+  page's bundle is bound to the original draft through `sourcePath` only, as a delivered page's is, and is signed again; the
+  receipt's `explainer.preparedSha256` is that bundle's digest. `data-revision`, the manifest and the receipt's `revision` and
+  `sourceSha256` do not depend on the binding. The receipt and provenance `input` still name the temporary draft, as upstream's
+  do. Pinned by the `explainer/patch-json` and `explainer/patch-human` known-deviation rows
+  (`Patched_rows_match_node_but_the_temp_binding`), `Patched_page_does_not_embed_the_temp_draft`,
+  `Patching_twice_gives_identical_pages` and `Patched_page_passes_check_and_patches_again`. Filed upstream:
+  [archify#1085](https://github.com/tt-a1i/archify/issues/1085).
 
 ### Known leftovers (PORT-013)
 

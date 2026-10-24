@@ -18,6 +18,8 @@ public partial class ExplainerCommandTests
     [
         "explainer/render-front-matter",      // render-uncaught: Node prints a raw stack
         "explainer/patch-native-page-json",   // patch-payload-message (Task 6): upstream reports the gzip message
+        "explainer/patch-json",               // patch-binding (UPSTREAM-016, #1085): upstream's page embeds the temp draft
+        "explainer/patch-human",              // patch-binding
     ];
 
     sealed record Fixture(CliFixture Cli, List<string> Entries, Dictionary<string, string> Sidecars, string? Page);
@@ -84,6 +86,90 @@ public partial class ExplainerCommandTests
         // The receipt around the diagnostic is Node's.
         foreach (var key in new[] { "error", "diagnostics" }) { node.AsObject().Remove(key); port.AsObject().Remove(key); }
         Assert.Equal(Js.Stringify(node), Js.Stringify(port));
+    }
+
+    // UPSTREAM-DEVIATION patch-binding (UPSTREAM-016, tt-a1i/archify#1085): commandPatch rebinds the bundle to its temporary
+    // patched-draft.json (A:5333-5334) so the in-process deliver accepts it, and upstream's page then carries that `inputPath` and a
+    // digest over it. The port's patched page is bound as a delivered page is: `sourcePath` only.
+    static readonly Dictionary<string, string> PatchFiles = new()
+    {
+        ["author.json"] = "tests/fixtures/cli/inputs/explainer/patch-author.json",
+        ["replacement.json"] = "tests/fixtures/cli/inputs/explainer/patch-replacement.json",
+    };
+
+    static JsonArray Steps(params string[][] runs) => [.. runs.Select(run => (JsonNode)new JsonObject { ["run"] = new JsonArray([.. run.Select(a => (JsonNode)a)]), ["exit"] = 0.0 })];
+
+    static readonly string[] DeliverPage = ["deliver", "explainer", "author.json", "page.html", "--json"];
+
+    // Node's patched rows: everything but the page is Node's; the page is Node's without its `inputPath`, the bundle digest (which
+    // follows the binding, masked in Node's golden) compared by Patched_page_passes_check_and_patches_again instead.
+    [Theory, InlineData("explainer/patch-json"), InlineData("explainer/patch-human")]
+    public void Patched_rows_match_node_but_the_temp_binding(string name)
+    {
+        var fixture = Load(name);
+        var (exit, stdout, stderr, entries, sidecars, page) = Run(fixture);
+        Assert.Equal((fixture.Cli.Stdout, fixture.Cli.Stderr, fixture.Cli.Exit), (stdout, stderr, exit));
+        Assert.Equal(fixture.Entries, entries);
+        Assert.Equal(fixture.Sidecars, sidecars);
+        const string binding = "\"digest\":\"<digest>\",\"inputPath\":\"<TMP>\\\\patched-draft.json\"}</script>";
+        Assert.Equal(2, fixture.Page!.Split(binding).Length);
+        var digest = new Regex("\"digest\":\"[0-9a-f]{64}\"}</script>");
+        Assert.Single(digest.Matches(page!));
+        Assert.Equal(fixture.Page.Replace(binding, "\"digest\":\"<digest>\"}</script>"), digest.Replace(page!, "\"digest\":\"<digest>\"}</script>"));
+    }
+
+    static string[] Patch(string from, string to) => ["patch", "explainer", from, "first", "replacement.json", to, "--json"];
+
+    // The page's prepared bundle (packed, as it is embedded).
+    static JsonObject PreparedOf(string html) => JsonNode.Parse(ExplainerPipeline.ScanIds(html).Prepared!)!.AsObject();
+
+    [Fact]
+    public void Patched_page_does_not_embed_the_temp_draft()
+    {
+        string original = "", patched = "";
+        var (exit, _, _) = CliTestHost.Run(Patch("page.html", "out.html"), PatchFiles, setup: Steps(DeliverPage), inspect: work =>
+        {
+            original = File.ReadAllText(Path.Join(work, "page.html"));
+            patched = File.ReadAllText(Path.Join(work, "out.html"));
+        });
+        Assert.Equal(0, exit);
+        Assert.DoesNotContain("\"inputPath\"", patched, StringComparison.Ordinal);
+        Assert.DoesNotContain("archify-explainer-patch-", patched, StringComparison.Ordinal);
+        Assert.DoesNotContain(Temp, patched, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain(Temp.Replace("\\", "\\\\"), patched, StringComparison.OrdinalIgnoreCase);
+        var (before, after) = (PreparedOf(original), PreparedOf(patched));
+        Assert.Equal(before.Select(kv => kv.Key), after.Select(kv => kv.Key));
+        Assert.Equal(before["sourcePath"]!.GetValue<string>(), after["sourcePath"]!.GetValue<string>());
+    }
+
+    [Fact]
+    public void Patching_twice_gives_identical_pages()
+    {
+        byte[] first = [], second = [];
+        var (exit, _, _) = CliTestHost.Run(Patch("page.html", "second.html"), PatchFiles, setup: Steps(DeliverPage, Patch("page.html", "first.html")), inspect: work =>
+        {
+            first = File.ReadAllBytes(Path.Join(work, "first.html"));
+            second = File.ReadAllBytes(Path.Join(work, "second.html"));
+        });
+        Assert.Equal(0, exit);
+        Assert.Equal(first, second);
+    }
+
+    [Fact]
+    public void Patched_page_passes_check_and_patches_again()
+    {
+        var checks = new List<(int Exit, string Output)>();
+        var (exit, stdout, _) = CliTestHost.Run(Patch("out.html", "again.html"), PatchFiles, setup: Steps(DeliverPage, Patch("page.html", "out.html")), inspect: work =>
+        {
+            foreach (var args in new[] { new[] { "check", "out.html", "--json", "--require-provenance" }, ["check", "again.html", "--json", "--require-provenance"] })
+            {
+                var output = new StringWriter();
+                checks.Add((Cli.Run(args, new CliIo(output, output, work, CliServices.Default)), output.ToString()));
+            }
+            Assert.DoesNotContain("\"inputPath\"", File.ReadAllText(Path.Join(work, "again.html")), StringComparison.Ordinal);
+        });
+        Assert.True(exit == 0, stdout);
+        Assert.All(checks, check => Assert.True(check.Exit == 0, check.Output));
     }
 
     // doctor: upstream's explainer lines (A:6151, :6168-6170) and the port's Q3 forms of them.
@@ -184,14 +270,14 @@ public partial class ExplainerCommandTests
         _ => value?.DeepClone(),
     };
 
-    // NormalizePage (Decision 1), then a patched page's temporary binding: its `inputPath` and the digest it follows.
-    static string PortablePage(string html) => PatchedBinding().Replace(PackedChild().Replace(html, m =>
+    // NormalizePage (Decision 1). No path is masked: the port's patched page carries none (UPSTREAM-016).
+    static string PortablePage(string html) => PackedChild().Replace(html, m =>
     {
         using var gzip = new GZipStream(new MemoryStream(Convert.FromBase64String(m.Groups[1].Value)), CompressionMode.Decompress);
         using var inflated = new MemoryStream();
         gzip.CopyTo(inflated);
         return $"\"htmlGzip\":\"gz-sha256:{Convert.ToHexStringLower(SHA256.HashData(inflated.ToArray()))}\"";
-    }), "\"digest\":\"<digest>\",\"inputPath\":\"<TMP>");
+    });
 
     [GeneratedRegex("[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}", RegexOptions.IgnoreCase)]
     private static partial Regex UuidV4();
@@ -201,7 +287,4 @@ public partial class ExplainerCommandTests
 
     [GeneratedRegex("\"htmlGzip\":\"([A-Za-z0-9+/=]*)\"")]
     private static partial Regex PackedChild();
-
-    [GeneratedRegex("\"digest\":\"[0-9a-f]{64}\",\"inputPath\":\"[^\"]*?archify-explainer-patch-[A-Za-z0-9._]+")]
-    private static partial Regex PatchedBinding();
 }

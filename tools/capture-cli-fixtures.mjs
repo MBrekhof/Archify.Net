@@ -1336,11 +1336,13 @@ async function explainerGroup() {
     return `${JSON.stringify(value, null, t.includes('\n  ') ? 2 : undefined)}\n`;
   };
   // A patched page's bundle is bound to the temporary draft (A:5333-5334): its `inputPath`, relative to the page, names that
-  // directory, and the bundle digest after which it is appended covers it. Both are masked there, and only there.
+  // directory, and the bundle digest after which it is appended covers it. Both are masked there, and only there; the path may
+  // climb only `..\` segments to the temp root (each workdir sits in it), so no other path can hide behind the mask. The port's
+  // page has no such binding (UPSTREAM-016, tt-a1i/archify#1085) and compares these rows as known deviations.
   const portablePage = (html, work) => tokenise(html, work)
     .replace(/"htmlGzip":"([A-Za-z0-9+/=]*)"/gu,
       (_, base64) => `"htmlGzip":"gz-sha256:${createHash('sha256').update(gunzipSync(Buffer.from(base64, 'base64'))).digest('hex')}"`)
-    .replace(/"digest":"[0-9a-f]{64}","inputPath":"[^"]*?archify-explainer-patch-[A-Za-z0-9._]+/gu, '"digest":"<digest>","inputPath":"<TMP>');
+    .replace(/"digest":"[0-9a-f]{64}","inputPath":"(?:\.\.\\\\)*archify-explainer-patch-[A-Za-z0-9._]+/gu, '"digest":"<digest>","inputPath":"<TMP>');
   const seed = (work, files) => {
     for (const [dest, src] of Object.entries(files)) {
       fs.mkdirSync(path.dirname(path.join(work, dest)), { recursive: true });

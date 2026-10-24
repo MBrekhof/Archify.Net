@@ -59,6 +59,20 @@ public static class ExplainerPipeline
         return next;
     }
 
+    /// <summary>The bundle without the draft-copy binding <see cref="Rebind"/> added, signed again: bound to its original draft through
+    /// <c>sourcePath</c> only, as a bundle prepared from a draft is. A bundle without <c>inputPath</c> comes back unchanged.</summary>
+    /// <remarks>UPSTREAM-DEVIATION patch-binding (UPSTREAM-016, tt-a1i/archify#1085): upstream's patched page embeds the temporary
+    /// patched-draft.json as <c>inputPath</c>, and its digest covers it, so the page names a deleted directory and two equal patches
+    /// differ. The port drops the binding once deliver has read the bundle against that draft.</remarks>
+    public static JsonObject Unbind(JsonObject bundle)
+    {
+        if (!bundle.ContainsKey("inputPath")) return bundle;
+        var next = bundle.DeepClone().AsObject();
+        next.Remove("inputPath");
+        next["digest"] = ExplainerPrepare.Digest(next);
+        return next;
+    }
+
     /// <summary>computeExplainerRevision(bundle): the authored-content identity a page carries as data-revision.</summary>
     public static string Revision(JsonObject bundle) => ExplainerBundle.Revision(bundle);
 }

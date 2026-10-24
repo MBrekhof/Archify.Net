@@ -21,8 +21,9 @@ static class ExplainerInput
                 new JsonObject { ["input"] = inputPath, ["line"] = 1, ["component"] = "document" },
                 new JsonObject { ["reason"] = "invalid-utf8", ["example"] = example }, [example], null)]);
         }
+        // UPSTREAM-DEVIATION patch-binding (UPSTREAM-016): patch's temporary draft binding is read, then dropped from what is delivered.
         return prepared is not null
-            ? ExplainerPipeline.ReadPrepared(prepared, text, inputPath, new ReadPreparedOptions(inputPath, Quality: quality, WritingMode: writingMode ?? "warn"))
+            ? ExplainerPipeline.Unbind(ExplainerPipeline.ReadPrepared(prepared, text, inputPath, new ReadPreparedOptions(inputPath, Quality: quality, WritingMode: writingMode ?? "warn")))
             : ExplainerPipeline.Prepare(text, new PrepareOptions(inputPath, RepoRoot: repoRoot, Quality: quality, WritingMode: writingMode ?? "warn"));
     }
 
