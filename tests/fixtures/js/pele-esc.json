@@ -148,6 +148,51 @@
     "escText": "xy"
   },
   {
+    "s": "a￾b￿c",
+    "esc": "a￾b￿c",
+    "escText": "a￾b￿c"
+  },
+  {
+    "s": "x\udc00y",
+    "esc": "x\udc00y",
+    "escText": "x\udc00y"
+  },
+  {
+    "s": "ab\ud83d",
+    "esc": "ab\ud83d",
+    "escText": "ab\ud83d"
+  },
+  {
+    "s": "\udc00\ud800",
+    "esc": "\udc00\ud800",
+    "escText": "\udc00\ud800"
+  },
+  {
+    "s": "#65534;",
+    "esc": "#65534;",
+    "escText": "#65534;"
+  },
+  {
+    "s": "&#65535;",
+    "esc": "&amp;#65535;",
+    "escText": "￿"
+  },
+  {
+    "s": "&#xFFFE;",
+    "esc": "&amp;#xFFFE;",
+    "escText": "￾"
+  },
+  {
+    "s": "�￼퟿",
+    "esc": "�￼퟿",
+    "escText": "�￼퟿"
+  },
+  {
+    "s": "😀😀",
+    "esc": "😀😀",
+    "escText": "😀😀"
+  },
+  {
     "s": "a\u0000b",
     "esc": "ab",
     "escText": "ab"

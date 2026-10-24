@@ -18,10 +18,13 @@ internal static partial class Pele
             var seen = new HashSet<string>(StringComparer.Ordinal);
             foreach (var (label, value) in ast.Sections)
             {
+                // Deviation PORT-011 (PORT-008 Task 11): upstream writes the label as parsed (model.ts:18), so a Mermaid code shows as
+                // its placeholder (`#35;x` as `ﬂ°°35¶ßx`) and an HTML entity as typed. The port names the slice as the chart draws
+                // it, as radar (RA2) and venn (VN3) do.
                 if (value < 0)
                 {
                     throw new PeleException(
-                        $"\"{label}\" has invalid value: {Js.Num(value)}. Negative values are not allowed in pie charts. All slice values must be >= 0.",
+                        $"\"{Entities.AsDrawn(label)}\" has invalid value: {Js.Num(value)}. Negative values are not allowed in pie charts. All slice values must be >= 0.",
                         "semantic");
                 }
                 if (seen.Add(label)) sections.Add((label, value));

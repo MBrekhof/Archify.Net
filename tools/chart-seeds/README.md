@@ -157,6 +157,13 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   the sankey checker puts Node's error and the S4 value on the input's line with its own map. venn never fails on the
   EOF token (Pele's appended line break is a NEWLINE token first), so its `control-venn-error-then-*` rows are controls,
   and `venn-error-at-text-end-after-comment` is an error on that appended line break, reported on the last content line.
+- `fixes` (the final wave, after Task 10): rows for three upstream defects the port fixes, kept out of the type groups so
+  that they add nothing to any fuzz corpus. `xml-*` (UPSTREAM-008): U+FFFE, U+FFFF and lone surrogate halves, typed or as
+  a code, in every place each type writes text; `ChartParityTests.Xml_invalid_characters_are_dropped` checks that the port
+  gives Node's output without them, and `xml-control-*` (an emoji, U+FFFD, U+FFFC, U+10FFFF, `&#xFFFE;`) still equal Node.
+  `message-pie-*` (PORT-011): the pie "has invalid value" message names the label as drawn; each row's `-reference` is
+  the label written that way, and the `control-*` rows equal Node. `overflow-radar-*` (PORT-011): a radar value near
+  1e308; the `-reference` rows are the same charts scaled down, and `overflow-radar-control-large` equals Node.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).

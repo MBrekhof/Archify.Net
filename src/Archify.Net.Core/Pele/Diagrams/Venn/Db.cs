@@ -59,8 +59,7 @@ internal static partial class Pele
                 // a line break written back as its code (`#10;`, `#13;`): the message is shown up to its first line break.
                 if (unknown.Count > 0)
                 {
-                    var named = unknown.Select(id => Entities.DecodeEntities(id).Replace("\n", "#10;", StringComparison.Ordinal).Replace("\r", "#13;", StringComparison.Ordinal));
-                    throw new PeleException($"unknown set identifier: {string.Join(", ", named)}", "semantic");
+                    throw new PeleException($"unknown set identifier: {string.Join(", ", unknown.Select(Entities.AsDrawn))}", "semantic");
                 }
             }
 

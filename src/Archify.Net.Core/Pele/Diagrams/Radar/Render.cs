@@ -22,7 +22,11 @@ internal static partial class Pele
         static double RelativeRadius(double value, double min, double max, double radius)
         {
             var clipped = Math.Min(Math.Max(value, min), max);
-            return radius * (clipped - min) / (max - min);
+            // Deviation (PORT-008 Task 11, PORT-011): upstream multiplies first (render.ts:27), so near 1e308 the product is
+            // Infinity and the point is drawn at the centre (render.ts:119). When it overflows the port divides first; every
+            // other value keeps upstream's arithmetic.
+            var scaled = radius * (clipped - min);
+            return double.IsInfinity(scaled) ? radius * ((clipped - min) / (max - min)) : scaled / (max - min);
         }
 
         // A closed Catmull-Rom spline through the points, as cubic Bézier segments.

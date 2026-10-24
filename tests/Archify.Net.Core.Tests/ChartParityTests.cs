@@ -8,7 +8,7 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "radar", "venn", "lines"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "radar", "venn", "lines", "fixes"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
     static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
@@ -23,6 +23,8 @@ public class ChartParityTests
         .. RadarBoundaryRows.Select(row => ("radar", row.Name)),
         .. VennSwapRows.Select(row => ("venn", row.Name)), .. VennMessageRows.Select(row => ("venn", row.Name)),
         .. LineRemapRows.Select(row => (row.Group, row.Name)),
+        .. XmlRows, .. PieMessageRows.Select(row => ("fixes", row.Name)), .. PieMessagePinnedRows.Select(row => ("fixes", row.Name)),
+        .. RadarOverflowRows.Select(row => (row.Group, row.Name)),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
     // Fuzz_deviations_are_the_stated_quirks.
@@ -35,7 +37,7 @@ public class ChartParityTests
             [265] = "L1", [279] = "L1", [303] = "L1", [315] = "L1", [321] = "L1", [327] = "L1", [329] = "L1", [338] = "L1",
             [355] = "L1", [367] = "L1", [413] = "L1", [417] = "L1", [450] = "L1", [457] = "L1", [492] = "L1", [504] = "L1",
             [509] = "L1", [525] = "L1", [538] = "L1", [544] = "L1", [552] = "L1", [556] = "L1", [563] = "L1", [567] = "L1",
-            [584] = "L1", [602] = "L1", [608] = "L1", [621] = "L1", [639] = "L1", [687] = "L1", [697] = "L1", [705] = "L1",
+            [584] = "L1", [602] = "L1", [608] = "L1", [621] = "L1", [639] = "L1", [687] = "L1", [697] = "L1", [702] = "PL", [705] = "L1",
             [712] = "L1", [713] = "L1", [720] = "L1", [739] = "L1", [742] = "L1", [744] = "L1", [770] = "L1", [777] = "L1",
             [818] = "L1", [827] = "L1", [841] = "L1", [853] = "L1", [856] = "L1", [880] = "L1", [883] = "L1", [908] = "L1",
             [914] = "L1", [916] = "L1", [943] = "L1", [962] = "L1", [989] = "L1",
@@ -583,6 +585,93 @@ public class ChartParityTests
         }
     }
 
+    // UPSTREAM-008 (CARD-2391; final wave): upstream's esc() drops only the C0 controls XML forbids and DEL, so U+FFFE, U+FFFF
+    // and a lone surrogate half (typed, or decoded from `#65534;`, `&#65535;`) reach the SVG, in every type and every place
+    // text is written (labels, titles, accTitle/accDescr, data-id, sankey's prefix and suffix). Pele 1.9.0 still does; only its
+    // sankey name check rejects them. The port's Builder.Esc drops them too. Text is measured before it is escaped, so each
+    // row's port output is Node's with those characters taken out of the SVG. The `fixes/xml-control-*` rows (an emoji, as
+    // typed and as a code, U+FFFD, U+FFFC, U+10FFFF, `&#xFFFE;`, which Mermaid's encoding leaves undecoded) equal Node.
+    internal static readonly Regex ReXmlInvalid = new(@"[￾￿]|[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]");
+    static (string Group, string Name)[] XmlRows =>
+    [
+        ("radar", "labels-xml-invalid-fffe"), ("venn", "id-xml-invalid"), ("venn", "label-xml-invalid-fffe"),
+        .. SeedsOf("fixes").Select(seed => seed!["name"]!.GetValue<string>())
+            .Where(name => name.StartsWith("xml-", StringComparison.Ordinal) && !name.StartsWith("xml-control-", StringComparison.Ordinal))
+            .Select(name => ("fixes", name)),
+    ];
+
+    [Fact] public void Xml_invalid_characters_are_dropped()
+    {
+        Assert.True(XmlRows.Length > 30, $"{XmlRows.Length} rows");
+        foreach (var (group, name) in XmlRows)
+        {
+            var node = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden(group, name)))!;
+            var svg = node["svg"]!.GetValue<string>();
+            Assert.True(ReXmlInvalid.IsMatch(svg), $"{group}/{name}: Node writes no XML-invalid character");
+            node["svg"] = ReXmlInvalid.Replace(svg, "");
+            Assert.Equal(ExplainerCharts.Json(node), Run(Seed(group, name)));
+        }
+        foreach (var seed in SeedsOf("fixes").Cast<JsonObject>().Select(seed => seed["name"]!.GetValue<string>()).Where(name => name.StartsWith("xml-control-", StringComparison.Ordinal)))
+            Assert.DoesNotMatch(ReXmlInvalid, Fixtures.Lf(Golden("fixes", seed)));
+        // A pair stays; a lone half goes, and so does a low half written before a high one.
+        Assert.Equal("a😀b&amp;", Pele.Builder.Esc("a￾😀￿b\ud800&\udc00"));
+        Assert.Equal("", Pele.Builder.Esc("\udc00\ud800"));
+    }
+
+    // PORT-011 (CARD-2393), pie: model.ts:18 writes the label as parsed in the "has invalid value" message, so a Mermaid code
+    // shows as its placeholder (`#35;x` as `ﬂ°°35¶ßx`) and an HTML entity as typed. The port names the slice as the chart
+    // draws it (Entities.AsDrawn, as radar RA2 and venn VN3), with a line break written back as its code. Each row's port
+    // output is Node's for its reference, the label written as drawn; the pinned rows' message is written here, as no Node
+    // input gives it. Fuzz cases: PL. `fixes/message-pie-control-*` (a plain label, an entity that does not decode) equal Node.
+    static (string Name, string Reference)[] PieMessageRows =>
+        [.. new[] { "code", "named-code", "html-lt", "numeric-html" }.Select(name => ($"message-pie-{name}", $"message-pie-{name}-reference"))];
+    // `&amp;amp;x` is drawn `&amp;x`, which the port would decode again in a reference row, and a line break would end the
+    // message (charts.mjs shows its first line).
+    static (string Name, string Message)[] PieMessagePinnedRows =>
+    [
+        ("message-pie-html", "\"&amp;x\" has invalid value: -1. Negative values are not allowed in pie charts. All slice values must be >= 0."),
+        ("message-pie-line-break", "\"a#10;b\" has invalid value: -1. Negative values are not allowed in pie charts. All slice values must be >= 0."),
+        ("message-pie-code-line-break", "\"a#10;b\" has invalid value: -1. Negative values are not allowed in pie charts. All slice values must be >= 0."),
+    ];
+
+    [Fact] public void Pie_invalid_value_names_the_label_as_drawn()
+    {
+        foreach (var (name, reference) in PieMessageRows)
+        {
+            var expected = Fixtures.Lf(Golden("fixes", reference));
+            Assert.NotEqual(expected, Fixtures.Lf(Golden("fixes", name)));
+            Assert.Equal("PL", QuirkIn("pie", Seed("fixes", name)["text"]!.GetValue<string>(), Fixtures.Lf(Golden("fixes", name))));
+            Assert.Contains("has invalid value", expected);
+            Assert.Equal(expected, Run(Seed("fixes", name)) + "\n");
+        }
+        foreach (var (name, message) in PieMessagePinnedRows)
+        {
+            var node = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden("fixes", name)))!;
+            Assert.NotEqual(message, node["error"]!.GetValue<string>());
+            Assert.Equal("PL", QuirkIn("pie", Seed("fixes", name)["text"]!.GetValue<string>(), Fixtures.Lf(Golden("fixes", name))));
+            node["error"] = message;
+            Assert.Equal(ExplainerCharts.Json(node), Run(Seed("fixes", name)));
+        }
+    }
+
+    // PORT-011, radar: relativeRadius (render.ts:25-28) multiplies by the radius before it divides by the range, so near 1e308
+    // the product is Infinity and render.ts:119 draws the point at the centre. The port divides first when the product
+    // overflows. Each row's port output is Node's for its reference, the same chart scaled down; `fixes/overflow-radar-control-large`
+    // (1e300, no overflow) equals Node.
+    static (string Group, string Name, string Reference)[] RadarOverflowRows =>
+    [
+        ("radar", "values-overflow-radius", "overflow-radar-reference"), ("fixes", "overflow-radar-half", "overflow-radar-half-reference"),
+    ];
+
+    [Fact] public void Radar_overflow_is_the_stated_deviation()
+    {
+        foreach (var (group, name, reference) in RadarOverflowRows)
+        {
+            Assert.Contains("d=\\\"M0,0 C0,0 0,0 0,0 C0,0 0,0 0,0 Z\\\"", Fixtures.Lf(Golden(group, name)));   // Node: at the centre
+            Assert.Equal(Fixtures.Lf(Golden("fixes", reference)), Run(Seed(group, name)) + "\n");
+        }
+    }
+
     // UPSTREAM-007 (mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in the text the diagram parsed,
     // after front matter, `%%` comment lines, directives and leading blank lines (and in sankey blank lines and, with S1,
     // rows of blanks) are gone, and archify's pie legend drops a `showData` written on a later line than `pie` with the line
@@ -957,6 +1046,9 @@ public class ChartParityTests
             RadarLabelEntity(text) && (node is null || node.Contains("Missing entry for axis", StringComparison.Ordinal)) ? "RA2" : ""),
         "venn" => string.Concat(ReVennQ1.IsMatch(text) ? "Q1" : "", ReVennKeywordDash.IsMatch(text) ? "VN1" : "", ReVennTitleBreak.IsMatch(text) ? "VN2" : "",
             VennIdEntity(text) && (node is null || node.Contains("unknown set identifier", StringComparison.Ordinal)) ? "VN3" : ""),
+        // PL (PORT-011): a quoted label as VN3 reads one, and, where Node's result is given, Node's "has invalid value" message,
+        // the only error that starts with a quote (cut at the label's line break, it is no more than that).
+        "pie" => VennIdEntity(text) && (node is null || node.Contains("\"error\": \"\\\"", StringComparison.Ordinal)) ? "PL" : "",
         _ => "",
     };
 

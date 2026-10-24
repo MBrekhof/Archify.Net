@@ -84,5 +84,10 @@ internal static partial class Pele
             }
             return text;
         }
+
+        // A name in an error message as the chart draws it: codes and entities decoded, but a line break written back as its
+        // code (`#10;`, `#13;`), because the message is shown up to its first line break (venn VN3, pie PORT-011).
+        public static string AsDrawn(string text) =>
+            DecodeEntities(text).Replace("\n", "#10;", StringComparison.Ordinal).Replace("\r", "#13;", StringComparison.Ordinal);
     }
 }

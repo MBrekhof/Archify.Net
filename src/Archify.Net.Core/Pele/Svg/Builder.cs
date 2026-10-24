@@ -9,18 +9,25 @@ internal static partial class Pele
     internal static class Builder
     {
         // Escapes text for XML and drops the control characters XML does not allow (builder.ts:8-15).
+        // Deviation UPSTREAM-008 (PORT-008 Task 11): upstream drops only those controls and DEL, so U+FFFE, U+FFFF and a lone
+        // surrogate half (typed, or from an entity such as `#65534;`) reach the SVG, which is then not well-formed XML. The
+        // port drops them too, here, where every text and attribute value the SVG holds passes. Text is measured before it
+        // is escaped, so the layout stays upstream's.
         public static string Esc(string text)
         {
             var sb = new StringBuilder(text.Length);
-            foreach (var c in text)
+            for (var k = 0; k < text.Length; k++)
             {
+                var c = text[k];
                 switch (c)
                 {
                     case '&': sb.Append("&amp;"); break;
                     case '<': sb.Append("&lt;"); break;
                     case '>': sb.Append("&gt;"); break;
                     case '"': sb.Append("&quot;"); break;
-                    case <= '\u0008' or '\u000b' or '\u000c' or >= '\u000e' and <= '\u001f' or '\u007f': break;
+                    case <= '\u0008' or '\u000b' or '\u000c' or >= '\u000e' and <= '\u001f' or '\u007f' or '￾' or '￿': break;
+                    case >= '\ud800' and <= '\udbff' when k + 1 < text.Length && char.IsLowSurrogate(text[k + 1]): sb.Append(c).Append(text[++k]); break;
+                    case >= '\ud800' and <= '\udfff': break;
                     default: sb.Append(c); break;
                 }
             }

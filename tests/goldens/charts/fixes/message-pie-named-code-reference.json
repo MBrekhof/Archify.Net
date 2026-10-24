@@ -1,0 +1,5 @@
+{
+  "error": "\"c&d\" has invalid value: -2. Negative values are not allowed in pie charts. All slice values must be >= 0.",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

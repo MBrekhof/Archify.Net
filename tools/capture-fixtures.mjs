@@ -2091,7 +2091,9 @@ write('fixtures/js/pele-num.json', peleNums.map((v) => [peleNumIn(v), P.num(v)])
 // esc() / escText(): every control character, the four escaped ones, entity codes and placeholders.
 const peleEscIn = ['', 'plain', 'a&b', '<tag>', '"q"', "'s'", 'a\x01\x02b', '\t\n\r', '\x7f', '&amp;', '&#35;', '&#x41;',
   '&nbsp;x', '&unknown;', '&Alpha;&alpha;', 'ﬂ°quot¶ß', 'ﬂ°°35¶ß', 'ﬂ°°1.5¶ß', '\u2028\u2029', '\uFEFF', '\ud800x', '😀',
-  '&#0;', '&#55296;', '&#1114111;', '&#1114112;', '&#x110000;', '&lt;b&gt;', 'x\x00\x0b\x0c\x0e\x1fy'];
+  '&#0;', '&#55296;', '&#1114111;', '&#1114112;', '&#x110000;', '&lt;b&gt;', 'x\x00\x0b\x0c\x0e\x1fy',
+  // UPSTREAM-008: characters XML forbids past the controls, which the port drops too, and the valid ones next to them.
+  'a￾b￿c', 'x\udc00y', 'ab\ud83d', '\udc00\ud800', '#65534;', '&#65535;', '&#xFFFE;', '�￼퟿', '😀😀'];
 for (let c = 0; c < 32; c++) peleEscIn.push('a' + String.fromCharCode(c) + 'b');
 write('fixtures/js/pele-esc.json', peleEscIn.map((s) => ({ s, esc: P.esc(s), escText: peleTry(() => P.escText(s)) })));
 

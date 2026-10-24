@@ -39,10 +39,15 @@ public class PeleCoreTests
     [Fact]
     public void Esc_and_escText_match_V8()
     {
-        AllMatch(A(Load("pele-esc.json")).SelectMany(r => new[]
+        // UPSTREAM-008: V8's output with the characters XML forbids past the controls (U+FFFE, U+FFFF, lone surrogate halves)
+        // taken out, which the port drops too (ChartParityTests.Xml_invalid_characters_are_dropped).
+        static string Xml(string s) => ChartParityTests.ReXmlInvalid.Replace(s, "");
+        var rows = A(Load("pele-esc.json"));
+        Assert.True(rows.Count(r => Xml(S(r!["esc"])) != S(r["esc"])) >= 5);
+        AllMatch(rows.SelectMany(r => new[]
         {
-            ("esc " + Q(S(r!["s"])), Q(S(r["esc"])), Q(Pele.Builder.Esc(S(r["s"])))),
-            ("escText " + Q(S(r["s"])), Js.Stringify(r["escText"]), Js.Stringify(Try(() => Pele.Builder.EscText(S(r["s"]))))),
+            ("esc " + Q(S(r!["s"])), Q(Xml(S(r["esc"]))), Q(Pele.Builder.Esc(S(r["s"])))),
+            ("escText " + Q(S(r["s"])), Js.Stringify(r["escText"] is JsonValue v && v.TryGetValue<string>(out var t) ? JsonValue.Create(Xml(t)) : r["escText"]), Js.Stringify(Try(() => Pele.Builder.EscText(S(r["s"]))))),
         }), 120);
     }
 
