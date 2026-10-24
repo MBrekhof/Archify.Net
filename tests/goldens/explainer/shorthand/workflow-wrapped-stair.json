@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "stair",
+    "output": "stair.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    {
+      "id": "lane-0",
+      "label": "stair · 1"
+    },
+    {
+      "id": "lane-1",
+      "label": "stair · 2"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "a",
+      "label": "A",
+      "type": "backend",
+      "col": 0,
+      "lane": "lane-0"
+    },
+    {
+      "id": "b",
+      "label": "B",
+      "type": "backend",
+      "col": 1,
+      "lane": "lane-0"
+    },
+    {
+      "id": "c",
+      "label": "C",
+      "type": "backend",
+      "col": 2,
+      "lane": "lane-0"
+    },
+    {
+      "id": "d",
+      "label": "D",
+      "type": "backend",
+      "col": 3,
+      "lane": "lane-0"
+    },
+    {
+      "id": "e",
+      "label": "E",
+      "type": "backend",
+      "col": 4,
+      "lane": "lane-0"
+    },
+    {
+      "id": "f",
+      "label": "F",
+      "type": "backend",
+      "col": 4,
+      "lane": "lane-1"
+    },
+    {
+      "id": "g",
+      "label": "G",
+      "type": "backend",
+      "col": 5,
+      "lane": "lane-1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "a-to-b-1",
+      "from": "a",
+      "to": "b"
+    },
+    {
+      "id": "b-to-c-1",
+      "from": "b",
+      "to": "c"
+    },
+    {
+      "id": "c-to-d-1",
+      "from": "c",
+      "to": "d"
+    },
+    {
+      "id": "d-to-e-1",
+      "from": "d",
+      "to": "e"
+    },
+    {
+      "id": "e-to-f-1",
+      "from": "e",
+      "to": "f"
+    },
+    {
+      "id": "f-to-g-1",
+      "from": "f",
+      "to": "g"
+    }
+  ]
+}

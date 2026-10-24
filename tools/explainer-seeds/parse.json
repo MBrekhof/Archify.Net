@@ -624,7 +624,14 @@
     "name": "fail-answer-two-paragraphs",
     "call": "parseExplainer",
     "args": [
-      "# T\n\nOne.\n\n@answer scope=\"s\"\nTwo.\n\n## Q\n\nText."
+      "# T\n\nOne.\n\nTwo.\n\n## Q\n\nText."
+    ]
+  },
+  {
+    "name": "fail-answer-missing",
+    "call": "parseExplainer",
+    "args": [
+      "# T\n\n## Q\n\nText."
     ]
   },
   {

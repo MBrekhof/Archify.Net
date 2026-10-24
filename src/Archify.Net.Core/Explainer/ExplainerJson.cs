@@ -7,7 +7,7 @@ namespace Archify.Net;
 // V8's JSON.parse (json-parser.cc, Node 24): the document in V8 property order (array-index keys ascending, then the rest in
 // insertion order; a duplicate key takes the last value at its first position) and V8's error message, whose position
 // parse.mjs:78-80 turns into a line. The parse is written from V8's own scanner, so the message kinds and positions match
-// (pinned by ExplainerJsonTests against Node).
+// (pinned against Node by the parse group's json-error-* rows, tools/explainer-seeds/parse.json).
 internal static partial class ExplainerJson
 {
     // ponytail: recursive, where V8 is iterative. Deeper nesting reports a message without a position (line 1), which is also

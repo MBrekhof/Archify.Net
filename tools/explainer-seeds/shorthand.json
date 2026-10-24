@@ -1008,6 +1008,110 @@
     ]
   },
   {
+    "name": "workflow-wrapped-stair",
+    "call": "compileExplainerDiagram",
+    "args": [
+      "workflow",
+      [
+        {
+          "cells": [
+            "a",
+            "A",
+            "backend"
+          ],
+          "line": 1
+        },
+        {
+          "cells": [
+            "b",
+            "B",
+            "backend"
+          ],
+          "line": 2
+        },
+        {
+          "cells": [
+            "c",
+            "C",
+            "backend"
+          ],
+          "line": 3
+        },
+        {
+          "cells": [
+            "d",
+            "D",
+            "backend"
+          ],
+          "line": 4
+        },
+        {
+          "cells": [
+            "e",
+            "E",
+            "backend"
+          ],
+          "line": 5
+        },
+        {
+          "cells": [
+            "f",
+            "F",
+            "backend"
+          ],
+          "line": 6
+        },
+        {
+          "cells": [
+            "g",
+            "G",
+            "backend"
+          ],
+          "line": 7
+        },
+        {
+          "cells": [
+            "a > b"
+          ],
+          "line": 8
+        },
+        {
+          "cells": [
+            "b > c"
+          ],
+          "line": 9
+        },
+        {
+          "cells": [
+            "c > d"
+          ],
+          "line": 10
+        },
+        {
+          "cells": [
+            "d > e"
+          ],
+          "line": 11
+        },
+        {
+          "cells": [
+            "e > f"
+          ],
+          "line": 12
+        },
+        {
+          "cells": [
+            "f > g"
+          ],
+          "line": 13
+        }
+      ],
+      {
+        "id": "stair"
+      }
+    ]
+  },
+  {
     "name": "workflow-decision",
     "call": "compileExplainerDiagram",
     "args": [

@@ -20,91 +20,85 @@
       "end": 4
     },
     "/answer": {
-      "line": 3,
-      "column": 1,
-      "start": 5,
-      "end": 10
-    },
-    "/answer/summary": {
-      "line": 3,
-      "column": 1,
-      "start": 5,
-      "end": 10
-    },
-    "/answer/scope": {
       "line": 5,
       "column": 1,
       "start": 11,
-      "end": 34
+      "end": 16
+    },
+    "/answer/summary": {
+      "line": 5,
+      "column": 1,
+      "start": 11,
+      "end": 16
     },
     "/panels/0": {
-      "line": 8,
+      "line": 7,
       "column": 1,
-      "start": 35,
-      "end": 46
+      "start": 17,
+      "end": 28
     },
     "/panels/0/id": {
-      "line": 8,
+      "line": 7,
       "column": 1,
-      "start": 35,
-      "end": 46
+      "start": 17,
+      "end": 28
     },
     "/panels/0/title": {
-      "line": 8,
+      "line": 7,
       "column": 1,
-      "start": 35,
-      "end": 46
+      "start": 17,
+      "end": 28
     },
     "/panels/0/blocks": {
-      "line": 8,
+      "line": 7,
       "column": 1,
-      "start": 35,
-      "end": 46
+      "start": 17,
+      "end": 28
     },
     "/panels/0/blocks/0": {
-      "line": 10,
+      "line": 9,
       "column": 1,
-      "start": 41,
-      "end": 46
+      "start": 23,
+      "end": 28
     },
     "/panels/0/blocks/0/type": {
-      "line": 10,
+      "line": 9,
       "column": 1,
-      "start": 41,
-      "end": 46
+      "start": 23,
+      "end": 28
     },
     "/panels/0/blocks/0/text": {
-      "line": 10,
+      "line": 9,
       "column": 1,
-      "start": 41,
-      "end": 46
+      "start": 23,
+      "end": 28
     },
     "/panels/0/blocks/0/id": {
-      "line": 10,
+      "line": 9,
       "column": 1,
-      "start": 41,
-      "end": 46
+      "start": 23,
+      "end": 28
     }
   },
   "format": "markdown",
-  "sourceText": "# T\n\nOne.\n\n@answer scope=\"s\"\nTwo.\n\n## Q\n\nText.",
+  "sourceText": "# T\n\nOne.\n\nTwo.\n\n## Q\n\nText.",
   "diagnostics": [
     {
       "code": "explainer/parse-answer",
       "severity": "error",
-      "message": "This directive accepts header arguments only.",
+      "message": "The short answer is one paragraph before the panels.",
       "subject": {
-        "line": 6,
+        "line": 5,
         "column": 1,
         "component": "answer",
         "path": "/"
       },
       "evidence": {
-        "reason": "This directive accepts header arguments only.",
-        "example": "@meta locale=en quality_profile=showcase"
+        "reason": "The short answer is one paragraph before the panels.",
+        "example": "A direct answer in one paragraph.\n\n## Why?"
       },
       "supportedFixes": [
-        "Use the documented syntax, for example: @meta locale=en quality_profile=showcase"
+        "Use the documented syntax, for example: A direct answer in one paragraph.\n\n## Why?"
       ]
     }
   ]
