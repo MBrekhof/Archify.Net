@@ -44,9 +44,10 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | 5 | CLI, receipts, sidecars, lock and journal, Playwright browser and visual gates | Done |
 | 6 | MCP server and SKILL.md | Done |
 | PORT-007 | Re-pin to upstream 3.2.0: timeline DST ticks, waterfall time precision, erd bridges, migration contracts, CLI `browserCheck` | Done |
-| PORT-008, PORT-009 | Pele charts in C#, then the explainer type | Planned |
+| PORT-008 | Pele charts in C#: pie, xychart, quadrantChart, sankey, radar, venn | Done |
+| PORT-009 | The explainer type | Planned |
 
-The full suite (`dotnet test`) runs 3993 tests: 3016 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 6265 tests: 5288 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 Per-phase parity results and test counts are in [`docs/status.md`](docs/status.md).
 
 ## Quick start
@@ -117,6 +118,13 @@ from consumer code.
 | erd | `renderers/erd` | `src/Archify.Net.Core/Erd` | 4 | [`orders`](https://mbrekhof.github.io/Archify.Net/upstream/examples/erd-orders-rendered.html) ([JSON](upstream/examples/orders.erd.json)) |
 
 All ten types are ported.
+
+### Charts
+
+archify 3.2.0 draws charts for its explainer type with a vendored copy of Pele 1.3.0. `src/Archify.Net.Core/Pele` ports
+it. The six chart fence types (pie, xychart, quadrantChart, sankey, radar, venn) render to SVG as archify 3.2.0 does,
+byte for byte, apart from the deviations in [`docs/deviations.md`](docs/deviations.md#pele-charts-port-008). No public
+API or CLI command reaches the charts yet; the explainer type (PORT-009) will.
 
 ## Source evidence
 
@@ -282,6 +290,8 @@ src/Archify.Net.Core/        the library
   <Type>/                    one renderer per diagram type
   Erd/                       the erd renderer; Grid.cs, the banded grid, is shared with class
   Evidence/                  repository evidence verifier, remote URL parser, git runner
+  Pele/                      the Pele 1.3.0 chart port (six chart types)
+  Explainer/                 ExplainerCharts: archify's chart fence and data-file entry points
 src/Archify.Net.Cli/         the archify dotnet tool: dispatch, commands, delivery (lock, journal, sidecars), browser gates, finalize
 src/Archify.Net.Mcp/         the archify-mcp stdio MCP server (archify_guide, archify_validate, archify_render, archify_finalize)
 skill/archify/               self-contained agent skill package (SKILL.md, references/, schemas/, examples/)
@@ -294,6 +304,9 @@ upstream/                    verbatim copy of the upstream skill package files t
                              (schemas, locales, viewer, template, brand marks, references, examples)
 tools/capture-fixtures.mjs   dev-time fixture minting from upstream (Node)
 tools/capture-cli-fixtures.mjs  dev-time CLI fixture minting: runs upstream's bin/archify.mjs, records args, exit, stdout, stderr
+tools/chart-seeds/           chart seed inputs and fuzz settings for the capture (see its README)
+tools/pele-internals/        a bundle of Pele 1.3.0 internals the capture calls
+tools/v8-math/               V8 math fixture generator (sin, cos, acos, atan2, log10, pow)
 docs/status.md               per-phase parity results
 docs/deviations.md           known deviations from upstream
 docs/superpowers/            design spec, phase plans, rulings and plan reviews
@@ -326,10 +339,11 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 
 ## Known deviations from upstream
 
-See [`docs/deviations.md`](docs/deviations.md) for the list of library, renderer, repository-evidence and CLI deviations from upstream.
+See [`docs/deviations.md`](docs/deviations.md) for the list of library, renderer, repository-evidence, CLI and chart deviations from upstream.
 
 ## Credits and license
 
 Archify is by tt-a1i, building on work by Cocoon AI, and is MIT-licensed. The files under `upstream/` are copied from it
 unchanged, and its license is kept at `upstream/LICENSE`. Archify.Net is MIT-licensed as well; see `LICENSE`, which
-carries the upstream copyright notices alongside the port's.
+carries the upstream copyright notices alongside the port's. The chart port is derived from Pele (MIT, © 2026 kepano);
+its notice and the V8/fdlibm notice are in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).

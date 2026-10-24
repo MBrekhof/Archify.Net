@@ -4,7 +4,7 @@ Back to [`README.md`](../README.md).
 
 ## Core library, renderers and repository evidence
 
-- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is not ported until PORT-009 (the charts come first, in PORT-008). `upstream/` leaves out `schemas/explainer.schema.json`, `examples/delivery.explainer.json` and `references/explainer-authoring.md`, and `explainer` is an unknown diagram type. `skill/archify/SKILL.md` keeps its 3.1.0 wording except the `--out-dir` sentences; PORT-009 re-derives it against 3.2.0.
+- The explainer type of upstream 3.2.0 (one-page answers with build-time Pele charts) is not ported until PORT-009. The charts came first, in PORT-008 (see [Pele charts](#pele-charts-port-008)). `upstream/` leaves out `schemas/explainer.schema.json`, `examples/delivery.explainer.json` and `references/explainer-authoring.md`, and `explainer` is an unknown diagram type. `skill/archify/SKILL.md` keeps its 3.1.0 wording except the `--out-dir` sentences; PORT-009 re-derives it against 3.2.0.
 - `Check` throws `NotSupportedException` when `RequireProvenance` is set: provenance is checked by `archify check --require-provenance`.
 - `Validate` returns the render diagnostics followed by the checker's. On a check failure upstream `validate` returns only the checker's.
 - Schema errors come in a different order when integer-like keys follow named keys in the authored JSON. The set of errors is the same.
@@ -119,3 +119,182 @@ Windows path ceilings:
 
 The four upstream examples listed in [`docs/status.md`](status.md#phase-5--cli-receipts-sidecars-lock-and-journal-playwright-browser-and-visual-gates) fail `finalize` in both implementations; this is card UPSTREAM-001
 (CARD-2181), not a port defect.
+
+## Pele charts (PORT-008)
+
+The six chart types archify 3.2.0 draws with its vendored Pele 1.3.0 (pie, xychart, quadrantChart, sankey, radar, venn)
+are ported in `src/Archify.Net.Core/Pele`. Each entry below says what differs, why, and which test pins it. Test names
+are in `tests/Archify.Net.Core.Tests/ChartParityTests.cs` unless another file is named. Row names are `group/name`
+seeds from `tools/chart-seeds/`. A deviation row is left out of `Matches_node` and pinned by its own fact.
+
+### Platform and engine limits
+
+- *pow depends on the OS:* V8 13.6 sends `**` and `Math.pow` to the C library's `pow`. Windows Node (UCRT) and Linux
+  Node (glibc) disagree, for example on `10 ** 210`. The port matches Windows Node 24.12.0, which mints the goldens:
+  `10 ** p` for integer p in [-330, 310] comes from a table captured there, and other bases use .NET's `Math.Pow`.
+  Every power Pele reaches matches. Random bases with random exponents can differ in the last digit; Pele never computes them.
+  Pinned by `JsMathTests.Matches_V8_bit_for_bit("pow")`; the `pow-sample` rows of the full run are informational.
+- *JSON depth 256 in data files:* a chart data file nested deeper than 256 levels reports `The data file is not valid
+  JSON.`. V8 parses any depth; the port's recursive parse would overflow the stack (about 1 KB per level). Pinned by
+  `data/json-deep-unread-column` (300 levels) and `Deep_data_json_is_the_stated_deviation`.
+- *Directive nesting 256:* a `%%{init}%%` directive whose JSON nests deeper than 256 levels is ignored as invalid JSON,
+  with the same cap and reason. Pinned by `PeleCoreTests.Deep_directive_is_the_stated_deviation` (300 levels).
+- *The `merge` nesting cap:* because of that cap, the config `merge` never recurses deeper than 256 levels. V8 merged
+  20,000 levels. Same pin.
+- *Lone surrogates:* a raw lone surrogate in directive text, inside a C# string, becomes U+FFFD (the text goes through
+  UTF-8). A UTF-8 file cannot hold one, so only a string input (the library or MCP) reaches it. Not seeded. An escaped
+  `\ud800` in a data file is kept, as in V8, and that row is compared.
+- *No icon resolver:* icon names are stripped from labels, as upstream does when it has no resolver. The output does
+  not differ.
+- *Not ported:* Pele's canvas measurer (with `fontFamily` and `RE_FAMILIES`), `turnToFit`/`tighten`, zoom and mount.
+  archify never reaches them.
+
+### Fixed upstream defects
+
+Each fix keeps the Node golden. A `-reference` row is the same chart written so that upstream already gives the
+corrected result, and the fact asserts the port equals it.
+
+- *treeView redirect (UPSTREAM-003, [archify#1070](https://github.com/tt-a1i/archify/issues/1070)):* `charts.mjs` keys
+  its native-type table by `treeview`, but Pele detects `treeView`, so upstream never redirects a `treeView-beta` fence
+  to the native tree shorthand. The port keys it `treeView`. Pinned by `wrapper/native-treeview` and
+  `TreeView_redirect_is_the_stated_deviation`.
+- *xychart clamped y range ([pele#56](https://github.com/obsidianmd/pele/issues/56)):* upstream checks an explicit y
+  range for `lo !== hi` before it clamps both ends to ±1e300. A range such as `1e301 --> 1e302` then collapses, and the
+  chart draws 100 ticks at `NaN`. The port compares the clamped ends and falls back to the data, as `5 --> 5` does.
+  Pinned by `xychart/pow-clamped-equal`, `-negative` and `Clamped_equal_y_range_is_the_stated_deviation`.
+- *quadrantChart phantom box ([pele#57](https://github.com/obsidianmd/pele/issues/57)):* an empty quadrant or point
+  label reserves a zero-size box, and point labels are pushed away from empty space. The port reserves a box only for a
+  label with text; a radius-0 dot keeps its box, because the circle is drawn. Pinned by
+  `quadrantChart/phantom-empty-quadrant-label`, `phantom-empty-point-label`, `stress-points` and
+  `Empty_label_reserves_no_space_is_the_stated_deviation`.
+- *quadrantChart Q1-Q3 ([mermaid#8525](https://github.com/mermaid-js/mermaid/issues/8525),
+  [#8526](https://github.com/mermaid-js/mermaid/issues/8526),
+  [#8527](https://github.com/mermaid-js/mermaid/issues/8527)):* Mermaid grammar slips that Pele copies.
+  - Q1: the comment rule `[^}]%%` eats the character before `%%`, so `radius: 5%%x` loses the 5. The port lets only
+    whitespace go with the comment (`\s%%`); `}%%` stays an error.
+  - Q2: the coordinate rule `0(.\d+)?` has an unescaped dot, so `0x1` reads 1 and `0,5` drops the point silently. The
+    port escapes the dot, and such input is a lexical error, as `[2, 0.5]` is.
+  - Q3: keywords fire anywhere and without a word boundary, so `quadrant-1 Move to quadrant-2` fails. The port reads a
+    keyword only as a whole word that leads a statement, and a statement in point form (`: [x, y]`) is a point.
+  - Pinned by `QuadrantQuirkRows` in `Grammar_slips_are_the_stated_deviations`, and by the fuzz list.
+- *xychart X1-X4 ([mermaid#8528](https://github.com/mermaid-js/mermaid/issues/8528),
+  [#8529](https://github.com/mermaid-js/mermaid/issues/8529),
+  [#8530](https://github.com/mermaid-js/mermaid/issues/8530),
+  [#8531](https://github.com/mermaid-js/mermaid/issues/8531)), plus Q1 as above:*
+  - X1: `HORIZONTAL` in any case but lower draws vertical. The port compares case-insensitively.
+  - X2: `vertical`/`horizontal` are keywords anywhere, so `title verticality` fails. The port takes the orientation
+    only as a whole word right after the chart keyword.
+  - X3: a quoting slip breaks the markdown-string rules, so `` "`md`" `` draws its backticks. The port reads markdown
+    strings as the quadrant grammar does. A malformed markdown string is a lexical error (Martin's decision).
+  - X4: unquoted text drops the whitespace between its tokens, so `title Sales Report` draws `SalesReport`. The port
+    keeps the whitespace as written; a gap holding a line break becomes one space (Martin's decision).
+  - Pinned by `XyChartQuirkRows` in `Grammar_slips_are_the_stated_deviations`, and by the fuzz list.
+- *sankey S1, blanks at a row's edge ([mermaid#8535](https://github.com/mermaid-js/mermaid/issues/8535),
+  [pele#58](https://github.com/obsidianmd/pele/issues/58)):* Mermaid's per-row trim has no `m` flag, so it does nothing,
+  and a tab indent, a trailing blank after the header or a blank row of spaces is a parse error. The port trims blanks
+  at each row's edge outside quotes. A blank run that is a whole field still reads as in Node. Pinned by the S1 rows of
+  `SankeyQuirkRows` (with `render-rejects-5`) in `Grammar_slips_are_the_stated_deviations`.
+- *sankey S2, undecoded labels ([pele#59](https://github.com/obsidianmd/pele/issues/59)):* a node label writes its
+  name, prefix and suffix with entities undecoded, while the band's `<title>` decodes them. The port decodes the label
+  and measures the decoded text. Pinned by the S2 rows of `SankeyQuirkRows`.
+- *sankey S3, non-ASCII names:* Pele 1.3.0 accepts only ASCII names (RFC 4180 TEXTDATA), so `Café` is a parse error.
+  Mermaid has the same defect, reported many times: [#6822](https://github.com/mermaid-js/mermaid/issues/6822),
+  [#7996](https://github.com/mermaid-js/mermaid/issues/7996), [#6155](https://github.com/mermaid-js/mermaid/issues/6155),
+  [#7528](https://github.com/mermaid-js/mermaid/issues/7528). Pele 1.9.0 fixed it
+  ([pele#8](https://github.com/obsidianmd/pele/issues/8), [pele#9](https://github.com/obsidianmd/pele/pull/9)), and the
+  port uses the 1.9.0 alphabet and its invalid-XML name check. Pinned by `SankeyUnicodeRows` and
+  `Sankey_unicode_names_and_unreadable_values_are_the_stated_deviations`.
+- *sankey S4, strict numbers ([mermaid#8536](https://github.com/mermaid-js/mermaid/issues/8536),
+  [pele#60](https://github.com/obsidianmd/pele/issues/60)):* upstream reads a value with `parseFloat`, so `12abc` is
+  12 and an unreadable value draws as a 0-flow link. The port accepts only a whole decimal number; anything else is the
+  error `Sankey diagrams need a number for each link's value, and "<v>" on line <n> is not one.`. `1e999` stays
+  Infinity. Pinned by `SankeyValueRows` and the same fact.
+- *Error-line remap ([mermaid#8537](https://github.com/mermaid-js/mermaid/issues/8537),
+  [pele#61](https://github.com/obsidianmd/pele/issues/61), with the end-of-input comment there;
+  [archify#1074](https://github.com/tt-a1i/archify/issues/1074) for `pieLegend`):* upstream counts an error's line in
+  the text the diagram parsed, after front matter, comment lines, directives and leading blank lines are removed (and
+  sankey's blank lines). archify's `pieLegend` also drops line breaks. At the end of the input Node reports the line after
+  the last, which comes from the newline Pele appends. The port reports the line as written in the fence, for every
+  type, and an error at the end of the input on the last content line. Pinned by `LineRemapRows`, the `lines` group,
+  `Error_lines_count_the_fence_as_written`, `Every_error_line_holds_the_error` and the `L1` fuzz cases.
+- *radar RA1 ([mermaid#8539](https://github.com/mermaid-js/mermaid/issues/8539),
+  [pele#62](https://github.com/obsidianmd/pele/issues/62)):* a name that starts with `circle`, `polygon`, `true`,
+  `false` or `title` (`circles`, `trueNorth`) is a parse error, because those terminals do not give way to a longer
+  name as every keyword does. The port lets them give way, in name positions only; keyword glue such as
+  `graticule polygonaxis` reads as in Node. Pinned by `RadarBoundaryRows` and `Radar_name_boundaries_are_the_stated_deviation`.
+- *radar RA2 ([mermaid#8540](https://github.com/mermaid-js/mermaid/issues/8540),
+  [pele#63](https://github.com/obsidianmd/pele/issues/63)):* the `Missing entry for axis` message writes the label with
+  Mermaid's internal entity placeholders (`ﬂ°°35¶ßx`). The port names the axis as the chart draws it. Pinned by
+  `RadarQuirkRows`.
+- *venn Q1 ([mermaid#8541](https://github.com/mermaid-js/mermaid/issues/8541),
+  [pele#64](https://github.com/obsidianmd/pele/issues/64)):* the same comment rule as quadrantChart Q1. The port lets
+  only whitespace go with the comment. A one-character token right before `%%`, which upstream silently eats, is now
+  read normally. So `set A%% note` keeps the set A, and `venn-beta-%% x`, which Node draws, is an error. Pinned by the
+  probe grid (`Venn_q1_grid_matches_the_patched_upstream`) and `VennQuirkRows`.
+- *venn VN1 ([mermaid#8542](https://github.com/mermaid-js/mermaid/issues/8542),
+  [pele#65](https://github.com/obsidianmd/pele/issues/65)):* a keyword followed by `-` and more of a name
+  (`set-theory`, `text-books`) fails. The port reads it as a name, unless the `-` starts a number. Pinned by
+  `VennSwapRows` (`Venn_stand_in_rows_are_the_stated_deviation`) and `VennQuirkRows`.
+- *venn VN2 ([mermaid#8543](https://github.com/mermaid-js/mermaid/issues/8543),
+  [pele#66](https://github.com/obsidianmd/pele/issues/66)):* a bare `title` takes the next line as its text, and that
+  statement is lost. In the port a bare `title` is a parse error, as `title` at the end of the text already is upstream.
+  Pinned by `VennQuirkRows`.
+- *venn VN3 ([mermaid#8544](https://github.com/mermaid-js/mermaid/issues/8544),
+  [pele#67](https://github.com/obsidianmd/pele/issues/67)):* `unknown set identifier` names ids with internal
+  placeholders and is cut at a line break. The port names each id as the chart draws it and writes a line break as
+  `#10;`/`#13;`. Pinned by `VennMessageRows` and `Venn_line_break_in_an_unknown_id_is_written_as_its_code`.
+- *XML-invalid characters (UPSTREAM-008, (upstream issue to follow)):* U+FFFE, U+FFFF and lone surrogate halves in any
+  label, title or id reach the SVG, which is then not well-formed XML. Pele 1.9.0 still writes them. The port's escaper
+  drops them, in every type, as it already drops C0 controls; the layout does not move. Pinned by `fixes/xml-*`,
+  `radar/labels-xml-invalid-fffe`, `venn/id-xml-invalid`, `venn/label-xml-invalid-fffe` and
+  `Xml_invalid_characters_are_dropped`.
+- *pie invalid-value message (PORT-011, (upstream issue to follow)):* the `"<label>" has invalid value` message writes
+  the label with internal placeholders and is cut at a line break. The port names the label as drawn, a line break as
+  `#10;`/`#13;`. Pinned by `fixes/message-pie-*`, `Pie_invalid_value_names_the_label_as_drawn` and pie fuzz case 702.
+- *radar overflow near 1e308 (PORT-011, (upstream issue to follow)):* a value whose `radius * (value - min)` overflows
+  is drawn at the centre. The port divides first when the product overflows, so it draws the value at its true radius;
+  every other value is computed as upstream. Pinned by `radar/values-overflow-radius`, `fixes/overflow-radar-half` and
+  `Radar_overflow_is_the_stated_deviation`.
+
+### Mirrored on purpose (grammar design, not defects)
+
+- radar: a name that starts with a digit (`3d`) fails; an axis named exactly `circle`, `polygon`, `true`, `false` or
+  `title` fails, as a reserved word; `title`, `accTitle:` and `accDescr:` fire mid-line, as in Mermaid's Langium grammar.
+- Every type: `&#9829;` in a label is drawn `&♥`, as upstream draws it (core's Mermaid entity encoding).
+- venn: a title cannot hold `#` or `;` (`title C# basics` is a parse error), and a numeric text id takes no label
+  (`text A 5["l"]` is an error). Both come from `venn.jison`.
+
+### Pele tests the port fails by design
+
+Pele's own test "rejects what Mermaid rejects" fails in the port for two of its inputs: `sankey/render-rejects-5`, a
+blank row of spaces (S1), and `sankey/render-rejects-6`, "rejects Café" (S3). The port draws both.
+
+### Test method notes
+
+- *Fuzz:* each type's fuzz corpus is Pele's own `random` and `mutator` over the type's seeds. Pele's oracle skips a
+  mutated input over 2,000 characters before it compares. The capture applies that bound to the seeds: a seed over
+  2,000 characters stays out of the corpus and is compared by its own row. Fuzz cases that differ by a stated
+  deviation are listed by index in `FuzzDeviations` and checked by `Fuzz_deviations_are_the_stated_quirks`; the port's
+  output for them is pinned in `tests/fixtures/charts/<type>.fuzz-deviations.json`. Re-mint both when a type's seeds
+  change.
+- *venn Q1 grid:* `tests/fixtures/charts/venn-q1-grid.json` holds 1,386 probes (every printable ASCII character and a
+  few others before `%%`, in each lexer position). `node tools/chart-seeds/venn-q1-grid.mjs` regenerates it; run it
+  after `tools/chart-seeds/venn-oracle.mjs` changes.
+
+### PORT-009 note
+
+`ExplainerCharts` exists, but no CLI path reaches it until PORT-009 brings the explainer type. Upstream's
+`compileExplainerChart` throws on a front-matter YAML error (`charts.mjs` runs `detectType` outside its `try`), and
+`ExplainerCharts.Compile` lets that `PeleException` propagate. So the CLI must handle it as upstream's top-level
+handler does.
+
+### Known leftovers (PORT-012)
+
+Card PORT-012 collects the test and tooling minors of PORT-008 and these parked contrived-input cases:
+
+- radar RA2: a line break in an axis label is written raw in the `Missing entry for axis` message, so the message is
+  cut there;
+- radar overflow when `value - min` itself overflows (`min` near -1e308, a value near 1e308): the point is still drawn
+  at the centre;
+- error messages (JSON strings, not SVG) can still carry U+FFFE or lone surrogates from a label;
+- the venn test oracle's allowance for a styled line could accept a token that spans the dropped `;` on the right line.

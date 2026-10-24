@@ -1,9 +1,9 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-23: PORT-007 (re-pin to upstream archify 3.2.0, explainer excluded) is merged to master and pushed after a
-Fable whole-branch gate (agy's Gemini and Opus quotas were exhausted; Martin: "can you do the review yourself (fable)?").
-Martin's standing order for the rest of the arc: PORT-008, then PORT-009, each Fable-reviewed (plan and branch), then
-merge and push. No deploy.
+Updated 2026-10-24: PORT-008 (Pele charts in C#) is complete on branch `port-008-pele-charts` and ready for the Fable
+whole-branch review, then the fast-forward of master and the push. Next are PORT-009 (the explainer type), then PORT-012.
+Martin's standing order for the arc: PORT-008, then PORT-009, each Fable-reviewed (plan and branch), then merge and
+push. No deploy.
 
 ## What this repo is
 
@@ -46,15 +46,36 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - The explainer type and its files are excluded until PORT-009 (see `docs/deviations.md`, `upstream/UPSTREAM.md`).
   `skill/archify/SKILL.md` keeps its 3.1.0 wording apart from the `--out-dir` sentences; PORT-009 re-derives it.
 
-## PORT-008 (Pele charts in C#): planned
+## State: PORT-008 (2026-10-23/24)
 
 - Card PORT-008 (CARD-2358). Research: `docs/superpowers/specs/2026-10-23-port008-pele-research.md`. Plan:
-  `docs/superpowers/plans/2026-10-23-port008-pele-charts.md`. Both files are **untracked**; commit them on a branch
-  `port-008-pele-charts` cut from master after the PORT-007 merge.
-- Martin decided on 2026-10-22 to port Pele's YAML front matter too.
-- Task 1 is a gate: V8-identical `sin/cos/acos/atan2/log10`. .NET differs by 1 ulp on 1–18 % of inputs. If it cannot
-  reach 0 differences, radar and venn need Martin's decision.
-- Next: Gemini reviews the plan, the findings are settled, then SDD. Martin said "carry on with PORT-008 after the push".
+  `docs/superpowers/plans/2026-10-23-port008-pele-charts.md`.
+- Branch `port-008-pele-charts`, cut from master `09b4424`. Commits from `8e59b93` (plan) through `2c68fd8` (final
+  wave), plus the docs commit after it. The work:
+  - V8-identical `sin/cos/acos/atan2/log10` and `parseInt` (`7e0ef94`); `pow` uses a `10 ** p` table from Windows Node
+    (Martin's ruling, option C);
+  - the chart fixture pipeline and `chartFromData` (`57ecc7f`), the Pele core (`84a09be`) and front-matter YAML
+    (`8b56183`);
+  - one task per type: pie, xychart, quadrantChart, sankey, radar, venn, each with its review rounds;
+  - the error-line remap for every type (`5f61449`, `57787fc`);
+  - the final wave, part A (`2c68fd8`): XML-invalid characters, the pie message placeholder leak, the radar overflow.
+- Parity at `2c68fd8`: ChartParity 2226/2226. Test totals (`dotnet test`, Browser category included): Core 5288,
+  Cli 964, Mcp 13, 0 failed, 0 warnings. Per-group counts are in `docs/status.md`.
+- Fixed upstream defects, each a stated deviation with a test and an upstream issue: `docs/deviations.md`, "Pele charts
+  (PORT-008)". The three final-wave entries still say "(upstream issue to follow)"; the controller fills in the links.
+- Martin (2026-10-24): contrived-input ("fails late") findings now get a card and are parked, not fixed in more rounds.
+  Wrong output on realistic input is still fixed. The final wave's parts B and C went to PORT-012.
+- Pele upstream is at 1.9.0. A future archify re-pin of Pele is its own card.
+
+## Next
+
+1. The Fable whole-branch review of `port-008-pele-charts`, settle it, fast-forward master, push.
+2. PORT-009 (the explainer type): plan, Fable plan review, SDD, Fable branch review, merge and push. The CLI must handle
+   the `PeleException` that `ExplainerCharts.Compile` lets out on a front-matter YAML error, as upstream's top-level
+   handler does (see the PORT-009 note in `docs/deviations.md`).
+3. PORT-012: the PORT-008 test and tooling minors and the parked contrived-input cases.
+4. Queued after PORT-009 (Martin, 2026-10-23, "fix, report as with the previous one"): UPSTREAM-002 (CARD-2182) and
+   PERF-003 (CARD-2186), each fixed on its own branch as a known deviation with a test.
 
 ## State at end of phase 6
 
@@ -205,15 +226,12 @@ The SDD ledgers (git-ignored, on disk) are `.superpowers/sdd/2026-10-14-phase2-r
 `.superpowers/sdd/2026-10-15-cleanup-batch2/` (with the TZ, TEST-002 and TEST-003 surveys), `.superpowers/sdd/2026-10-15-test004/`
 and `.superpowers/sdd/2026-10-15-perf003/`: every ruling and the deferred minors.
 
-## Next
+## Other open cards
 
-All six port phases are done; PORT-007 waits on Gemini (above), then PORT-008 and PORT-009. The other open cards on the board
-(project 46) are:
+The open cards on the board (project 46) beyond the PORT-008/009/012 chain above are:
 
 - **Waiting on Martin:**
   - UPSTREAM-001: four upstream examples fail upstream's own gates. Report it upstream, or fix our copies of the examples?
-  - UPSTREAM-002: `check` and `browser-check` crash in an uncreatable or non-directory sidecar location, faithful to
-    upstream. Report it upstream, diverge, or keep parity?
   - PERF-002: an optional GitRunner timeout. It would be a new deviation from upstream, so it needs a decision on the
     diagnostic code.
   - TZ-001: the 19 ids V8 accepts and the port rejects. A survey found that ICU `ucal_*` P/Invoke against Windows' `icu.dll` would fix
@@ -243,9 +261,10 @@ All six port phases are done; PORT-007 waits on Gemini (above), then PORT-008 an
     - (b) a minimal loop guard (a deviation);
     - (c) a schema cap.
 
-    The recommendation is (a) + (b). Report and inputs: `.superpowers/sdd/2026-10-15-perf003/`.
+    The recommendation is (a) + (b). Report and inputs: `.superpowers/sdd/2026-10-15-perf003/`. Decided since: fix in the
+    port and report upstream, queued after PORT-009 with UPSTREAM-002 (see "Next").
 - **Done after batch 2:** TEST-004 `6f09f8a` (plan `docs/superpowers/plans/2026-10-15-test004.md`).
-- **Ready to work:** finishing PORT-007 and then PORT-008 once agy's Gemini quota is back. The rest waits on Martin, or is parked.
+- **Ready to work:** the chain under "Next" above. The rest waits on Martin, or is parked.
 
 ## Phase 4 closed (2026-10-15)
 

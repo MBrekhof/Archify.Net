@@ -2,7 +2,7 @@
 
 Summary table in [`README.md`](../README.md#status).
 
-The full suite (`dotnet test`) runs 3993 tests: 3016 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 6265 tests: 5288 in `Archify.Net.Core.Tests`, 964 in `Archify.Net.Cli.Tests` and 13 in `Archify.Net.Mcp.Tests`.
 
 ## Phase 1 — Foundation, validation gates, architecture renderer, artifact checker
 
@@ -83,3 +83,36 @@ The full suite (`dotnet test`) runs 3993 tests: 3016 in `Archify.Net.Core.Tests`
   catalog; the `schema_version: 1` migration fallback with `semanticChecks`; git values that keep trailing spaces.
 - CLI: finalize receipts and summaries carry `browserCheck`, `--browser-check` is accepted, and `--writing` is parsed as
   upstream parses it (see the explainer entry in [`deviations.md`](deviations.md)).
+
+## PORT-008 — Pele charts
+
+- `ExplainerCharts` (`src/Archify.Net.Core/Explainer`, over the Pele port in `src/Archify.Net.Core/Pele`) is compared
+  byte for byte with archify 3.2.0's `explainer/charts.mjs` and its vendored Pele 1.3.0. Every expected value is a golden
+  Node minted (`node tools/capture-fixtures.mjs`, charts section); two capture runs give the same hash.
+- `ChartParityTests`: 2226/2226 at `2c68fd8`. That is 2191 `Matches_node` rows (the seeds equal to Node, plus one fuzz
+  row per type) and 35 facts and theory rows that pin the stated deviations and the test method.
+- Per group:
+
+| Group | Seeds | Equal to Node | Deviation rows, each pinned by a fact | Fuzz cases | Fuzz cases that differ by a stated deviation |
+|---|---|---|---|---|---|
+| data | 79 | 78 | 1 | | |
+| wrapper | 22 | 20 | 2 | | |
+| pie | 116 | 113 | 3 | 1,000 | 79 |
+| xychart | 468 | 410 | 58 | 1,000 | 80 |
+| quadrantChart | 431 | 382 | 49 | 1,000 | 69 |
+| sankey | 342 | 279 | 63 | 1,000 | 155 |
+| radar | 473 | 444 | 29 | 1,000 | 74 |
+| venn | 484 | 432 | 52 | 3,000 | 119 |
+| lines | 73 | 10 | 63 | | |
+| fixes | 59 | 17 | 42 | | |
+
+- `data` is `chartFromData`, `wrapper` the fence-type redirects, `lines` the error-line remap and `fixes` the final wave's
+  rows. A deviation row's fact compares it with a `-reference` row, a pinned message or a pinned output; see the
+  "Pele charts (PORT-008)" section of [`deviations.md`](deviations.md#pele-charts-port-008). Each differing fuzz case is
+  listed with its reason and its port output is pinned.
+- `JsMathTests`: sin, cos, acos, atan2 and log10 equal V8 bit for bit on the fixture and on a 1,000,000-case run; pow
+  equals Windows Node on the domain Pele reaches.
+- The venn Q1 probe grid (1,386 probes) equals upstream with the Q1 fix written in.
+- Test totals at `2c68fd8` (`dotnet test`, Browser category included): Core 5288, Cli 964, Mcp 13, 0 failed, 0 warnings.
+- Re-pin note: Pele upstream is now at 1.9.0, while archify 3.2.0 vendors 1.3.0. A future archify re-pin of Pele is its
+  own card.
