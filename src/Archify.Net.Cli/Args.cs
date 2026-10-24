@@ -122,13 +122,15 @@ static class Args
     public static DiagramType DiagramType(string type)
     {
         const string types = "architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall";
-        try { return DiagramTypes.Parse(type); }
-        catch (ArgumentException)
+        // PORT-009: no CLI command takes explainer until Task 7, so it stays an unknown type here.
+        if (type != "explainer")
         {
-            throw new CliArgumentException($"Unknown diagram type \"{type}\". Expected one of: {types}", "cli/unknown-diagram-type",
-                new JsonObject { ["type"] = type }, new JsonObject { ["supportedTypes"] = new JsonArray([.. types.Split(", ").Select(t => (JsonNode?)t)]) },
-                [$"use one of: {types}"]);
+            try { return DiagramTypes.Parse(type); }
+            catch (ArgumentException) { }
         }
+        throw new CliArgumentException($"Unknown diagram type \"{type}\". Expected one of: {types}", "cli/unknown-diagram-type",
+            new JsonObject { ["type"] = type }, new JsonObject { ["supportedTypes"] = new JsonArray([.. types.Split(", ").Select(t => (JsonNode?)t)]) },
+            [$"use one of: {types}"]);
     }
 
     // rendererEnv (A:2391-2397) as options: --quality and --repo-root (Q3).

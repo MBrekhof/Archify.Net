@@ -89,7 +89,7 @@ public sealed partial class SkillPackageTests
     }
 
     [Fact]
-    public void SkillReferences_MatchUpstreamWithSingleMechanicalSubstitution()
+    public void SkillReferences_MatchUpstreamWithMechanicalSubstitutions()
     {
         var upstreamRefDir = Path.Combine(UpstreamRoot, "references");
         var skillRefDir = Path.Combine(SkillRoot, "references");
@@ -118,7 +118,9 @@ public sealed partial class SkillPackageTests
         foreach (var fileName in expectedFiles)
         {
             var upstreamText = File.ReadAllText(Path.Combine(upstreamRefDir, fileName!), utf8NoBom);
-            var expectedBytes = utf8NoBom.GetBytes(upstreamText.Replace("node bin/archify.mjs", "archify", StringComparison.Ordinal));
+            // explainer-authoring.md spells the CLI from the repository root (lines 259, 271).
+            var expectedBytes = utf8NoBom.GetBytes(upstreamText.Replace("node bin/archify.mjs", "archify", StringComparison.Ordinal)
+                .Replace("node archify/bin/archify.mjs", "archify", StringComparison.Ordinal));
             var actualBytes = File.ReadAllBytes(Path.Combine(skillRefDir, fileName!));
             Assert.Equal(expectedBytes, actualBytes);
         }

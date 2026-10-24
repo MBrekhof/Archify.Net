@@ -63,6 +63,8 @@ public static class ArchifyNet
     /// </remarks>
     /// <param name="afterLoadGates">Runs after the load gates and before brand marks and rendering, where cli.mjs's loadDiagram
     /// resolves the output path (cli.mjs:87-99). An <see cref="ArchifyDiagnosticException"/> it throws becomes the render failure.</param>
+    /// <exception cref="NotSupportedException"><see cref="DiagramType.Explainer"/>, here and in <see cref="Layout"/> and
+    /// <see cref="Validate"/>: use <c>ArchifyNet.RenderExplainer</c>.</exception>
     public static RenderResult Render(DiagramType type, JsonNode diagram, RenderOptions? options = null, Action? afterLoadGates = null) =>
         Run(type, diagram, options, afterLoadGates, (ctx, root) =>
         {
@@ -78,6 +80,7 @@ public static class ArchifyNet
     /// report without SVG or HTML. Architecture and workflow only, as upstream (A:6849-6855).</summary>
     public static LayoutOutcome Layout(DiagramType type, JsonNode diagram, RenderOptions? options = null)
     {
+        NativeOnly(type);
         if (type is not (DiagramType.Architecture or DiagramType.Workflow))
             throw new ArgumentOutOfRangeException(nameof(type), type, "--layout-json supports architecture and workflow only");
         return Run(type, diagram, options, null,
@@ -90,6 +93,7 @@ public static class ArchifyNet
     static T Run<T>(DiagramType type, JsonNode diagram, RenderOptions? options, Action? afterLoadGates, Func<RenderContext, JsonObject, T> body,
         Func<string, IReadOnlyList<Diagnostic>, IReadOnlyList<Diagnostic>, T> failure)
     {
+        NativeOnly(type);
         // Ruling 3: a non-object root reports input/json-parse the way DiagramLoader.Parse does, never throws.
         if (diagram is not JsonObject)
         {
@@ -110,6 +114,13 @@ public static class ArchifyNet
             var (error, diagnostics, thrown) = ctx.Diagnostics.RendererFailure(ex);
             return failure(error, diagnostics, thrown);
         }
+    }
+
+    // An explainer is a Markdown or JSON draft, not a native diagram: Render, Layout and Validate refuse it with the facade's one
+    // documented exception type.
+    static void NativeOnly(DiagramType type)
+    {
+        if (type == DiagramType.Explainer) throw new NotSupportedException("use ArchifyNet.RenderExplainer");
     }
 
     // scripts/check-render-output.mjs on an artifact's HTML: the report minus `file`.

@@ -108,7 +108,7 @@ public class CliSeamTests
     public void Examples_and_recipes_are_embedded()
     {
         var examples = Directory.GetFiles(Fixtures.Upstream("examples"), "*.json");
-        Assert.Equal(25, examples.Length);
+        Assert.Equal(26, examples.Length);   // 25 native diagrams and delivery.explainer.json (PORT-009)
         foreach (var path in examples) Assert.Equal(Fixtures.Lf(path), Resources.Example(Path.GetFileName(path)));
         Assert.Equal(Fixtures.Lf(Fixtures.Upstream("recipes/scenarios.json")), Resources.Text("recipes/scenarios.json"));
     }

@@ -72,6 +72,19 @@ public class DispatchTests
         Assert.Equal(Path.GetPathRoot(cwd), Args.RepoRoot([$"--repo-root={Path.GetPathRoot(cwd)}"], cwd).RepoRoot);
     }
 
+    // PORT-009 Task 1: Core knows DiagramType.Explainer, but no CLI command takes it until Task 7 (which removes this fact).
+    [Theory]
+    [InlineData("validate", "--json")]
+    [InlineData("validate")]
+    public void Explainer_is_still_an_unknown_type(params string[] command)
+    {
+        string[] Args(string type) => [command[0], type, "x", .. command[1..]];
+        var explainer = CliTestHost.Run(Args("explainer"));
+        Assert.Contains(command.Length > 1 ? "\"code\": \"cli/unknown-diagram-type\"" : "Unknown diagram type \"explainer\"", explainer.Item2 + explainer.Item3);
+        var bogus = CliTestHost.Run(Args("bogus"));
+        Assert.Equal((bogus.Item1, bogus.Item2.Replace("bogus", "explainer"), bogus.Item3.Replace("bogus", "explainer")), explainer);
+    }
+
     static (string, string?) Pair((string[] Remaining, string? Value) r) => (string.Join(" ", r.Remaining), r.Value);
 
     // extractExplainerWritingArgs' success path (A:2397-2413): upstream's three values, both forms, the flag removed from rest.

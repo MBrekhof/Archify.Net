@@ -19,6 +19,8 @@
   <ItemGroup>
     <!-- Q9: the upstream viewer-gate page scripts, verbatim; logical names "viewer-gate/settle.js", "viewer-gate/metrics.js" -->
     <EmbeddedResource Include="..\..\upstream\viewer-gate\*.js" LogicalName="viewer-gate/%(Filename)%(Extension)" />
+    <!-- PORT-009: the two page functions of explainer/browser-check.mjs, verbatim; "explainer-gate/measure-native-previews.js", ... -->
+    <EmbeddedResource Include="..\..\upstream\explainer-gate\*.js" LogicalName="explainer-gate/%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Archify.Net.Cli.Tests" />

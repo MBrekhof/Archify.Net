@@ -5,7 +5,8 @@ namespace Archify.Net.Tests;
 public class ValidationTests
 {
     public static IEnumerable<object[]> AllExamples() =>
-        Directory.GetFiles(Fixtures.Upstream("examples"), "*.json").Where(f => !f.Contains("locales")).Select(f => new object[] { Path.GetFileName(f) });
+        Directory.GetFiles(Fixtures.Upstream("examples"), "*.json").Where(f => !f.Contains("locales") && !f.EndsWith(".explainer.json"))   // native types only
+            .Select(f => new object[] { Path.GetFileName(f) });
 
     [Theory, MemberData(nameof(AllExamples))]
     public void Every_upstream_example_validates(string file)

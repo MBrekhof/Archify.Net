@@ -2366,4 +2366,37 @@ write('fixtures/js/pele-tokens.json', {
     ['\u212A', 0, 'k'], ['x[', 0, 'x'], ['ab', 1, 'b'], ['a1', 0, 'a1'], ['A_', 0, 'a_'], ['', 0, '']].map(([s, at, w]) => [s, at, w, P.wordAt(s, at, w)]),
   fit: { titleRoom: P.titleRoom({ padding: 8 }), capWidth: P.capWidth({}, 480, 200, 30), fitWidth: P.fitWidth({}, 480, 200, (plot, narrow) => ({ svg: `${plot}|${narrow}`, width: plot, height: 1, links: [] })).svg },
 });
+
+// --- PORT-009 explainer: Unicode property tables, then tools/explainer-seeds/<group>.json -> tests/goldens/explainer/<group>/<name>.<json|html>
+// (layout: tools/explainer-seeds/README.md) ---
+// The regex classes the explainer modules use, as inclusive [first, last] code point ranges over 0..0x10FFFF, read from V8.
+// JsTextTests.Unicode_properties_match_V8 checks Js.IsSpace, IsLatin, IsLetter and IsNumber against every code point.
+const unicodeRanges = (re) => {
+  const ranges = [];
+  for (let cp = 0; cp <= 0x10FFFF; cp++) {
+    if (!re.test(String.fromCodePoint(cp))) continue;
+    if (ranges.length && ranges.at(-1)[1] === cp - 1) ranges.at(-1)[1] = cp; else ranges.push([cp, cp]);
+  }
+  return ranges;
+};
+write('fixtures/js/unicode-props.json', {
+  space: unicodeRanges(/^\s$/u), latin: unicodeRanges(/^\p{Script=Latin}$/u), letter: unicodeRanges(/^\p{L}$/u), number: unicodeRanges(/^\p{N}$/u),
+});
+// The seed runner, as children with the scrubbed environment: Node's oracle writes the goldens, the corrected oracle (Decisions 2 and 3)
+// writes a scratch tree, and each of its files that differs lands beside the Node golden as <name>.fixed.<ext>.
+fs.rmSync(out('goldens/explainer'), { recursive: true, force: true });   // a renamed or removed seed leaves no stale golden
+const explainerRunner = path.join(ROOT, 'tools', 'explainer-seeds', 'run.mjs');
+const runExplainerSeeds = (oracle, dir) => execFileSync(process.execPath, [explainerRunner, '--oracle', oracle, '--out', dir], { env: cleanEnv, stdio: 'inherit' });
+runExplainerSeeds('node', out('goldens/explainer'));
+const explainerFixed = fs.mkdtempSync(path.join(os.tmpdir(), 'axs-fixed-out-'));
+try {
+  runExplainerSeeds('fixed', explainerFixed);
+  for (const rel of fs.readdirSync(explainerFixed, { recursive: true }).filter((rel) => fs.statSync(path.join(explainerFixed, rel)).isFile()).sort()) {
+    const node = out(path.join('goldens/explainer', rel)), fixed = fs.readFileSync(path.join(explainerFixed, rel));
+    if (!fs.existsSync(node)) throw new Error(`fixed oracle wrote ${rel}, Node did not`);
+    if (!fixed.equals(fs.readFileSync(node))) fs.writeFileSync(node.replace(/\.(json|html)$/, '.fixed.$1'), fixed);
+  }
+} finally {
+  fs.rmSync(explainerFixed, { recursive: true, force: true });
+}
 console.log('fixtures captured');

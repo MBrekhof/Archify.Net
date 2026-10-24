@@ -1,6 +1,8 @@
 namespace Archify.Net;
 
-public enum DiagramType { Architecture, Workflow, Sequence, Dataflow, Lifecycle, Erd, Class, Tree, Timeline, Waterfall }
+// Explainer (PORT-009) is a document, not a native diagram: it has no semantic collection, and the native facade
+// (ArchifyNet.Render, Layout, Validate) refuses it in favour of ArchifyNet.RenderExplainer.
+public enum DiagramType { Architecture, Workflow, Sequence, Dataflow, Lifecycle, Erd, Class, Tree, Timeline, Waterfall, Explainer }
 
 public static class DiagramTypes
 {
@@ -10,6 +12,7 @@ public static class DiagramTypes
         "architecture" => DiagramType.Architecture, "workflow" => DiagramType.Workflow, "sequence" => DiagramType.Sequence,
         "dataflow" => DiagramType.Dataflow, "lifecycle" => DiagramType.Lifecycle, "erd" => DiagramType.Erd,
         "class" => DiagramType.Class, "tree" => DiagramType.Tree, "timeline" => DiagramType.Timeline, "waterfall" => DiagramType.Waterfall,
+        "explainer" => DiagramType.Explainer,
         _ => throw new ArgumentException($"unknown diagram type \"{name}\"", nameof(name)),
     };
     // cli.mjs SEMANTIC_COLLECTIONS / RELATIONSHIP_COLLECTIONS

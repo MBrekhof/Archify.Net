@@ -115,4 +115,19 @@ public class JsTextTests
     [InlineData("a\uDC00b", "A\uDC00B")]
     [InlineData("éı", "ÉI")]
     public void ToUpperCase_matches_V8(string s, string upper) => Assert.Equal(upper, Js.ToUpperCase(s));
+
+    // PORT-009: /\s/u, /\p{Script=Latin}/u, /\p{L}/u and /\p{N}/u as V8 reads them (capture: unicode-props.json), every code point.
+    [Fact] public void Unicode_properties_match_V8()
+    {
+        var fx = JsonNode.Parse(Fixtures.Lf(Fixtures.Fixture("js/unicode-props.json")))!.AsObject();
+        (string Name, Func<int, bool> Test)[] properties = [("space", Js.IsSpace), ("latin", Js.IsLatin), ("letter", Js.IsLetter), ("number", Js.IsNumber)];
+        foreach (var (name, test) in properties)
+        {
+            var v8 = new bool[0x110000];
+            foreach (var range in fx[name]!.AsArray())
+                for (int cp = range![0]!.GetValue<int>(), last = range[1]!.GetValue<int>(); cp <= last; cp++) v8[cp] = true;
+            Assert.True(v8.Count(x => x) > 10, name);   // the table was read
+            for (var cp = 0; cp <= 0x10FFFF; cp++) if (test(cp) != v8[cp]) Assert.Fail($"{name}: U+{cp:X4} is {test(cp)} in the port, {v8[cp]} in V8");
+        }
+    }
 }

@@ -9,7 +9,11 @@ viewer-gate/settle.js and viewer-gate/metrics.js (the values of the two template
 `evaluate`: at v3.2.0 settle = line 1677 col 42 through line 1707 col 8, metrics = line 1709 col 58 through line 1873 col 8
 (at c21c31ff: 1603-1633 and 1635-1799), 1-based and inclusive, from `(function () {` to `})()`; no escapes or substitutions
 inside, no trailing newline; unchanged from c21c31ff to v3.2.0).
-Not copied until PORT-009 (explainer): schemas/explainer.schema.json, examples/delivery.explainer.json,
-references/explainer-authoring.md.
+PORT-009 (explainer, copied 2026-10-24 from v3.2.0): schemas/explainer.schema.json, examples/delivery.explainer.json,
+references/explainer-authoring.md, explainer/reader.js and explainer/reader.css (archify/explainer/), and
+explainer-gate/measure-native-previews.js and explainer-gate/measure-public-html.js (the two page functions of
+explainer/browser-check.mjs that `expression(fn)` passes to `evaluate`: measureNativePreviews = lines 13-25,
+measurePublicHtml = lines 30-65, 1-based and inclusive, from `function`/`async function` to the closing `}`; no trailing
+newline).
 Never edit by hand. To update: re-copy per the phase-1 plan Task 1 Step 2 (and the PORT-007 plan Task 1), re-run the parity
 suite, port deltas.

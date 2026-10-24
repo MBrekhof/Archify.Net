@@ -301,7 +301,7 @@ public class RepositoryEvidenceTests
     // P4: a diagram without meta.repository or sources returns null before any git process; the runner here fails on first use.
     [Fact] public void Load_spawns_no_git_for_a_diagram_without_evidence()
     {
-        var examples = Directory.EnumerateFiles(Fixtures.Upstream("examples"), "*.json").ToList();
+        var examples = Directory.EnumerateFiles(Fixtures.Upstream("examples"), "*.json").Where(f => !f.EndsWith(".explainer.json")).ToList();   // native types only
         Assert.NotEmpty(examples);
         foreach (var file in examples)
         {
