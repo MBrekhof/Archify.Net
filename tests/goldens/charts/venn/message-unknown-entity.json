@@ -1,0 +1,5 @@
+{
+  "error": "unknown set identifier: B&nope;",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

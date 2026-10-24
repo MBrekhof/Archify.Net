@@ -1,0 +1,5 @@
+{
+  "error": "A chart fence supports pie, xychart-beta (bar and line), quadrantChart, sankey-beta, radar-beta or venn-beta.",
+  "line": 0,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

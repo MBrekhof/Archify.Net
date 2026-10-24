@@ -114,14 +114,40 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`, and the port's output for them is
   pinned in `tests/fixtures/charts/radar.fuzz-deviations.json`. `node tools/chart-seeds/radar-fuzz-check.mjs` checks each
   pinned case's attribution against Node, with the input corrected by hand for its stated quirk; run it after a re-mint.
+- `venn` (Task 10): archify's tests have no venn fence and charts.mjs passes no `venn` config, so `archify-*`, `fm-venn-*`,
+  `fm-title-*` and `directive-*` pin the defaults, the type's own object and the front-matter title. Beyond the list above:
+  `spec-*` (Mermaid's `venn.spec.ts`; `spec-renderer-*` are the models of the skipped `vennRenderer.spec.ts` written as
+  text), `oracle-*` (the `SEEDS` of `tests/venn/oracle.test.ts`), `render-*` (`venn.test.ts`; the geometry tests that call
+  layout functions directly have no text, except the subsets of "lays out the same circles every time"),
+  `render-hostile-*` (each template of `venn-security.test.ts` with two of its payloads), and `stress-*` (the shapes of
+  `tests/venn/stress.test.ts` at about 4,000 characters; the layout cases at their own counts where they fit the
+  50,000-character limit: 2,000 sets, 400, 300 in a chain, 60 with every pair, one union of 300, 40 unions of 60; and the
+  limit case verbatim). The type's own cases cover header forms, CRLF/CR/BOM, empty bodies, 1 to 9 sets and the grid
+  layout past 64, disjoint, nested, identical and coincident circles, zero, negative, overflowing and tiny sizes, the
+  shrinking triangle, every overlap path (lens, nested, none, 3 to 5 sets), labels, ids, texts and the indent rule, styles,
+  titles, comments and every error site. `text requires set` (parser.ts) cannot be reached: an indented `text` is only
+  read as one after a set or union, which sets the current sets, and `error-text-requires-set` is the nearest input.
+  `quirk-*` rows, and the existing rows that `ChartParityTests.VennQuirkRows` names, are the upstream slips the port fixes:
+  Q1 the `[^}]%%` comment rule (`quirk-comment-*`), VN1 a keyword with a dash and more of a name after it
+  (`quirk-keyword-dash-*`), VN2 a bare `title` taking the next line (`quirk-title-*`), and VN3 the "unknown set identifier"
+  message writing ids undecoded (`quirk-message-*`). Each one's `-reference` row is the same chart written so that Node
+  already reads it the corrected way. The VN1 rows and `quirk-comment-string` write each such name with a stand-in of the
+  same advance (s/z, t/f, u/a, v/k, S/K, and a zero-width U+200B before `%%`), which
+  `ChartParityTests.Venn_stand_in_rows_are_the_stated_deviation` swaps back. The `comment-*`, `keyword-*`, `title-*` and
+  `message-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`,
+  and the port's output for them is pinned in `tests/fixtures/charts/venn.fuzz-deviations.json`.
+  `node tools/chart-seeds/venn-fuzz-check.mjs` checks them against upstream itself with each fix written into a copy of
+  its vendored venn chunk, and checks that the fixes change no other fuzz case; run it after a re-mint.
 - `lines` (the core line remap after Task 8, UPSTREAM-007): upstream counts an error's line in the text the diagram
   parsed, so front matter, `%%` comment lines, directives, leading blank lines, sankey's blank lines and rows of blanks,
   and archify's pie legend (`showData` on a later line, blanks after a slice's value) move it up; the port counts the
-  fence as written. Each row is an error after removed lines in pie, xychart, quadrantChart, sankey or radar (CRLF, lone CR,
+  fence as written. Each row is an error after removed lines in pie, xychart, quadrantChart, sankey, radar or venn (CRLF, lone CR,
   multi-line and mid-line directives, indented front matter, entity codes and HTML attributes before the error, EOF), and
   `ChartParityTests.LineRemapRows` holds its line, written by hand; `control-*` rows still equal Node. It is not a type
   group, so it adds nothing to any fuzz corpus. Fuzz cases that differ only by the remap are `L1` in `FuzzDeviations`, and
-  the sankey checker puts Node's error and the S4 value on the input's line with its own map.
+  the sankey checker puts Node's error and the S4 value on the input's line with its own map. venn never fails on the
+  EOF token (Pele's appended line break is a NEWLINE token first), so its `control-venn-error-then-*` rows are controls,
+  and `venn-error-at-text-end-after-comment` is an error on that appended line break, reported on the last content line.
 
 Pele's tests, and the corpus and inputs copied from them, are MIT licensed (Pele 1.3.0; its compat specs are ported from
 Mermaid, also MIT, as their file headers say).

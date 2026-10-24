@@ -1,0 +1,5 @@
+{
+  "error": "Parse error on line 4:",
+  "line": 4,
+  "example": "pie title Share\n  \"A\" : 60\n  \"B\" : 40"
+}

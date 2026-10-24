@@ -62,5 +62,14 @@
   { "name": "radar-eof-then-comment", "text": "radar-beta\n  axis A\n  curve c{\n%% c" },
   { "name": "radar-eof-then-blank-lines", "text": "radar-beta\n  axis A\n  curve c{\n\n  \n" },
   { "name": "radar-lexical", "text": "radar-beta\n%% note\n  axis A\n  @" },
-  { "name": "control-radar-nothing-removed", "text": "radar-beta\n  axis A\n  foo" }
+  { "name": "control-radar-nothing-removed", "text": "radar-beta\n  axis A\n  foo" },
+  { "name": "venn-front-matter", "text": "---\ntitle: T\n---\nvenn-beta\n  set A,B" },
+  { "name": "venn-comment", "text": "venn-beta\n  %% a comment\n  set A\n  set B,C" },
+  { "name": "venn-directive", "text": "%%{init: {\"theme\": \"dark\"}}%%\nvenn-beta\n  set A $" },
+  { "name": "venn-crlf-comment", "text": "venn-beta\r\n  %% c\r\n  set A\r\n  style A" },
+  { "name": "control-venn-error-then-comment", "text": "venn-beta\n  set A:\n  %% c" },
+  { "name": "control-venn-error-then-blank-lines", "text": "venn-beta\n  set A:\n\n\n" },
+  { "name": "venn-error-at-text-end-after-comment", "text": "venn-beta\n  %% c\n  set A\n  style A" },
+  { "name": "venn-leading-blank-lines", "text": "\n\n\nvenn-beta\n  union" },
+  { "name": "control-venn-nothing-removed", "text": "venn-beta\n  set A\n  set A,B" }
 ]

@@ -8,7 +8,7 @@ namespace Archify.Net.Tests;
 public class ChartParityTests
 {
     // A group is compared once it is listed; each type task adds its own.
-    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "radar", "lines"];
+    static readonly string[] Groups = ["data", "wrapper", "pie", "xychart", "quadrantChart", "sankey", "radar", "venn", "lines"];
     // Rows whose golden needs a later type task, keyed by that type, filtered out of the theory data (xunit 2.9.3 has no
     // dynamic skip). The type's task removes its entry.
     static readonly Dictionary<string, HashSet<(string Group, string Name)>> PendingUntil = [];
@@ -21,6 +21,7 @@ public class ChartParityTests
         .. QuirkRows.SelectMany(group => group.Value.Select(row => (group.Key, row.Name))),
         .. SankeyUnicodeRows.Select(row => ("sankey", row.Name)), .. SankeyValueRows.Select(row => ("sankey", row.Name)),
         .. RadarBoundaryRows.Select(row => ("radar", row.Name)),
+        .. VennSwapRows.Select(row => ("venn", row.Name)),
         .. LineRemapRows.Select(row => (row.Group, row.Name)),
     ];
     // Fuzz cases that differ from Node by a stated deviation: index -> the quirk that explains it, checked by
@@ -97,6 +98,24 @@ public class ChartParityTests
             [762] = "L1", [776] = "L1", [779] = "L1", [790] = "L1", [797] = "L1", [801] = "RA1", [802] = "L1", [806] = "L1",
             [809] = "L1", [836] = "L1", [840] = "L1", [847] = "L1", [853] = "L1", [871] = "L1", [872] = "L1", [880] = "L1",
             [884] = "L1", [931] = "L1", [970] = "L1", [971] = "L1", [979] = "RA1", [994] = "L1",
+        },
+        ["venn"] = new() {
+            [30] = "L1", [67] = "L1", [69] = "L1", [75] = "VN1", [148] = "Q1", [163] = "L1", [205] = "VN1", [206] = "L1",
+            [216] = "L1", [240] = "Q1", [255] = "VN1", [265] = "VN1", [269] = "L1", [272] = "L1", [297] = "VN1", [387] = "L1",
+            [390] = "VN1", [404] = "Q1", [451] = "L1", [468] = "L1", [484] = "Q1", [607] = "VN2", [618] = "L1", [632] = "VN1",
+            [675] = "Q1", [708] = "Q1", [720] = "Q1", [722] = "Q1", [728] = "L1", [739] = "L1", [779] = "L1", [814] = "VN1",
+            [829] = "L1", [888] = "VN1", [918] = "Q1", [937] = "VN1", [1006] = "VN1", [1036] = "Q1", [1146] = "VN2",
+            [1181] = "VN1", [1205] = "VN1", [1215] = "VN1", [1238] = "VN1", [1364] = "L1", [1429] = "VN1", [1454] = "VN1",
+            [1480] = "L1", [1484] = "L1", [1500] = "VN1", [1549] = "L1", [1567] = "VN1", [1587] = "Q1", [1594] = "Q1",
+            [1602] = "VN1", [1606] = "VN1", [1639] = "Q1", [1747] = "VN1L1", [1779] = "VN2", [1781] = "VN1", [1810] = "Q1",
+            [1816] = "VN1", [1844] = "Q1", [1895] = "L1", [1908] = "L1", [1912] = "L1", [1913] = "VN1", [1994] = "VN1",
+            [1998] = "VN1", [2038] = "L1", [2095] = "VN1", [2105] = "VN1", [2109] = "VN1", [2114] = "L1", [2193] = "L1",
+            [2212] = "Q1", [2224] = "VN2", [2257] = "VN2", [2278] = "L1", [2301] = "VN1", [2308] = "VN1", [2310] = "L1",
+            [2340] = "VN1", [2357] = "VN1", [2380] = "L1", [2396] = "VN1", [2448] = "Q1", [2474] = "VN2", [2481] = "L1",
+            [2484] = "VN1", [2488] = "VN1", [2492] = "L1", [2506] = "L1", [2517] = "Q1", [2526] = "Q1", [2534] = "L1",
+            [2580] = "L1", [2608] = "Q1", [2676] = "VN1", [2735] = "VN1", [2742] = "L1", [2751] = "Q1", [2814] = "Q1",
+            [2824] = "VN1L1", [2839] = "L1", [2877] = "L1", [2890] = "VN2", [2904] = "L1", [2910] = "L1", [2918] = "VN1",
+            [2984] = "Q1", [2997] = "L1",
         },
     };
 
@@ -445,6 +464,64 @@ public class ChartParityTests
         }
     }
 
+    // Upstream slips in venn, fixed in the port (Task 10):
+    //   Q1  the second comment rule `[^\}]\%\%[^\n]*` takes the character before `%%` with it, at a token's start: a one-letter
+    //       name, a one-digit number, `,`, `:`, `-`, `[` or `"`. Only whitespace goes with a comment in the port, as in
+    //       quadrantChart and xychart;
+    //   VN1 a keyword ends at jison's `\b`, which lets a `-` follow it, while IDENTIFIER reads `-` as part of a name, so
+    //       `set-theory` or `text-books` lexes as the keyword and a stray `-`. The keyword gives way to the name, unless the `-`
+    //       starts a number (`text-5` is a text named -5 upstream);
+    //   VN2 TITLE is `"title"\s[^#\n;]+`, and `\s` takes a line break, so a bare `title` takes the next line as its text and
+    //       the statement there is lost. In the port the space after `title` is not a line break, and a bare `title` is the
+    //       parse error that `title` at the end of the text already is upstream;
+    //   VN3 the "unknown set identifier" message writes the ids as parsed, so a Mermaid code shows as its placeholder and an
+    //       HTML entity as typed; the port decodes them, as the chart draws an id.
+    // QuirkRows: the reference is the same input written so that upstream already reads it the corrected way (a space before
+    // `%%`, a name without the keyword, `title` at the end of the text, the id written as drawn). VennSwapRows: the reference
+    // writes each such name with a stand-in of the same advance (s/z, t/f, u/a, v/k, S/K, and a zero-width U+200B before
+    // `%%`, as no Node input names a set `%%x`), and the test swaps the stand-ins back.
+    static (string Name, string Quirk, string Reference)[] VennQuirkRows =>
+    [
+        .. new[] { "one-letter-id", "one-digit-size", "union-last-id", "comma", "colon", "sign", "bracket", "text-id", "style-value", "crlf" }
+            .Select(name => ($"quirk-comment-{name}", "Q1", $"quirk-comment-{name}-reference")),
+        ("stress-comments-after-every-char", "Q1", "error-statement"),
+        ("quirk-keyword-dash-statement", "VN1", "quirk-keyword-dash-statement-reference"), ("header-dash", "VN1", "header-glued"),
+        .. new[] { "quirk-title-next-line", "quirk-title-next-line-crlf", "quirk-title-upper", "stress-title-word-alone" }
+            .Select(name => (name, "VN2", "quirk-title-next-line-reference")),
+        .. new[] { "code", "html", "numeric-html", "named-code", "two" }.Select(name => ($"quirk-message-{name}", "VN3", $"quirk-message-{name}-reference")),
+        ("quirk-message-unknown-code", "VN3", "message-unknown-entity"),
+    ];
+
+    static (string Name, string Quirk, (string StandIn, string Word)[] Swaps)[] VennSwapRows =>
+    [
+        ("quirk-keyword-dash-set-id", "VN1", [("zet-theory", "set-theory")]), ("quirk-keyword-dash-text-id", "VN1", [("fext-books", "text-books")]),
+        ("quirk-keyword-dash-union-id", "VN1", [("anion-members", "union-members")]),
+        ("quirk-keyword-dash-style-target", "VN1", [("ztyle-guide", "style-guide")]), ("quirk-keyword-dash-style-value", "VN1", [("zet-x", "set-x")]),
+        ("quirk-keyword-dash-indented-text-id", "VN1", [("fext-x", "text-x")]), ("quirk-keyword-dash-venn-id", "VN1", [("kenn-beta-x", "venn-beta-x")]),
+        ("quirk-keyword-dash-dash-end", "VN1", [("zet-", "set-"), ("fext--a", "text--a")]),
+        ("quirk-keyword-dash-upper", "VN1", [("KET-A", "SET-A"), ("Fext-B", "Text-B")]), ("quirk-keyword-dash-crlf", "VN1", [("zet-a", "set-a")]),
+        ("quirk-comment-string", "Q1", [("​%%x", "%%x")]),
+    ];
+
+    [Fact] public void Venn_stand_in_rows_are_the_stated_deviation()
+    {
+        foreach (var (name, quirk, swaps) in VennSwapRows)
+        {
+            Assert.True(Fixtures.Lf(Golden("venn", name)).Contains("\"error\": \""), $"{name}: Node draws it");
+            Assert.True(QuirkIn("venn", Seed("venn", name)["text"]!.GetValue<string>()).Contains(quirk), $"{name}: input shows no {quirk}");
+            var expected = (JsonObject)DiagramLoader.ParseNode(Fixtures.Lf(Golden("venn", $"{name}-reference")))!;
+            var svg = expected["svg"]!.GetValue<string>();
+            foreach (var (standIn, word) in swaps)
+            {
+                Assert.Equal(Pele.Measurer.Width(word, 1000, Pele.Style.None), Pele.Measurer.Width(standIn, 1000, Pele.Style.None));
+                Assert.Contains(standIn, svg);
+                svg = svg.Replace(standIn, word, StringComparison.Ordinal);
+            }
+            expected["svg"] = svg;
+            Assert.Equal(ExplainerCharts.Json(expected), Run(Seed("venn", name)));
+        }
+    }
+
     // UPSTREAM-007 (mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in the text the diagram parsed,
     // after front matter, `%%` comment lines, directives and leading blank lines (and in sankey blank lines and, with S1,
     // rows of blanks) are gone, and archify's pie legend drops a `showData` written on a later line than `pie` with the line
@@ -480,6 +557,11 @@ public class ChartParityTests
         ("lines", "radar-front-matter", 6, null), ("lines", "radar-comment", 4, null), ("lines", "radar-directive", 3, null),
         ("lines", "radar-crlf-comment", 4, null), ("lines", "radar-eof-then-comment", 3, null), ("lines", "radar-eof-then-blank-lines", 3, null),
         ("lines", "radar-lexical", 4, null),
+        // venn never fails on EOF (Pele's appended "\n" is a NEWLINE token first); an error on that appended line break is on
+        // the last content line.
+        ("lines", "venn-front-matter", 5, null), ("lines", "venn-comment", 4, null), ("lines", "venn-directive", 3, null),
+        ("lines", "venn-crlf-comment", 4, null), ("lines", "venn-error-at-text-end-after-comment", 4, null),
+        ("lines", "venn-leading-blank-lines", 5, null),
         // Existing rows.
         ("wrapper", "front-matter-title-line-shift", 8, null),
         ("pie", "comment-above-syntax-error", 3, null), ("pie", "comment-first-line-error", 4, null), ("pie", "front-matter-syntax-error-line", 6, null),
@@ -488,6 +570,7 @@ public class ChartParityTests
         ("sankey", "error-line-after-front-matter", 6, null), ("sankey", "rows-blank-row-then-error", 4, null),
         ("radar", "error-after-comment", 4, null), ("radar", "error-after-directive", 4, null), ("radar", "error-after-front-matter", 6, null),
         ("radar", "error-eof-after-comment", 3, null),
+        ("venn", "error-after-comment", 3, null),
         // An error at the end of the text, with nothing removed: Node counts the "\n" Pele appends as one more line.
         ("xychart", "spec-parse-line-data-throws-error-if-data-is-not-provided", 4, null),
         ("xychart", "spec-parse-bar-should-throw-error-if-data-is-not-provided", 4, null),
@@ -697,6 +780,21 @@ public class ChartParityTests
         "radar/boundary-name-ends-in-number", "radar/boundary-name-ends-in-title", "radar/boundary-name-ends-in-acc-title",
         "radar/boundary-entry-bare-boolean",
         "radar/message-unknown-html-entity", "radar/message-no-entity", "radar/model-missing-entry-label",
+        // venn: Q1 leaves whitespace before `%%` going with the comment (a space, a tab, an NBSP), `}%%` an error, and a whole
+        // token before `%%`, a quoted label or string holding it, and a title's text as upstream reads them.
+        "venn/comment-after-space", "venn/comment-tab-before", "venn/comment-nbsp-before", "venn/comment-brace-before",
+        "venn/comment-percent-run", "venn/comment-in-quoted-label", "venn/comment-in-string", "venn/comment-after-word",
+        "venn/comment-after-label", "venn/comment-after-rgb", "venn/comment-in-title", "venn/comment-line",
+        // VN1 leaves a `-` that starts a number with the keyword (`text-5` is a text named -5), an indented `text-x` as
+        // upstream lexes it, whole keywords, and names that hold a keyword elsewhere.
+        "venn/text-dash-indented", "venn/keyword-dash-number", "venn/keyword-dash-number-letters", "venn/keyword-dash-number-statement",
+        "venn/keyword-dash-indented-text-letters", "venn/keyword-dash-dot-number-value", "venn/keyword-dash-number-value", "venn/keyword-whole-word", "venn/keyword-inner", "venn/id-keyword-prefix", "venn/header-glued",
+        // VN2 leaves a `title` before a blank line, a `#` or `;`, `title` at the end, and trailing blanks (an empty title).
+        "venn/title-blank-line-after", "venn/title-hash-next-line", "venn/title-two-spaces-then-break", "venn/title-trailing-blanks",
+        "venn/title-eof", "venn/title-tab", "venn/quirk-title-next-line-reference",
+        // VN3 changes only a message naming an id that decodes.
+        "venn/message-unknown-entity", "venn/error-union-unknown-quoted", "venn/error-union-unknown-many",
+        "lines/control-venn-nothing-removed", "lines/control-venn-error-then-comment", "lines/control-venn-error-then-blank-lines",
     ];
 
     // The grammar-slip rows of each group, each pinned by Grammar_slips_are_the_stated_deviations.
@@ -706,6 +804,7 @@ public class ChartParityTests
         ["xychart"] = XyChartQuirkRows,
         ["sankey"] = SankeyQuirkRows,
         ["radar"] = RadarQuirkRows,
+        ["venn"] = VennQuirkRows,
     };
 
     [Fact] public void Grammar_slips_are_the_stated_deviations()
@@ -757,8 +856,26 @@ public class ChartParityTests
             SankeyUnicode(text) ? "S3" : "", SankeyUnreadableValue(text) ? "S4" : ""),
         "radar" => string.Concat(ReRA1.IsMatch(text) ? "RA1" : "",
             RadarLabelEntity(text) && (node is null || node.Contains("Missing entry for axis", StringComparison.Ordinal)) ? "RA2" : ""),
+        "venn" => string.Concat(ReVennQ1.IsMatch(text) ? "Q1" : "", ReVennKeywordDash.IsMatch(text) ? "VN1" : "", ReVennTitleBreak.IsMatch(text) ? "VN2" : "",
+            VennIdEntity(text) && (node is null || node.Contains("unknown set identifier", StringComparison.Ordinal)) ? "VN3" : ""),
         _ => "",
     };
+
+    // venn. A token starts where the text is not inside a name (`[A-Za-z_][-\w]*`) or a colour (`#` and hex digits): after a
+    // number too (`0set-a` is `0` and `set`). Q1: a character that starts a token directly before `%%` (not whitespace, `}` or
+    // `%`): a letter, `_` or `-`, a digit not inside a number, or any other character but a `]` or `)`, which end one. VN1: a
+    // keyword (any case) where a token starts, then a `-` that does not start a number. VN2: `title` (any case) where a token
+    // starts, a line break, then a character TITLE reads (not `#`, `;` or a line break). VN3: a quoted id holding a Mermaid
+    // code or an HTML entity that decodes, and, where Node's result is given, Node's "unknown set identifier" message. Each is
+    // a containment test on the text; tools/chart-seeds/venn-fuzz-check.mjs checks, against upstream with each fix written in,
+    // that the fixes a listed case needs are among these.
+    const string VennStart = "(?<![A-Za-z_][-A-Za-z0-9_]*|#[0-9A-Fa-f]*)";
+    static readonly Regex ReVennQ1 = new($@"(?:{VennStart}(?:[-A-Za-z_]|(?<![0-9.+-])[0-9])|[^-A-Za-z0-9_}}%{WsBody}\])])%%");
+    static readonly Regex ReVennKeywordDash = new($@"{VennStart}(?:[Vv][Ee][Nn][Nn]-[Bb][Ee][Tt][Aa]|[Ss][Ee][Tt]|[Uu][Nn][Ii][Oo][Nn]|[Tt][Ee][Xx][Tt]|[Ss][Tt][Yy][Ll][Ee])-(?![0-9]|\.[0-9])");
+    static readonly Regex ReVennTitleBreak = new($"{VennStart}[Tt][Ii][Tt][Ll][Ee](?:\r\n|\n|\r)[^#;\n\r]");
+    static readonly Regex ReVennQuoted = new("\"[^\"]*\"");
+    static bool VennIdEntity(string text) => ReVennQuoted.Matches(text).Any(m =>
+        ReMermaidCode.IsMatch(m.Value) || ReHtmlEntity.Matches(m.Value).Any(e => Pele.Entities.DecodeEntities(e.Value) != e.Value));
 
     // radar. RA1: one of the five words at the start of a word, followed by more of a name (ID reads `[-\w]*\w` on); for
     // circle, polygon, true and false, not as the value of `graticule` or `showLegend`, which the fix leaves alone. RA2: a
