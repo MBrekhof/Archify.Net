@@ -47,7 +47,7 @@ The port is built library first (`Archify.Net.Core`), then a CLI, then an MCP se
 | PORT-008 | Pele charts in C#: pie, xychart, quadrantChart, sankey, radar, venn | Done |
 | PORT-009 | The explainer type: one-page answers from a Markdown draft, `patch`, the explainer browser gate, `archify_patch` and the re-derived skill | Done |
 
-The full suite (`dotnet test`) runs 7384 tests: 6334 in `Archify.Net.Core.Tests`, 1034 in `Archify.Net.Cli.Tests` and 16 in `Archify.Net.Mcp.Tests` (0 failed, 0 warnings; 76 of them are in the `Browser` category and need Chromium).
+The full suite (`dotnet test`) runs 7385 tests: 6334 in `Archify.Net.Core.Tests`, 1034 in `Archify.Net.Cli.Tests` and 17 in `Archify.Net.Mcp.Tests` (0 failed, 0 warnings; 76 of them are in the `Browser` category and need Chromium).
 Per-phase parity results and test counts are in [`docs/status.md`](docs/status.md).
 
 ## Quick start
