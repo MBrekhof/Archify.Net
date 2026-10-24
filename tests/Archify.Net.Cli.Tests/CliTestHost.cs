@@ -65,6 +65,15 @@ public static class CliTestHost
                 Assert.Equal(2, text.Split(Text(step, "from")).Length);
                 File.WriteAllText(target, text.Replace(Text(step, "from"), Text(step, "to")), new UTF8Encoding(false));
             }
+            else if (step.ContainsKey("tamper"))
+            {
+                // the first occurrence, as String.prototype.replace
+                var target = At(Text(step, "tamper"));
+                var text = ReadLf(target);
+                var at = text.IndexOf(Text(step, "from"), StringComparison.Ordinal);
+                Assert.True(at >= 0, $"setup tamper: no {Text(step, "from")} in {target}");
+                File.WriteAllText(target, text[..at] + Text(step, "to") + text[(at + Text(step, "from").Length)..], new UTF8Encoding(false));
+            }
             else if (step.ContainsKey("denyCreate")) DenyCreate(At(Text(step, "denyCreate")));
             else throw new InvalidOperationException($"unknown setup step {Js.Stringify(step)}");
         }

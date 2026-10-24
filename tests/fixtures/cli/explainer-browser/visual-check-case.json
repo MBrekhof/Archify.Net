@@ -1,0 +1,67 @@
+{
+  "args": [
+    "visual-check",
+    "case.html",
+    "--json"
+  ],
+  "files": {
+    "tls-first-visit.archify.md": "tests/fixtures/cli/inputs/explainer/tls-first-visit.archify.md"
+  },
+  "setup": [
+    {
+      "run": [
+        "render",
+        "explainer",
+        "tls-first-visit.archify.md",
+        "case.html"
+      ],
+      "exit": 0
+    }
+  ],
+  "exit": 1,
+  "verdicts": {
+    "exit": 1,
+    "ok": false,
+    "status": "fail",
+    "groups": {
+      "containment": "pass",
+      "readability": "pass",
+      "viewerChrome": "pass",
+      "themeStates": "pass",
+      "commonQa": "pass",
+      "interactions": "fail",
+      "references": "pass",
+      "noJavaScript": "pass",
+      "print": "pass"
+    },
+    "codes": [
+      "explainer/browser-diagram-focus",
+      "explainer/browser-diagram-focus",
+      "explainer/browser-diagram-focus",
+      "explainer/browser-diagram-focus"
+    ]
+  },
+  "viewerTargets": [
+    false,
+    false,
+    false,
+    false
+  ],
+  "verdictsFixed": {
+    "exit": 0,
+    "ok": true,
+    "status": "pass",
+    "groups": {
+      "containment": "pass",
+      "readability": "pass",
+      "viewerChrome": "pass",
+      "themeStates": "pass",
+      "commonQa": "pass",
+      "interactions": "pass",
+      "references": "pass",
+      "noJavaScript": "pass",
+      "print": "pass"
+    },
+    "codes": []
+  }
+}

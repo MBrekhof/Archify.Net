@@ -37,6 +37,17 @@ public static class ExplainerPipeline
     /// the artifact at <paramref name="file"/>; its diagnostics name that file.</summary>
     public static JsonObject Check(byte[] html, string file) => ExplainerCheck.Check(html, file);
 
+    /// <summary>scanHtml's ids and payload (browser-check.mjs:196-198): each element id's line (a repeated id takes its last line), and
+    /// the text of the first <c>archify-explainer-prepared</c> script, or null.</summary>
+    public static (Dictionary<string, int> Lines, string? Prepared) ScanIds(string html)
+    {
+        var (elements, scripts) = ExplainerCheck.Scan(html);
+        var lines = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (var element in elements)
+            if (element.Attrs.GetValueOrDefault("id") is { Length: > 0 } id) lines[id] = element.Line;
+        return (lines, scripts.FirstOrDefault(s => s.Attrs.GetValueOrDefault("id") == "archify-explainer-prepared")?.Text);
+    }
+
     /// <summary>rebindPreparedBundle({...bundle, inputPath}, bundle's own parse): the bundle bound to the draft copy at
     /// <paramref name="inputPath"/> and signed again (archify.mjs:5333-5335, patch).</summary>
     public static JsonObject Rebind(JsonObject bundle, string inputPath)

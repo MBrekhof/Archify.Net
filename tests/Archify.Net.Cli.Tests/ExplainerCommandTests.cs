@@ -130,14 +130,6 @@ public partial class ExplainerCommandTests
         }
     }
 
-    // finalize explainer waits for PORT-009 Task 8; until then it is refused before any stage runs.
-    [Fact]
-    public void Finalize_explainer_is_refused_until_task_8()
-    {
-        var (exit, stdout, stderr) = CliTestHost.Run(["finalize", "explainer", "draft.json", "out.html"]);
-        Assert.Equal((2, "", "finalize explainer is not ported yet (PORT-009 Task 8).\n"), (exit, stdout, stderr));
-    }
-
     // One fixture run in a fresh workdir: the tokenised, masked output, the entries, the masked sidecars and the portable page.
     static (int Exit, string Stdout, string Stderr, List<string> Entries, Dictionary<string, string> Sidecars, string? Page) Run(Fixture fixture)
     {
@@ -170,7 +162,7 @@ public partial class ExplainerCommandTests
         new(Regex.Escape(Temp) + @"\\archify-explainer-[a-z]+-[A-Za-z0-9._]+"),
     ];
 
-    static string Mask(string text)
+    internal static string Mask(string text)
     {
         var masked = UuidV4().Replace(text, "<uuid>");
         foreach (var directory in TempDirectories) masked = directory.Replace(masked, "<TMP>");

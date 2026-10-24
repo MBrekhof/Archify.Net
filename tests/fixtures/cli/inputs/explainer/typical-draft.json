@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "diagram_type": "explainer",
+  "meta": {
+    "id": "browser-case",
+    "title": "A test explanation",
+    "locale": "en"
+  },
+  "answer": {
+    "summary": "Read the cache first.",
+    "reasons": [
+      "Fewer database queries"
+    ],
+    "scope": "Illustrative request path"
+  },
+  "panels": [
+    {
+      "id": "why",
+      "title": "Why does it work?",
+      "blocks": [
+        {
+          "id": "claim",
+          "type": "prose",
+          "text": "A cached read takes [5ms](typical:Illustrative timing only, not measured)."
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "example",
+      "title": "Example"
+    }
+  ]
+}

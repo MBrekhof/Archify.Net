@@ -1,0 +1,19 @@
+{
+  "args": [
+    "finalize",
+    "explainer",
+    "draft.archify.md",
+    "out.html",
+    "--json"
+  ],
+  "files": {
+    "draft.archify.md": "tests/fixtures/cli/inputs/explainer/front-matter.archify.md"
+  },
+  "exit": 1,
+  "stdout": "{\"schemaVersion\":1,\"ok\":false,\"command\":\"finalize\",\"status\":\"fail\",\"type\":\"explainer\",\"quality\":\"showcase\",\"specification\":{\"path\":\"<WORK>\\\\draft.archify.md\"},\"artifact\":{\"path\":\"<WORK>\\\\out.html\"},\"gates\":{\"validate\":\"not-run\",\"deliver\":\"not-run\",\"check\":\"not-run\",\"browser-check\":\"not-run\"},\"browserCheck\":{\"requested\":false,\"ran\":false},\"diagnostics\":[{\"code\":\"finalize/runtime\",\"severity\":\"error\",\"message\":\"Front matter is not valid YAML. YAML: unexpected end of the stream within a flow collection\"}],\"visualReview\":\"not-requested\"}\n",
+  "stderr": "",
+  "entries": [
+    "draft.archify.md"
+  ],
+  "sidecars": {}
+}

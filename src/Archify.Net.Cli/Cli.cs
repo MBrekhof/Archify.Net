@@ -31,8 +31,9 @@ public static class Cli
         "\n\nTypes:\n  architecture, workflow, sequence, dataflow, lifecycle, erd, tree, class, timeline, waterfall, explainer\n" +
         "\nExplainer writing checks (validate, deliver, finalize, patch):\n  --writing warn|strict|off (default: warn)\n";
 
-    // The dispatch of A:7059-7138. Returns the exit code; a non-argument exception escapes (Program.Main: stack, exit 1).
-    public static int Run(string[] argv, CliIo io)
+    // The dispatch of A:7059-7138. Returns the exit code; a non-argument exception escapes (Program.Main: stack, exit 1). `prepared` is
+    // an explainer bundle finalize hands its deliver stage (upstream's ARCHIFY_EXPLAINER_PREPARED).
+    public static int Run(string[] argv, CliIo io, JsonObject? prepared = null)
     {
         // Node's process.argv: the UTF-16 command line passes through UTF-8, so a lone surrogate arrives as U+FFFD.
         argv = [.. argv.Select(arg => Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(arg)))];
@@ -48,7 +49,7 @@ public static class Cli
                     io.Out(Usage());
                     return 0;
                 case "render": return Commands.RenderCommand.Run(args, io);
-                case "deliver": return Commands.DeliverCommand.Run(args, io);
+                case "deliver": return Commands.DeliverCommand.Run(args, io, prepared: prepared);
                 case "patch": return Commands.PatchCommand.Run(args, io);
                 case "finalize": return Commands.FinalizeCommand.Run(args, io);
                 case "validate": return Commands.ValidateCommand.Run(args, io);

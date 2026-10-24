@@ -1,0 +1,45 @@
+{
+  "args": [
+    "browser-check",
+    "typical.html",
+    "--json"
+  ],
+  "files": {
+    "typical.json": "tests/fixtures/cli/inputs/explainer/typical-draft.json"
+  },
+  "setup": [
+    {
+      "run": [
+        "render",
+        "explainer",
+        "typical.json",
+        "typical.html"
+      ],
+      "exit": 0
+    }
+  ],
+  "exit": 0,
+  "verdicts": {
+    "exit": 0,
+    "ok": true,
+    "status": "pass",
+    "groups": {
+      "containment": "pass",
+      "readability": "pass",
+      "viewerChrome": "pass",
+      "themeStates": "pass",
+      "commonQa": "pass",
+      "interactions": "pass",
+      "references": "pass",
+      "noJavaScript": "pass",
+      "print": "pass"
+    },
+    "codes": []
+  },
+  "viewerTargets": [
+    null,
+    null,
+    null,
+    null
+  ]
+}

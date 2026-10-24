@@ -46,8 +46,16 @@ Commands and configuration:
   `ARCHIFY_CHROME` and others). Use `--quality` and `--repo-root`.
 - `compare`, `brands`, `migrate` and `preview` are not ported. They answer `Unknown command` with exit 2.
 - Help is upstream's usage text minus those four commands, plus an `archify install-browser` line (a command upstream does not have).
-- Explainer documents (PORT-009): `validate`, `deliver`, `render`, `check` and `patch` take them as upstream does. `finalize
-  explainer` waits for PORT-009 Task 8 and is refused with `cli/unsupported-option`. Differences:
+- Explainer documents (PORT-009): `validate`, `deliver`, `render`, `check`, `patch`, `finalize` (with `--browser-check`) and the
+  explainer browser gate of `browser-check` and `visual-check` take them as upstream does. Differences:
+  - The explainer browser gate reads the canonical Viewer from the page's srcdoc frame. Upstream looks for it as a separate CDP target
+    (browser-check.mjs:131-133); a sandboxed srcdoc frame that Chromium keeps in process (the Playwright headless shell does) has
+    none, so upstream fails `explainer/browser-diagram-focus` at every viewport of every page whose steps link a diagram, and
+    `finalize explainer --browser-check` fails its browser gate. The port's verdicts are upstream's without those failures.
+  - The gate runs on Playwright, not raw CDP: a page with JavaScript disabled is a context with `JavaScriptEnabled = false`, and each
+    reset opens a fresh context, so its storage starts empty (upstream clears `localStorage` on the first page only). Console errors
+    of the srcdoc Viewer are not collected (upstream's page session does not see them either), and the Viewer has no target id.
+    Measured values are not compared with upstream's, only verdicts, group statuses and diagnostic codes (Decision 4).
   - `render explainer` on a draft whose chart front matter is not valid YAML (or an unreadable draft) prints the error's message,
     exit 1. Upstream has no diagnostic boundary there and Node prints the raw stack.
   - The prepared bundle is passed in memory (upstream's `ARCHIFY_EXPLAINER_PREPARED` file), so the bundle-file read failures of

@@ -1,0 +1,21 @@
+{
+  "args": [
+    "finalize",
+    "explainer",
+    "author-draft.json",
+    "out.html",
+    "--writing",
+    "strict",
+    "--json"
+  ],
+  "files": {
+    "author-draft.json": "tests/fixtures/cli/inputs/explainer/writing-draft.json"
+  },
+  "exit": 1,
+  "stdout": "{\"schemaVersion\":1,\"ok\":false,\"command\":\"finalize\",\"status\":\"fail\",\"type\":\"explainer\",\"quality\":\"showcase\",\"specification\":{\"path\":\"<WORK>\\\\author-draft.json\"},\"artifact\":{\"path\":\"<WORK>\\\\out.html\"},\"gates\":{\"validate\":\"not-run\",\"deliver\":\"not-run\",\"check\":\"not-run\",\"browser-check\":\"not-run\"},\"browserCheck\":{\"requested\":false,\"ran\":false},\"diagnostics\":[{\"code\":\"explainer/writing-light-verb\",\"severity\":\"error\",\"message\":\"A light-verb construction can obscure the action.\",\"subject\":{\"line\":20,\"component\":\"prose\",\"panelId\":\"delivery\",\"input\":\"<WORK>\\\\author-draft.json\"},\"evidence\":{\"rule\":\"light-verb\",\"reason\":\"A light-verb construction can obscure the action.\",\"example\":\"进行检查 → 检查；做出决定 → 决定; make a decision → decide\",\"matched\":\"perform an analysis of\"},\"supportedFixes\":[\"Use the direct action verb where it preserves the meaning; name who performs the action.\"]},{\"code\":\"explainer/writing-redundancy\",\"severity\":\"error\",\"message\":\"Adjacent wording may repeat the same meaning.\",\"subject\":{\"line\":20,\"component\":\"prose\",\"panelId\":\"delivery\",\"input\":\"<WORK>\\\\author-draft.json\"},\"evidence\":{\"rule\":\"redundancy\",\"reason\":\"Adjacent wording may repeat the same meaning.\",\"example\":\"提前预先 → 提前; each and every → each\",\"matched\":\"each and every\"},\"supportedFixes\":[\"Keep one expression of the meaning unless both terms carry a necessary distinction.\"]}],\"visualReview\":\"not-requested\"}\n",
+  "stderr": "",
+  "entries": [
+    "author-draft.json"
+  ],
+  "sidecars": {}
+}

@@ -5,6 +5,9 @@ using Archify.Net.Cli.Paths;
 
 namespace Archify.Net.Cli.Browser;
 
+// One capture on the contact sheet: what its card shows.
+internal sealed record ContactCard(string Theme, int Width, int Height, bool Ok, bool VerticalScrollAccepted, string File);
+
 // The browser evidence receipt: baseReceipt (VC:2204-2235), observationDiagnostics (VC:2093-2202), the contact sheet (VC:1959-1986)
 // and summarizeBrowserEvidence (VC:1988-2022). Receipts are JsonObjects because upstream builds them by spreading and mutating
 // objects: setting an existing key keeps its place, a new key goes last, exactly as here.
@@ -152,12 +155,12 @@ internal static class BrowserReceipt
     }
 
     // contactSheetHtml (VC:1959-1986)
-    public static string ContactSheetHtml(string artifactPath, JsonObject receipt, IReadOnlyList<(Observation Entry, string File)> screenshots)
+    public static string ContactSheetHtml(string artifactPath, JsonObject receipt, IReadOnlyList<ContactCard> screenshots)
     {
         var cards = string.Concat(screenshots.Select(s =>
-            $"\n      <figure>\n        <img src=\"{Js.EscapeHtml(s.File)}\" alt=\"{Js.EscapeHtml($"{s.Entry.Theme} {s.Entry.Width} by {s.Entry.Height}")}\">"
-            + $"\n        <figcaption><strong>{Js.EscapeHtml(Js.ToUpperCase(s.Entry.Theme))}</strong> · {s.Entry.Width}×{s.Entry.Height} · containment {(s.Entry.Ok ? "pass" : "fail")}"
-            + $"{(s.Entry.VerticalScrollAccepted ? " · readable vertical scroll" : "")}</figcaption>\n      </figure>"));
+            $"\n      <figure>\n        <img src=\"{Js.EscapeHtml(s.File)}\" alt=\"{Js.EscapeHtml($"{s.Theme} {s.Width} by {s.Height}")}\">"
+            + $"\n        <figcaption><strong>{Js.EscapeHtml(Js.ToUpperCase(s.Theme))}</strong> · {s.Width}×{s.Height} · containment {(s.Ok ? "pass" : "fail")}"
+            + $"{(s.VerticalScrollAccepted ? " · readable vertical scroll" : "")}</figcaption>\n      </figure>"));
         var name = Js.EscapeHtml(Path.GetFileName(artifactPath));
         var containment = Js.EscapeHtml(receipt["containment"]!["status"]!.GetValue<string>());
         return $$$"""

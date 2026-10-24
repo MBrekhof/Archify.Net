@@ -68,7 +68,7 @@ const minted = new Set();
 // one of {run: args, exit} (a CLI run that must exit so), {copy: from, to}, {delete: p}, {append: p, text}, {write: p, text},
 // {set: p, key, value} (a JSON file rewritten as indent 2 + "\n"; "<WORK>" in a string value is the workdir), {mkdir: p},
 // {symlink: p, target} (a file symbolic link to a workdir-relative target), {replace: p, from, to} (the one occurrence of `from` in a
-// text file) or {denyCreate: p} (a directory where Everyone is denied creating files and subdirectories: icacls (WD,AD)). Paths are
+// text file), {tamper: p, from, to} (the first occurrence of `from`) or {denyCreate: p} (a directory where Everyone is denied creating files and subdirectories: icacls (WD,AD)). Paths are
 // workdir-relative.
 function applySetup(work, steps, cliPath = cli) {
   const at = (p) => path.join(work, p);
@@ -90,6 +90,11 @@ function applySetup(work, steps, cliPath = cli) {
       const text = fs.readFileSync(at(step.replace), 'utf8');
       expect(text.split(step.from).length === 2, `setup replace: one ${JSON.stringify(step.from)} in ${step.replace}`);
       fs.writeFileSync(at(step.replace), text.replace(step.from, step.to));
+    } else if (step.tamper) {
+      // the first occurrence of `from`, as String.prototype.replace (T/explainer-browser.test.mjs:49)
+      const text = fs.readFileSync(at(step.tamper), 'utf8');
+      expect(text.includes(step.from), `setup tamper: ${JSON.stringify(step.from)} in ${step.tamper}`);
+      fs.writeFileSync(at(step.tamper), text.replace(step.from, () => step.to));
     } else if (step.denyCreate) {
       const r = spawnSync('icacls', [at(step.denyCreate), '/deny', '*S-1-1-0:(WD,AD)'], { encoding: 'utf8' });
       expect(r.status === 0, `setup denyCreate ${step.denyCreate}: ${r.stdout}${r.stderr}`);
@@ -1457,4 +1462,90 @@ async function explainerGroup() {
     { ...patchFiles(), 'page.html': `${EX}/web-app-rendered.html` }), 1);
   // doctor's explainer lines (A:6151, :6168-6170), against which the port's Q3 doctor is checked.
   ok(fixture('doctor', ['doctor'], {}));
+
+  // --- finalize explainer and the explainer browser gate (PORT-009 Task 8) ---
+  // Without a browser (ARCHIFY_CHROME at a missing file): the finalize receipts, scrubbed as finalize's and masked as above.
+  const FINALIZE_FILES = /(\.finalize\.json|-summary\.json|\.delivery\.json|\.delivery-pending\.json|\.browser-check\.json|^\.archify-delivery-lock\.json)$/u;
+  const noBrowser = { ...env, ARCHIFY_CHROME: path.join(tmpRoot, 'missing-chrome', 'chrome.exe') };
+  const finalizeExplainer = (name, args, files, exit) => {
+    const { fixture: f } = mint('explainer-finalize', name, args, files, (work, x) => {
+      x.stdout = scrubFinalize(mask(x.stdout));
+      x.stderr = mask(x.stderr);
+      x.entries = walk(work).sort();
+      x.sidecars = Object.fromEntries(x.entries.filter((e) => FINALIZE_FILES.test(path.basename(e)))
+        .map((e) => [e, scrubFinalize(mask(tokenise(fs.readFileSync(path.join(work, e), 'utf8'), work)))]));
+    }, undefined, noBrowser);
+    ok(f, exit);
+    return f;
+  };
+  const plain = finalizeExplainer('default-json', ['finalize', 'explainer', 'author-draft.json', 'out.html', '--json'], author, 0);
+  expect(JSON.parse(plain.stdout).gates['browser-check'] === 'not-run' && JSON.parse(plain.stdout).browserCheck.requested === false,
+    'finalize explainer: browser-check not-run, not requested');
+  finalizeExplainer('default-human', ['finalize', 'explainer', 'author-draft.json', 'out.html'], author, 0);
+  const skipped = finalizeExplainer('browser-check-skipped-json', ['finalize', 'explainer', 'author-draft.json', 'out.html', '--browser-check', '--json'], author, 2);
+  expect(JSON.parse(skipped.stdout).gates['browser-check'] === 'skipped', 'finalize explainer --browser-check without Chromium: skipped');
+  const fm = finalizeExplainer('front-matter-json', ['finalize', 'explainer', 'draft.archify.md', 'out.html', '--json'], frontMatter, 1);
+  expect(JSON.parse(fm.stdout).diagnostics[0].code === 'finalize/runtime', 'finalize explainer front matter: finalize/runtime (Review Focus 1)');
+  finalizeExplainer('writing-strict-json', ['finalize', 'explainer', 'author-draft.json', 'out.html', '--writing', 'strict', '--json'], writingDraft, 1);
+  finalizeExplainer('writing-warn-json', ['finalize', 'explainer', 'author-draft.json', 'out.html', '--writing', 'warn', '--json'], writingDraft, 0);
+
+  // With Chromium (Decision 4): only verdicts. A fixture keeps, instead of its output, `verdicts` = {exit, ok, status, each group's
+  // status, the ordered diagnostic codes} of the browser receipt (finalize: {exit, gates, browserCheck} and the browser-check sidecar's
+  // `browserVerdicts`), and `viewerTargets`: whether upstream's inspectNativeViewer found the Viewer, per observation.
+  // UPSTREAM-DEVIATION viewer-target: on this Chromium the sandboxed srcdoc Viewer is an in-process frame with no CDP target, so
+  // browser-check.mjs:131-133 never finds it and every step-linked page fails explainer/browser-diagram-focus. The port reads the frame
+  // among the page's frames; `verdictsFixed` is upstream's verdict without that defect: no diagram-focus code, interactions failing
+  // only for another diagram-* code, ok/status/exit following.
+  craft('explainer/typical-draft.json', draft({ schema_version: 1, diagram_type: 'explainer', meta: { id: 'browser-case', title: 'A test explanation', locale: 'en' },
+    answer: { summary: 'Read the cache first.', reasons: ['Fewer database queries'], scope: 'Illustrative request path' },
+    panels: [{ id: 'why', title: 'Why does it work?', blocks: [{ id: 'claim', type: 'prose', text: 'A cached read takes [5ms](typical:Illustrative timing only, not measured).' }] }],
+    sources: [{ id: 'example', title: 'Example' }] }));   // T/explainer-browser.test.mjs:25 formalDocument()
+  const GROUPS = ['containment', 'readability', 'viewerChrome', 'themeStates', 'commonQa', 'interactions', 'references', 'noJavaScript', 'print'];
+  const verdictsOf = (receipt, exit) => ({ exit, ok: receipt.ok, status: receipt.status, groups: Object.fromEntries(GROUPS.map((g) => [g, receipt[g]?.status ?? null])),
+    codes: (receipt.diagnostics ?? []).map((d) => d.code) });
+  const targetsOf = (receipt) => (receipt.containment?.viewports ?? []).map((o) => o.nativeViewer ? o.nativeViewer.available : null);
+  const fixedOf = (v) => {
+    const codes = v.codes.filter((c) => c !== 'explainer/browser-diagram-focus');
+    const groups = { ...v.groups, interactions: codes.some((c) => c.startsWith('explainer/browser-diagram-')) ? 'fail' : 'pass' };
+    const pass = Object.values(groups).every((s) => s === 'pass') && codes.length === 0;
+    return { exit: pass ? 0 : 1, ok: pass, status: pass ? 'pass' : 'fail', groups, codes };
+  };
+  const withFix = (x, browserVerdicts, targets) => {
+    x.viewerTargets = targets;
+    if (!browserVerdicts.codes.includes('explainer/browser-diagram-focus')) return;
+    expect(targets.length > 0 && targets.every((t) => t === false), `${x.args.join(' ')}: diagram-focus only where upstream found no Viewer target`);
+    return fixedOf(browserVerdicts);
+  };
+  const tls = 'tls-first-visit';
+  const caseFiles = { [`${tls}.archify.md`]: X(`${tls}.archify.md`) };
+  const renderCase = { run: ['render', 'explainer', `${tls}.archify.md`, 'case.html'], exit: 0 };
+  const typicalFiles = { 'typical.json': X('typical-draft.json') };
+  const renderTypical = { run: ['render', 'explainer', 'typical.json', 'typical.html'], exit: 0 };
+  // T/explainer-browser.test.mjs:49: graph text shrunk below the reading floor
+  const smallText = { tamper: 'case.html', from: '</style>', to: '\n.diagram-preview svg{width:100%!important;min-width:0!important}.diagram-preview{width:200px!important}\n</style>' };
+  const gate = (name, args, files, setup) => mint('explainer-browser', name, args, files, (work, x) => {
+    const receipt = JSON.parse(x.stdout);
+    x.verdicts = verdictsOf(receipt, x.exit);
+    const fixed = withFix(x, x.verdicts, targetsOf(receipt));
+    if (fixed) x.verdictsFixed = fixed;
+    expect(receipt.family === 'explainer' && receipt.chrome.executable === '<CHROME>', `${name}: a launched explainer gate`);
+    for (const key of ['stdout', 'stderr']) delete x[key];
+  }, setup, chromeEnv);
+  gate('browser-check-case', ['browser-check', 'case.html', '--json'], caseFiles, [renderCase]);
+  gate('visual-check-case', ['visual-check', 'case.html', '--json'], caseFiles, [renderCase]);
+  gate('browser-check-typical', ['browser-check', 'typical.html', '--json'], typicalFiles, [renderTypical]);
+  gate('browser-check-small-text', ['browser-check', 'case.html', '--json'], caseFiles, [renderCase, smallText]);
+  mint('explainer-browser', 'finalize-case', ['finalize', 'explainer', `${tls}.archify.md`, 'out.html', '--browser-check', '--json'], caseFiles, (work, x) => {
+    const summary = JSON.parse(x.stdout);
+    x.verdicts = { exit: x.exit, gates: summary.gates, browserCheck: summary.browserCheck };
+    const receipt = JSON.parse(fs.readFileSync(path.join(work, 'out.browser-check.json'), 'utf8'));
+    x.browserVerdicts = verdictsOf(receipt, x.exit);
+    const fixed = withFix(x, x.browserVerdicts, targetsOf(receipt));
+    if (fixed) {
+      x.browserVerdictsFixed = fixed;
+      const gates = { ...summary.gates, 'browser-check': fixed.ok ? 'pass' : 'fail' };
+      x.verdictsFixed = { exit: Object.values(gates).every((g) => g === 'pass') ? 0 : 1, gates, browserCheck: summary.browserCheck };
+    }
+    for (const key of ['stdout', 'stderr']) delete x[key];
+  }, undefined, chromeEnv);
 }

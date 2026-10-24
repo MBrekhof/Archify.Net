@@ -7,7 +7,7 @@ namespace Archify.Net.Cli.Commands;
 
 static class FinalizeCommand
 {
-    // --browser-check (A:5897 at v3.2.0) only matters for explainer; a diagram type always runs the browser gate.
+    // --browser-check (A:5897 at v3.2.0) only matters for explainer, whose browser gate it requests; a diagram type always runs it.
     static readonly string[] KnownOptions = ["--json", "--browser-check"];
 
     // commandFinalize (A:5772-5863): runFinalize with the CLI's delivery paths and provenance inspection, the compact summary on one
@@ -19,7 +19,7 @@ static class FinalizeCommand
         var (afterOutDir, outDir) = Args.OutDir(afterRepoRoot);
         var (afterReceipt, receiptPath) = Args.Receipt(afterOutDir);
         var (afterCandidate, candidateSha256) = Args.CandidateSha256(afterReceipt);
-        var (args, _) = Args.ExtractExplainerWritingArgs(afterCandidate);
+        var (args, writingMode) = Args.ExtractExplainerWritingArgs(afterCandidate);
         var json = args.Contains("--json");
         if (args.FirstOrDefault(arg => arg.StartsWith("--", StringComparison.Ordinal) && !KnownOptions.Contains(arg)) is { } unknown)
             throw new CliArgumentException($"Unknown finalize option \"{unknown}\".", "cli/unknown-option", new JsonObject { ["option"] = unknown },
@@ -28,18 +28,29 @@ static class FinalizeCommand
         if (positional.Length != 3 || positional.Any(arg => arg.Length == 0))
             throw new CliArgumentException(Cli.Usage(), "cli/usage", supportedFixes: ["use: archify finalize <type> <input.json> <output.html> [options]"]);
         var (type, input, output) = (positional[0], positional[1], positional[2]);
-        // ponytail: PORT-009 Task 8 ports finalize explainer; until then it is refused before any stage runs.
-        if (Args.DiagramType(type) == DiagramType.Explainer)
-            throw new CliArgumentException("finalize explainer is not ported yet (PORT-009 Task 8).", "cli/unsupported-option",
-                new JsonObject { ["type"] = type }, supportedFixes: ["use validate and deliver for an explainer document"]);
+        Args.DiagramType(type);   // rendererPath(type): an unknown type is refused here
         quality ??= "showcase";
+        var browserCheck = args.Contains("--browser-check");
+        var requested = type != "explainer" || browserCheck;
 
         FinalizeResult result;
+        var preparing = false;
         try
         {
+            // The draft prepared once for every stage (A:5924-5930); writePreparedBundle's size limit is the bundle file's.
+            JsonObject? prepared = null;
+            if (type == "explainer")
+            {
+                preparing = true;
+                var inputPath = NodePath.Resolve(io.Cwd, input);
+                prepared = ExplainerInput.Prepare(File.ReadAllBytes(inputPath), inputPath, repoRoot, quality, writingMode, null);
+                ExplainerPipeline.CheckBundleSize(prepared);
+                preparing = false;
+            }
             var request = new FinalizeRequest(type, input, output, io.Cwd)
             {
-                Quality = quality, RepoRoot = repoRoot, CandidateSha256 = candidateSha256, OutDir = outDir, ReceiptPath = receiptPath,
+                Quality = quality, RepoRoot = repoRoot, WritingMode = writingMode, BrowserCheck = browserCheck, Prepared = prepared,
+                CandidateSha256 = candidateSha256, OutDir = outDir, ReceiptPath = receiptPath,
                 DeliveryPaths = FinalizeGate.CliDeliveryPaths, InspectDelivery = artifact => DeliveryStore.InspectProvenance(artifact, true),
             };
             // ponytail: blocking on the async run; Task.Run keeps it off any caller's synchronization context.
@@ -50,6 +61,8 @@ static class FinalizeCommand
             // upstream catches every error here (A:5826): an OutputPathError's diagnostics as spread, a finalize code, else finalize/runtime
             var diagnostics = error switch
             {
+                // the explainer's own diagnostics are diagnostic() objects; an OutputPathError's are spread
+                ArchifyDiagnosticException diagnosed when preparing => new JsonArray([.. diagnosed.Diagnostics.Select(d => (JsonNode)d.ToJson())]),
                 ArchifyDiagnosticException diagnosed => new JsonArray([.. diagnosed.Diagnostics.Select(d => (JsonNode)ArtifactFailure.SpreadJson(d))]),
                 FinalizeException coded => new JsonArray(new JsonObject
                 {
@@ -63,7 +76,7 @@ static class FinalizeCommand
                 ["specification"] = new JsonObject { ["path"] = NodePath.Resolve(io.Cwd, input) },
                 ["artifact"] = new JsonObject { ["path"] = NodePath.Resolve(io.Cwd, output) },
                 ["gates"] = new JsonObject(FinalizeGate.Stages.Select(stage => KeyValuePair.Create(stage, (JsonNode?)"not-run"))),
-                ["browserCheck"] = new JsonObject { ["requested"] = true, ["ran"] = false },   // requested: type !== 'explainer' || …
+                ["browserCheck"] = new JsonObject { ["requested"] = requested, ["ran"] = false },
                 ["diagnostics"] = diagnostics, ["visualReview"] = "not-requested",
             };
             if (json) io.Out(Js.Stringify(failure));

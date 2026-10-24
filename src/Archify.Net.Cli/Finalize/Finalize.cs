@@ -21,7 +21,11 @@ public interface IStageRunner
 }
 
 // The run a stage belongs to: the cwd and seams of the finalize command, the resolved artifact and --out-dir.
-public sealed record StageContext(string Cwd, CliServices Services, string Output, string? OutDir);
+public sealed record StageContext(string Cwd, CliServices Services, string Output, string? OutDir)
+{
+    // An explainer's prepared bundle, upstream's ARCHIFY_EXPLAINER_PREPARED in each stage's environment (A:5933), passed in memory.
+    public JsonObject? Prepared { get; init; }
+}
 
 // A child's {status, stdout, stderr}. Error is execFile's error.message, set for a non-zero exit; InProcess marks the browser gate
 // run in this process (upstream's `execution: 'in-process'`).
@@ -40,7 +44,7 @@ public sealed class StageRunner : IStageRunner
         if (stage == "browser-check") return await BrowserCheck(context);
         var (stdout, stderr) = (new StringWriter(), new StringWriter());
         int status;
-        try { status = Cli.Run([.. args], new CliIo(stdout, stderr, context.Cwd, context.Services)); }
+        try { status = Cli.Run([.. args], new CliIo(stdout, stderr, context.Cwd, context.Services), context.Prepared); }
         catch (Exception error)
         {
             // a child that crashes: Program.Main prints the stack and exits 1
@@ -99,6 +103,11 @@ internal sealed record FinalizeRequest(string Type, string Input, string Output,
 {
     public string Quality { get; init; } = "showcase";
     public string? RepoRoot { get; init; }
+    public string? WritingMode { get; init; }
+    // --browser-check: only an explainer can leave the browser gate out (finalize.mjs:746).
+    public bool BrowserCheck { get; init; }
+    // The explainer's prepared bundle (commandFinalize A:5925).
+    public JsonObject? Prepared { get; init; }
     public string? CandidateSha256 { get; init; }
     public string? OutDir { get; init; }
     public string? ReceiptPath { get; init; }
@@ -213,6 +222,24 @@ internal static partial class FinalizeGate
 
     static bool ValidBrowserEvidence(JsonNode receipt)
     {
+        if (Is(P(receipt, "family"), "explainer"))
+        {
+            // finalize.mjs:148-158: each width at 900 in both themes, an entry's requestedTheme || theme as its theme
+            List<(int, int, string?)> viewports = [.. new[] { 1280, 1440 }.SelectMany(width => new[] { "light", "dark" }.Select(theme => (width, 900, (string?)theme)))];
+            static string? ThemeOf(JsonNode? entry) => P(entry, "requestedTheme").Truthy() ? Js.String(P(entry, "requestedTheme")) : P(entry, "theme") is { } t ? Js.String(t) : null;
+            return Is(P(receipt, "viewportPolicy"), "explainer-desktop-v1")
+                && new[] { "containment", "readability", "viewerChrome", "themeStates" }.All(group => Is(P(P(receipt, group), "status"), "pass")
+                    && P(P(receipt, group), "viewports") is JsonArray entries
+                    && ExactViewportCoverage(new JsonArray([.. entries.Select(entry =>
+                        {
+                            var mapped = entry is JsonObject o ? o.DeepClone().AsObject() : [];
+                            if (ThemeOf(entry) is { } theme) mapped["requestedTheme"] = theme;
+                            else mapped.Remove("requestedTheme");
+                            return (JsonNode)mapped;
+                        })]), viewports, (entry, theme) => IsTrue(P(entry, "ok")) && ThemeOf(entry) == theme))
+                && new[] { "commonQa", "interactions", "references", "noJavaScript", "print" }.All(group => Is(P(P(receipt, group), "status"), "pass")
+                    && P(P(receipt, group), "observations") is JsonArray { Count: > 0 } observations && observations.All(entry => IsTrue(P(entry, "ok"))));
+        }
         var light = BrowserEvidence.VisualCheckViewports.Select(v => (v.Width, v.Height, (string?)null)).ToList();
         var themes = BrowserEvidence.VisualCheckViewports.Select(v => (v.Width, v.Height, (string?)"light"))
             .Concat(BrowserEvidence.CaptureViewports.Select(v => (v.Width, v.Height, (string?)"dark"))).ToList();
@@ -328,6 +355,13 @@ internal static partial class FinalizeGate
             if (Text(P(receipt, "output")) is not { Length: > 0 } recorded || !Paths.PathsAlias(recorded, output) || !IdentitiesMatch(P(receipt, "artifact"), identity(output)))
                 return IdentityMismatch(stage, output, P(receipt, "artifact"), identity(output), P(receipt, "receiptId"), null);
             return null;
+        }
+        if (stage == "browser-check" && (type == "explainer") != Is(P(receipt, "family"), "explainer"))
+        {
+            var evidence = new JsonObject { ["expectedType"] = type };
+            CopyIfPresent(evidence, "actualFamily", receipt, "family");
+            return Diagnostic("finalize/browser-family-mismatch", "Browser evidence covers a different artifact family.",
+                new JsonObject { ["stage"] = stage, ["artifact"] = output }, evidence, "Rerun browser-check for the delivered artifact.");
         }
         var checks = P(receipt, "checks") as JsonArray;
         if (stage == "check" && Number(P(deliveryValidation, "checkCount")) != checks!.Count)
@@ -458,9 +492,11 @@ internal static partial class FinalizeGate
 
     // --- paths (finalize.mjs:499-544) ---
 
-    static List<string> StageArguments(string stage, string type, string input, string output, string quality, string? repoRoot, string? outDir) => stage switch
+    static List<string> StageArguments(string stage, string type, string input, string output, string quality, string? repoRoot, string? outDir,
+        string? writingMode) => stage switch
     {
-        "deliver" => ["deliver", type, input, output, "--quality", quality, .. repoRoot is null ? Array.Empty<string>() : ["--repo-root", repoRoot], "--json"],
+        "deliver" => ["deliver", type, input, output, "--quality", quality, .. repoRoot is null ? Array.Empty<string>() : ["--repo-root", repoRoot],
+            .. type == "explainer" && !string.IsNullOrEmpty(writingMode) ? ["--writing", writingMode] : Array.Empty<string>(), "--json"],
         "check" => ["check", output, "--require-provenance"],
         _ => ["browser-check", output, "--json", "--require-provenance", .. outDir is null ? Array.Empty<string>() : ["--out-dir", outDir]],
     };
@@ -507,6 +543,7 @@ internal static partial class FinalizeGate
         var started = Stopwatch.GetTimestamp();
         var startedAt = Iso(services.Now());
         var (type, quality, cwd) = (request.Type, request.Quality, request.Cwd);
+        var needsBrowser = type != "explainer" || request.BrowserCheck;
         JsonObject Identity(string file)
         {
             var path = NodePath.Resolve(cwd, file);
@@ -559,13 +596,14 @@ internal static partial class FinalizeGate
         {
             ["schemaVersion"] = 1, ["ok"] = false, ["command"] = "finalize", ["status"] = "running", ["type"] = type, ["quality"] = quality,
             ["startedAt"] = startedAt, ["specification"] = specification.DeepClone(), ["artifact"] = new JsonObject { ["path"] = resolvedOutput },
-            // a diagram type always needs the browser (finalize.mjs:746 at v3.2.0: needsBrowser = type !== 'explainer' || browserCheck)
-            ["stages"] = new JsonObject(), ["browserCheck"] = new JsonObject { ["requested"] = true, ["ran"] = false }, ["diagnostics"] = new JsonArray(),
+            ["stages"] = needsBrowser ? new JsonObject() : new JsonObject { ["browser-check"] = new JsonObject { ["status"] = "not-run", ["execution"] = "not-requested" } },
+            ["browserCheck"] = new JsonObject { ["requested"] = needsBrowser, ["ran"] = false }, ["diagnostics"] = new JsonArray(),
             ["evidence"] = new JsonObject { ["receipt"] = resolvedReceipt, ["summaryReceipt"] = resolvedSummary }, ["visualReview"] = "not-requested",
         };
         var stages = receipt["stages"]!.AsObject();
         void PersistReceipts()
         {
+            if (type == "explainer") receipt["diagnostics"] = Located(receipt["diagnostics"], request.Prepared, resolvedInput);
             AssertReceiptPaths();
             DeliveryStore.PublishFile(resolvedReceipt, Utf8.GetBytes(Js.Stringify(receipt, 2) + "\n"), null);
             DeliveryStore.PublishFile(resolvedSummary, Utf8.GetBytes(Js.Stringify(Compact(receipt), 2) + "\n"), null);
@@ -573,11 +611,14 @@ internal static partial class FinalizeGate
         PersistReceipts();
 
         var exitCode = 0;
-        foreach (var stage in Stages.Skip(1))
+        foreach (var stage in Stages.Skip(1).Where(stage => needsBrowser || stage != "browser-check"))
         {
             var stageStarted = Stopwatch.GetTimestamp();
-            var args = StageArguments(stage, type, resolvedInput, resolvedOutput, quality, request.RepoRoot, resolvedOutDir);
-            var result = await services.StageRunner.RunAsync(stage, args, new StageContext(cwd, services, resolvedOutput, resolvedOutDir));
+            var args = StageArguments(stage, type, resolvedInput, resolvedOutput, quality, request.RepoRoot, resolvedOutDir, request.WritingMode);
+            // The original resources must be unchanged before each gate and after a passing one (finalize.mjs:849-856, :898-905).
+            var result = DependenciesChanged(request.Prepared, stage)
+                ?? await services.StageRunner.RunAsync(stage, args, new StageContext(cwd, services, resolvedOutput, resolvedOutDir) { Prepared = request.Prepared });
+            if (result.Status == 0 && DependenciesChanged(request.Prepared, stage) is { } changed) result = changed;
             var stageReceipt = ParsedReceipt(result.Stdout);
             if (stage == "browser-check") receipt["browserCheck"]!["ran"] = P(P(stageReceipt, "containment"), "viewports") is JsonArray { Count: > 0 };
             var code = result.Status;
@@ -693,6 +734,47 @@ internal static partial class FinalizeGate
         PersistReceipts();
         return new FinalizeResult(exitCode, receipt, Compact(receipt));
     }
+
+    // assertPreparedDependencies as a failed stage: {ok:false, status:'fail', command, stage:'prepare', diagnostics}.
+    static StageResult? DependenciesChanged(JsonObject? prepared, string stage)
+    {
+        if (prepared is null) return null;
+        try
+        {
+            ExplainerPipeline.AssertDependencies(prepared);
+            return null;
+        }
+        catch (Exception error)
+        {
+            var diagnostics = error is ArchifyDiagnosticException diagnosed ? new JsonArray([.. diagnosed.Diagnostics.Select(d => (JsonNode)d.ToJson())]) : [];
+            return new StageResult(1, Js.Stringify(new JsonObject
+            {
+                ["ok"] = false, ["status"] = "fail", ["command"] = stage, ["stage"] = "prepare", ["diagnostics"] = diagnostics,
+            }));
+        }
+    }
+
+    // An explainer receipt's diagnostics located in the draft (finalize.mjs:802-806): {input, line, component, ...subject} and
+    // {reason: code, example: the first fix, ...evidence}.
+    static JsonArray Located(JsonNode? diagnostics, JsonObject? prepared, string input) => new([.. diagnostics.AsArrayOrEmpty().Select(entry =>
+    {
+        var path = P(P(entry, "subject"), "path");
+        var location = path is null ? null : P(P(prepared, "sourceMap"), Js.String(path));
+        var subject = new JsonObject
+        {
+            ["input"] = input, ["line"] = P(location, "line").Truthy() ? P(location, "line")!.DeepClone() : 1, ["component"] = "document",
+        };
+        Spread(subject, P(entry, "subject"));
+        var evidence = new JsonObject();
+        CopyIfPresent(evidence, "reason", entry, "code");
+        var firstFix = P(entry, "supportedFixes") is JsonArray { Count: > 0 } fixes ? fixes[0] : null;
+        evidence["example"] = firstFix.Truthy() ? firstFix!.DeepClone() : "Repair the named original draft component and rerun finalize.";
+        Spread(evidence, P(entry, "evidence"));
+        var located = Spread(new JsonObject(), entry);
+        located["subject"] = subject;
+        located["evidence"] = evidence;
+        return (JsonNode?)located;
+    })]);
 
     // The final barrier (finalize.mjs:327-367): the delivery barriers (journal, locks, provenance) once more, then the artifact and its
     // provenance record re-read against the delivery receipt.

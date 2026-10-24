@@ -55,8 +55,10 @@ internal static class BrowserEvidence
     // evidenceSidecarPaths (VC:190-233): the physical artifact's namespace stem, bounded for every suffix of the command; with
     // --out-dir, a target directory whose name semantics differ from the source's gets a hashed stem so distinct artifacts cannot share
     // a name. Pure: a missing --out-dir is never created.
-    public static EvidenceOutputs SidecarPaths(string artifactPath, string? outDir, string command, bool capture, PathSemantics? semantics = null)
+    public static EvidenceOutputs SidecarPaths(string artifactPath, string? outDir, string command, bool capture, PathSemantics? semantics = null,
+        IReadOnlyList<(int Width, int Height)>? captureViewports = null)
     {
+        captureViewports ??= CaptureViewports;
         semantics ??= PathSemantics.Native;
         var artifact = Path.GetFullPath(artifactPath);
         try { artifact = semantics.RealPath(artifact); }
@@ -76,7 +78,7 @@ internal static class BrowserEvidence
         var bounded = SidecarPath.BoundedSidecarStem(stem, capture ? VisualSidecarSuffixes : [".browser-check.json"], force, hashDomain);
         var stemPath = Path.Join(directory, $"{bounded}.{command}");
         return new(command, capture, $"{stemPath}.json", $"{stemPath}.html", capture
-            ? [.. CaptureViewports.SelectMany(v => Themes.Select(theme => new EvidenceCapture(v.Width, v.Height, theme, $"{stemPath}.{v.Width}x{v.Height}.{theme}.png")))]
+            ? [.. captureViewports.SelectMany(v => Themes.Select(theme => new EvidenceCapture(v.Width, v.Height, theme, $"{stemPath}.{v.Width}x{v.Height}.{theme}.png")))]
             : []);
     }
 
@@ -305,12 +307,12 @@ internal static class BrowserEvidence
     // persistBrowserCheckFailure / persistVisualCheckFailure (VC:2310-2378): the failure receipt with the artifact's identity (when it
     // reads), failed containment and captures, written alone over this command's owned evidence. Exit 1.
     public static BrowserEvidenceResult PersistFailure(string artifactPath, JsonObject failure, string? outDir, string command, bool capture,
-        PathSemantics? semantics = null) => Persist(artifactPath, failure, outDir, command, capture, semantics ?? PathSemantics.Native, null);
+        PathSemantics? semantics = null) => Persist(artifactPath, failure, outDir, command, capture, semantics ?? PathSemantics.Native, null, CaptureViewports);
 
     static BrowserEvidenceResult Persist(string artifactPath, JsonObject failure, string? outDir, string command, bool capture, PathSemantics semantics,
-        Ownership? ownership)
+        Ownership? ownership, IReadOnlyList<(int Width, int Height)> captureViewports)
     {
-        var outputs = SidecarPaths(artifactPath, outDir, command, capture, semantics);
+        var outputs = SidecarPaths(artifactPath, outDir, command, capture, semantics, captureViewports);
         var directory = ResolveSidecarDirectory(artifactPath, outputs, semantics);
         var artifact = Path.GetFullPath(artifactPath);
         var readable = DeliveryStore.RegularFile(artifact, "failure-artifact", null, out var artifactBytes, out _) is null;
@@ -364,9 +366,18 @@ internal static class BrowserEvidence
         if (!HtmlExtension().IsMatch(artifact)) throw new BrowserEvidenceException($"{command} requires an .html artifact.");
         if (DeliveryStore.RegularFile(artifact, "visual-check-artifact", null, out var artifactBytes, out var systemCode) is { } unreadable)
             throw new BrowserEvidenceException($"The visual-check artifact could not be read safely ({unreadable}).") { Code = systemCode };
-        var outputs = SidecarPaths(artifact, request.OutDir, command, capture, semantics);
+        // An explainer page has its own viewports, receipt groups and diagnostics (VC:2466-2484).
+        var explainer = ExplainerPipeline.IsExplainerHtml(Encoding.UTF8.GetString(artifactBytes));
+        var captureViewports = explainer ? ExplainerBrowser.Viewports : CaptureViewports;
+        var outputs = SidecarPaths(artifact, request.OutDir, command, capture, semantics, captureViewports);
         var directory = ResolveSidecarDirectory(artifact, outputs, semantics);
         var receipt = BrowserReceipt.Base(artifact, artifactBytes, directory.Sidecars, Chrome("not-checked", null), request.DeliveryProvenance, command, capture);
+        if (explainer)
+        {
+            receipt["family"] = "explainer";
+            receipt["viewportPolicy"] = "explainer-desktop-v1";
+            receipt["containment"]!["policy"] = "horizontal-containment-readable-document-scroll";
+        }
         if (directory.Failure is { } identity) return Refused(receipt, identity);
         var (ownership, preflight) = BeginWrite(artifact, artifactBytes, outputs, semantics);
         if (preflight is not null) return Refused(receipt, preflight);
@@ -390,7 +401,7 @@ internal static class BrowserEvidence
                 failure["error"] = $"visual-check could not stage its private artifact snapshot: {error.Message}";
                 failure["diagnostics"] = BrowserReceipt.Json([BrowserReceipt.Failure("viewer/artifact-snapshot", "visual-check could not bind a private artifact snapshot.",
                     new JsonObject { ["artifact"] = artifact }, new JsonObject { ["reason"] = error.Message }, ["retry after resolving the reported staging filesystem error"])]);
-                return Persist(artifact, failure, request.OutDir, command, capture, semantics, ownership);
+                return Persist(artifact, failure, request.OutDir, command, capture, semantics, ownership, captureViewports);
             }
 
             try { request.VerifyArtifact?.Invoke(artifactBytes); }
@@ -404,13 +415,13 @@ internal static class BrowserEvidence
                 if (error is BrowserEvidenceException { ProvenanceStatus: { } status }) failure["provenance"] = status;
                 failure["error"] = error.Message;
                 failure["diagnostics"] = BrowserReceipt.Json((error as BrowserEvidenceException)?.Diagnostics ?? []);
-                return Persist(artifact, failure, request.OutDir, command, capture, semantics, ownership);
+                return Persist(artifact, failure, request.OutDir, command, capture, semantics, ownership, captureViewports);
             }
 
             var executable = browsers.ResolveExecutable();
             receipt["chrome"] = executable is null ? Chrome("unavailable", null) : Chrome("available", executable);
             if (executable is null) return Skipped(artifact, receipt, outputs, ownership!, command, capture);
-            return await Inspect(request, browsers, executable, artifact, artifactBytes, snapshot, inspection, receipt, outputs, ownership!);
+            return await Inspect(request, browsers, executable, artifact, artifactBytes, snapshot, inspection, receipt, outputs, ownership!, explainer);
         }
         finally
         {
@@ -437,26 +448,32 @@ internal static class BrowserEvidence
     }
 
     static async Task<BrowserEvidenceResult> Inspect(BrowserEvidenceRequest request, IBrowserInspectorFactory browsers, string executable, string artifact,
-        byte[] artifactBytes, string snapshot, string inspection, JsonObject receipt, EvidenceOutputs outputs, Ownership ownership)
+        byte[] artifactBytes, string snapshot, string inspection, JsonObject receipt, EvidenceOutputs outputs, Ownership ownership, bool explainer)
     {
         var (command, capture) = (request.Command, request.Capture);
+        var captureViewports = explainer ? ExplainerBrowser.Viewports : CaptureViewports;
         try
         {
             var browser = await browsers.LaunchAsync(executable);
             var observations = new List<Observation>();
+            var explained = new List<JsonObject>();
             var captured = new Dictionary<string, byte[]>();
             try
             {
-                foreach (var (theme, viewports) in new[] { ("light", VisualCheckViewports), ("dark", CaptureViewports) })
+                foreach (var (theme, viewports) in new[] { ("light", explainer ? ExplainerBrowser.Viewports : VisualCheckViewports), ("dark", captureViewports) })
                     foreach (var (width, height) in viewports)
                     {
                         var index = outputs.Screenshots.ToList().FindIndex(s => (s.Width, s.Height, s.Theme) == (width, height, theme));
                         var staged = index < 0 ? null : Path.Join(inspection, $"capture-{index}.png");
-                        var metrics = await browser.InspectAsync(snapshot, width, height, theme, staged);
+                        JsonObject? explainerMetrics = null;
+                        ViewportMetrics? metrics = null;
+                        if (explainer) explainerMetrics = await ExplainerBrowser.InspectAsync(browser, new PublicHtmlOptions(snapshot, width, height, theme, ScreenshotPath: staged));
+                        else metrics = await browser.InspectAsync(snapshot, width, height, theme, staged);
                         if (!File.ReadAllBytes(snapshot).AsSpan().SequenceEqual(artifactBytes))
                             throw new BrowserEvidenceException("The private visual-check artifact snapshot changed during inspection.");
                         if (staged is not null) captured[outputs.Screenshots[index].Path] = ReadStaged(staged);
-                        observations.Add(Observation.From(width, height, theme, metrics));
+                        if (explainer) explained.Add(ExplainerBrowser.Observation(width, height, theme, explainerMetrics!));
+                        else observations.Add(Observation.From(width, height, theme, metrics!));
                     }
             }
             finally
@@ -468,6 +485,7 @@ internal static class BrowserEvidence
             request.VerifyArtifact?.Invoke(artifactBytes);
             VerifyDelivered(artifact, artifactBytes, command);
 
+            if (explainer) return ExplainerReceipt(artifact, receipt, outputs, ownership, capture, explained, captured);
             var light = observations.Take(VisualCheckViewports.Count).ToList();
             receipt["containment"]!["viewports"] = new JsonArray([.. light.Select(entry => (JsonNode)entry.ToJson())]);
             receipt["readability"]!["viewports"] = new JsonArray([.. light.Select(entry => (JsonNode)entry.ToJson())]);
@@ -475,6 +493,7 @@ internal static class BrowserEvidence
             var screenshots = outputs.Screenshots
                 .Select(s => (Entry: observations.First(o => (o.Width, o.Height, o.Theme) == (s.Width, s.Height, s.Theme)), File: Path.GetFileName(s.Path))).ToList();
             receipt["captures"]!["screenshots"] = new JsonArray([.. screenshots.Select(s => (JsonNode)s.Entry.ToJson(s.File))]);
+            var cards = screenshots.Select(s => new ContactCard(s.Entry.Theme, s.Entry.Width, s.Entry.Height, s.Entry.Ok, s.Entry.VerticalScrollAccepted, s.File)).ToList();
             receipt["themeStates"]!["viewports"] = new JsonArray([.. observations.Select(entry => (JsonNode)new JsonObject
             {
                 ["width"] = entry.Width, ["height"] = entry.Height, ["requestedTheme"] = entry.Theme, ["resolvedTheme"] = entry.ResolvedTheme,
@@ -495,32 +514,7 @@ internal static class BrowserEvidence
                 receipt["captures"]!["contactSheet"] = Path.GetFileName(outputs.ContactSheet);
             }
             var pass = containmentPass && themeStatePass && readabilityPass && viewerChromePass;
-            receipt["status"] = pass ? "pass" : "fail";
-            receipt["ok"] = pass;
-
-            var desired = new List<(string Path, byte[] Bytes)>();
-            if (capture)
-            {
-                desired.Add((outputs.ContactSheet, new UTF8Encoding(false).GetBytes(BrowserReceipt.ContactSheetHtml(artifact, receipt, screenshots))));
-                desired.AddRange(outputs.Screenshots.Select(s => (s.Path, captured[s.Path])));
-                // recordVisualEvidenceFiles (VC:785-797): {sha256, bytes, file} of the sheet and each capture
-                receipt["sidecars"]!["files"] = new JsonArray([.. desired.Select(d =>
-                {
-                    var file = Identity(d.Bytes);
-                    file["file"] = Path.GetFileName(d.Path);
-                    return (JsonNode)file;
-                })]);
-            }
-            desired.Add((outputs.Receipt, ReceiptBytes(receipt)));
-            var publication = Commit(artifact, outputs, ownership, desired);
-            if (publication is not null)
-            {
-                AppendPublicationFailure(receipt, publication);
-                receipt["ok"] = false;
-                receipt["status"] = "fail";
-                return new(1, receipt, false);
-            }
-            return new(pass ? 0 : 1, receipt, true);
+            return Publish(artifact, receipt, outputs, ownership, capture, pass, cards, captured);
         }
         catch (Exception error)
         {
@@ -534,8 +528,84 @@ internal static class BrowserEvidence
             var carried = error as BrowserEvidenceException;
             if (carried?.ProvenanceStatus is { } status) receipt["provenance"] = status;
             receipt["diagnostics"] = BrowserReceipt.Json(carried?.Diagnostics ?? [RuntimeDiagnostic(artifact, error, carried, command)]);
-            return Persist(artifact, receipt, request.OutDir, command, capture, request.Semantics, ownership);
+            return Persist(artifact, receipt, request.OutDir, command, capture, request.Semantics, ownership, captureViewports);
         }
+    }
+
+    // The status, then the contact sheet, the captures and the receipt committed as one owned set (VC:2695-2720).
+    static BrowserEvidenceResult Publish(string artifact, JsonObject receipt, EvidenceOutputs outputs, Ownership ownership, bool capture, bool pass,
+        IReadOnlyList<ContactCard> cards, Dictionary<string, byte[]> captured)
+    {
+        receipt["status"] = pass ? "pass" : "fail";
+        receipt["ok"] = pass;
+        var desired = new List<(string Path, byte[] Bytes)>();
+        if (capture)
+        {
+            desired.Add((outputs.ContactSheet, new UTF8Encoding(false).GetBytes(BrowserReceipt.ContactSheetHtml(artifact, receipt, cards))));
+            desired.AddRange(outputs.Screenshots.Select(s => (s.Path, captured[s.Path])));
+            // recordVisualEvidenceFiles (VC:785-797): {sha256, bytes, file} of the sheet and each capture
+            receipt["sidecars"]!["files"] = new JsonArray([.. desired.Select(d =>
+            {
+                var file = Identity(d.Bytes);
+                file["file"] = Path.GetFileName(d.Path);
+                return (JsonNode)file;
+            })]);
+        }
+        desired.Add((outputs.Receipt, ReceiptBytes(receipt)));
+        var publication = Commit(artifact, outputs, ownership, desired);
+        if (publication is not null)
+        {
+            AppendPublicationFailure(receipt, publication);
+            receipt["ok"] = false;
+            receipt["status"] = "fail";
+            return new(1, receipt, false);
+        }
+        return new(pass ? 0 : 1, receipt, true);
+    }
+
+    // An explainer page's receipt (VC:2651-2695): the 1280 and 1440 observations in both themes, every one in containment, readability
+    // and viewerChrome (readability's status still over the light ones), the five groups, and ok only without a diagnostic.
+    static BrowserEvidenceResult ExplainerReceipt(string artifact, JsonObject receipt, EvidenceOutputs outputs, Ownership ownership, bool capture,
+        List<JsonObject> all, Dictionary<string, byte[]> captured)
+    {
+        static (int, int, string) Key(JsonObject o) => ((int)o["width"]!.D(), (int)o["height"]!.D(), o["theme"]!.GetValue<string>());
+        static bool True(JsonNode? node) => node is JsonValue v && v.GetValueKind() == JsonValueKind.True;
+        var light = all.Take(ExplainerBrowser.Viewports.Count).ToList();
+        var screenshots = outputs.Screenshots.Select(s => (Entry: all.First(o => Key(o) == (s.Width, s.Height, s.Theme)), File: Path.GetFileName(s.Path))).ToList();
+        receipt["captures"]!["screenshots"] = new JsonArray([.. screenshots.Select(s =>
+        {
+            var entry = s.Entry.DeepClone().AsObject();
+            entry["file"] = s.File;
+            return (JsonNode)entry;
+        })]);
+        var cards = screenshots.Select(s => new ContactCard(s.Entry["theme"]!.GetValue<string>(), (int)s.Entry["width"]!.D(), (int)s.Entry["height"]!.D(),
+            True(s.Entry["ok"]), True(s.Entry["verticalScrollAccepted"]), s.File)).ToList();
+        bool ThemeOk(JsonObject o) => Text(o["resolvedTheme"]) == o["theme"]!.GetValue<string>();
+        receipt["themeStates"]!["viewports"] = new JsonArray([.. all.Select(o => (JsonNode)new JsonObject
+        {
+            ["width"] = o["width"]!.DeepClone(), ["height"] = o["height"]!.DeepClone(), ["requestedTheme"] = o["theme"]!.DeepClone(),
+            ["resolvedTheme"] = o["resolvedTheme"]?.DeepClone(), ["ok"] = ThemeOk(o),
+        })]);
+        var themeStatePass = all.All(ThemeOk);
+        var containmentPass = all.All(o => True(o["ok"]));
+        var readabilityPass = light.All(o => True(o["readabilityOk"]));
+        var viewerChromePass = all.All(o => True(o["viewerChromeOk"]));
+        var diagnostics = ExplainerBrowser.ObservationDiagnostics(artifact, all);
+        receipt["diagnostics"] = diagnostics;
+        receipt["themeStates"]!["status"] = themeStatePass ? "pass" : "fail";
+        receipt["containment"]!["status"] = containmentPass ? "pass" : "fail";
+        receipt["readability"]!["status"] = readabilityPass ? "pass" : "fail";
+        receipt["viewerChrome"]!["status"] = viewerChromePass ? "pass" : "fail";
+        if (capture)
+        {
+            receipt["captures"]!["status"] = "pass";
+            receipt["captures"]!["contactSheet"] = Path.GetFileName(outputs.ContactSheet);
+        }
+        foreach (var group in new[] { "containment", "readability", "viewerChrome" })
+            receipt[group]!["viewports"] = new JsonArray([.. all.Select(o => o.DeepClone())]);
+        ExplainerBrowser.AddReceiptGroups(receipt, all);
+        var pass = containmentPass && themeStatePass && readabilityPass && viewerChromePass && diagnostics.Count == 0;
+        return Publish(artifact, receipt, outputs, ownership, capture, pass, cards, captured);
     }
 
     static Diagnostic RuntimeDiagnostic(string artifact, Exception error, BrowserEvidenceException? carried, string command)

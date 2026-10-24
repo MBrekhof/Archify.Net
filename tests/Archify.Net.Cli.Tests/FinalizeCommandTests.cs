@@ -23,7 +23,7 @@ public sealed partial class FinalizeCommandTests(ITestOutputHelper output)
     private static partial Regex FinalizeSidecar();
 
     // The capture script's scrubFinalize.
-    static string Scrub(string text)
+    internal static string Scrub(string text)
     {
         var t = UuidV4().Replace(text, "<uuid>");
         if (!t.StartsWith('{')) return t;
@@ -37,7 +37,7 @@ public sealed partial class FinalizeCommandTests(ITestOutputHelper output)
         return Js.Stringify(value, t.Contains("\n  ") ? 2 : 0) + "\n";
     }
 
-    static string Chromium(string text) =>
+    internal static string Chromium(string text) =>
         DoctorCommand.HeadlessShell() is { } chrome ? text.Replace(chrome.Replace("\\", "\\\\"), "<CHROME>").Replace(chrome, "<CHROME>") : text;
 
     // A browser factory with no Chromium; records whether a run asked for one.
