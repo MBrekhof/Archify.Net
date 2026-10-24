@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The data file is not valid JSON.",
+    "code": [
+      {
+        "code": "explainer/chart-data",
+        "severity": "error",
+        "message": "The data file is not valid JSON.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "chart",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "chart-data",
+          "example": "{\"id\":\"router\",\"title\":\"Router\",\"path\":\"src/router.js\",\"lines\":[1,3]}"
+        },
+        "supportedFixes": [
+          "@chart type=bar data=latency.csv x=day y=p50,p99"
+        ]
+      }
+    ]
+  }
+}

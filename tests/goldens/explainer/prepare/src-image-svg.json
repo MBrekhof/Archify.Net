@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Only local PNG, JPEG, WebP and GIF images are supported.",
+    "code": [
+      {
+        "code": "explainer/asset-format",
+        "severity": "error",
+        "message": "Only local PNG, JPEG, WebP and GIF images are supported.",
+        "subject": {
+          "path": "/panels/0/blocks/0/path",
+          "component": "image",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "asset-format",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Use a PNG, JPEG, WebP or GIF image."
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The reference names an edge absent from the native diagram.",
+    "code": [
+      {
+        "code": "explainer/diagram-edge-reference",
+        "severity": "error",
+        "message": "The reference names an edge absent from the native diagram.",
+        "subject": {
+          "component": "diagram",
+          "line": 12,
+          "path": "/panels/0/blocks/1/items/0/target",
+          "column": 1,
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "reason": "diagram-edge-reference",
+          "example": "{diagram:\"layout\",edges:[\"0\"]}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"layout\",edges:[\"0\"]}"
+        ]
+      }
+    ]
+  }
+}

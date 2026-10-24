@@ -11,7 +11,7 @@ namespace Archify.Net.Tests;
 public partial class ExplainerParityTests
 {
     // A group is compared once it is listed; each task adds its own.
-    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate"];
+    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare"];
     // Rows that differ from Node by a stated deviation (docs/deviations.md), each pinned by its own fact below.
     static readonly HashSet<(string Group, string Name)> KnownDeviations =
         [("parse", "cr-only"), ("parse", "line-separator-heading"), ("writing", "rule-fold-long-s")];
@@ -32,7 +32,7 @@ public partial class ExplainerParityTests
     {
         var seed = Seed(group, name);
         var dir = Directory.CreateTempSubdirectory("axs-").FullName;
-        var repo = seed["repo"]?.GetValue<bool>() == true ? EvidenceRepo.Create(null).Root : null;
+        var repo = seed["repo"]?.GetValue<bool>() == true ? EvidenceRepo.CreateExplainer() : null;
         try
         {
             WriteFiles(dir, seed["files"] as JsonObject);
@@ -51,11 +51,24 @@ public partial class ExplainerParityTests
     static string Run(JsonObject seed, string dir, string? repo)
     {
         var args = (JsonArray)Substitute(seed["args"] ?? new JsonArray(), dir, repo)!;
+        if (repo is not null && args.Count > 0 && args[^1] is JsonObject last) last["repoRoot"] = repo;   // the runner's `repo: true`
         JsonNode? Arg(int i) => i < args.Count ? args[i] : null;
         try
         {
             switch (seed["call"]!.GetValue<string>())
             {
+                case "resolveExplainerSources":
+                    return Json(ExplainerSources.Resolve(Arg(0)!.AsObject(), Resources(Arg(1))));
+                case "prepareExplainerDiagrams":
+                    return Json(ExplainerDiagrams.Prepare(Arg(0)!.AsObject(), Resources(Arg(1))));
+                case "validateExplainerDiagramTarget":
+                    var at = Arg(2);
+                    return Json(ExplainerDiagrams.ValidateTarget(Arg(0) as JsonObject, Arg(1) as JsonObject,
+                        new(at.Obj("sourceMap"), at.Str("sourcePath"), at.Str("pointer") ?? "/", (int?)at.Num("line") ?? 1)));
+                case "prepareExplainer":
+                    return Json(ExplainerPrepare.Prepare(Arg(0)!.GetValue<string>(), Prepare(Arg(1))));
+                case "readPreparedBundle":
+                    return Json(ReadPrepared(seed, dir, repo));
                 case "parseExplainer":
                     return Json(ExplainerParser.Parse(Arg(0)!.GetValue<string>(), Arg(1).Str("inputPath"), Arg(1).Str("output")).ToJson());
                 case "compileExplainerDiagram":
@@ -109,6 +122,52 @@ public partial class ExplainerParityTests
     }
 
     static InlineContext Context(JsonNode? context) => new() { PanelId = context.Str("panelId"), Footnotes = context?["footnotes"] as JsonArray };
+    // prepareExplainerDiagrams' `quality = 'showcase'` default; resolveExplainerSources reads no quality.
+    static ResourceOptions Resources(JsonNode? o) => new(o.Str("repoRoot"), o.Str("baseDir"), o.Obj("sourceMap"), o.Str("sourcePath"), o.Str("quality") ?? "showcase");
+    static PrepareOptions Prepare(JsonNode? o) =>
+        new(o.Str("inputPath")!, o.Str("baseDir"), o.Str("repoRoot"), o.Str("quality"), o.Str("writingMode") ?? "warn", o.Str("output"));
+
+    // The runner's {from, to} replacements, each `from` occurring exactly once.
+    static string Tamper(string text, JsonNode? edits)
+    {
+        foreach (var edit in edits.AsArrayOrEmpty())
+        {
+            var (from, to) = (edit.Str("from")!, edit.Str("to")!);
+            Assert.Equal(2, text.Split(from).Length);
+            text = text.Replace(from, to);
+        }
+        return text;
+    }
+    static JsonObject ParseJson(string text) => (JsonObject)ExplainerJson.Parse(text, out string? _)!;   // JSON.parse, V8 key order
+
+    // The runner's two-step readPreparedBundle: prepare draft A, apply `mutate` to its bundle (the file round trip is a JSON one),
+    // and read it back against draft B (README.md).
+    static JsonObject ReadPrepared(JsonObject seed, string dir, string? repo)
+    {
+        var draft = (JsonObject)Substitute(seed["draft"], dir, repo)!;
+        var inputPath = Path.Join(dir, draft.Str("file") ?? "draft.archify.md");
+        File.WriteAllText(inputPath, draft.Str("text"));
+        var options = draft.Obj("options")?.DeepClone().AsObject() ?? [];
+        if (repo is not null) options["repoRoot"] = repo;
+        options["inputPath"] = inputPath;
+        var bundle = ParseJson(Js.Stringify(ExplainerPrepare.Prepare(draft.Str("text")!, Prepare(options))));
+        var mutate = seed.Obj("mutate") ?? [];
+        Assert.True(mutate.Count <= 1);
+        if (mutate["path"] is { } path) bundle["sourcePath"] = Path.GetFullPath(Path.Join(dir, path.GetValue<string>()));
+        if (mutate.ContainsKey("quality")) bundle["quality"] = mutate["quality"]?.DeepClone();
+        if (mutate.ContainsKey("writingMode")) { if (mutate["writingMode"] is null) bundle.Remove("writingMode"); else bundle["writingMode"] = mutate["writingMode"]!.DeepClone(); }
+        if (mutate.ContainsKey("document")) bundle["document"] = ParseJson(Tamper(Js.Stringify(bundle["document"]), mutate["document"]));
+        if (mutate.ContainsKey("signed")) bundle = ParseJson(Tamper(Js.Stringify(bundle), mutate["signed"]));
+        if (new[] { "path", "quality", "writingMode", "document", "signed" }.Any(mutate.ContainsKey)) bundle["digest"] = ExplainerPrepare.Digest(bundle);
+        if (mutate.ContainsKey("bytes")) bundle = ParseJson(Tamper(Js.Stringify(bundle), mutate["bytes"]));
+        if (mutate.ContainsKey("dependency")) WriteFiles(dir, mutate.Obj("dependency"));
+        var read = (JsonObject?)Substitute(seed["read"], dir, repo) ?? [];
+        var inputB = read.Str("file") is { } file ? Path.Join(dir, file) : inputPath;
+        if (read.Str("file") is not null && read.Str("text") is { } text) File.WriteAllText(inputB, text);
+        var o = read.Obj("options");
+        return ExplainerPrepare.ReadPrepared(bundle, read.Str("text") ?? draft.Str("text")!, inputB,
+            new(o.Str("expectedInputPath") ?? inputB, o.Bool("checkDependencies") ?? true, o.Str("quality"), o.Str("writingMode")));
+    }
 
     // JSON.stringify(result, null, 2) + "\n" over the capture's JSON-level tokens.
     internal static string Json(JsonNode? result) => Js.Stringify(TokeniseValue(result), 2) + "\n";
@@ -134,15 +193,17 @@ public partial class ExplainerParityTests
         throw new FileNotFoundException($"no golden for explainer/{group}/{name}");
     }
 
-    // A seed's `files`: {path: {text} | {base64} | {zeros: n}}, written into its directory.
+    // A seed's `files`: {path: {text} | {base64, zeros?} | {zeros: n} | null}, written into (null: removed from) its directory;
+    // `zeros` after `base64` appends that many zero bytes.
     static void WriteFiles(string dir, JsonObject? files)
     {
         foreach (var (rel, entry) in files ?? new JsonObject())
         {
-            var bytes = entry!["text"] is { } text ? new UTF8Encoding(false).GetBytes(text.GetValue<string>())
-                : entry["base64"] is { } base64 ? Convert.FromBase64String(base64.GetValue<string>())
-                : new byte[entry["zeros"]!.GetValue<int>()];
             var path = Path.Combine(dir, rel);
+            if (entry is null) { File.Delete(path); continue; }
+            var bytes = entry["text"] is { } text ? new UTF8Encoding(false).GetBytes(text.GetValue<string>())
+                : entry["base64"] is { } base64 ? [.. Convert.FromBase64String(base64.GetValue<string>()), .. new byte[(int)(entry["zeros"]?.D() ?? 0)]]
+                : new byte[(int)entry["zeros"]!.D()];
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             File.WriteAllBytes(path, bytes);
         }
@@ -296,6 +357,76 @@ public partial class ExplainerParityTests
         foreach (var matched in new[] { "ſeamless", "maKe a decision", "utiliſe" }) Assert.Contains($"\"matched\": \"{matched}\"", node);
         var text = Seed("writing", "rule-fold-long-s")["args"]![0]![0]!["text"]!.GetValue<string>();
         Assert.Equal(["maKe a decision"],ExplainerWriting.Lint([new(text, 1, "prose")]).Select(d => d.Evidence.Str("matched")));
+    }
+
+    // --- Task 4 facts ---
+    const string TinyPng = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=";
+
+    // A bundle's digest covers everything but itself, a read returns an equal copy, and a rebind signs the new draft.
+    [Fact] public void Prepared_digest_is_self_consistent()
+    {
+        var dir = Directory.CreateTempSubdirectory("axs-").FullName;
+        try
+        {
+            var text = "# Why? {#why}\n\nBecause.\n\n@source docs title=\"Docs\"\n\n## How? {#how}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n";
+            File.WriteAllBytes(Path.Join(dir, "tiny.png"), Convert.FromBase64String(TinyPng));
+            var input = Path.Join(dir, "draft.archify.md");
+            var bundle = ExplainerPrepare.Prepare(text, new(input));
+            var unsigned = bundle.DeepClone().AsObject();
+            unsigned.Remove("digest");
+            Assert.Equal(Sha256(Js.Stringify(unsigned)), bundle.Str("digest"));
+            Assert.Equal("digest", bundle.Last().Key);
+            ExplainerPrepare.CheckBundleSize(bundle);
+            var read = ExplainerPrepare.ReadPrepared(bundle, text, input, new(input));
+            Assert.NotSame(bundle, read);
+            Assert.Equal(Js.Stringify(bundle), Js.Stringify(read));
+
+            var edited = text.Replace("Because.", "Because of the cache.");
+            Assert.Equal("explainer/prepared-mismatch", Assert.Throws<ArchifyDiagnosticException>(() => ExplainerPrepare.ReadPrepared(bundle, edited, input, new(input))).Diagnostics[0].Code);
+            var rebound = ExplainerPrepare.Rebind(bundle, ExplainerPrepare.ParseValidated(edited, input, null));
+            Assert.Equal(ExplainerPrepare.Digest(rebound), rebound.Str("digest"));
+            Assert.NotEqual(bundle.Str("digest"), rebound.Str("digest"));
+            Assert.Equal(bundle.Select(kv => kv.Key), rebound.Select(kv => kv.Key));
+            Assert.Equal(edited, ExplainerPrepare.ReadPrepared(rebound, edited, input, new(input)).Str("sourceText"));
+        }
+        finally { Directory.Delete(dir, recursive: true); }
+    }
+
+    // readContained and readSpec refuse a reparse point at any component below the root (Node's lstat reports a junction as a
+    // link); the root itself may be one, as fs.realpathSync resolves it. A junction needs no privilege, unlike a symbolic link.
+    [Fact] public void Reparse_points_below_the_root_are_refused()
+    {
+        if (!OperatingSystem.IsWindows()) return;
+        var dir = Directory.CreateTempSubdirectory("axs-").FullName;
+        try
+        {
+            var real = Directory.CreateDirectory(Path.Join(dir, "real")).FullName;
+            File.WriteAllBytes(Path.Join(real, "tiny.png"), Convert.FromBase64String(TinyPng));
+            File.WriteAllText(Path.Join(real, "tree.json"), "{}");
+            var linked = Path.Join(dir, "linked");
+            var mklink = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("cmd", ["/c", "mklink", "/J", linked, real]) { RedirectStandardOutput = true })!;
+            mklink.WaitForExit();
+            Assert.Equal(0, mklink.ExitCode);
+            JsonObject Images(string path) => new()
+            {
+                ["sources"] = new JsonArray(),
+                ["panels"] = new JsonArray(new JsonObject { ["id"] = "p", ["blocks"] = new JsonArray(new JsonObject { ["id"] = "a", ["type"] = "image", ["path"] = path, ["alt"] = "A" }) }),
+            };
+            var refused = Assert.Throws<ArchifyDiagnosticException>(() => ExplainerSources.Resolve(Images("linked/tiny.png"), new(null, dir, null, null)));
+            Assert.Equal(("explainer/asset-symlink", "/panels/0/blocks/0/path"), (refused.Diagnostics[0].Code, refused.Diagnostics[0].Path));
+            var diagram = new JsonObject
+            {
+                ["panels"] = new JsonArray(new JsonObject { ["id"] = "p", ["blocks"] = new JsonArray(new JsonObject { ["id"] = "t", ["type"] = "diagram", ["diagramType"] = "tree", ["source"] = "linked/tree.json" }) }),
+            };
+            Assert.Equal("explainer/diagram-source-symlink", Assert.Throws<ArchifyDiagnosticException>(() => ExplainerDiagrams.Prepare(diagram, new(null, dir, null, null))).Diagnostics[0].Code);
+            var through = ExplainerSources.Resolve(Images("tiny.png"), new(null, linked, null, null));
+            Assert.Equal("image/png", through["assets"]!["a"].Str("mime"));
+        }
+        finally
+        {
+            if (Directory.Exists(Path.Join(dir, "linked"))) Directory.Delete(Path.Join(dir, "linked"));   // the junction itself, not its target
+            Directory.Delete(dir, recursive: true);
+        }
     }
 
     // --- Task 1 facts ---

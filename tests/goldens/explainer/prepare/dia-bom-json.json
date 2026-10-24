@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Diagram source is not valid JSON.",
+    "code": [
+      {
+        "code": "explainer/diagram-json",
+        "severity": "error",
+        "message": "Diagram source is not valid JSON.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-json",
+          "example": "{\"schema_version\":1,\"diagram_type\":\"sequence\",\"meta\":{\"title\":\"Request\"},\"participants\":[],\"messages\":[]}"
+        },
+        "supportedFixes": [
+          "Use this form: {\"schema_version\":1,\"diagram_type\":\"sequence\",\"meta\":{\"title\":\"Request\"},\"participants\":[],\"messages\":[]}"
+        ]
+      }
+    ]
+  }
+}

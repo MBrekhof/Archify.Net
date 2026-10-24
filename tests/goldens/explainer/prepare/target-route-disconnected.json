@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "No directed route connects these nodes in the native diagram.",
+    "code": [
+      {
+        "code": "explainer/diagram-route-reference",
+        "severity": "error",
+        "message": "No directed route connects these nodes in the native diagram.",
+        "subject": {
+          "component": "diagram",
+          "line": 9,
+          "path": "/panels/0/blocks/1/items/0/target",
+          "input": "/draft.md"
+        },
+        "evidence": {
+          "reason": "diagram-route-reference",
+          "example": "{diagram:\"request\",route:[\"client\",\"api\"]}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"request\",route:[\"client\",\"api\"]}"
+        ]
+      }
+    ]
+  }
+}

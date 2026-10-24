@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native specification diagram_type must match its explainer block.",
+    "code": [
+      {
+        "code": "explainer/diagram-type-mismatch",
+        "severity": "error",
+        "message": "Native specification diagram_type must match its explainer block.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-type-mismatch",
+          "example": "diagram_type: tree"
+        },
+        "supportedFixes": [
+          "Use this form: diagram_type: tree"
+        ]
+      }
+    ]
+  }
+}

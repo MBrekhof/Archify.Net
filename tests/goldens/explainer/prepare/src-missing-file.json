@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The declared repository location could not be verified.",
+    "code": [
+      {
+        "code": "explainer/repository-location",
+        "severity": "error",
+        "message": "The declared repository location could not be verified.",
+        "subject": {
+          "path": "/sources/0",
+          "component": "source",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "repository-location",
+          "example": "{\"path\":\"src/router.js\",\"lines\":[1,3]}"
+        },
+        "supportedFixes": [
+          "Correct the repository origin, pinned commit, file path and line range."
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "sources": {},
+  "assets": {},
+  "charts": {
+    "latency": "xychart-beta\n  x-axis [\"Mon\", \"Tue\"]\n  y-axis \"ms\"\n  bar \"p50\" [12, 1300]\n  bar \"p99\" [40, 55]"
+  },
+  "dependencies": [
+    {
+      "kind": "data",
+      "id": "latency",
+      "path": "data/latency.csv",
+      "sha256": "ce8100df891745f9df8fe7de936f9c6c969277bc82540c139482944fc8bb0f20",
+      "bytes": 37,
+      "contentBase64": "ZGF5LHA1MCxwOTkKTW9uLDEyLDQwClR1ZSwiMSwzMDAiLDU1Cg=="
+    }
+  ],
+  "repository": null
+}

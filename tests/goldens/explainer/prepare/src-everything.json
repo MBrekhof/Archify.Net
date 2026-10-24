@@ -1,0 +1,90 @@
+{
+  "sources": {
+    "router": {
+      "id": "router",
+      "title": "Router",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "path": "src/router.js",
+      "lines": [
+        1,
+        2
+      ],
+      "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/router.js#L1-L2",
+      "text": "export function route(input) {\n  return input.kind;",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54
+    },
+    "store": {
+      "id": "store",
+      "title": "Store",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "path": "src/store.js",
+      "lines": [
+        1,
+        1
+      ],
+      "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/store.js#L1",
+      "text": "export const store = new Map();",
+      "sha256": "08b70666d1933a1171fe6f9c4c72455fa44f1a95f05eb82db28837991fd4daca",
+      "bytes": 32
+    }
+  },
+  "assets": {
+    "pic": {
+      "id": "pic",
+      "alt": "A pixel",
+      "path": "tiny.png",
+      "mime": "image/png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+      "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    }
+  },
+  "charts": {
+    "latency": "xychart-beta\n  x-axis [\"Mon\", \"Tue\"]\n  bar \"p50\" [12, 1300]"
+  },
+  "dependencies": [
+    {
+      "kind": "repository",
+      "id": "router",
+      "path": "src/router.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54,
+      "contentBase64": "ZXhwb3J0IGZ1bmN0aW9uIHJvdXRlKGlucHV0KSB7CiAgcmV0dXJuIGlucHV0LmtpbmQ7Cn0K"
+    },
+    {
+      "kind": "repository",
+      "id": "store",
+      "path": "src/store.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "08b70666d1933a1171fe6f9c4c72455fa44f1a95f05eb82db28837991fd4daca",
+      "bytes": 32,
+      "contentBase64": "ZXhwb3J0IGNvbnN0IHN0b3JlID0gbmV3IE1hcCgpOwo="
+    },
+    {
+      "kind": "image",
+      "id": "pic",
+      "path": "tiny.png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    },
+    {
+      "kind": "data",
+      "id": "latency",
+      "path": "latency.csv",
+      "sha256": "ce8100df891745f9df8fe7de936f9c6c969277bc82540c139482944fc8bb0f20",
+      "bytes": 37,
+      "contentBase64": "ZGF5LHA1MCxwOTkKTW9uLDEyLDQwClR1ZSwiMSwzMDAiLDU1Cg=="
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/example/evidence",
+    "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+    "shortRevision": "f691b4b",
+    "label": "example/evidence",
+    "href": "https://github.com/example/evidence/tree/f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+  }
+}

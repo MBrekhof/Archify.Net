@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Code sources must contain UTF-8 text.",
+    "code": [
+      {
+        "code": "explainer/source-encoding",
+        "severity": "error",
+        "message": "Code sources must contain UTF-8 text.",
+        "subject": {
+          "path": "/sources/0",
+          "component": "code",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "source-encoding",
+          "example": "{\"id\":\"code\",\"type\":\"code\",\"source\":\"router\"}"
+        },
+        "supportedFixes": [
+          "Use a UTF-8 text source file."
+        ]
+      }
+    ]
+  }
+}

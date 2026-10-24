@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Prepared explainer belongs to a different author input path.",
+    "code": [
+      {
+        "code": "explainer/prepared-mismatch",
+        "severity": "error",
+        "message": "Prepared explainer belongs to a different author input path.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "draft-path-mismatch",
+          "example": "Retry from the unchanged original draft and local resources."
+        },
+        "supportedFixes": [
+          "Retry from the unchanged original draft and local resources."
+        ]
+      }
+    ]
+  }
+}

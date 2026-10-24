@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The image bytes do not match a supported image format.",
+    "code": [
+      {
+        "code": "explainer/asset-format",
+        "severity": "error",
+        "message": "The image bytes do not match a supported image format.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "image",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "asset-format",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Use a correctly encoded image whose extension matches its bytes."
+        ]
+      }
+    ]
+  }
+}

@@ -21,6 +21,18 @@ internal static class EvidenceRepo
         return (root, head);
     }
 
+    // PORT-009: the explainer seeds' repository (tools/explainer-seeds/run.mjs `repo: true`): this one with explainer-repo.fi
+    // committed on top (a secret, CRLF, Latin-1 and NUL file) and an origin, as the runner builds it.
+    public const string ExplainerHead = "f691b4b9368318ae74b3c16e3bd96e9d33788e34";
+    public static string CreateExplainer()
+    {
+        var (root, _) = Create("https://github.com/example/evidence");
+        Git(root, File.ReadAllBytes(Fixtures.Fixture("evidence/explainer-repo.fi")), "fast-import", "--quiet");
+        var head = Git(root, "rev-parse", "HEAD");
+        if (head != ExplainerHead) throw new InvalidOperationException($"explainer-repo.fi built {head}, expected {ExplainerHead}");
+        return root;
+    }
+
     // Per-file fallback roots (TEST-003): fast-import wrote loose objects, so the router blob can be damaged in place.
     const string RouterBlob = ".git/objects/9e/396e4ede13a17cccc016bf524c97bd8e2efee4";
     public const string RouterBlobId = "9e396e4ede13a17cccc016bf524c97bd8e2efee4";

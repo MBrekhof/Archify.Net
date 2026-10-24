@@ -1,0 +1,18 @@
+{
+  "sources": {},
+  "assets": {},
+  "charts": {
+    "trend": "xychart-beta\n  x-axis [\"Mon\", \"Tue\"]\n  line \"p99\" [40, 42]"
+  },
+  "dependencies": [
+    {
+      "kind": "data",
+      "id": "trend",
+      "path": "trend.csv",
+      "sha256": "2b000a9c2cd6bd5599b6e92109b60bed41bf8b80172b5e331d4c2ec022381ba6",
+      "bytes": 25,
+      "contentBase64": "77u/ZGF5LHA5OQpNb24sNDAKVHVlLDQyCg=="
+    }
+  ],
+  "repository": null
+}

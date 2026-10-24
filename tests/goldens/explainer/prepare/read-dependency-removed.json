@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A frozen explainer resource is no longer readable.",
+    "code": [
+      {
+        "code": "explainer/dependency-changed",
+        "severity": "error",
+        "message": "A frozen explainer resource is no longer readable.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "ENOENT",
+          "example": "Retry from the unchanged original draft and local resources."
+        },
+        "supportedFixes": [
+          "Retry from the unchanged original draft and local resources."
+        ]
+      }
+    ]
+  }
+}

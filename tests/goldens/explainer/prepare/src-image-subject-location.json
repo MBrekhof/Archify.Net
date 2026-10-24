@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Resource paths must stay inside their root directory.",
+    "code": [
+      {
+        "code": "explainer/source-path",
+        "severity": "error",
+        "message": "Resource paths must stay inside their root directory.",
+        "subject": {
+          "path": "/panels/0/blocks/0/path",
+          "component": "image",
+          "input": "<DIR>/input/doc.json",
+          "line": 12,
+          "column": 6
+        },
+        "evidence": {
+          "reason": "source-path",
+          "example": "src/router.js"
+        },
+        "supportedFixes": [
+          "Use a relative path with forward slashes and no dot segments."
+        ]
+      }
+    ]
+  }
+}

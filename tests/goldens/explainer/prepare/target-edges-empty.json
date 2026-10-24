@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The reference names an edge absent from the native diagram.",
+    "code": [
+      {
+        "code": "explainer/diagram-edge-reference",
+        "severity": "error",
+        "message": "The reference names an edge absent from the native diagram.",
+        "subject": {
+          "component": "diagram",
+          "line": 42,
+          "path": "/"
+        },
+        "evidence": {
+          "reason": "diagram-edge-reference",
+          "example": "{diagram:\"empty\",edges:[\"api-to-db-1\"]}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"empty\",edges:[\"api-to-db-1\"]}"
+        ]
+      }
+    ]
+  }
+}

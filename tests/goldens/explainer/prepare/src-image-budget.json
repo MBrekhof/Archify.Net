@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Embedded images exceed the 32 MiB document limit.",
+    "code": [
+      {
+        "code": "explainer/asset-budget",
+        "severity": "error",
+        "message": "Embedded images exceed the 32 MiB document limit.",
+        "subject": {
+          "path": "/panels/0/blocks/4",
+          "component": "image",
+          "line": 30
+        },
+        "evidence": {
+          "reason": "asset-budget",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Reduce the total embedded image bytes below 32 MiB."
+        ]
+      }
+    ]
+  }
+}

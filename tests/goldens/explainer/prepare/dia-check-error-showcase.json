@@ -1,0 +1,54 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native diagram validation failed.",
+    "code": [
+      {
+        "code": "explainer/diagram-check",
+        "severity": "error",
+        "message": "Text \"call 0\" on edge n0-to-n1-1 would show at 2.7px, below 6px: the diagram is 3916px wide and shrinks to 34% on the page. Make it narrower: at most four or five nodes per row, shorter node labels, or phases.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism",
+          "diagramType": "architecture",
+          "diagram": "wide"
+        },
+        "evidence": {
+          "reason": "diagram-check",
+          "example": "Use a valid native architecture JSON specification.",
+          "native": {
+            "severity": "error",
+            "code": "composition/desktop-readability",
+            "owner": {
+              "kind": "edge",
+              "id": "n0-to-n1-1",
+              "from": "n0",
+              "to": "n1"
+            },
+            "viewportWidth": 1440,
+            "viewportHeight": 900,
+            "availableDiagramWidth": 1346,
+            "budgetBasis": "recognized-declared-wide",
+            "readerContract": "declared-wide-v1",
+            "requestedTargetPx": 7.5,
+            "requestedTargetMet": false,
+            "budgetLimit": "viewport-cap",
+            "viewBoxWidth": 3916,
+            "scale": 0.34371807967313583,
+            "text": "call 0",
+            "detail": "edge",
+            "sourceFontPx": 8,
+            "projectedFontPx": 2.7497446373850867,
+            "minimumProjectedFontPx": 6,
+            "message": "Text \"call 0\" on edge n0-to-n1-1 would show at 2.7px, below 6px: the diagram is 3916px wide and shrinks to 34% on the page. Make it narrower: at most four or five nodes per row, shorter node labels, or phases."
+          }
+        },
+        "supportedFixes": [
+          "Repair the native diagnostic and render again."
+        ]
+      }
+    ]
+  }
+}

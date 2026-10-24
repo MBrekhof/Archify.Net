@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Frozen resource bytes do not match their identity.",
+    "code": [
+      {
+        "code": "explainer/prepared-mismatch",
+        "severity": "error",
+        "message": "Frozen resource bytes do not match their identity.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "frozen-resource-byte-mismatch",
+          "example": "Retry from the unchanged original draft and local resources."
+        },
+        "supportedFixes": [
+          "Retry from the unchanged original draft and local resources."
+        ]
+      }
+    ]
+  }
+}

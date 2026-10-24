@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Chart data is a .csv or .json file.",
+    "code": [
+      {
+        "code": "explainer/chart-data-format",
+        "severity": "error",
+        "message": "Chart data is a .csv or .json file.",
+        "subject": {
+          "path": "/panels/0/blocks/0/data/path",
+          "component": "chart",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "chart-data-format",
+          "example": "{\"id\":\"router\",\"title\":\"Router\",\"path\":\"src/router.js\",\"lines\":[1,3]}"
+        },
+        "supportedFixes": [
+          "data=latency.csv"
+        ]
+      }
+    ]
+  }
+}

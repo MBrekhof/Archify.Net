@@ -1,0 +1,18 @@
+{
+  "sources": {},
+  "assets": {},
+  "charts": {
+    "share": "pie\n  \"A\" : 60\n  \"B\" : 40"
+  },
+  "dependencies": [
+    {
+      "kind": "data",
+      "id": "share",
+      "path": "share.JSON",
+      "sha256": "07db8eb0375a90a196187ec86fa3cb5713ed6d861df7ce32ae997aafeec81b03",
+      "bytes": 49,
+      "contentBase64": "W3sibmFtZSI6IkEiLCJ2YWx1ZSI6NjB9LHsibmFtZSI6IkIiLCJ2YWx1ZSI6NDB9XQ=="
+    }
+  ],
+  "repository": null
+}

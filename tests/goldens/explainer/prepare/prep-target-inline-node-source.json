@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The reference names a node absent from the native diagram.",
+    "code": [
+      {
+        "code": "explainer/diagram-node-reference",
+        "severity": "error",
+        "message": "The reference names a node absent from the native diagram.",
+        "subject": {
+          "component": "diagram",
+          "line": 11,
+          "path": "/panels/0/blocks/1/text",
+          "column": 1,
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "reason": "diagram-node-reference",
+          "example": "{diagram:\"layout\",node:\"root\"}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"layout\",node:\"root\"}"
+        ]
+      }
+    ]
+  }
+}

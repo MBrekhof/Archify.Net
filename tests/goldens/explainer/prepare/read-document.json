@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Prepared document differs from the authored draft.",
+    "code": [
+      {
+        "code": "explainer/prepared-mismatch",
+        "severity": "error",
+        "message": "Prepared document differs from the authored draft.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "normalized-document-mismatch",
+          "example": "Retry from the unchanged original draft and local resources."
+        },
+        "supportedFixes": [
+          "Retry from the unchanged original draft and local resources."
+        ]
+      }
+    ]
+  }
+}

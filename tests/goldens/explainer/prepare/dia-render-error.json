@@ -1,0 +1,80 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native diagram validation failed.",
+    "code": [
+      {
+        "code": "explainer/diagram-render",
+        "severity": "error",
+        "message": "Connection \"Request\" references unknown target \"missing\".",
+        "subject": {
+          "component": "diagram",
+          "line": 31,
+          "path": "/panels/0/blocks/0/spec/connections/0/to",
+          "input": "/draft.md",
+          "panelId": "mechanism",
+          "diagramType": "architecture",
+          "diagram": "architecture"
+        },
+        "evidence": {
+          "reason": "diagram-render",
+          "example": "Use a valid native architecture JSON specification.",
+          "native": {
+            "code": "architecture/unknown-endpoint",
+            "severity": "error",
+            "message": "Connection \"Request\" references unknown target \"missing\".",
+            "subject": {
+              "diagramType": "architecture",
+              "connection": "api-to-missing-1",
+              "path": "/connections/0/to",
+              "from": "api",
+              "to": "missing"
+            },
+            "evidence": {
+              "endpoint": "target",
+              "unknownNodeId": "missing",
+              "availableNodeIds": [
+                "api"
+              ]
+            },
+            "supportedFixes": []
+          }
+        },
+        "supportedFixes": [
+          "Repair the native diagnostic and render again."
+        ]
+      },
+      {
+        "code": "explainer/diagram-render",
+        "severity": "error",
+        "message": "Connection \"Request\" endpoint \"missing\" does not name a declared component.",
+        "subject": {
+          "component": "diagram",
+          "line": 31,
+          "path": "/panels/0/blocks/0",
+          "input": "/draft.md",
+          "panelId": "mechanism",
+          "diagramType": "architecture",
+          "diagram": "architecture"
+        },
+        "evidence": {
+          "reason": "diagram-render",
+          "example": "Use a valid native architecture JSON specification.",
+          "native": {
+            "code": "layout/constraint",
+            "severity": "error",
+            "message": "Connection \"Request\" endpoint \"missing\" does not name a declared component.",
+            "subject": {
+              "diagramType": "architecture"
+            },
+            "evidence": {},
+            "supportedFixes": []
+          }
+        },
+        "supportedFixes": [
+          "Repair the native diagnostic and render again."
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "kind": "archify-explainer-prepared",
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Why does the cache miss slow requests?",
+      "id": "cache-miss"
+    },
+    "answer": {
+      "summary": "The miss adds a second read on the request path."
+    },
+    "panels": [
+      {
+        "id": "next",
+        "title": "What follows?",
+        "blocks": [
+          {
+            "type": "image",
+            "id": "pixel",
+            "path": "tiny.png",
+            "alt": "Pixel"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 55
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 55
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 55
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 56,
+      "end": 105
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 56,
+      "end": 105
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 106,
+      "end": 141
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 106,
+      "end": 141
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 106,
+      "end": 141
+    },
+    "/panels/0": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 210
+    },
+    "/panels/0/id": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 210
+    },
+    "/panels/0/title": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 210
+    },
+    "/panels/0/blocks": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 210
+    },
+    "/panels/0/blocks/0": {
+      "line": 9,
+      "column": 1,
+      "start": 168,
+      "end": 210
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 9,
+      "column": 1,
+      "start": 168,
+      "end": 210
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 168,
+      "end": 210
+    },
+    "/panels/0/blocks/0/path": {
+      "line": 9,
+      "column": 1,
+      "start": 168,
+      "end": 210
+    },
+    "/panels/0/blocks/0/alt": {
+      "line": 9,
+      "column": 1,
+      "start": 168,
+      "end": 210
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n",
+  "diagnostics": [],
+  "sourcePath": "<DIR>\\draft.archify.md",
+  "baseDir": "<DIR>/assets",
+  "quality": "standard",
+  "writingMode": "warn",
+  "source": {
+    "sha256": "a59e0a8e9c9ab88c1cf6c62b32045f45a8b66b2107f2f5b5a506659c7653d0b9",
+    "bytes": 210
+  },
+  "preparedSources": {
+    "sources": {
+      "docs": {
+        "id": "docs",
+        "title": "Fixture facts"
+      }
+    },
+    "assets": {
+      "pixel": {
+        "id": "pixel",
+        "alt": "Pixel",
+        "path": "tiny.png",
+        "mime": "image/png",
+        "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+        "bytes": 68,
+        "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+        "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  "preparedDiagrams": {
+    "diagrams": {}
+  },
+  "dependencies": [
+    {
+      "kind": "image",
+      "id": "pixel",
+      "path": "<DIR>\\assets\\tiny.png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    }
+  ],
+  "digest": "<digest>"
+}

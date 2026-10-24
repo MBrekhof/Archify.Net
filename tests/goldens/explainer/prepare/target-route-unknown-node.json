@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A route needs two real native node identities.",
+    "code": [
+      {
+        "code": "explainer/diagram-route-reference",
+        "severity": "error",
+        "message": "A route needs two real native node identities.",
+        "subject": {
+          "component": "diagram",
+          "line": 42,
+          "path": "/"
+        },
+        "evidence": {
+          "reason": "diagram-route-reference",
+          "example": "{diagram:\"request\",route:[\"api\",\"db\"]}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"request\",route:[\"api\",\"db\"]}"
+        ]
+      }
+    ]
+  }
+}

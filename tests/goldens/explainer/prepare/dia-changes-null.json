@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Structural changes must be an array of explicit target marks.",
+    "code": [
+      {
+        "code": "explainer/diagram-change",
+        "severity": "error",
+        "message": "Structural changes must be an array of explicit target marks.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-change",
+          "example": "[{target:\"api\",change:\"modified\"}]"
+        },
+        "supportedFixes": [
+          "Use this form: [{target:\"api\",change:\"modified\"}]"
+        ]
+      }
+    ]
+  }
+}

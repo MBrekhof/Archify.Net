@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Diagram blocks need unique stable identities.",
+    "code": [
+      {
+        "code": "explainer/diagram-id",
+        "severity": "error",
+        "message": "Diagram blocks need unique stable identities.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/1",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-id",
+          "example": "{id:\"request\",type:\"diagram\",diagramType:\"sequence\",spec:{...}}"
+        },
+        "supportedFixes": [
+          "Use this form: {id:\"request\",type:\"diagram\",diagramType:\"sequence\",spec:{...}}"
+        ]
+      }
+    ]
+  }
+}

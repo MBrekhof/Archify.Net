@@ -1,0 +1,81 @@
+{
+  "sources": {},
+  "assets": {
+    "png": {
+      "id": "png",
+      "alt": "A pixel",
+      "path": "images/tiny.png",
+      "mime": "image/png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+      "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    },
+    "jpeg": {
+      "id": "jpeg",
+      "alt": "A pixel",
+      "path": "images/tiny.JPEG",
+      "mime": "image/jpeg",
+      "sha256": "9650f149d622055c4b495e65e9148ebfc5e61b1bb00e83538e76afe48c496eaf",
+      "bytes": 134,
+      "contentBase64": "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=",
+      "dataUrl": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
+    },
+    "gif": {
+      "id": "gif",
+      "alt": "GIF",
+      "path": "tiny.gif",
+      "mime": "image/gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "bytes": 42,
+      "contentBase64": "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+      "dataUrl": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    },
+    "webp": {
+      "id": "webp",
+      "alt": "A pixel",
+      "path": "tiny.webp",
+      "mime": "image/webp",
+      "sha256": "86be52bdb7547413cafb3ed175a806a798c65de98b40849e0b974c47d187de65",
+      "bytes": 34,
+      "contentBase64": "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==",
+      "dataUrl": "data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA=="
+    }
+  },
+  "charts": {},
+  "dependencies": [
+    {
+      "kind": "image",
+      "id": "png",
+      "path": "images/tiny.png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    },
+    {
+      "kind": "image",
+      "id": "jpeg",
+      "path": "images/tiny.JPEG",
+      "sha256": "9650f149d622055c4b495e65e9148ebfc5e61b1bb00e83538e76afe48c496eaf",
+      "bytes": 134,
+      "contentBase64": "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
+    },
+    {
+      "kind": "image",
+      "id": "gif",
+      "path": "tiny.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "bytes": 42,
+      "contentBase64": "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+    },
+    {
+      "kind": "image",
+      "id": "webp",
+      "path": "tiny.webp",
+      "sha256": "86be52bdb7547413cafb3ed175a806a798c65de98b40849e0b974c47d187de65",
+      "bytes": 34,
+      "contentBase64": "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA=="
+    }
+  ],
+  "repository": null
+}

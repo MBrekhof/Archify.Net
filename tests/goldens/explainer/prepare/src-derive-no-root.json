@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Repository sources require a local repository.",
+    "code": [
+      {
+        "code": "explainer/repository-root",
+        "severity": "error",
+        "message": "Repository sources require a local repository.",
+        "subject": {
+          "path": "/meta/repository",
+          "component": "source",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "repository-root",
+          "example": "--repo-root /absolute/path/to/repository"
+        },
+        "supportedFixes": [
+          "Pass --repo-root with the matching local Git checkout."
+        ]
+      }
+    ]
+  }
+}

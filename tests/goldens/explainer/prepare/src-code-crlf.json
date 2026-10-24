@@ -1,0 +1,38 @@
+{
+  "sources": {
+    "router": {
+      "id": "router",
+      "title": "Router",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "path": "src/crlf.js",
+      "lines": [
+        2,
+        3
+      ],
+      "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/crlf.js#L2-L3",
+      "text": "  return 1;\n}",
+      "sha256": "5ba68e5a8393eb4659aa4cee3d7ee7a0a8762b574d1ac5c952cd92430c7da08b",
+      "bytes": 43
+    }
+  },
+  "assets": {},
+  "charts": {},
+  "dependencies": [
+    {
+      "kind": "repository",
+      "id": "router",
+      "path": "src/crlf.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "5ba68e5a8393eb4659aa4cee3d7ee7a0a8762b574d1ac5c952cd92430c7da08b",
+      "bytes": 43,
+      "contentBase64": "ZXhwb3J0IGZ1bmN0aW9uIGZpcnN0KCkgew0KICByZXR1cm4gMTsNCn0NCg=="
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/example/evidence",
+    "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+    "shortRevision": "f691b4b",
+    "label": "example/evidence",
+    "href": "https://github.com/example/evidence/tree/f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+  }
+}

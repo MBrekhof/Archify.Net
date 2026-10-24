@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Unknown native diagram type.",
+    "code": [
+      {
+        "code": "explainer/diagram-type",
+        "severity": "error",
+        "message": "Unknown native diagram type.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-type",
+          "example": "sequence"
+        },
+        "supportedFixes": [
+          "Use this form: sequence"
+        ]
+      }
+    ]
+  }
+}

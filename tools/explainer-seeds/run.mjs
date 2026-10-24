@@ -51,7 +51,8 @@ if (ORACLE === 'fixed') {
 }
 const MODULES = {
   parseExplainer: 'parse', parseInline: 'inline', renderInline: 'inline', parseExplainerDiff: 'diff', lintExplainerWriting: 'writing',
-  validateExplainer: 'validate', compileExplainerDiagram: 'diagrams', prepareExplainerDiagrams: 'diagrams', resolveExplainerSources: 'sources',
+  validateExplainer: 'validate', compileExplainerDiagram: 'diagrams', prepareExplainerDiagrams: 'diagrams', validateExplainerDiagramTarget: 'diagrams',
+  resolveExplainerSources: 'sources',
   prepareExplainer: 'prepare', readPreparedBundle: 'prepare', layoutExplainerPanels: 'layout', renderExplainer: 'render',
   checkExplainerHtml: 'check', preparePanelPatch: 'patch',
 };
@@ -60,8 +61,11 @@ const fn = async (call) => {
   return (await import(pathToFileURL(path.join(SKILL, 'explainer', `${MODULES[call]}.mjs`)).href))[call];
 };
 
-// --- the phase-4 evidence repository (`repo: true`), built as tools/capture-fixtures.mjs builds it ---
+// --- the phase-4 evidence repository (`repo: true`), built as tools/capture-fixtures.mjs builds it, plus the explainer's
+// commit on top (tests/fixtures/evidence/explainer-repo.fi: a secret, CRLF, Latin-1 and NUL file) and an origin ---
 const EVIDENCE_HEAD = '77eb757055fa2c17900278114600cfe23c3957d1';
+const EXPLAINER_HEAD = 'f691b4b9368318ae74b3c16e3bd96e9d33788e34';
+const EXPLAINER_ORIGIN = 'https://github.com/example/evidence';
 let REPO;
 function evidenceRepo() {
   if (REPO) return REPO;
@@ -73,16 +77,22 @@ function evidenceRepo() {
   git(['fast-import', '--quiet'], fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'evidence', 'evidence-repo.fi')));
   const head = git(['rev-parse', 'HEAD']);
   if (head !== EVIDENCE_HEAD) throw new Error(`evidence-repo.fi builds ${head}, expected ${EVIDENCE_HEAD}`);
+  git(['fast-import', '--quiet'], fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'evidence', 'explainer-repo.fi')));
+  git(['remote', 'add', 'origin', EXPLAINER_ORIGIN]);
+  const explainer = git(['rev-parse', 'HEAD']);
+  if (explainer !== EXPLAINER_HEAD) throw new Error(`explainer-repo.fi builds ${explainer}, expected ${EXPLAINER_HEAD}`);
   return REPO = root;
 }
 
 // --- seed inputs ---
-// `files`: {path: {text} | {base64} | {zeros: n} | null}, written into (null: removed from) the seed's directory.
+// `files`: {path: {text} | {base64, zeros?} | {zeros: n} | null}, written into (null: removed from) the seed's directory.
+// `zeros` after `base64` appends that many zero bytes (an image header padded to a size limit).
 function writeFiles(dir, files) {
   for (const [rel, entry] of Object.entries(files ?? {})) {
     const file = path.join(dir, rel);
     if (entry === null) { fs.rmSync(file, { force: true }); continue; }
-    const bytes = typeof entry.text === 'string' ? Buffer.from(entry.text) : typeof entry.base64 === 'string' ? Buffer.from(entry.base64, 'base64')
+    const bytes = typeof entry.text === 'string' ? Buffer.from(entry.text)
+      : typeof entry.base64 === 'string' ? Buffer.concat([Buffer.from(entry.base64, 'base64'), Buffer.alloc(Number.isInteger(entry.zeros) ? entry.zeros : 0)])
       : Number.isInteger(entry.zeros) ? Buffer.alloc(entry.zeros) : null;
     if (!bytes) throw new Error(`file ${rel}: needs {text}, {base64} or {zeros}`);
     fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -116,14 +126,15 @@ async function readPrepared(seed, dir) {
   const bundle = JSON.parse(JSON.stringify(prepared));
   const mutate = seed.mutate ?? {};
   const kinds = Object.keys(mutate);
-  if (kinds.length > 1 || kinds.some((k) => !['path', 'bytes', 'quality', 'writingMode', 'document', 'dependency'].includes(k))) {
-    throw new Error(`${seed.name}: mutate is one of path, bytes, quality, writingMode, document, dependency`);
+  if (kinds.length > 1 || kinds.some((k) => !['path', 'bytes', 'quality', 'writingMode', 'document', 'signed', 'dependency'].includes(k))) {
+    throw new Error(`${seed.name}: mutate is one of path, bytes, quality, writingMode, document, signed, dependency`);
   }
   if ('path' in mutate) bundle.sourcePath = path.join(dir, mutate.path);
   if ('quality' in mutate) bundle.quality = mutate.quality;
   if ('writingMode' in mutate) { if (mutate.writingMode === null) delete bundle.writingMode; else bundle.writingMode = mutate.writingMode; }
   if ('document' in mutate) bundle.document = JSON.parse(tamper(JSON.stringify(bundle.document), mutate.document, `${seed.name} document`));
-  if (['path', 'quality', 'writingMode', 'document'].some((k) => k in mutate)) bundle.digest = digest(bundle);
+  if ('signed' in mutate) Object.assign(bundle, JSON.parse(tamper(JSON.stringify(bundle), mutate.signed, `${seed.name} signed`)));
+  if (['path', 'quality', 'writingMode', 'document', 'signed'].some((k) => k in mutate)) bundle.digest = digest(bundle);
   const file = (await import(pathToFileURL(path.join(SKILL, 'explainer', 'prepare.mjs')).href)).writePreparedBundle(dir, bundle);
   if ('bytes' in mutate) fs.writeFileSync(file, tamper(fs.readFileSync(file, 'utf8'), mutate.bytes, `${seed.name} bytes`));
   if ('dependency' in mutate) writeFiles(dir, mutate.dependency);

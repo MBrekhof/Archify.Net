@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Explainer draft could not be parsed.",
+    "code": [
+      {
+        "code": "explainer/parse-directive",
+        "severity": "error",
+        "message": "Unsupported component @unknown.",
+        "subject": {
+          "line": 9,
+          "column": 1,
+          "component": "directive",
+          "path": "/",
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "reason": "Unsupported component @unknown.",
+          "example": "@facts\n| key | value |"
+        },
+        "supportedFixes": [
+          "Use the documented syntax, for example: @facts\n| key | value |"
+        ]
+      }
+    ]
+  }
+}

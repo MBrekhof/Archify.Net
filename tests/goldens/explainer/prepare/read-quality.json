@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Prepared explainer uses a different quality profile.",
+    "code": [
+      {
+        "code": "explainer/prepared-mismatch",
+        "severity": "error",
+        "message": "Prepared explainer uses a different quality profile.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "quality-profile-mismatch",
+          "example": "Prepare the original draft again under the requested quality profile."
+        },
+        "supportedFixes": [
+          "Prepare the original draft again under the requested quality profile."
+        ]
+      }
+    ]
+  }
+}

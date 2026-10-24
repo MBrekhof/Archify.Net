@@ -1,0 +1,48 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Explainer draft is invalid.",
+    "code": [
+      {
+        "code": "explainer/writing-plain-word",
+        "severity": "error",
+        "message": "A longer word replaces a common one with the same meaning.",
+        "subject": {
+          "line": 9,
+          "component": "prose",
+          "panelId": "next",
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "rule": "plain-word",
+          "reason": "A longer word replaces a common one with the same meaning.",
+          "example": "utilize → use; prior to → before; in order to → to; due to the fact that → because",
+          "matched": "utilize"
+        },
+        "supportedFixes": [
+          "Use the shorter common word."
+        ]
+      },
+      {
+        "code": "explainer/writing-cliche",
+        "severity": "error",
+        "message": "This stock phrase gives little information about the concrete outcome.",
+        "subject": {
+          "line": 9,
+          "component": "prose",
+          "panelId": "next",
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "rule": "cliche",
+          "reason": "This stock phrase gives little information about the concrete outcome.",
+          "example": "赋能业务 → 让客服查到订单状态; seamless → name what no longer needs a manual step",
+          "matched": "seamless"
+        },
+        "supportedFixes": [
+          "Replace the stock phrase with the specific action or outcome the reader needs."
+        ]
+      }
+    ]
+  }
+}

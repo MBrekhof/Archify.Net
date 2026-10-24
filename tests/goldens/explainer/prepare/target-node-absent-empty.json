@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The reference names a node absent from the native diagram.",
+    "code": [
+      {
+        "code": "explainer/diagram-node-reference",
+        "severity": "error",
+        "message": "The reference names a node absent from the native diagram.",
+        "subject": {
+          "component": "diagram",
+          "line": 42,
+          "path": "/"
+        },
+        "evidence": {
+          "reason": "diagram-node-reference",
+          "example": "{diagram:\"empty\",node:\"api\"}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"empty\",node:\"api\"}"
+        ]
+      }
+    ]
+  }
+}

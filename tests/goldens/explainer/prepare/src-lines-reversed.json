@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Repository line ranges must be ordered and positive.",
+    "code": [
+      {
+        "code": "explainer/source-lines",
+        "severity": "error",
+        "message": "Repository line ranges must be ordered and positive.",
+        "subject": {
+          "path": "/sources/0/lines",
+          "component": "source",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "source-lines",
+          "example": "[1, 3]"
+        },
+        "supportedFixes": [
+          "Use lines: [start, end]."
+        ]
+      }
+    ]
+  }
+}

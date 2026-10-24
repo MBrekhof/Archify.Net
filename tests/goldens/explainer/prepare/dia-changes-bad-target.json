@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The change target is absent from the authored native topology.",
+    "code": [
+      {
+        "code": "explainer/diagram-change-target",
+        "severity": "error",
+        "message": "The change target is absent from the authored native topology.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-change-target",
+          "example": "{target:\"api\",change:\"modified\"}"
+        },
+        "supportedFixes": [
+          "Use this form: {target:\"api\",change:\"modified\"}"
+        ]
+      }
+    ]
+  }
+}

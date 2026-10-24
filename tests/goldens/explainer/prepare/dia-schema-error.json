@@ -1,0 +1,45 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Native diagram validation failed.",
+    "code": [
+      {
+        "code": "explainer/diagram-schema",
+        "severity": "error",
+        "message": "/nodes must be array",
+        "subject": {
+          "component": "diagram",
+          "line": 31,
+          "path": "/panels/0/blocks/0/spec/nodes",
+          "input": "/draft.md",
+          "panelId": "mechanism",
+          "diagramType": "tree",
+          "diagram": "tree"
+        },
+        "evidence": {
+          "reason": "diagram-schema",
+          "example": "Use a valid native tree JSON specification.",
+          "native": {
+            "code": "schema/type",
+            "severity": "error",
+            "message": "/nodes must be array",
+            "subject": {
+              "diagramType": "tree",
+              "path": "/nodes"
+            },
+            "evidence": {
+              "keyword": "type",
+              "type": "array"
+            },
+            "supportedFixes": [
+              "use \"array\" at /nodes"
+            ]
+          }
+        },
+        "supportedFixes": [
+          "use \"array\" at /nodes"
+        ]
+      }
+    ]
+  }
+}

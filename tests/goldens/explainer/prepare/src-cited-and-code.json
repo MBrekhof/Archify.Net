@@ -1,0 +1,61 @@
+{
+  "sources": {
+    "router": {
+      "id": "router",
+      "title": "Router",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "path": "src/router.js",
+      "lines": [
+        1,
+        3
+      ],
+      "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/router.js#L1-L3",
+      "text": "export function route(input) {\n  return input.kind;\n}",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54
+    },
+    "store": {
+      "id": "store",
+      "title": "Store",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "path": "src/store.js",
+      "lines": [
+        1,
+        1
+      ],
+      "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/store.js#L1",
+      "text": "export const store = new Map();",
+      "sha256": "08b70666d1933a1171fe6f9c4c72455fa44f1a95f05eb82db28837991fd4daca",
+      "bytes": 32
+    }
+  },
+  "assets": {},
+  "charts": {},
+  "dependencies": [
+    {
+      "kind": "repository",
+      "id": "router",
+      "path": "src/router.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54,
+      "contentBase64": "ZXhwb3J0IGZ1bmN0aW9uIHJvdXRlKGlucHV0KSB7CiAgcmV0dXJuIGlucHV0LmtpbmQ7Cn0K"
+    },
+    {
+      "kind": "repository",
+      "id": "store",
+      "path": "src/store.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "08b70666d1933a1171fe6f9c4c72455fa44f1a95f05eb82db28837991fd4daca",
+      "bytes": 32,
+      "contentBase64": "ZXhwb3J0IGNvbnN0IHN0b3JlID0gbmV3IE1hcCgpOwo="
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/example/evidence",
+    "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+    "shortRevision": "f691b4b",
+    "label": "example/evidence",
+    "href": "https://github.com/example/evidence/tree/f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+  }
+}

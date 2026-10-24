@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Sources require unique ids.",
+    "code": [
+      {
+        "code": "explainer/source-id",
+        "severity": "error",
+        "message": "Sources require unique ids.",
+        "subject": {
+          "path": "/sources/0",
+          "component": "source",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "source-id",
+          "example": "{\"id\":\"router\",\"title\":\"Router\",\"path\":\"src/router.js\",\"lines\":[1,3]}"
+        },
+        "supportedFixes": [
+          "Give each source a unique id."
+        ]
+      }
+    ]
+  }
+}

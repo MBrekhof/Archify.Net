@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Resource blocks require a unique stable id.",
+    "code": [
+      {
+        "code": "explainer/resource-id",
+        "severity": "error",
+        "message": "Resource blocks require a unique stable id.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "image",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "resource-id",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Give each code or image block its own id."
+        ]
+      }
+    ]
+  }
+}

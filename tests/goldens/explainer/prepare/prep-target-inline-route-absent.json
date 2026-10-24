@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "No directed route connects these nodes in the native diagram.",
+    "code": [
+      {
+        "code": "explainer/diagram-route-reference",
+        "severity": "error",
+        "message": "No directed route connects these nodes in the native diagram.",
+        "subject": {
+          "component": "diagram",
+          "line": 16,
+          "path": "/panels/0/blocks/1/text",
+          "column": 1,
+          "input": "<DIR>\\draft.archify.md"
+        },
+        "evidence": {
+          "reason": "diagram-route-reference",
+          "example": "{diagram:\"path\",route:[\"client\",\"api\"]}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"path\",route:[\"client\",\"api\"]}"
+        ]
+      }
+    ]
+  }
+}

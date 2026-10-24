@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The image cannot be read safely inside the input directory.",
+    "code": [
+      {
+        "code": "explainer/asset-read",
+        "severity": "error",
+        "message": "The image cannot be read safely inside the input directory.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "image",
+          "input": "<DIR>\\draft.archify.md",
+          "line": 9,
+          "column": 1
+        },
+        "evidence": {
+          "reason": "asset-read",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Use an accessible regular image inside the input directory."
+        ]
+      }
+    ]
+  }
+}

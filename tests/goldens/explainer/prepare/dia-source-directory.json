@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Diagram source must be a regular JSON file smaller than 4 MiB.",
+    "code": [
+      {
+        "code": "explainer/diagram-source-size",
+        "severity": "error",
+        "message": "Diagram source must be a regular JSON file smaller than 4 MiB.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0/source",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-source-size",
+          "example": "request.sequence.json"
+        },
+        "supportedFixes": [
+          "Use this form: request.sequence.json"
+        ]
+      }
+    ]
+  }
+}

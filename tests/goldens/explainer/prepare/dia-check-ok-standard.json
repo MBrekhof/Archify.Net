@@ -1,0 +1,552 @@
+{
+  "diagrams": {
+    "wide": {
+      "diagramType": "architecture",
+      "spec": {
+        "schema_version": 1,
+        "diagram_type": "architecture",
+        "meta": {
+          "title": "architecture",
+          "output": "diagram.html",
+          "quality_profile": "showcase"
+        },
+        "layout": {
+          "mode": "grid",
+          "cols": 12,
+          "cellW": 228,
+          "cellH": 76,
+          "gapX": 100,
+          "gapY": 110
+        },
+        "components": [
+          {
+            "id": "n0",
+            "label": "Node number 0 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 0,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n1",
+            "label": "Node number 1 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 1,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n2",
+            "label": "Node number 2 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 2,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n3",
+            "label": "Node number 3 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 3,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n4",
+            "label": "Node number 4 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 4,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n5",
+            "label": "Node number 5 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 5,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n6",
+            "label": "Node number 6 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 6,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n7",
+            "label": "Node number 7 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 7,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n8",
+            "label": "Node number 8 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 8,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n9",
+            "label": "Node number 9 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 9,
+            "size": [
+              221,
+              60
+            ]
+          },
+          {
+            "id": "n10",
+            "label": "Node number 10 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 10,
+            "size": [
+              228,
+              60
+            ]
+          },
+          {
+            "id": "n11",
+            "label": "Node number 11 with a long label",
+            "type": "backend",
+            "row": 0,
+            "col": 11,
+            "size": [
+              228,
+              60
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "id": "n0-to-n1-1",
+            "from": "n0",
+            "to": "n1",
+            "label": "call 0"
+          },
+          {
+            "id": "n1-to-n2-1",
+            "from": "n1",
+            "to": "n2",
+            "label": "call 1"
+          },
+          {
+            "id": "n2-to-n3-1",
+            "from": "n2",
+            "to": "n3",
+            "label": "call 2"
+          },
+          {
+            "id": "n3-to-n4-1",
+            "from": "n3",
+            "to": "n4",
+            "label": "call 3"
+          },
+          {
+            "id": "n4-to-n5-1",
+            "from": "n4",
+            "to": "n5",
+            "label": "call 4"
+          },
+          {
+            "id": "n5-to-n6-1",
+            "from": "n5",
+            "to": "n6",
+            "label": "call 5"
+          },
+          {
+            "id": "n6-to-n7-1",
+            "from": "n6",
+            "to": "n7",
+            "label": "call 6"
+          },
+          {
+            "id": "n7-to-n8-1",
+            "from": "n7",
+            "to": "n8",
+            "label": "call 7"
+          },
+          {
+            "id": "n8-to-n9-1",
+            "from": "n8",
+            "to": "n9",
+            "label": "call 8"
+          },
+          {
+            "id": "n9-to-n10-1",
+            "from": "n9",
+            "to": "n10",
+            "label": "call 9"
+          },
+          {
+            "id": "n10-to-n11-1",
+            "from": "n10",
+            "to": "n11",
+            "label": "call 10"
+          }
+        ]
+      },
+      "html": "sha256:417032c59c87c97c77a5839bad06e1a5c4dac268131b24fcb2c7d0066ea9bc28",
+      "svg": "<svg viewBox=\"0 0 3916 208\" role=\"img\" lang=\"en\" aria-labelledby=\"archify-diagram-title archify-diagram-description\" data-animation=\"trace\" data-preset=\"classic\" data-quality-profile=\"standard\" data-node-ui=\"\" data-reader-fit=\"intrinsic-height\" data-reader-min-text=\"7.5\" data-reader-primary-text=\"14\">\n        <title id=\"archify-diagram-title\">architecture</title>\n        <desc id=\"archify-diagram-description\">An architecture diagram generated by Archify.</desc>\n        <!-- Definitions -->\n        <defs>\n          <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-default\" />\n          </marker>\n          <marker id=\"arrowhead-emphasis\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-emphasis\" />\n          </marker>\n          <marker id=\"arrowhead-security\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-security\" />\n          </marker>\n          <marker id=\"arrowhead-dashed\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-dashed\" />\n          </marker>\n          <pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 40 0 L 0 0 0 40\" class=\"c-grid\" stroke-width=\"0.5\"/>\n          </pattern>\n        </defs>\n        <style>\n          svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, var(--frontend-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--frontend-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, var(--backend-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--backend-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, var(--database-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--database-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, var(--cloud-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--cloud-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, var(--security-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--security-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, var(--messagebus-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--messagebus-stroke) 72%, var(--mask)); }\n          :is([data-theme=\"dark\"] svg[data-node-ui], svg[data-node-ui][data-theme=\"dark\"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, var(--external-stroke) 13%, var(--mask)); stroke: color-mix(in srgb, var(--external-stroke) 72%, var(--mask)); }\n          svg[data-node-ui]:is([data-preset=\"classic\"], [data-preset=\"signal-flow\"], [data-preset=\"editorial\"]) .c-region { fill: color-mix(in srgb, var(--cloud-stroke) 3%, transparent); stroke: color-mix(in srgb, var(--cloud-stroke) 42%, var(--lane-stroke)); stroke-dasharray: none; }\n          svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, var(--security-stroke) 58%, var(--lane-stroke)); }\n          svg[data-node-ui]:is([data-preset=\"classic\"], [data-preset=\"signal-flow\"], [data-preset=\"editorial\"]) .c-security-group { stroke-dasharray: 4 3; }\n          svg[data-node-ui]:is([data-preset=\"classic\"], [data-preset=\"signal-flow\"], [data-preset=\"editorial\"]) .c-lane { stroke: var(--lane-stroke); stroke-dasharray: none; }\n          svg[data-node-ui] [data-graph-role=\"structural-frame-label-mask\"] { rx: 5px; fill: color-mix(in srgb, var(--cloud-stroke) 10%, var(--mask)); stroke: color-mix(in srgb, var(--cloud-stroke) 38%, var(--mask)); stroke-width: .8px; }\n          svg[data-node-ui] [data-composition-frame-kind=\"security-group\"] > [data-graph-role=\"structural-frame-label-mask\"] { fill: color-mix(in srgb, var(--security-stroke) 9%, var(--mask)); stroke: color-mix(in srgb, var(--security-stroke) 36%, var(--mask)); }\n          svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }\n          svg[data-node-ui] .phase-chip { stroke: var(--lane-stroke); stroke-width: .75px; }\n          svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: var(--lane-stroke); stroke-width: .75px; }\n          svg[data-node-ui][data-preset=\"blueprint\"] :is([data-graph-role=\"structural-frame-label-mask\"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }\n          svg[data-node-ui][data-preset=\"editorial\"] :is([data-graph-role=\"structural-frame-label-mask\"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }\n        </style>\n\n        <!-- Background Grid -->\n        <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />\n\n        <!-- Boundaries (behind everything) -->\n\n\n        <!-- Connection paths (before components for correct z-order) -->\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:0\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 261 110 L 368 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n0\" data-edge-to=\"n1\" data-edge-label=\"call 0\" data-edge-key=\"0\" data-edge-id=\"n0-to-n1-1\" data-composition-points=\"261,110;368,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 261 110 L 368 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:0\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:1\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 589 110 L 696 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n1\" data-edge-to=\"n2\" data-edge-label=\"call 1\" data-edge-key=\"1\" data-edge-id=\"n1-to-n2-1\" data-composition-points=\"589,110;696,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 589 110 L 696 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:1\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:2\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 917 110 L 1024 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n2\" data-edge-to=\"n3\" data-edge-label=\"call 2\" data-edge-key=\"2\" data-edge-id=\"n2-to-n3-1\" data-composition-points=\"917,110;1024,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 917 110 L 1024 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:2\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:3\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 1245 110 L 1352 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n3\" data-edge-to=\"n4\" data-edge-label=\"call 3\" data-edge-key=\"3\" data-edge-id=\"n3-to-n4-1\" data-composition-points=\"1245,110;1352,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 1245 110 L 1352 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:3\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:4\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 1573 110 L 1680 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n4\" data-edge-to=\"n5\" data-edge-label=\"call 4\" data-edge-key=\"4\" data-edge-id=\"n4-to-n5-1\" data-composition-points=\"1573,110;1680,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 1573 110 L 1680 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:4\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:5\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 1901 110 L 2008 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n5\" data-edge-to=\"n6\" data-edge-label=\"call 5\" data-edge-key=\"5\" data-edge-id=\"n5-to-n6-1\" data-composition-points=\"1901,110;2008,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 1901 110 L 2008 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:5\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:6\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 2229 110 L 2336 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n6\" data-edge-to=\"n7\" data-edge-label=\"call 6\" data-edge-key=\"6\" data-edge-id=\"n6-to-n7-1\" data-composition-points=\"2229,110;2336,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 2229 110 L 2336 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:6\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:7\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 2557 110 L 2664 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n7\" data-edge-to=\"n8\" data-edge-label=\"call 7\" data-edge-key=\"7\" data-edge-id=\"n7-to-n8-1\" data-composition-points=\"2557,110;2664,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 2557 110 L 2664 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:7\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:8\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 2885 110 L 2992 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n8\" data-edge-to=\"n9\" data-edge-label=\"call 8\" data-edge-key=\"8\" data-edge-id=\"n8-to-n9-1\" data-composition-points=\"2885,110;2992,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 2885 110 L 2992 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:8\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:9\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 3213 110 L 3320 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n9\" data-edge-to=\"n10\" data-edge-label=\"call 9\" data-edge-key=\"9\" data-edge-id=\"n9-to-n10-1\" data-composition-points=\"3213,110;3320,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 3213 110 L 3320 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:9\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n        <g data-graph-role=\"automatic-crossover\" style=\"--step:10\">\n          <path data-graph-role=\"automatic-crossover-underlay\" d=\"M 3548 110 L 3648 110\" fill=\"none\" stroke=\"var(--mask)\" stroke-width=\"5.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" pointer-events=\"none\"/>\n          <path data-edge-from=\"n10\" data-edge-to=\"n11\" data-edge-label=\"call 10\" data-edge-key=\"10\" data-edge-id=\"n10-to-n11-1\" data-composition-points=\"3548,110;3648,110\" data-composition-crossover=\"halo\" data-composition-independent=\"true\" d=\"M 3548 110 L 3648 110\" class=\"a-default\" data-animate=\"edge\" style=\"--step:10\" stroke-width=\"1.5\" marker-end=\"url(#arrowhead)\"/>\n        </g>\n\n        <!-- Components -->\n        <g id=\"node-n0\" data-node-id=\"n0\" data-node-label=\"Node number 0 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 0 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 0 with a long label · Architecture component</title>\n          <rect x=\"40\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"40\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:0\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(46 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"150.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 0 with a long label</text>\n        </g>\n\n        <g id=\"node-n1\" data-node-id=\"n1\" data-node-label=\"Node number 1 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 1 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 1 with a long label · Architecture component</title>\n          <rect x=\"368\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"368\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(374 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"478.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 1 with a long label</text>\n        </g>\n\n        <g id=\"node-n2\" data-node-id=\"n2\" data-node-label=\"Node number 2 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 2 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 2 with a long label · Architecture component</title>\n          <rect x=\"696\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"696\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:2\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(702 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"806.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 2 with a long label</text>\n        </g>\n\n        <g id=\"node-n3\" data-node-id=\"n3\" data-node-label=\"Node number 3 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 3 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 3 with a long label · Architecture component</title>\n          <rect x=\"1024\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"1024\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:3\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(1030 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"1134.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 3 with a long label</text>\n        </g>\n\n        <g id=\"node-n4\" data-node-id=\"n4\" data-node-label=\"Node number 4 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 4 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 4 with a long label · Architecture component</title>\n          <rect x=\"1352\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"1352\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:4\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(1358 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"1462.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 4 with a long label</text>\n        </g>\n\n        <g id=\"node-n5\" data-node-id=\"n5\" data-node-label=\"Node number 5 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 5 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 5 with a long label · Architecture component</title>\n          <rect x=\"1680\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"1680\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:5\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(1686 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"1790.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 5 with a long label</text>\n        </g>\n\n        <g id=\"node-n6\" data-node-id=\"n6\" data-node-label=\"Node number 6 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 6 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 6 with a long label · Architecture component</title>\n          <rect x=\"2008\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"2008\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:6\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(2014 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"2118.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 6 with a long label</text>\n        </g>\n\n        <g id=\"node-n7\" data-node-id=\"n7\" data-node-label=\"Node number 7 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 7 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 7 with a long label · Architecture component</title>\n          <rect x=\"2336\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"2336\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:7\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(2342 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"2446.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 7 with a long label</text>\n        </g>\n\n        <g id=\"node-n8\" data-node-id=\"n8\" data-node-label=\"Node number 8 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 8 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 8 with a long label · Architecture component</title>\n          <rect x=\"2664\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"2664\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:8\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(2670 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"2774.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 8 with a long label</text>\n        </g>\n\n        <g id=\"node-n9\" data-node-id=\"n9\" data-node-label=\"Node number 9 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 9 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 9 with a long label · Architecture component</title>\n          <rect x=\"2992\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"2992\" y=\"80\" width=\"221\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:9\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(2998 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"3102.5\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 9 with a long label</text>\n        </g>\n\n        <g id=\"node-n10\" data-node-id=\"n10\" data-node-label=\"Node number 10 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 10 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 10 with a long label · Architecture component</title>\n          <rect x=\"3320\" y=\"80\" width=\"228\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"3320\" y=\"80\" width=\"228\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:10\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(3326 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"3434\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 10 with a long label</text>\n        </g>\n\n        <g id=\"node-n11\" data-node-id=\"n11\" data-node-label=\"Node number 11 with a long label\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Node number 11 with a long label, Architecture component\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Architecture component\">\n          <title>Node number 11 with a long label · Architecture component</title>\n          <rect x=\"3648\" y=\"80\" width=\"228\" height=\"60\" rx=\"8\" class=\"c-mask\"/>\n          <rect x=\"3648\" y=\"80\" width=\"228\" height=\"60\" rx=\"8\" class=\"c-backend\" data-animate=\"node\" style=\"--step:11\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(3654 86) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"3762\" y=\"114\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Node number 11 with a long label</text>\n        </g>\n\n        <!-- Connection labels -->\n        <g data-detail=\"context\" data-edge-from=\"n0\" data-edge-to=\"n1\" data-edge-label=\"call 0\" data-edge-key=\"0\" data-edge-id=\"n0-to-n1-1\">\n          <rect x=\"295.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"314.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 0</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n1\" data-edge-to=\"n2\" data-edge-label=\"call 1\" data-edge-key=\"1\" data-edge-id=\"n1-to-n2-1\">\n          <rect x=\"623.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"642.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 1</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n2\" data-edge-to=\"n3\" data-edge-label=\"call 2\" data-edge-key=\"2\" data-edge-id=\"n2-to-n3-1\">\n          <rect x=\"951.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"970.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 2</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n3\" data-edge-to=\"n4\" data-edge-label=\"call 3\" data-edge-key=\"3\" data-edge-id=\"n3-to-n4-1\">\n          <rect x=\"1279.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"1298.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 3</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n4\" data-edge-to=\"n5\" data-edge-label=\"call 4\" data-edge-key=\"4\" data-edge-id=\"n4-to-n5-1\">\n          <rect x=\"1607.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"1626.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 4</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n5\" data-edge-to=\"n6\" data-edge-label=\"call 5\" data-edge-key=\"5\" data-edge-id=\"n5-to-n6-1\">\n          <rect x=\"1935.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"1954.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 5</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n6\" data-edge-to=\"n7\" data-edge-label=\"call 6\" data-edge-key=\"6\" data-edge-id=\"n6-to-n7-1\">\n          <rect x=\"2263.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"2282.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 6</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n7\" data-edge-to=\"n8\" data-edge-label=\"call 7\" data-edge-key=\"7\" data-edge-id=\"n7-to-n8-1\">\n          <rect x=\"2591.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"2610.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 7</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n8\" data-edge-to=\"n9\" data-edge-label=\"call 8\" data-edge-key=\"8\" data-edge-id=\"n8-to-n9-1\">\n          <rect x=\"2919.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"2938.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 8</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n9\" data-edge-to=\"n10\" data-edge-label=\"call 9\" data-edge-key=\"9\" data-edge-id=\"n9-to-n10-1\">\n          <rect x=\"3247.1\" y=\"90\" width=\"38.8\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"3266.5\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 9</text>\n        </g>\n        <g data-detail=\"context\" data-edge-from=\"n10\" data-edge-to=\"n11\" data-edge-label=\"call 10\" data-edge-key=\"10\" data-edge-id=\"n10-to-n11-1\">\n          <rect x=\"3576.2\" y=\"90\" width=\"43.6\" height=\"14\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"3598\" y=\"100\" class=\"t-edge-default\" font-size=\"8\" text-anchor=\"middle\">call 10</text>\n        </g>\n\n        <!-- Boundary labels (foreground masks keep routes out of titles) -->\n\n\n        <!-- Legend -->\n        <g data-legend=\"\" data-legend-bridge=\"\">\n          <text x=\"40\" y=\"172\" class=\"t-primary\" font-size=\"12\" font-weight=\"650\">Legend</text>\n          <g data-legend-semantic-kind=\"backend\" data-legend-kind=\"backend\" data-legend-label=\"Backend\" data-legend-x=\"40\" data-legend-baseline=\"192\" data-legend-width=\"87\">\n            <rect x=\"40\" y=\"183\" width=\"16\" height=\"10\" rx=\"2.5\" class=\"c-backend\" stroke-width=\"1\"/>\n            <text x=\"62\" y=\"192\" class=\"t-muted\" font-size=\"10\" font-weight=\"500\">Backend</text>\n          </g>\n        </g>\n      </svg>",
+      "sha256": "417032c59c87c97c77a5839bad06e1a5c4dac268131b24fcb2c7d0066ea9bc28",
+      "bytes": 824469,
+      "specification": {
+        "sha256": "f8d7078eaf158617dac78677499af2770290810e39e0b1e35cd4683a849b58e4",
+        "bytes": 2144,
+        "contentBase64": "eyJzY2hlbWFfdmVyc2lvbiI6MSwiZGlhZ3JhbV90eXBlIjoiYXJjaGl0ZWN0dXJlIiwibWV0YSI6eyJ0aXRsZSI6ImFyY2hpdGVjdHVyZSIsIm91dHB1dCI6ImRpYWdyYW0uaHRtbCIsInF1YWxpdHlfcHJvZmlsZSI6InNob3djYXNlIn0sImxheW91dCI6eyJtb2RlIjoiZ3JpZCIsImNvbHMiOjEyLCJjZWxsVyI6MjI4LCJjZWxsSCI6NzYsImdhcFgiOjEwMCwiZ2FwWSI6MTEwfSwiY29tcG9uZW50cyI6W3siaWQiOiJuMCIsImxhYmVsIjoiTm9kZSBudW1iZXIgMCB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjAsInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjEiLCJsYWJlbCI6Ik5vZGUgbnVtYmVyIDEgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjoxLCJzaXplIjpbMjIxLDYwXX0seyJpZCI6Im4yIiwibGFiZWwiOiJOb2RlIG51bWJlciAyIHdpdGggYSBsb25nIGxhYmVsIiwidHlwZSI6ImJhY2tlbmQiLCJyb3ciOjAsImNvbCI6Miwic2l6ZSI6WzIyMSw2MF19LHsiaWQiOiJuMyIsImxhYmVsIjoiTm9kZSBudW1iZXIgMyB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjMsInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjQiLCJsYWJlbCI6Ik5vZGUgbnVtYmVyIDQgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjo0LCJzaXplIjpbMjIxLDYwXX0seyJpZCI6Im41IiwibGFiZWwiOiJOb2RlIG51bWJlciA1IHdpdGggYSBsb25nIGxhYmVsIiwidHlwZSI6ImJhY2tlbmQiLCJyb3ciOjAsImNvbCI6NSwic2l6ZSI6WzIyMSw2MF19LHsiaWQiOiJuNiIsImxhYmVsIjoiTm9kZSBudW1iZXIgNiB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjYsInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjciLCJsYWJlbCI6Ik5vZGUgbnVtYmVyIDcgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjo3LCJzaXplIjpbMjIxLDYwXX0seyJpZCI6Im44IiwibGFiZWwiOiJOb2RlIG51bWJlciA4IHdpdGggYSBsb25nIGxhYmVsIiwidHlwZSI6ImJhY2tlbmQiLCJyb3ciOjAsImNvbCI6OCwic2l6ZSI6WzIyMSw2MF19LHsiaWQiOiJuOSIsImxhYmVsIjoiTm9kZSBudW1iZXIgOSB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjksInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjEwIiwibGFiZWwiOiJOb2RlIG51bWJlciAxMCB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjEwLCJzaXplIjpbMjI4LDYwXX0seyJpZCI6Im4xMSIsImxhYmVsIjoiTm9kZSBudW1iZXIgMTEgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjoxMSwic2l6ZSI6WzIyOCw2MF19XSwiY29ubmVjdGlvbnMiOlt7ImlkIjoibjAtdG8tbjEtMSIsImZyb20iOiJuMCIsInRvIjoibjEiLCJsYWJlbCI6ImNhbGwgMCJ9LHsiaWQiOiJuMS10by1uMi0xIiwiZnJvbSI6Im4xIiwidG8iOiJuMiIsImxhYmVsIjoiY2FsbCAxIn0seyJpZCI6Im4yLXRvLW4zLTEiLCJmcm9tIjoibjIiLCJ0byI6Im4zIiwibGFiZWwiOiJjYWxsIDIifSx7ImlkIjoibjMtdG8tbjQtMSIsImZyb20iOiJuMyIsInRvIjoibjQiLCJsYWJlbCI6ImNhbGwgMyJ9LHsiaWQiOiJuNC10by1uNS0xIiwiZnJvbSI6Im40IiwidG8iOiJuNSIsImxhYmVsIjoiY2FsbCA0In0seyJpZCI6Im41LXRvLW42LTEiLCJmcm9tIjoibjUiLCJ0byI6Im42IiwibGFiZWwiOiJjYWxsIDUifSx7ImlkIjoibjYtdG8tbjctMSIsImZyb20iOiJuNiIsInRvIjoibjciLCJsYWJlbCI6ImNhbGwgNiJ9LHsiaWQiOiJuNy10by1uOC0xIiwiZnJvbSI6Im43IiwidG8iOiJuOCIsImxhYmVsIjoiY2FsbCA3In0seyJpZCI6Im44LXRvLW45LTEiLCJmcm9tIjoibjgiLCJ0byI6Im45IiwibGFiZWwiOiJjYWxsIDgifSx7ImlkIjoibjktdG8tbjEwLTEiLCJmcm9tIjoibjkiLCJ0byI6Im4xMCIsImxhYmVsIjoiY2FsbCA5In0seyJpZCI6Im4xMC10by1uMTEtMSIsImZyb20iOiJuMTAiLCJ0byI6Im4xMSIsImxhYmVsIjoiY2FsbCAxMCJ9XX0="
+      },
+      "checks": {
+        "validate": {
+          "ok": true
+        },
+        "render": {
+          "ok": true
+        },
+        "check": {
+          "ok": true,
+          "file": "<TMP>\\diagram.html",
+          "artifact": "<artifact>",
+          "checks": [
+            {
+              "name": "single_svg",
+              "ok": true,
+              "details": [
+                "found 1 <svg> block(s)"
+              ]
+            },
+            {
+              "name": "finite_svg",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "orthogonal_arrows",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "label_route_clearance",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "relationship_crossings",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "relationship_corridors",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "container_border_runs",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "route_rhythm",
+              "ok": true,
+              "details": []
+            },
+            {
+              "name": "legend_clearance",
+              "ok": true,
+              "details": []
+            }
+          ],
+          "composition": {
+            "schemaVersion": 1,
+            "profile": "standard",
+            "status": "pass",
+            "summary": {
+              "errors": 0,
+              "warnings": 1
+            },
+            "metrics": {
+              "properCrossings": 0,
+              "resolvedCrossovers": 0,
+              "ambiguousCorridors": 0,
+              "arrowheadCollisions": 0,
+              "containerBorderRuns": 0,
+              "labelRouteClearanceIssues": 0,
+              "labelCanvasOverflowIssues": 0,
+              "minLabelRouteClearance": 255.2,
+              "desktopReadabilityIssues": 1,
+              "viewportHeightIssues": 0,
+              "minProjectedNodeTextPx": 2.7497446373850867,
+              "maxBends": 0,
+              "routesOverSuggestedBends": 0,
+              "maxStretch": 1,
+              "routesOverSuggestedStretch": 0,
+              "minSegmentPx": 100,
+              "minInteriorSegmentPx": null,
+              "shortSegmentCount": 0,
+              "shortEndpointSegmentCount": 0,
+              "shortInteriorSegmentCount": 0,
+              "microSegmentCount": 0
+            },
+            "suggestedLimits": {
+              "bendsPerRelationship": 2,
+              "stretch": 1.35,
+              "segmentPx": 16,
+              "microSegmentPx": 8
+            },
+            "routeReview": {
+              "crossings": [],
+              "detours": []
+            },
+            "leadingSpace": {
+              "measured": true,
+              "emptyTopPx": 80,
+              "emptyTopRatio": 0.385,
+              "occupiedTop": 80,
+              "viewBoxTop": 0,
+              "canvasHeight": 208,
+              "typicalNodeHeight": 60,
+              "reviewSuggested": false
+            },
+            "desktopReadability": {
+              "budgetBasis": "recognized-declared-wide",
+              "readerContract": "declared-wide-v1",
+              "availableDiagramWidth": 1346,
+              "actualBudgetPx": 1346,
+              "actualReaderWidth": 1376,
+              "desiredReaderWidth": 3701.25,
+              "viewportCap": 1376,
+              "limit": "viewport-cap",
+              "requestedTargetPx": 7.5,
+              "requestedTargetMet": false,
+              "hardFloorPx": 6,
+              "hardFloorMet": false,
+              "minimumOwner": {
+                "kind": "edge",
+                "id": "n0-to-n1-1",
+                "from": "n0",
+                "to": "n1"
+              },
+              "minimumSourceTextPx": 8,
+              "minimumProjectedTextPx": 2.7497446373850867,
+              "semanticTextCount": 23
+            },
+            "issues": [
+              {
+                "severity": "warning",
+                "code": "composition/desktop-readability",
+                "owner": {
+                  "kind": "edge",
+                  "id": "n0-to-n1-1",
+                  "from": "n0",
+                  "to": "n1"
+                },
+                "viewportWidth": 1440,
+                "viewportHeight": 900,
+                "availableDiagramWidth": 1346,
+                "budgetBasis": "recognized-declared-wide",
+                "readerContract": "declared-wide-v1",
+                "requestedTargetPx": 7.5,
+                "requestedTargetMet": false,
+                "budgetLimit": "viewport-cap",
+                "viewBoxWidth": 3916,
+                "scale": 0.34371807967313583,
+                "text": "call 0",
+                "detail": "edge",
+                "sourceFontPx": 8,
+                "projectedFontPx": 2.7497446373850867,
+                "minimumProjectedFontPx": 6
+              }
+            ]
+          }
+        }
+      },
+      "semantic": {
+        "nodes": [
+          {
+            "id": "n0",
+            "label": "Node number 0 with a long label",
+            "svgId": "node-n0"
+          },
+          {
+            "id": "n1",
+            "label": "Node number 1 with a long label",
+            "svgId": "node-n1"
+          },
+          {
+            "id": "n2",
+            "label": "Node number 2 with a long label",
+            "svgId": "node-n2"
+          },
+          {
+            "id": "n3",
+            "label": "Node number 3 with a long label",
+            "svgId": "node-n3"
+          },
+          {
+            "id": "n4",
+            "label": "Node number 4 with a long label",
+            "svgId": "node-n4"
+          },
+          {
+            "id": "n5",
+            "label": "Node number 5 with a long label",
+            "svgId": "node-n5"
+          },
+          {
+            "id": "n6",
+            "label": "Node number 6 with a long label",
+            "svgId": "node-n6"
+          },
+          {
+            "id": "n7",
+            "label": "Node number 7 with a long label",
+            "svgId": "node-n7"
+          },
+          {
+            "id": "n8",
+            "label": "Node number 8 with a long label",
+            "svgId": "node-n8"
+          },
+          {
+            "id": "n9",
+            "label": "Node number 9 with a long label",
+            "svgId": "node-n9"
+          },
+          {
+            "id": "n10",
+            "label": "Node number 10 with a long label",
+            "svgId": "node-n10"
+          },
+          {
+            "id": "n11",
+            "label": "Node number 11 with a long label",
+            "svgId": "node-n11"
+          }
+        ],
+        "edges": [
+          {
+            "id": "n0-to-n1-1",
+            "from": "n0",
+            "to": "n1",
+            "label": "call 0",
+            "key": "0"
+          },
+          {
+            "id": "n1-to-n2-1",
+            "from": "n1",
+            "to": "n2",
+            "label": "call 1",
+            "key": "1"
+          },
+          {
+            "id": "n2-to-n3-1",
+            "from": "n2",
+            "to": "n3",
+            "label": "call 2",
+            "key": "2"
+          },
+          {
+            "id": "n3-to-n4-1",
+            "from": "n3",
+            "to": "n4",
+            "label": "call 3",
+            "key": "3"
+          },
+          {
+            "id": "n4-to-n5-1",
+            "from": "n4",
+            "to": "n5",
+            "label": "call 4",
+            "key": "4"
+          },
+          {
+            "id": "n5-to-n6-1",
+            "from": "n5",
+            "to": "n6",
+            "label": "call 5",
+            "key": "5"
+          },
+          {
+            "id": "n6-to-n7-1",
+            "from": "n6",
+            "to": "n7",
+            "label": "call 6",
+            "key": "6"
+          },
+          {
+            "id": "n7-to-n8-1",
+            "from": "n7",
+            "to": "n8",
+            "label": "call 7",
+            "key": "7"
+          },
+          {
+            "id": "n8-to-n9-1",
+            "from": "n8",
+            "to": "n9",
+            "label": "call 8",
+            "key": "8"
+          },
+          {
+            "id": "n9-to-n10-1",
+            "from": "n9",
+            "to": "n10",
+            "label": "call 9",
+            "key": "9"
+          },
+          {
+            "id": "n10-to-n11-1",
+            "from": "n10",
+            "to": "n11",
+            "label": "call 10",
+            "key": "10"
+          }
+        ]
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "kind": "diagram-spec",
+      "id": "wide",
+      "inline": true,
+      "sha256": "f8d7078eaf158617dac78677499af2770290810e39e0b1e35cd4683a849b58e4",
+      "bytes": 2144,
+      "contentBase64": "eyJzY2hlbWFfdmVyc2lvbiI6MSwiZGlhZ3JhbV90eXBlIjoiYXJjaGl0ZWN0dXJlIiwibWV0YSI6eyJ0aXRsZSI6ImFyY2hpdGVjdHVyZSIsIm91dHB1dCI6ImRpYWdyYW0uaHRtbCIsInF1YWxpdHlfcHJvZmlsZSI6InNob3djYXNlIn0sImxheW91dCI6eyJtb2RlIjoiZ3JpZCIsImNvbHMiOjEyLCJjZWxsVyI6MjI4LCJjZWxsSCI6NzYsImdhcFgiOjEwMCwiZ2FwWSI6MTEwfSwiY29tcG9uZW50cyI6W3siaWQiOiJuMCIsImxhYmVsIjoiTm9kZSBudW1iZXIgMCB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjAsInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjEiLCJsYWJlbCI6Ik5vZGUgbnVtYmVyIDEgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjoxLCJzaXplIjpbMjIxLDYwXX0seyJpZCI6Im4yIiwibGFiZWwiOiJOb2RlIG51bWJlciAyIHdpdGggYSBsb25nIGxhYmVsIiwidHlwZSI6ImJhY2tlbmQiLCJyb3ciOjAsImNvbCI6Miwic2l6ZSI6WzIyMSw2MF19LHsiaWQiOiJuMyIsImxhYmVsIjoiTm9kZSBudW1iZXIgMyB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjMsInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjQiLCJsYWJlbCI6Ik5vZGUgbnVtYmVyIDQgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjo0LCJzaXplIjpbMjIxLDYwXX0seyJpZCI6Im41IiwibGFiZWwiOiJOb2RlIG51bWJlciA1IHdpdGggYSBsb25nIGxhYmVsIiwidHlwZSI6ImJhY2tlbmQiLCJyb3ciOjAsImNvbCI6NSwic2l6ZSI6WzIyMSw2MF19LHsiaWQiOiJuNiIsImxhYmVsIjoiTm9kZSBudW1iZXIgNiB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjYsInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjciLCJsYWJlbCI6Ik5vZGUgbnVtYmVyIDcgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjo3LCJzaXplIjpbMjIxLDYwXX0seyJpZCI6Im44IiwibGFiZWwiOiJOb2RlIG51bWJlciA4IHdpdGggYSBsb25nIGxhYmVsIiwidHlwZSI6ImJhY2tlbmQiLCJyb3ciOjAsImNvbCI6OCwic2l6ZSI6WzIyMSw2MF19LHsiaWQiOiJuOSIsImxhYmVsIjoiTm9kZSBudW1iZXIgOSB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjksInNpemUiOlsyMjEsNjBdfSx7ImlkIjoibjEwIiwibGFiZWwiOiJOb2RlIG51bWJlciAxMCB3aXRoIGEgbG9uZyBsYWJlbCIsInR5cGUiOiJiYWNrZW5kIiwicm93IjowLCJjb2wiOjEwLCJzaXplIjpbMjI4LDYwXX0seyJpZCI6Im4xMSIsImxhYmVsIjoiTm9kZSBudW1iZXIgMTEgd2l0aCBhIGxvbmcgbGFiZWwiLCJ0eXBlIjoiYmFja2VuZCIsInJvdyI6MCwiY29sIjoxMSwic2l6ZSI6WzIyOCw2MF19XSwiY29ubmVjdGlvbnMiOlt7ImlkIjoibjAtdG8tbjEtMSIsImZyb20iOiJuMCIsInRvIjoibjEiLCJsYWJlbCI6ImNhbGwgMCJ9LHsiaWQiOiJuMS10by1uMi0xIiwiZnJvbSI6Im4xIiwidG8iOiJuMiIsImxhYmVsIjoiY2FsbCAxIn0seyJpZCI6Im4yLXRvLW4zLTEiLCJmcm9tIjoibjIiLCJ0byI6Im4zIiwibGFiZWwiOiJjYWxsIDIifSx7ImlkIjoibjMtdG8tbjQtMSIsImZyb20iOiJuMyIsInRvIjoibjQiLCJsYWJlbCI6ImNhbGwgMyJ9LHsiaWQiOiJuNC10by1uNS0xIiwiZnJvbSI6Im40IiwidG8iOiJuNSIsImxhYmVsIjoiY2FsbCA0In0seyJpZCI6Im41LXRvLW42LTEiLCJmcm9tIjoibjUiLCJ0byI6Im42IiwibGFiZWwiOiJjYWxsIDUifSx7ImlkIjoibjYtdG8tbjctMSIsImZyb20iOiJuNiIsInRvIjoibjciLCJsYWJlbCI6ImNhbGwgNiJ9LHsiaWQiOiJuNy10by1uOC0xIiwiZnJvbSI6Im43IiwidG8iOiJuOCIsImxhYmVsIjoiY2FsbCA3In0seyJpZCI6Im44LXRvLW45LTEiLCJmcm9tIjoibjgiLCJ0byI6Im45IiwibGFiZWwiOiJjYWxsIDgifSx7ImlkIjoibjktdG8tbjEwLTEiLCJmcm9tIjoibjkiLCJ0byI6Im4xMCIsImxhYmVsIjoiY2FsbCA5In0seyJpZCI6Im4xMC10by1uMTEtMSIsImZyb20iOiJuMTAiLCJ0byI6Im4xMSIsImxhYmVsIjoiY2FsbCAxMCJ9XX0="
+    }
+  ]
+}

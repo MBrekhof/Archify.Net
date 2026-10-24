@@ -1,0 +1,26 @@
+{
+  "sources": {},
+  "assets": {
+    "a": {
+      "id": "a",
+      "path": "images/tiny.png",
+      "mime": "image/png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+      "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    }
+  },
+  "charts": {},
+  "dependencies": [
+    {
+      "kind": "image",
+      "id": "a",
+      "path": "images/tiny.png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    }
+  ],
+  "repository": null
+}

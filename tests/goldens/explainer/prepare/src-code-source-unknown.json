@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Code blocks require a Git code excerpt.",
+    "code": [
+      {
+        "code": "explainer/code-source",
+        "severity": "error",
+        "message": "Code blocks require a Git code excerpt.",
+        "subject": {
+          "path": "/panels/0/blocks/0/source",
+          "component": "code",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "code-source",
+          "example": "{\"id\":\"code\",\"type\":\"code\",\"source\":\"router\"}"
+        },
+        "supportedFixes": [
+          "Reference a repository source id with a valid line range."
+        ]
+      }
+    ]
+  }
+}

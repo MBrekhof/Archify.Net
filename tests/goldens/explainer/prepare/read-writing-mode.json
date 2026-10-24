@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Prepared explainer uses a different writing check mode.",
+    "code": [
+      {
+        "code": "explainer/prepared-mismatch",
+        "severity": "error",
+        "message": "Prepared explainer uses a different writing check mode.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "writing-mode-mismatch",
+          "example": "Prepare the original draft again under the requested writing check mode."
+        },
+        "supportedFixes": [
+          "Prepare the original draft again under the requested writing check mode."
+        ]
+      }
+    ]
+  }
+}

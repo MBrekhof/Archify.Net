@@ -11,15 +11,19 @@ nothing here is hand-written output.
 
 - `call` names the upstream function, imported from `file:///C:/projects/archify/archify/explainer/<module>.mjs`:
   `parseExplainer`, `parseInline`, `renderInline`, `parseExplainerDiff`, `lintExplainerWriting`, `validateExplainer`,
-  `compileExplainerDiagram`, `resolveExplainerSources`, `prepareExplainerDiagrams`, `prepareExplainer`,
-  `readPreparedBundle`, `layoutExplainerPanels`, `renderExplainer`, `checkExplainerHtml`, `preparePanelPatch`.
+  `compileExplainerDiagram`, `resolveExplainerSources`, `prepareExplainerDiagrams`, `validateExplainerDiagramTarget`,
+  `prepareExplainer`, `readPreparedBundle`, `layoutExplainerPanels`, `renderExplainer`, `checkExplainerHtml`,
+  `preparePanelPatch`.
 - `args` is the argument list, awaited as `call(...args)`. `<DIR>` (the seed's directory) and `<REPO>` (the evidence
   repository) are replaced in every string of it.
 - `files` maps a path relative to the seed's directory to `{text}`, `{base64}` or `{zeros: n}` (n zero bytes, for size
-  limits). They are written before the call.
+  limits). `{base64, zeros: n}` is the decoded bytes followed by n zero bytes (an image header padded past a limit).
+  They are written before the call.
 - `repo: true` builds the phase-4 evidence repository (`tests/fixtures/evidence/evidence-repo.fi`, HEAD
-  `77eb757055fa2c17900278114600cfe23c3957d1`) and sets it as `repoRoot` on the last argument, which must be an options
-  object. A draft-based seed gets it in the draft's prepare options instead.
+  `77eb757055fa2c17900278114600cfe23c3957d1`), commits `tests/fixtures/evidence/explainer-repo.fi` on top (a secret,
+  CRLF, Latin-1 and NUL file; HEAD `f691b4b9368318ae74b3c16e3bd96e9d33788e34`) and adds the origin
+  `https://github.com/example/evidence`. It is set as `repoRoot` on the last argument, which must be an options object.
+  A draft-based seed gets it in the draft's prepare options instead.
 
 Each seed runs with its own fresh directory as the working directory, so relative paths resolve inside it.
 
@@ -39,11 +43,13 @@ as `render-explainer.mjs` does: `prepareExplainer(text, {...options, inputPath})
   - `path`: the bundle's `sourcePath` becomes `<DIR>/<path>`;
   - `quality`, `writingMode`: that bundle field is set (`writingMode: null` deletes it);
   - `document`: `{from, to}` replacements over `JSON.stringify(bundle.document)`;
+  - `signed`: `{from, to}` replacements over `JSON.stringify(bundle)` (a frozen dependency's identity, say);
   - `bytes`: `{from, to}` replacements over the written file's text;
   - `dependency`: a `files` map applied after writing (an entry `null` deletes that file).
 
-  `path`, `quality`, `writingMode` and `document` recompute the bundle's digest (prepare.mjs:14), so the read reaches the
-  check after it; `bytes` and `dependency` do not.
+  `path`, `quality`, `writingMode`, `document` and `signed` recompute the bundle's digest (prepare.mjs:14), so the read
+  reaches the check after it; `bytes` and `dependency` do not. The C# side reads the bundle in memory
+  (`ExplainerPrepare.ReadPrepared`), so `bytes` must leave valid JSON.
 
 Two shapes prepare the arguments of a generic call:
 
@@ -100,3 +106,9 @@ Node by a stated deviation is listed in `ExplainerParityTests.KnownDeviations` a
 - `validate` (Task 3): `validateExplainer(document, options?)` or the `parsed` shape: each `schema-<keyword>` example,
   reserved and duplicate IDs, references and diagram targets, charts (a front-matter PeleError is a thrown row), native
   specs, and writing modes.
+- `prepare` (Task 4): `resolveExplainerSources` (`src-*`: repository code and cited excerpts with `repo: true`, path and
+  secret-name guards, the four image formats and their limits, CSV and JSON chart data), `prepareExplainerDiagrams`
+  (`dia-*`: `source=` files and inline specs, their guards, change marks, schema, render and checker failures, both
+  quality profiles), `validateExplainerDiagramTarget` (`target-*`, against a hand-written semantic graph),
+  `prepareExplainer` (`prep-*`, whole drafts and targets absent from the SVG) and `readPreparedBundle` (`read-*`, every
+  `prepared-mismatch` reason and `dependency-changed`). The native child's checker `file` is a `<TMP>` path.

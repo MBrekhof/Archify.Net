@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A data chart requires an input directory.",
+    "code": [
+      {
+        "code": "explainer/asset-root",
+        "severity": "error",
+        "message": "A data chart requires an input directory.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "chart",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "asset-root",
+          "example": "{\"id\":\"router\",\"title\":\"Router\",\"path\":\"src/router.js\",\"lines\":[1,3]}"
+        },
+        "supportedFixes": [
+          "Run finalize on the draft file next to its data."
+        ]
+      }
+    ]
+  }
+}

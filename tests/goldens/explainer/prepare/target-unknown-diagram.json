@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The reference names an unknown diagram block.",
+    "code": [
+      {
+        "code": "explainer/diagram-reference",
+        "severity": "error",
+        "message": "The reference names an unknown diagram block.",
+        "subject": {
+          "component": "diagram",
+          "line": 42,
+          "path": "/"
+        },
+        "evidence": {
+          "reason": "diagram-reference",
+          "example": "{diagram:\"request\",node:\"api\"}"
+        },
+        "supportedFixes": [
+          "Use this form: {diagram:\"request\",node:\"api\"}"
+        ]
+      }
+    ]
+  }
+}

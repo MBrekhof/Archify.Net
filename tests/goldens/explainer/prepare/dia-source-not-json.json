@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Diagram source must be a relative JSON file inside the input directory.",
+    "code": [
+      {
+        "code": "explainer/diagram-source-path",
+        "severity": "error",
+        "message": "Diagram source must be a relative JSON file inside the input directory.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0/source",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-source-path",
+          "example": "diagrams/request.sequence.json"
+        },
+        "supportedFixes": [
+          "Use this form: diagrams/request.sequence.json"
+        ]
+      }
+    ]
+  }
+}

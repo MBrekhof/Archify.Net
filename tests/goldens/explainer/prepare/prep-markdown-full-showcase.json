@@ -1,0 +1,1316 @@
+{
+  "schemaVersion": 1,
+  "kind": "archify-explainer-prepared",
+  "document": {
+    "schema_version": 1,
+    "diagram_type": "explainer",
+    "meta": {
+      "title": "Why does the cache miss slow requests?",
+      "id": "cache-miss"
+    },
+    "answer": {
+      "summary": "The miss adds a second read on the request path."
+    },
+    "panels": [
+      {
+        "id": "path",
+        "title": "How does a request move?",
+        "blocks": [
+          {
+            "type": "diagram",
+            "id": "request",
+            "diagramType": "sequence",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "sequence",
+              "meta": {
+                "title": "How does a request move?",
+                "output": "request.html",
+                "quality_profile": "showcase"
+              },
+              "participants": [
+                {
+                  "id": "client",
+                  "label": "Client",
+                  "type": "frontend"
+                },
+                {
+                  "id": "api",
+                  "label": "API",
+                  "type": "backend"
+                },
+                {
+                  "id": "redis",
+                  "label": "Redis",
+                  "type": "database"
+                }
+              ],
+              "messages": [
+                {
+                  "id": "client-to-api-1",
+                  "from": "client",
+                  "to": "api",
+                  "label": "Request",
+                  "y": 160
+                },
+                {
+                  "id": "api-to-redis-1",
+                  "from": "api",
+                  "to": "redis",
+                  "label": "Read",
+                  "y": 208
+                }
+              ]
+            }
+          },
+          {
+            "type": "steps",
+            "id": "walk",
+            "items": [
+              {
+                "id": "ask",
+                "text": "The client asks the [API](node:request.api).",
+                "target": {
+                  "diagram": "request",
+                  "node": "api"
+                }
+              },
+              {
+                "id": "read",
+                "text": "The API reads Redis.",
+                "target": {
+                  "diagram": "request",
+                  "route": [
+                    "api",
+                    "redis"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "diagram",
+            "id": "layout",
+            "diagramType": "tree",
+            "source": "diagrams/tree.json"
+          }
+        ]
+      },
+      {
+        "id": "code",
+        "title": "What does it read?",
+        "blocks": [
+          {
+            "type": "code",
+            "id": "route-code",
+            "source": "router",
+            "language": "js"
+          },
+          {
+            "type": "image",
+            "id": "pixel",
+            "path": "images/tiny.png",
+            "alt": "One pixel"
+          },
+          {
+            "type": "chart",
+            "id": "latency",
+            "title": "Latency",
+            "data": {
+              "path": "latency.csv",
+              "kind": "bar",
+              "x": "day",
+              "y": [
+                "p50",
+                "p99"
+              ],
+              "unit": "ms"
+            }
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "id": "docs",
+        "title": "Fixture facts"
+      },
+      {
+        "id": "router",
+        "title": "Router",
+        "path": "src/router.js",
+        "lines": [
+          1,
+          3
+        ]
+      }
+    ]
+  },
+  "sourceMap": {
+    "/meta": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 55
+    },
+    "/meta/title": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 55
+    },
+    "/meta/id": {
+      "line": 1,
+      "column": 1,
+      "start": 0,
+      "end": 55
+    },
+    "/answer": {
+      "line": 3,
+      "column": 1,
+      "start": 56,
+      "end": 105
+    },
+    "/answer/summary": {
+      "line": 3,
+      "column": 1,
+      "start": 56,
+      "end": 105
+    },
+    "/sources/0": {
+      "line": 5,
+      "column": 1,
+      "start": 106,
+      "end": 141
+    },
+    "/sources/0/id": {
+      "line": 5,
+      "column": 1,
+      "start": 106,
+      "end": 141
+    },
+    "/sources/0/title": {
+      "line": 5,
+      "column": 1,
+      "start": 106,
+      "end": 141
+    },
+    "/sources/1": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/sources/1/id": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/sources/1/title": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/sources/1/path": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/sources/1/lines": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/sources/1/lines/0": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/sources/1/lines/1": {
+      "line": 7,
+      "column": 1,
+      "start": 142,
+      "end": 201
+    },
+    "/panels/0": {
+      "line": 9,
+      "column": 1,
+      "start": 202,
+      "end": 611
+    },
+    "/panels/0/id": {
+      "line": 9,
+      "column": 1,
+      "start": 202,
+      "end": 827
+    },
+    "/panels/0/title": {
+      "line": 9,
+      "column": 1,
+      "start": 202,
+      "end": 827
+    },
+    "/panels/0/blocks": {
+      "line": 9,
+      "column": 1,
+      "start": 202,
+      "end": 827
+    },
+    "/panels/0/blocks/0": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/diagramType": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/schema_version": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/diagram_type": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/meta": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/meta/title": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/meta/output": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/meta/quality_profile": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/0": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/0/type": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/1": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/1/label": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/1/type": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/2": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/2/id": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/2/label": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/participants/2/type": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/0": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/0/id": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/0/from": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/0/to": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/0/label": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/0/y": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/1": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/1/id": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/1/from": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/1/to": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/1/label": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/0/spec/messages/1/y": {
+      "line": 11,
+      "column": 1,
+      "start": 239,
+      "end": 412
+    },
+    "/panels/0/blocks/1": {
+      "line": 18,
+      "column": 1,
+      "start": 413,
+      "end": 559
+    },
+    "/panels/0/blocks/1/type": {
+      "line": 18,
+      "column": 1,
+      "start": 413,
+      "end": 559
+    },
+    "/panels/0/blocks/1/id": {
+      "line": 18,
+      "column": 1,
+      "start": 413,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items": {
+      "line": 18,
+      "column": 1,
+      "start": 413,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/0": {
+      "line": 19,
+      "column": 1,
+      "start": 428,
+      "end": 501
+    },
+    "/panels/0/blocks/1/items/0/id": {
+      "line": 19,
+      "column": 1,
+      "start": 428,
+      "end": 501
+    },
+    "/panels/0/blocks/1/items/0/text": {
+      "line": 19,
+      "column": 1,
+      "start": 428,
+      "end": 501
+    },
+    "/panels/0/blocks/1/items/0/target": {
+      "line": 19,
+      "column": 1,
+      "start": 428,
+      "end": 501
+    },
+    "/panels/0/blocks/1/items/0/target/diagram": {
+      "line": 19,
+      "column": 1,
+      "start": 428,
+      "end": 501
+    },
+    "/panels/0/blocks/1/items/0/target/node": {
+      "line": 19,
+      "column": 1,
+      "start": 428,
+      "end": 501
+    },
+    "/panels/0/blocks/1/items/1": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/id": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/text": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/target": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/target/diagram": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/target/route": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/target/route/0": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/1/items/1/target/route/1": {
+      "line": 20,
+      "column": 1,
+      "start": 501,
+      "end": 559
+    },
+    "/panels/0/blocks/2": {
+      "line": 22,
+      "column": 1,
+      "start": 560,
+      "end": 610
+    },
+    "/panels/0/blocks/2/type": {
+      "line": 22,
+      "column": 1,
+      "start": 560,
+      "end": 610
+    },
+    "/panels/0/blocks/2/id": {
+      "line": 22,
+      "column": 1,
+      "start": 560,
+      "end": 610
+    },
+    "/panels/0/blocks/2/diagramType": {
+      "line": 22,
+      "column": 1,
+      "start": 560,
+      "end": 610
+    },
+    "/panels/0/blocks/2/source": {
+      "line": 22,
+      "column": 1,
+      "start": 560,
+      "end": 610
+    },
+    "/panels/1": {
+      "line": 24,
+      "column": 1,
+      "start": 611,
+      "end": 827
+    },
+    "/panels/1/id": {
+      "line": 24,
+      "column": 1,
+      "start": 611,
+      "end": 827
+    },
+    "/panels/1/title": {
+      "line": 24,
+      "column": 1,
+      "start": 611,
+      "end": 827
+    },
+    "/panels/1/blocks": {
+      "line": 24,
+      "column": 1,
+      "start": 611,
+      "end": 827
+    },
+    "/panels/1/blocks/0": {
+      "line": 26,
+      "column": 1,
+      "start": 642,
+      "end": 688
+    },
+    "/panels/1/blocks/0/type": {
+      "line": 26,
+      "column": 1,
+      "start": 642,
+      "end": 688
+    },
+    "/panels/1/blocks/0/id": {
+      "line": 26,
+      "column": 1,
+      "start": 642,
+      "end": 688
+    },
+    "/panels/1/blocks/0/source": {
+      "line": 26,
+      "column": 1,
+      "start": 642,
+      "end": 688
+    },
+    "/panels/1/blocks/0/language": {
+      "line": 26,
+      "column": 1,
+      "start": 642,
+      "end": 688
+    },
+    "/panels/1/blocks/1": {
+      "line": 28,
+      "column": 1,
+      "start": 689,
+      "end": 742
+    },
+    "/panels/1/blocks/1/type": {
+      "line": 28,
+      "column": 1,
+      "start": 689,
+      "end": 742
+    },
+    "/panels/1/blocks/1/id": {
+      "line": 28,
+      "column": 1,
+      "start": 689,
+      "end": 742
+    },
+    "/panels/1/blocks/1/path": {
+      "line": 28,
+      "column": 1,
+      "start": 689,
+      "end": 742
+    },
+    "/panels/1/blocks/1/alt": {
+      "line": 28,
+      "column": 1,
+      "start": 689,
+      "end": 742
+    },
+    "/panels/1/blocks/2": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/type": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/id": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/title": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/path": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/kind": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/x": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/y": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/y/0": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/y/1": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    },
+    "/panels/1/blocks/2/data/unit": {
+      "line": 30,
+      "column": 1,
+      "start": 743,
+      "end": 827
+    }
+  },
+  "format": "markdown",
+  "sourceText": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## How does a request move? {#path}\n\n@sequence id=request\n| actor client | Client | frontend |\n| actor api | API | backend |\n| actor redis | Redis | database |\n| client | api | Request |\n| api | redis | Read |\n\n@steps id=walk\n| ask | The client asks the [API](node:request.api). | | request | api |\n| read | The API reads Redis. | | request | | api~redis |\n\n@diagram tree id=layout source=diagrams/tree.json\n\n## What does it read? {#code}\n\n@code id=route-code source=router language=js\n\n@image id=pixel path=images/tiny.png alt=\"One pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n",
+  "diagnostics": [],
+  "sourcePath": "<DIR>\\draft.archify.md",
+  "baseDir": "<DIR>",
+  "quality": "showcase",
+  "writingMode": "warn",
+  "source": {
+    "sha256": "a4f68e7f42aecb42ccbb768ccdf0b4a852a4cec7534de32a22d90fd49aa466f6",
+    "bytes": 827
+  },
+  "preparedSources": {
+    "sources": {
+      "docs": {
+        "id": "docs",
+        "title": "Fixture facts"
+      },
+      "router": {
+        "id": "router",
+        "title": "Router",
+        "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+        "path": "src/router.js",
+        "lines": [
+          1,
+          3
+        ],
+        "url": "https://github.com/example/evidence/blob/f691b4b9368318ae74b3c16e3bd96e9d33788e34/src/router.js#L1-L3",
+        "text": "export function route(input) {\n  return input.kind;\n}",
+        "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+        "bytes": 54
+      }
+    },
+    "assets": {
+      "pixel": {
+        "id": "pixel",
+        "alt": "One pixel",
+        "path": "images/tiny.png",
+        "mime": "image/png",
+        "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+        "bytes": 68,
+        "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+        "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "charts": {
+      "latency": "xychart-beta\n  x-axis [\"Mon\", \"Tue\"]\n  y-axis \"ms\"\n  bar \"p50\" [12, 1300]\n  bar \"p99\" [40, 55]"
+    },
+    "repository": {
+      "url": "https://github.com/example/evidence",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "shortRevision": "f691b4b",
+      "label": "example/evidence",
+      "href": "https://github.com/example/evidence/tree/f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+    }
+  },
+  "preparedDiagrams": {
+    "diagrams": {
+      "request": {
+        "diagramType": "sequence",
+        "spec": {
+          "schema_version": 1,
+          "diagram_type": "sequence",
+          "meta": {
+            "title": "How does a request move?",
+            "output": "request.html",
+            "quality_profile": "showcase"
+          },
+          "participants": [
+            {
+              "id": "client",
+              "label": "Client",
+              "type": "frontend"
+            },
+            {
+              "id": "api",
+              "label": "API",
+              "type": "backend"
+            },
+            {
+              "id": "redis",
+              "label": "Redis",
+              "type": "database"
+            }
+          ],
+          "messages": [
+            {
+              "id": "client-to-api-1",
+              "from": "client",
+              "to": "api",
+              "label": "Request",
+              "y": 160
+            },
+            {
+              "id": "api-to-redis-1",
+              "from": "api",
+              "to": "redis",
+              "label": "Read",
+              "y": 208
+            }
+          ]
+        },
+        "html": "sha256:4ec602d2ee11b3f4252a1d7f5cba2c39efadd5cb2bbb1341c7d4125338c9ad60",
+        "svg": "<svg viewBox=\"0 0 560 327\" data-sequence-column-fit=\"spread\" data-reader-fit=\"width-first\" role=\"img\" lang=\"en\" aria-labelledby=\"archify-diagram-title archify-diagram-description\" data-animation=\"trace\" data-preset=\"classic\" data-quality-profile=\"showcase\" data-motion-choreography=\"sequence\">\n        <title id=\"archify-diagram-title\">How does a request move?</title>\n        <desc id=\"archify-diagram-description\">A sequence diagram generated by Archify.</desc>\n        <!-- Definitions -->\n        <defs>\n          <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-default\" />\n          </marker>\n          <marker id=\"arrowhead-emphasis\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-emphasis\" />\n          </marker>\n          <marker id=\"arrowhead-security\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-security\" />\n          </marker>\n          <marker id=\"arrowhead-dashed\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-dashed\" />\n          </marker>\n          <pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 40 0 L 0 0 0 40\" class=\"c-grid\" stroke-width=\"0.5\"/>\n          </pattern>\n        </defs>\n\n        <!-- Background Grid -->\n        <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />\n\n        <!-- Time Segments -->\n\n\n        <!-- Lifelines -->\n        <path d=\"M 122.5 142 L 122.5 231\" class=\"a-default\" stroke-width=\"0.8\" stroke-dasharray=\"3,7\"/>\n        <path d=\"M 291 142 L 291 231\" class=\"a-default\" stroke-width=\"0.8\" stroke-dasharray=\"3,7\"/>\n        <path d=\"M 459.5 142 L 459.5 231\" class=\"a-default\" stroke-width=\"0.8\" stroke-dasharray=\"3,7\"/>\n\n        <!-- Activations -->\n\n\n        <!-- Messages -->\n        <g data-edge-from=\"client\" data-edge-to=\"api\" data-edge-label=\"Request\" data-edge-key=\"0\" data-edge-id=\"client-to-api-1\">\n          <path data-composition-edge-from=\"client\" data-composition-edge-to=\"api\" data-composition-edge-id=\"client-to-api-1\" data-composition-points=\"129.5,160;284,160\" d=\"M 129.5 160 L 284 160\" class=\"a-default\" data-animate=\"edge\" style=\"--step:0\" stroke-width=\"1.4\" marker-end=\"url(#arrowhead)\"/>\n        <g data-detail=\"context\">\n          <rect x=\"177.65\" y=\"140\" width=\"58.199999999999996\" height=\"18\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"206.75\" y=\"150\" class=\"t-muted\" font-size=\"11\" text-anchor=\"middle\">Request</text>\n        </g>\n        </g>\n\n        <g data-edge-from=\"api\" data-edge-to=\"redis\" data-edge-label=\"Read\" data-edge-key=\"1\" data-edge-id=\"api-to-redis-1\">\n          <path data-composition-edge-from=\"api\" data-composition-edge-to=\"redis\" data-composition-edge-id=\"api-to-redis-1\" data-composition-points=\"298,208;452.5,208\" d=\"M 298 208 L 452.5 208\" class=\"a-default\" data-animate=\"edge\" style=\"--step:1\" stroke-width=\"1.4\" marker-end=\"url(#arrowhead)\"/>\n        <g data-detail=\"context\">\n          <rect x=\"356.05\" y=\"188\" width=\"38.4\" height=\"18\" rx=\"3\" class=\"c-mask\"/>\n          <text x=\"375.25\" y=\"198\" class=\"t-muted\" font-size=\"11\" text-anchor=\"middle\">Read</text>\n        </g>\n        </g>\n\n        <!-- Segment Labels -->\n\n\n        <!-- Participants -->\n        <g id=\"node-client\" data-node-id=\"client\" data-node-label=\"Client\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Client, Sequence participant\" aria-pressed=\"false\" data-node-kind=\"frontend\" data-node-context=\"Sequence participant\">\n          <title>Client · Sequence participant</title>\n          <rect x=\"62\" y=\"72\" width=\"121\" height=\"60\" rx=\"6\" class=\"c-mask\"/>\n          <rect x=\"62\" y=\"72\" width=\"121\" height=\"60\" rx=\"6\" class=\"c-frontend\" data-animate=\"node\" style=\"--step:0\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"frontend\" class=\"semantic-sigil s-frontend\" transform=\"translate(68 78) scale(0.6875)\">\n            <rect x=\"2\" y=\"3\" width=\"12\" height=\"10\" rx=\"2\"/>\n            <path d=\"M2 6.5h12\"/>\n            <circle cx=\"4.1\" cy=\"4.8\" r=\".7\" class=\"sigil-fill\"/>\n            <circle cx=\"6.3\" cy=\"4.8\" r=\".7\" class=\"sigil-fill\"/>\n          </g>\n          <text data-node-label=\"\" x=\"122.5\" y=\"108\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Client</text>\n        </g>\n\n        <g id=\"node-api\" data-node-id=\"api\" data-node-label=\"API\" tabindex=\"0\" role=\"button\" aria-label=\"Focus API, Sequence participant\" aria-pressed=\"false\" data-node-kind=\"backend\" data-node-context=\"Sequence participant\">\n          <title>API · Sequence participant</title>\n          <rect x=\"230.5\" y=\"72\" width=\"121\" height=\"60\" rx=\"6\" class=\"c-mask\"/>\n          <rect x=\"230.5\" y=\"72\" width=\"121\" height=\"60\" rx=\"6\" class=\"c-backend\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"backend\" class=\"semantic-sigil s-backend\" transform=\"translate(236.5 78) scale(0.6875)\">\n            <path d=\"M6 3 3 8l3 5M10 3l3 5-3 5\"/>\n          </g>\n          <text data-node-label=\"\" x=\"291\" y=\"108\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">API</text>\n        </g>\n\n        <g id=\"node-redis\" data-node-id=\"redis\" data-node-label=\"Redis\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Redis, Sequence participant\" aria-pressed=\"false\" data-node-kind=\"database\" data-node-context=\"Sequence participant\">\n          <title>Redis · Sequence participant</title>\n          <rect x=\"399\" y=\"72\" width=\"121\" height=\"60\" rx=\"6\" class=\"c-mask\"/>\n          <rect x=\"399\" y=\"72\" width=\"121\" height=\"60\" rx=\"6\" class=\"c-database\" data-animate=\"node\" style=\"--step:2\" stroke-width=\"1.5\"/>\n          <g aria-hidden=\"true\" data-semantic-sigil=\"database\" class=\"semantic-sigil s-database\" transform=\"translate(405 78) scale(0.6875)\">\n            <ellipse cx=\"8\" cy=\"4\" rx=\"5\" ry=\"2\"/>\n            <path d=\"M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2\"/>\n          </g>\n          <text data-node-label=\"\" x=\"459.5\" y=\"108\" class=\"t-primary\" font-size=\"11\" font-weight=\"600\" text-anchor=\"middle\">Redis</text>\n        </g>\n\n        <!-- Legend -->\n        <g data-legend=\"\">\n          <text x=\"40\" y=\"253\" class=\"t-primary\" font-size=\"12\" font-weight=\"650\">Legend</text>\n          <g data-legend-semantic-kind=\"default\" data-legend-x=\"40\" data-legend-baseline=\"273\" data-legend-width=\"87\">\n            <path d=\"M 40 270 L 74 270\" class=\"a-default\" stroke-width=\"1.4\" marker-end=\"url(#arrowhead)\"/>\n            <text x=\"83\" y=\"273\" class=\"t-muted\" font-size=\"10\" font-weight=\"500\">message</text>\n          </g>\n        </g>\n      </svg>",
+        "sha256": "4ec602d2ee11b3f4252a1d7f5cba2c39efadd5cb2bbb1341c7d4125338c9ad60",
+        "bytes": 802243,
+        "specification": {
+          "sha256": "3e2a3c777b7b1f3c6ae401c0bbbeedd771f3d8d8731bc73a4ea1fe658b84bff7",
+          "bytes": 468,
+          "contentBase64": "eyJzY2hlbWFfdmVyc2lvbiI6MSwiZGlhZ3JhbV90eXBlIjoic2VxdWVuY2UiLCJtZXRhIjp7InRpdGxlIjoiSG93IGRvZXMgYSByZXF1ZXN0IG1vdmU/Iiwib3V0cHV0IjoicmVxdWVzdC5odG1sIiwicXVhbGl0eV9wcm9maWxlIjoic2hvd2Nhc2UifSwicGFydGljaXBhbnRzIjpbeyJpZCI6ImNsaWVudCIsImxhYmVsIjoiQ2xpZW50IiwidHlwZSI6ImZyb250ZW5kIn0seyJpZCI6ImFwaSIsImxhYmVsIjoiQVBJIiwidHlwZSI6ImJhY2tlbmQifSx7ImlkIjoicmVkaXMiLCJsYWJlbCI6IlJlZGlzIiwidHlwZSI6ImRhdGFiYXNlIn1dLCJtZXNzYWdlcyI6W3siaWQiOiJjbGllbnQtdG8tYXBpLTEiLCJmcm9tIjoiY2xpZW50IiwidG8iOiJhcGkiLCJsYWJlbCI6IlJlcXVlc3QiLCJ5IjoxNjB9LHsiaWQiOiJhcGktdG8tcmVkaXMtMSIsImZyb20iOiJhcGkiLCJ0byI6InJlZGlzIiwibGFiZWwiOiJSZWFkIiwieSI6MjA4fV19"
+        },
+        "checks": {
+          "validate": {
+            "ok": true
+          },
+          "render": {
+            "ok": true
+          },
+          "check": {
+            "ok": true,
+            "file": "<TMP>\\diagram.html",
+            "artifact": "<artifact>",
+            "checks": [
+              {
+                "name": "single_svg",
+                "ok": true,
+                "details": [
+                  "found 1 <svg> block(s)"
+                ]
+              },
+              {
+                "name": "finite_svg",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "orthogonal_arrows",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "label_route_clearance",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "relationship_crossings",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "relationship_corridors",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "container_border_runs",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "route_rhythm",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "legend_clearance",
+                "ok": true,
+                "details": []
+              }
+            ],
+            "composition": {
+              "schemaVersion": 1,
+              "profile": "showcase",
+              "status": "pass",
+              "summary": {
+                "errors": 0,
+                "warnings": 0
+              },
+              "metrics": {
+                "properCrossings": 0,
+                "resolvedCrossovers": 0,
+                "ambiguousCorridors": 0,
+                "arrowheadCollisions": 0,
+                "containerBorderRuns": 0,
+                "labelRouteClearanceIssues": 0,
+                "labelCanvasOverflowIssues": 0,
+                "minLabelRouteClearance": 77.3,
+                "desktopReadabilityIssues": 0,
+                "viewportHeightIssues": 0,
+                "minProjectedNodeTextPx": 11,
+                "maxBends": 0,
+                "routesOverSuggestedBends": 0,
+                "maxStretch": 1,
+                "routesOverSuggestedStretch": 0,
+                "minSegmentPx": 154.5,
+                "minInteriorSegmentPx": null,
+                "shortSegmentCount": 0,
+                "shortEndpointSegmentCount": 0,
+                "shortInteriorSegmentCount": 0,
+                "microSegmentCount": 0
+              },
+              "suggestedLimits": {
+                "bendsPerRelationship": 2,
+                "stretch": 1.35,
+                "segmentPx": 16,
+                "microSegmentPx": 8
+              },
+              "routeReview": {
+                "crossings": [],
+                "detours": []
+              },
+              "leadingSpace": {
+                "measured": false,
+                "reviewSuggested": false
+              },
+              "sequenceColumnSpace": {
+                "measured": true,
+                "columnFit": "spread",
+                "participantCount": 3,
+                "occupiedRight": 520,
+                "viewBoxLeft": 0,
+                "canvasWidth": 560,
+                "emptyRightPx": 40,
+                "emptyRightRatio": 0.071,
+                "typicalParticipantWidth": 121,
+                "reviewSuggested": false
+              },
+              "desktopReadability": {
+                "budgetBasis": "legacy-930",
+                "readerContract": "declared-wide-v1",
+                "availableDiagramWidth": 930,
+                "actualBudgetPx": 930,
+                "limit": "legacy",
+                "requestedTargetPx": null,
+                "requestedTargetMet": null,
+                "hardFloorPx": 6,
+                "hardFloorMet": true,
+                "minimumOwner": {
+                  "kind": "edge",
+                  "id": "client-to-api-1",
+                  "from": "client",
+                  "to": "api"
+                },
+                "minimumSourceTextPx": 11,
+                "minimumProjectedTextPx": 11,
+                "semanticTextCount": 5
+              },
+              "issues": []
+            }
+          }
+        },
+        "semantic": {
+          "nodes": [
+            {
+              "id": "client",
+              "label": "Client",
+              "svgId": "node-client"
+            },
+            {
+              "id": "api",
+              "label": "API",
+              "svgId": "node-api"
+            },
+            {
+              "id": "redis",
+              "label": "Redis",
+              "svgId": "node-redis"
+            }
+          ],
+          "edges": [
+            {
+              "id": "client-to-api-1",
+              "from": "client",
+              "to": "api",
+              "label": "Request",
+              "key": "0"
+            },
+            {
+              "id": "api-to-redis-1",
+              "from": "api",
+              "to": "redis",
+              "label": "Read",
+              "key": "1"
+            }
+          ]
+        }
+      },
+      "layout": {
+        "diagramType": "tree",
+        "spec": {
+          "schema_version": 1,
+          "diagram_type": "tree",
+          "meta": {
+            "title": "tree",
+            "output": "tree.html",
+            "quality_profile": "showcase"
+          },
+          "nodes": [
+            {
+              "id": "root",
+              "label": "Platform"
+            },
+            {
+              "id": "api",
+              "label": "API",
+              "parent": "root"
+            },
+            {
+              "id": "redis",
+              "label": "Redis",
+              "parent": "root"
+            }
+          ]
+        },
+        "html": "sha256:a0cf32a856ae6c4a60231949283ac4674fdc9671a580c1a7b3702f7f59e42ee1",
+        "svg": "<svg viewBox=\"0 0 372 246\" role=\"img\" lang=\"en\" aria-labelledby=\"archify-diagram-title archify-diagram-description\" data-animation=\"trace\" data-preset=\"classic\" data-quality-profile=\"showcase\" data-tree-ui=\"\" data-tree-direction=\"down\" data-reader-fit=\"intrinsic-height\" data-reader-min-text=\"7.5\">\n        <title id=\"archify-diagram-title\">tree</title>\n        <desc id=\"archify-diagram-description\">A hierarchy diagram generated by Archify.</desc>\n        <!-- Definitions -->\n        <defs>\n          <marker id=\"arrowhead\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-default\" />\n          </marker>\n          <marker id=\"arrowhead-emphasis\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-emphasis\" />\n          </marker>\n          <marker id=\"arrowhead-security\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-security\" />\n          </marker>\n          <marker id=\"arrowhead-dashed\" markerWidth=\"10\" markerHeight=\"7\" refX=\"9\" refY=\"3.5\" orient=\"auto\">\n            <polygon points=\"0 0, 10 3.5, 0 7\" class=\"m-dashed\" />\n          </marker>\n          <pattern id=\"grid\" width=\"40\" height=\"40\" patternUnits=\"userSpaceOnUse\">\n            <path d=\"M 40 0 L 0 0 0 40\" class=\"c-grid\" stroke-width=\"0.5\"/>\n          </pattern>\n        </defs>\n        <style>\n          svg[data-tree-ui] .tree-hue-root { --tree-hue: var(--text-muted); --tree-wash: transparent; }\n          svg[data-tree-ui] .tree-hue-backend { --tree-hue: var(--backend-stroke); --tree-wash: var(--backend-fill); }\n          svg[data-tree-ui] .tree-hue-database { --tree-hue: var(--database-stroke); --tree-wash: var(--database-fill); }\n          svg[data-tree-ui] .tree-hue-cloud { --tree-hue: var(--cloud-stroke); --tree-wash: var(--cloud-fill); }\n          svg[data-tree-ui] .tree-hue-frontend { --tree-hue: var(--frontend-stroke); --tree-wash: var(--frontend-fill); }\n          svg[data-tree-ui] .tree-hue-messagebus { --tree-hue: var(--messagebus-stroke); --tree-wash: var(--messagebus-fill); }\n          svg[data-tree-ui] .tree-hue-external { --tree-hue: var(--external-stroke); --tree-wash: var(--external-fill); }\n          svg[data-tree-ui] .tree-edge { stroke-linejoin: round; stroke-linecap: round; }\n          svg[data-tree-ui] .tree-edge-trunk { stroke: color-mix(in srgb, var(--text) 18%, var(--arrow)); }\n          svg[data-tree-ui] .tree-edge-hued { stroke: color-mix(in srgb, var(--tree-hue) 42%, var(--arrow)); }\n          svg[data-tree-ui] .tree-root { fill: var(--text); stroke: none; }\n          svg[data-tree-ui] [data-tree-depth=\"0\"] .tree-label { fill: var(--mask); }\n          svg[data-tree-ui] [data-tree-depth=\"0\"] .tree-sublabel { fill: var(--mask); opacity: 0.68; }\n          svg[data-tree-ui] .tree-branch { fill: var(--tree-wash); stroke: color-mix(in srgb, var(--tree-hue) 48%, var(--lane-stroke)); }\n          svg[data-tree-ui] .tree-leaf { fill: var(--mask); stroke: color-mix(in srgb, var(--tree-hue) 22%, var(--lane-stroke)); }\n          svg[data-tree-ui] .tree-socket { fill: var(--mask); stroke: var(--tree-hue); pointer-events: none; }\n          svg[data-tree-ui] .tree-accent { stroke: var(--tree-hue); pointer-events: none; }\n          svg[data-tree-ui] [data-tree-stack] { display: none; fill: var(--mask); stroke: color-mix(in srgb, var(--tree-hue) 70%, var(--lane-stroke)); }\n          svg[data-tree-ui] [data-tree-collapsed] [data-tree-stack] { display: inline; }\n          svg[data-tree-ui] [data-tree-hidden] { display: none; }\n          svg[data-tree-ui] .tree-toggle-hit { fill: transparent; }\n          svg[data-tree-ui] .tree-toggle-disc { fill: var(--mask); stroke: color-mix(in srgb, var(--tree-hue) 55%, var(--lane-stroke)); transition: stroke 0.15s ease, fill 0.15s ease; }\n          svg[data-tree-ui] .tree-toggle-glyph { stroke: var(--text-muted); fill: none; transition: stroke 0.15s ease; }\n          svg[data-tree-ui] .tree-toggle-count { display: none; }\n          svg[data-tree-ui] .tree-count-pill { fill: var(--tree-hue); stroke: none; }\n          svg[data-tree-ui] .tree-toggle-count text { fill: var(--mask); }\n          svg[data-tree-ui] [data-tree-toggle] { cursor: pointer; outline: none; }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"true\"] .tree-toggle-plus { display: none; }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"false\"] .tree-toggle-count { display: inline; }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"false\"] .tree-toggle-disc { fill: var(--tree-hue); stroke: var(--tree-hue); }\n          svg[data-tree-ui] [data-tree-toggle][aria-expanded=\"false\"] .tree-toggle-glyph { stroke: var(--mask); }\n          svg[data-tree-ui] [data-tree-toggle]:hover .tree-toggle-disc,\n          svg[data-tree-ui] [data-tree-toggle]:focus-visible .tree-toggle-disc { stroke: var(--tree-hue); stroke-width: 2; }\n          svg[data-tree-ui] [data-tree-toggle]:hover .tree-toggle-glyph,\n          svg[data-tree-ui] [data-tree-toggle]:focus-visible .tree-toggle-glyph { stroke: var(--text); }\n          svg[data-tree-ui] [data-tree-expand-all] { cursor: pointer; outline: none; }\n          svg[data-tree-ui] [data-tree-expand-all] rect { fill: var(--mask); stroke: var(--lane-stroke); }\n          svg[data-tree-ui] [data-tree-expand-all]:is(:hover, :focus-visible) rect { stroke: var(--arrow-emphasis); stroke-width: 2; }\n          svg[data-tree-ui]:not([data-tree-any-collapsed]) [data-tree-expand-all] { display: none; }\n        </style>\n\n        <!-- Background Grid -->\n        <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />\n\n        <!-- Containment links -->\n        <path data-edge-from=\"root\" data-edge-to=\"api\" data-edge-key=\"0\" data-tree-ancestors=\"root\" data-composition-points=\"186,105;186,133;102,133;102,161\" d=\"M 186 105 L 186 123 Q 186 133 176 133 L 112 133 Q 102 133 102 143 L 102 161\" class=\"a-default tree-edge tree-edge-trunk\" data-animate=\"edge\" style=\"--step:1\" stroke-width=\"1.8\"/>\n        <path data-edge-from=\"root\" data-edge-to=\"redis\" data-edge-key=\"1\" data-tree-ancestors=\"root\" data-composition-points=\"186,105;186,133;270,133;270,161\" d=\"M 186 105 L 186 123 Q 186 133 196 133 L 260 133 Q 270 133 270 143 L 270 161\" class=\"a-default tree-edge tree-edge-trunk\" data-animate=\"edge\" style=\"--step:1\" stroke-width=\"1.8\"/>\n\n        <!-- Nodes -->\n        <g id=\"node-root\" data-node-id=\"root\" data-node-label=\"Platform\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Platform, Root\" aria-pressed=\"false\" data-node-kind=\"frontend\" data-node-context=\"Root\" data-tree-depth=\"0\" class=\"tree-hue-root\">\n          <title>Platform · Root</title>\n          <rect data-tree-stack=\"\" x=\"121\" y=\"69\" width=\"140\" height=\"41\" rx=\"10\" class=\"tree-stack-frontend\" stroke-width=\"1.2\"/>\n          <rect x=\"116\" y=\"64\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-mask\"/>\n          <rect x=\"116\" y=\"64\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-frontend tree-root\" data-animate=\"node\" style=\"--step:0\" stroke-width=\"0\"/>\n\n\n          <text data-node-label=\"\" x=\"186\" class=\"t-primary tree-label\" font-size=\"14.5\" font-weight=\"750\" text-anchor=\"middle\"><tspan x=\"186\" y=\"88.5\">Platform</tspan></text>\n\n        </g>\n        <g id=\"node-api\" data-node-id=\"api\" data-node-label=\"API\" tabindex=\"0\" role=\"button\" aria-label=\"Focus API, Leaf\" aria-pressed=\"false\" data-node-kind=\"external\" data-node-context=\"Leaf\" data-tree-depth=\"1\" data-tree-ancestors=\"root\" class=\"tree-hue-backend\">\n          <title>API · Leaf</title>\n\n          <rect x=\"32\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-mask\"/>\n          <rect x=\"32\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-external tree-leaf\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1\"/>\n\n          <circle cx=\"102\" cy=\"161\" r=\"2.6\" class=\"tree-socket\" stroke-width=\"1.4\"/>\n          <text data-node-label=\"\" x=\"102\" class=\"t-primary tree-label\" font-size=\"13\" font-weight=\"560\" text-anchor=\"middle\"><tspan x=\"102\" y=\"185.5\">API</tspan></text>\n\n        </g>\n        <g id=\"node-redis\" data-node-id=\"redis\" data-node-label=\"Redis\" tabindex=\"0\" role=\"button\" aria-label=\"Focus Redis, Leaf\" aria-pressed=\"false\" data-node-kind=\"external\" data-node-context=\"Leaf\" data-tree-depth=\"1\" data-tree-ancestors=\"root\" class=\"tree-hue-database\">\n          <title>Redis · Leaf</title>\n\n          <rect x=\"200\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-mask\"/>\n          <rect x=\"200\" y=\"161\" width=\"140\" height=\"41\" rx=\"10\" class=\"c-external tree-leaf\" data-animate=\"node\" style=\"--step:1\" stroke-width=\"1\"/>\n\n          <circle cx=\"270\" cy=\"161\" r=\"2.6\" class=\"tree-socket\" stroke-width=\"1.4\"/>\n          <text data-node-label=\"\" x=\"270\" class=\"t-primary tree-label\" font-size=\"13\" font-weight=\"560\" text-anchor=\"middle\"><tspan x=\"270\" y=\"185.5\">Redis</tspan></text>\n\n        </g>\n\n        <!-- Branch toggles -->\n        <g data-tree-toggle=\"root\" data-tree-count=\"2\" data-tree-label-collapse=\"Collapse Platform (2 below)\" data-tree-label-expand=\"Expand Platform (2 hidden)\" role=\"button\" tabindex=\"0\" aria-expanded=\"true\" aria-label=\"Collapse Platform (2 below)\" class=\"tree-hue-root\">\n          <circle cx=\"186\" cy=\"105\" r=\"14.5\" class=\"tree-toggle-hit\"/>\n          <circle cx=\"186\" cy=\"105\" r=\"7.5\" class=\"tree-toggle-disc\" stroke-width=\"1.2\"/>\n          <path class=\"tree-toggle-glyph\" d=\"M 182.85 105 H 189.15\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n          <path class=\"tree-toggle-glyph tree-toggle-plus\" d=\"M 186 101.85 V 108.15\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n          <g class=\"tree-toggle-count\">\n            <rect x=\"196.5\" y=\"97.5\" width=\"17.2\" height=\"15\" rx=\"7.5\" class=\"tree-count-pill\"/>\n            <text x=\"205.1\" y=\"108.6\" class=\"t-primary\" font-size=\"10\" font-weight=\"700\" text-anchor=\"middle\">2</text>\n          </g>\n        </g>\n\n        <!-- Expand all (shown only while a branch is collapsed) -->\n        <g data-tree-expand-all=\"\" role=\"button\" tabindex=\"0\" aria-label=\"Expand all\">\n          <rect x=\"32\" y=\"18\" width=\"87\" height=\"24\" rx=\"12\" stroke-width=\"1.2\"/>\n          <text x=\"44\" y=\"34\" class=\"t-primary\" font-size=\"10.5\" font-weight=\"650\">Expand all</text>\n        </g>\n      </svg>",
+        "sha256": "a0cf32a856ae6c4a60231949283ac4674fdc9671a580c1a7b3702f7f59e42ee1",
+        "bytes": 805708,
+        "specification": {
+          "sha256": "0f7293337bb568792f02224a9d1cd4f1f9abdd5c9e28d704562470f7bf314bfc",
+          "bytes": 385,
+          "contentBase64": "ewogICJzY2hlbWFfdmVyc2lvbiI6IDEsCiAgImRpYWdyYW1fdHlwZSI6ICJ0cmVlIiwKICAibWV0YSI6IHsKICAgICJ0aXRsZSI6ICJ0cmVlIiwKICAgICJvdXRwdXQiOiAidHJlZS5odG1sIiwKICAgICJxdWFsaXR5X3Byb2ZpbGUiOiAic2hvd2Nhc2UiCiAgfSwKICAibm9kZXMiOiBbCiAgICB7CiAgICAgICJpZCI6ICJyb290IiwKICAgICAgImxhYmVsIjogIlBsYXRmb3JtIgogICAgfSwKICAgIHsKICAgICAgImlkIjogImFwaSIsCiAgICAgICJsYWJlbCI6ICJBUEkiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9LAogICAgewogICAgICAiaWQiOiAicmVkaXMiLAogICAgICAibGFiZWwiOiAiUmVkaXMiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9CiAgXQp9Cg=="
+        },
+        "checks": {
+          "validate": {
+            "ok": true
+          },
+          "render": {
+            "ok": true
+          },
+          "check": {
+            "ok": true,
+            "file": "<TMP>\\diagram.html",
+            "artifact": "<artifact>",
+            "checks": [
+              {
+                "name": "single_svg",
+                "ok": true,
+                "details": [
+                  "found 1 <svg> block(s)"
+                ]
+              },
+              {
+                "name": "finite_svg",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "orthogonal_arrows",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "label_route_clearance",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "relationship_crossings",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "relationship_corridors",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "container_border_runs",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "route_rhythm",
+                "ok": true,
+                "details": []
+              },
+              {
+                "name": "legend_clearance",
+                "ok": true,
+                "details": [
+                  "no legend marker found"
+                ]
+              }
+            ],
+            "composition": {
+              "schemaVersion": 1,
+              "profile": "showcase",
+              "status": "pass",
+              "summary": {
+                "errors": 0,
+                "warnings": 0
+              },
+              "metrics": {
+                "properCrossings": 0,
+                "resolvedCrossovers": 0,
+                "ambiguousCorridors": 0,
+                "arrowheadCollisions": 0,
+                "containerBorderRuns": 0,
+                "labelRouteClearanceIssues": 0,
+                "labelCanvasOverflowIssues": 0,
+                "minLabelRouteClearance": null,
+                "desktopReadabilityIssues": 0,
+                "viewportHeightIssues": 0,
+                "minProjectedNodeTextPx": 13,
+                "maxBends": 0,
+                "routesOverSuggestedBends": 0,
+                "maxStretch": null,
+                "routesOverSuggestedStretch": 0,
+                "minSegmentPx": null,
+                "minInteriorSegmentPx": null,
+                "shortSegmentCount": 0,
+                "shortEndpointSegmentCount": 0,
+                "shortInteriorSegmentCount": 0,
+                "microSegmentCount": 0
+              },
+              "suggestedLimits": {
+                "bendsPerRelationship": 2,
+                "stretch": 1.35,
+                "segmentPx": 16,
+                "microSegmentPx": 8
+              },
+              "routeReview": {
+                "crossings": [],
+                "detours": []
+              },
+              "leadingSpace": {
+                "measured": false,
+                "reviewSuggested": false
+              },
+              "desktopReadability": {
+                "budgetBasis": "legacy-930",
+                "readerContract": "declared-wide-v1",
+                "availableDiagramWidth": 930,
+                "actualBudgetPx": 930,
+                "limit": "legacy",
+                "requestedTargetPx": 7.5,
+                "requestedTargetMet": true,
+                "hardFloorPx": 6,
+                "hardFloorMet": true,
+                "minimumOwner": {
+                  "kind": "node",
+                  "id": "api"
+                },
+                "minimumSourceTextPx": 13,
+                "minimumProjectedTextPx": 13,
+                "semanticTextCount": 3
+              },
+              "issues": []
+            }
+          }
+        },
+        "semantic": {
+          "nodes": [
+            {
+              "id": "root",
+              "label": "Platform",
+              "svgId": "node-root"
+            },
+            {
+              "id": "api",
+              "label": "API",
+              "svgId": "node-api"
+            },
+            {
+              "id": "redis",
+              "label": "Redis",
+              "svgId": "node-redis"
+            }
+          ],
+          "edges": [
+            {
+              "id": "0",
+              "from": "root",
+              "to": "api",
+              "label": "",
+              "key": "0"
+            },
+            {
+              "id": "1",
+              "from": "root",
+              "to": "redis",
+              "label": "",
+              "key": "1"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": [
+    {
+      "kind": "repository",
+      "id": "router",
+      "path": "src/router.js",
+      "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+      "sha256": "bee6f71e2d72c464a99c2c231ae5dcd98ff2b41b882461674556357781e32628",
+      "bytes": 54,
+      "contentBase64": "ZXhwb3J0IGZ1bmN0aW9uIHJvdXRlKGlucHV0KSB7CiAgcmV0dXJuIGlucHV0LmtpbmQ7Cn0K"
+    },
+    {
+      "kind": "image",
+      "id": "pixel",
+      "path": "<DIR>\\images\\tiny.png",
+      "sha256": "f8f4da97cfb06ded4cf44589751267e14ba0500a5856532cf0048470306215f0",
+      "bytes": 68,
+      "contentBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+    },
+    {
+      "kind": "data",
+      "id": "latency",
+      "path": "<DIR>\\latency.csv",
+      "sha256": "ce8100df891745f9df8fe7de936f9c6c969277bc82540c139482944fc8bb0f20",
+      "bytes": 37,
+      "contentBase64": "ZGF5LHA1MCxwOTkKTW9uLDEyLDQwClR1ZSwiMSwzMDAiLDU1Cg=="
+    },
+    {
+      "kind": "diagram-spec",
+      "id": "request",
+      "inline": true,
+      "sha256": "3e2a3c777b7b1f3c6ae401c0bbbeedd771f3d8d8731bc73a4ea1fe658b84bff7",
+      "bytes": 468,
+      "contentBase64": "eyJzY2hlbWFfdmVyc2lvbiI6MSwiZGlhZ3JhbV90eXBlIjoic2VxdWVuY2UiLCJtZXRhIjp7InRpdGxlIjoiSG93IGRvZXMgYSByZXF1ZXN0IG1vdmU/Iiwib3V0cHV0IjoicmVxdWVzdC5odG1sIiwicXVhbGl0eV9wcm9maWxlIjoic2hvd2Nhc2UifSwicGFydGljaXBhbnRzIjpbeyJpZCI6ImNsaWVudCIsImxhYmVsIjoiQ2xpZW50IiwidHlwZSI6ImZyb250ZW5kIn0seyJpZCI6ImFwaSIsImxhYmVsIjoiQVBJIiwidHlwZSI6ImJhY2tlbmQifSx7ImlkIjoicmVkaXMiLCJsYWJlbCI6IlJlZGlzIiwidHlwZSI6ImRhdGFiYXNlIn1dLCJtZXNzYWdlcyI6W3siaWQiOiJjbGllbnQtdG8tYXBpLTEiLCJmcm9tIjoiY2xpZW50IiwidG8iOiJhcGkiLCJsYWJlbCI6IlJlcXVlc3QiLCJ5IjoxNjB9LHsiaWQiOiJhcGktdG8tcmVkaXMtMSIsImZyb20iOiJhcGkiLCJ0byI6InJlZGlzIiwibGFiZWwiOiJSZWFkIiwieSI6MjA4fV19"
+    },
+    {
+      "kind": "diagram-spec",
+      "id": "layout",
+      "path": "<DIR>\\diagrams\\tree.json",
+      "relativePath": "diagrams/tree.json",
+      "sha256": "0f7293337bb568792f02224a9d1cd4f1f9abdd5c9e28d704562470f7bf314bfc",
+      "bytes": 385,
+      "contentBase64": "ewogICJzY2hlbWFfdmVyc2lvbiI6IDEsCiAgImRpYWdyYW1fdHlwZSI6ICJ0cmVlIiwKICAibWV0YSI6IHsKICAgICJ0aXRsZSI6ICJ0cmVlIiwKICAgICJvdXRwdXQiOiAidHJlZS5odG1sIiwKICAgICJxdWFsaXR5X3Byb2ZpbGUiOiAic2hvd2Nhc2UiCiAgfSwKICAibm9kZXMiOiBbCiAgICB7CiAgICAgICJpZCI6ICJyb290IiwKICAgICAgImxhYmVsIjogIlBsYXRmb3JtIgogICAgfSwKICAgIHsKICAgICAgImlkIjogImFwaSIsCiAgICAgICJsYWJlbCI6ICJBUEkiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9LAogICAgewogICAgICAiaWQiOiAicmVkaXMiLAogICAgICAibGFiZWwiOiAiUmVkaXMiLAogICAgICAicGFyZW50IjogInJvb3QiCiAgICB9CiAgXQp9Cg=="
+    }
+  ],
+  "digest": "<digest>"
+}

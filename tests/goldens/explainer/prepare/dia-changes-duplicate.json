@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "A target may have only one structural change mark.",
+    "code": [
+      {
+        "code": "explainer/diagram-change-duplicate",
+        "severity": "error",
+        "message": "A target may have only one structural change mark.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-change-duplicate",
+          "example": "{target:\"api\",change:\"modified\"}"
+        },
+        "supportedFixes": [
+          "Use this form: {target:\"api\",change:\"modified\"}"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "sources": {
+    "router": {
+      "id": "router",
+      "title": "Router",
+      "path": "src/latin1.js",
+      "lines": [
+        1,
+        1
+      ]
+    }
+  },
+  "assets": {},
+  "charts": {},
+  "dependencies": [],
+  "repository": null
+}

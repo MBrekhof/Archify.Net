@@ -1,0 +1,21 @@
+{
+  "sources": {
+    "web": {
+      "id": "web",
+      "title": "Web",
+      "url": "https://example.com/article"
+    },
+    "example": {
+      "id": "example",
+      "title": "Example"
+    },
+    "bare": {
+      "id": "bare",
+      "title": "Bare"
+    }
+  },
+  "assets": {},
+  "charts": {},
+  "dependencies": [],
+  "repository": null
+}

@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "An explainer resource changed during preparation.",
+    "code": [
+      {
+        "code": "explainer/dependency-changed",
+        "severity": "error",
+        "message": "An explainer resource changed during preparation.",
+        "subject": {
+          "input": "<DIR>\\draft.archify.md",
+          "line": 1,
+          "component": "document"
+        },
+        "evidence": {
+          "reason": "frozen-resource-byte-mismatch",
+          "example": "Retry from the unchanged original draft and local resources."
+        },
+        "supportedFixes": [
+          "Retry from the unchanged original draft and local resources."
+        ]
+      }
+    ]
+  }
+}

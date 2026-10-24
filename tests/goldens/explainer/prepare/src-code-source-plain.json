@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Code requires a Git file and line range.",
+    "code": [
+      {
+        "code": "explainer/code-source",
+        "severity": "error",
+        "message": "Code requires a Git file and line range.",
+        "subject": {
+          "path": "/sources/0",
+          "component": "code",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "code-source",
+          "example": "{\"id\":\"code\",\"type\":\"code\",\"source\":\"router\"}"
+        },
+        "supportedFixes": [
+          "Add path and lines to the source."
+        ]
+      }
+    ]
+  }
+}

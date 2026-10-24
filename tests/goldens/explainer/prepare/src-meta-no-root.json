@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The declared repository location could not be verified.",
+    "code": [
+      {
+        "code": "explainer/repository-location",
+        "severity": "error",
+        "message": "The declared repository location could not be verified.",
+        "subject": {
+          "path": "/meta/repository",
+          "component": "source",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "repository-location",
+          "example": "--repo-root /absolute/path/to/repository"
+        },
+        "supportedFixes": [
+          "Correct the repository origin, pinned commit, file path and line range."
+        ]
+      }
+    ]
+  }
+}

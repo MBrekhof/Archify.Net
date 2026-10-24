@@ -1,0 +1,26 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Provide exactly one inline spec or relative source.",
+    "code": [
+      {
+        "code": "explainer/diagram-input",
+        "severity": "error",
+        "message": "Provide exactly one inline spec or relative source.",
+        "subject": {
+          "component": "diagram",
+          "line": 1,
+          "path": "/panels/0/blocks/0",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-input",
+          "example": "source: request.sequence.json"
+        },
+        "supportedFixes": [
+          "Use this form: source: request.sequence.json"
+        ]
+      }
+    ]
+  }
+}

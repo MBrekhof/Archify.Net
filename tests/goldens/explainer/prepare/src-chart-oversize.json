@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The data file changed or exceeds the 2 MiB size limit.",
+    "code": [
+      {
+        "code": "explainer/asset-size",
+        "severity": "error",
+        "message": "The data file changed or exceeds the 2 MiB size limit.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "chart",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "asset-size",
+          "example": "{\"id\":\"router\",\"title\":\"Router\",\"path\":\"src/router.js\",\"lines\":[1,3]}"
+        },
+        "supportedFixes": [
+          "Use a stable data file smaller than 2 MiB."
+        ]
+      }
+    ]
+  }
+}

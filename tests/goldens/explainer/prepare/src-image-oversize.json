@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The image changed or exceeds the 8 MiB size limit.",
+    "code": [
+      {
+        "code": "explainer/asset-size",
+        "severity": "error",
+        "message": "The image changed or exceeds the 8 MiB size limit.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "image",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "asset-size",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Use a stable image smaller than 8 MiB."
+        ]
+      }
+    ]
+  }
+}

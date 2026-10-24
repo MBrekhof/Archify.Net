@@ -1,0 +1,27 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "Diagram source cannot be read safely inside the input directory.",
+    "code": [
+      {
+        "code": "explainer/diagram-source-read",
+        "severity": "error",
+        "message": "Diagram source cannot be read safely inside the input directory.",
+        "subject": {
+          "component": "diagram",
+          "line": 7,
+          "path": "/panels/0/blocks/0/source",
+          "input": "<DIR>/draft.archify.md",
+          "panelId": "mechanism"
+        },
+        "evidence": {
+          "reason": "diagram-source-read",
+          "example": "request.sequence.json"
+        },
+        "supportedFixes": [
+          "Use this form: request.sequence.json"
+        ]
+      }
+    ]
+  }
+}

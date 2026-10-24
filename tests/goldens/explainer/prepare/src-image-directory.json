@@ -1,0 +1,25 @@
+{
+  "thrown": {
+    "name": "Error",
+    "message": "The image must be a regular file.",
+    "code": [
+      {
+        "code": "explainer/asset-file",
+        "severity": "error",
+        "message": "The image must be a regular file.",
+        "subject": {
+          "path": "/panels/0/blocks/0",
+          "component": "image",
+          "line": 1
+        },
+        "evidence": {
+          "reason": "asset-file",
+          "example": "{\"id\":\"image\",\"type\":\"image\",\"path\":\"images/figure.png\",\"alt\":\"Figure\"}"
+        },
+        "supportedFixes": [
+          "Use a regular image."
+        ]
+      }
+    ]
+  }
+}

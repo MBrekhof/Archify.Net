@@ -1,0 +1,6296 @@
+[
+  {
+    "name": "src-code-derived",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-code-meta",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {
+          "repository": {
+            "url": "https://github.com/example/evidence",
+            "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+          }
+        },
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-code-meta-uppercase-revision",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {
+          "repository": {
+            "url": "https://github.com/example/evidence",
+            "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+          }
+        },
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ],
+            "revision": "F691B4B9368318AE74B3C16E3BD96E9D33788E34"
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-code-crlf",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/crlf.js",
+            "lines": [
+              2,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-code-local-only",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {
+          "repository": {
+            "url": "https://github.com/example/evidence",
+            "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34",
+            "link_mode": "local-only"
+          }
+        },
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-cited-only",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-cited-and-code",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          },
+          {
+            "id": "store",
+            "title": "Store",
+            "path": "src/store.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-cited-missing",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/absent.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-cited-secret",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/config.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-cited-non-utf8",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/latin1.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-cited-no-root",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-revision-mismatch",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ],
+            "revision": "ffffffffffffffffffffffffffffffffffffffff"
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-meta-revision-unavailable",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {
+          "repository": {
+            "url": "https://github.com/example/evidence",
+            "revision": "ffffffffffffffffffffffffffffffffffffffff"
+          }
+        },
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-origin-mismatch",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {
+          "repository": {
+            "url": "https://github.com/example/other",
+            "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+          }
+        },
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-missing-file",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/missing.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-line-out-of-range",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              99
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-lines-reversed",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              2,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-content",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/config.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-non-utf8-content",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/latin1.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-binary-content",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/binary.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ],
+    "repo": true
+  },
+  {
+    "name": "src-meta-no-root",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {
+          "repository": {
+            "url": "https://github.com/example/evidence",
+            "revision": "f691b4b9368318ae74b3c16e3bd96e9d33788e34"
+          }
+        },
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-derive-no-root",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-code-source-plain",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "router",
+            "title": "Example",
+            "text": "code"
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-code-source-unknown",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "nope"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-code-source-unverified",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "web",
+            "title": "Web",
+            "url": "https://example.com/a"
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "web"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-url-credentials",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "router",
+            "title": "Unsafe",
+            "url": "https://user:password@example.com/"
+          }
+        ],
+        "panels": []
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-url-not-http",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "router",
+            "title": "Mail",
+            "url": "mailto:a@example.com"
+          }
+        ],
+        "panels": []
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-web-and-example",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "web",
+            "title": "Web",
+            "url": "https://example.com/article"
+          },
+          {
+            "id": "example",
+            "title": "Example",
+            "text": "illustration"
+          },
+          {
+            "id": "bare",
+            "title": "Bare"
+          }
+        ],
+        "panels": []
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-source-id-duplicate",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "a",
+            "title": "A"
+          },
+          {
+            "id": "a",
+            "title": "B"
+          }
+        ],
+        "panels": []
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-source-id-missing",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "title": "A"
+          }
+        ],
+        "panels": []
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-resource-id-missing",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "type": "image",
+                "path": "x.png",
+                "alt": "X"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-resource-id-duplicate",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "router",
+            "title": "R"
+          }
+        ],
+        "panels": [
+          {
+            "id": "p",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "x.png",
+                "alt": "X"
+              },
+              {
+                "id": "a",
+                "type": "code",
+                "source": "router"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-path-dotdot",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "../x.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-empty-segment",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "a//b.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-git",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": ".git/config",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-git-upper",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/.GIT/x",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-drive",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "C:x.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-query",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "x?y.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-hash",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "x#y.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-absolute",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "/tmp/outside.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-backslash",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src\\router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-dot",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/./router.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-control",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "a\u0001b.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-del",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "ab.js",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-path-trailing-slash",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {
+        "sourcePath": "<DIR>/draft.archify.md",
+        "sourceMap": {
+          "/sources/0/path": {
+            "line": 4,
+            "column": 9
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-secret-env",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": ".env",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-env-production",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "config/.env.production",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-id-rsa-pub",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "keys/id_rsa.pub",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-pem",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "prod.pem",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-credentials",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "config/credentials.json",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-secrets-upper",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "SECRETS.yaml",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-npmrc",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": ".npmrc",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-ssh-dir",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": ".ssh/config",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-secret-keystore",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "release.keystore",
+            "lines": [
+              1,
+              3
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "main",
+            "blocks": []
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-not-secret-names",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [
+          {
+            "id": "s0",
+            "title": "T",
+            "path": "src/keyboard.js",
+            "lines": [
+              1,
+              1
+            ]
+          },
+          {
+            "id": "s1",
+            "title": "T",
+            "path": "docs/secretary.md",
+            "lines": [
+              1,
+              1
+            ]
+          },
+          {
+            "id": "s2",
+            "title": "T",
+            "path": "environment.js",
+            "lines": [
+              1,
+              1
+            ]
+          },
+          {
+            "id": "s3",
+            "title": "T",
+            "path": "src/credentialing.ts",
+            "lines": [
+              1,
+              1
+            ]
+          },
+          {
+            "id": "s4",
+            "title": "T",
+            "path": "pem.txt",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": []
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-image-four-formats",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "png",
+                "type": "image",
+                "path": "images/tiny.png",
+                "alt": "A pixel"
+              },
+              {
+                "id": "jpeg",
+                "type": "image",
+                "path": "images/tiny.JPEG",
+                "alt": "A pixel"
+              },
+              {
+                "id": "gif",
+                "type": "image",
+                "path": "tiny.gif",
+                "alt": "GIF"
+              },
+              {
+                "id": "webp",
+                "type": "image",
+                "path": "tiny.webp",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "images/tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "images/tiny.JPEG": {
+        "base64": "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
+      },
+      "tiny.gif": {
+        "base64": "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      },
+      "tiny.webp": {
+        "base64": "UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA=="
+      }
+    }
+  },
+  {
+    "name": "src-image-jpg-extension",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "photo.jpg",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "photo.jpg": {
+        "base64": "/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA="
+      }
+    }
+  },
+  {
+    "name": "src-image-mismatch",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "fake.jpg",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "fake.jpg": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "src-image-not-image",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "fake.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "fake.png": {
+        "text": "<svg>not png</svg>"
+      }
+    }
+  },
+  {
+    "name": "src-image-svg",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "images/tiny.svg",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "images/tiny.svg": {
+        "text": "<svg/>"
+      }
+    }
+  },
+  {
+    "name": "src-image-no-extension",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "images/.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "images/.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "src-image-url",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "https://example.com/tiny.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "src-image-oversize",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "large.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "large.png": {
+        "zeros": 8388609
+      }
+    }
+  },
+  {
+    "name": "src-image-budget",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "i1",
+                "type": "image",
+                "path": "big.png",
+                "alt": "A pixel"
+              },
+              {
+                "id": "i2",
+                "type": "image",
+                "path": "big.png",
+                "alt": "A pixel"
+              },
+              {
+                "id": "i3",
+                "type": "image",
+                "path": "big.png",
+                "alt": "A pixel"
+              },
+              {
+                "id": "i4",
+                "type": "image",
+                "path": "big.png",
+                "alt": "A pixel"
+              },
+              {
+                "id": "i5",
+                "type": "image",
+                "path": "big.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>",
+        "sourceMap": {
+          "/panels/0/blocks/4": {
+            "line": 30
+          }
+        }
+      }
+    ],
+    "files": {
+      "big.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII=",
+        "zeros": 7340032
+      }
+    }
+  },
+  {
+    "name": "src-image-no-base-dir",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "x.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-image-missing",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "images/absent.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "src-image-base-dir-missing",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "x.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>/nowhere"
+      }
+    ]
+  },
+  {
+    "name": "src-image-directory",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "folder.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "folder.png/inner.txt": {
+        "text": "x"
+      }
+    }
+  },
+  {
+    "name": "src-image-through-file",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "tiny.png/x.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "src-image-subject-location",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "../secret.png",
+                "alt": "A pixel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>",
+        "sourcePath": "<DIR>/input/doc.json",
+        "sourceMap": {
+          "/panels/0/blocks/0/path": {
+            "line": 12,
+            "column": 6
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "src-image-alt-missing",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "images",
+            "blocks": [
+              {
+                "id": "a",
+                "type": "image",
+                "path": "images/tiny.png"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "images/tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "src-chart-csv",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "data/latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50",
+                    "p99"
+                  ],
+                  "unit": "ms"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "data/latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      }
+    }
+  },
+  {
+    "name": "src-chart-json",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "share",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "share.JSON",
+                  "kind": "pie",
+                  "x": "name",
+                  "y": [
+                    "value"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "share.JSON": {
+        "text": "[{\"name\":\"A\",\"value\":60},{\"name\":\"B\",\"value\":40}]"
+      }
+    }
+  },
+  {
+    "name": "src-chart-line-bom",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "trend",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "trend.csv",
+                  "kind": "line",
+                  "x": "day",
+                  "y": [
+                    "p99"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "trend.csv": {
+        "text": "﻿day,p99\nMon,40\nTue,42\n"
+      }
+    }
+  },
+  {
+    "name": "src-chart-non-utf8",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "latency.csv": {
+        "base64": "ZGF5LHA1MApNb27pLDEyCg=="
+      }
+    }
+  },
+  {
+    "name": "src-chart-wrong-extension",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.txt",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "latency.txt": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      }
+    }
+  },
+  {
+    "name": "src-chart-missing-column",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p95"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      }
+    }
+  },
+  {
+    "name": "src-chart-blank-value",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "latency.csv": {
+        "text": "day,p50\nMon,\nTue,3\n"
+      }
+    }
+  },
+  {
+    "name": "src-chart-invalid-json",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.json",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "latency.json": {
+        "text": "{\"day\":"
+      }
+    }
+  },
+  {
+    "name": "src-chart-no-base-dir",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-chart-oversize",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "latency.csv": {
+        "zeros": 2097153
+      }
+    }
+  },
+  {
+    "name": "src-chart-secret-path",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": ".env.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "src-chart-text-only",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "sources": [],
+        "panels": [
+          {
+            "id": "charts",
+            "blocks": [
+              {
+                "id": "pie",
+                "type": "chart",
+                "text": "pie\n  \"A\" : 1"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "src-everything",
+    "call": "resolveExplainerSources",
+    "args": [
+      {
+        "meta": {},
+        "sources": [
+          {
+            "id": "router",
+            "title": "Router",
+            "path": "src/router.js",
+            "lines": [
+              1,
+              2
+            ]
+          },
+          {
+            "id": "store",
+            "title": "Store",
+            "path": "src/store.js",
+            "lines": [
+              1,
+              1
+            ]
+          }
+        ],
+        "panels": [
+          {
+            "id": "a",
+            "blocks": [
+              {
+                "id": "code",
+                "type": "code",
+                "source": "router"
+              },
+              {
+                "id": "pic",
+                "type": "image",
+                "path": "tiny.png",
+                "alt": "A pixel"
+              }
+            ]
+          },
+          {
+            "id": "b",
+            "blocks": [
+              {
+                "id": "latency",
+                "type": "chart",
+                "title": "Latency",
+                "data": {
+                  "path": "latency.csv",
+                  "kind": "bar",
+                  "x": "day",
+                  "y": [
+                    "p50"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "repo": true,
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      }
+    }
+  },
+  {
+    "name": "dia-source-file",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "tree.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "dia-source-nested",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "diagrams/tree.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>",
+        "quality": "standard"
+      }
+    ],
+    "files": {
+      "diagrams/tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "dia-inline-showcase",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "architecture",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "architecture",
+                  "meta": {
+                    "title": "architecture",
+                    "output": "architecture.html",
+                    "quality_profile": "showcase"
+                  },
+                  "layout": {
+                    "mode": "grid",
+                    "cols": 3,
+                    "cellW": 176,
+                    "cellH": 76,
+                    "gapX": 100,
+                    "gapY": 110
+                  },
+                  "components": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "external",
+                      "row": 0,
+                      "col": 0
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 1
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database",
+                      "row": 0,
+                      "col": 2
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request"
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-inline-standard",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "architecture",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "architecture",
+                  "meta": {
+                    "title": "architecture",
+                    "output": "architecture.html",
+                    "quality_profile": "showcase"
+                  },
+                  "layout": {
+                    "mode": "grid",
+                    "cols": 3,
+                    "cellW": 176,
+                    "cellH": 76,
+                    "gapX": 100,
+                    "gapY": 110
+                  },
+                  "components": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "external",
+                      "row": 0,
+                      "col": 0
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 1
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database",
+                      "row": 0,
+                      "col": 2
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request"
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "quality": "standard"
+      }
+    ]
+  },
+  {
+    "name": "dia-locale-inherited",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "meta": {
+          "locale": "zh-CN"
+        },
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "inherited",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "english",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase",
+                    "locale": "en"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "standalone",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "tree.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "dia-both-inputs",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "tree",
+                  "meta": {
+                    "title": "tree",
+                    "output": "tree.html",
+                    "quality_profile": "showcase"
+                  },
+                  "nodes": [
+                    {
+                      "id": "root",
+                      "label": "Platform"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "parent": "root"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "parent": "root"
+                    }
+                  ]
+                },
+                "source": "tree.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "dia-no-input",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-type-mismatch",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "mismatch.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "mismatch.json": {
+        "text": "{\"diagram_type\":\"sequence\"}"
+      }
+    }
+  },
+  {
+    "name": "dia-inline-type-mismatch",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-array-spec",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": []
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-invalid-json",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "invalid.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "invalid.json": {
+        "text": "{ \"secret\":"
+      }
+    }
+  },
+  {
+    "name": "dia-bom-json",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "bom.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "bom.json": {
+        "text": "﻿{\"schema_version\":1,\"diagram_type\":\"tree\",\"meta\":{\"title\":\"tree\",\"output\":\"tree.html\",\"quality_profile\":\"showcase\"},\"nodes\":[{\"id\":\"root\",\"label\":\"Platform\"},{\"id\":\"api\",\"label\":\"API\",\"parent\":\"root\"},{\"id\":\"redis\",\"label\":\"Redis\",\"parent\":\"root\"}]}"
+      }
+    }
+  },
+  {
+    "name": "dia-source-traversal",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "../outside.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-absolute",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "/tmp/outside.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-not-json",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "outside.txt"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-git",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": ".git/x.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-drive",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "C:x.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-empty",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-no-base-dir",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "tree.json"
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-source-missing",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "absent.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>",
+        "sourceMap": {
+          "/panels/0/blocks/0": {
+            "line": 7
+          }
+        },
+        "sourcePath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "dia-source-directory",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "folder.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "folder.json/x": {
+        "text": "x"
+      }
+    }
+  },
+  {
+    "name": "dia-source-oversize",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "source": "big.json"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "baseDir": "<DIR>"
+      }
+    ],
+    "files": {
+      "big.json": {
+        "zeros": 4194305
+      }
+    }
+  },
+  {
+    "name": "dia-changes",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  },
+                  {
+                    "target": "api-to-redis-1",
+                    "change": "added"
+                  },
+                  {
+                    "target": "redis-to-api-1",
+                    "change": "removed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-empty",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": []
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-bad-target",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": [
+                  {
+                    "target": "nonexistent",
+                    "change": "removed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-not-array",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": {
+                  "target": "api",
+                  "change": "modified"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-null",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": null
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-bad-kind",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "renamed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-null-entry",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": [
+                  null
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-changes-duplicate",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "sequence",
+                "type": "diagram",
+                "diagramType": "sequence",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "sequence",
+                  "meta": {
+                    "title": "sequence",
+                    "output": "sequence.html",
+                    "quality_profile": "showcase"
+                  },
+                  "participants": [
+                    {
+                      "id": "client",
+                      "label": "Client",
+                      "type": "frontend"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "type": "database"
+                    }
+                  ],
+                  "messages": [
+                    {
+                      "id": "client-to-api-1",
+                      "from": "client",
+                      "to": "api",
+                      "label": "Request",
+                      "y": 160
+                    },
+                    {
+                      "id": "api-to-redis-1",
+                      "from": "api",
+                      "to": "redis",
+                      "label": "Read",
+                      "y": 208
+                    },
+                    {
+                      "id": "redis-to-api-1",
+                      "from": "redis",
+                      "to": "api",
+                      "label": "Miss",
+                      "y": 256,
+                      "variant": "return"
+                    }
+                  ]
+                },
+                "changes": [
+                  {
+                    "target": "api",
+                    "change": "modified"
+                  },
+                  {
+                    "target": "api",
+                    "change": "added"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-unknown-type",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "x",
+                "type": "diagram",
+                "diagramType": "flowchart",
+                "spec": {}
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-missing-id",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "tree",
+                  "meta": {
+                    "title": "tree",
+                    "output": "tree.html",
+                    "quality_profile": "showcase"
+                  },
+                  "nodes": [
+                    {
+                      "id": "root",
+                      "label": "Platform"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "parent": "root"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "parent": "root"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-duplicate-id",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "t",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "tree",
+                  "meta": {
+                    "title": "tree",
+                    "output": "tree.html",
+                    "quality_profile": "showcase"
+                  },
+                  "nodes": [
+                    {
+                      "id": "root",
+                      "label": "Platform"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "parent": "root"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "parent": "root"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "t",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "tree",
+                  "meta": {
+                    "title": "tree",
+                    "output": "tree.html",
+                    "quality_profile": "showcase"
+                  },
+                  "nodes": [
+                    {
+                      "id": "root",
+                      "label": "Platform"
+                    },
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "parent": "root"
+                    },
+                    {
+                      "id": "redis",
+                      "label": "Redis",
+                      "parent": "root"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-schema-error",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "tree",
+                "type": "diagram",
+                "diagramType": "tree",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "tree",
+                  "meta": {
+                    "title": "tree",
+                    "output": "tree.html",
+                    "quality_profile": "showcase"
+                  },
+                  "nodes": "none"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sourceMap": {
+          "/panels/0/blocks/0": {
+            "line": 31
+          }
+        },
+        "sourcePath": "/draft.md"
+      }
+    ]
+  },
+  {
+    "name": "dia-render-error",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "architecture",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "architecture",
+                  "meta": {
+                    "title": "architecture",
+                    "output": "diagram.html",
+                    "quality_profile": "showcase"
+                  },
+                  "layout": {
+                    "mode": "grid",
+                    "cols": 1,
+                    "cellW": 176,
+                    "cellH": 76,
+                    "gapX": 100,
+                    "gapY": 110
+                  },
+                  "components": [
+                    {
+                      "id": "api",
+                      "label": "API",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 0
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "id": "api-to-missing-1",
+                      "from": "api",
+                      "to": "missing",
+                      "label": "Request"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "sourceMap": {
+          "/panels/0/blocks/0": {
+            "line": 31
+          }
+        },
+        "sourcePath": "/draft.md"
+      }
+    ]
+  },
+  {
+    "name": "dia-check-error-showcase",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "wide",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "architecture",
+                  "meta": {
+                    "title": "architecture",
+                    "output": "diagram.html",
+                    "quality_profile": "showcase"
+                  },
+                  "layout": {
+                    "mode": "grid",
+                    "cols": 12,
+                    "cellW": 228,
+                    "cellH": 76,
+                    "gapX": 100,
+                    "gapY": 110
+                  },
+                  "components": [
+                    {
+                      "id": "n0",
+                      "label": "Node number 0 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 0,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n1",
+                      "label": "Node number 1 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 1,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n2",
+                      "label": "Node number 2 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 2,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n3",
+                      "label": "Node number 3 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 3,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n4",
+                      "label": "Node number 4 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 4,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n5",
+                      "label": "Node number 5 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 5,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n6",
+                      "label": "Node number 6 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 6,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n7",
+                      "label": "Node number 7 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 7,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n8",
+                      "label": "Node number 8 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 8,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n9",
+                      "label": "Node number 9 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 9,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n10",
+                      "label": "Node number 10 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 10,
+                      "size": [
+                        228,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n11",
+                      "label": "Node number 11 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 11,
+                      "size": [
+                        228,
+                        60
+                      ]
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "id": "n0-to-n1-1",
+                      "from": "n0",
+                      "to": "n1",
+                      "label": "call 0"
+                    },
+                    {
+                      "id": "n1-to-n2-1",
+                      "from": "n1",
+                      "to": "n2",
+                      "label": "call 1"
+                    },
+                    {
+                      "id": "n2-to-n3-1",
+                      "from": "n2",
+                      "to": "n3",
+                      "label": "call 2"
+                    },
+                    {
+                      "id": "n3-to-n4-1",
+                      "from": "n3",
+                      "to": "n4",
+                      "label": "call 3"
+                    },
+                    {
+                      "id": "n4-to-n5-1",
+                      "from": "n4",
+                      "to": "n5",
+                      "label": "call 4"
+                    },
+                    {
+                      "id": "n5-to-n6-1",
+                      "from": "n5",
+                      "to": "n6",
+                      "label": "call 5"
+                    },
+                    {
+                      "id": "n6-to-n7-1",
+                      "from": "n6",
+                      "to": "n7",
+                      "label": "call 6"
+                    },
+                    {
+                      "id": "n7-to-n8-1",
+                      "from": "n7",
+                      "to": "n8",
+                      "label": "call 7"
+                    },
+                    {
+                      "id": "n8-to-n9-1",
+                      "from": "n8",
+                      "to": "n9",
+                      "label": "call 8"
+                    },
+                    {
+                      "id": "n9-to-n10-1",
+                      "from": "n9",
+                      "to": "n10",
+                      "label": "call 9"
+                    },
+                    {
+                      "id": "n10-to-n11-1",
+                      "from": "n10",
+                      "to": "n11",
+                      "label": "call 10"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "dia-check-ok-standard",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "panels": [
+          {
+            "id": "mechanism",
+            "blocks": [
+              {
+                "id": "wide",
+                "type": "diagram",
+                "diagramType": "architecture",
+                "spec": {
+                  "schema_version": 1,
+                  "diagram_type": "architecture",
+                  "meta": {
+                    "title": "architecture",
+                    "output": "diagram.html",
+                    "quality_profile": "showcase"
+                  },
+                  "layout": {
+                    "mode": "grid",
+                    "cols": 12,
+                    "cellW": 228,
+                    "cellH": 76,
+                    "gapX": 100,
+                    "gapY": 110
+                  },
+                  "components": [
+                    {
+                      "id": "n0",
+                      "label": "Node number 0 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 0,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n1",
+                      "label": "Node number 1 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 1,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n2",
+                      "label": "Node number 2 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 2,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n3",
+                      "label": "Node number 3 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 3,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n4",
+                      "label": "Node number 4 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 4,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n5",
+                      "label": "Node number 5 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 5,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n6",
+                      "label": "Node number 6 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 6,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n7",
+                      "label": "Node number 7 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 7,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n8",
+                      "label": "Node number 8 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 8,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n9",
+                      "label": "Node number 9 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 9,
+                      "size": [
+                        221,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n10",
+                      "label": "Node number 10 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 10,
+                      "size": [
+                        228,
+                        60
+                      ]
+                    },
+                    {
+                      "id": "n11",
+                      "label": "Node number 11 with a long label",
+                      "type": "backend",
+                      "row": 0,
+                      "col": 11,
+                      "size": [
+                        228,
+                        60
+                      ]
+                    }
+                  ],
+                  "connections": [
+                    {
+                      "id": "n0-to-n1-1",
+                      "from": "n0",
+                      "to": "n1",
+                      "label": "call 0"
+                    },
+                    {
+                      "id": "n1-to-n2-1",
+                      "from": "n1",
+                      "to": "n2",
+                      "label": "call 1"
+                    },
+                    {
+                      "id": "n2-to-n3-1",
+                      "from": "n2",
+                      "to": "n3",
+                      "label": "call 2"
+                    },
+                    {
+                      "id": "n3-to-n4-1",
+                      "from": "n3",
+                      "to": "n4",
+                      "label": "call 3"
+                    },
+                    {
+                      "id": "n4-to-n5-1",
+                      "from": "n4",
+                      "to": "n5",
+                      "label": "call 4"
+                    },
+                    {
+                      "id": "n5-to-n6-1",
+                      "from": "n5",
+                      "to": "n6",
+                      "label": "call 5"
+                    },
+                    {
+                      "id": "n6-to-n7-1",
+                      "from": "n6",
+                      "to": "n7",
+                      "label": "call 6"
+                    },
+                    {
+                      "id": "n7-to-n8-1",
+                      "from": "n7",
+                      "to": "n8",
+                      "label": "call 7"
+                    },
+                    {
+                      "id": "n8-to-n9-1",
+                      "from": "n8",
+                      "to": "n9",
+                      "label": "call 8"
+                    },
+                    {
+                      "id": "n9-to-n10-1",
+                      "from": "n9",
+                      "to": "n10",
+                      "label": "call 9"
+                    },
+                    {
+                      "id": "n10-to-n11-1",
+                      "from": "n10",
+                      "to": "n11",
+                      "label": "call 10"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "quality": "standard"
+      }
+    ]
+  },
+  {
+    "name": "dia-legacy-blocks",
+    "call": "prepareExplainerDiagrams",
+    "args": [
+      {
+        "blocks": [
+          {
+            "id": "tree",
+            "type": "diagram",
+            "diagramType": "tree",
+            "spec": {
+              "schema_version": 1,
+              "diagram_type": "tree",
+              "meta": {
+                "title": "tree",
+                "output": "tree.html",
+                "quality_profile": "showcase"
+              },
+              "nodes": [
+                {
+                  "id": "root",
+                  "label": "Platform"
+                },
+                {
+                  "id": "api",
+                  "label": "API",
+                  "parent": "root"
+                },
+                {
+                  "id": "redis",
+                  "label": "Redis",
+                  "parent": "root"
+                }
+              ]
+            }
+          },
+          {
+            "type": "prose",
+            "text": "x"
+          }
+        ]
+      },
+      {}
+    ]
+  },
+  {
+    "name": "target-route",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "route": [
+          "client",
+          "redis"
+        ]
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-node-and-edges",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "node": "api",
+        "edges": [
+          "api-to-redis-1"
+        ]
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-unknown-diagram",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "missing"
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-node-absent",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "node": "imaginary"
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-node-absent-empty",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "empty",
+        "node": "imaginary"
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-route-reversed",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "route": [
+          "redis",
+          "client"
+        ]
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-route-disconnected",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "route": [
+          "client",
+          "lonely"
+        ]
+      },
+      {
+        "line": 9,
+        "pointer": "/panels/0/blocks/1/items/0/target",
+        "sourcePath": "/draft.md"
+      }
+    ]
+  },
+  {
+    "name": "target-route-unknown-node",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "route": [
+          "client",
+          "nowhere"
+        ]
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-route-three",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "route": [
+          "client",
+          "api",
+          "redis"
+        ]
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-edges-invented",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "edges": [
+          "invented"
+        ]
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-edges-empty",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "empty",
+        "edges": []
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-edges-not-array",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "edges": "client-to-api-1"
+      },
+      {
+        "line": 42
+      }
+    ]
+  },
+  {
+    "name": "target-source-map-line",
+    "call": "validateExplainerDiagramTarget",
+    "args": [
+      {
+        "request": {
+          "semantic": {
+            "nodes": [
+              {
+                "id": "client",
+                "label": "Client"
+              },
+              {
+                "id": "api",
+                "label": "API"
+              },
+              {
+                "id": "redis",
+                "label": "Redis"
+              },
+              {
+                "id": "lonely",
+                "label": "Lonely"
+              }
+            ],
+            "edges": [
+              {
+                "id": "client-to-api-1",
+                "from": "client",
+                "to": "api",
+                "label": "Request"
+              },
+              {
+                "id": "api-to-redis-1",
+                "from": "api",
+                "to": "redis",
+                "label": "Read"
+              }
+            ]
+          }
+        },
+        "empty": {
+          "semantic": {
+            "nodes": [],
+            "edges": []
+          }
+        }
+      },
+      {
+        "diagram": "request",
+        "node": "nope"
+      },
+      {
+        "line": 3,
+        "pointer": "/panels/0/blocks/0/text",
+        "sourceMap": {
+          "/panels/0/blocks/0": {
+            "line": 20,
+            "column": 1
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "prep-delivery-example",
+    "call": "prepareExplainer",
+    "args": [
+      "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"explainer\",\n  \"meta\": {\n    \"title\": \"缓存未命中时，请求为什么变慢？\",\n    \"id\": \"mechanism\",\n    \"locale\": \"zh-CN\"\n  },\n  \"answer\": {\n    \"summary\": \"缓存未命中后，请求要多等**数据库查询和同步写回缓存**两段。\",\n    \"reasons\": [\n      \"命中时，接口读到缓存值就能返回。\",\n      \"未命中时，接口必须先拿到数据库结果。\",\n      \"同步写回位于响应之前，写完缓存才能结束请求。\"\n    ],\n    \"scope\": \"示例采用旁路缓存：GET返回空值后查询PostgreSQL，查询成功后同步SET再响应；无并行、重试或其他缓存层。未实测耗时，具体慢多少由链路测量决定。\"\n  },\n  \"panels\": [\n    {\n      \"id\": \"timeline\",\n      \"title\": \"一次未命中，时间花在哪？\",\n      \"blocks\": [\n        {\n          \"type\": \"steps\",\n          \"id\": \"cache-path-steps\",\n          \"items\": [\n            {\n              \"id\": \"get-step\",\n              \"text\": \"读取缓存\",\n              \"detail\": \"GET返回空值，接口继续向数据库查询。[](source:get-doc)\"\n            },\n            {\n              \"id\": \"query-step\",\n              \"text\": \"查询PostgreSQL\",\n              \"detail\": \"等待数据库执行SQL并返回结果。\"\n            },\n            {\n              \"id\": \"set-step\",\n              \"text\": \"同步写回Redis\",\n              \"detail\": \"SET完成后，接口返回响应。[](source:set-doc)\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"diff\",\n      \"title\": \"命中和未命中，差在哪几步？\",\n      \"blocks\": [\n        {\n          \"type\": \"comparison\",\n          \"id\": \"cache-comparison\",\n          \"columns\": [\n            \"命中\",\n            \"未命中\"\n          ],\n          \"rows\": [\n            {\n              \"label\": \"读Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"取得值\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"直接返回\"\n                },\n                {\n                  \"text\": \"取得空值\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"继续查询\"\n                }\n              ],\n              \"id\": \"row-67fe9814e476\"\n            },\n            {\n              \"label\": \"查PostgreSQL\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去查询\"\n                },\n                {\n                  \"text\": \"等待结果\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-bb530b3792c8\"\n            },\n            {\n              \"label\": \"写回Redis\",\n              \"cells\": [\n                {\n                  \"text\": \"跳过\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"省去写回\"\n                },\n                {\n                  \"text\": \"同步SET\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"增加等待\"\n                }\n              ],\n              \"id\": \"row-cbc9f8528502\"\n            },\n            {\n              \"label\": \"响应路径\",\n              \"cells\": [\n                {\n                  \"text\": \"一段读取\",\n                  \"assessment\": \"good\",\n                  \"verdict\": \"路径短\"\n                },\n                {\n                  \"text\": \"三段顺序等待\",\n                  \"assessment\": \"caution\",\n                  \"verdict\": \"路径长\"\n                }\n              ],\n              \"id\": \"row-d108c6645625\"\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"checks\",\n      \"title\": \"想缩短等待，先查什么？\",\n      \"blocks\": [\n        {\n          \"type\": \"list\",\n          \"ordered\": false,\n          \"items\": [\n            \"记录`cache=hit`或`cache=miss`，区分请求路径。\",\n            \"分别观察GET、SQL和SET耗时，先处理最慢的一段。\",\n            \"检查SQL索引与执行计划；改为异步写回前，设计写入失败的恢复流程。\"\n          ],\n          \"id\": \"list-7e8599e477aa\"\n        }\n      ]\n    }\n  ],\n  \"sources\": [\n    {\n      \"id\": \"get-doc\",\n      \"title\": \"Redis GET：不存在的键返回空值\",\n      \"url\": \"https://redis.io/docs/latest/commands/get/\"\n    },\n    {\n      \"id\": \"set-doc\",\n      \"title\": \"Redis SET：设置键值\",\n      \"url\": \"https://redis.io/docs/latest/commands/set/\"\n    }\n  ]\n}\n",
+      {
+        "inputPath": "<DIR>/delivery.explainer.json"
+      }
+    ]
+  },
+  {
+    "name": "prep-markdown-full",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## How does a request move? {#path}\n\n@sequence id=request\n| actor client | Client | frontend |\n| actor api | API | backend |\n| actor redis | Redis | database |\n| client | api | Request |\n| api | redis | Read |\n\n@steps id=walk\n| ask | The client asks the [API](node:request.api). | | request | api |\n| read | The API reads Redis. | | request | | api~redis |\n\n@diagram tree id=layout source=diagrams/tree.json\n\n## What does it read? {#code}\n\n@code id=route-code source=router language=js\n\n@image id=pixel path=images/tiny.png alt=\"One pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ],
+    "repo": true,
+    "files": {
+      "diagrams/tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "images/tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      }
+    }
+  },
+  {
+    "name": "prep-markdown-full-showcase",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## How does a request move? {#path}\n\n@sequence id=request\n| actor client | Client | frontend |\n| actor api | API | backend |\n| actor redis | Redis | database |\n| client | api | Request |\n| api | redis | Read |\n\n@steps id=walk\n| ask | The client asks the [API](node:request.api). | | request | api |\n| read | The API reads Redis. | | request | | api~redis |\n\n@diagram tree id=layout source=diagrams/tree.json\n\n## What does it read? {#code}\n\n@code id=route-code source=router language=js\n\n@image id=pixel path=images/tiny.png alt=\"One pixel\"\n\n@chart id=latency type=bar data=latency.csv x=day y=p50,p99 unit=ms title=\"Latency\"\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md",
+        "quality": "showcase"
+      }
+    ],
+    "repo": true,
+    "files": {
+      "diagrams/tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      },
+      "images/tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      },
+      "latency.csv": {
+        "text": "day,p50,p99\nMon,12,40\nTue,\"1,300\",55\n"
+      }
+    }
+  },
+  {
+    "name": "prep-meta-quality",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n@meta quality_profile=showcase\n\n## What follows? {#next}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-base-dir",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md",
+        "baseDir": "<DIR>/assets"
+      }
+    ],
+    "files": {
+      "assets/tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "prep-target-node-absent",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## How does it flow? {#flow}\n\n@diagram tree id=layout source=tree.json\n\n@steps id=walk\n| ask | Ask the cache. | | layout | ghost |\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ],
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "prep-target-edge-absent",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## How does it flow? {#flow}\n\n@diagram tree id=layout source=tree.json\n\n@steps id=walk\n| ask | Ask the cache. | | layout | | | invented |\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ],
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "prep-target-route-absent",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## How does it flow? {#flow}\n\n@architecture id=path\n| client | Client | external |\n| api | API | backend |\n| redis | Redis | database |\n| client > api | Request |\n| api > redis | Read |\n\n@steps id=walk\n| back | Redis answers the client. | | path | | redis~client |\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-target-inline-route-absent",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## How does it flow? {#flow}\n\n@architecture id=path\n| client | Client | external |\n| api | API | backend |\n| redis | Redis | database |\n| client > api | Request |\n| api > redis | Read |\n\nThe answer goes\nback along [the path](route:path.redis~client).\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-target-inline-node-source",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## How does it flow? {#flow}\n\n@diagram tree id=layout source=tree.json\n\nSee [the ghost](node:layout.ghost).\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ],
+    "files": {
+      "tree.json": {
+        "text": "{\n  \"schema_version\": 1,\n  \"diagram_type\": \"tree\",\n  \"meta\": {\n    \"title\": \"tree\",\n    \"output\": \"tree.html\",\n    \"quality_profile\": \"showcase\"\n  },\n  \"nodes\": [\n    {\n      \"id\": \"root\",\n      \"label\": \"Platform\"\n    },\n    {\n      \"id\": \"api\",\n      \"label\": \"API\",\n      \"parent\": \"root\"\n    },\n    {\n      \"id\": \"redis\",\n      \"label\": \"Redis\",\n      \"parent\": \"root\"\n    }\n  ]\n}\n"
+      }
+    }
+  },
+  {
+    "name": "prep-parse-error",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\n@unknown\n| x |\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-invalid",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\n@image id=pixel path=tiny.png\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-image-missing",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-code-without-repo",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n@source router title=\"Router\" path=src/router.js lines=1:3\n\n## What follows? {#next}\n\n@code id=c source=router\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "prep-writing-strict",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\nIt is important to note that we utilize a seamless cache.\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md",
+        "writingMode": "strict"
+      }
+    ]
+  },
+  {
+    "name": "prep-writing-warn",
+    "call": "prepareExplainer",
+    "args": [
+      "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What follows? {#next}\n\nIt is important to note that we utilize a seamless cache.\n",
+      {
+        "inputPath": "<DIR>/draft.archify.md"
+      }
+    ]
+  },
+  {
+    "name": "read-unchanged",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    }
+  },
+  {
+    "name": "read-other-path",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "path": "other.archify.md"
+    }
+  },
+  {
+    "name": "read-expected-path",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "read": {
+      "options": {
+        "expectedInputPath": "<DIR>/elsewhere.archify.md"
+      }
+    }
+  },
+  {
+    "name": "read-same-file-other-spelling",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "read": {
+      "options": {
+        "expectedInputPath": "<DIR>/./DRAFT.archify.md"
+      }
+    }
+  },
+  {
+    "name": "read-bytes-tampered",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "bytes": [
+        {
+          "from": "\"quality\":\"standard\"",
+          "to": "\"quality\":\"showcase\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "read-other-draft",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "read": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platforms |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    }
+  },
+  {
+    "name": "read-quality",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "read": {
+      "options": {
+        "quality": "showcase"
+      }
+    }
+  },
+  {
+    "name": "read-quality-same",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "read": {
+      "options": {
+        "quality": "standard"
+      }
+    }
+  },
+  {
+    "name": "read-writing-mode",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "read": {
+      "options": {
+        "writingMode": "strict"
+      }
+    }
+  },
+  {
+    "name": "read-writing-mode-absent",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "writingMode": null
+    },
+    "read": {
+      "options": {
+        "writingMode": "warn"
+      }
+    }
+  },
+  {
+    "name": "read-document",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "document": [
+        {
+          "from": "\"The miss adds a second read on the request path.\"",
+          "to": "\"The miss adds a read.\""
+        }
+      ]
+    }
+  },
+  {
+    "name": "read-frozen-spec-changed",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "signed": [
+        {
+          "from": "\"kind\":\"diagram-spec\",\"id\":\"layout\",\"inline\":true,\"sha256\":\"",
+          "to": "\"kind\":\"diagram-spec\",\"id\":\"layout\",\"inline\":true,\"sha256\":\"0"
+        }
+      ]
+    }
+  },
+  {
+    "name": "read-dependency-changed",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "dependency": {
+        "tiny.png": {
+          "base64": "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        }
+      }
+    }
+  },
+  {
+    "name": "read-dependency-removed",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "dependency": {
+        "tiny.png": null
+      }
+    }
+  },
+  {
+    "name": "read-dependency-unchecked",
+    "call": "readPreparedBundle",
+    "draft": {
+      "text": "# Why does the cache miss slow requests? {#cache-miss}\n\nThe miss adds a second read on the request path.\n\n@source docs title=\"Fixture facts\"\n\n## What does it show? {#show}\n\n@tree id=layout\n| root | Platform |\n| api | API | root |\n\n@image id=pixel path=tiny.png alt=\"Pixel\"\n"
+    },
+    "files": {
+      "tiny.png": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jZ1EAAAAASUVORK5CYII="
+      }
+    },
+    "mutate": {
+      "dependency": {
+        "tiny.png": null
+      }
+    },
+    "read": {
+      "options": {
+        "checkDependencies": false
+      }
+    }
+  }
+]
