@@ -1,11 +1,13 @@
 # Archify.Net
 
+<a href="https://mbrekhof.github.io/Archify.Net/docs/images/archify-net.html">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
   <img alt="Archify.Net system overview rendered by Archify.Net: Claude Code reaches archify-mcp over MCP stdio, which calls the archify CLI in-process; the CLI, a developer shell or a .NET app drive the ArchifyNet facade, which runs load gates, the ten renderers and the TemplateWriter, with the artifact checker, repository evidence via git, and the delivered HTML checked in headless Chromium" src="docs/images/hero-light.png">
 </picture>
+</a>
 
-<sub>Archify.Net drawing itself: [`docs/images/archify-net.architecture.json`](docs/images/archify-net.architecture.json), rendered by `archify finalize architecture` through the `archify-mcp` server.</sub>
+<sub>Archify.Net drawing itself: [`docs/images/archify-net.architecture.json`](docs/images/archify-net.architecture.json), rendered to [interactive HTML](https://mbrekhof.github.io/Archify.Net/docs/images/archify-net.html) by `archify finalize architecture` through the `archify-mcp` server.</sub>
 
 A C# port of [archify](https://github.com/tt-a1i/archify) 3.2.0, pinned at upstream tag `v3.2.0` (commit `208acba8`).
 It renders ten diagram types from JSON into standalone HTML with inline SVG, compiles Markdown or JSON `explainer` drafts (with embedded native diagrams and six Pele chart types) into one-page interactive answers, and checks the result.

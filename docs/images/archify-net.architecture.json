@@ -8,9 +8,9 @@
   },
   "components": [
     { "id": "agent", "type": "external", "label": "Claude Code", "sublabel": "MCP client", "pos": [40, 40], "size": [150, 64] },
-    { "id": "mcp", "type": "backend", "label": "archify-mcp", "sublabel": "Archify.Net.Mcp", "pos": [290, 40], "size": [150, 64], "tag": "4 tools" },
+    { "id": "mcp", "type": "backend", "label": "archify-mcp", "sublabel": "Archify.Net.Mcp", "pos": [290, 40], "size": [150, 64], "tag": "5 tools" },
     { "id": "shell", "type": "external", "label": "Developer shell", "sublabel": "archify <command>", "pos": [40, 180], "size": [150, 64] },
-    { "id": "cli", "type": "backend", "label": "archify CLI", "sublabel": "Archify.Net.Cli", "pos": [290, 180], "size": [150, 64], "tag": "13 commands" },
+    { "id": "cli", "type": "backend", "label": "archify CLI", "sublabel": "Archify.Net.Cli", "pos": [290, 180], "size": [150, 64], "tag": "14 commands" },
     { "id": "artifact", "type": "database", "label": "HTML artifact", "sublabel": "+ .delivery.json sidecar", "pos": [540, 180], "size": [150, 64] },
     { "id": "chromium", "type": "external", "label": "Chromium", "sublabel": "Playwright headless", "pos": [790, 180], "size": [150, 64] },
     { "id": "app", "type": "external", "label": ".NET app", "sublabel": "library consumer", "pos": [40, 340], "size": [150, 64] },
@@ -42,7 +42,7 @@
     { "id": "evidence-to-git", "from": "evidence", "to": "git", "label": "runs git", "labelDy": 24 }
   ],
   "cards": [
-    { "dot": "cyan", "title": "Entry points", "items": ["archify-mcp: guide, validate, render, finalize", "archify CLI: port of upstream bin/archify.mjs", ".NET apps call the ArchifyNet facade directly"] },
+    { "dot": "cyan", "title": "Entry points", "items": ["archify-mcp: guide, validate, render, finalize, patch", "archify CLI: port of upstream bin/archify.mjs", ".NET apps call the ArchifyNet facade directly"] },
     { "dot": "emerald", "title": "Core library", "items": ["Byte-identical HTML to upstream archify 3.2.0", "Problems return as diagnostics, never exceptions", "Viewer JS embedded verbatim from upstream"] },
     { "dot": "rose", "title": "Delivery gates", "items": ["finalize = deliver + check + browser-check", "Chromium runs upstream's measurement scripts", "Sidecar records provenance of each artifact"] }
   ]
