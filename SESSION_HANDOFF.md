@@ -1,8 +1,7 @@
 # Session handoff — Archify.Net
 
-Updated 2026-10-24: PORT-009 (the explainer type) is implemented on branch `port-009-explainer` (Tasks 1 to 9) and waits
-for the controller's close-out: upstream issues, board cards, the Fable whole-branch review, the merge of master and the push,
-and the Pages URL checks. PORT-008 was merged before it. Then PORT-013 (the parked PORT-009 items) and PORT-012.
+Updated 2026-10-25: PORT-008, PORT-009 (the explainer type), TRANS-001 (English showcase drafts), CARD-2529 (patched explainer receipt/sidecar input path), PORT-012 (`#2396`, all PORT-008 deferred test/tooling/code minors and parked items) and PORT-013 cherry-picks (P2, P13) are merged and pushed on `master` (`1028558`).
+
 Martin's standing order for the arc: each branch Fable-reviewed (plan and branch), then merge and push. No deploy.
 
 ## What this repo is
@@ -92,15 +91,13 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
   (`showcase: true` pins the draft to the repo file); `Showcase_pages_match_upstream` compares with those goldens. The `cases`
   group keeps upstream's Chinese drafts. Plan: `docs/superpowers/plans/2026-10-25-trans001-showcase-english.md` (no Gemini
   review, Martin 2026-10-25). The `upstream/examples` pages were already English (only viewer-script comments are Chinese).
-- Test totals: Core 6338, Cli 1037, Mcp 17, 0 failed.
+- Test totals: Core 6341, Cli 1037, Mcp 17, 0 failed.
+- PORT-012 (CARD-2396), CARD-2529 and PORT-013 cherry-picks (P2 `ExplainerShorthand.InferredId` lone-surrogate fallback, P13 `Diagnostics.FallbackDiagnostic` `PeleException => "PeleError"`): all completed and pushed (`1028558`).
 
 ## Next
 
-1. PORT-009 close-out (controller): upstream issues (lane label, heading line terminators, patch payload message), board
-   cards, the Fable whole-branch review, settle it, fast-forward master, push, check the showcase URLs.
-2. PORT-013: the parked PORT-009 cases. PORT-012: the PORT-008 test and tooling minors and parked cases.
-3. Queued after PORT-009 (Martin, 2026-10-23, "fix, report as with the previous one"): UPSTREAM-002 (CARD-2182) and
-   PERF-003 (CARD-2186), each fixed on its own branch as a known deviation with a test.
+1. Queued (Martin, 2026-10-23, "fix, report as with the previous one"): UPSTREAM-002 (CARD-2182) and PERF-003 (CARD-2186), each fixed on its own branch as a known deviation with a test.
+2. PORT-013 (CARD-2523): the remaining parked contrived-input PORT-009 cases (P2 and P13 are already done).
 
 ## State at end of phase 6
 

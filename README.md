@@ -8,7 +8,7 @@
 <sub>Archify.Net drawing itself: [`docs/images/archify-net.architecture.json`](docs/images/archify-net.architecture.json), rendered by `archify finalize architecture` through the `archify-mcp` server.</sub>
 
 A C# port of [archify](https://github.com/tt-a1i/archify) 3.2.0, pinned at upstream tag `v3.2.0` (commit `208acba8`).
-It renders architecture diagrams from JSON into standalone HTML with inline SVG, and checks the result.
+It renders ten diagram types from JSON into standalone HTML with inline SVG, compiles Markdown or JSON `explainer` drafts (with embedded native diagrams and six Pele chart types) into one-page interactive answers, and checks the result.
 The correctness bar is byte parity: the HTML it writes is byte-identical to upstream's for the same input.
 The reader-side viewer stays JavaScript and is embedded verbatim from `upstream/`.
 
@@ -89,6 +89,8 @@ return 0;
 - `Check(html, options)` runs the artifact checker. Its `Report` JSON equals upstream's
   `scripts/check-render-output.mjs` minus `file`; `Ok` mirrors the report's `ok`.
 - `Validate(type, diagram, options)` renders, checks, and returns the render diagnostics followed by the checker's.
+- `Layout(type, diagram, options)` runs the load gates and returns the layout report (`--layout-json`) without SVG or HTML (`Architecture` and `Workflow` only, as upstream).
+- `RenderExplainer(sourceText, options)` prepares and renders a Markdown or JSON explainer draft into a standalone HTML page.
 
 `RenderOptions(Quality, RepoRoot)` selects the quality profile (`Standard` or `Showcase`, upstream's environment-driven
 profile as an option) and the repository root for evidence (see [Source evidence](#source-evidence)).
@@ -97,7 +99,7 @@ profile as an option) and the repository root for evidence (see [Source evidence
 Input and validation problems come back as `Diagnostic` records with upstream's codes, messages, subjects, evidence
 and supported fixes. Any other renderer error comes back as an `internal/unclassified` diagnostic whose evidence names
 the exception type, as upstream's JSON-mode boundary does. All ten diagram types render. The facade throws only
-`NotSupportedException`, from `Check` when `RequireProvenance` is set (use the CLI for provenance checks).
+`NotSupportedException` (from `Check` when `RequireProvenance` is set, or from `Render`, `Layout` and `Validate` when passed `DiagramType.Explainer` — use `RenderExplainer`), `ArgumentOutOfRangeException` (from `Layout` outside `Architecture` and `Workflow`), and `ArgumentNullException` (when `Check` is given a null `byte[]`).
 
 The facade is named `ArchifyNet`, not `Archify`: a class of that name inside namespace `Archify.Net` cannot be named
 from consumer code.
@@ -359,11 +361,15 @@ tools/capture-fixtures.mjs`, and add the matching row to `ParityTests`.
 - Phase 4 plan: `docs/superpowers/plans/2026-10-15-phase4-erd-evidence.md`.
 - Phase 5 plan: `docs/superpowers/plans/2026-10-15-phase5-cli.md`.
 - Phase 6 plan: `docs/superpowers/plans/2026-10-15-phase6-mcp.md`.
+- PORT-007 plan (re-pin to 3.2.0): `docs/superpowers/plans/2026-10-22-port007-upstream-320.md`.
+- PORT-008 research and plan (Pele charts): `docs/superpowers/specs/2026-10-23-port008-pele-research.md` and `docs/superpowers/plans/2026-10-23-port008-pele-charts.md`.
+- PORT-009 plan (explainer): `docs/superpowers/plans/2026-10-24-port009-explainer.md`.
+- TRANS-001 plan (English explainer showcase): `docs/superpowers/plans/2026-10-25-trans001-showcase-english.md`.
 - `SESSION_HANDOFF.md`: current state, carried items and the next step.
 
 ## Known deviations from upstream
 
-See [`docs/deviations.md`](docs/deviations.md) for the list of library, renderer, repository-evidence, CLI and chart deviations from upstream.
+See [`docs/deviations.md`](docs/deviations.md) for the list of library, renderer, repository-evidence, CLI, chart and explainer deviations from upstream.
 
 ## Credits and license
 
