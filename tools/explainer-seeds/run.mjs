@@ -169,12 +169,15 @@ async function checkFixture({ children = {}, dependencies = [], asset, quality }
   const payloads = { 'archify-explainer-prepared': bundle, 'explainer-manifest': manifest };
   return `<!doctype html><html data-archify-artifact="explainer" data-revision="${manifest.revision}"><head><title>Case</title></head><body><main id="question"><p id="explanation">Explanation</p>${Object.keys(kids).map((id) => `<div id="${id}">Diagram preview</div>`).join('')}${asset ? `<img alt="contained" src="data:${asset.mime};base64,${dependencies[0].contentBase64}">` : ''}</main>${Object.entries(payloads).map(([id, p]) => `<script id="${id}" type="application/json">${json(p)}</script>`).join('')}</body></html>`;
 }
-// `deliver` (the cases group): upstream's own CLI delivers a v3.2.0 case draft at standard quality, with no repository root, in
-// the seed's fresh directory; the golden is the page. The draft must be the tag's docs/cases/explainer/<name>.archify.md.
+// `deliver` (the cases and showcase groups): upstream's own CLI delivers a draft at standard quality, with no repository root, in
+// the seed's fresh directory; the golden is the page. The draft must be the tag's docs/cases/explainer/<name>.archify.md, or with
+// `showcase: true` this repo's showcase/explainer/<name>.archify.md (the English translations, TRANS-001).
 function deliver(seed, dir) {
   const file = seed.draft.file ?? `${seed.name}.archify.md`;
-  const pinned = execFileSync('git', ['-C', 'C:/projects/archify', 'show', `v3.2.0:docs/cases/explainer/${seed.name}.archify.md`], { encoding: 'utf8' });
-  if (seed.draft.text !== pinned) throw new Error(`${seed.name}: the draft differs from v3.2.0:docs/cases/explainer/${seed.name}.archify.md`);
+  const [pinned, where] = seed.showcase
+    ? [fs.readFileSync(path.join(ROOT, 'showcase', 'explainer', `${seed.name}.archify.md`), 'utf8'), `showcase/explainer/${seed.name}.archify.md`]
+    : [execFileSync('git', ['-C', 'C:/projects/archify', 'show', `v3.2.0:docs/cases/explainer/${seed.name}.archify.md`], { encoding: 'utf8' }), `v3.2.0:docs/cases/explainer/${seed.name}.archify.md`];
+  if (seed.draft.text !== pinned) throw new Error(`${seed.name}: the draft differs from ${where}`);
   fs.writeFileSync(path.join(dir, file), seed.draft.text);
   execFileSync(process.execPath, [path.join(SKILL, 'bin', 'archify.mjs'), 'deliver', 'explainer', file, `${seed.name}.html`, '--quality', 'standard'], { cwd: dir, stdio: 'pipe' });
   return fs.readFileSync(path.join(dir, `${seed.name}.html`), 'utf8');

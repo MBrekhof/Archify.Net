@@ -136,10 +136,12 @@ in `validate`, `deliver`, `render`, `check`, `patch` and `finalize` (`archify fi
 same bytes (see [`docs/deviations.md`](docs/deviations.md#explainer-port-009)).
 
 Showcase: [`showcase/explainer/`](showcase/explainer/index.html) holds four explainers rendered by the port with
-`archify deliver explainer <case>.archify.md <case>.html --quality standard`, from the drafts of upstream's cases. Live at
+`archify deliver explainer <case>.archify.md <case>.html --quality standard`, from the drafts of upstream's cases. Three of
+upstream's drafts are Chinese; the showcase has English translations of them, and `tls-first-visit` as upstream wrote it. Live at
 https://mbrekhof.github.io/Archify.Net/showcase/explainer/ next to upstream's own copies at
-https://tt-a1i.github.io/archify/cases/explainer/. The committed pages equal a v3.2.0 render (`Showcase_pages_match_upstream`),
-but upstream's committed `docs/cases/explainer/*.html` do not: each of their native children carries
+https://tt-a1i.github.io/archify/cases/explainer/. The committed pages equal a v3.2.0 render of the same drafts
+(`Showcase_pages_match_upstream`). Upstream's own Chinese drafts stay in the parity suite (the `cases` seed group). Upstream's
+committed `docs/cases/explainer/*.html` do not equal a v3.2.0 render: each of their native children carries
 `<meta name="generator" content="archify 3.1.1-dev.1">` where v3.2.0 writes `archify 3.2.0`, from an older build. So their children's
 SHA-256, manifest, bundle digest and `data-revision` differ from a v3.2.0 render; every other child byte is equal.
 

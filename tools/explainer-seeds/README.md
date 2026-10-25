@@ -68,7 +68,8 @@ as `render-explainer.mjs` does: `prepareExplainer(text, {...options, inputPath})
 `deliver` (the `cases` group) is `{name, call: "deliver", draft: {text, file}}`: the runner checks that `text` is
 `v3.2.0:docs/cases/explainer/<name>.archify.md`, writes it to `<DIR>/<file>` and runs the oracle's own
 `bin/archify.mjs deliver explainer <file> <name>.html --quality standard` there, with no `--repo-root`. The golden is
-`<name>.html`. The C# side renders `ExplainerPipeline.Render(ExplainerPipeline.Prepare(text, standard), <DIR>)`.
+`<name>.html`. The C# side renders `ExplainerPipeline.Render(ExplainerPipeline.Prepare(text, standard), <DIR>)`. With
+`showcase: true` (the `showcase` group) `text` is pinned to this repo's `showcase/explainer/<name>.archify.md` instead.
 
 Two shapes prepare the arguments of a generic call:
 
@@ -140,6 +141,8 @@ Node by a stated deviation is listed in `ExplainerParityTests.KnownDeviations` a
   or `args: [document, options]` (the upstream renderer tests' documents with hand-written resources, the cross-volume and
   portable-path rows, and each thrown error). A page without a locale has a `.fixed.html` golden (Decision 3).
 - `cases` (Task 5): the four v3.2.0 showcase drafts through upstream's `deliver` (see `deliver` above).
+- `showcase` (TRANS-001): the four drafts committed under `showcase/explainer/` (English translations of the cases; `tls-first-visit`
+  is upstream's own) through the same `deliver`. `Showcase_pages_match_upstream` compares the committed pages with these goldens.
 - `check` (Task 6): `checkExplainerHtml` on the check tests' fixtures and on rendered pages with one tampering per issue
   code (`tamper` for markup and payload text, `resign` for a bundle change under a valid digest), plus `scanHtml` and
   `isExplainerHtml`. A native child's receipt `file` is a `<TMP>` path.

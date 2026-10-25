@@ -85,6 +85,15 @@ viewer stays JavaScript and is embedded verbatim. Correctness bar: rendered HTML
 - Open: `viewer-target` is a stated platform difference of the headless shell, not an upstream defect. Parked items: card
   PORT-013 (CARD-2523), listed in `docs/deviations.md`.
 
+## State: TRANS-001 (2026-10-25)
+
+- The three Chinese showcase drafts (`first-rental`, `p99-tail-latency`, `finalize-delivery`) are English translations now
+  (`locale=en`, every id unchanged, 0 writing warnings upstream). New seed group `tools/explainer-seeds/showcase.json`
+  (`showcase: true` pins the draft to the repo file); `Showcase_pages_match_upstream` compares with those goldens. The `cases`
+  group keeps upstream's Chinese drafts. Plan: `docs/superpowers/plans/2026-10-25-trans001-showcase-english.md` (no Gemini
+  review, Martin 2026-10-25). The `upstream/examples` pages were already English (only viewer-script comments are Chinese).
+- Test totals: Core 6338, Cli 1037, Mcp 17, 0 failed.
+
 ## Next
 
 1. PORT-009 close-out (controller): upstream issues (lane label, heading line terminators, patch payload message), board

@@ -11,7 +11,7 @@ namespace Archify.Net.Tests;
 public partial class ExplainerParityTests
 {
     // A group is compared once it is listed; each task adds its own.
-    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare", "layout", "pages", "cases", "check", "patch"];
+    static readonly string[] Groups = ["parse", "shorthand", "inline", "diff", "writing", "validate", "prepare", "layout", "pages", "cases", "showcase", "check", "patch"];
     // Rows that differ from Node by a stated deviation (docs/deviations.md), each pinned by its own fact below.
     static readonly HashSet<(string Group, string Name)> KnownDeviations =
         [("parse", "cr-only"), ("parse", "line-separator-heading"), ("writing", "rule-fold-long-s"),
@@ -445,8 +445,8 @@ public partial class ExplainerParityTests
     }
 
     // The pages committed under showcase/explainer (rendered by `archify deliver explainer <case>.archify.md <case>.html --quality standard`)
-    // equal the cases goldens, which are minted from upstream v3.2.0, after NormalizePage. Not upstream's committed docs/cases pages: those
-    // came from an older build.
+    // equal the showcase goldens, which upstream v3.2.0 minted from the same drafts (English translations of upstream's cases, TRANS-001),
+    // after NormalizePage.
     [Theory]
     [InlineData("first-rental")]
     [InlineData("p99-tail-latency")]
@@ -456,7 +456,7 @@ public partial class ExplainerParityTests
     {
         var page = Path.Combine(Fixtures.RepoRoot, "showcase", "explainer", name + ".html");
         Assert.True(File.Exists(page), page);
-        var expected = Expected("cases", name);
+        var expected = Expected("showcase", name);
         var actual = NormalizePage(Fixtures.Lf(page));
         if (expected != actual) Assert.Fail(ParityTests.FirstDifference(expected, actual));
     }

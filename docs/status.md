@@ -130,16 +130,18 @@ The full suite (`dotnet test`) runs 7388 tests: 6334 in `Archify.Net.Core.Tests`
   second run, and `git status --porcelain tests/` is empty after a re-capture.
 - Showcase: `showcase/explainer/` holds the four upstream cases (`first-rental`, `p99-tail-latency`, `tls-first-visit`,
   `finalize-delivery`) rendered by the port with `archify deliver explainer <case>.archify.md <case>.html --quality standard`,
-  served by GitHub Pages (https://mbrekhof.github.io/Archify.Net/showcase/explainer/). `Showcase_pages_match_upstream` compares
-  each page with the cases golden minted from v3.2.0. Upstream's own committed `docs/cases/explainer/*.html` are not the
+  served by GitHub Pages (https://mbrekhof.github.io/Archify.Net/showcase/explainer/). Upstream's `first-rental`,
+  `p99-tail-latency` and `finalize-delivery` are Chinese; the showcase drafts are English translations (TRANS-001).
+  `Showcase_pages_match_upstream` compares each page with the `showcase` golden, which v3.2.0 minted from the same draft; the
+  Chinese originals stay in the `cases` group. Upstream's own committed `docs/cases/explainer/*.html` are not the
   reference: they came from an older build, and each native child carries `<meta name="generator" content="archify 3.1.1-dev.1">`
   where v3.2.0 writes `archify 3.2.0`. So their children's SHA-256, the manifest, the bundle digest and `data-revision` differ from
   a v3.2.0 render; every other child byte is equal.
-- Browser gate: compared with upstream by verdicts, group statuses and diagnostic codes (`Verdicts_match_node`). Of the showcase
-  drafts, `tls-first-visit` passes `finalize explainer --browser-check`; `first-rental`, `p99-tail-latency` and
+- Browser gate: compared with upstream by verdicts, group statuses and diagnostic codes (`Verdicts_match_node`). Of upstream's four
+  case drafts, `tls-first-visit` passes `finalize explainer --browser-check`; `first-rental`, `p99-tail-latency` and
   `finalize-delivery` fail it on `explainer/browser-readability` (small workflow text) in the port. Upstream v3.2.0 on its default Chrome fails the same
   three cases with the same codes and pixel values (`first-rental` and `finalize-delivery`: `explainer/browser-readability`;
   `p99-tail-latency`: readability, `explainer/browser-diagram-fit` and `explainer/browser-diagram-text`), so it is not a port defect;
   tracked as UPSTREAM-015 (unfiled).
-- Test totals (`dotnet test`, Browser category included): Core 6334, Cli 1037, Mcp 17, 0 failed, 0 warnings. Without the
-  Browser category: Core 6334, Cli 964, Mcp 14.
+- Test totals (`dotnet test`, Browser category included): Core 6338, Cli 1037, Mcp 17, 0 failed, 0 warnings. Without the
+  Browser category: Core 6338, Cli 964, Mcp 14. (TRANS-001 added the four `showcase` parity rows.)

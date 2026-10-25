@@ -1,72 +1,72 @@
-# 第一次在大城市租房，签合同前要确认哪些事？ {#first-rent}
+# Renting in a big city for the first time: what should you confirm before signing? {#first-rent}
 
-核心是三件事：**确认人、确认房、确认钱**。核实房东身份和产权，把关键条款写进合同，所有付款和交接留证据。
+It comes down to three things: **confirm the person, the flat and the money**. Verify the landlord's identity and ownership, write the key terms into the contract, and keep evidence of every payment and the handover.
 
-- 签约前核对房东身份和产权，拒绝只靠口头承诺。
-- 租金、押金、租期、违约、维修责任必须写进合同。
-- 付款走可留痕的方式，交接时逐项验房拍照。
+- Check the landlord's identity and ownership before signing; do not rely on verbal promises.
+- Rent, deposit, term, penalties and repair duties must be in the contract.
+- Pay in a way that leaves a record, and inspect and photograph every item at handover.
 
-@answer scope="中国大陆城市 · 普通住宅整租或合租 · 首次签约"
-@meta locale=zh-CN
+@answer scope="Cities in mainland China · whole or shared flat in an ordinary home · first lease"
+@meta locale=en
 
-## 签约前按什么顺序确认？ {#flow}
+## In what order do you check before signing? {#flow}
 
-@workflow id=rent-flow title="签约前确认顺序"
-| lane verify | 核实 |
-| lane paper | 合同和钱 |
-| lane move | 交接 |
-| see | 实地看房 | external | verify |
-| id | 核对身份和产权 | backend | verify |
-| ok | 签约身份已核实？ | backend | verify |
-| walk | 放弃这套房 | external | verify |
-| terms | 条款写进合同 | backend | paper |
-| pay | 付款并留凭证 | backend | paper |
-| check | 逐项验房拍照 | backend | move |
+@workflow id=rent-flow title="Checks before signing"
+| lane verify | Verify |
+| lane paper | Contract and money |
+| lane move | Handover |
+| see | View the flat | external | verify |
+| id | Check identity and ownership | backend | verify |
+| ok | Signer verified? | backend | verify |
+| walk | Walk away | external | verify |
+| terms | Write terms into the contract | backend | paper |
+| pay | Pay and keep receipts | backend | paper |
+| check | Inspect and photograph | backend | move |
 | see > id | |
 | id > ok | |
-| ok > walk | 否 | dashed |
-| ok > terms | 是 | emphasis |
+| ok > walk | No | dashed |
+| ok > terms | Yes | emphasis |
 | terms > pay | |
 | pay > check | |
 
 @steps id=rent-steps
-| see | 实地看房 | 晚上和周末各看一次；测采光、噪音、水压、手机信号；查通勤时间。 | rent-flow | see |
-| id | 核对身份和产权 | 看身份证原件和房产证；核实签约人是产权人，或持有产权人授权委托书的代理人。 | rent-flow | id |
-| terms | 条款写进合同 | 为减少争议，将关键承诺写进合同或补充条款，并由双方确认。 | rent-flow | terms |
-| pay | 付款并留凭证 | 转账备注用途；要求收据，或在合同里注明已收金额。 | rent-flow | pay |
-| check | 逐项验房拍照 | 水电燃气表读数、家具家电、已有破损全部拍照存档。 | rent-flow | check |
+| see | View the flat | Visit once in the evening and once at the weekend; test light, noise, water pressure and phone signal; check the commute. | rent-flow | see |
+| id | Check identity and ownership | See the original ID card and the property certificate; confirm the signer is the owner, or an agent with the owner's power of attorney. | rent-flow | id |
+| terms | Write terms into the contract | To avoid disputes, put the key promises into the contract or an addendum, confirmed by both sides. | rent-flow | terms |
+| pay | Pay and keep receipts | Note the purpose on each transfer; ask for a receipt, or have the contract state the amount received. | rent-flow | pay |
+| check | Inspect and photograph | Photograph the water, power and gas meter readings, the furniture and appliances, and any existing damage. | rent-flow | check |
 
-## 合同里必须写清哪些条款？ {#clauses}
+## Which terms must the contract spell out? {#clauses}
 
-| 条款 | 要确认什么 | 常见坑 |
+| Term | What to confirm | Common trap |
 | --- | --- | --- |
-| 租金和付款 | 金额、支付周期、收款账户是房东本人 | 收款人不是房东 {bad:风险高} |
-| 押金 | 金额、退还条件、退还时限 | 以卫生费、损耗费名义克扣 {bad:风险高} |
-| 租期和退租 | 起止日期、提前退租违约金 | 违约扣全部押金 {caution:注意} |
-| 维修责任 | 家电、水管、电路坏了谁修谁付钱 | 全部推给租客 {caution:注意} |
-| 转租和续租 | 能否转租、续租时涨租幅度 | 禁止转租又不让退租 {caution:注意} |
-| 杂费承担 | 水电气、物业、网费、取暖谁付 | 上任租客的欠费算到你头上 {caution:注意} |
+| Rent and payment | Amount, payment cycle, the receiving account is the landlord's own | The payee is not the landlord {bad:High risk} |
+| Deposit | Amount, conditions and deadline for its return | Deductions as "cleaning" or "wear" fees {bad:High risk} |
+| Term and move-out | Start and end dates, penalty for leaving early | The whole deposit kept as a penalty {caution:Watch} |
+| Repairs | Who fixes and pays for appliances, pipes and wiring | Everything pushed onto the tenant {caution:Watch} |
+| Subletting and renewal | Whether you may sublet, how much rent may rise on renewal | No subletting and no early exit either {caution:Watch} |
+| Utilities and fees | Who pays water, power, gas, management, internet and heating | The previous tenant's arrears billed to you {caution:Watch} |
 
-## 签约当天核对什么？ {#day-of}
+## What do you check on signing day? {#day-of}
 
 @facts id=day-checks
-| 房东身份证 | 原件核对，姓名与房产证一致 |
-| 房产证或不动产权证 | 核对房屋地址和产权人 |
-| 代理人签约 | 须有产权人签字的授权委托书 |
-| 首笔付款 | 押金加首期租金，金额写进合同 |
-| 中介费 | 常见为半个月到一个月租金，事先说定（经验值） |
+| Landlord's ID card | Check the original; the name matches the property certificate |
+| Property certificate | Check the address and the owner |
+| Signing through an agent | Requires a power of attorney signed by the owner |
+| First payment | Deposit plus the first rent period, amount written into the contract |
+| Agency fee | Often half a month to a month's rent; agree it in advance (rule of thumb) |
 
-@callout level=warning title="这些情况直接放弃"
-| 只给看照片、不让实地看房，还催你先交定金锁房。
-| 拿不出产权证明，或二房东没有原房东同意转租的书面文件。
-| 要求现金或转账到第三方账户，且不给收据。
-| 新装修房有刺鼻气味，或明显是隔断间、群租房。
+@callout level=warning title="Walk away if you see these"
+| Photos only, no viewing allowed, and pressure to pay a holding fee first.
+| No proof of ownership, or a sublessor without the owner's written consent to sublet.
+| Cash or a transfer to a third party's account demanded, with no receipt.
+| A newly renovated flat with a sharp smell, or an obvious partitioned or overcrowded unit.
 
-## 交接验房查什么？ {#handover}
+## What do you check at handover? {#handover}
 
-- [ ] 抄下水表、电表、燃气表读数，拍照留档
-- [ ] 试空调、热水器、燃气灶、洗衣机、马桶下水
-- [ ] 检查门窗锁、水压、渗漏
-- [ ] 记录墙面和地板已有破损，拍照发给房东留证
-- [ ] 清点钥匙和门禁卡数量
-- [ ] 确认上任租客的水电燃气物业费已结清
+- [ ] Write down the water, power and gas meter readings and photograph them
+- [ ] Test the air conditioner, water heater, gas stove, washing machine and toilet drain
+- [ ] Check door and window locks, water pressure and leaks
+- [ ] Record existing damage to walls and floors, and send the photos to the landlord
+- [ ] Count the keys and access cards
+- [ ] Confirm the previous tenant's water, power, gas and management fees are settled
