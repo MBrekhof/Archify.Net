@@ -38,7 +38,7 @@ internal static partial class Pele
         }
 
         // Writes a label with its left edge, center or right edge at x. A plain one-line label keeps its place when the text is
-        // wider or narrower than measured.
+        // wider or narrower than measured; LayoutLabel has already decoded its entities (Label.cs), so Esc suffices.
         static string Aligned(Label label, double x, double y, string anchor)
         {
             var line = label.Lines.Count == 1 ? label.Lines[0] : null;

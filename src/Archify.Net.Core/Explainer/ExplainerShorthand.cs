@@ -73,10 +73,13 @@ internal static partial class ExplainerShorthand
         : throw Fail(context, "diagram-id", "Diagram identities must use the native identifier syntax.", "api | API | backend");
 
     // NFKC, then JS toLowerCase (İ becomes i̇), then the slug; a label with no usable slug gets actor-<hash>.
-    // ponytail: string.Normalize throws on a lone surrogate, where JS keeps it; a label with one is not authored text.
+    // A lone surrogate is replaced with U+FFFD before Normalize so .NET does not throw ArgumentException; NotSlug maps both to `-`.
     internal static string InferredId(string label)
     {
-        var slug = EdgeDashes().Replace(NotSlug().Replace(Js.ToLowerCase(label.Normalize(NormalizationForm.FormKC)), "-"), "");
+        string normalized;
+        try { normalized = label.Normalize(NormalizationForm.FormKC); }
+        catch (ArgumentException) { normalized = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(label)).Normalize(NormalizationForm.FormKC); }
+        var slug = EdgeDashes().Replace(NotSlug().Replace(Js.ToLowerCase(normalized), "-"), "");
         return IsId(slug) ? slug : $"actor-{Hash(label)[..12]}";
     }
 

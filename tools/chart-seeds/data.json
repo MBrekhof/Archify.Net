@@ -598,6 +598,18 @@
       "kind": "pie",
       "x": "k",
       "y": [
+        "v"
+      ]
+    }
+  },
+  {
+    "name": "pie-json-second-y-missing",
+    "file": "a.json",
+    "bytes": "W3siayI6IkEiLCJ2IjozfSx7ImsiOiJCIiwidiI6MX1d",
+    "spec": {
+      "kind": "pie",
+      "x": "k",
+      "y": [
         "v",
         "w"
       ]

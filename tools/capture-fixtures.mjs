@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Dev-time only. Captures V8 behaviour and upstream renderer output as fixtures for the C# parity suite.
 // Usage: node tools/capture-fixtures.mjs   (from repo root; needs C:\projects\archify at tag v3.2.0, commit 208acba8)
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -2050,7 +2051,7 @@ for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.json') &&
 for (const f of fs.readdirSync(CHART_SEEDS).filter((f) => f.endsWith('.fuzz.json')).sort()) {
   const type = f.slice(0, -'.fuzz.json'.length);
   const { seed, count, fragments } = JSON.parse(fs.readFileSync(path.join(CHART_SEEDS, f), 'utf8'));
-  // Seeds over 2,000 characters stay out of the corpus: Pele's oracle compares only inputs up to that length
+  // Seeds over 2,000 characters stay out of the corpus: Pele's oracle skips mutated inputs over that length
   // (tests/<type>/oracle.test.ts), and the oversized seeds have their own rows.
   const corpus = (chartGroups.get(type) ?? []).filter((s) => typeof s.text === 'string' && s.text.length <= 2000).map((s) => s.text);
   if (!corpus.length || CHART_TYPES.indexOf(type) < 0 || seed !== 0x5EED0000 + CHART_TYPES.indexOf(type) || !Number.isInteger(count) || !fragments?.length) {
@@ -2067,6 +2068,10 @@ const PELE_INTERNALS = path.join(ROOT, 'tools', 'pele-internals', 'pele-internal
 if (!fs.existsSync(PELE_INTERNALS)) {
   throw new Error(`${PELE_INTERNALS} is missing. Rebuild it from the repo root with esbuild 0.28.2: node <esbuild>/bin/esbuild ` +
     'tools/pele-internals/entry.mjs --bundle --format=esm --target=es2022 --charset=ascii --legal-comments=none --outfile=tools/pele-internals/pele-internals.mjs');
+}
+const PELE_INTERNALS_SHA256 = 'ee901741004069ce1657713d7b8e8266e9c0fff7d19c72931c967a522b5c8153';
+if (crypto.createHash('sha256').update(fs.readFileSync(PELE_INTERNALS)).digest('hex') !== PELE_INTERNALS_SHA256) {
+  throw new Error(`${PELE_INTERNALS} sha256 does not match ${PELE_INTERNALS_SHA256} in tools/pele-internals/entry.mjs`);
 }
 const P = await import(pathToFileURL(PELE_INTERNALS).href);
 const { detectType: vendoredDetectType } = await import('file:///C:/projects/archify/archify/explainer/vendor/pele/core.js');
@@ -2093,7 +2098,7 @@ const peleEscIn = ['', 'plain', 'a&b', '<tag>', '"q"', "'s'", 'a\x01\x02b', '\t\
   '&nbsp;x', '&unknown;', '&Alpha;&alpha;', 'ﬂ°quot¶ß', 'ﬂ°°35¶ß', 'ﬂ°°1.5¶ß', '\u2028\u2029', '\uFEFF', '\ud800x', '😀',
   '&#0;', '&#55296;', '&#1114111;', '&#1114112;', '&#x110000;', '&lt;b&gt;', 'x\x00\x0b\x0c\x0e\x1fy',
   // UPSTREAM-008: characters XML forbids past the controls, which the port drops too, and the valid ones next to them.
-  'a￾b￿c', 'x\udc00y', 'ab\ud83d', '\udc00\ud800', '#65534;', '&#65535;', '&#xFFFE;', '�￼퟿', '😀😀'];
+  'a\uFFFEb\uFFFFc', 'x\udc00y', 'ab\ud83d', '\udc00\ud800', '#65534;', '&#65535;', '&#xFFFE;', '�￼퟿', '😀😀'];
 for (let c = 0; c < 32; c++) peleEscIn.push('a' + String.fromCharCode(c) + 'b');
 write('fixtures/js/pele-esc.json', peleEscIn.map((s) => ({ s, esc: P.esc(s), escText: peleTry(() => P.escText(s)) })));
 
@@ -2265,9 +2270,19 @@ const peleYamlIn = [
   'a: "x\\\n\n  y"', 'a: "  lead\n   trail  "', 'a: "x\t\n\ty"', "a: 'x\n\n\n  y'", 'a: "\\', '"\\uZZZZ"', '["\\U00110000"]',
   'a: "\\u{41}"', 'a: "\u2028"', '"x"\n"y"', 'a: "x\n"\nb: 1', 'a: "x\ny"\nb: 1',
 ];
-write('fixtures/js/pele-yaml.json', peleYamlIn.map((src) => {
+const peleYamlRows = peleYamlIn.map((src) => {
   try { return [src, yamlEnc(P.parseYaml(src))]; } catch (e) { return [src, JSON.stringify({ error: e.message })]; }
-}));
+});
+for (const msg of ['can not read a block mapping entry', 'unexpected content after a value', 'end of the stream or a document separator is expected',
+  'unexpected end of the stream within a flow collection', 'bad indentation of a mapping entry', 'unexpected end of the stream within a double quoted scalar',
+  'tabs are not allowed for indentation', "expected the node content, but found ','", 'missed comma between flow collection entries',
+  'nesting is too deep', 'unknown escape sequence', 'Invalid code point', 'unexpected end of the stream within a single quoted scalar']) {
+  if (!peleYamlRows.some(([, out]) => out.includes(msg))) throw new Error(`pele-yaml.json missing error: ${msg}`);
+}
+for (const deep of [yamlNest(65, '[', ']'), yamlKeys(66)]) {
+  if (!peleYamlRows.some(([src, out]) => src === deep && out.includes('nesting is too deep'))) throw new Error(`pele-yaml.json depth row did not fail: ${deep.slice(0, 30)}`);
+}
+write('fixtures/js/pele-yaml.json', peleYamlRows);
 // Nesting past the port's JSON depth cap (a stated deviation): Node merges it; the port ignores the directive.
 const peleDeep = P.preprocess(`%%{init: ${peleNest(300)}}%%\npie`);
 write('fixtures/js/pele-preprocess-deep.json', { input: `%%{init: ${peleNest(300)}}%%\npie`, text: peleDeep.text, merged: JSON.stringify(peleDeep.config).length });

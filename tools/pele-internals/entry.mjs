@@ -3,7 +3,8 @@
 // pinned esbuild 0.28.2 (Pele's package-lock) from the repo root:
 //   node <esbuild 0.28.2>/bin/esbuild tools/pele-internals/entry.mjs --bundle --format=esm --target=es2022 --charset=ascii
 //     --legal-comments=none --outfile=tools/pele-internals/pele-internals.mjs
-// The built file is committed so the capture never depends on an esbuild install; the capture cross-checks it against
+// The built file (sha256: ee901741004069ce1657713d7b8e8266e9c0fff7d19c72931c967a522b5c8153, from a clean C:\projects\pele tree)
+// is committed so the capture never depends on an esbuild install; the capture asserts its sha256 and cross-checks it against
 // the vendored core.js (detectType) so a drifted build fails loudly.
 export { detect } from 'C:/projects/pele/src/detect.ts';
 export { PeleError, locate, syntaxError } from 'C:/projects/pele/src/errors.ts';

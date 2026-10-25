@@ -14,7 +14,7 @@ every expected value; nothing here is hand-written output.
     message for that case is the caller's (`sources.mjs:311`, PORT-009).
 - `<type>.fuzz.json`: `{seed, count, fragments}`. The capture runs Pele's `random` and `mutator`
   (`tests/support/corpus.ts:34-57`, copied verbatim into the capture script) over the group's own `text` seeds of at most
-  2,000 characters (Pele's oracle compares only inputs up to that length), and writes all `count` results as one array.
+  2,000 characters (Pele's oracle skips a mutated input over that length; the capture applies that bound to the seeds so oversized stress rows stay in their own rows), and writes all `count` results as one array.
   `seed` is `0x5EED0000` plus the type's index in charts.mjs's register order (`CHART_TYPES` in the capture: pie 0,
   xychart 1, quadrantChart 2, sankey 3, radar 4, venn 5), and `fragments` is the type's `FRAGMENTS` from Pele's
   `tests/<type>/oracle.test.ts`. The capture refuses any other seed.
@@ -42,7 +42,7 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   inputs. Compared from Task 5 (its xychart rows from Task 6), and `native-treeview` is the UPSTREAM-003 deviation (the
   port redirects `treeView-beta`).
 - `<type>` (`pie`, then one per type task): archify's inputs for the type, Pele's `tests/corpus/<type>-docs.json`
-  verbatim, the inputs of Pele's `tests/compat/<type>/*` and `tests/render/<type>*.test.ts` (each `name` says which), and
+  verbatim, the inputs of Pele's `tests/compat/<type>/*` and `tests/render/<type>*.test.ts` (with a sample of the oversized and hostile-payload render cases; each `name` says which), and
   the type's own edge cases. The capture refuses a type group that has no drawn result or no error result.
 - `xychart` (Task 6) adds, beyond that list: `db-*` (the calls of Pele's `xychartDb.spec.ts` written as chart text),
   `oracle-*` (the corpus additions of `tests/xychart/oracle.test.ts`), `render-hostile-*` (each template of
@@ -56,7 +56,7 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
     as keywords anywhere, X3 the broken markdown-string rules, X4 unquoted text losing its spaces. Each one's `-reference`
     row is the same chart written so that Node already reads it the corrected way. The `comment-*`, `orientation-*` and
     `md-*` controls still equal Node. As for quadrantChart, the differing fuzz cases are listed in `FuzzDeviations`,
-    and the port's output for them is pinned in `tests/fixtures/charts/xychart.fuzz-deviations.json`.
+    and the port's output for them is pinned in `tests/fixtures/charts/xychart.fuzz-deviations.json` (`node tools/chart-seeds/xychart-fuzz-check.mjs` checks them against a patched copy of upstream's xychart chunk; `node tools/chart-seeds/pie-fuzz-check.mjs` does the same for pie).
 
 - `quadrantChart` (Task 7): archify's tests have no quadrant fence, so `archify-*` and `fm-quadrant-*` pin archify's own
   `quadrantChart: {chartWidth: 400, chartHeight: 400}` and the front matter that replaces it. Beyond the list above:
@@ -73,7 +73,7 @@ filtered out of the theory data. A deviation row is pinned by its own fact.
   reads it the corrected way. The `keyword-*` controls that are not in that list still equal Node. The fuzz cases that
   differ for these reasons are listed by index in `FuzzDeviations`. What the port gives for each of them is pinned in
   `tests/fixtures/charts/quadrantChart.fuzz-deviations.json`. That file is port output, not a Node golden: delete it and
-  run the fact twice to re-mint it after the seeds change.
+  run the fact twice to re-mint it after the seeds change (`node tools/chart-seeds/quadrant-fuzz-check.mjs` checks them against a patched copy of upstream's quadrant chunk).
 
 - `sankey` (Task 8): archify's tests have no sankey fence and charts.mjs passes no `sankey` config, so `archify-*`,
   `fm-sankey-*` and `directive-config` pin the defaults and the type's own object. `corpus-docs-0` is the corpus entry with

@@ -3,7 +3,7 @@
 `gen.mjs` captures V8's `Math.sin`, `Math.cos`, `Math.acos`, `Math.atan2`, `Math.log10` and `**` as IEEE-754 bit
 patterns, so that `JsMathTests` can check `JsMath` (src/Archify.Net.Core/Js/JsMath.cs) bit for bit.
 
-- `node tools/v8-math/gen.mjs --fixture` writes `tests/fixtures/js/v8-math.json`, which is committed. It holds chart
+- `node tools/v8-math/gen.mjs --fixture` writes `tests/fixtures/js/v8-math.json`, which is committed (minted on Windows with Node 24.12.0). It holds chart
   angles, fdlibm branch edges, special values and a seeded mulberry32 sample, one `{fn, in: [hex…], out: hex}` per
   line. NaN outputs are written as `7ff8000000000000`, and the test accepts any NaN for them, since JS cannot observe
   NaN payloads.

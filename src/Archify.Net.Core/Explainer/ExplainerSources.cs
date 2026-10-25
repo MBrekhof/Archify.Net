@@ -255,7 +255,7 @@ internal static class ExplainerSources
     static string DecodeStrict(byte[] bytes)
     {
         var text = StrictUtf8.GetString(bytes);
-        return text.StartsWith('﻿') ? text[1..] : text;
+        return text.StartsWith('\ufeff') ? text[1..] : text;
     }
 
     // The source record of a verified repository entry (:245-247, :278-279), without its excerpt.

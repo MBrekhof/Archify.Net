@@ -93,14 +93,14 @@ public class PeleCoreTests
         if (p.Title is not null) o["title"] = p.Title;
         o["config"] = V8Order(p.Config);
         o["withComments"] = p.WithComments;
-        o["lineOffset"] = p.LineOffset;
         return Js.Stringify(o);
     }
 
     [Fact]
     public void Preprocess_matches_V8()
     {
-        AllMatch(A(Load("pele-preprocess.json")).Select(r => (S(r!["name"]), S(r["out"]), PreprocessJson(S(r["input"])))), 60);
+        // SourceMap replaced lineOffset on Preprocessed (PORT-008 Task 11), so the comparison drops V8's trailing lineOffset.
+        AllMatch(A(Load("pele-preprocess.json")).Select(r => (S(r!["name"]), System.Text.RegularExpressions.Regex.Replace(S(r["out"]), @",""lineOffset"":\d+\}\z", "}"), PreprocessJson(S(r["input"])))), 105);
     }
 
     // The capture's yamlEnc: every number as {num} (Infinity, NaN and -0 survive), keys in V8 order.
@@ -138,6 +138,10 @@ public class PeleCoreTests
         Assert.True(double.IsNaN(Num(c["c"])));
         Assert.True(Num(c["d"]) == 0 && double.IsNegative(Num(c["d"])));
         Assert.True(double.IsNaN(Num(c["n"]!["e"]![0])));
+        var init = Pele.Preprocess.Run("%%{init: {\"n\": 1e400, \"m\": -0, \"f\": 1.50}}%%\npie").Config;
+        Assert.Equal(double.PositiveInfinity, Num(init["n"]));
+        Assert.True(Num(init["m"]) == 0 && double.IsNegative(Num(init["m"])));
+        Assert.Equal(1.5, Num(init["f"]));
     }
 
     // Deviation (PORT-008 Task 11): V8 merges a directive nested 300 levels deep; the port's JSON depth cap (256) ignores it.

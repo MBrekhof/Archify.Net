@@ -101,14 +101,19 @@ public partial class ExplainerCommandTests
 
     static readonly string[] DeliverPage = ["deliver", "explainer", "author.json", "page.html", "--json"];
 
-    // Node's patched rows: everything but the page is Node's; the page is Node's without its `inputPath`, the bundle digest (which
-    // follows the binding, masked in Node's golden) compared by Patched_page_passes_check_and_patches_again instead.
+    // Node's patched rows: the receipt, the provenance sidecar and the page carry the temporary draft in Node and the original
+    // draft (`<WORK>\author.json`, `sourcePath` only in the page) in the port; the bundle digest (which follows the binding,
+    // masked in Node's golden) is compared by Patched_page_passes_check_and_patches_again instead.
     [Theory, InlineData("explainer/patch-json"), InlineData("explainer/patch-human")]
     public void Patched_rows_match_node_but_the_temp_binding(string name)
     {
         var fixture = Load(name);
         var (exit, stdout, stderr, entries, sidecars, page) = Run(fixture);
-        Assert.Equal((fixture.Cli.Stdout, fixture.Cli.Stderr, fixture.Cli.Exit), (stdout, stderr, exit));
+        const string tempInput = "\"input\": \"<TMP>\\\\patched-draft.json\"";
+        const string workInput = "\"input\": \"<WORK>\\\\author.json\"";
+        Assert.Equal((fixture.Cli.Stdout.Replace(tempInput, workInput), fixture.Cli.Stderr, fixture.Cli.Exit), (stdout, stderr, exit));
+        Assert.Contains(tempInput, fixture.Sidecars["out.delivery.json"], StringComparison.Ordinal);
+        fixture.Sidecars["out.delivery.json"] = fixture.Sidecars["out.delivery.json"].Replace(tempInput, workInput);
         Assert.Equal(fixture.Entries, entries);
         Assert.Equal(fixture.Sidecars, sidecars);
         const string binding = "\"digest\":\"<digest>\",\"inputPath\":\"<TMP>\\\\patched-draft.json\"}</script>";
@@ -126,17 +131,26 @@ public partial class ExplainerCommandTests
     [Fact]
     public void Patched_page_does_not_embed_the_temp_draft()
     {
-        string original = "", patched = "";
-        var (exit, _, _) = CliTestHost.Run(Patch("page.html", "out.html"), PatchFiles, setup: Steps(DeliverPage), inspect: work =>
+        string original = "", patched = "", sidecar = "", expectedInput = "";
+        var (exit, stdout, _) = CliTestHost.Run(Patch("page.html", "out.html"), PatchFiles, setup: Steps(DeliverPage), inspect: work =>
         {
             original = File.ReadAllText(Path.Join(work, "page.html"));
             patched = File.ReadAllText(Path.Join(work, "out.html"));
+            sidecar = File.ReadAllText(Path.Join(work, "out.delivery.json"));
+            expectedInput = Path.Join(work, "author.json");
         });
         Assert.Equal(0, exit);
         Assert.DoesNotContain("\"inputPath\"", patched, StringComparison.Ordinal);
         Assert.DoesNotContain("archify-explainer-patch-", patched, StringComparison.Ordinal);
         Assert.DoesNotContain(Temp, patched, StringComparison.OrdinalIgnoreCase);
         Assert.DoesNotContain(Temp.Replace("\\", "\\\\"), patched, StringComparison.OrdinalIgnoreCase);
+        foreach (var text in new[] { stdout, sidecar })
+        {
+            Assert.DoesNotContain("archify-explainer-patch-", text, StringComparison.Ordinal);
+            Assert.DoesNotContain("patched-draft.json", text, StringComparison.Ordinal);
+        }
+        Assert.Equal("<WORK>\\author.json", JsonNode.Parse(stdout)!["input"]!.GetValue<string>());
+        Assert.Equal(expectedInput, JsonNode.Parse(sidecar)!["input"]!.GetValue<string>());
         var (before, after) = (PreparedOf(original), PreparedOf(patched));
         Assert.Equal(before.Select(kv => kv.Key), after.Select(kv => kv.Key));
         Assert.Equal(before["sourcePath"]!.GetValue<string>(), after["sourcePath"]!.GetValue<string>());

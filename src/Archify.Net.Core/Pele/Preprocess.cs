@@ -8,7 +8,7 @@ namespace Archify.Net;
 // preprocess.ts Preprocessed. `Config` is the shallow `{ [key]: YamlValue }` record; JS object key order is not kept
 // (config is only ever read by key on the chart path; sankey's nodeColors goes into a lookup Map).
 // `Origin[i]` is the offset in the source of `Text[i]` (see SourceMap).
-internal sealed record Preprocessed(string Text, string? Title, JsonObject Config, string WithComments, int LineOffset, int[] Origin);
+internal sealed record Preprocessed(string Text, string? Title, JsonObject Config, string WithComments, int[] Origin);
 
 // Deviation (PORT-008 Task 11, UPSTREAM-007: mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in
 // the text the diagram parsed, so every line that preparation removes before the error (front matter, `%%` comment lines,
@@ -149,8 +149,6 @@ internal static partial class Pele
             return null;
         }
 
-        static bool IsRecord(JsonNode? value) => value is JsonObject;
-
         // preprocess.ts:90-100. A value is moved into `target` as a copy (a JsonNode has one parent).
         internal static JsonObject Merge(JsonObject target, JsonObject source)
         {
@@ -223,7 +221,6 @@ internal static partial class Pele
 
             var config = new JsonObject();
             string? title = null;
-            var lineOffset = 0;
 
             var front = text.Contains("---", StringComparison.Ordinal) ? MatchFrontMatter(text) : null;
             if (front is not null)
@@ -232,14 +229,13 @@ internal static partial class Pele
                     ? string.Join("\n", front.Body.Split('\n').Select(line => line.StartsWith(front.Indent, StringComparison.Ordinal) ? line[front.Indent.Length..] : line))
                     : front.Body;
                 title = FrontMatterYaml(body, config);
-                for (var i = text.IndexOf('\n'); i != -1 && i < front.Length; i = Js.IndexOf(text, "\n", i + 1)) lineOffset++;
                 text = text[front.Length..];
                 origin = origin[front.Length..];
             }
 
             (text, origin) = Directives(text, origin, config);
             var (clean, cleanOrigin) = CleanupComments(text, origin);
-            return new(clean, title, config, text, lineOffset, cleanOrigin);
+            return new(clean, title, config, text, cleanOrigin);
         }
 
         // preprocess.ts:149-162: parseYaml(body), its errors wrapped as "Front matter is not valid YAML. …", then `title`

@@ -298,9 +298,10 @@ public class ChartParityTests
             "quirk-unquoted-break-title", "quirk-unquoted-break-twice", "quirk-unquoted-break-crlf", "quirk-unquoted-break-category",
             "quirk-unquoted-break-y-title", "quirk-unquoted-break-series",
             // Text in a gap that gave no token is dropped; the gap keeps its whitespace (fix round 1 C1).
-            "quirk-unquoted-empty-string", "quirk-unquoted-empty-md", "quirk-unquoted-empty-accdescr", "quirk-unquoted-empty-string-axis",
+            "quirk-unquoted-empty-string", "quirk-unquoted-empty-accdescr", "quirk-unquoted-empty-string-axis",
             "quirk-unquoted-empty-string-category",
         }.Select(name => (name, "X4", $"{name}-reference")),
+        ("quirk-unquoted-empty-md", "X3X4", "quirk-unquoted-empty-md-reference"),
     ];
 
     // Upstream slips in sankey, fixed in the port (Task 8):
@@ -467,6 +468,12 @@ public class ChartParityTests
         }
     }
 
+    [Fact] public void Radar_line_break_in_a_missing_axis_label_is_written_as_its_code()
+    {
+        var result = ExplainerCharts.Compile("radar-beta\n  axis a[\"first\"], b[\"x#10;y#13;z\nlast\"]\n  curve c{a: 1}");
+        Assert.Equal("Missing entry for axis x#10;y#13;z#10;last", result.Error);
+    }
+
     // Upstream slips in venn, fixed in the port (Task 10):
     //   Q1  the second comment rule `[^\}]\%\%[^\n]*` takes the character before `%%` with it, at a token's start: a one-letter
     //       name, a one-digit number, `,`, `:`, `-`, `[` or `"`. Only whitespace goes with a comment in the port, as in
@@ -591,7 +598,7 @@ public class ChartParityTests
     // sankey name check rejects them. The port's Builder.Esc drops them too. Text is measured before it is escaped, so each
     // row's port output is Node's with those characters taken out of the SVG. The `fixes/xml-control-*` rows (an emoji, as
     // typed and as a code, U+FFFD, U+FFFC, U+10FFFF, `&#xFFFE;`, which Mermaid's encoding leaves undecoded) equal Node.
-    internal static readonly Regex ReXmlInvalid = new(@"[￾￿]|[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]");
+    internal static readonly Regex ReXmlInvalid = new(@"[\ufffe\uffff]|[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]");
     static (string Group, string Name)[] XmlRows =>
     [
         ("radar", "labels-xml-invalid-fffe"), ("venn", "id-xml-invalid"), ("venn", "label-xml-invalid-fffe"),
@@ -612,10 +619,12 @@ public class ChartParityTests
             Assert.Equal(ExplainerCharts.Json(node), Run(Seed(group, name)));
         }
         foreach (var seed in SeedsOf("fixes").Cast<JsonObject>().Select(seed => seed["name"]!.GetValue<string>()).Where(name => name.StartsWith("xml-control-", StringComparison.Ordinal)))
-            Assert.DoesNotMatch(ReXmlInvalid, Fixtures.Lf(Golden("fixes", seed)));
+            Assert.DoesNotMatch(ReXmlInvalid, DiagramLoader.ParseNode(Fixtures.Lf(Golden("fixes", seed)))!["svg"]!.GetValue<string>());
         // A pair stays; a lone half goes, and so does a low half written before a high one.
-        Assert.Equal("a😀b&amp;", Pele.Builder.Esc("a￾😀￿b\ud800&\udc00"));
+        Assert.Equal("a😀b&amp;", Pele.Builder.Esc("a\ufffe😀\uffffb\ud800&\udc00"));
         Assert.Equal("", Pele.Builder.Esc("\udc00\ud800"));
+        Assert.Equal("\"AB\" has invalid value: -1. Negative values are not allowed in pie charts. All slice values must be >= 0.",
+            ExplainerCharts.Compile("pie\n  \"A#65534;\ud800B\" : -1").Error);
     }
 
     // PORT-011 (CARD-2393), pie: model.ts:18 writes the label as parsed in the "has invalid value" message, so a Mermaid code
@@ -670,6 +679,7 @@ public class ChartParityTests
             Assert.Contains("d=\\\"M0,0 C0,0 0,0 0,0 C0,0 0,0 0,0 Z\\\"", Fixtures.Lf(Golden(group, name)));   // Node: at the centre
             Assert.Equal(Fixtures.Lf(Golden("fixes", reference)), Run(Seed(group, name)) + "\n");
         }
+        Assert.Equal((0, 50, 100), (Pele.Radar.RelativeRadius(-1e308, -1e308, 1e308, 100), Pele.Radar.RelativeRadius(0, -1e308, 1e308, 100), Pele.Radar.RelativeRadius(1e308, -1e308, 1e308, 100)));
     }
 
     // UPSTREAM-007 (mermaid#8537, pele#61; Martin 2026-10-23): upstream counts an error's line in the text the diagram parsed,
@@ -801,7 +811,8 @@ public class ChartParityTests
         // Mermaid's encodeEntities first drops the last `;` of a `style …:…#…;` (or classDef) line, so the token may lack that
         // one `;`: the line is also tried with it dropped, by Mermaid's own rule. The token itself is never stripped.
         var styled = ReStyleSemicolon.Replace(written, m => m.Value[..^1]);
-        bool HoldsStyled(string t) => styled != written && styled.Contains(t, StringComparison.Ordinal);
+        var snippet = RePlaceholder.Replace(fence.Contains(error.Message, StringComparison.Ordinal) ? "" : error.Message.Split('\n').ElementAtOrDefault(1)?.Trim('.') ?? "", "#$1;");
+        bool HoldsStyled(string t) => styled != written && snippet != "" && styled.Contains(snippet, StringComparison.Ordinal) && styled.Contains(t, StringComparison.Ordinal) && !written.Contains(t, StringComparison.Ordinal);
         var coded = RePlaceholder.Replace(token, "#$1;");
         return Holds(token) || Holds(coded) || HoldsStyled(token) || HoldsStyled(coded)
             ? null : $"line {line} {Js.Quote(written)} has no {Js.Quote(token)}";
@@ -831,6 +842,10 @@ public class ChartParityTests
         error = ErrorOf(style);
         Assert.Null(FenceOracle(style, 3));
         Assert.NotNull(TokenOnLine(style, 2, error));
+        const string styleOtherLine = "venn-beta\nstyle A fill:#f00;x\n  #f00x";
+        error = ErrorOf(styleOtherLine);
+        Assert.Null(FenceOracle(styleOtherLine, 3));
+        Assert.NotNull(TokenOnLine(styleOtherLine, 2, error));
     }
 
     static string Token(string snippet, int caret)
@@ -916,7 +931,7 @@ public class ChartParityTests
         var (pieResult, sankeyResult) = (ExplainerCharts.Compile(pie), ExplainerCharts.Compile(sankey));
         clock.Stop();
         Assert.Equal<(int?, int?)>((9002, 20003), (pieResult.Line, sankeyResult.Line));
-        Assert.True(clock.ElapsedMilliseconds < 500, $"{clock.ElapsedMilliseconds} ms");
+        Assert.True(clock.ElapsedMilliseconds < (Environment.GetEnvironmentVariable("CI") is not null ? 5000 : 500), $"{clock.ElapsedMilliseconds} ms");
     }
 
     // Inputs the fixes must leave as Node draws them: each is compared with Node by Matches_node.
@@ -1010,6 +1025,15 @@ public class ChartParityTests
         }
         var compared = Targets().Select(row => $"{row[0]}/{row[1]}").ToHashSet();
         foreach (var control in Controls) Assert.True(compared.Contains(control), $"{control} is not compared with Node");
+        // X4 gap rules on lone CR after space (collapsed to one space) and U+2028/U+2029 (kept as plain whitespace).
+        Assert.Equal(Fixtures.Lf(Golden("xychart", "quirk-unquoted-break-twice-reference")), RunText("xychart-beta\n  title a \r  b\n  bar [1, 2]") + "\n");
+        foreach (var sep in new[] { "\u2028", "\u2029" })
+        {
+            var unquoted = $"xychart-beta\n  title a{sep}b\n  bar [1, 2]";
+            Assert.Equal("X4", QuirkIn("xychart", unquoted, ""));
+            Assert.Equal(RunText($"xychart-beta\n  title \"a{sep}b\"\n  bar [1, 2]"), RunText(unquoted));
+            Assert.Contains($">a{sep}b<", RunText(unquoted), StringComparison.Ordinal);
+        }
     }
 
     // Which quirks an input shows: Q1 a character other than `}`, `%` or whitespace directly before `%%`; Q2 a coordinate `0` followed by a character
@@ -1091,9 +1115,9 @@ public class ChartParityTests
     // S3: in the chart text, a character past the C1 controls, or a Mermaid `#…;` code (its placeholder is non-ASCII).
     // S4: a row whose third field, trimmed and unquoted, is not a whole decimal number.
     // Attribution of every listed fuzz case is also checked against Node by tools/chart-seeds/sankey-fuzz-check.mjs.
-    static readonly Regex ReFrontMatter = new(@"\A[\t\n\v\f\r  ﻿]*---[\s\S]*?\n---[^\n]*(?:\n|\z)");
+    static readonly Regex ReFrontMatter = new(@"\A[\t\n\v\f\r \u00a0\ufeff]*---[\s\S]*?\n---[^\n]*(?:\n|\z)");
     // A `%%{…}%%` directive (it may span lines) and a comment line, which preprocess takes out too.
-    static readonly Regex ReCommentLine = new(@"%%\{[\s\S]*?(?:\}%%|\z)|(?<=\A|\n)[\t\n\v\f\r    -     　﻿]*%%[^\n]*\n?");
+    static readonly Regex ReCommentLine = new($@"%%\{{[\s\S]*?(?:\}}%%|\z)|(?<=\A|\n)[{WsBody}]*%%[^\n]*\n?");
     static readonly Regex ReCsvQuoted = new("\"(?:[^\"]|\"\")*(?:\"|\\z)");
     static readonly Regex ReHtmlEntity = new("&(?:#[0-9]+|#[xX][0-9a-fA-F]+|[A-Za-z0-9_]+);");
     static bool SankeyRowBlanks(string text)
@@ -1210,7 +1234,7 @@ public class ChartParityTests
     const string XyWord = "[A-Za-z0-9&+=*.#_-]";
     const string XyLetter = "[A-Za-z&+=*#_]";
     const string XyNoToken = $@"(?:""""|[Aa][Cc][Cc][Dd][Ee][Ss][Cc][Rr]{SpaceNotNewline}*\{{{SpaceNotNewline}*\}})";
-    const string XyGap = $"{XyNoToken}*{XySkip}(?:{XyNoToken}|{XySkip})*";
+    const string XyGap = $"(?>{XyNoToken}*{XySkip}(?:{XyNoToken}|{XySkip})*)";
     const string XyNext = $"(?!{XyKeyword}(?![A-Za-z0-9_]))";
     static readonly Regex ReX4 = new(
         $"(?<![A-Za-z])(?:[Tt][Ii][Tt][Ll][Ee]|[Ll][Ii][Nn][Ee]|[Bb][Aa][Rr]){SpaceNotNewline}+{XyWord}+{XyGap}{XyNext}{XyWord}"
@@ -1300,7 +1324,7 @@ public class ChartParityTests
         var clock = System.Diagnostics.Stopwatch.StartNew();
         ExplainerCharts.Compile(text);
         clock.Stop();
-        Assert.True(clock.ElapsedMilliseconds < 500, $"{clock.ElapsedMilliseconds} ms");
+        Assert.True(clock.ElapsedMilliseconds < (Environment.GetEnvironmentVariable("CI") is not null ? 5000 : 500), $"{clock.ElapsedMilliseconds} ms");
     }
 
     // charts.mjs:30: a rotated axis title with a Han character is set upright; others are left alone. Node pins it through

@@ -39,8 +39,8 @@ internal static partial class Pele
                         if (entry.Axis is not null) byAxis.TryAdd(entry.Axis, entry.Value);
                     // Deviation RA2 (PORT-008 Task 11): upstream writes the label as parsed, so a Mermaid code shows as its internal
                     // placeholder (`#35;x` as `ﬂ°°35¶ßx`) and an HTML entity as typed, while the chart draws the decoded label.
-                    // The port names the axis as the chart draws it.
-                    entries = [.. axes.Select(axis => byAxis.TryGetValue(axis.Name, out var value) ? value : throw Invalid("Missing entry for axis " + Entities.DecodeEntities(axis.Label)))];
+                    // The port names the axis as the chart draws it, a line break as its code.
+                    entries = [.. axes.Select(axis => byAxis.TryGetValue(axis.Name, out var value) ? value : throw Invalid("Missing entry for axis " + Entities.AsDrawn(axis.Label)))];
                 }
                 return new RadarCurve(curve.Name, curve.Label ?? curve.Name, entries);
             }).ToList();

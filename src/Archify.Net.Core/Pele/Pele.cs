@@ -8,10 +8,9 @@ internal sealed record PeleOptions(double Padding, double FontSize, bool Links, 
 // core.ts RenderResult as charts.mjs reads it (links are never read: `links: false`).
 internal sealed record PeleRenderResult(string Svg, double Width, double Height, string Type);
 
-// What core.ts gives a diagram's parse(): the entity-encoded source ending in "\n", the merged config, the front-matter
-// title and the number of front-matter lines removed. `Map` leads `Source`'s offsets back to the fence (the appended "\n" is
-// past its last character).
-internal sealed record PreprocessedInput(string Source, JsonObject Config, string? Title, int LineOffset, SourceMap Map);
+// What core.ts gives a diagram's parse(): the entity-encoded source ending in "\n", the merged config and the front-matter
+// title. `Map` leads `Source`'s offsets back to the fence (the appended "\n" is past its last character).
+internal sealed record PreprocessedInput(string Source, JsonObject Config, string? Title, SourceMap Map);
 
 // core.ts:130 `{ ...options, responsive, icons }`; there is no icon resolver (Label.cs).
 internal sealed record PeleRenderContext(PeleOptions Options, bool Responsive);
@@ -51,7 +50,7 @@ internal static partial class Pele
             // None of the six types sets keepComments, so parse() gets the comment-free text (core.ts:81-82).
             var (source, origin) = Preprocess.EncodeEntities(pre.Text, pre.Origin);
             var map = written?.Then(origin) ?? new SourceMap(text, origin);
-            var input = new PreprocessedInput(source + "\n", config, pre.Title, pre.LineOffset, map);
+            var input = new PreprocessedInput(source + "\n", config, pre.Title, map);
             var section = config[diagram.Section ?? type];
             var fixedWidth = section is JsonObject o && o["useMaxWidth"] is JsonValue v && v.TryGetValue<bool>(out var b) && !b;   // === false
             PeleRenderResult rendered;

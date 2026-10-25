@@ -145,7 +145,7 @@ public sealed class DiagnosticSink
         Severity.Error,
         string.IsNullOrEmpty(error.Message) ? "Renderer failed without a diagnostic." : error.Message,
         new JsonObject(),   // upstream's subject.input is the CLI's argv[2] path: undefined in a library call, so omitted
-        new JsonObject { ["errorName"] = error is JsError ? "Error" : error.GetType().Name },   // JsError is upstream's plain `new Error(...)`
+        new JsonObject { ["errorName"] = error switch { JsError => "Error", PeleException => "PeleError", _ => error.GetType().Name } },   // JsError is upstream's plain `new Error(...)`, PeleException its `PeleError`
         [],
         null));
 }

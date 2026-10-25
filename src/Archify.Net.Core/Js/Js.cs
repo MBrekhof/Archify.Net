@@ -187,26 +187,33 @@ public static partial class Js
         if (t.Length == 0) return 0;
         if (t.Length > 2 && t[0] == '0' && (t[1] | 0x20) is 'x' or 'b' or 'o')
         {
-            var radix = (t[1] | 0x20) switch { 'x' => 16, 'b' => 2, _ => 8 };
-            var acc = BigInteger.Zero;
-            foreach (var c in t[2..]) { var d = c is >= '0' and <= '9' ? c - '0' : c is >= 'a' and <= 'z' ? c - 'a' + 10 : c is >= 'A' and <= 'Z' ? c - 'A' + 10 : 99; if (d >= radix) return double.NaN; acc = acc * radix + d; }
-            return RoundToDouble(acc);
+            var step = (t[1] | 0x20) switch { 'x' => 4, 'b' => 1, _ => 3 };
+            var radix = 1 << step;
+            ulong acc = 0; var shift = 0; var sticky = false;
+            foreach (var c in t[2..])
+            {
+                var d = c is >= '0' and <= '9' ? c - '0' : c is >= 'a' and <= 'z' ? c - 'a' + 10 : c is >= 'A' and <= 'Z' ? c - 'A' + 10 : 99;
+                if (d >= radix) return double.NaN;
+                if (acc < 1UL << 56) acc = (acc << step) | (uint)d;
+                else { shift += step; sticky |= d != 0; }
+            }
+            return RoundToDouble(acc, shift, sticky);
         }
         var (value, length) = DecimalPrefix(t);
         return length == t.Length ? value : double.NaN;         // whole string must be a StrDecimalLiteral
     }
-    // A non-negative integer to the nearest double, ties to even: V8's Number('0x…') above 2^53 (a double accumulator rounds
-    // at every digit; 6% of random 54-96 bit literals came out 1 ulp off, PORT-008 Task 4).
-    static double RoundToDouble(BigInteger v)
+    // A non-negative integer `(acc << shift) + (sticky ? 1 : 0)` to the nearest double, ties to even: V8's Number('0x…') above
+    // 2^53 (a double accumulator rounds at every digit; 6% of random 54-96 bit literals came out 1 ulp off, PORT-008 Task 4).
+    static double RoundToDouble(ulong acc, int shift, bool sticky)
     {
-        var bits = (int)v.GetBitLength();
-        if (bits <= 53) return (long)v;
-        var shift = bits - 54;                                  // keep 53 bits and the rounding bit
-        var top = (long)(v >> shift);
-        var sticky = !(v & ((BigInteger.One << shift) - 1)).IsZero;
+        var bits = 64 - BitOperations.LeadingZeroCount(acc);
+        if (bits + shift <= 53) return acc;
+        var drop = bits - 54;                                   // keep 53 bits and the rounding bit
+        var top = (long)(acc >> drop);
+        sticky |= (acc & ((1UL << drop) - 1)) != 0;
         var mant = top >> 1;
         if ((top & 1) == 1 && (sticky || (mant & 1) == 1)) mant++;
-        return Math.ScaleB(mant, shift + 1);                    // exact; past double.MaxValue it is Infinity, as in V8
+        return Math.ScaleB(mant, shift + drop + 1);             // exact; past double.MaxValue it is Infinity, as in V8
     }
     public static double ParseFloat(string s)
     {
@@ -214,8 +221,8 @@ public static partial class Js
         var (value, length) = DecimalPrefix(t);
         return length == 0 ? double.NaN : value;
     }
-    // JS parseInt(s, radix): ES §19.2.5. Radix 0 means 10, or 16 after a 0x prefix; the longest digit prefix counts.
-    internal static double ParseInt(string s, int radix = 10)
+    // JS parseInt(s, radix): ES §19.2.5. Radix 0 (the default when omitted) means 10, or 16 after a 0x prefix; the longest digit prefix counts.
+    internal static double ParseInt(string s, int radix = 0)
     {
         var i = 0;
         while (i < s.Length && IsSpace(s[i])) i++;

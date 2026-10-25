@@ -821,7 +821,10 @@ public partial class ExplainerParityTests
         Assert.Equal("Bundle differs.", error);
         var diagnostic = Assert.Single(diagnostics);
         Assert.Equal(("internal/unclassified", "Error"), (diagnostic.Code, diagnostic.Evidence.Str("errorName")));
+        Assert.Equal("PeleError", Assert.Single(new DiagnosticSink().RendererFailure(new PeleException("x", "syntax")).diagnostics).Evidence.Str("errorName"));
         Assert.Equal("InvalidOperationException", Assert.Single(new DiagnosticSink().RendererFailure(new InvalidOperationException("x")).diagnostics).Evidence.Str("errorName"));
+        Assert.Equal("a-b", ExplainerShorthand.InferredId("A \ud800 B"));
+        Assert.StartsWith("actor-", ExplainerShorthand.InferredId("\ud800"));
     }
 
     // --- Task 1 facts ---

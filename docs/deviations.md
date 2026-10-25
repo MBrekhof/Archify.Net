@@ -239,8 +239,8 @@ corrected result, and the fact asserts the port equals it.
   `graticule polygonaxis` reads as in Node. Pinned by `RadarBoundaryRows` and `Radar_name_boundaries_are_the_stated_deviation`.
 - *radar RA2 ([mermaid#8540](https://github.com/mermaid-js/mermaid/issues/8540),
   [pele#63](https://github.com/obsidianmd/pele/issues/63)):* the `Missing entry for axis` message writes the label with
-  Mermaid's internal entity placeholders (`ﬂ°°35¶ßx`). The port names the axis as the chart draws it. Pinned by
-  `RadarQuirkRows`.
+  Mermaid's internal entity placeholders (`ﬂ°°35¶ßx`) and is cut at a line break. The port names the axis as the chart draws it, a line break as `#10;`/`#13;`. Pinned by
+  `RadarQuirkRows` and `Radar_line_break_in_a_missing_axis_label_is_written_as_its_code`.
 - *venn Q1 ([mermaid#8541](https://github.com/mermaid-js/mermaid/issues/8541),
   [pele#64](https://github.com/obsidianmd/pele/issues/64)):* the same comment rule as quadrantChart Q1. The port lets
   only whitespace go with the comment. A one-character token right before `%%`, which upstream silently eats, is now
@@ -260,14 +260,14 @@ corrected result, and the fact asserts the port equals it.
   `#10;`/`#13;`. Pinned by `VennMessageRows` and `Venn_line_break_in_an_unknown_id_is_written_as_its_code`.
 - *XML-invalid characters (UPSTREAM-008, obsidianmd/pele#72):* U+FFFE, U+FFFF and lone surrogate halves in any
   label, title or id reach the SVG, which is then not well-formed XML. Pele 1.9.0 still writes them. The port's escaper
-  drops them, in every type, as it already drops C0 controls; the layout does not move. Pinned by `fixes/xml-*`,
+  drops them, in every type, as it already drops C0 controls (and `Entities.AsDrawn` drops them from names in error messages too); the layout does not move. Pinned by `fixes/xml-*`,
   `radar/labels-xml-invalid-fffe`, `venn/id-xml-invalid`, `venn/label-xml-invalid-fffe` and
   `Xml_invalid_characters_are_dropped`.
 - *pie invalid-value message (PORT-011, mermaid-js/mermaid#8545, obsidianmd/pele#73):* the `"<label>" has invalid value` message writes
   the label with internal placeholders and is cut at a line break. The port names the label as drawn, a line break as
   `#10;`/`#13;`. Pinned by `fixes/message-pie-*`, `Pie_invalid_value_names_the_label_as_drawn` and pie fuzz case 702.
 - *radar overflow near 1e308 (PORT-011, mermaid-js/mermaid#8546, obsidianmd/pele#74):* a value whose `radius * (value - min)` overflows
-  is drawn at the centre. The port divides first when the product overflows, so it draws the value at its true radius;
+  is drawn at the centre. The port divides first when the product overflows (halving when `max - min` itself overflows), so it draws the value at its true radius;
   every other value is computed as upstream. Pinned by `radar/values-overflow-radius`, `fixes/overflow-radar-half` and
   `Radar_overflow_is_the_stated_deviation`.
 
@@ -294,16 +294,12 @@ blank row of spaces (S1), and `sankey/render-rejects-6`, "rejects Café" (S3). T
   change.
 - *venn Q1 grid:* `tests/fixtures/charts/venn-q1-grid.json` holds 1,386 probes (every printable ASCII character and a
   few others before `%%`, in each lexer position). `node tools/chart-seeds/venn-q1-grid.mjs` regenerates it; run it
-  after `tools/chart-seeds/venn-oracle.mjs` changes.
+  after `tools/chart-seeds/venn-oracle.mjs` changes (`pie-fuzz-check.mjs`, `quadrant-fuzz-check.mjs` and `xychart-fuzz-check.mjs` check those three types' fuzz deviations against patched copies of their upstream chunks).
 
 ### Known leftovers (PORT-012)
 
 Card PORT-012 collects the test and tooling minors of PORT-008 and these parked contrived-input cases:
 
-- radar RA2: a line break in an axis label is written raw in the `Missing entry for axis` message, so the message is
-  cut there;
-- radar overflow when `value - min` itself overflows (`min` near -1e308, a value near 1e308): the point is still drawn
-  at the centre;
 - error messages (JSON strings, not SVG) can still carry U+FFFE or lone surrogates from a label;
 - the venn test oracle's allowance for a styled line could accept a token that spans the dropped `;` on the right line.
 
@@ -391,8 +387,8 @@ other CLI deviations, in the "Explainer documents" bullet of [CLI (phase 5)](#cl
   binding once it has read the bundle against the draft (`ExplainerPipeline.Unbind`, called from `ExplainerInput.Prepare`): the
   page's bundle is bound to the original draft through `sourcePath` only, as a delivered page's is, and is signed again; the
   receipt's `explainer.preparedSha256` is that bundle's digest. `data-revision`, the manifest and the receipt's `revision` and
-  `sourceSha256` do not depend on the binding. The receipt and provenance `input` still name the temporary draft, as upstream's
-  do. Pinned by the `explainer/patch-json` and `explainer/patch-human` known-deviation rows
+  `sourceSha256` do not depend on the binding. The receipt and provenance `input` also name the original draft (`sourcePath`), where upstream's
+  name the temporary draft. Pinned by the `explainer/patch-json` and `explainer/patch-human` known-deviation rows
   (`Patched_rows_match_node_but_the_temp_binding`), `Patched_page_does_not_embed_the_temp_draft`,
   `Patching_twice_gives_identical_pages` and `Patched_page_passes_check_and_patches_again`. Filed upstream:
   [archify#1085](https://github.com/tt-a1i/archify/issues/1085).
@@ -403,7 +399,7 @@ Card PORT-013 (CARD-2523) collects the parked contrived-input cases of Tasks 2 t
 PORT-009:
 
 - Integer-like keys in a Markdown draft (`@facts 2=x 1=y`, `nodeSources` rows) keep insertion order where V8 lists integer keys
-  first; `@diagram ... spec='null'` drops the `spec` key; a label with a lone surrogate throws in `InferredId`; JSON nested
+  first; `@diagram ... spec='null'` drops the `spec` key; JSON nested
   deeper than 512 levels reports "not valid JSON"; `Compile` takes cell rows only.
 - Writing and validation: the `ſ` fold above; `DiagramTarget` on a native spec whose node or edge list is not an array reads it as
   empty (upstream throws a `TypeError`); a source-map `line` that is not a number; a `WritingEntry` with a JSON-`null`

@@ -25,7 +25,7 @@ internal static partial class Pele
                     case '<': sb.Append("&lt;"); break;
                     case '>': sb.Append("&gt;"); break;
                     case '"': sb.Append("&quot;"); break;
-                    case <= '\u0008' or '\u000b' or '\u000c' or >= '\u000e' and <= '\u001f' or '\u007f' or '￾' or '￿': break;
+                    case <= '\u0008' or '\u000b' or '\u000c' or >= '\u000e' and <= '\u001f' or '\u007f' or '\ufffe' or '\uffff': break;
                     case >= '\ud800' and <= '\udbff' when k + 1 < text.Length && char.IsLowSurrogate(text[k + 1]): sb.Append(c).Append(text[++k]); break;
                     case >= '\ud800' and <= '\udfff': break;
                     default: sb.Append(c); break;
@@ -36,6 +36,24 @@ internal static partial class Pele
 
         // Escapes text that is only ever read as text: entity codes are turned into their characters first.
         public static string EscText(string text) => Esc(Entities.DecodeEntities(text));
+
+        // Drops the characters XML 1.0 forbids (UPSTREAM-008) without HTML-escaping `&`, `<`, `>` or `"`, for plain-text names.
+        internal static string StripXmlInvalid(string text)
+        {
+            var sb = new StringBuilder(text.Length);
+            for (var k = 0; k < text.Length; k++)
+            {
+                var c = text[k];
+                switch (c)
+                {
+                    case <= '\u0008' or '\u000b' or '\u000c' or >= '\u000e' and <= '\u001f' or '\u007f' or '\ufffe' or '\uffff': break;
+                    case >= '\ud800' and <= '\udbff' when k + 1 < text.Length && char.IsLowSurrogate(text[k + 1]): sb.Append(c).Append(text[++k]); break;
+                    case >= '\ud800' and <= '\udfff': break;
+                    default: sb.Append(c); break;
+                }
+            }
+            return sb.ToString();
+        }
 
         // The two decimals of a coordinate, by hundredths (builder.ts:27-28).
         static readonly string[] Fraction = [.. Enumerable.Range(0, 100).Select(i =>

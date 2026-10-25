@@ -18,12 +18,13 @@ public class JsMathTests(Xunit.Abstractions.ITestOutputHelper output)
     static (int total, List<string> diffs) Compare(string file, string fn)
     {
         using var doc = JsonDocument.Parse(File.ReadAllBytes(file));
-        int total = 0; var diffs = new List<string>();
+        int total = 0; var diffs = new List<string>(); var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var e in doc.RootElement.EnumerateArray())
         {
             if (e.GetProperty("fn").GetString() != fn) continue;
             total++;
             var ins = e.GetProperty("in").EnumerateArray().Select(i => i.GetString()!).ToArray();
+            Assert.True(seen.Add(string.Join(",", ins)), $"duplicate input in {fn}");
             var want = D(e.GetProperty("out").GetString()!);
             var got = Call(fn, D(ins[0]), ins.Length > 1 ? D(ins[1]) : 0);
             if (double.IsNaN(want) ? !double.IsNaN(got) : BitConverter.DoubleToInt64Bits(want) != BitConverter.DoubleToInt64Bits(got))
@@ -94,5 +95,19 @@ public class JsMathTests(Xunit.Abstractions.ITestOutputHelper output)
     {
         var got = Js.ParseInt(s, radix);
         Assert.Equal(want, got == 0 && double.IsNegative(got) ? "-0" : Js.Num(got));
+        if (radix == 0) Assert.Equal(BitConverter.DoubleToInt64Bits(got), BitConverter.DoubleToInt64Bits(Js.ParseInt(s)));
+    }
+
+    [Fact]
+    public void ToNumber_radix_literals_are_linear()
+    {
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        Assert.Equal(double.PositiveInfinity, Js.ToNumber("0x1" + new string('0', 50_000)));
+        Assert.Equal(Math.ScaleB((1L << 52) + 1, 4 + 4 * 50), Js.ToNumber("0x1" + new string('0', 13) + "8" + new string('0', 49) + "1"));
+        Assert.Equal(Math.ScaleB(1L << 52, 4 + 4 * 50), Js.ToNumber("0x1" + new string('0', 13) + "8" + new string('0', 50)));
+        Assert.Equal(0, Js.ToNumber("0b" + new string('0', 50_000)));
+        Assert.True(double.IsNaN(Js.ToNumber("0o" + new string('7', 50_000) + "8")));
+        clock.Stop();
+        Assert.True(clock.ElapsedMilliseconds < (Environment.GetEnvironmentVariable("CI") is not null ? 2000 : 100), $"{clock.ElapsedMilliseconds} ms");
     }
 }

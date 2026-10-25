@@ -75,6 +75,7 @@ static partial class DeliverCommand
                 {
                     specification = RenderCommand.ReadInput(inputPath);
                     bundle = ExplainerInput.Prepare(specification, inputPath, repoRoot, quality, writingMode, prepared);
+                    if (bundle.Str("sourcePath") is { Length: > 0 } sourcePath) inputPath = NodePath.Resolve(io.Cwd, sourcePath);
                     diagram = bundle["document"]!.AsObject();
                 }
                 else diagram = RenderCommand.ReadDiagram(inputPath, out specification);

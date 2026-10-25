@@ -113,13 +113,32 @@ function cases(fn, rnd, randomCount) {
   return one.length ? one.map((a) => [a]) : two;
 }
 
-// total: when given, exactly that many cases split evenly over the functions (the --full run).
+function assertReach(fn, list) {
+  const reach = {
+    sin: [(a) => Math.abs(a) > 0 && Math.abs(a) < p2(-27), (a) => Math.abs(a) >= p2(20) * (Math.PI / 2), (a) => Math.abs(a) > 0 && Math.abs(a) <= Math.PI / 4],
+    cos: [(a) => Math.abs(a) > 0 && Math.abs(a) < p2(-27), (a) => Math.abs(a) >= p2(20) * (Math.PI / 2), (a) => Math.abs(a) > 0 && Math.abs(a) <= Math.PI / 4],
+    acos: [(a) => Math.abs(a) > 0 && Math.abs(a) <= p2(-57), (a) => Math.abs(a) > 0.5 && Math.abs(a) < 1, (a) => Math.abs(a) > 1],
+    atan2: [(y, x) => Math.abs(y / x) > p2(60) && Number.isFinite(y / x), (y, x) => Math.abs(y / x) > 0 && Math.abs(y / x) < p2(-60), (y, x) => x < 0 && y < 0],
+    log10: [(a) => a > 0 && a < p2(-1022), (a) => Math.abs(a - 1) > 0 && Math.abs(a - 1) < p2(-20), (a) => a < 0],
+    pow: [(x, y) => x === 10 && y >= -330 && y <= 310, (x, y) => x < 0 && Number.isInteger(y), (x, y) => Math.abs(x) === 1 && !Number.isFinite(y)],
+  }[fn] ?? [];
+  for (let c = 0; c < reach.length; c++) {
+    if (!list.some((args) => reach[c](...args))) throw new Error(`${fn}: branch class ${c} not reached`);
+  }
+}
+
+// total: when given, exactly that many cases split evenly over the functions (the --full run), shuffled before slicing.
 function emit(fns, randomCount, seed, total) {
   const rows = [];
   Object.entries(fns).forEach(([fn, f], i, all) => {
     const rnd = mulberry32(seed + fn.length * 7919 + fn.charCodeAt(0));
-    let list = cases(fn, rnd, randomCount);
-    if (total !== undefined) list = list.slice(0, Math.floor(total / all.length) + (i < total % all.length ? 1 : 0));
+    const seen = new Set();
+    let list = cases(fn, rnd, randomCount).filter((args) => { const key = args.map(hex).join(','); return seen.has(key) ? false : (seen.add(key), true); });
+    if (total !== undefined) {
+      for (let k = list.length - 1; k > 0; k--) { const j = Math.floor(rnd() * (k + 1)); [list[k], list[j]] = [list[j], list[k]]; }
+      list = list.slice(0, Math.floor(total / all.length) + (i < total % all.length ? 1 : 0));
+    }
+    assertReach(fn, list);
     for (const args of list) rows.push(JSON.stringify({ fn, in: args.map(hex), out: hex(f(...args)) }));
   });
   return { text: '[\n' + rows.join(',\n') + '\n]\n', count: rows.length };

@@ -19,14 +19,18 @@ internal static partial class Pele
                 ? Math.Min(d, max)
                 : fallback;
 
-        static double RelativeRadius(double value, double min, double max, double radius)
+        internal static double RelativeRadius(double value, double min, double max, double radius)
         {
             var clipped = Math.Min(Math.Max(value, min), max);
             // Deviation (PORT-008 Task 11, PORT-011): upstream multiplies first (render.ts:27), so near 1e308 the product is
-            // Infinity and the point is drawn at the centre (render.ts:119). When it overflows the port divides first; every
-            // other value keeps upstream's arithmetic.
+            // Infinity and the point is drawn at the centre (render.ts:119). When it overflows (or max - min overflows) the port
+            // divides first, halving when the span itself exceeds double.MaxValue; every other value keeps upstream's arithmetic.
             var scaled = radius * (clipped - min);
-            return double.IsInfinity(scaled) ? radius * ((clipped - min) / (max - min)) : scaled / (max - min);
+            var range = max - min;
+            if (!double.IsInfinity(scaled) && !double.IsInfinity(range)) return scaled / range;
+            return double.IsInfinity(range)
+                ? radius * ((clipped * 0.5 - min * 0.5) / (max * 0.5 - min * 0.5))
+                : radius * ((clipped - min) / range);
         }
 
         // A closed Catmull-Rom spline through the points, as cubic Bézier segments.
