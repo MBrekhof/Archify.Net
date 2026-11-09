@@ -104,8 +104,11 @@ Review: the no-op claim holds (Q1) and output is identical wherever upstream fin
    Pinned by `Huge_offsets_advance` (the reviewer's three inputs).
 3. *Single-sign check*: the code tests both `center + o` and `center − o`; the redundant `sign` parameter is removed. Pinned by
    the power-of-two rows (`center − offset` moves first, at 24 not 36).
-4. *Non-finite centre or bound* (valid): `NextProbeOffset` returns NaN, which ends the loop for any bound. Pinned by
-   `Non_finite_walks_end` and `Non_finite_nodes_return` (`width: 1e309`; two 1.5e308 nodes side by side).
+4. *Non-finite centre* (valid for direct calls): `NextProbeOffset` returns NaN for a non-finite centre or offset, which ends
+   the loop for any bound; a finite offset under a bound of +Infinity keeps stepping until the offset itself is infinite.
+   Pinned by `Non_finite_walks_end`. The Gemini diff review showed the guard is defensive only: `width: 1e309` fails
+   `schema/type` and two 1.5e308 nodes side by side fail `workflow/non-finite-node-geometry` before routing, upstream too
+   (`Non_finite_nodes_stop_before_routing` pins both codes).
 5. *Missing `WorkflowReceiptTests` row for `perf3-wide-1e18`* (valid): added.
 6. *Huge edge `width` with a huge node* (reproduced on the port: killed at 60 s): contrived, parked as card PERF-004.
 7. *Wording minors*: deviations entry rewritten without the `12k` claim.

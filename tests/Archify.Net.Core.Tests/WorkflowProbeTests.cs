@@ -99,28 +99,30 @@ public class WorkflowProbeTests
     // Upstream never returns on these inputs (two automatic edges, a 1e30-wide node; a 1e308-high node reached through its left
     // side, fuzzer seed 8244). The port must answer within seconds; there is no Node golden, so the receipt is the port's own.
     [Theory]
-    [InlineData("perf3-wide-1e30")]
-    [InlineData("perf3-tall-1e308")]
-    public async Task Huge_nodes_return(string name)
+    [InlineData("perf3-wide-1e30", "workflow/solver-budget-exhausted")]
+    [InlineData("perf3-tall-1e308", "workflow/explicit-pin-conflict")]
+    public async Task Huge_nodes_return(string name, string code)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));
         var result = await Task.Run(() => ArchifyNet.Render(DiagramType.Workflow, d)).WaitAsync(TimeSpan.FromSeconds(30));   // a hang fails, not blocks
         Assert.Equal("", result.Html);
-        Assert.Contains(result.Diagnostics, x => x.Severity == Severity.Error);
+        Assert.Equal([code], result.Diagnostics.Select(x => x.Code));
     }
 
-    // Non-finite geometry: `width: 1e309` parses to Infinity, and two 1.5e308-wide nodes side by side put the second centre at
-    // Infinity. Upstream never returns on either.
+    // Non-finite geometry never reaches the probe walk: `width: 1e309` (Infinity) fails the schema, and two 1.5e308-wide nodes side
+    // by side (second centre at Infinity) fail the pre-routing gate, both as upstream does within milliseconds. NextProbeOffset's
+    // non-finite guard is defensive only (Gemini diff review, 2026-11-09).
     [Theory]
-    [InlineData("1e309", null)]
-    [InlineData("1.5e308", "1.5e308")]
-    public async Task Non_finite_nodes_return(string width, string? firstWidth)
+    [InlineData("1e309", null, "schema/type")]
+    [InlineData("1.5e308", "1.5e308", "workflow/non-finite-node-geometry")]
+    public void Non_finite_nodes_stop_before_routing(string width, string? firstWidth, string code)
     {
         var text = Fixtures.Lf(Fixtures.Fixture("diagrams/perf3-wide-1e30.workflow.json")).Replace("1e+30", width);
         var d = DiagramLoader.Parse(text);
         if (firstWidth is not null) d["nodes"]![0]!["width"] = double.Parse(firstWidth, System.Globalization.CultureInfo.InvariantCulture);
-        var result = await Task.Run(() => ArchifyNet.Render(DiagramType.Workflow, d)).WaitAsync(TimeSpan.FromSeconds(30));
+        var result = ArchifyNet.Render(DiagramType.Workflow, d);
         Assert.Equal("", result.Html);
+        Assert.Equal([code], result.Diagnostics.Select(x => x.Code));
     }
 
     // The explainer renders native diagrams in process with no timeout (upstream: a child process, 120 s), so the 1e30 workflow

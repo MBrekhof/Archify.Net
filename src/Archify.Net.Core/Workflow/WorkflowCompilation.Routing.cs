@@ -1129,9 +1129,9 @@ internal sealed partial class WorkflowCompilation
     // so the first moving step is found by doubling, then bisection. Returns a value above `limit` when no step up to it moves.
     internal static double NextProbeOffset(double center, double offset, double limit)
     {
-        // A NaN or infinite centre (columns summing past 1e308) gives the same probe point at every finite offset, and nothing
-        // follows an infinite offset (a bound of +Infinity, `width: 1e309`): no later step can add a candidate, so the walk ends
-        // here. NaN ends the loop whatever the bound, +Infinity included.
+        // Defensive: the pre-routing gate (`workflow/non-finite-node-geometry`) keeps non-finite geometry out of the walk. A NaN or
+        // infinite centre gives the same probe point at every finite offset, and nothing follows an infinite offset: no later
+        // step can add a candidate, so the walk ends here. NaN ends the loop whatever the bound, +Infinity included.
         if (!double.IsFinite(center) || !double.IsFinite(offset)) return double.NaN;
         var next = offset + 12;
         var plus = center + offset;

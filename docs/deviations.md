@@ -41,8 +41,9 @@ Back to [`README.md`](../README.md).
   which cannot change the result. Every input upstream finishes gives the same output (`perf3-wide-*` rows up to `1e25`).
   Where upstream does not finish, the port returns what the walk would have found: the 1e30-wide and 1e308-high inputs fail
   within a second (`WorkflowProbeTests`). This also ends the hang of `deliver`/`finalize explainer` on a draft that references
-  such a workflow (the port renders native diagrams in process, with no timeout). A NaN or infinite side centre (`width: 1e309`,
-  or columns summing past 1e308) ends the walk at once, since no finite step can move such a point. Still open: the same huge
+  such a workflow (the port renders native diagrams in process, with no timeout). Non-finite geometry (`width: 1e309`, columns
+  summing past 1e308) never reaches the walk: it fails `schema/type` or `workflow/non-finite-node-geometry` first, as upstream
+  does. Still open: the same huge
   node with huge edge `width`s (around `1e25`) hangs the port too, because the probes move but stay inside the edges' clearance
   (card PERF-004, parked).
 
