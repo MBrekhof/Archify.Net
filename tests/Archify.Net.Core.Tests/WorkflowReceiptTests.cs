@@ -63,6 +63,7 @@ public class WorkflowReceiptTests
     [InlineData("t2-rg-100", "fixture:diagrams/t2-rg-100.workflow.json")]
     [InlineData("t2-detour", "fixture:diagrams/t2-detour.workflow.json")]
     [InlineData("t2-xrep-standard", "fixture:diagrams/t2-xrep-standard.workflow.json")]
+    [InlineData("perf3-wide-1e18", "fixture:diagrams/perf3-wide-1e18.workflow.json")]   // PERF-003: skipped port probes
     public void Workflow_receipt_equals_upstream_layout_json(string name, string input)
     {
         var path = input.StartsWith("upstream:") ? Fixtures.Upstream(input["upstream:".Length..]) : Fixtures.Fixture(input["fixture:".Length..]);

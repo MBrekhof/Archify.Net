@@ -636,6 +636,23 @@
       "task": 10
     },
     {
+      "name": "perf3-wide-1e18",
+      "type": "workflow",
+      "input": "tests/fixtures/diagrams/perf3-wide-1e18.workflow.json",
+      "golden": "tests/goldens/perf3-wide-1e18-rendered.html",
+      "schemaVersion": 2,
+      "viewBox": false,
+      "qualityProfile": null,
+      "locale": null,
+      "pins": false,
+      "coverage": [
+        "endpoint-repairs",
+        "free-space",
+        "internal-detour"
+      ],
+      "task": 8
+    },
+    {
       "name": "five-stage.option-showcase",
       "type": "dataflow",
       "input": "tests/fixtures/diagrams/five-stage.dataflow.json",

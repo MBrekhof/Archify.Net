@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "PERF-003 width 1000000000000000000",
+    "output": "perf3-wide-1e18.html"
+  },
+  "lanes": [
+    {
+      "id": "l0",
+      "label": "Lane 0"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n0",
+      "lane": "l0",
+      "col": 1,
+      "type": "backend",
+      "label": "Node 0",
+      "yOffset": -35
+    },
+    {
+      "id": "n1",
+      "lane": "l0",
+      "col": 0,
+      "type": "backend",
+      "label": "Node 1",
+      "width": 1000000000000000000
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "n1",
+      "to": "n0"
+    },
+    {
+      "id": "e1",
+      "from": "n1",
+      "to": "n0"
+    }
+  ]
+}

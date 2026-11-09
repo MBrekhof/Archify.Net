@@ -33,10 +33,18 @@ Back to [`README.md`](../README.md).
 - *Evidence, `realRoot`:* the port resolves only the final link of `RepoRoot`. When the root is reached through a junctioned or symlinked parent directory, `repoRoot` in diagnostic subjects and the paths in the `not a Git repository` and `root-not-top-level` messages differ from Node's; the verdict is the same.
 - *Evidence, non-ASCII hosts:* the port rejects five hosts WHATWG URL accepts, because `IdnMapping` enforces the hyphen, label-length and non-empty-label rules. By input: `https://-bücher.example/x/y`, `https://bücher-.example/x/y`, `https://ü` + 70 `a` + `.example/x/y` (a 71-character label), `https://bücher..example/o/r` and `https://xn--bcher-kva..example/o/r` (empty label).
 - *Evidence tests:* the `subdirectory-root` receipt is Windows-only (its path separator).
-- *Shared with upstream, not a deviation:* a workflow node with an extreme `width` or `height` (around `1e26` and up) makes
-  the compile take minutes, and from about `1e30` it never returns. Upstream behaves the same way. The trigger is two automatic
-  edges between the same pair of nodes. The cause is the port-candidate probe loop (`automaticPortCandidates`): its 12px
-  steps vanish in floating-point rounding at that magnitude. There is no timeout. Card PERF-003 holds the options.
+- *Workflow, extreme node `width`/`height` (PERF-003, [archify#1072](https://github.com/tt-a1i/archify/issues/1072)):*
+  upstream's port-candidate probe (`automaticPortCandidates`) walks a node side in 12px steps. On a node around `1e17` wide
+  and up those steps vanish in floating-point rounding, so most steps re-test the same point: `1e25` takes seconds, `1e26`
+  minutes, and from about `1e30` upstream never returns. The trigger is two automatic edges between the same pair of nodes.
+  The port skips the steps whose rounded probe points equal the previous step's (`WorkflowCompilation.NextProbeOffset`),
+  which cannot change the result. Every input upstream finishes gives the same output (`perf3-wide-*` rows up to `1e25`).
+  Where upstream does not finish, the port returns what the walk would have found: the 1e30-wide and 1e308-high inputs fail
+  within a second (`WorkflowProbeTests`). This also ends the hang of `deliver`/`finalize explainer` on a draft that references
+  such a workflow (the port renders native diagrams in process, with no timeout). A NaN or infinite side centre (`width: 1e309`,
+  or columns summing past 1e308) ends the walk at once, since no finite step can move such a point. Still open: the same huge
+  node with huge edge `width`s (around `1e25`) hangs the port too, because the probes move but stay inside the edges' clearance
+  (card PERF-004, parked).
 
 ## CLI (phase 5)
 

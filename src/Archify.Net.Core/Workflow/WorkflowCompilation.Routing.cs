@@ -1110,7 +1110,7 @@ internal sealed partial class WorkflowCompilation
         var candidates = new List<Pt>();
         var extent = verticalSide ? node.Height : node.Width;
         var direction = (verticalSide ? counterpart.Cy : counterpart.Cx) >= Ax(center, axis) ? 1 : -1;
-        for (double offset = 0; offset <= extent / 2 - 16; offset += 12)
+        for (double offset = 0; offset <= extent / 2 - 16; offset = NextProbeOffset(Ax(center, axis), offset, extent / 2 - 16))
         {
             foreach (var sign in (int[])[direction, -direction])
             {
@@ -1120,6 +1120,34 @@ internal sealed partial class WorkflowCompilation
             if (candidates.Count >= 2) return candidates[..2];
         }
         return candidates.Count > 0 ? candidates : [preferred];
+    }
+
+    // The next offset of AutomaticPortCandidates' 12px probe walk (upstream `offset += 12`). On a node around 1e17 wide and up,
+    // `center ± offset` rounds back to the same double for many steps; such a step tests the same two points as the step before,
+    // so it cannot change the result. Upstream walks them one by one (1e25: seconds, 1e30: never ends, archify#1072); the port
+    // jumps to the first later multiple of 12 whose rounded probe points differ (PERF-003). `fl(center + s·o)` is monotone in o,
+    // so the first moving step is found by doubling, then bisection. Returns a value above `limit` when no step up to it moves.
+    internal static double NextProbeOffset(double center, double offset, double limit)
+    {
+        // A NaN or infinite centre (columns summing past 1e308) gives the same probe point at every finite offset, and nothing
+        // follows an infinite offset (a bound of +Infinity, `width: 1e309`): no later step can add a candidate, so the walk ends
+        // here. NaN ends the loop whatever the bound, +Infinity included.
+        if (!double.IsFinite(center) || !double.IsFinite(offset)) return double.NaN;
+        var next = offset + 12;
+        var plus = center + offset;
+        var minus = center - offset;
+        bool Moves(double o) => center + o != plus || center - o != minus;
+        if (next > limit || Moves(next)) return next;
+        double lo = next, step = 24, hi = lo + step;
+        while (hi <= limit && !Moves(hi)) { lo = hi; step *= 2; hi = lo + step; }
+        if (!Moves(hi)) return hi;   // past the bound: the walk ends
+        while (hi - lo > 12)
+        {
+            var mid = lo + 12 * Math.Floor((hi - lo) / 24);
+            if (mid == lo || mid == hi) break;   // adjacent doubles more than 12 apart (offsets past 2^55)
+            if (Moves(mid)) hi = mid; else lo = mid;
+        }
+        return hi;
     }
 
     List<Plan> AutomaticEndpointRepairs(JsonObject edge, Plan selected, Box from, Box to, string naturalFromSide, string naturalToSide, bool narrowSlots = false)

@@ -1,0 +1,72 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "PERF-003 height 1e308",
+    "output": "perf3-tall-1e308.html"
+  },
+  "lanes": [
+    {
+      "id": "l0",
+      "label": "Lane 0"
+    },
+    {
+      "id": "l1",
+      "label": "Lane 1"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n0",
+      "lane": "l1",
+      "col": 0,
+      "type": "database",
+      "label": "Node 0",
+      "width": 368
+    },
+    {
+      "id": "n1",
+      "lane": "l0",
+      "col": 3,
+      "type": "external",
+      "label": "Node 1",
+      "width": 39,
+      "height": 1e+308
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "n0",
+      "to": "n1"
+    },
+    {
+      "id": "e1",
+      "from": "n0",
+      "to": "n1",
+      "fromSide": "bottom"
+    },
+    {
+      "id": "e2",
+      "from": "n1",
+      "to": "n0"
+    },
+    {
+      "id": "e3",
+      "from": "n0",
+      "to": "n1",
+      "label": "a much longer edge label text",
+      "fromSide": "bottom",
+      "toSide": "left",
+      "route": "outside-right"
+    },
+    {
+      "id": "e4",
+      "from": "n0",
+      "to": "n1",
+      "fromSide": "bottom",
+      "toSide": "left",
+      "route": "return-left"
+    }
+  ]
+}

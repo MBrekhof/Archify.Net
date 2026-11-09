@@ -2,7 +2,7 @@
 
 Summary table in [`README.md`](../README.md#status).
 
-The full suite (`dotnet test`) runs 7395 tests: 6341 in `Archify.Net.Core.Tests`, 1037 in `Archify.Net.Cli.Tests` and 17 in `Archify.Net.Mcp.Tests`.
+The full suite (`dotnet test`) runs 7441 tests: 6387 in `Archify.Net.Core.Tests`, 1037 in `Archify.Net.Cli.Tests` and 17 in `Archify.Net.Mcp.Tests`.
 
 ## Phase 1 — Foundation, validation gates, architecture renderer, artifact checker
 
@@ -143,5 +143,5 @@ The full suite (`dotnet test`) runs 7395 tests: 6341 in `Archify.Net.Core.Tests`
   three cases with the same codes and pixel values (`first-rental` and `finalize-delivery`: `explainer/browser-readability`;
   `p99-tail-latency`: readability, `explainer/browser-diagram-fit` and `explainer/browser-diagram-text`), so it is not a port defect;
   tracked as UPSTREAM-015 (unfiled).
-- Test totals (`dotnet test`, Browser category included): Core 6341, Cli 1037, Mcp 17, 0 failed, 0 warnings. Without the
-  Browser category: Core 6341, Cli 964, Mcp 14. (TRANS-001 added the four `showcase` parity rows.)
+- Test totals (`dotnet test`, Browser category included): Core 6387, Cli 1037, Mcp 17, 0 failed, 0 warnings. Without the
+  Browser category: Core 6387, Cli 964, Mcp 14. (TRANS-001 added the four `showcase` parity rows; PERF-003 the 46 `perf3-*` and `WorkflowProbeTests` rows.)

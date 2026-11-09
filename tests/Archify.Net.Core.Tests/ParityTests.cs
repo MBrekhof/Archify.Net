@@ -113,6 +113,7 @@ public class ParityTests
         ["workflow", Fixtures.Fixture("diagrams/t2-rg-100.workflow.json"), Fixtures.Golden("t2-rg-100-rendered.html")],
         ["workflow", Fixtures.Fixture("diagrams/t2-detour.workflow.json"), Fixtures.Golden("t2-detour-rendered.html")],
         ["workflow", Fixtures.Fixture("diagrams/t2-xrep-standard.workflow.json"), Fixtures.Golden("t2-xrep-standard-rendered.html")],
+        ["workflow", Fixtures.Fixture("diagrams/perf3-wide-1e18.workflow.json"), Fixtures.Golden("perf3-wide-1e18-rendered.html")],   // PERF-003: skipped port probes
         // Phase 4: erd (both upstream examples and every Task 1 golden).
         ["erd", Fixtures.Upstream("examples/orders.erd.json"), Fixtures.Upstream("examples/erd-orders-rendered.html")],
         ["erd", Fixtures.Upstream("examples/subscription-billing.erd.json"), Fixtures.Upstream("examples/subscription-billing-rendered.html")],
@@ -256,6 +257,10 @@ public class ParityTests
     [InlineData("t4-retry-feedback")]    // TEST-004: route-order retry swallows WorkflowLayoutFeedback
     [InlineData("t4-interior-turn")]
     [InlineData("t4-viewbox-origin")]
+    // PERF-003: a very wide node; the port probe skips the steps upstream walks one by one (1e25 takes seconds upstream).
+    [InlineData("perf3-wide-1e20")]
+    [InlineData("perf3-wide-1e22")]
+    [InlineData("perf3-wide-1e25")]
     public void Workflow_fault_diagnostics_match_upstream_receipt(string name)
     {
         var d = DiagramLoader.Parse(Fixtures.Lf(Fixtures.Fixture($"diagrams/{name}.workflow.json")));

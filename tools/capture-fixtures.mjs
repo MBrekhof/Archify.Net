@@ -529,6 +529,8 @@ const p3Targets = [
   p3('dataflow', 'product-analytics.brand'), p3('workflow', 'holiday-planning.brand'),
   // TEST-002 (survey-test2): committed inputs; t2-xrep-standard is the standard-profile success whose receipt carries a warning.
   p3('workflow', 't2-rg-100'), p3('workflow', 't2-detour'), p3('workflow', 't2-xrep-standard'),
+  // PERF-003: a 1e18-wide node; at 5e17 the double spacing is 64, so some 12px port probes round back to the centre.
+  p3('workflow', 'perf3-wide-1e18'),
 ];
 targets.push(...p3Targets);
 // --- phase 4: erd inputs. Upstream first-draft fixtures copied verbatim; inline scenes from upstream tests; documented edits of orders.erd.json. ---
@@ -1233,6 +1235,19 @@ for (const [type, name, code, test, count] of t4Faults) {
   if (!receipt.diagnostics?.some((x) => x.code === code && test(x))) throw new Error(`t4 fault ${name}: expected ${code} with the named branch`);
   if (count !== undefined && receipt.diagnostics.length !== count) throw new Error(`t4 fault ${name}: ${receipt.diagnostics.length} diagnostics, expected ${count}`);
   write(`fixtures/diagrams/${name}.${type}.expected.json`, receipt);
+}
+// PERF-003 failure receipts: committed perf3-wide-*.workflow.json inputs (two automatic edges, one very wide node). Upstream's port
+// probe walks millions of no-op 12px steps here (1e25 takes seconds); the port skips them and must give the same receipt.
+for (const [name, code] of [['perf3-wide-1e20', 'layout/constraint'], ['perf3-wide-1e22', 'workflow/solver-budget-exhausted'],
+  ['perf3-wide-1e25', 'workflow/solver-budget-exhausted']]) {
+  let receipt;
+  try {
+    execFileSync(process.execPath, [path.join(UP, 'renderers/workflow/render-workflow.mjs'), out(`fixtures/diagrams/${name}.workflow.json`), out(`goldens/${name}.html`)],
+      { env: { ...cleanEnv, ARCHIFY_DIAGNOSTIC_FORMAT: 'json' }, stdio: ['ignore', 'pipe', 'pipe'], timeout: 120_000 });
+  } catch (e) { if (e.status !== 1 || !e.stderr) throw e; receipt = JSON.parse(String(e.stderr)); }
+  if (!receipt) { fs.rmSync(out(`goldens/${name}.html`), { force: true }); throw new Error(`perf3 fault ${name}: rendered, expected ${code}`); }
+  if (!receipt.diagnostics?.some((x) => x.code === code)) throw new Error(`perf3 fault ${name}: expected ${code}`);
+  write(`fixtures/diagrams/${name}.workflow.expected.json`, receipt);
 }
 // Phase-4 erd failure receipts: orders.erd.json with one edit each (agy's Node probe, plan review 2026-10-15). Upstream must FAIL with
 // every target [code, evidence.reason?] in its receipt or the script throws. entities: 0 customer, 5 payment (tag checkout).
